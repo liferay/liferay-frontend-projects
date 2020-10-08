@@ -1,4 +1,4 @@
-Metal.js based projects usually rely on Babel to transpile source files as well as performing some transformation steps that were needed for the bundler `1.x` to produce a valid artifact (basically wrapping project's code into AMD modules). 
+Metal.js based projects usually rely on Babel to transpile source files as well as performing some transformation steps that were needed for the bundler `1.x` to produce a valid artifact (basically wrapping project's code into AMD modules).
 
 They sometimes use `metalsoy` too, to compile Soy templates into Javascript code (unless you are using JSX as your template format).
 
@@ -10,7 +10,7 @@ To do that you must remove any Babel preset used for transformations from your p
 
 Modify: `.babelrc`
 
-From: 
+From:
 
 ```
 {
@@ -55,5 +55,3 @@ To:
   ...
 }
 ```
-
-

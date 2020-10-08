@@ -17,18 +17,18 @@ function(context, options) {
 
 The first argument `context` is an object which contains the following fields:
 
-- `content`: a string with the contents of the processed file (it can be
-  considered the main input of the loader).
-- `filePath`: the project-relative path of the file to which loader is being
-  applied.
-- `extraArtifacts`: an object with project-relative paths as keys and strings as
-  values of properties which may be used to output extra files in addition to
-  the one being processed (it can be useful to generate source maps, for
-  example).
-- `log`: a logger to dump execution information that will be written to the
-  bundler's report file (see the
-  [PluginLogger class](https://github.com/liferay/liferay-js-toolkit/blob/master/packages/liferay-npm-build-tools-common/src/plugin-logger.js)
-  for information on its structure and API).
+-   `content`: a string with the contents of the processed file (it can be
+    considered the main input of the loader).
+-   `filePath`: the project-relative path of the file to which loader is being
+    applied.
+-   `extraArtifacts`: an object with project-relative paths as keys and strings as
+    values of properties which may be used to output extra files in addition to
+    the one being processed (it can be useful to generate source maps, for
+    example).
+-   `log`: a logger to dump execution information that will be written to the
+    bundler's report file (see the
+    [PluginLogger class](https://github.com/liferay/liferay-js-toolkit/blob/master/packages/liferay-npm-build-tools-common/src/plugin-logger.js)
+    for information on its structure and API).
 
 The second argument is an object which is directly taken from the `options`
 field of the loader's configuration (see
@@ -58,20 +58,20 @@ configuration like:
 
 ```json
 {
-  "rules": [
-    {
-      "test": "\\.js$",
-      "exclude": "node_modules",
-      "use": [
-        {
-          "loader": "babel-loader",
-          "options": {
-            "presets": ["env", "react"]
-          }
-        }
-      ]
-    }
-  ]
+	"rules": [
+		{
+			"test": "\\.js$",
+			"exclude": "node_modules",
+			"use": [
+				{
+					"loader": "babel-loader",
+					"options": {
+						"presets": ["env", "react"]
+					}
+				}
+			]
+		}
+	]
 }
 ```
 
@@ -83,21 +83,21 @@ and write the result and the source map file to the output directory.
 So, your loader function may look something like this:
 
 ```javascript
-export default function(context, options) {
-  // Get input parameters
-  const { content, filePath, log, sourceMap } = context;
+export default function (context, options) {
+	// Get input parameters
+	const {content, filePath, log, sourceMap} = context;
 
-  // Run babel on content
-  const result = babel.transform(content, options);
+	// Run babel on content
+	const result = babel.transform(content, options);
 
-  // Create an extra .map file with source map next to source .js file
-  context.extraArtifacts[`${filePath}.map`] = JSON.stringify(result.map);
+	// Create an extra .map file with source map next to source .js file
+	context.extraArtifacts[`${filePath}.map`] = JSON.stringify(result.map);
 
-  // Tell the user what we have done
-  log.info("babel-loader", "Transpiled file");
+	// Tell the user what we have done
+	log.info('babel-loader', 'Transpiled file');
 
-  // Return the modified content
-  return result.code;
+	// Return the modified content
+	return result.code;
 }
 ```
 

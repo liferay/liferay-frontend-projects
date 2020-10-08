@@ -101,13 +101,13 @@ Now, let's see what type of projects can be adapted.
 Right now the list of supported projects categorized by framework and tool is:
 
 1. [React](https://reactjs.org/) framework
-   1. [create-react-app](https://facebook.github.io/create-react-app/) project generator
-      1. JavaScript projects [[ℹ️]](https://github.com/liferay/liferay-js-toolkit/wiki/How-to-adapt-most-popular-frameworks-projects#JavaScript-create-react-app-projects)
-      2. Typescript projects (coming soon!)
+    1. [create-react-app](https://facebook.github.io/create-react-app/) project generator
+        1. JavaScript projects [[ℹ️]](https://github.com/liferay/liferay-js-toolkit/wiki/How-to-adapt-most-popular-frameworks-projects#JavaScript-create-react-app-projects)
+        2. Typescript projects (coming soon!)
 2. [Angular](https://angular.io/) framework
-   1. [Angular CLI](https://cli.angular.io/) project generator [[ℹ️]](https://github.com/liferay/liferay-js-toolkit/wiki/How-to-adapt-most-popular-frameworks-projects#Angular-cli-projects)
+    1. [Angular CLI](https://cli.angular.io/) project generator [[ℹ️]](https://github.com/liferay/liferay-js-toolkit/wiki/How-to-adapt-most-popular-frameworks-projects#Angular-cli-projects)
 3. [Vue.js](https://vuejs.org/) framework
-   1. [Vue CLI](https://cli.vuejs.org/) project generator [[ℹ️]](https://github.com/liferay/liferay-js-toolkit/wiki/How-to-adapt-most-popular-frameworks-projects#Vue-cli-projects)
+    1. [Vue CLI](https://cli.vuejs.org/) project generator [[ℹ️]](https://github.com/liferay/liferay-js-toolkit/wiki/How-to-adapt-most-popular-frameworks-projects#Vue-cli-projects)
 
 ## How project types are detected and what requirements they must fulfil
 
@@ -135,7 +135,7 @@ parameter is a `document.getElementById()` call.
 Something like this:
 
 ```javascript
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 When `build:liferay` is run, the standard webpack based build of
@@ -214,8 +214,8 @@ So, your application's mount code should look like this:
 
 ```javascript
 new Vue({
-  render: h => h(App),
-}).$mount('#app')
+	render: (h) => h(App),
+}).$mount('#app');
 ```
 
 When `build:liferay` is run, the standard webpack based build of
@@ -235,7 +235,7 @@ code structure.
 
 ## Limitations
 
-Given that adaptation is a somewhat heuristic process in which the bundler does its best effort to make everything work like in the project framework's native build, there are (and will be) some limitations. 
+Given that adaptation is a somewhat heuristic process in which the bundler does its best effort to make everything work like in the project framework's native build, there are (and will be) some limitations.
 
 This is the list of the limitations known up to the day:
 

@@ -15,40 +15,40 @@ Now, let's go with the documentation:
 
 1. Most usual tasks:
 
-   1. [How to create pure Javascript projects](https://github.com/liferay/liferay-js-toolkit/wiki/How-to-use-generator-liferay-js)
-      1. [How to build the project](https://github.com/liferay/liferay-js-toolkit/wiki/Running-build-npm-scripts)
-      2. [How to configure the project](https://github.com/liferay/liferay-js-toolkit/wiki/Configuring-pure-javascript-projects)
-   2. [[How to adapt most popular frameworks projects]]
-   3. [[How to create mixed Java/Javascript projects]]
-   4. [[How to troubleshoot your setups]]
+    1. [How to create pure Javascript projects](https://github.com/liferay/liferay-js-toolkit/wiki/How-to-use-generator-liferay-js)
+        1. [How to build the project](https://github.com/liferay/liferay-js-toolkit/wiki/Running-build-npm-scripts)
+        2. [How to configure the project](https://github.com/liferay/liferay-js-toolkit/wiki/Configuring-pure-javascript-projects)
+    2. [[How to adapt most popular frameworks projects]]
+    3. [[How to create mixed Java/Javascript projects]]
+    4. [[How to troubleshoot your setups]]
 
 2. More esoteric tasks:
 
-   1. [[Migrating bundler from 1.x to 2.x]]
+    1. [[Migrating bundler from 1.x to 2.x]]
 
 3. Low level (platform architecture) topics:
 
-   1. [[How to deploy npm packages to Liferay]]
-   2. [[How Liferay serves npm packages to the browser]]
+    1. [[How to deploy npm packages to Liferay]]
+    2. [[How Liferay serves npm packages to the browser]]
 
 4. Tool manuals:
 
-   1. [[How to use liferay-npm-bundler]]
-   2. [[How to use liferay-npm-bridge-generator]]
-   3. [[How to use liferay-npm-imports-checker]]
-   4. [[How to use generator-liferay-js]]
+    1. [[How to use liferay-npm-bundler]]
+    2. [[How to use liferay-npm-bridge-generator]]
+    3. [[How to use liferay-npm-imports-checker]]
+    4. [[How to use generator-liferay-js]]
 
 5. Reference
 
-   1. [[.npmbundlerrc file reference]]
-   2. [[JS-extended portlets entry point]]
-   3. [[configuration.json file reference]]
+    1. [[.npmbundlerrc file reference]]
+    2. [[JS-extended portlets entry point]]
+    3. [[configuration.json file reference]]
 
 6. Other sources of documentation:
 
-   1. [Liferay Documentation](https://dev.liferay.com/develop/tutorials/-/knowledge_base/7-0/using-npm-in-your-portlets)
-   2. [Liferay Forums](https://web.liferay.com/community/forums/-/message_boards/category/8408627)
-   3. [Liferay Community Slack](https://liferay-community.slack.com/)
-   4. [Question issues](https://github.com/liferay/liferay-js-toolkit/issues?utf8=%E2%9C%93&q=is%3Aissue+label%3Aquestion+)
-   5. [[Sample projects]]
-   6. [[Miscellaneous resources]]
+    1. [Liferay Documentation](https://dev.liferay.com/develop/tutorials/-/knowledge_base/7-0/using-npm-in-your-portlets)
+    2. [Liferay Forums](https://web.liferay.com/community/forums/-/message_boards/category/8408627)
+    3. [Liferay Community Slack](https://liferay-community.slack.com/)
+    4. [Question issues](https://github.com/liferay/liferay-js-toolkit/issues?utf8=%E2%9C%93&q=is%3Aissue+label%3Aquestion+)
+    5. [[Sample projects]]
+    6. [[Miscellaneous resources]]

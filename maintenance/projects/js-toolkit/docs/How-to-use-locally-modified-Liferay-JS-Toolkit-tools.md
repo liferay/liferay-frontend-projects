@@ -14,7 +14,7 @@ If the project where you want to use the locally modified Toolkit uses `npm` fol
 
 That should be enough, but because sometimes step 3 destroys `lerna`'s links in Liferay JS Toolkit (especially if you forgot to do step 2), you may need to do the following if any Toolkit tool execution fails in your project:
 
-1. Run `npm run lerna` in the local Liferay JS Toolkit. 
+1. Run `npm run lerna` in the local Liferay JS Toolkit.
 2. Run `npm run build` in the local Liferay JS Toolkit (just in case).
 3. Delete `package-lock.json` and `node_modules` in your test project.
 4. Run `npm install` in your test project.

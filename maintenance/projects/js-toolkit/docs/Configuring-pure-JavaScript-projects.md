@@ -32,13 +32,13 @@ To finish with, create a new `Language_{locale}.properties` file per translated 
 
 Imagine you have these localization files in your project:
 
-- **Language.properties**
+-   **Language.properties**
 
 ```properties
 hello-world=Hello world
 ```
 
-- **Language_es.properties**
+-   **Language_es.properties**
 
 ```properties
 hello-world=Hola mundo
@@ -47,7 +47,7 @@ hello-world=Hola mundo
 And a Javascript module that does:
 
 ```javascript
-window.alert(Liferay.Language.get("hello-world"));
+window.alert(Liferay.Language.get('hello-world'));
 ```
 
 If a user with the Spanish locale enters the application he will see an alert with the message `Hola mundo`. On the other hand, any user with a locale other than Spanish will see an alert with the message `Hello world`.
@@ -60,8 +60,8 @@ Since [#232](https://github.com/liferay/liferay-js-toolkit/issues/232), [#262](h
 
 The configuration can have diffent scopes:
 
-- **System**: appears in the the `System Settings` panel of Liferay and is passed to your portlet inside the `system` field of the `configuration` parameter. It's shared among all the portlet instances.
-- **Portlet instance**: appears in the `Configuration` dialog of each portlet and is passed inside the `portletInstance` field of the `configuration` parameter. Each portlet instance has its own copy.
+-   **System**: appears in the the `System Settings` panel of Liferay and is passed to your portlet inside the `system` field of the `configuration` parameter. It's shared among all the portlet instances.
+-   **Portlet instance**: appears in the `Configuration` dialog of each portlet and is passed inside the `portletInstance` field of the `configuration` parameter. Each portlet instance has its own copy.
 
 All you need to do to enable configuration is creating a `features/configuration.json` file in your project with the description of your configuration. You can also override that location with the [`create-jar.features.configuration`](.npmbundlerrc-file-reference#create-jarfeaturesconfiguration) option.
 

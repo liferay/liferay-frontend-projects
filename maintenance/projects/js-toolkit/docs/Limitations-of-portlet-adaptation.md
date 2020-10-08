@@ -22,7 +22,7 @@ So, in the case of CSS, the adapter will only convert static media URLs to absol
 
 This comes from [issue 498](https://github.com/liferay/liferay-js-toolkit/issues/498).
 
-The main problem is that the SPA architecture of Liferay relies on partial refreshes coming from the server, but adapted portlets are only rendered in the client by definition so there's no way for SPA to request or cache them. 
+The main problem is that the SPA architecture of Liferay relies on partial refreshes coming from the server, but adapted portlets are only rendered in the client by definition so there's no way for SPA to request or cache them.
 
 Thus, every time an adapted portlet has to be rendered, it has to be re-executed as if it had just been added to the page. Sadly most of the existing frameworks assume that they are inside a SPA and have control over the whole page, which is not true for Liferay, and because of that they may fail when re-executed.
 

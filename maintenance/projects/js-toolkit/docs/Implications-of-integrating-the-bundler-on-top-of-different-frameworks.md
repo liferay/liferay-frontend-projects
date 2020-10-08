@@ -13,7 +13,7 @@ We will focus on `create-react-app` only as it is the simpler (and probably main
 
 The tool creates a project with a simple "Hello world" component and a `package.json` with the base React dependencies plus `react-scripts` package. That package holds the logic for building React apps (automagic webpack bundling and configuration, tests, and so on).
 
-Given that `react-scripts` seems to be an unconfigurable black box, it provides an `eject` target that, when run, clones the scripts to the project's directory and points `package.json` to them, removing the need for `react-scripts` dependencies. 
+Given that `react-scripts` seems to be an unconfigurable black box, it provides an `eject` target that, when run, clones the scripts to the project's directory and points `package.json` to them, removing the need for `react-scripts` dependencies.
 
 This allows modifying the build process to suit user needs but effectively detaches the project from the React tools, preventing the developer from getting any further updates to the `react-scripts` logic.
 
@@ -30,7 +30,6 @@ To integrate with `create-react-app` we would need to:
 5. Create a specific entry point for Liferay
 6. Add entry point to `package.json`'s `main` entry
 7. `[optional]` Move react-scripts package from `dependencies` to `devDependencies` section (because `create-react-app` incorrectly writes it to the former). This is to make build faster.
-
 
 ## Vue.js
 
@@ -53,5 +52,3 @@ To integrate with `vue create` we would need to:
 5. Add the bundler to the build process
 6. Create a specific entry point for Liferay
 7. Add entry point to `package.json`'s `main` entry
-
-

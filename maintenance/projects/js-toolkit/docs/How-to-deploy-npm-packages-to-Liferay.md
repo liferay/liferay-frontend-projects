@@ -61,29 +61,29 @@ Given that [Liferay AMD Loader](https://github.com/liferay/liferay-amd-loader) f
 Let's see an example with `isobject@2.1.0` package. This package has a main module called `index.js` which contains the following code:
 
 ```javascript
-"use strict";
+'use strict';
 
-var isArray = require("isarray");
+var isArray = require('isarray');
 
 module.exports = function isObject(val) {
-  return val != null && typeof val === "object" && isArray(val) === false;
+	return val != null && typeof val === 'object' && isArray(val) === false;
 };
 ```
 
 This is clearly a CommonJS module, so we need to AMDify it before copying it to the `node_modules/isarray@2.1.0` folder. To do that, we simply wrap it inside an AMD `define` call like the following:
 
 ```javascript
-define("isobject@2.1.0/index", ["module", "require", "isarray"], function(
-  module,
-  require
+define('isobject@2.1.0/index', ['module', 'require', 'isarray'], function (
+	module,
+	require
 ) {
-  "use strict";
+	'use strict';
 
-  var isArray = require("isarray");
+	var isArray = require('isarray');
 
-  module.exports = function isObject(val) {
-    return val != null && typeof val === "object" && isArray(val) === false;
-  };
+	module.exports = function isObject(val) {
+		return val != null && typeof val === 'object' && isArray(val) === false;
+	};
 });
 ```
 

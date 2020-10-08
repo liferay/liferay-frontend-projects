@@ -31,9 +31,9 @@ following:
 
 ```json
 {
-  "scripts": {
-    "build": "babel --source-maps -d build src && liferay-npm-bundler"
-  }
+	"scripts": {
+		"build": "babel --source-maps -d build src && liferay-npm-bundler"
+	}
 }
 ```
 
@@ -47,9 +47,9 @@ the previous scenario is configured like:
 
 ```json
 {
-  "scripts": {
-    "build": "liferay-npm-bundler"
-  }
+	"scripts": {
+		"build": "liferay-npm-bundler"
+	}
 }
 ```
 
@@ -58,21 +58,21 @@ And now, because we don't run `babel`, we need to tell the bundler to transpile
 
 ```json
 {
-  "sources": ["src"],
-  "rules": [
-    {
-      "test": "\\.js$",
-      "exclude": "node_modules",
-      "use": [
-        {
-          "loader": "babel-loader",
-          "options": {
-            "presets": ["env"]
-          }
-        }
-      ]
-    }
-  ]
+	"sources": ["src"],
+	"rules": [
+		{
+			"test": "\\.js$",
+			"exclude": "node_modules",
+			"use": [
+				{
+					"loader": "babel-loader",
+					"options": {
+						"presets": ["env"]
+					}
+				}
+			]
+		}
+	]
 }
 ```
 
@@ -129,27 +129,27 @@ The bundler runs the project source files through the following workflow:
 
 3. For the project:
 
-   1. Run source files inside the source directories configured in
-      [.npmbundlerrc](.npmbundlerrc-file-reference#sources) through the
-      [rules](.npmbundlerrc-file-reference#rules).
-   2. Pre-process project's package with configured plugins.
-   3. Run Babel through each `.js` file in the project with configured plugins
-      (this is intended to convert ES5 files into AMD modules, not to transpile
-      ES6+ sources).
-   4. Post-process project's package with configured plugins.
+    1. Run source files inside the source directories configured in
+       [.npmbundlerrc](.npmbundlerrc-file-reference#sources) through the
+       [rules](.npmbundlerrc-file-reference#rules).
+    2. Pre-process project's package with configured plugins.
+    3. Run Babel through each `.js` file in the project with configured plugins
+       (this is intended to convert ES5 files into AMD modules, not to transpile
+       ES6+ sources).
+    4. Post-process project's package with configured plugins.
 
 4. For each dependency package:
 
-   1. Copy package to output dir (in plain _package_@_version_ format, as
-      opposed to the standard `node_modules` tree format). To determine what is
-      copied, the bundler invokes a special type of plugin intended to filter
-      the package file list.
-   2. Run rules on the package files.
-   3. Pre-process package with configured plugins.
-   4. Run Babel through each `.js` file in the package with configured plugins
-      (this is intended to convert ES5 files into AMD modules, not to do any
-      other type of processing).
-   5. Post-process package with configured plugins.
+    1. Copy package to output dir (in plain _package_@_version_ format, as
+       opposed to the standard `node_modules` tree format). To determine what is
+       copied, the bundler invokes a special type of plugin intended to filter
+       the package file list.
+    2. Run rules on the package files.
+    3. Pre-process package with configured plugins.
+    4. Run Babel through each `.js` file in the package with configured plugins
+       (this is intended to convert ES5 files into AMD modules, not to do any
+       other type of processing).
+    5. Post-process package with configured plugins.
 
 The pre and post process steps are the same, they only differ in the moment when
 they are run (before or after Babel is run, respectively). In these steps,
@@ -193,7 +193,7 @@ default used when no `.npmbundlerrc` file is present):
 
 ```json
 {
-  "preset": "liferay-npm-bundler-preset-standard"
+	"preset": "liferay-npm-bundler-preset-standard"
 }
 ```
 
@@ -203,22 +203,25 @@ found in `liferay-npm-bundler-preset-standard`:
 
 ```json
 {
-  "packages": {
-    "/": {
-      "plugins": ["resolve-linked-dependencies"],
-      ".babelrc": {
-        "presets": ["liferay-standard"]
-      },
-      "post-plugins": ["namespace-packages", "inject-imports-dependencies"]
-    },
-    "*": {
-      "plugins": ["replace-browser-modules"],
-      ".babelrc": {
-        "presets": ["liferay-standard"]
-      },
-      "post-plugins": ["namespace-packages", "inject-peer-dependencies"]
-    }
-  }
+	"packages": {
+		"/": {
+			"plugins": ["resolve-linked-dependencies"],
+			".babelrc": {
+				"presets": ["liferay-standard"]
+			},
+			"post-plugins": [
+				"namespace-packages",
+				"inject-imports-dependencies"
+			]
+		},
+		"*": {
+			"plugins": ["replace-browser-modules"],
+			".babelrc": {
+				"presets": ["liferay-standard"]
+			},
+			"post-plugins": ["namespace-packages", "inject-peer-dependencies"]
+		}
+	}
 }
 ```
 
@@ -354,31 +357,31 @@ Let's see an example in action.
 
 ```json
 {
-  "sources": ["src"],
-  "rules": [
-    {
-      "test": "\\.js$",
-      "exclude": "node_modules",
-      "use": [
-        {
-          "loader": "babel-loader",
-          "options": {
-            "presets": ["env", "react"]
-          }
-        }
-      ]
-    },
-    {
-      "test": "\\.scss$",
-      "exclude": "node_modules",
-      "use": ["sass-loader", "style-loader"]
-    },
-    {
-      "test": "\\.css$",
-      "include": "node_modules",
-      "use": ["style-loader"]
-    }
-  ]
+	"sources": ["src"],
+	"rules": [
+		{
+			"test": "\\.js$",
+			"exclude": "node_modules",
+			"use": [
+				{
+					"loader": "babel-loader",
+					"options": {
+						"presets": ["env", "react"]
+					}
+				}
+			]
+		},
+		{
+			"test": "\\.scss$",
+			"exclude": "node_modules",
+			"use": ["sass-loader", "style-loader"]
+		},
+		{
+			"test": "\\.css$",
+			"include": "node_modules",
+			"use": ["style-loader"]
+		}
+	]
 }
 ```
 
