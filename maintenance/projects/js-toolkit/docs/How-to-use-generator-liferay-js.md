@@ -56,4 +56,4 @@ Once the project is generated, all actions are run by using npm scripts. You can
 
 ## Further configuration of the project
 
-Once the project is generated, you can configure some of its features following [these guidelines](./Configuring-pure-javascript-projects.md).
+Once the project is generated, you can configure some of its features following [these guidelines](./Configuring-pure-JavaScript-projects.md).

@@ -14,7 +14,7 @@ Now, let's go with the documentation:
 
     1. [How to create pure JavaScript projects](./How-to-use-generator-liferay-js.md)
         1. [How to build the project](./Running-build-npm-scripts.md)
-        2. [How to configure the project](./Configuring-pure-javascript-projects.md)
+        2. [How to configure the project](./Configuring-pure-JavaScript-projects.md)
     2. [How to adapt most popular frameworks projects](How-to-adapt-most-popular-frameworks-projects.md)
     3. [How to create mixed Java/JavaScript projects](How-to-create-mixed-Java-JavaScript-projects.md)
     4. [How to troubleshoot your setups](How-to-troubleshoot-your-setups.md)

@@ -1,6 +1,6 @@
 This page describes the format used to describe configuration in `liferay-npm-bundler` projects.
 
-See [Configuring pure javascript projects](./Configuring-pure-javascript-projects.md#configuration) for more information on where this file is used.
+See [Configuring pure JavaScript projects](./Configuring-pure-JavaScript-projects.md#configuration) for more information on where this file is used.
 
 ## Base format
 
