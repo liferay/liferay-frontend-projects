@@ -1,3 +1,31 @@
+## [liferay-js-toolkit/v2.19.4](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.19.4) (2020-10-08)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.19.3...liferay-js-toolkit/v2.19.4)
+
+### :wrench: Bug fixes
+
+-   fix(eslint-config): special case import of "." ([\#137](https://github.com/liferay/liferay-frontend-projects/pull/137))
+-   fix(js-toolkit): adjust linting to work in monorepo ([\#126](https://github.com/liferay/liferay-frontend-projects/pull/126))
+
+### :book: Documentation
+
+-   docs(js-toolkit): update links prior to release ([\#140](https://github.com/liferay/liferay-frontend-projects/pull/140))
+-   docs: hoist js-tookit licensing info up to top-level ([\#121](https://github.com/liferay/liferay-frontend-projects/pull/121))
+
+### :house: Chores
+
+-   chore(js-toolkit): configure release messages consistently ([\#138](https://github.com/liferay/liferay-frontend-projects/pull/138))
+-   chore(js-toolkit): sort package.json files ([\#132](https://github.com/liferay/liferay-frontend-projects/pull/132))
+-   chore(js-toolkit): update info and links in package.json files ([\#131](https://github.com/liferay/liferay-frontend-projects/pull/131))
+
+### :woman_juggling: Refactoring
+
+-   refactor(js-toolkit): make tests work in monorepo ([\#133](https://github.com/liferay/liferay-frontend-projects/pull/133))
+
+### :nail_care: Style
+
+-   style: fix formatting on imported projects ([\#119](https://github.com/liferay/liferay-frontend-projects/pull/119))
+
 ## [v2.19.3](https://github.com/liferay/liferay-js-toolkit/tree/v2.19.3) (2020-09-30)
 
 [Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/v2.19.2...v2.19.3)
