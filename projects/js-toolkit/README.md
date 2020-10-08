@@ -1,14 +1,12 @@
 # liferay-js-toolkit
 
-[![Build Status](https://travis-ci.org/liferay/liferay-js-toolkit.svg?branch=master)](https://travis-ci.org/liferay/liferay-js-toolkit)
+![CI status](https://github.com/liferay/liferay-frontend-projects/workflows/ci/badge.svg)
 
 ## Setup
 
-1. Install NodeJS >= [v6.11.0](http://nodejs.org/dist/v6.11.0/), if you don't
-   have it yet.
+1. Install NodeJS >= [v10.15.1](http://nodejs.org/dist/v10.15.1/), if you don't have it yet.
 
-2. Run the bootstrap script to install local dependencies and link packages
-   together:
+2. Run the bootstrap script to install local dependencies and link packages together:
 
 ```sh
 yarn install
@@ -28,13 +26,6 @@ yarn test
 
 ## Useful resources
 
-You can file any bug related to this project in the
-[issues page](https://github.com/liferay/liferay-js-toolkit/issues).
+You can file any bug related to this project in the [issues page](https://github.com/liferay/liferay-frontend-projects/issues?q=is%3Aissue+is%3Aopen+label%3Ajs-toolkit+label%3A3.x).
 
-You can also get information about released versions and their changes in the
-[closed milestones page](https://github.com/liferay/liferay-js-toolkit/milestones?state=closed).
-
-And if you want to know what's planned for the next versions, just visit the
-[open milestones page](https://github.com/liferay/liferay-js-toolkit/milestones?state=open).
-
-To finish with, you can find the most up-to-date documentation in [the project's wiki](https://github.com/liferay/liferay-js-toolkit/wiki).
+You can also get information about released versions and their changes in the CHANGELOG.md files found in [the various subdirectories of the `packages/` directory](./packages)
