@@ -10,6 +10,7 @@
 	},
 	"npmClient": "yarn",
 	"packages": ["packages/*"],
+	"tagVersionPrefix": "liferay-js-toolkit/v",
 	"useWorkspaces": true,
 	"version": "2.19.3"
 }
