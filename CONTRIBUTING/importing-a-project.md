@@ -87,13 +87,97 @@ git log --oneline --decorate --graph --all
 git commit --amend
 ```
 
+Finally, here is an example of a two-step import where we brought in two branches. The [js-toolkit](https://github.com/liferay/liferay-js-toolkit) had two active branches:
+
+-   The 3.x series, which is a ground-up rewrite and really a totally different product. This is the future of the toolkit, and was being developed on [the `3.x-WIP` branch](https://github.com/liferay/liferay-js-toolkit/tree/3.x-WIP).
+-   The 2.x series, which is still widely used, but effectively in maintenance mode. It was maintained on [the `master` branch](https://github.com/liferay/liferay-js-toolkit).
+
+Given that these are effectively two different products, we won't need to cherry-pick or merge changes between the two series. As such, it is appropriate for us to keep them both on `master` in the monorepo, under separate directories.
+
+We first imported the `master` branch (ie. v2.x) history in [3a6e8f1fe3f](https://github.com/liferay/liferay-frontend-projects/commit/3a6e8f1fe3f2124d0338a96a4bc07f21f1d26acd), rooting it at [`maintenance/projects/js-toolkit/`](https://github.com/liferay/liferay-frontend-projects/tree/master/maintenance/projects/js-toolkit):
+
+```sh
+# 1. Fetch the other project.
+git remote add -f liferay-js-toolkit https://github.com/liferay/liferay-js-toolkit
+
+# 2. Rewrite the tags; note that the "master" branch tags all start
+#    with "v"; the "3.x-WIP" tags are already namespaced and can be
+#    ignored for now (I'll be bringing in that history in a separate
+#    step).
+support/filter-tags.sh liferay-js-toolkit/master 'sed "s#^v#liferay-js-toolkit/v#"'
+
+# 3. Inspect the renamed and remaining tags.
+git tag -l
+
+# 4. Inspect these two, which point at commits on the "1.x" branch.
+git show v1.7.0
+git show v1.8.0
+
+# 5. We're not going to import the "1.x" branch at this time (because
+#    we don't think we're ever going to touch it again; that one can live
+#    on in the liferay-js-toolkit repo, even after it gets archived and
+#    marked as read-only), so we get rid of those two.
+git tag -d v1.7.0 v1.8.0
+
+# 6. Inspect result.
+git tag -l
+
+# 7. Do the actual subtree merge; note how this project is going to
+#    live outside the default set of Yarn workspaces, under
+#    "maintenance/projects/".
+git merge -s ours --no-commit --allow-unrelated-histories liferay-js-toolkit/master
+mkdir -p maintenance/projects
+git read-tree --prefix=maintenance/projects/js-toolkit -u liferay-js-toolkit/master
+
+# 8. Preview what will be committed.
+git status
+
+# 9. Make the commit; you're reading it now.
+git commit
+
+# 11. After, make sure everything looks right.
+git log --oneline --decorate --graph --all
+```
+
+Then we imported the `3.x-WIP` branch history in [76384a0a5ec](https://github.com/liferay/liferay-frontend-projects/commit/76384a0a5ec6bcb392a67d413b1a9db0c32c5efb), rooting it at [`projects/js-tookit/`](https://github.com/liferay/liferay-frontend-projects/tree/master/projects/js-toolkit):
+
+```sh
+# 0. No need to fetch, because we just did that.
+#    No need to filter tags, because, again, we just did that.
+#
+# 1. So, proceeding to the subtree merge: this time, because "3.x-WIP"
+#    is the principal development branch now, we go to
+#    "projects/js-toolkit/" instead of "maintenance/projects/js-toolkit/".
+#
+#    Note that we don't need --allow-unrelated-histories this time,
+#    because "3.x-WIP" originally forked from the js-toolkit "master"
+#    branch.
+git merge-base liferay-js-toolkit/3.x-WIP master
+git merge -s ours --no-commit liferay-js-toolkit/3.x-WIP
+git read-tree --prefix=projects/js-toolkit -u liferay-js-toolkit/3.x-WIP
+
+# 2. Preview what will be committed.
+git status
+
+# 3. Make the commit; you're reading it now.
+git commit
+
+# 4. After, make sure everything looks right.
+#    Confirm, for example, that the tags are visible and that a sample
+#    of the commit hashes is correct.
+git log --oneline --decorate --graph --all
+
+# 5. Preview what will be pushed, paying especial attention to tags.
+git push origin --follow-tags --dry-run
+```
+
 ## After importing
 
 We want the subtree merge to be an atomic commit so that the distinction between the imported code and any changes that we make subsequently is clear. But after the merge, there will always be follow-up tasks to perform in separate commits.
 
 Examples include:
 
--   Update the `repository` field in the `package.json` file(s); here's an example were we add or update `directory` information to make it clear where the project lives within the monorepo, as well as updating the `url` field:
+-   Update the `repository` field in the `package.json` file(s); here's an example were we add or update `directory` information to make it clear where the project lives within the monorepo, as well as updating the `url` field ([example PR](https://github.com/liferay/liferay-frontend-projects/pull/131)):
 
     ```
     "repository": {
@@ -103,19 +187,43 @@ Examples include:
     }
     ```
 
--   Ensure each package has a consistent `author` field:
+-   Ensure each package has a consistent `author` field ([example PR](https://github.com/liferay/liferay-frontend-projects/pull/131)):
 
     ```
     "author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>"
     ```
 
--   Hoist the licensing information up into the top-level [`LICENSES/`](../LICENSES) directory, if the license type is not already represented there.
+-   Hoist the licensing information up into the top-level [`LICENSES/`](../LICENSES) directory, if the license type is not already represented there ([example PR](https://github.com/liferay/liferay-frontend-projects/pull/121)).
 
--   Provide an [issue template](../.github/ISSUE_TEMPLATE).
+-   Provide an [issue template](../.github/ISSUE_TEMPLATE) ([example PR](https://github.com/liferay/liferay-frontend-projects/pull/123)).
 
--   Create labels for the project and any subpackages and add the to [the Pull Request Labeler's](https://github.com/actions/labeler) [configuration file](../.github/labeler.yml).
+-   Update top-level documents such as [README.md](../README.md) and [CONTRIBUTING.md](../CONTRIBUTING.md) to point at the new project ([example PR](https://github.com/liferay/liferay-frontend-projects/pull/124)).
+
+-   Create labels for the project and any subpackages and add the to [the Pull Request Labeler's](https://github.com/actions/labeler) [configuration file](../.github/labeler.yml) ([example PR](https://github.com/liferay/liferay-frontend-projects/pull/122)).
+
+-   Check for `.yarnrc` files (and the `lerna.json` file, in the rare case that you're importing a project that uses Lerna) to ensure that the tag configuration is consistent with the format using in the monorepo (see [this example PR](https://github.com/liferay/liferay-frontend-projects/pull/138), which shows modifying `.yarnrc` files to make them consistent, adding missing `.yarnrc` files, and configuring Lerna to create adequate commit messages).
+
+-   Hoist all `devDependencies` to the top level ([example PR](https://github.com/liferay/liferay-frontend-projects/pull/135)) to reduce the chances of duplicated or conflicting versions.
+
+-   Migrate the projects GitHub actions to work in the monorepo (Travis jobs should be migrated to GitHub actions). This may be non-trivial; for example, [see this PR](https://github.com/liferay/liferay-frontend-projects/pull/133).
+
+-   Format all code with `yarn format` ([example PR](https://github.com/liferay/liferay-frontend-projects/pull/119)).
+
+-   Sort `package.json` and other JSON files ([example PR](https://github.com/liferay/liferay-frontend-projects/pull/132)).
+
+-   Lint and fix all lint issues with `yarn lint`, `yarn lint:fix`, and manual fixes ([example PR](https://github.com/liferay/liferay-frontend-projects/pull/126)).
 
 -   Remove the temporary remote that you added with `git remote add` to avoid inadvertantly pulling down unwanted tags again the next time you run a command like `git remote update`. You can do this by running `git remote remove` and passing the name of the remote.
+
+-   Cut a release to ensure that the project can be correctly released from its new home, and additionally ensure that the package pages on [www.npmjs.com](https://www.npmjs.com/) have READMEs and metadata links that point to the monorepo ([example release](https://github.com/liferay/liferay-frontend-projects/releases/tag/changelog-generator%2Fv1.5.0)).
+
+-   Consider moving the project into the `@liferay/` named scope on npm, as described in ["Migrating an npm package to the `@liferay` named scope"](./migrating-an-npm-package-to-the-liferay-named-scope.md).
+
+-   Update the README on the old repo to direct people to the monorepo instead ([example PR](https://github.com/liferay/liferay-js-toolkit/pull/660)).
+
+-   Migrate issues to the monorepo using [GitHub's issue transfer functionality](https://docs.github.com/en/free-pro-team@latest/github/managing-your-work-on-github/transferring-an-issue-to-another-repository). It's best to do this in a batch, so that you can easily label all the issues in bulk at the end (labels don't get transferred). Note that this is an opportunity to clean out (close) old issues that are no longer relevant, but you should always leave a comment on why you're closing an issue rather than migrating it.
+
+-   [Open a JIRA ticket](https://issues.liferay.com/) in the `IS` (Information Services) project requesting that the old project be archived. This must be the _last_ thing that you do, because once archived, the repo becomes read-only and can no longer be modified.
 
 ## Pro-Tips™
 
