@@ -59,7 +59,7 @@ function main(...args) {
 		'--insert-pragma': ignore,
 		'--jsx-bracket-same-line': ignore,
 		'--jsx-single-quote': ignore,
-		'--list-different': unsupported,
+		'--list-different': set('listDifferent', true),
 		'--loglevel=': ignore,
 		'--no-bracket-spacing': ignore,
 		'--no-color': ignore,
@@ -94,7 +94,7 @@ function main(...args) {
 		'--write': set('write', true),
 		'-c': unsupported,
 		'-h': help,
-		'-l': unsupported,
+		'-l': set('listDifferent', true),
 		'-v': version,
 	};
 
@@ -182,6 +182,8 @@ function main(...args) {
 		throw new Error('No matching files');
 	}
 
+	let status = 0;
+
 	files.forEach(({contents, filepath}) => {
 		contents =
 			contents === null ? fs.readFileSync(filepath, 'utf8') : contents;
@@ -191,20 +193,39 @@ function main(...args) {
 			filepath,
 		};
 
+		let formattedContents;
+
 		if (isJSP(filepath)) {
-			contents = formatJSP(contents, prettierOptions);
+			formattedContents = formatJSP(contents, prettierOptions);
 		}
 		else {
-			contents = format(contents, prettierOptions);
+			formattedContents = format(contents, prettierOptions);
 		}
 
-		if (options.write) {
-			fs.writeFileSync(filepath, contents);
+		const different = formattedContents !== contents;
+
+		if (different) {
+			if (options.write) {
+				fs.writeFileSync(filepath, formattedContents);
+			}
+
+			if (options.listDifferent) {
+				write(filepath);
+			}
+
+			if (!options.write) {
+				status = 1;
+			}
 		}
-		else {
-			write(contents);
+
+		if (!options.write && !options.listDifferent) {
+			write(formattedContents);
 		}
 	});
+
+	if (options.listDifferent && status) {
+		process.exit(status);
+	}
 }
 
 /**
@@ -236,6 +257,7 @@ function help() {
 	write(
 		'Usage: prettier [options] [file/glob ...]\n' +
 			'\n' +
+			"  -l, --list-different     Print the names of files that are different from Prettier's formatting.\n" +
 			'  --stdin                  Force reading input from stdin.\n' +
 			'  --stdin-filepath <path>  Path to the file to pretend that stdin comes from.\n' +
 			'  --write                  Edit files in-place. (Beware!)\n'
