@@ -30,4 +30,4 @@ You can file any bug related to this project in the [issues page](https://github
 
 You can also get information about released versions and their changes in the [changelog](./CHANGELOG.md).
 
-To finish with, you can find the most up-to-date documentation in [the project's wiki](https://github.com/liferay/liferay-js-toolkit/wiki).
+To finish with, you can find the most up-to-date documentation in [the project's `docs/` folder](./docs).
