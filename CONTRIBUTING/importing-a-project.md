@@ -87,7 +87,7 @@ git log --oneline --decorate --graph --all
 git commit --amend
 ```
 
-Finally, here is an example of a two-step import where we brought in two branches. The [js-toolkit](https://github.com/liferay/liferay-js-toolkit) had two active branches:
+Finally, here is an example of a three-step import where we brought in two branches and a wiki. The [js-toolkit](https://github.com/liferay/liferay-js-toolkit) had two active branches:
 
 -   The 3.x series, which is a ground-up rewrite and really a totally different product. This is the future of the toolkit, and was being developed on [the `3.x-WIP` branch](https://github.com/liferay/liferay-js-toolkit/tree/3.x-WIP).
 -   The 2.x series, which is still widely used, but effectively in maintenance mode. It was maintained on [the `master` branch](https://github.com/liferay/liferay-js-toolkit).
@@ -169,6 +169,32 @@ git log --oneline --decorate --graph --all
 
 # 5. Preview what will be pushed, paying especial attention to tags.
 git push origin --follow-tags --dry-run
+```
+
+Our final step was to import the wiki, which only applies to the 2.x series, and its history in [9d081a70116](https://github.com/liferay/liferay-frontend-projects/commit/9d081a70116e08e75f4b3afc1d3210d972472d26), rooting it at [`projects/js-tookit/docs/`](https://github.com/liferay/liferay-frontend-projects/tree/master/projects/js-toolkit/docs):
+
+```
+# 1. Fetch the wiki.
+git remote add -f liferay-js-toolkit-wiki https://github.com/liferay/liferay-js-toolkit.wiki.git
+
+# 2. Make sure no tags snuck in with it.
+git tag -l
+
+# 3. Do the subtree merge.
+git merge -s ours --no-commit --allow-unrelated-histories liferay-js-toolkit-wiki/master
+git read-tree --prefix=maintenance/projects/js-toolkit/docs -u liferay-js-toolkit-wiki/master
+
+# 4. Create the initial version of the commit.
+git ci -m 'chore(js-toolkit): merge wiki history into maintenance/projects/js-toolkit/docs/'
+
+# 5. Inspect the shape of the graph to confirm it is sane.
+git log --oneline --decorate --graph --all
+
+# 6. Get rid of the temporary remote.
+git remote remove liferay-js-toolkit-wiki
+
+# 7. Amend the commit (the one you're reading now) to contain this info.
+git commit --amend
 ```
 
 ## After importing
