@@ -5,13 +5,11 @@
 			"exact": true
 		},
 		"version": {
-			"message": "chore: prepare liferay-js-toolkit/%s release"
+			"message": "chore: prepare %s release"
 		}
 	},
 	"npmClient": "yarn",
-	"packages": [
-		"packages/*"
-	],
+	"packages": ["packages/*"],
 	"tagVersionPrefix": "liferay-js-toolkit/v",
 	"useWorkspaces": true,
 	"version": "2.19.4"
