@@ -100,7 +100,7 @@ describe('reportAndResolveCollisions', () => {
 			{
 				level: 'warn',
 				link:
-					'https://github.com/liferay/liferay-js-toolkit/wiki/Report-messages#0003',
+					'https://github.com/liferay/liferay-frontend-projects/tree/master/maintenance/projects/js-toolkit/docs/Report-messages.md#0003',
 				source: 'replace-browser-modules',
 				things: [
 					"Alias 'random' configured in project's root folder will " +
@@ -150,7 +150,7 @@ describe('reportAndResolveCollisions', () => {
 			{
 				level: 'warn',
 				link:
-					'https://github.com/liferay/liferay-js-toolkit/wiki/Report-messages#0004',
+					'https://github.com/liferay/liferay-frontend-projects/tree/master/maintenance/projects/js-toolkit/docs/Report-messages.md#0004',
 				source: 'replace-browser-modules',
 				things: [
 					"File 'dir/util/random.js' is aliased more than once, " +
@@ -198,7 +198,7 @@ describe('reportAndResolveCollisions', () => {
 			{
 				level: 'warn',
 				link:
-					'https://github.com/liferay/liferay-js-toolkit/wiki/Report-messages#0003',
+					'https://github.com/liferay/liferay-frontend-projects/tree/master/maintenance/projects/js-toolkit/docs/Report-messages.md#0003',
 				source: 'replace-browser-modules',
 				things: [
 					"Alias 'random' configured in 'dir' will not be visible " +
@@ -256,7 +256,7 @@ describe('reportAndResolveCollisions', () => {
 			{
 				level: 'warn',
 				link:
-					'https://github.com/liferay/liferay-js-toolkit/wiki/Report-messages#0004',
+					'https://github.com/liferay/liferay-frontend-projects/tree/master/maintenance/projects/js-toolkit/docs/Report-messages.md#0004',
 				source: 'replace-browser-modules',
 				things: [
 					"File 'random.js' is aliased more than once, only the " +

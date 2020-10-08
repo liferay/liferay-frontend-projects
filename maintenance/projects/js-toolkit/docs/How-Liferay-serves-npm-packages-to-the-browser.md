@@ -1,11 +1,11 @@
-Once you have deployed an OSGi bundle following the steps described in [[How to deploy npm packages to Liferay]], its modules are made available for consumption through canonical URLs.
+Once you have deployed an OSGi bundle following the steps described in [How to deploy npm packages to Liferay](How-to-deploy-npm-packages-to-Liferay.md), its modules are made available for consumption through canonical URLs.
 
-For instance, if you deploy the example OSGi bundle described [there](https://github.com/liferay/liferay-js-toolkit/wiki/How-to-deploy-npm-packages-to-Liferay#structure-of-osgi-bundles-containing-npm-packages) you will get the following URLs (one for each module):
+For instance, if you deploy the example OSGi bundle described [there](./How-to-deploy-npm-packages-to-Liferay.md#structure-of-osgi-bundles-containing-npm-packages) you will get the following URLs (one for each module):
 
-- http://localhost/o/js/module/598/my-bundle-package@1.0.0/lib/index.js
-- http://localhost/o/js/module/598/isobject@2.1.0/index.js
-- http://localhost/o/js/module/598/isarray@1.0.0/index.js
-- http://localhost/o/js/module/598/isarray@2.0.0/index.js
+-   http://localhost/o/js/module/598/my-bundle-package@1.0.0/lib/index.js
+-   http://localhost/o/js/module/598/isobject@2.1.0/index.js
+-   http://localhost/o/js/module/598/isarray@1.0.0/index.js
+-   http://localhost/o/js/module/598/isarray@2.0.0/index.js
 
 ```
 👀 Note that the '598' may vary and corresponds to the OSGi bundle id.
@@ -19,10 +19,10 @@ A resolved module is the reference package exported to the whole Liferay fronten
 
 In the example above, for each group of canonical URLs referring to the same module inside different OSGi bundles, there's another canonical URL for the resolved module. In this example, we would have:
 
-- http://localhost/o/js/resolved-module/my-bundle-package@1.0.0/lib/index.js
-- http://localhost/o/js/resolved-module/isobject@2.1.0/index.js
-- http://localhost/o/js/resolved-module/isarray@1.0.0/index.js
-- http://localhost/o/js/resolved-module/isarray@2.0.0/index.js
+-   http://localhost/o/js/resolved-module/my-bundle-package@1.0.0/lib/index.js
+-   http://localhost/o/js/resolved-module/isobject@2.1.0/index.js
+-   http://localhost/o/js/resolved-module/isarray@1.0.0/index.js
+-   http://localhost/o/js/resolved-module/isarray@2.0.0/index.js
 
 ```
 👀 Note how the bundle id '598' disappears and 'module' is replaced by
@@ -52,12 +52,9 @@ Please refer to these three blog posts to get more in-depth information on the _
    works under the hood.
 ```
 
-With deduplication in place, we can trivially make the modules available to the
-Liferay AMD Loader in the browser by injecting some configuration in the code
-returned by the `/o/js_loader_modules` URL.
+With deduplication in place, we can trivially make the modules available to the Liferay AMD Loader in the browser by injecting some configuration in the code returned by the `/o/js_loader_modules` URL.
 
-For example, for the described bundle, the following configuration would be
-published for the AMD loader to consume:
+For example, for the described bundle, the following configuration would be published for the AMD loader to consume:
 
 ```javascript
   Liferay.PATHS = {
@@ -105,11 +102,8 @@ published for the AMD loader to consume:
 
 Note how:
 
-1. The paths to the Javascript module files are described inside the
-   `Liferay.PATHS` section.
-2. The dependency names and version of each module are described inside the
-   `Liferay.MODULES` section.
-3. The aliases of the package's main modules are described inside the
-   `Liferay.MAPS` section.
+1. The paths to the JavaScript module files are described inside the `Liferay.PATHS` section.
+2. The dependency names and version of each module are described inside the `Liferay.MODULES` section.
+3. The aliases of the package's main modules are described inside the `Liferay.MAPS` section.
 
 So, with the canonical module URLs, canonical resolved module URLs, and Loader configuration exported by Liferay, we do have enough information in the browser to make Liferay work as an NPM registry and correctly link npm modules in the browser at runtime.

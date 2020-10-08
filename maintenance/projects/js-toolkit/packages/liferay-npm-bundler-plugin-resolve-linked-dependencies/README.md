@@ -24,5 +24,4 @@ Add the following to your `.npmbundlerrc` file:
 
 ## Technical Details
 
-This plugin replaces links to `file://` dependencies by their real version
-number, taken from the resolved package looking up in `node_modules`.
+This plugin replaces links to `file://` dependencies by their real version number, taken from the resolved package looking up in `node_modules`.

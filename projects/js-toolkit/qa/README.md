@@ -1,7 +1,6 @@
 # qa
 
-This folder contains predefined configurations to automatically generate project
-instances that can be used to do QA testing in the project.
+This folder contains predefined configurations to automatically generate project instances that can be used to do QA testing in the project.
 
 ## Auto-generate samples
 
@@ -24,5 +23,4 @@ instances that can be used to do QA testing in the project.
 
 ### generate-samples.js script
 
-You can run the script `generate-samples.js` to generate all existing
-predefined project instances.
+You can run the script `generate-samples.js` to generate all existing predefined project instances.

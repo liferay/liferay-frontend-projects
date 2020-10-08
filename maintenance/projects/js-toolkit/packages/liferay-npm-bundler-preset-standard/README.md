@@ -22,8 +22,8 @@ Add the following to your `.npmbundlerrc` file:
 
 This preset includes the following Babel presets:
 
-1. [babel-preset-liferay-standard](https://github.com/izaera/liferay-js-toolkit/tree/master/packages/babel-preset-liferay-standard)
+1. [babel-preset-liferay-standard](https://github.com/liferay/liferay-frontend-projects/tree/master/maintenance/projects/js-toolkit/packages/babel-preset-liferay-standard)
 
 And the following Liferay NPM Bundler plugins:
 
-1. [liferay-npm-bundler-plugin-replace-browser-modules](https://github.com/izaera/liferay-js-toolkit/tree/master/packages/liferay-npm-bundler-plugin-replace-browser-modules)
+1. [liferay-npm-bundler-plugin-replace-browser-modules](https://github.com/liferay/liferay-frontend-projects/tree/master/maintenance/projects/js-toolkit/packages/liferay-npm-bundler-plugin-replace-browser-modules)

@@ -66,7 +66,6 @@ To:
 }
 ```
 
-
 #### 4. Remove any bundler preset you had configured, as bundler `2.x` comes with one smart preset that handles all frameworks automagically:
 
 Modify: `.npmbundlerrc`
@@ -89,10 +88,10 @@ To:
 
 #### 5. Now, depending on your project's base framework, follow one of these tutorials:
 
-* [[Migrate a plain Javascript project to bundler 2.x]]
-* [[Migrate an Angular project to bundler 2.x]]
-* [[Migrate a React project to bundler 2.x]]
-* [[Migrate a Metal.js project to bundler 2.x]]
-* [[Migrate a Vue.js project to bundler 2.x]]
+-   [Migrate a plain JavaScript project to bundler 2.x](Migrate-a-plain-JavaScript-project-to-bundler-2.x.md)
+-   [Migrate an Angular project to bundler 2.x](Migrate-an-Angular-project-to-bundler-2.x.md)
+-   [Migrate a React project to bundler 2.x](Migrate-a-React-project-to-bundler-2.x.md)
+-   [Migrate a Metal.js project to bundler 2.x](Migrate-a-Metal.js-project-to-bundler-2.x.md)
+-   [Migrate a Vue.js project to bundler 2.x](Migrate-a-Vue.js-project-to-bundler-2.x.md)
 
-> 👀 For Billboard.js and jQuery based projects you can follow the steps in [[Migrate a plain Javascript project to bundler 2.x]].
+> 👀 For Billboard.js and jQuery based projects you can follow the steps in [Migrate a plain JavaScript project to bundler 2.x](Migrate-a-plain-JavaScript-project-to-bundler-2.x.md).

@@ -34,8 +34,6 @@ Add the following to your `.babelrc` file:
 
 ## Technical Details
 
-This plugin removes `.js` and `/` suffixes from module names used in AMD
-`require()` calls.
+This plugin removes `.js` and `/` suffixes from module names used in AMD `require()` calls.
 
-However, the plugin is smart enough to not remove `.js` suffixes when they are
-part of the npm package name (as opposed to module name).
+However, the plugin is smart enough to not remove `.js` suffixes when they are part of the npm package name (as opposed to module name).

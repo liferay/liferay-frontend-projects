@@ -51,8 +51,6 @@ Add the following to your `.babelrc` file:
 
 ## Technical Details and Options
 
-This module adds a prefix to any AMD `define()` call that it finds. The prefix
-is specified with the `namespace` option and a period is inserted between the
-namespace string and the `define()` call.
+This module adds a prefix to any AMD `define()` call that it finds. The prefix is specified with the `namespace` option and a period is inserted between the namespace string and the `define()` call.
 
 By default, the `namespace` option is set to `Liferay.Loader`.

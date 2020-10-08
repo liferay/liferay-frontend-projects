@@ -1,4 +1,4 @@
-This page lists known sample projects. 
+This page lists known sample projects.
 
 > 👀 If you have a project based on JS Toolkit that you can share with the rest of the world feel free to open an issue in the project and send the link to your repo.
 

@@ -42,7 +42,4 @@ Add the following to your `.babelrc` file:
 
 ## Technical Details
 
-This plugin wraps the code inside the module with an AMD `define()` call. The
-module is not given any name and any dependencies detected by inspecting
-`require()` calls are appended to the `define()` dependencies array so that they
-can be found when `require()` is called.
+This plugin wraps the code inside the module with an AMD `define()` call. The module is not given any name and any dependencies detected by inspecting `require()` calls are appended to the `define()` dependencies array so that they can be found when `require()` is called.

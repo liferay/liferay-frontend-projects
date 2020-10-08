@@ -6,7 +6,7 @@ Because there can be several versions of the Extender with increasing levels of 
 
 However, in case you want to deploy to older versions of the Extender because you have fallback code in your bundle when a feature is not provided by the Extender, you can force the version number directly or leave it unbounded so that your bundle deploys in any version of the Extender. Please see [create-jar.features.js-extender](.npmbundlerrc-file-reference#create-jarfeaturesjs-extender) for more information on this.
 
-To finish with, see the [[How to use generator liferay js]] page if you need information on how to create this type of projects from scratch.
+To finish with, see the [How to use generator liferay js](How-to-use-generator-liferay-js.md) page if you need information on how to create this type of projects from scratch.
 
 The following sections explain the features you can use in OSGi bundles.
 
@@ -14,7 +14,7 @@ The following sections explain the features you can use in OSGi bundles.
 
 > 👀 Needs [JS Portlet Extender](https://web.liferay.com/marketplace/-/mp/application/115543020) 1.0.0
 
-When activated, the Extender creates a portlet on-the-fly that is rendered by calling the default exported function of the project's main module (see [[JS extended portlets entry point]] for more information on how to write the entry point function).
+When activated, the Extender creates a portlet on-the-fly that is rendered by calling the default exported function of the project's main module (see [JS extended portlets entry point](JS-extended-portlets-entry-point.md) for more information on how to write the entry point function).
 
 ## Localization
 
@@ -24,7 +24,7 @@ Basically all you need to do to have localization is creating a `features/locali
 
 Then fill the `Language.properties` file with `key=value` pairs and use those keys in localization-aware places like portlet name, configuration labels and so on.
 
-Also, use `Liferay.Language.get('key')` calls in any place of your Javascript code where you want to retrieve values for such localization keys and they will be substituted for the corresponding localized value depending on the user's locale.
+Also, use `Liferay.Language.get('key')` calls in any place of your JavaScript code where you want to retrieve values for such localization keys and they will be substituted for the corresponding localized value depending on the user's locale.
 
 To finish with, create a new `Language_{locale}.properties` file per translated locale (for instance: `Language_es.properties`, `Language_pt.properties`, and so on) and fill them with the translated `key=value` pairs.
 
@@ -32,22 +32,22 @@ To finish with, create a new `Language_{locale}.properties` file per translated 
 
 Imagine you have these localization files in your project:
 
-- **Language.properties**
+-   **Language.properties**
 
 ```properties
 hello-world=Hello world
 ```
 
-- **Language_es.properties**
+-   **Language_es.properties**
 
 ```properties
 hello-world=Hola mundo
 ```
 
-And a Javascript module that does:
+And a JavaScript module that does:
 
 ```javascript
-window.alert(Liferay.Language.get("hello-world"));
+window.alert(Liferay.Language.get('hello-world'));
 ```
 
 If a user with the Spanish locale enters the application he will see an alert with the message `Hola mundo`. On the other hand, any user with a locale other than Spanish will see an alert with the message `Hello world`.
@@ -56,13 +56,13 @@ If a user with the Spanish locale enters the application he will see an alert wi
 
 > 👀 Needs [JS Portlet Extender](https://web.liferay.com/marketplace/-/mp/application/115543020) 1.1.0
 
-Since [#232](https://github.com/liferay/liferay-js-toolkit/issues/232), [#262](https://github.com/liferay/liferay-js-toolkit/issues/262), and [#270](https://github.com/liferay/liferay-js-toolkit/issues/270) you can define configuration for your portlet that is passed to your portlet's Javascript entry point as a parameter named `configuration` (see [[JS extended portlets entry point]]).
+Since [#232](https://github.com/liferay/liferay-js-toolkit/issues/232), [#262](https://github.com/liferay/liferay-js-toolkit/issues/262), and [#270](https://github.com/liferay/liferay-js-toolkit/issues/270) you can define configuration for your portlet that is passed to your portlet's JavaScript entry point as a parameter named `configuration` (see [JS extended portlets entry point](JS-extended-portlets-entry-point.md)).
 
 The configuration can have diffent scopes:
 
-- **System**: appears in the the `System Settings` panel of Liferay and is passed to your portlet inside the `system` field of the `configuration` parameter. It's shared among all the portlet instances.
-- **Portlet instance**: appears in the `Configuration` dialog of each portlet and is passed inside the `portletInstance` field of the `configuration` parameter. Each portlet instance has its own copy.
+-   **System**: appears in the the `System Settings` panel of Liferay and is passed to your portlet inside the `system` field of the `configuration` parameter. It's shared among all the portlet instances.
+-   **Portlet instance**: appears in the `Configuration` dialog of each portlet and is passed inside the `portletInstance` field of the `configuration` parameter. Each portlet instance has its own copy.
 
 All you need to do to enable configuration is creating a `features/configuration.json` file in your project with the description of your configuration. You can also override that location with the [`create-jar.features.configuration`](.npmbundlerrc-file-reference#create-jarfeaturesconfiguration) option.
 
-The format of the file is described in [[configuration.json file reference]].
+The format of the file is described in [configuration.json file reference](configuration.json-file-reference.md).

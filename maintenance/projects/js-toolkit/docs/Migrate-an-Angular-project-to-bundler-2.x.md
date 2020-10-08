@@ -8,7 +8,7 @@ To do that follow the next steps:
 
 Modify: `tsconfig.json`
 
-From: 
+From:
 
 ```
 {
@@ -42,7 +42,7 @@ Delete: `.babelrc`
 
 Modify: `package.json`
 
-From: 
+From:
 
 ```
 {
@@ -64,12 +64,11 @@ To:
 }
 ```
 
-
 #### 4. Remove Babel dependencies:
 
 Modify: `package.json`
 
-From: 
+From:
 
 ```
 {
@@ -95,5 +94,3 @@ To:
   ...
 }
 ```
-
-
