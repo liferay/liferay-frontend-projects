@@ -3,9 +3,10 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {Report} from '.';
 import {LogLevel} from 'liferay-js-toolkit-core';
 import pretty from 'pretty-time';
+
+import {Report} from '.';
 
 export function htmlDump(report: Report): string {
 	const {

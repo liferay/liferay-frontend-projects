@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {Project} from '.';
 import prop from 'dot-prop';
 import fs from 'fs';
 import path from 'path';
 
+import {Project} from '.';
 import FilePath from '../file-path';
 
 /**
