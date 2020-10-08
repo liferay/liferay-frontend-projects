@@ -5,7 +5,7 @@
 			"exact": true
 		},
 		"version": {
-			"message": "chore: prepare liferay-js-toolkit/%s release"
+			"message": "chore: prepare %s release"
 		}
 	},
 	"npmClient": "yarn",
