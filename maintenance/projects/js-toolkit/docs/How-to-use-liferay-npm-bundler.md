@@ -94,11 +94,11 @@ The **old mode** was intended to get Liferay portlet projects as input right
 after every static resource and transpiled `.js` files had been placed in the
 `build` directory. In then modified that `build` directory so that the build
 could carry on to produce an OSGi bundle that could be deployed to Liferay
-Portal (as explained in [[How to deploy npm packages to Liferay]]).
+Portal (as explained in [How to deploy npm packages to Liferay](How-to-deploy-npm-packages-to-Liferay.md)).
 
 That OSGi bundle could be created by the standard Gradle build for portlets or,
 alternatively, by the bundler itself (this was made possible when the
-[pure Javascript portlet](How-to-use-generator-liferay-js) feature was
+[pure Javascript portlet](How-to-use-generator-liferay-js.md) feature was
 introduced).
 
 The **new mode** aims at controlling the whole build and not doing (or not
@@ -309,7 +309,7 @@ similar to `webpack`, it hasn't got to be the very same and subtle (or even
 huge) differences may appear.
 
 Each loader is a npm package that exports a function with a well defined API
-(see [[How to write your own loader]] for more info on that). That function
+(see [How to write your own loader](How-to-write-your-own-loader.md) for more info on that). That function
 receives the content of a file, modifies it, and returns the new content.
 Optionally, loaders may create new files next to the files they are processing.
 For instance,
@@ -333,7 +333,7 @@ on it) and then make it a JavaScript module with the
 [style-loader](https://github.com/liferay/liferay-js-toolkit/tree/master/packages/liferay-npm-bundler-loader-style-loader)
 loader.
 
-Please see [[List of loaders]] for more information on all known loaders.
+Please see [List of loaders](List-of-loaders.md) for more information on all known loaders.
 
 ### How to configure rules and loaders
 
@@ -464,11 +464,11 @@ creation is activated when the
 [`create-jar`](.npmbundlerrc-file-reference#create-jar) option is given.
 
 See [How to create pure Javascript projects](How-to-use-generator-liferay-js)
-and [[Configuring pure JavaScript projects]] for a detailed explanation of this
+and [Configuring pure JavaScript projects](Configuring-pure-JavaScript-projects.md) for a detailed explanation of this
 feature.
 
 ## Configuring the bundler
 
 As said before, `liferay-npm-bundler` is configured placing a `.npmbundlerrc`
 file in your project's folder. The available options for that file are described
-in the [[.npmbundlerrc file reference]] page.
+in the [.npmbundlerrc file reference](.npmbundlerrc-file-reference.md) page.

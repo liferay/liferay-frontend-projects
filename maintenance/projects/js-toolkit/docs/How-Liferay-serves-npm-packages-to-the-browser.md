@@ -1,4 +1,4 @@
-Once you have deployed an OSGi bundle following the steps described in [[How to deploy npm packages to Liferay]], its modules are made available for consumption through canonical URLs.
+Once you have deployed an OSGi bundle following the steps described in [How to deploy npm packages to Liferay](How-to-deploy-npm-packages-to-Liferay.md), its modules are made available for consumption through canonical URLs.
 
 For instance, if you deploy the example OSGi bundle described [there](./How-to-deploy-npm-packages-to-Liferay.md#structure-of-osgi-bundles-containing-npm-packages) you will get the following URLs (one for each module):
 

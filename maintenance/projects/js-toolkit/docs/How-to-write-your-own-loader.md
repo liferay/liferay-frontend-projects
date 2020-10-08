@@ -107,4 +107,4 @@ section of the `.npmbundlerrc` file.
 
 ## Existing loaders
 
-You can see an enumeration of all known loaders in the [[List of loaders]].
+You can see an enumeration of all known loaders in the [List of loaders](List-of-loaders.md).

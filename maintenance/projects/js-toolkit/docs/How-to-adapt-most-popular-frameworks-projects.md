@@ -18,7 +18,7 @@ maintenance.
 >
 > In such cases, it is the responsibility of the developer to create code that can work in both infrastructures or give up the ones that are not needed.
 >
-> See [[Limitations of portlet adaptation]] for a full explanation of what are the currently known limitations.
+> See [Limitations of portlet adaptation](Limitations-of-portlet-adaptation.md) for a full explanation of what are the currently known limitations.
 
 ## How to adapt an existing project
 
@@ -143,7 +143,7 @@ When `build:liferay` is run, the standard webpack based build of
 inside the `build` directory.
 
 These files are then tweaked by the adapter scripts so that they can be launched
-from Liferay's standard entry point (see [[JS extended portlets entry point]]).
+from Liferay's standard entry point (see [JS extended portlets entry point](JS-extended-portlets-entry-point.md)).
 
 To achieve that, the `document.getElementById()` will be changed so that it
 returns the portlet's main `<div>` node (identified by the `portletElementId`
@@ -185,7 +185,7 @@ When `build:liferay` is run, the standard webpack based build of
 inside the `dist` directory.
 
 These files are then tweaked by the adapter scripts so that they can be launched
-from Liferay's standard entry point (see [[JS extended portlets entry point]]).
+from Liferay's standard entry point (see [JS extended portlets entry point](JS-extended-portlets-entry-point.md)).
 
 To achieve that, the `app-root` selector in the output bundles will be changed so
 that it points to the portlet's main `<div>` node (identified by the
@@ -223,7 +223,7 @@ When `build:liferay` is run, the standard webpack based build of
 inside the `dist` directory.
 
 These files are then tweaked by the adapter scripts so that they can be launched
-from Liferay's standard entry point (see [[JS extended portlets entry point]]).
+from Liferay's standard entry point (see [JS extended portlets entry point](JS-extended-portlets-entry-point.md)).
 
 To achieve that, the `#app` selector in the output bundles will be changed so
 that it points to the portlet's main `<div>` node (identified by the

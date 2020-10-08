@@ -6,7 +6,7 @@ Because there can be several versions of the Extender with increasing levels of 
 
 However, in case you want to deploy to older versions of the Extender because you have fallback code in your bundle when a feature is not provided by the Extender, you can force the version number directly or leave it unbounded so that your bundle deploys in any version of the Extender. Please see [create-jar.features.js-extender](.npmbundlerrc-file-reference#create-jarfeaturesjs-extender) for more information on this.
 
-To finish with, see the [[How to use generator liferay js]] page if you need information on how to create this type of projects from scratch.
+To finish with, see the [How to use generator liferay js](How-to-use-generator-liferay-js.md) page if you need information on how to create this type of projects from scratch.
 
 The following sections explain the features you can use in OSGi bundles.
 
@@ -14,7 +14,7 @@ The following sections explain the features you can use in OSGi bundles.
 
 > 👀 Needs [JS Portlet Extender](https://web.liferay.com/marketplace/-/mp/application/115543020) 1.0.0
 
-When activated, the Extender creates a portlet on-the-fly that is rendered by calling the default exported function of the project's main module (see [[JS extended portlets entry point]] for more information on how to write the entry point function).
+When activated, the Extender creates a portlet on-the-fly that is rendered by calling the default exported function of the project's main module (see [JS extended portlets entry point](JS-extended-portlets-entry-point.md) for more information on how to write the entry point function).
 
 ## Localization
 
@@ -56,7 +56,7 @@ If a user with the Spanish locale enters the application he will see an alert wi
 
 > 👀 Needs [JS Portlet Extender](https://web.liferay.com/marketplace/-/mp/application/115543020) 1.1.0
 
-Since [#232](https://github.com/liferay/liferay-js-toolkit/issues/232), [#262](https://github.com/liferay/liferay-js-toolkit/issues/262), and [#270](https://github.com/liferay/liferay-js-toolkit/issues/270) you can define configuration for your portlet that is passed to your portlet's Javascript entry point as a parameter named `configuration` (see [[JS extended portlets entry point]]).
+Since [#232](https://github.com/liferay/liferay-js-toolkit/issues/232), [#262](https://github.com/liferay/liferay-js-toolkit/issues/262), and [#270](https://github.com/liferay/liferay-js-toolkit/issues/270) you can define configuration for your portlet that is passed to your portlet's Javascript entry point as a parameter named `configuration` (see [JS extended portlets entry point](JS-extended-portlets-entry-point.md)).
 
 The configuration can have diffent scopes:
 
@@ -65,4 +65,4 @@ The configuration can have diffent scopes:
 
 All you need to do to enable configuration is creating a `features/configuration.json` file in your project with the description of your configuration. You can also override that location with the [`create-jar.features.configuration`](.npmbundlerrc-file-reference#create-jarfeaturesconfiguration) option.
 
-The format of the file is described in [[configuration.json file reference]].
+The format of the file is described in [configuration.json file reference](configuration.json-file-reference.md).
