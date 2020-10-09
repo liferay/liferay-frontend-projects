@@ -12,7 +12,7 @@ We have three possible use cases when using this tag:
 
 1. Inline JS on the JSP
 2. Import an AUI/YUI module
-3. Import a ES module
+3. Import an ES module
 
 #### Inline JS on the JSP
 
@@ -74,30 +74,32 @@ AUI().use('liferay-alert', function (A) {
 }
 ```
 
-Note in the AlloyUI components, coming from the alloy-ui repository, classes are made available from the global variable `A` on the scope of the `aui:script`. Here as in this [code snippet the Menu component is defined](https://github.com/liferay/alloy-ui/blob/master/src/aui-menu/js/aui-menu.js#L39]).
+Note in the AlloyUI components, coming from the alloy-ui repository, classes are made available from the global variable `A` on the scope of the `aui:script`(as in this [code snippet the Menu component is defined](https://github.com/liferay/alloy-ui/blob/master/src/aui-menu/js/aui-menu.js#L39)).
 
-However, components made available from the `frontend-js-aui-web` module will be under the global Liferay variable. Like this [example here, `Liferay.Upload`](https://github.com/liferay/liferay-portal/blob/815f48f484351e18b61e4b9c9fbf40f0609bdc56/modules/apps/frontend-js/frontend-js-aui-web/src/main/resources/META-INF/resources/liferay/upload.js#L1541), used in the code example above.
+However, components made available from the `frontend-js-aui-web` module will be under the global Liferay variable. Like this [example here, where `Liferay.Upload` is implemented](https://github.com/liferay/liferay-portal/blob/815f48f484351e18b61e4b9c9fbf40f0609bdc56/modules/apps/frontend-js/frontend-js-aui-web/src/main/resources/META-INF/resources/liferay/upload.js#L1541), used in the code example above.
 
-#### Import a ES module using `require` property
+#### Import an ES module using `require` property
 
 Allows users to require a modern ES module as in the following example:
 
-Considering We already have `metal-clipboard` and `metal-dom` dependencies listed [on our module package.json](https://help.liferay.com/hc/en-us/articles/360018159771-The-Structure-of-OSGi-Bundles-Containing-npm-Packages-)
+Considering we already have `metal-clipboard` and `metal-dom` dependencies listed [in our module package.json](https://help.liferay.com/hc/en-us/articles/360018159771-The-Structure-of-OSGi-Bundles-Containing-npm-Packages-)
 
-By default the name of the loaded resource will be the transformed path to camel-case default exported module/file:
+By default, the name of the variable referring to the required resource will be composed by transforming the resource's path to camel case. For example:
 
 ```jsp
 <aui:script require="metal-clipboard/src/Clipboard">
-    // Note We have the provided path to require metal-clipboard/src/Clipboard normalized and camel-case as a variable name
+    // Note how the required metal-clipboard/src/Clipboard is made available in the metalClipboardSrcClipboard variable
 	new metalClipboardSrcClipboard.default();
 </aui:script>
 ```
 
-Also, We can set an alias with the `as` word after the provided path. It will be look like:
+> You can have a look at the details of the algorithm for composing variable names in the [VariableUtil.generateVariable()](https://github.com/liferay/liferay-portal/blob/b69a6cc79c9cd2d3e13ef2879c6f158be0b1c094/portal-kernel/src/com/liferay/portal/kernel/servlet/taglib/aui/VariableUtil.java#L33) method.
+
+Also, We can set an alias with the `as` word after the provided path. It would look like:
 
 ```jsp
 <aui:script require="my-custom-lib/src/path/main as myLib">
-	// ... code that use some function from myLib like `myLib.someFunction();`
+	// ... code that uses some function from myLib like `myLib.someFunction();`
 </aui:script>
 ```
 
@@ -109,7 +111,7 @@ Liferay.Loader.require('my-custom-lib/src/path/main', function(myCustomLibSrcPat
 		(function() {
 			var myLib = myCustomLibSrcPathMain;
 			var $ = AUI.$;var _ = AUI._;
-			// ... code that use some function from myLib like `myLib.someFunction();`
+			// ... code that uses some function from myLib like `myLib.someFunction();`
 		})();
 	} catch (err) {
 		console.error(err);
@@ -121,9 +123,9 @@ You can find more information on [this link](https://help.liferay.com/hc/en-us/a
 
 #### Using `position` to control script placement
 
-This property will change the way in which / how the script will be injected into the page. By default, those scripts that are wrapped by `aui:script` will be added to the minified files as described [here](#inline-js-on-the-jsp).
+This property will change the way in which the script will be injected into the page. By default, those scripts that are wrapped by `aui:script` will be added to the minified files as described in ["Inline JS on the JSP"](#inline-js-on-the-jsp).
 
-When placing the option of `inline` for this property, the scripts will be placed in a script tag obeying the order of the DOM where the JSP is being rendered. See [here](https://github.com/liferay/liferay-portal/blob/815f48f484351e18b61e4b9c9fbf40f0609bdc56/util-taglib/src/com/liferay/taglib/aui/ScriptTag.java#L143..L165).
+When placing the option of `inline` for this property, the scripts will be placed in a script tag obeying the order of the DOM where the JSP is being rendered. See the [aui:script tag implementation here.](https://github.com/liferay/liferay-portal/blob/815f48f484351e18b61e4b9c9fbf40f0609bdc56/util-taglib/src/com/liferay/taglib/aui/ScriptTag.java#L143..L165).
 
 #### `sandbox`
 
@@ -143,6 +145,6 @@ As a short brief, it will limit the scope of the script tag. See the following e
 
 #### Caveats
 
-You can't use both require and use in the same tag. use is for declaring dependencies on AUI modules, while require gives access to ES modules.
+You can't use both `require` and `use` in the same tag. use is for declaring dependencies on AUI modules, while require gives access to ES modules.
 
-You can see more information about `aui:script` [here](https://help.liferay.com/hc/en-us/articles/360017882752-Loading-Modules-with-AUI-Script-in-Liferay-DXP).
+You can see more information about `aui:script` in ["Loading Modules with AUI Script in Liferay DXP"](https://help.liferay.com/hc/en-us/articles/360017882752-Loading-Modules-with-AUI-Script-in-Liferay-DXP).
