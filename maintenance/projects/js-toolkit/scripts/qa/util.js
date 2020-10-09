@@ -20,8 +20,11 @@ function logStep(step) {
 function safeUnlink(path) {
 	try {
 		fs.unlinkSync(path);
-	} catch (err) {
+	}
+	catch (err) {
+
 		// swallow
+
 	}
 }
 

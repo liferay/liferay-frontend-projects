@@ -11,12 +11,14 @@ module.exports = {
 		 * Checks for a line break after the supplied node.
 		 */
 		function check(node) {
+
 			// We only fix if on same line.
 
 			let last = source.getLastToken(node);
 			const keyword = source.getTokenAfter(last);
 
 			if (last.loc.end.line === keyword.loc.start.line) {
+
 				// Possibly fragile assumption here: source code is
 				// using tabs for indentation.
 
@@ -43,6 +45,7 @@ module.exports = {
 
 		return {
 			IfStatement(node) {
+
 				// Deal with either:
 				//
 				//                } else if {
@@ -62,6 +65,7 @@ module.exports = {
 			},
 
 			TryStatement(node) {
+
 				// Deal with either:
 				//
 				//                } catch (error) {

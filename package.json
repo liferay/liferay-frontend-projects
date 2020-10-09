@@ -38,8 +38,8 @@
 	"scripts": {
 		"build": "yarn workspaces run build",
 		"ci": "yarn format:check && yarn lint && yarn test",
-		"format": "prettier --write \"**/*.{js,json,md,ts,yml}\" \"**/.*.{js,ts,yml}\"",
-		"format:check": "prettier --list-different \"**/*.{js,json,md,ts,yml}\" \"**/.*.{js,ts,yml}\"",
+		"format": "yarn run liferay-npm-scripts prettier --write \"**/*.{js,json,md,ts,yml}\" \"**/.*.{js,ts,yml}\"",
+		"format:check": "yarn run liferay-npm-scripts prettier --list-different \"**/*.{js,json,md,ts,yml}\" \"**/.*.{js,ts,yml}\"",
 		"lint": "eslint \"**/*.{js,ts}\" \"**/.*.{js,ts}\"",
 		"lint:fix": "eslint --fix \"**/*.{js,ts}\" \"**/.*.{js,ts}\"",
 		"test": "jest"

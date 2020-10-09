@@ -10,6 +10,7 @@ const getFixture = require('../../support/getFixture');
 
 describe('formatJSP()', () => {
 	it('deals with interleaved JS control structures and JSP tags', () => {
+
 		// eg. an `if()` that is conditionally added augmented with an `else()`
 		// based on a tag.
 
@@ -89,6 +90,7 @@ describe('formatJSP()', () => {
 	});
 
 	describe('fixing problems with indentation relative to script tag (#437)', () => {
+
 		// ie. each line is correct with respect to its neighbors, but overall,
 		// the code is wrong relative to the script tag.
 
@@ -127,6 +129,7 @@ describe('formatJSP()', () => {
 		});
 
 		it('corrects script content that is excessively indented', () => {
+
 			// Note that it works for <script> as well.
 
 			const source = `
@@ -197,6 +200,7 @@ describe('formatJSP()', () => {
 		});
 
 		it('fixes content that is on the same line as the script tag', () => {
+
 			// source-formatter doesn't behave well with one-line scripts like
 			// this, so let's fix them for it.
 			//
@@ -232,6 +236,7 @@ describe('formatJSP()', () => {
 	});
 
 	it('correctly handles internal indentation inside control structures', () => {
+
 		// This is a reduced example of what's in the source.jsp fixture.
 
 		const source = `
@@ -310,6 +315,7 @@ describe('formatJSP()', () => {
 	});
 
 	it('respects indentation within a nested control structures', () => {
+
 		// This is a reduced example of what's in the source.jsp fixture.
 
 		const source = `
@@ -390,6 +396,7 @@ describe('formatJSP()', () => {
 	});
 
 	it('handles an edge case (#258)', () => {
+
 		// Reduced example of what's in
 		// modules/apps/asset/asset-publisher-web/src/main/resources/META-INF/resources/configuration/source.jsp
 
@@ -474,6 +481,7 @@ describe('formatJSP()', () => {
 			// Not including these (rejected by Prettier, see "known
 			// limitations" below):
 			// 'edit_content_redirect.jsp',
+
 		])('%s matches snapshot', async (fixture) => {
 			const source = await getFixture(path.join('jsp', fixture));
 
@@ -483,6 +491,7 @@ describe('formatJSP()', () => {
 
 	describe('known limitations', () => {
 		it('cannot deal with conditionals at the end of object literals', () => {
+
 			// This one from "edit_content_redirect.jsp": note that without
 			// trailing commas after the "redirect" and "refresh" properties,
 			// Prettier will report a syntax error. We can't add commas to

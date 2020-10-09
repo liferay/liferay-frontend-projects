@@ -15,6 +15,7 @@ describe('Lexer()', () => {
 	});
 
 	it('fails if a zero-width token is produced', () => {
+
 		// The idea is to bail out of infinite loops that would be produced by
 		// use of combinators like repeat() combined with a matcher that matches
 		// a zero-width string.
@@ -554,6 +555,7 @@ describe('Lexer()', () => {
 				const {consume, match, never, oneOf, repeat, token, when} = api;
 
 				return () => {
+
 					// Reason we have to use "never" here is because "pass"
 					// would have us infinitely matching zero-width strings;
 					// in contrast, "never" forces "oneOf" to try the next
@@ -637,6 +639,7 @@ describe('Lexer()', () => {
 				};
 
 				return () => {
+
 					// A complex enough example to demonstrate the
 					// "undo-tree" in action. We pursue a branch that
 					// will fail and get rolled back before we pursue
@@ -655,6 +658,7 @@ describe('Lexer()', () => {
 							oneOf(
 								sequence(
 									match('c').onMatch((match, meta) => {
+
 										// Doing something destructive.
 
 										meta.delete('a');
@@ -929,7 +933,8 @@ describe('Lexer()', () => {
 						const text = consume(match(/./).until(match('x')));
 
 						return token('A', text);
-					} else {
+					}
+					else {
 						const text = consume(match('x'));
 
 						return token('X', text);
@@ -939,6 +944,7 @@ describe('Lexer()', () => {
 		});
 
 		it('matches 0 or more times up-to-and-not-including a predicate', () => {
+
 			// 0-times.
 
 			expect([...lexer.lex('x')]).toEqual([

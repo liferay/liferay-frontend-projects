@@ -32,13 +32,17 @@ export function init() {
 				trackingCode: GA_TOKEN,
 				pkg: require('../package.json'),
 			});
-		} catch (err) {
+		}
+		catch (err) {
+
 			// ignore
+
 		}
 
 		if (insight && insight.optOut === undefined) {
 			insight.askPermission(undefined, resolve);
-		} else {
+		}
+		else {
 			resolve();
 		}
 	});

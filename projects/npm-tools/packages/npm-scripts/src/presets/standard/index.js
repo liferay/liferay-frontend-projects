@@ -15,6 +15,7 @@ const CHECK_AND_FIX_GLOBS = [
 
 module.exports = {
 	build: {
+
 		// Passed to:
 		// - `metalsoy` executable (via `generateSoyDependencies()`).
 

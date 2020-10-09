@@ -54,7 +54,8 @@ if (process.platform === 'win32') {
 			).toEqual('..\\a\\path');
 		});
 	});
-} else {
+}
+else {
 	describe('in posix systems', () => {
 		it('toString works', () => {
 			expect(new FilePath('/tmp/tt').toString()).toEqual('/tmp/tt');

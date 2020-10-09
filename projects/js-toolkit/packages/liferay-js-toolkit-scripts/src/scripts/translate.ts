@@ -204,6 +204,7 @@ export function makeChunks(texts): string[][] {
 	appendChunk();
 
 	texts.forEach((text) => {
+
 		// Limit total request to 5000 chars, but we need room for []
 		chars += text.length + 11; // 11 is for {"Text":},<CR>
 		if (chars > 4098) {
@@ -283,7 +284,8 @@ function parseFile(filePath): Promise<object> {
 		properties.parse(filePath, {path: true}, (err, labels) => {
 			if (err) {
 				reject(err);
-			} else {
+			}
+			else {
 				resolve(labels);
 			}
 		});
@@ -298,6 +300,7 @@ function parseFile(filePath): Promise<object> {
  * 								locale
  */
 function translate(subscriptionKey, locales, texts): Promise<object> {
+
 	// Map from ['es_ES', 'es_AR'] to {'es_ES': 'es', 'es_AR': 'es'}
 
 	const localesMap = locales.reduce((map, locale) => {
@@ -341,14 +344,17 @@ function translate(subscriptionKey, locales, texts): Promise<object> {
 					(err, response, body) => {
 						if (err) {
 							reject(err);
-						} else if (response.statusCode != 200) {
+						}
+						else if (response.statusCode != 200) {
 							reject({
 								code: response.statusCode,
 								message: response.statusMessage,
 							});
-						} else if (body.error) {
+						}
+						else if (body.error) {
 							reject(body.error);
-						} else {
+						}
+						else {
 							resolve(body);
 						}
 					}

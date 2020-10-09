@@ -57,10 +57,12 @@ module.exports = {
 				if (blankLines < count) {
 					fixed = ['\n' + (first || ''), ...rest].join('');
 					problem = 'expected';
-				} else if (blankLines > count) {
+				}
+				else if (blankLines > count) {
 					fixed = newlines.slice(blankLines - count).join('');
 					problem = 'unexpected';
-				} else {
+				}
+				else {
 					return;
 				}
 
@@ -91,6 +93,7 @@ module.exports = {
 
 			CallExpression(node) {
 				if (scope.length) {
+
 					// Only consider `require` calls at the top level.
 
 					return;
@@ -104,6 +107,7 @@ module.exports = {
 			},
 
 			['Program:exit'](_node) {
+
 				/**
 				 * Check each import for 5 possible reasons for
 				 * requiring a blank line:
@@ -127,6 +131,7 @@ module.exports = {
 					const previous = imports[i - 1];
 
 					if (current === previous) {
+
 						// Can happen when a `require` is one of several
 						// VariableDeclarators in a VariableDeclaration; eg.
 						//

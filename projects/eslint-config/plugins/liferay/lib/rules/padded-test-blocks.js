@@ -59,6 +59,7 @@ const CALL_EXPRESSIONS = [
 	'xtest.each',
 	'xtest.each.`table`',
 ].map((format) => {
+
 	// Split apart the format and return a matcher function that returns `true`
 	// if a node matches. For example, given:
 	//
@@ -74,7 +75,9 @@ const CALL_EXPRESSIONS = [
 	const match = (node, parts) => {
 		if (parts.length === 1) {
 			return node.type === 'Identifier' && node.name === parts[0];
-		} else {
+		}
+		else {
+
 			// Recurse.
 
 			if (node.type === 'MemberExpression') {
@@ -82,7 +85,8 @@ const CALL_EXPRESSIONS = [
 					match(node.object, parts.slice(0, -1)) &&
 					match(node.property, parts.slice(-1))
 				);
-			} else if (
+			}
+			else if (
 				node.type === 'TaggedTemplateExpression' &&
 				parts[parts.length - 1].startsWith('`')
 			) {

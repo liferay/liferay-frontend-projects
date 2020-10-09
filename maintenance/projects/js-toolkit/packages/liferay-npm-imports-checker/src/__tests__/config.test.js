@@ -11,6 +11,7 @@ beforeEach(() => {
 	const savedDir = process.cwd();
 
 	try {
+
 		// Load config after chdir to avoid failure the first time it is loaded if
 		// an incorrect directory is used
 
@@ -23,7 +24,8 @@ beforeEach(() => {
 		process.chdir(testDir);
 		cfg = require('../config');
 		cfg.reloadConfig();
-	} finally {
+	}
+	finally {
 		process.chdir(savedDir);
 	}
 });

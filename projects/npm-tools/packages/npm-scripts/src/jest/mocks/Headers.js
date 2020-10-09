@@ -15,7 +15,8 @@ module.exports = class Headers {
 
 		if (Array.isArray(init)) {
 			entries = init;
-		} else if (init && typeof init === 'object') {
+		}
+		else if (init && typeof init === 'object') {
 			entries = Object.entries(init);
 		}
 

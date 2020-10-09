@@ -65,6 +65,7 @@ function format(options = {}) {
 		checked++;
 
 		try {
+
 			// TODO: don't re-read file, run eslint on it too
 
 			const source = fs.readFileSync(filepath, 'utf8');
@@ -82,7 +83,8 @@ function format(options = {}) {
 					return source === formatJSP(source, prettierOptions);
 				};
 				format = formatJSP;
-			} else {
+			}
+			else {
 				checkFormat = prettier.check;
 				format = prettier.format;
 			}
@@ -91,12 +93,15 @@ function format(options = {}) {
 				if (check) {
 					log(`${filepath}: BAD`);
 					bad++;
-				} else {
+				}
+				else {
 					fs.writeFileSync(filepath, format(source, prettierOptions));
 					fixed++;
 				}
 			}
-		} catch (error) {
+		}
+		catch (error) {
+
 			// Generally this means a syntax error.
 
 			log(`${filepath}: ${error}`);
@@ -116,7 +121,8 @@ function format(options = {}) {
 	if (bad) {
 		summary.push(`${bad} ${files(bad)} ${have(bad)} problems`);
 		throw new SpawnError(summary.join(', '));
-	} else {
+	}
+	else {
 		log(summary.join(', '));
 	}
 }

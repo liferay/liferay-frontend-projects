@@ -14,6 +14,7 @@ import FilePath from '../file-path';
  * Reflects miscellaneous project configuration values.
  */
 export default class Misc {
+
 	/**
 	 *
 	 * @param {Project} project

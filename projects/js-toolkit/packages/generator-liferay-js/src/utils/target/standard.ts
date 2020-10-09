@@ -82,6 +82,7 @@ export function generateSamples(generator, labels): void {
 	const {sampleWanted} = generator.answers;
 
 	if (sampleWanted) {
+
 		// Add styles
 
 		stylesCss.addRule('.tag', 'font-weight: bold; margin-right: 1em;');

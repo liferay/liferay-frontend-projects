@@ -14,6 +14,7 @@ import path from 'path';
  * Template renderer class
  */
 export class Renderer {
+
 	/**
 	 *
 	 * @param {string} templatesPath
@@ -68,11 +69,13 @@ export function runNodeModulesBin(script, args = []) {
 
 	if (proc.error) {
 		throw proc.error;
-	} else if (proc.status != 0) {
+	}
+	else if (proc.status != 0) {
 		throw new Error(
 			`Node modules binary '${script}' finished with status ${proc.status}`
 		);
-	} else if (proc.signal) {
+	}
+	else if (proc.signal) {
 		throw new Error(
 			`Node modules binary '${script}' finished due to signal ${proc.signal}`
 		);
@@ -98,11 +101,13 @@ export function runPkgJsonScript(script, args = []) {
 
 	if (proc.error) {
 		throw proc.error;
-	} else if (proc.status != 0) {
+	}
+	else if (proc.status != 0) {
 		throw new Error(
 			`Package script '${script}' finished with status ${proc.status}`
 		);
-	} else if (proc.signal) {
+	}
+	else if (proc.signal) {
 		throw new Error(
 			`Package script '${script}' finished due to signal ${proc.signal}`
 		);

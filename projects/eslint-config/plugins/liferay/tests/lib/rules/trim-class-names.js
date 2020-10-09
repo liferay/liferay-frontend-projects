@@ -23,6 +23,7 @@ const message = 'classes in className attribute must be trimmed';
 ruleTester.run('trim-class-names', rule, {
 	invalid: [
 		{
+
 			// Leading whitespace.
 
 			code: '<div className="   foo bar"></div>',
@@ -35,6 +36,7 @@ ruleTester.run('trim-class-names', rule, {
 			output: '<div className="foo bar"></div>',
 		},
 		{
+
 			// Trailing whitespace.
 
 			code: '<div className="foo bar    "></div>',
@@ -47,6 +49,7 @@ ruleTester.run('trim-class-names', rule, {
 			output: '<div className="foo bar"></div>',
 		},
 		{
+
 			// Leading and trailing whitespace.
 
 			code: '<div className="  foo bar  "></div>',
@@ -59,6 +62,7 @@ ruleTester.run('trim-class-names', rule, {
 			output: '<div className="foo bar"></div>',
 		},
 		{
+
 			// Template literal, with expressions.
 
 			code: `

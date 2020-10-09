@@ -85,7 +85,8 @@ function resolveDependencyDir(packageDir, packageJson, dependency) {
 		});
 
 		return path.dirname(pkgJsonFile);
-	} catch (err) {
+	}
+	catch (err) {
 		if (
 			packageJson.optionalDependencies &&
 			packageJson.optionalDependencies[dependency]
@@ -97,7 +98,8 @@ function resolveDependencyDir(packageDir, packageJson, dependency) {
 			);
 
 			return null;
-		} else {
+		}
+		else {
 			throw err;
 		}
 	}

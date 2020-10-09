@@ -20,12 +20,14 @@ async function spawnMultiple(...callbacks) {
 	for (const callback of callbacks) {
 		try {
 			await callback();
-		} catch (error) {
+		}
+		catch (error) {
 			failedCount++;
 
 			if (error instanceof SpawnError) {
 				log(error.message);
-			} else {
+			}
+			else {
 				throw error;
 			}
 		}

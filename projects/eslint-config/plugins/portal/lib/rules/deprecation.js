@@ -74,6 +74,7 @@ function fix(line) {
 					.toLowerCase()
 					.startsWith(versionName.toLowerCase())
 			) {
+
 				// Name doesn't match version number: bail.
 
 				return;
@@ -82,6 +83,7 @@ function fix(line) {
 	}
 
 	if (!expectedName) {
+
 		// Didn't find any known version number: bail.
 
 		return;
@@ -93,7 +95,9 @@ function fix(line) {
 		case 'replaced by':
 			if (trailer.trim()) {
 				replacement = `, replaced by ${trailer.trim()}`;
-			} else {
+			}
+			else {
+
 				// Empty trailer: bail.
 
 				return;
@@ -103,16 +107,19 @@ function fix(line) {
 		case 'with no replacement':
 		case 'with no direct replacement':
 			if (trailer.trim()) {
+
 				// Unexpected trailer: bail.
 
 				return;
-			} else {
+			}
+			else {
 				replacement = ', with no direct replacement';
 			}
 			break;
 
 		case '':
 			if (trailer.trim()) {
+
 				// Unexpected trailer: bail.
 
 				return;
@@ -181,7 +188,8 @@ module.exports = {
 								messageId: 'blockCommentsOnly',
 								node: comment,
 							});
-						} else {
+						}
+						else {
 							let valid = true;
 							let fixable = true;
 
@@ -189,7 +197,8 @@ module.exports = {
 								(line) => {
 									if (isValid(line)) {
 										return line;
-									} else {
+									}
+									else {
 										valid = false;
 
 										const fixed = fix(line);
@@ -205,6 +214,7 @@ module.exports = {
 
 							if (!valid) {
 								if (fixable) {
+
 									// Replace only the _inside_ of comment,
 									// which corresponds to `comment.value`.
 
@@ -223,7 +233,8 @@ module.exports = {
 										messageId: 'badFormat',
 										node: comment,
 									});
-								} else {
+								}
+								else {
 									context.report({
 										messageId: 'badFormat',
 										node: comment,

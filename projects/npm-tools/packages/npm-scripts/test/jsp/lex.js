@@ -171,6 +171,7 @@ describe('lex()', () => {
 	});
 
 	it('lexes EL (Expression Language) expressions', () => {
+
 		// TODO: provide more challenging examples here.
 
 		// Immediate evaluation.
@@ -280,6 +281,7 @@ describe('lex()', () => {
 	});
 
 	it('lexes the <portlet:namespace /> action', () => {
+
 		// With whitespace.
 
 		expect(lex('<portlet:namespace />').tokens).toEqual([
@@ -302,6 +304,7 @@ describe('lex()', () => {
 	});
 
 	it('lexes a custom action', () => {
+
 		// Self-closing.
 
 		expect(lex('<custom:tag with="stuff" />').tokens).toEqual([
@@ -369,6 +372,7 @@ describe('lex()', () => {
 	// tag validity.
 
 	it.skip('rejects invalid tags', () => {
+
 		// Invalid tag.
 
 		expect(() => lex('<custom:tag with="stuff"></bad:tag>').tokens).toThrow(
@@ -433,6 +437,7 @@ describe('lex()', () => {
 	});
 
 	it('lexes a complex attributes', () => {
+
 		// A non-JSP tag.
 
 		expect(

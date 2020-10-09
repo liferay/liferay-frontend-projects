@@ -22,7 +22,9 @@ module.exports = function (...args) {
 			throw new Error(
 				`--watch supplied but "${WEBPACK_DEV_CONFIG_FILE}" not found`
 			);
-		} else {
+		}
+		else {
+
 			// Cut out the "watch" argument; `splice()` would mutate, so create
 			// a new array instead.
 
@@ -39,7 +41,8 @@ module.exports = function (...args) {
 				]);
 			});
 		}
-	} else {
+	}
+	else {
 		withWebpackConfig(WEBPACK_CONFIG_FILE, (configFilePath) => {
 			spawnSync('webpack', ['--config', configFilePath, ...args]);
 		});

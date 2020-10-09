@@ -8,6 +8,7 @@
  * @see splitModuleName
  */
 export interface ModuleNameParts {
+
 	/** Scope of module (starts with at sign) */
 	scope?: string;
 
@@ -98,6 +99,7 @@ const nodeCoreModules = new Set<string>([
  * @return true if module is local to current package
  */
 export function isLocalModule(modulePath: string): boolean {
+
 	// See https://nodejs.org/api/modules.html#modules_all_together
 
 	return modulePath.startsWith('.') || modulePath.startsWith('/');
@@ -195,7 +197,8 @@ export function splitModuleName(moduleName: string): ModuleNameParts {
 		};
 
 		parts = parts.slice(2);
-	} else {
+	}
+	else {
 		if (parts.length < 1) {
 			throw new Error(`No package name found in: ${moduleName}`);
 		}

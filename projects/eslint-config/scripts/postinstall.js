@@ -26,7 +26,8 @@ function detectPackageJSONConfig() {
 		const packageJSON = require('./package.json');
 
 		return typeof packageJSON.eslintConfig === 'object';
-	} catch (_error) {
+	}
+	catch (_error) {
 		return false;
 	}
 }
@@ -39,9 +40,11 @@ const config = eslintrcFilenames.find(findConfig);
 
 if (config) {
 	log(`Preserving .eslintrc file found at ${config}`);
-} else if (detectPackageJSONConfig()) {
+}
+else if (detectPackageJSONConfig()) {
 	log('Existing "eslintConfig" property found in package.json');
-} else {
+}
+else {
 	fs.writeFileSync(
 		config,
 		fs.readFileSync(path.join(__dirname, '../.eslintrc.js'), {

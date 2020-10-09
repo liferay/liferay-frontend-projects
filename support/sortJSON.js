@@ -28,15 +28,18 @@ function print(string = '') {
 function sort(json) {
 	if (Array.isArray(json)) {
 		json.forEach(sort);
-	} else if (Object.prototype.toString.call(json) === '[object Object]') {
+	}
+	else if (Object.prototype.toString.call(json) === '[object Object]') {
 		const entries = Object.entries(json);
 
 		entries.sort(([a], [b]) => {
 			if (a < b) {
 				return -1;
-			} else if (a > b) {
+			}
+			else if (a > b) {
 				return 1;
-			} else {
+			}
+			else {
 				return 0;
 			}
 		});

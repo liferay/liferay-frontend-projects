@@ -53,6 +53,7 @@ describe('restoreTags()', () => {
 	});
 
 	it('restores blocks indentation to counteract Prettier', () => {
+
 		// Original `alert()` was indented, but Prettier will dedent it, and we
 		// do a preemptive `stripIndents()` to match that.
 
@@ -125,6 +126,7 @@ describe('restoreTags()', () => {
 	});
 
 	it('correctly handles internal indentation when nested', () => {
+
 		// This is a reduced example of what's in the page_iterator.jsp
 		// fixture.
 
@@ -189,6 +191,7 @@ describe('restoreTags()', () => {
 	});
 
 	it('correctly handles internal indentation inside control structures', () => {
+
 		// This is a reduced example of what's in the source.jsp fixture.
 
 		const source = `

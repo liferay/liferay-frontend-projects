@@ -16,7 +16,8 @@ export default function () {
 		if (err) {
 			console.error(err);
 			process.exit(1);
-		} else {
+		}
+		else {
 			console.log('JavaScript files copied.');
 		}
 	});

@@ -185,11 +185,14 @@ different: using the one in liferay-npm-bundler.config.js
 				);
 
 				this._webContextPath = configurationContextPath;
-			} else if (bndWebContextPath) {
+			}
+			else if (bndWebContextPath) {
 				this._webContextPath = bndWebContextPath;
-			} else if (configurationContextPath) {
+			}
+			else if (configurationContextPath) {
 				this._webContextPath = configurationContextPath;
-			} else {
+			}
+			else {
 				this._webContextPath = `/${pkgJson.name}-${pkgJson.version}`;
 			}
 		}

@@ -28,6 +28,7 @@ export async function replace(
 	source: SourceCode,
 	visitor: estraverse.Visitor
 ): Promise<SourceCode> {
+
 	// TODO: clone source.ast to avoid modifying source?
 
 	const ast = source.ast || parse(source.code);
@@ -124,6 +125,7 @@ async function mergeMaps(
 	const newMapConsumer = await new SourceMapConsumer(newMap);
 
 	newMapConsumer.eachMapping((mapping) => {
+
 		// Note that there is no `originalLine` when the node does not come from
 		// the original code
 
@@ -181,8 +183,11 @@ function readSource(file: FilePath): SourceCode {
 
 	try {
 		source.map = fs.readJsonSync(`${file.asNative}.map`);
-	} catch (err) {
+	}
+	catch (err) {
+
 		// ignore
+
 	}
 
 	return source;

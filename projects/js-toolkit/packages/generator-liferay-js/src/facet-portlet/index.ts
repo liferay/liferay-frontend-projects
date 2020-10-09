@@ -79,6 +79,7 @@ export default class extends Generator {
 		// Add portlet display name as needed
 
 		if (projectAnalyzer.hasLocalization) {
+
 			// Add resource bundle portlet property
 
 			pkgJson.addPortletProperty(
@@ -92,7 +93,8 @@ export default class extends Generator {
 				`javax.portlet.title.${portletName}`,
 				portletDisplayName
 			);
-		} else {
+		}
+		else {
 			pkgJson.addPortletProperty(
 				'javax.portlet.display-name',
 				portletDisplayName

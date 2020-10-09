@@ -11,6 +11,7 @@ import LanguagePropertiesModifier from '../utils/modifier/features/localization/
  *
  */
 export default class {
+
 	/**
 	 * @param {Generator} generator
 	 */

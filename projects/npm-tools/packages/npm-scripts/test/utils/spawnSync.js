@@ -30,7 +30,8 @@ describe('spawnSync()', () => {
 		it('throws an error that describes why the command did not run', () => {
 			if (win32) {
 				expect(() => spawnSync('non-existent-command')).toThrow();
-			} else {
+			}
+			else {
 				expect(() => spawnSync('non-existent-command')).toThrow(
 					/ENOENT/
 				);
@@ -39,9 +40,12 @@ describe('spawnSync()', () => {
 
 		it('throws an Error, not a SpawnError', () => {
 			if (win32) {
+
 				// Windows is "special": it "exits" with a non-zero
 				// status even though it never spawned the executable.
-			} else {
+
+			}
+			else {
 				expect(() => spawnSync('non-existent-command')).not.toThrow(
 					SpawnError
 				);

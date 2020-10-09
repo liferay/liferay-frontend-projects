@@ -22,7 +22,8 @@ module.exports = {
 						)})`,
 						node,
 					});
-				} else {
+				}
+				else {
 					imports.add(source);
 				}
 			},

@@ -43,7 +43,8 @@ function clean() {
 		}
 
 		fs.removeSync(json.compilerOptions.outDir);
-	} catch (err) {
+	}
+	catch (err) {
 		if (err.code !== 'ENOENT') {
 			abort(err.toString());
 		}
@@ -53,6 +54,7 @@ function clean() {
 }
 
 if (process.argv.includes('--all')) {
+
 	// Clean all packages.
 
 	const cwd = process.cwd();
@@ -65,12 +67,15 @@ if (process.argv.includes('--all')) {
 				process.chdir(pkg);
 
 				clean();
-			} finally {
+			}
+			finally {
 				process.chdir(cwd);
 			}
 		}
 	}
-} else {
+}
+else {
+
 	// Clean just the current working directory.
 
 	clean();

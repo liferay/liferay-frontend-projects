@@ -29,7 +29,8 @@ function setEnv(env) {
 				process.env.NODE_ENV
 			)}`
 		);
-	} else {
+	}
+	else {
 		log(`Using NODE_ENV: ${JSON.stringify(env)}`);
 		process.env.NODE_ENV = env;
 	}

@@ -26,8 +26,11 @@ const debug = (line) => {
 		}
 
 		outputChannel.appendLine(line);
-	} catch (_error) {
+	}
+	catch (_error) {
+
 		// All hope is lost.
+
 	}
 };
 
@@ -46,7 +49,9 @@ module.exports = {
 
 		if (prettier) {
 			return prettier.format(source, options);
-		} else {
+		}
+		else {
+
 			// Last-resort fallback.
 
 			return source;
@@ -58,7 +63,8 @@ module.exports = {
 
 		if (prettier) {
 			return prettier.getFileInfo(filepath, options);
-		} else {
+		}
+		else {
 			return Promise.resolve({
 				ignored: false,
 				inferredParser: 'babel',
@@ -71,7 +77,9 @@ module.exports = {
 
 		if (prettier) {
 			return prettier.getSupportInfo(version);
-		} else {
+		}
+		else {
+
 			// Fallback snapshot from current version of Prettier (1.19.1).
 			/* eslint-disable sort-keys */
 			return {
@@ -975,12 +983,13 @@ module.exports = {
 
 		if (prettier) {
 			return prettier.resolveConfig(filepath, options);
-		} else {
+		}
+		else {
 			return Promise.resolve(null);
 		}
 	},
 
-	version: '1.19.1',
+	version: '2.1.2',
 };
 
 /**
@@ -988,6 +997,7 @@ module.exports = {
  * checkout, otherwise returns null.
  */
 function getPortalRoot(filepath) {
+
 	// Walk up until we find portal-web (in the root).
 
 	let current = filepath;
@@ -1001,13 +1011,14 @@ function getPortalRoot(filepath) {
 			current = candidate;
 
 			break;
-		} else {
-			if (parent === current) {
-				// Can't go any higher.
+		}
+		else if (parent === current) {
 
-				return null;
-			}
+			// Can't go any higher.
 
+			return null;
+		}
+		else {
 			current = parent;
 		}
 	}
@@ -1016,8 +1027,38 @@ function getPortalRoot(filepath) {
 
 	if (fs.existsSync(path.join(current, 'docroot/WEB-INF/liferay-web.xml'))) {
 		return path.dirname(current);
-	} else {
+	}
+	else {
 		return null;
+	}
+}
+
+/**
+ * Returns the root directory if `filepath` is inside a
+ * liferay-frontend-projects checkout, otherwise returns null.
+ */
+function getFrontendProjectsRoot(filepath) {
+	let current = filepath;
+
+	// Walk up until we find marker file (indicating the root).
+
+	while (true) {
+		const parent = path.dirname(current);
+
+		const candidate = path.join(parent, '.liferay-frontend-projects');
+
+		if (fs.existsSync(candidate)) {
+			return parent;
+		}
+		else if (parent === current) {
+
+			// Can't go any higher.
+
+			return null;
+		}
+		else {
+			current = parent;
+		}
 	}
 }
 
@@ -1039,7 +1080,7 @@ function prepare(filepath) {
 
 	let file = 'prettier';
 
-	const root = getPortalRoot(filepath);
+	let root = getPortalRoot(filepath);
 
 	if (root) {
 		const modules = path.join(root, 'modules/node_modules');
@@ -1059,28 +1100,52 @@ function prepare(filepath) {
 		if (fs.existsSync(wrapper)) {
 			dir = scripts;
 			file = wrapper;
-		} else if (fs.existsSync(fallback)) {
+		}
+		else if (fs.existsSync(fallback)) {
 			dir = modules;
 			file = fallback;
 		}
-	} else {
-		const extension = require('vscode').extensions.getExtension(
-			'esbenp.prettier-vscode'
-		);
+	}
+	else {
+		root = getFrontendProjectsRoot(filepath);
 
-		if (extension) {
-			dir = path.join(extension.extensionPath);
-			file = path.join(dir, 'node_modules/prettier');
+		if (root) {
+			const scripts = path.join(
+				root,
+				'projects/npm-tools/packages/npm-scripts'
+			);
+
+			const wrapper = path.join(scripts, 'src/scripts/prettier.js');
+
+			if (fs.existsSync(wrapper)) {
+				dir = scripts;
+				file = wrapper;
+			}
+		}
+		else {
+			const extension = require('vscode').extensions.getExtension(
+				'esbenp.prettier-vscode'
+			);
+
+			if (extension) {
+				dir = path.join(extension.extensionPath);
+				file = path.join(dir, 'node_modules/prettier');
+			}
 		}
 	}
+
 	try {
 		process.chdir(dir);
 
 		// eslint-disable-next-line @liferay/liferay/no-dynamic-require
 		prettier = require(file);
-	} catch (_error) {
+	}
+	catch (_error) {
+
 		// All hope is lost.
-	} finally {
+
+	}
+	finally {
 		process.chdir(cwd);
 	}
 

@@ -153,7 +153,8 @@ export default class Rules {
 		try {
 			use.resolvedModule = `liferay-npm-bundler-loader-${use.loader}`;
 			moduleExports = _project.toolRequire(use.resolvedModule);
-		} catch (err) {
+		}
+		catch (err) {
 			use.resolvedModule = use.loader;
 			moduleExports = _project.toolRequire(use.resolvedModule);
 		}
@@ -211,9 +212,11 @@ export default class Rules {
 	): void {
 		if (rule[fieldName] === undefined) {
 			rule[fieldName] = [defaultValue];
-		} else if (typeof rule[fieldName] === 'string') {
+		}
+		else if (typeof rule[fieldName] === 'string') {
 			rule[fieldName] = [rule[fieldName]];
-		} else if (!Array.isArray(rule[fieldName])) {
+		}
+		else if (!Array.isArray(rule[fieldName])) {
 			throw new Error(`Invalid rule ${fieldName}: ` + rule[fieldName]);
 		}
 

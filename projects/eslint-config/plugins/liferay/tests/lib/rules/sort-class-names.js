@@ -23,6 +23,7 @@ const message = 'classes in className attribute must be sorted';
 ruleTester.run('sort-class-names', rule, {
 	invalid: [
 		{
+
 			// Double quotes.
 
 			code: '<div className="a c b d"></div>',
@@ -35,6 +36,7 @@ ruleTester.run('sort-class-names', rule, {
 			output: '<div className="a b c d"></div>',
 		},
 		{
+
 			// Single quotes.
 
 			code: "<div className='a c b d'></div>",
@@ -47,6 +49,7 @@ ruleTester.run('sort-class-names', rule, {
 			output: "<div className='a b c d'></div>",
 		},
 		{
+
 			// Double quotes inside an expression container.
 
 			code: '<div className={"a c b d"}></div>',
@@ -59,6 +62,7 @@ ruleTester.run('sort-class-names', rule, {
 			output: '<div className={"a b c d"}></div>',
 		},
 		{
+
 			// Single quotes inside an expression container.
 
 			code: "<div className={'a c b d'}></div>",
@@ -71,6 +75,7 @@ ruleTester.run('sort-class-names', rule, {
 			output: "<div className={'a b c d'}></div>",
 		},
 		{
+
 			// Template literal inside an expression container.
 
 			code: '<div className={`a c b d`}></div>',
@@ -83,6 +88,7 @@ ruleTester.run('sort-class-names', rule, {
 			output: '<div className={`a b c d`}></div>',
 		},
 		{
+
 			// Internal whitespace damage.
 
 			code: '<div className=" a    b\tc  "></div>',

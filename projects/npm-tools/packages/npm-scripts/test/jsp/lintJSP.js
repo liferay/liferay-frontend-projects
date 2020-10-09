@@ -171,6 +171,7 @@ describe('lintJSP()', () => {
 	});
 
 	it('deals with a mixture of fixable and not-fixable errors', () => {
+
 		// eg: 1 autofix and 1 not-autofix
 
 		const source = dedent(3)`
@@ -313,6 +314,7 @@ describe('lintJSP()', () => {
 		});
 
 		it('deals with a mixture of fixable and not-fixable errors', () => {
+
 			// eg: 1 autofix and 1 not-autofix
 
 			const source = dedent(3)`
@@ -351,11 +353,13 @@ describe('lintJSP()', () => {
 	});
 
 	describe('`quiet` option', () => {
+
 		// Nothing much to meaningfully test here because we almost don't use
 		// "warn"  at all in liferay-portal; so we just show that it basically
 		// works the same as above.
 
 		it('works', () => {
+
 			// eg: 1 autofix and 1 not-autofix
 
 			const source = dedent(3)`

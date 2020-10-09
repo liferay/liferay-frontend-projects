@@ -93,7 +93,8 @@ export class Visitor {
 				'alias-modules',
 				`Replaced require('${moduleName}') with {}`
 			).linkToCode(5);
-		} else if (aliasedModuleName !== argument.value) {
+		}
+		else if (aliasedModuleName !== argument.value) {
 			argument.value = aliasedModuleName;
 
 			_log.info(
@@ -130,6 +131,7 @@ export class Visitor {
 		let alias;
 
 		if (mod.isLocalModule(requiredModuleName)) {
+
 			// First look in file directory (without recursion)
 
 			alias = this._getAliasForLocal(
@@ -163,7 +165,8 @@ export class Visitor {
 					}
 				}
 			}
-		} else {
+		}
+		else {
 			alias = this._getAliasForExternal(absFileDir, requiredModule);
 		}
 

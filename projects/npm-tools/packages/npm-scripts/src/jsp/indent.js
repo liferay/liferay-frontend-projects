@@ -13,7 +13,8 @@ function indent(text, count = 1, whitespace = '\t') {
 		.map((line) => {
 			if (line.length) {
 				return `${whitespace.repeat(count)}${line}`;
-			} else {
+			}
+			else {
 				return line;
 			}
 		})

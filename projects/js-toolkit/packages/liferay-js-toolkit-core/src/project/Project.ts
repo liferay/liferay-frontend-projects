@@ -142,12 +142,14 @@ export default class Project {
 				if (main) {
 					if (main.startsWith('/')) {
 						main = `.${main}`;
-					} else if (!main.startsWith('.')) {
+					}
+					else if (!main.startsWith('.')) {
 						main = `./${main}`;
 					}
 
 					this._exports['main'] = main;
-				} else if (
+				}
+				else if (
 					fs.existsSync(this.sourceDir.join('index.js').asNative)
 				) {
 					this._exports['main'] = './index.js';
@@ -262,9 +264,12 @@ export default class Project {
 
 			if (yarnLockPresent) {
 				this._pkgManager = 'yarn';
-			} else if (pkgLockPresent) {
+			}
+			else if (pkgLockPresent) {
 				this._pkgManager = 'npm';
-			} else {
+			}
+			else {
+
 				// If no file is found autodetect command availability
 
 				let yarnPresent =
@@ -284,7 +289,8 @@ export default class Project {
 
 				if (yarnPresent) {
 					this._pkgManager = 'yarn';
-				} else if (npmPresent) {
+				}
+				else if (npmPresent) {
 					this._pkgManager = 'npm';
 				}
 			}
@@ -355,6 +361,7 @@ export default class Project {
 		projectPath: string,
 		configFilePath = 'liferay-npm-bundler.config.js'
 	): void {
+
 		// First reset everything
 
 		this._configFile = undefined;

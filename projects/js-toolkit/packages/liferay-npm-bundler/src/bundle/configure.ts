@@ -12,6 +12,7 @@ import abort from '../util/abort';
 import * as log from '../util/log';
 
 export default function configure(): webpack.Configuration {
+
 	// Get user's config
 
 	const webpackConfig = project.webpackConfiguration;
@@ -32,7 +33,8 @@ export default function configure(): webpack.Configuration {
 
 			if (isLocalModule(moduleName)) {
 				generatedFile = exportLocalModule(id, moduleName);
-			} else {
+			}
+			else {
 				generatedFile = exportDependencyModule(id, moduleName);
 			}
 
@@ -66,7 +68,8 @@ export default function configure(): webpack.Configuration {
 	overrideWarn('optimization', webpackConfig.optimization);
 	if (project.probe.type === ProjectType.LIFERAY_FRAGMENT) {
 		delete webpackConfig.optimization;
-	} else {
+	}
+	else {
 		webpackConfig.optimization = {
 			runtimeChunk: {
 				name: 'runtime',

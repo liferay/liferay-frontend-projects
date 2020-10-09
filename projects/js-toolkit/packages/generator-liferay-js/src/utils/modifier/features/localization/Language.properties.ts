@@ -9,6 +9,7 @@ import ProjectAnalyzer from '../../../ProjectAnalyzer';
  * A class to help modifying the Language.properties file.
  */
 export default class {
+
 	/**
 	 * @param {Generator} generator a Yeoman generator
 	 */

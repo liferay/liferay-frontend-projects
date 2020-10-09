@@ -39,7 +39,8 @@ export default async function bundle(): Promise<webpack.Stats> {
 
 	if (project.probe.type === ProjectType.LIFERAY_FRAGMENT) {
 		await adaptLiferayFragment();
-	} else {
+	}
+	else {
 		await adaptBundlerProject();
 	}
 
@@ -65,7 +66,8 @@ function runWebpack(options: webpack.Configuration): Promise<webpack.Stats> {
 		compiler.run((err, stats) => {
 			if (err) {
 				reject(err);
-			} else {
+			}
+			else {
 				resolve(stats);
 			}
 		});

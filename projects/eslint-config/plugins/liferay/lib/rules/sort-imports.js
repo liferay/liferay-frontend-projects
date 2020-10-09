@@ -48,6 +48,7 @@ function getSortKey(node) {
 
 	if (node.type === 'ImportDeclaration') {
 		const specifiers = node.specifiers.map((specifier) => {
+
 			// Note tie breaking order here:
 			//
 			//      * as name
@@ -58,25 +59,31 @@ function getSortKey(node) {
 
 			if (specifier.type === 'ImportNamespaceSpecifier') {
 				return `*${specifier.local.name}`;
-			} else if (specifier.type === 'ImportDefaultSpecifier') {
+			}
+			else if (specifier.type === 'ImportDefaultSpecifier') {
 				return specifier.local.name;
-			} else {
+			}
+			else {
 				return `{${specifier.imported.name}:${specifier.local.name}}`;
 			}
 		});
 
 		tieBreaker = specifiers.sort().join(':');
-	} else if (node.type === 'VariableDeclaration') {
+	}
+	else if (node.type === 'VariableDeclaration') {
+
 		// ie. `const ... = require('...');`
 
 		const declarations = node.declarations.map((declaration) => {
 			if (declaration.id.type === 'Identifier') {
 				return declaration.id.name;
-			} else if (declaration.id.type === 'ObjectPattern') {
+			}
+			else if (declaration.id.type === 'ObjectPattern') {
 				const properties = declaration.id.properties.map((property) => {
 					if (property.type === 'Property') {
 						return `${property.key.name}:${property.value.name}`;
-					} else if (property.type === 'ExperimentalRestProperty') {
+					}
+					else if (property.type === 'ExperimentalRestProperty') {
 						return `...${property.argument.name}`;
 					}
 				});
@@ -86,7 +93,9 @@ function getSortKey(node) {
 		});
 
 		tieBreaker = declarations.sort().join(':');
-	} else if (node.type === 'ExpressionStatement') {
+	}
+	else if (node.type === 'ExpressionStatement') {
+
 		// ie. `require('...');`
 		// Always alone in group so tieBreaker not needed.
 
@@ -110,6 +119,7 @@ function ranking(source) {
 
 module.exports = {
 	create(context) {
+
 		/**
 		 * A buffer for collecting imports into a group.
 		 */
@@ -138,11 +148,13 @@ module.exports = {
 		function register(node) {
 			if (node) {
 				if (hasSideEffects(node)) {
+
 					// Create a boundary group across which we cannot reorder.
 
 					group = [];
 					imports.push([node], group);
-				} else {
+				}
+				else {
 					group.push(node);
 				}
 			}
@@ -153,6 +165,7 @@ module.exports = {
 
 			CallExpression(node) {
 				if (scope.length) {
+
 					// Only consider `require` calls at the top level.
 
 					return;

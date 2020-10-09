@@ -65,7 +65,8 @@ function panic(reason) {
 function checkCleanWorktree() {
 	try {
 		git('diff', '--quiet');
-	} catch (_error) {
+	}
+	catch (_error) {
 		panic('Worktree is not clean');
 	}
 }
@@ -135,13 +136,16 @@ function getRemote() {
 			return UPSTREAM_REPO_REGEX.test(url);
 		})
 		.sort((a, b) => {
+
 			// Sort by URL, preferring `git` over `http` URLs.
 
 			if (a[1] > b[1]) {
 				return 1;
-			} else if (a[1] < b[1]) {
+			}
+			else if (a[1] < b[1]) {
 				return -1;
-			} else {
+			}
+			else {
 				return 0;
 			}
 		});

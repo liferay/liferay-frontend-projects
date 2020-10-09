@@ -14,6 +14,7 @@ import {DEFAULT_LOCALIZATION} from '../facet-localization/constants';
  * A class to be able to analyze what the project does and doesn't.
  */
 export default class ProjectAnalyzer {
+
 	/**
 	 * @param {Generator} generator a Yeoman generator
 	 */
@@ -103,7 +104,8 @@ export default class ProjectAnalyzer {
 
 		if (localization) {
 			return `${localization}.properties`;
-		} else {
+		}
+		else {
 			localization = `${DEFAULT_LOCALIZATION}.properties`;
 
 			if (fs.exists(localization)) {
@@ -128,7 +130,8 @@ export default class ProjectAnalyzer {
 
 		if (configuration) {
 			return configuration;
-		} else if (fs.exists(DEFAULT_CONFIGURATION)) {
+		}
+		else if (fs.exists(DEFAULT_CONFIGURATION)) {
 			return DEFAULT_CONFIGURATION;
 		}
 

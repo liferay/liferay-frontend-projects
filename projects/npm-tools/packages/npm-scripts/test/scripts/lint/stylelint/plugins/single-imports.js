@@ -51,6 +51,7 @@ describe('liferay/single-imports', () => {
 	});
 
 	it('autofixes imports in column 0', async () => {
+
 		// Seeing as indented code like that in the test above isn't going to be
 		// typical in our codebase.
 

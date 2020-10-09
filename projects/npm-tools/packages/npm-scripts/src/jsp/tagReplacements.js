@@ -89,6 +89,7 @@ const OPEN_TAG = new RegExp(`${isFiller(BLOCK_OPEN).source}|//${BLOCK_OPEN}+`);
 
 function getOpenTagReplacement(tag, last = false) {
 	if (last && !tag.match(/[\n\r]/)) {
+
 		// Replace with a one-line (//) comment.
 
 		if (tag.length < 2) {
@@ -96,7 +97,9 @@ function getOpenTagReplacement(tag, last = false) {
 		}
 
 		return `//${BLOCK_OPEN.repeat(tag.length - 2)}`;
-	} else {
+	}
+	else {
+
 		// Replace with a C-style (/*...*/) comment.
 
 		return toFiller(tag, BLOCK_OPEN);

@@ -18,6 +18,7 @@ const ruleTester = new MultiTester(parserOptions);
 ruleTester.run('no-global-fetch', rule, {
 	invalid: [
 		{
+
 			// As a global fetch without an import.
 
 			code: `
@@ -33,6 +34,7 @@ ruleTester.run('no-global-fetch', rule, {
 			],
 		},
 		{
+
 			// As a global fetch without an import.
 
 			code: `
@@ -51,6 +53,7 @@ ruleTester.run('no-global-fetch', rule, {
 
 	valid: [
 		{
+
 			// Named import from frontend-js-web
 
 			code: `
@@ -62,6 +65,7 @@ ruleTester.run('no-global-fetch', rule, {
 			`,
 		},
 		{
+
 			// Unnamed import from '../fetch.es'
 
 			code: `
@@ -73,6 +77,7 @@ ruleTester.run('no-global-fetch', rule, {
 			`,
 		},
 		{
+
 			// Unnamed import from '../util/fetch.es'
 
 			code: `
@@ -84,6 +89,7 @@ ruleTester.run('no-global-fetch', rule, {
 			`,
 		},
 		{
+
 			// Namespaced from Liferay.Util
 
 			code: `
@@ -93,6 +99,7 @@ ruleTester.run('no-global-fetch', rule, {
 			`,
 		},
 		{
+
 			// Accessed via prototype
 
 			code: `

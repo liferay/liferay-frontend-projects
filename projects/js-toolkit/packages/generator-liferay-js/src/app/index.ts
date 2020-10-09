@@ -28,6 +28,7 @@ if (argv.which) {
  * Default main generator that makes the user choose between available targets.
  */
 export default class extends Generator {
+
 	/**
 	 * Standard Yeoman initialization function
 	 */

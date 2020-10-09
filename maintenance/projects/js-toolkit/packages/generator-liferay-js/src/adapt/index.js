@@ -110,6 +110,7 @@ if (argv.which) {
  * Generator to add deploy support to projects.
  */
 export default class extends Generator {
+
 	/**
 	 * Standard Yeoman constructor
 	 */

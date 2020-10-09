@@ -75,7 +75,8 @@ function compileLanguageProperties(buildPath, paths) {
 	LANG_PATHS.filter(fs.existsSync).forEach((langPath) => {
 		try {
 			output.push(fs.readFileSync(langPath, 'utf8'));
-		} catch (error) {
+		}
+		catch (error) {
 			log(
 				`Failed to read lang key file "${langPath}" due to error: ${error}`
 			);
@@ -92,6 +93,7 @@ function compileLanguageProperties(buildPath, paths) {
  * Starts a storybook server for testing frontend components.
  */
 function storybook() {
+
 	// Create directory to store built storybook configs.
 
 	const buildPath = fs.mkdtempSync(path.join(os.tmpdir(), 'storybook-'));
@@ -117,6 +119,7 @@ function storybook() {
 	compileLanguageProperties(buildPath, STORYBOOK_CONFIG.languagePaths);
 
 	const args = [
+
 		// Set port that storybook will use to run the server on.
 
 		'--port',

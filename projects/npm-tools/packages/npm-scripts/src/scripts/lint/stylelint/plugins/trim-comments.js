@@ -29,6 +29,7 @@ function isLeadingComment(comment, prev) {
 	const newlines = comment.raws.before.match(/\n/g);
 
 	if (newlines && newlines.length > 1) {
+
 		// Special case: previous node is a comment, but we have at least one
 		// intervening blank line.
 
@@ -50,6 +51,7 @@ function isTrailingComment(_comment, next) {
 	const newlines = next.raws.before.match(/\n/g);
 
 	if (newlines && newlines.length > 1) {
+
 		// Special case: next node is a comment, but we have at least one
 		// intervening blank line.
 
@@ -104,6 +106,7 @@ module.exports = stylelint.createPlugin(
 
 						if (isLeadingComment(comment, prev)) {
 							if (fix) {
+
 								// PostCSS will kill preceding blank lines,
 								// so we have to reattach them to the next
 								// node.
@@ -117,17 +120,20 @@ module.exports = stylelint.createPlugin(
 								}
 
 								comment.remove();
-							} else {
+							}
+							else {
 								report(messages.noLeadingBlanks);
 							}
 						}
 
 						if (isTrailingComment(comment, next)) {
 							if (fix) {
+
 								// PostCSS doesn't touch following blank lines.
 
 								comment.remove();
-							} else {
+							}
+							else {
 								report(messages.noTrailingBlanks);
 							}
 						}

@@ -20,14 +20,16 @@ expect.extend({
 
 			if (!dep) {
 				missingDeps.push(pkgId);
-			} else {
+			}
+			else {
 				let pkgName;
 				let pkgVersion;
 
 				if (pkgId === PkgDesc.ROOT_ID) {
 					pkgName = 'test-project';
 					pkgVersion = '1.0.0';
-				} else {
+				}
+				else {
 					const pkgIdParts = pkgId.split('@');
 					pkgName = pkgIdParts[0];
 					pkgVersion = pkgIdParts[1];

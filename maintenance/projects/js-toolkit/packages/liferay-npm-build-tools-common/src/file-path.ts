@@ -21,7 +21,8 @@ export default class FilePath {
 		if (FilePath.nativeIsPosix) {
 			this._posixPath = nativePath;
 			this._windowsPath = nativePath.replace(/\//g, '\\');
-		} else {
+		}
+		else {
 			this._posixPath = nativePath.replace(/\\/g, '/');
 			this._windowsPath = nativePath;
 		}

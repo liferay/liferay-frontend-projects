@@ -8,12 +8,14 @@
  * reduces the indent level back to column 0.
  */
 function dedent(input, tabWidth = 4) {
+
 	// Collapse totally blank lines to empty strings.
 
 	const lines = input.split('\n').map((line) => {
 		if (line.match(/^\s+$/)) {
 			return '';
-		} else {
+		}
+		else {
 			return line;
 		}
 	});
@@ -29,7 +31,8 @@ function dedent(input, tabWidth = 4) {
 			}, 0);
 
 			return Math.min(acc, length);
-		} else if (rest) {
+		}
+		else if (rest) {
 			return Math.min(acc, 0);
 		}
 
@@ -43,6 +46,7 @@ function dedent(input, tabWidth = 4) {
 				const [, indent, rest] = line.match(/^(\s*)(.*)/);
 
 				if (minimum && indent.length) {
+
 					// Remove leftmost character until hitting desired length;
 					// if you overshoot (due to a tab), pad with spaces.
 
@@ -69,7 +73,8 @@ function dedent(input, tabWidth = 4) {
 					}
 
 					return chars.join('') + rest;
-				} else {
+				}
+				else {
 					return line;
 				}
 		  })

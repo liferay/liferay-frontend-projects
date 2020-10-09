@@ -19,7 +19,8 @@ export default function (context) {
 		context.extraArtifacts[`${filePath}.js`] = `
 module.exports = JSON.parse(${JSON.stringify(content)});
 `;
-	} catch (err) {
+	}
+	catch (err) {
 		context.extraArtifacts[`${filePath}.js`] = `
 throw new Error('${err.toString()}')
 `;

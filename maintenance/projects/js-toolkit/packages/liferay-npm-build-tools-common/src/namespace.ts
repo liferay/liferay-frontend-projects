@@ -38,21 +38,26 @@ export function addNamespace(
 					`Current moduleName namespace (${moduleNamespace}) ` +
 						` and given one (${namespace}) don't match`
 				);
-			} else {
+			}
+			else {
 				moduleName = removeNamespace(moduleName);
 			}
-		} else {
+		}
+		else {
 			return moduleName;
 		}
 	}
 
 	if (mod.isLocalModule(moduleName)) {
 		return moduleName;
-	} else if (moduleName.startsWith(`${name}/`) || moduleName === name) {
+	}
+	else if (moduleName.startsWith(`${name}/`) || moduleName === name) {
 		return moduleName;
-	} else if (moduleName.startsWith('@')) {
+	}
+	else if (moduleName.startsWith('@')) {
 		return moduleName.replace('@', `@${namespace}`);
-	} else {
+	}
+	else {
 		return namespace + moduleName;
 	}
 }
@@ -68,7 +73,8 @@ export function removeNamespace(moduleName: string): string {
 	if (namespace != null) {
 		if (moduleName.startsWith('@')) {
 			return moduleName.replace(`@${namespace}`, '@');
-		} else {
+		}
+		else {
 			return moduleName.substring(namespace.length);
 		}
 	}
@@ -88,7 +94,8 @@ export function getNamespace(moduleName: string): string {
 	if (parts.length >= 2 && !parts[0].includes('/')) {
 		if (parts[0].startsWith('@')) {
 			return parts[0].substring(1) + '$';
-		} else {
+		}
+		else {
 			return parts[0] + '$';
 		}
 	}

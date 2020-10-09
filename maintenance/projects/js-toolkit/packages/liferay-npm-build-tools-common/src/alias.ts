@@ -48,9 +48,11 @@ export function getAliasFields(globalConfig: object, config: object): string[] {
 
 	if (prop.has(config, 'resolve.aliasFields')) {
 		aliasFields = prop.get(config, 'resolve.aliasFields');
-	} else if (prop.has(globalConfig, 'resolve.aliasFields')) {
+	}
+	else if (prop.has(globalConfig, 'resolve.aliasFields')) {
 		aliasFields = prop.get(globalConfig, 'resolve.aliasFields');
-	} else {
+	}
+	else {
 		aliasFields = ['browser'];
 	}
 
@@ -118,7 +120,8 @@ export function loadAliases(
 					const main = pkgJson['main'] || './index.js';
 
 					aliases[main] = aliasConfig;
-				} else {
+				}
+				else {
 					Object.entries(aliasConfig).forEach(([from, to]) => {
 						aliases[from] = to;
 					});
@@ -149,7 +152,8 @@ export function loadAliases(
 function safeReadJsonSync(pkgJsonFile: FilePath): object {
 	try {
 		return readJsonSync(pkgJsonFile.asNative);
-	} catch (err) {
+	}
+	catch (err) {
 		if (err.code === 'ENOENT') {
 			return {};
 		}

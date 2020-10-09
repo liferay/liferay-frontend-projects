@@ -40,7 +40,8 @@ function lintJSP(source, onReport, options = {}) {
 
 			if (fix) {
 				({messages, output} = linter.verifyAndFix(input, {rules}));
-			} else {
+			}
+			else {
 				messages = linter.verify(input, {rules});
 				output = input;
 			}
@@ -57,11 +58,14 @@ function lintJSP(source, onReport, options = {}) {
 					if (message.fix) {
 						fixableErrorCount++;
 					}
-				} else if (quiet) {
+				}
+				else if (quiet) {
+
 					// In quiet mode, we only report errors, not warnings.
 
 					return false;
-				} else {
+				}
+				else {
 					warningCount++;
 
 					if (message.fix) {

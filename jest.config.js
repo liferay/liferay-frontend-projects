@@ -6,6 +6,7 @@
 module.exports = {
 	modulePathIgnorePatterns: ['<rootDir>/maintenance/', '__fixtures__/.*'],
 	projects: [
+
 		// Projects which require special configuration.
 
 		'projects/eslint-config/jest.config.js',
@@ -22,6 +23,7 @@ module.exports = {
 	],
 	testMatch: ['**/test/**/*.js'],
 	testPathIgnorePatterns: [
+
 		// Projects in maintenance mode which do not participate in the
 		// top-level set of Yarn workspaces.
 

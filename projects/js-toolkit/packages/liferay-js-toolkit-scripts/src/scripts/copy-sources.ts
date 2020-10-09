@@ -28,7 +28,8 @@ export default function (): Promise<void> {
 				if (err) {
 					print(error`${err}`);
 					process.exit(1);
-				} else {
+				}
+				else {
 					print(success`JavaScript files copied`);
 				}
 

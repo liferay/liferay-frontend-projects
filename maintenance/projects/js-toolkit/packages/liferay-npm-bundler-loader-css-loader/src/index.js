@@ -60,7 +60,8 @@ function getHref(filePath, extension, pathModule, namespaceDependencies) {
 
 	if (project.jar.supported) {
 		webContextPath = project.jar.webContextPath;
-	} else {
+	}
+	else {
 		const bnd = fs
 			.readFileSync(project.dir.join('bnd.bnd').asNative)
 			.toString();
@@ -106,12 +107,15 @@ function getHref(filePath, extension, pathModule, namespaceDependencies) {
 			'node_modules',
 			...pathParts.slice(projectNameIndex)
 		);
-	} else {
+	}
+	else {
+
 		// If file is inside a source folder, strip the folder name
 
 		for (let sourcePath of project.sources.map(
 			(source) => source.asNative
 		)) {
+
 			// Remove `./` from sourcePath so that it matches the filePath correctly
 
 			sourcePath = sourcePath.substring(2);
@@ -129,7 +133,8 @@ function getHref(filePath, extension, pathModule, namespaceDependencies) {
 
 		if (extname == '') {
 			filePath = `${filePath}.${extension}`;
-		} else {
+		}
+		else {
 			filePath = filePath.replace(
 				new RegExp(`\\${extname}$`),
 				`${extension}`

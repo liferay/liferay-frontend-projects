@@ -17,6 +17,7 @@ import dependenciesJson from './dependencies.json';
  * Implementation of generation of Angular portlets.
  */
 export default class extends Generator {
+
 	/**
 	 * Standard Yeoman initialization function
 	 */

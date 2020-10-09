@@ -31,7 +31,8 @@ function code(strings, ...interpolations) {
 	const raw = trimmed.replace(/^(\t*)[^\t]/g, (match, tabs) => {
 		if (minimumIndent !== null) {
 			minimumIndent = Math.min(minimumIndent, tabs.length);
-		} else if (tabs.length) {
+		}
+		else if (tabs.length) {
 			minimumIndent = tabs.length;
 		}
 
@@ -216,6 +217,7 @@ describe('prettier/index.js', () => {
 					});
 
 					it('preserves inline comments before alternates', () => {
+
 						// Prettier does some "crazy" things with comments (moving them
 						// in and out of blocks) but this is one case where it leaves
 						// them alone.
@@ -239,6 +241,7 @@ describe('prettier/index.js', () => {
 					});
 
 					it('preserves alone-on-a-line comments before alternates', () => {
+
 						// This is a regression test.
 						//
 						// Given JSP source like this:
@@ -297,6 +300,7 @@ describe('prettier/index.js', () => {
 					});
 
 					it('does not re-fix alternates that are already correct', () => {
+
 						// Prettier will first move the "else" here back onto
 						// the preceding line, then our wrapper moves it back down
 						// again.
@@ -404,6 +408,7 @@ describe('prettier/index.js', () => {
 					});
 
 					it('copes with comments near "try"/"catch" constructs', () => {
+
 						// Note: the movement of "comment 2" below is Prettier
 						// craziness and not the fault of our post-processor.
 

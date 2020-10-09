@@ -31,10 +31,12 @@ function findRoot() {
 		}
 
 		if (path.dirname(directory) === directory) {
+
 			// Can't go any higher.
 
 			directory = null;
-		} else {
+		}
+		else {
 			directory = path.dirname(directory);
 		}
 	}

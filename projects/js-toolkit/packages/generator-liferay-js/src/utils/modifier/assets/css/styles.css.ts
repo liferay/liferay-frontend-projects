@@ -7,6 +7,7 @@
  * A class to help modifying the styles.css file.
  */
 export default class {
+
 	/**
 	 * @param {Generator} generator a Yeoman generator
 	 */

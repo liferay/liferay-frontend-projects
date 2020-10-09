@@ -238,6 +238,7 @@ describe('substituteTags()', () => {
 	});
 
 	it('turns JSP tags into multiline comments if followed on same line ', () => {
+
 		// Possibly rare(?) example from liferay-portal, and can be seen in our
 		// fixtures too:
 

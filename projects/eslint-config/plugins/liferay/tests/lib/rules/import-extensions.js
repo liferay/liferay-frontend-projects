@@ -101,6 +101,7 @@ ruleTester.run('import-extensions', rule, {
 			output: `const Billboard = require('./billboard');`,
 		},
 		{
+
 			// Double quote delimiters are preserved.
 
 			code: `const Billboard = require("./billboard.js");`,
@@ -108,6 +109,7 @@ ruleTester.run('import-extensions', rule, {
 			output: `const Billboard = require("./billboard");`,
 		},
 		{
+
 			// Backtick delimiters are preserved.
 
 			code: `const Billboard = require(\`./billboard.js\`);`,
@@ -129,6 +131,7 @@ ruleTester.run('import-extensions', rule, {
 			code: `import {Util} from './Util.es';`,
 		},
 		{
+
 			// OK because "billboard.js" is the name of an NPM package:
 
 			code: `import {Data} from 'billboard.js';`,
@@ -146,16 +149,19 @@ ruleTester.run('import-extensions', rule, {
 			code: `const {Data} = require('billboard.js');`,
 		},
 		{
+
 			// Note double quotes.
 
 			code: `const {Data} = require("billboard.js");`,
 		},
 		{
+
 			// Note backticks...
 
 			code: `const {Data} = require(\`billboard.js\`);`,
 		},
 		{
+
 			// ...but we don't look at backticks if they contain interpolation.
 
 			code: `const {Data} = require(\`./\${something}.js\`);`,
@@ -164,6 +170,7 @@ ruleTester.run('import-extensions', rule, {
 			code: `const billboard = not_a_require('billboard.js');`,
 		},
 		{
+
 			// Regression discovered here:
 			//
 			// https://github.com/liferay/liferay-npm-tools/pull/429#issuecomment-608451060

@@ -36,12 +36,15 @@ function fix(nodesToRemove, context, fixer) {
 	let items;
 
 	if (nodesToRemove instanceof Set) {
+
 		// Removing elements from an ArrayExpression.
 
 		const parent = [...nodesToRemove][0].parent;
 
 		items = parent.elements.slice();
-	} else {
+	}
+	else {
+
 		// Removing property from an ObjectExpression.
 
 		const parent = nodesToRemove.parent;
@@ -67,7 +70,8 @@ function fix(nodesToRemove, context, fixer) {
 	const lastRemaining = items.reduce((last, item, index) => {
 		if (nodesToRemove.has(item)) {
 			return last;
-		} else {
+		}
+		else {
 			return index;
 		}
 	}, NaN);
@@ -88,7 +92,8 @@ function fix(nodesToRemove, context, fixer) {
 
 			if (nodesToRemove.has(item)) {
 				return text;
-			} else {
+			}
+			else {
 				const itemText = source.getText(item);
 
 				return text + itemText + trailingWhitespace;
@@ -114,6 +119,7 @@ module.exports = {
 		return {
 			'ArrayExpression:exit'(node) {
 				if (pendingDeletions.has(node)) {
+
 					// Special case: when removing all array items, remove
 					// entire property instead.
 
@@ -121,7 +127,8 @@ module.exports = {
 						pendingDeletions.get(node).size === node.elements.length
 					) {
 						pendingDeletions.set(node.parent, node.parent);
-					} else {
+					}
+					else {
 						context.report({
 							fix: (fixer) =>
 								fix(pendingDeletions.get(node), context, fixer),
@@ -151,7 +158,8 @@ module.exports = {
 					}
 
 					pendingDeletions.get(node.parent).add(node);
-				} else if (
+				}
+				else if (
 					node.parent &&
 					node.parent.type === 'Property' &&
 					node.parent.key &&

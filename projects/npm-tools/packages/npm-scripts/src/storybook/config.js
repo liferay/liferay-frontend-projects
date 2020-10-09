@@ -8,6 +8,7 @@ import {withKnobs} from '@storybook/addon-knobs';
 import {addDecorator, configure} from '@storybook/react';
 
 function loadStories() {
+
 	// Don't use path.join here or webpack will complain with:
 	// "Critical dependency: the request of a dependency is an expression"
 

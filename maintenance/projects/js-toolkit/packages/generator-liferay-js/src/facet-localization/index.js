@@ -16,6 +16,7 @@ import {DEFAULT_LOCALIZATION} from './constants';
  * Generator to add localization support to projects.
  */
 export default class extends Generator {
+
 	/**
 	 * Standard Yeoman initialization function
 	 */

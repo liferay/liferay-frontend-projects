@@ -62,7 +62,8 @@ function loadBabelPlugins(presets, plugins) {
 				try {
 					presetName = `babel-preset-${preset}`;
 					presetModule = project.require(presetName);
-				} catch (err) {
+				}
+				catch (err) {
 					presetName = preset;
 					presetModule = project.require(presetName);
 				}

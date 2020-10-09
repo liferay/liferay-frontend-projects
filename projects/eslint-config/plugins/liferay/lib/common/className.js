@@ -21,14 +21,16 @@ function checkJSXAttribute(node, callback, context = null, options = {}) {
 			const {raw, value} = node.value.expression;
 
 			callback(node.value.expression, value, raw.charAt(0));
-		} else if (node.value.expression.type === 'TemplateLiteral') {
+		}
+		else if (node.value.expression.type === 'TemplateLiteral') {
 			const {expression} = node.value;
 
 			if (expression.expressions.length === 0) {
 				const {raw} = expression.quasis[0].value;
 
 				callback(expression, raw, '`');
-			} else if (allowTemplateLiteralExpressions) {
+			}
+			else if (allowTemplateLiteralExpressions) {
 				callback(
 					expression,
 					context.getSourceCode().getText(expression).slice(1, -1),
@@ -36,7 +38,8 @@ function checkJSXAttribute(node, callback, context = null, options = {}) {
 				);
 			}
 		}
-	} else if (
+	}
+	else if (
 		node.value.type === 'Literal' &&
 		typeof node.value.value === 'string'
 	) {

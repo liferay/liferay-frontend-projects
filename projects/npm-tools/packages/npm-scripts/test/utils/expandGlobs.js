@@ -76,6 +76,7 @@ describe('expandGlobs()', () => {
 	let cwd;
 
 	function expand() {
+
 		// Isolate ourselves from platform-specific file-system traversal
 		// ordering issues (for example, on Windows, files starting with "_"
 		// will be visited after other files).

@@ -45,7 +45,9 @@ function spawnSync(command, args = [], options = {}) {
 				args
 			)} exited with code ${status}`
 		);
-	} else if (error) {
+	}
+	else if (error) {
+
 		// We didn't successfully spawn, so this is a hard error.
 
 		throw new Error(
@@ -54,7 +56,8 @@ function spawnSync(command, args = [], options = {}) {
 				args
 			)} failed with error ${error}`
 		);
-	} else if (signal) {
+	}
+	else if (signal) {
 		throw new Error(
 			`Command ${getDescription(
 				executable,

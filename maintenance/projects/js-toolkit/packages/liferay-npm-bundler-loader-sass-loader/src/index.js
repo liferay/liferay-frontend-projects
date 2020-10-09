@@ -69,7 +69,8 @@ function changeFilePathExtension(context) {
 
 	if (extname == '') {
 		filePath = `${filePath}.css`;
-	} else {
+	}
+	else {
 		filePath = filePath.replace(new RegExp(`\\${extname}$`), '.css');
 	}
 
@@ -95,7 +96,8 @@ function tryResolve(moduleName, basedir) {
 		return resolveModule.sync(moduleName, {
 			basedir,
 		});
-	} catch (err) {
+	}
+	catch (err) {
 		return undefined;
 	}
 }

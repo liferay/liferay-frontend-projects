@@ -27,17 +27,22 @@ module.exports = {
 						const binding = declarator.id.name;
 
 						if (binding === property) {
+
 							// ie. `thing = require('foo').thing`
 							// --> `{thing} = require('foo')`
 
 							replacement = `{${property}}`;
-						} else {
+						}
+						else {
+
 							// ie. `alias = require('foo').thing`
 							// --> `{thing: alias} = require('foo')`
 
 							replacement = `{${property}: ${binding}}`;
 						}
-					} else if (declarator.id.type === 'ObjectPattern') {
+					}
+					else if (declarator.id.type === 'ObjectPattern') {
+
 						// ie. `{pattern} = require('foo').thing`
 						// --> `{thing: {pattern}} = require('foo')`
 

@@ -12,6 +12,7 @@ import project from './project';
  * A package descriptor class to identify directories containing packages.
  */
 export default class PkgDesc {
+
 	/** Well known id for the root package */
 	static readonly ROOT_ID = '/';
 
@@ -34,9 +35,11 @@ export default class PkgDesc {
 		if (!pkgPath) {
 			pkgPath = project.dir.asNative;
 			this._id = PkgDesc.ROOT_ID;
-		} else if (forceRoot) {
+		}
+		else if (forceRoot) {
 			this._id = PkgDesc.ROOT_ID;
-		} else {
+		}
+		else {
 			this._id = `${name}@${version}`;
 		}
 

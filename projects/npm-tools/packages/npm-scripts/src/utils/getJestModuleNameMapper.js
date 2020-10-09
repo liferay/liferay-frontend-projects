@@ -43,6 +43,7 @@ const IGNORE_GLOBS = ['node_modules/**'];
  * @see https://jestjs.io/docs/en/configuration#modulenamemapper-object-string-string
  */
 function getJestModuleNameMapper() {
+
 	// Note a limitation here: when running on a project under
 	// "modules/private", the `root` will be "modules", and only projects under
 	// "modules/apps" (not "modules/private/apps"), will be considered. This
@@ -102,9 +103,11 @@ function getJestModuleNameMapper() {
 			return {
 				moduleNameMapper: mappings,
 			};
-		} catch (error) {
+		}
+		catch (error) {
 			log(`getJestModuleNameMapper(): error \`${error}\``);
-		} finally {
+		}
+		finally {
 			process.chdir(cwd);
 		}
 	}

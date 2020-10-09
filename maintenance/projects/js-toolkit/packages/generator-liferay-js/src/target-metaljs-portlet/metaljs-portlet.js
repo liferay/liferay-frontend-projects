@@ -19,6 +19,7 @@ import importsJson from './imports.json';
  * Implementation of generation of Metal.js portlets.
  */
 export default class extends Generator {
+
 	/**
 	 * Standard Yeoman initialization function
 	 */

@@ -50,7 +50,8 @@ module.exports = async function (modulesInfo, {output}) {
 
 	if (output) {
 		await writeFile(`${output}.json`, json);
-	} else {
+	}
+	else {
 		process.stdout.write(json);
 	}
 };

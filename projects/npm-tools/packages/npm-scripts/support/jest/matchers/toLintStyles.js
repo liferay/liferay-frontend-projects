@@ -74,14 +74,16 @@ expect.extend({
 						)}\n` +
 						`Received: ${this.utils.printReceived(received)}`
 					);
-				} else {
+				}
+				else {
 					const diffString = diff(expected, received, {
 						expand: this.expand,
 					});
 
 					if (diffString && diffString.includes('- Expect')) {
 						return hint + `Difference:\n\n${diffString}`;
-					} else {
+					}
+					else {
 						return (
 							hint +
 							`Expected: ${this.utils.printExpected(

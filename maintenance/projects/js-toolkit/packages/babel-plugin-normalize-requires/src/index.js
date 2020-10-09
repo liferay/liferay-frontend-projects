@@ -46,7 +46,8 @@ export default function ({types: t}) {
 
 								if (!state.normalizeCount) {
 									state.normalizeCount = 1;
-								} else {
+								}
+								else {
 									state.normalizeCount++;
 								}
 

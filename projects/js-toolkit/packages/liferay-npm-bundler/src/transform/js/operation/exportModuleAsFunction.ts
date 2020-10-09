@@ -53,7 +53,8 @@ function getBlockStatement(program: estree.Program): estree.BlockStatement {
 		programBody[0].expression.right.body.type === 'BlockStatement'
 	) {
 		return programBody[0].expression.right.body;
-	} else {
+	}
+	else {
 		throw new Error(
 			'Provided program does not match the expected structure'
 		);

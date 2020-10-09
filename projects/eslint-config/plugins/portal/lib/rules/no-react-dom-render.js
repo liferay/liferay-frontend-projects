@@ -35,7 +35,9 @@ module.exports = {
 				for (let i = 0; i < scope.variables.length; i++) {
 					if (scope.variables[i] === variable) {
 						return true;
-					} else if (scope.variables[i].name === name) {
+					}
+					else if (scope.variables[i].name === name) {
+
 						// Variable is shadowed, so it is not the same.
 
 						return false;
@@ -66,6 +68,7 @@ module.exports = {
 					node.callee.type === 'MemberExpression' &&
 					node.callee.object.type === 'Identifier'
 				) {
+
 					// eg. Foo.bar()
 
 					for (const namespace of foundNamespaces) {
@@ -74,20 +77,25 @@ module.exports = {
 							node.callee.property.type === 'Identifier' &&
 							node.callee.property.name === 'render'
 						) {
+
 							// eg. Foo.render()
 
 							if (isSame(node.callee.object, namespace)) {
+
 								// "Foo" came from react-dom.
 
 								report(node);
 							}
 						}
 					}
-				} else if (node.callee.type === 'Identifier') {
+				}
+				else if (node.callee.type === 'Identifier') {
+
 					// eg. something()
 
 					for (const binding of foundBindings) {
 						if (node.callee.name === binding.name) {
+
 							// "something" came from react-dom.
 
 							if (isSame(node, binding)) {
@@ -157,10 +165,13 @@ module.exports = {
 				) {
 					const variables = context.getDeclaredVariables(node);
 					if (node.id.type === 'Identifier') {
+
 						// eg. const x = require('react-dom');
 
 						add(foundNamespaces, variables);
-					} else if (node.id.type === 'ObjectPattern') {
+					}
+					else if (node.id.type === 'ObjectPattern') {
+
 						// eg. const {render} = require('react-dom');
 						// eg. const {render: x} = require('react-dom');
 

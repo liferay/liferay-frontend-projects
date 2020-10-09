@@ -14,7 +14,8 @@ export function negate<T extends string | string[]>(globs: T): T {
 
 	if (Array.isArray(globs)) {
 		return globs.map(negate) as T;
-	} else {
+	}
+	else {
 		return negate(globs as string) as T;
 	}
 }
@@ -29,7 +30,8 @@ export function prefix(prefix: string, globs: string[]): string[] {
 	return globs.map((glob) => {
 		if (glob[0] === '!') {
 			return `!${prefix}${glob.substring(1)}`;
-		} else {
+		}
+		else {
 			return `${prefix}${glob}`;
 		}
 	});

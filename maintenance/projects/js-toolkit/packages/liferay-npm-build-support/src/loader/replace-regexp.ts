@@ -10,6 +10,7 @@ import {
 
 /** Configuration options for `replace-regexp` loader */
 export interface Options {
+
 	/** RegExp pattern to look for */
 	pattern: string;
 

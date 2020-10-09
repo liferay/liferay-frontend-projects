@@ -181,11 +181,14 @@ function getFileOrigin(filePath: string): FileOrigin {
 
 	if (absModuleFilePosixPath.startsWith(absBuildNodeModulesPosixPath)) {
 		fileOrigin = FileOrigin.BUILD_DEPENDENCY;
-	} else if (absModuleFilePosixPath.startsWith(absBuildPosixPath)) {
+	}
+	else if (absModuleFilePosixPath.startsWith(absBuildPosixPath)) {
 		fileOrigin = FileOrigin.BUILD_PROJECT;
-	} else if (absModuleFilePosixPath.startsWith(absNodeModulesPosixPath)) {
+	}
+	else if (absModuleFilePosixPath.startsWith(absNodeModulesPosixPath)) {
 		fileOrigin = FileOrigin.SOURCE_DEPENDENCY;
-	} else {
+	}
+	else {
 		fileOrigin = FileOrigin.SOURCE_PROJECT;
 	}
 

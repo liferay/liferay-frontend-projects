@@ -21,6 +21,7 @@ function generateSoyDependencies(dependencies) {
 			let resolvedDependency = null;
 
 			try {
+
 				// Requires the `package.json` file to avoid resolving
 				// the main entry point of the package so we can safely
 				// infer the directory from the package root
@@ -30,8 +31,11 @@ function generateSoyDependencies(dependencies) {
 						basedir: cwd,
 					})
 				);
-			} catch (err) {
+			}
+			catch (err) {
+
 				// Swallow.
+
 			}
 
 			return resolvedDependency;

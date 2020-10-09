@@ -11,6 +11,7 @@ import GogoShell from './gogo-shell';
  *
  */
 export default class extends GogoShell {
+
 	/**
 	 *
 	 * @param {string} fileOrDir

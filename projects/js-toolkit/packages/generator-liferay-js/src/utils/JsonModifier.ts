@@ -7,6 +7,7 @@
  * A class to help modifying JSON files.
  */
 export default class JsonModifier {
+
 	/**
 	 * @param {Generator} generator a Yeoman generator
 	 * @param {String} path path to file

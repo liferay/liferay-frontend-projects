@@ -54,7 +54,8 @@ function handleSignal(signal) {
 	for (const callback of callbacks.values()) {
 		try {
 			callback();
-		} catch (error) {
+		}
+		catch (error) {
 			log(`Caught error in signal callback: ${error}`);
 		}
 	}

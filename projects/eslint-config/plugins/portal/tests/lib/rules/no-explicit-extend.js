@@ -13,6 +13,7 @@ const filename = '/data/liferay-portal/modules/apps/a/b/.eslintrc.js';
 ruleTester.run('no-explicit-extend', rule, {
 	invalid: [
 		{
+
 			// As a naked string (liferay/portal).
 
 			code: `
@@ -32,6 +33,7 @@ ruleTester.run('no-explicit-extend', rule, {
 			`,
 		},
 		{
+
 			// As a naked string (liferay/react).
 
 			code: `
@@ -51,6 +53,7 @@ ruleTester.run('no-explicit-extend', rule, {
 			`,
 		},
 		{
+
 			// As a naked string before other configuration.
 
 			code: `
@@ -73,6 +76,7 @@ ruleTester.run('no-explicit-extend', rule, {
 			`,
 		},
 		{
+
 			// As a naked string in the middle of other configuration.
 
 			code: `
@@ -97,6 +101,7 @@ ruleTester.run('no-explicit-extend', rule, {
 			`,
 		},
 		{
+
 			// As a naked string after other configuration.
 
 			code: `
@@ -119,6 +124,7 @@ ruleTester.run('no-explicit-extend', rule, {
 			`,
 		},
 		{
+
 			// At the beginning, on one line.
 
 			code: `
@@ -140,6 +146,7 @@ ruleTester.run('no-explicit-extend', rule, {
 			`,
 		},
 		{
+
 			// In the middle, on one line.
 
 			code: `
@@ -161,6 +168,7 @@ ruleTester.run('no-explicit-extend', rule, {
 			`,
 		},
 		{
+
 			// At the end, on one line.
 
 			code: `
@@ -182,6 +190,7 @@ ruleTester.run('no-explicit-extend', rule, {
 			`,
 		},
 		{
+
 			// Both liferay/portal and liferay/react together (at start).
 
 			code: `
@@ -209,6 +218,7 @@ ruleTester.run('no-explicit-extend', rule, {
 			`,
 		},
 		{
+
 			// Both liferay/portal and liferay/react together (at end).
 
 			code: `
@@ -230,6 +240,7 @@ ruleTester.run('no-explicit-extend', rule, {
 			`,
 		},
 		{
+
 			// Both liferay/portal and liferay/react together (in the middle).
 
 			code: `
@@ -251,6 +262,7 @@ ruleTester.run('no-explicit-extend', rule, {
 			`,
 		},
 		{
+
 			// Both liferay/portal and liferay/react together (with something in
 			// between).
 
@@ -283,6 +295,7 @@ ruleTester.run('no-explicit-extend', rule, {
 			`,
 		},
 		{
+
 			// Alone.
 
 			code: `
@@ -302,6 +315,7 @@ ruleTester.run('no-explicit-extend', rule, {
 			`,
 		},
 		{
+
 			// Alone with a trailing comma.
 
 			code: `
@@ -321,6 +335,7 @@ ruleTester.run('no-explicit-extend', rule, {
 			`,
 		},
 		{
+
 			// Alone with a trailing comma across multiple lines.
 
 			code: `
@@ -342,6 +357,7 @@ ruleTester.run('no-explicit-extend', rule, {
 			`,
 		},
 		{
+
 			// In a .babelrc.js file.
 
 			code: `
@@ -379,6 +395,7 @@ ruleTester.run('no-explicit-extend', rule, {
 			`,
 		},
 		{
+
 			// Regression.
 			// See: https://github.com/liferay/liferay-portal-ee/pull/18545#issuecomment-600614052
 
@@ -441,6 +458,7 @@ ruleTester.run('no-explicit-extend', rule, {
 			filename,
 		},
 		{
+
 			// Would be invalid, but not in an .eslintrc.js file.
 
 			code: `
@@ -451,6 +469,7 @@ ruleTester.run('no-explicit-extend', rule, {
 			filename: '/tmp/not-an-eslintrc.js',
 		},
 		{
+
 			// Not invalid, but not under an "extends" property.
 
 			code: `
@@ -461,6 +480,7 @@ ruleTester.run('no-explicit-extend', rule, {
 			filename,
 		},
 		{
+
 			// Not invalid, because not in an object.
 
 			code: `
@@ -469,6 +489,7 @@ ruleTester.run('no-explicit-extend', rule, {
 			filename,
 		},
 		{
+
 			// Would be invalid, but not in a .babelrc.js file.
 
 			code: `

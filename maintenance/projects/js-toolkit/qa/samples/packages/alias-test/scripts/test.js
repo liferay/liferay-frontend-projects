@@ -11,8 +11,10 @@ const bundlerOutput = run('run-bundler');
 var comparison = diff.diffLines(webpackOutput, bundlerOutput);
 
 comparison.forEach((part) => {
+
 	// green for additions, red for deletions
 	// grey for common parts
+
 	const color = part.added ? 'green' : part.removed ? 'red' : 'grey';
 
 	process.stdout.write(part.value[color]);

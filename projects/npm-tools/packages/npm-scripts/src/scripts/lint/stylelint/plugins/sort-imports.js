@@ -75,9 +75,11 @@ module.exports = stylelint.createPlugin(
 
 						if (aName < bName) {
 							return -1;
-						} else if (aName > bName) {
+						}
+						else if (aName > bName) {
 							return 1;
-						} else {
+						}
+						else {
 							return 0;
 						}
 					});
@@ -111,7 +113,8 @@ module.exports = stylelint.createPlugin(
 									group[k].clone({params: desired[k].params})
 								);
 							}
-						} else {
+						}
+						else {
 							const order = desired
 								.slice(firstMismatch, lastMismatch + 1)
 								.map((node) => node.params)

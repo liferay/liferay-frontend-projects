@@ -11,6 +11,7 @@ import JsonModifier from '../JsonModifier';
  * A class to help modifying the package.json file.
  */
 export default class extends JsonModifier {
+
 	/**
 	 * @param {Generator} generator a Yeoman generator
 	 * @param space the space string/number of spaces to use when stringifying

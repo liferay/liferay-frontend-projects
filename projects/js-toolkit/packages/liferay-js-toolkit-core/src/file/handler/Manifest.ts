@@ -109,7 +109,8 @@ function sortObjectKeysReplacer(key: string, value: unknown): unknown {
 
 				return sorted;
 			}, {});
-	} else {
+	}
+	else {
 		return value;
 	}
 }

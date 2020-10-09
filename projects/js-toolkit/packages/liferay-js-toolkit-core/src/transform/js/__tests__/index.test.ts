@@ -11,7 +11,9 @@ import {SourceMapConsumer} from 'source-map';
 
 describe('replace', () => {
 	it('works for single transformation', async () => {
+
 		// Change `variable = 1` to `a = 1`
+
 		const transformed = await replace(
 			{code: 'variable = 1'},
 			{
@@ -44,6 +46,7 @@ describe('replace', () => {
 		);
 
 		// all mappings are from the same file
+
 		expect(
 			mappings
 				.map((mapping) => mapping.source)
@@ -51,6 +54,7 @@ describe('replace', () => {
 		).toBeUndefined();
 
 		// check original mappings
+
 		expect(
 			mappings.map((mapping) => [
 				mapping.originalLine,
@@ -64,6 +68,7 @@ describe('replace', () => {
 		]);
 
 		// check generated mappings
+
 		expect(
 			mappings.map((mapping) => [
 				mapping.generatedLine,
@@ -77,6 +82,7 @@ describe('replace', () => {
 		]);
 
 		// check names
+
 		expect(mappings.map((mapping) => mapping.name)).toEqual([
 			'a',
 			null,
@@ -86,7 +92,9 @@ describe('replace', () => {
 	});
 
 	it('works for double transformation', async () => {
+
 		// Change `var x = 1` to `const x = 1`
+
 		const transformed0 = await replace(
 			{code: 'var x = 1'},
 			{
@@ -101,6 +109,7 @@ describe('replace', () => {
 		);
 
 		// Change `const x = 1` to `const x = 1; module.exports = x;`
+
 		const transformed = await replace(transformed0, {
 			enter(node) {
 				if (node.type !== 'Program') {
@@ -142,6 +151,7 @@ describe('replace', () => {
 		);
 
 		// all mappings are from the same file
+
 		expect(
 			mappings
 				.map((mapping) => mapping.source)
@@ -149,6 +159,7 @@ describe('replace', () => {
 		).toBeUndefined();
 
 		// check original mappings
+
 		expect(
 			mappings.map((mapping) => [
 				mapping.originalLine,
@@ -163,6 +174,7 @@ describe('replace', () => {
 		]);
 
 		// check generated mappings
+
 		expect(
 			mappings.map((mapping) => [
 				mapping.generatedLine,
@@ -177,6 +189,7 @@ describe('replace', () => {
 		]);
 
 		// check names
+
 		expect(mappings.map((mapping) => mapping.name)).toEqual([
 			null,
 			null,

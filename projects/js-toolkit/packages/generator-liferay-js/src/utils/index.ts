@@ -22,6 +22,7 @@ export interface FormattedLabels {
  * A class to help copying Yeoman templates.
  */
 export class Copier {
+
 	/**
 	 * @param {Generator} generator a Yeoman generator
 	 */
@@ -72,7 +73,8 @@ export class Copier {
 
 			if (fs.statSync(gen.templatePath(filePath)).isDirectory()) {
 				this.copyDir(filePath, {context});
-			} else {
+			}
+			else {
 				this.copyFile(filePath.replace(/\.ejs$/, ''), {context});
 			}
 		});
@@ -149,7 +151,8 @@ export function getSDKVersion(
 	if (sdkVersion) {
 		if (Number.isNaN(parseInt(sdkVersion.charAt(0), 10))) {
 			version = `${sdkVersion}/packages/${packageName}`;
-		} else {
+		}
+		else {
 			version = sdkVersion;
 		}
 	}
@@ -222,7 +225,8 @@ export async function promptWithConfig(
 
 			return answers;
 		}, {});
-	} else {
+	}
+	else {
 		return await generator.prompt(prompts);
 	}
 }
@@ -240,11 +244,13 @@ export function toHumanReadable(string): string {
 		if (string[i].match(/[\\._-]/)) {
 			humanizedString += ' ';
 			capitalizeNext = true;
-		} else {
+		}
+		else {
 			if (capitalizeNext) {
 				humanizedString += string[i].toLocaleUpperCase();
 				capitalizeNext = false;
-			} else {
+			}
+			else {
 				humanizedString += string[i];
 			}
 		}

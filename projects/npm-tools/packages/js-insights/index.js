@@ -23,9 +23,11 @@ let report;
 
 if (argv.json) {
 	report = require('./reporters/json');
-} else if (argv.airtable) {
+}
+else if (argv.airtable) {
 	report = require('./reporters/airtable');
-} else {
+}
+else {
 	report = require('./reporters/table');
 }
 
@@ -40,6 +42,7 @@ async function parse(content) {
 }
 
 async function getModuleMeta(modulePath) {
+
 	// Resolves current modulePath base directory
 
 	const cwd = path.dirname(path.resolve(modulePath));

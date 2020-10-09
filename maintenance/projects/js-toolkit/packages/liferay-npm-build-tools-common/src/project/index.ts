@@ -136,9 +136,12 @@ export class Project {
 
 			if (yarnLockPresent) {
 				this._pkgManager = 'yarn';
-			} else if (pkgLockPresent) {
+			}
+			else if (pkgLockPresent) {
 				this._pkgManager = 'npm';
-			} else {
+			}
+			else {
+
 				// If no file is found autodetect command availability
 
 				let yarnPresent =
@@ -158,7 +161,8 @@ export class Project {
 
 				if (yarnPresent) {
 					this._pkgManager = 'yarn';
-				} else if (npmPresent) {
+				}
+				else if (npmPresent) {
 					this._pkgManager = 'npm';
 				}
 			}
@@ -235,6 +239,7 @@ export class Project {
 		projectPath: string,
 		configFilePath: string = '.npmbundlerrc'
 	): void {
+
 		// First reset everything
 
 		this._buildDir = undefined;
@@ -351,7 +356,8 @@ export class Project {
 			return resolveModule.sync(moduleName, {
 				basedir: this._toolsDir.asNative,
 			});
-		} catch (err) {
+		}
+		catch (err) {
 			return this.resolve(moduleName);
 		}
 	}
@@ -379,9 +385,13 @@ export class Project {
 					)
 				)
 			);
-		} else if (config.preset === '' || config.preset === false) {
+		}
+		else if (config.preset === '' || config.preset === false) {
+
 			// don't load preset
-		} else {
+
+		}
+		else {
 			presetFilePath = resolveModule.sync(config.preset, {
 				basedir: this.dir.asNative,
 			});

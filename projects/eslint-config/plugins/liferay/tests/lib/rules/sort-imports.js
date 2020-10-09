@@ -18,6 +18,7 @@ const ruleTester = new MultiTester(parserOptions);
 ruleTester.run('sort-imports', rule, {
 	invalid: [
 		{
+
 			// Basic example.
 
 			code: `
@@ -42,6 +43,7 @@ ruleTester.run('sort-imports', rule, {
 			`,
 		},
 		{
+
 			// Example with trailing comments.
 
 			code: `
@@ -66,6 +68,7 @@ ruleTester.run('sort-imports', rule, {
 			`,
 		},
 		{
+
 			// Example with leading comments.
 
 			code: `
@@ -92,6 +95,7 @@ ruleTester.run('sort-imports', rule, {
 			`,
 		},
 		{
+
 			// Example showing that we don't move header comments.
 
 			code: `
@@ -122,6 +126,7 @@ ruleTester.run('sort-imports', rule, {
 			`,
 		},
 		{
+
 			// Example showing that we don't sort across boundaries.
 
 			code: `
@@ -154,6 +159,7 @@ ruleTester.run('sort-imports', rule, {
 			`,
 		},
 		{
+
 			// Basic example with `require` calls.
 
 			code: `
@@ -178,6 +184,7 @@ ruleTester.run('sort-imports', rule, {
 			`,
 		},
 		{
+
 			// Regression test: two imports from the same module were causing
 			// duplication.
 
@@ -207,6 +214,7 @@ ruleTester.run('sort-imports', rule, {
 			`,
 		},
 		{
+
 			// Regression test: `MemberExpression` here was preventing "gulp"
 			// import from being properly recognized.
 			//
@@ -232,6 +240,7 @@ ruleTester.run('sort-imports', rule, {
 			`,
 		},
 		{
+
 			// Regression test: Immediate `CallExpression` here was preventing
 			// "gulp-load-plugins" import from being properly recognized.
 			//
@@ -257,6 +266,7 @@ ruleTester.run('sort-imports', rule, {
 			`,
 		},
 		{
+
 			// Regression test: "metal-dom" was sorting before "metal".
 
 			code: `
@@ -277,6 +287,7 @@ ruleTester.run('sort-imports', rule, {
 			`,
 		},
 		{
+
 			// Regression test: "." alone was not considered to be relative.
 			// https://github.com/liferay/liferay-frontend-projects/issues/129
 
@@ -301,6 +312,7 @@ ruleTester.run('sort-imports', rule, {
 
 	valid: [
 		{
+
 			// Well-sorted imports.
 
 			code: `
@@ -311,6 +323,7 @@ ruleTester.run('sort-imports', rule, {
 			`,
 		},
 		{
+
 			// Well-sorted requires.
 
 			code: `
@@ -321,6 +334,7 @@ ruleTester.run('sort-imports', rule, {
 			`,
 		},
 		{
+
 			// Proof that non-top-level requires are ignored.
 
 			code: `

@@ -14,11 +14,13 @@ import FilePath, {AnyPath} from 'liferay-npm-build-tools-common/lib/file-path';
 import {AliasesMap} from './config';
 
 export interface UnrolledAliasesMap {
+
 	/** Index is an absolute POSIX file path */
 	[index: string]: UnrolledAlias[];
 }
 
 export interface UnrolledAlias {
+
 	/** Absolute path to directory where alias is configured */
 	absDir: FilePath;
 
@@ -33,7 +35,8 @@ export interface UnrolledAlias {
 export function moduleExists(absFilePath: AnyPath) {
 	try {
 		return fs.statSync(absFilePath.toString()).isFile();
-	} catch (err) {
+	}
+	catch (err) {
 		if (err.code === 'ENOENT') {
 			return false;
 		}

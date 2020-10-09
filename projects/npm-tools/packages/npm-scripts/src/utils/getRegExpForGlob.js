@@ -19,7 +19,8 @@ function scan(prefix, state) {
 		}
 
 		return false;
-	} else {
+	}
+	else {
 		let pattern = prefix.source;
 
 		if (!pattern.startsWith('^')) {
@@ -40,6 +41,7 @@ function scan(prefix, state) {
 }
 
 function escape(pattern) {
+
 	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
 
 	return pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -63,6 +65,7 @@ function getRegExpForGlob(glob) {
 	const anchored = scan('/', state);
 
 	if (!anchored && !state.input.startsWith('**/')) {
+
 		// Unless anchored, all patterns implicitly match anywhere in the
 		// hierarchy.
 
@@ -72,17 +75,23 @@ function getRegExpForGlob(glob) {
 	while (state.input.length) {
 		if (scan('/**/', state)) {
 			pattern += '/([^/]+/)*';
-		} else if (scan('**/', state)) {
+		}
+		else if (scan('**/', state)) {
 			pattern += '([^/]+/)*';
-		} else if (scan('/**', state)) {
+		}
+		else if (scan('/**', state)) {
 			pattern += '.+';
-		} else if (scan('**', state)) {
+		}
+		else if (scan('**', state)) {
 			pattern += '[^/]*';
-		} else if (scan('*', state)) {
+		}
+		else if (scan('*', state)) {
 			pattern += '[^/]*';
-		} else if (scan(/[^/*]+/, state)) {
+		}
+		else if (scan(/[^/*]+/, state)) {
 			pattern += escape(state.lastMatch);
-		} else if (scan('/', state)) {
+		}
+		else if (scan('/', state)) {
 			pattern += escape('/');
 		}
 	}

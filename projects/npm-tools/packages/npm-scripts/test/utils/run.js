@@ -11,6 +11,7 @@ describe('run()', () => {
 	});
 
 	it('reports the exit status of failed commands', () => {
+
 		// NOTE: we want the error message format to be stable, because
 		// `filterChangedFiles()` depends on it.
 

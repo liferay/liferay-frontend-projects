@@ -139,7 +139,8 @@ export default function ({types: t}) {
 							'wrap-modules-amd',
 							'No dependencies detected'
 						);
-					} else {
+					}
+					else {
 						log.info(
 							'wrap-modules-amd',
 							`Detected dependencies: ${dependencies.join(', ')}`

@@ -14,6 +14,7 @@ import PkgJsonModifier from '../utils/modifier/package.json';
  * Generator to add deploy support to projects.
  */
 export default class extends Generator {
+
 	/**
 	 * Standard Yeoman initialization function
 	 */

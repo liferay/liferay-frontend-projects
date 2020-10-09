@@ -78,7 +78,8 @@ module.exports = async function () {
 
 	if (COMMANDS[type]) {
 		await COMMANDS[type]();
-	} else {
+	}
+	else {
 		const commands = Object.keys(PUBLIC_COMMANDS).join(', ');
 
 		throw new Error(

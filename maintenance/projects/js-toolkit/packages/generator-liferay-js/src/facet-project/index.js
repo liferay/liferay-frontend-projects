@@ -17,6 +17,7 @@ import {
  * Generator to add base scaffolding to projects.
  */
 export default class extends Generator {
+
 	/**
 	 * Standard Yeoman initialization function
 	 */

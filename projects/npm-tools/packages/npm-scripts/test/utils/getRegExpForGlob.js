@@ -44,6 +44,7 @@ describe('getRegExpForGlob()', () => {
 	});
 
 	describe('"/foo"', () => {
+
 		// From `man 5 gitignore`:
 		//
 		//     A leading slash matches the beginning of the
@@ -60,6 +61,7 @@ describe('getRegExpForGlob()', () => {
 	});
 
 	describe('"**/"', () => {
+
 		// From `man 5 gitignore`:
 		//
 		//     A leading "**" followed by a slash means match in all
@@ -84,6 +86,7 @@ describe('getRegExpForGlob()', () => {
 	});
 
 	describe('"/**"', () => {
+
 		// From `man 5 gitignore`:
 		//
 		//     A trailing "/**" matches everything inside. For example,
@@ -109,6 +112,7 @@ describe('getRegExpForGlob()', () => {
 	});
 
 	describe('"/**/"', () => {
+
 		// From `man 5 gitignore`:
 		//
 		//     A slash followed by two consecutive asterisks then a slash
@@ -129,6 +133,7 @@ describe('getRegExpForGlob()', () => {
 	});
 
 	describe('"**"', () => {
+
 		// From `man 5 gitignore`:
 		//
 		//     Other consecutive asterisks are considered regular asterisks
@@ -160,6 +165,7 @@ describe('getRegExpForGlob()', () => {
 	// prettier-ignore
 
 	it('handles real glob patterns from liferay-portal', () => {
+
 		// These taken from liferay-portal as of ced3d6d93c8721ae09ea2c2c88.
 
 		expect('apps/frontend-js/frontend-js-web/src/main/resources/META-INF/resources/liferay/liferay.js')

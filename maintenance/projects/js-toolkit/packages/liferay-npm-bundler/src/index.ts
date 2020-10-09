@@ -36,7 +36,8 @@ export default function (argv: {version: boolean}): void {
 
 	if (project.misc.noTracking) {
 		run();
-	} else {
+	}
+	else {
 		log.debug(
 			'The tool is sending usage statistics to our remote servers.'
 		);
@@ -90,6 +91,7 @@ function run(): void {
 			.then(() => manifest.save())
 			.then(() => (project.jar.supported ? createJar() : undefined))
 			.then(() => {
+
 				// Report and show execution time
 
 				const hrtime = process.hrtime(start);
@@ -111,12 +113,14 @@ function run(): void {
 					log.info(
 						`Report written to ${project.misc.reportFile.asNative}`
 					);
-				} else if (report.warningsPresent) {
+				}
+				else if (report.warningsPresent) {
 					log.debug('The build has emitted some warning messages.');
 				}
 			})
 			.catch(abort);
-	} catch (err) {
+	}
+	catch (err) {
 		abort(err);
 	}
 }
