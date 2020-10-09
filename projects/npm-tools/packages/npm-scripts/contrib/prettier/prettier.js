@@ -989,7 +989,7 @@ module.exports = {
 		}
 	},
 
-	version: '1.19.1',
+	version: '2.1.2',
 };
 
 /**
@@ -1035,6 +1035,36 @@ function getPortalRoot(filepath) {
 }
 
 /**
+ * Returns the root directory of if `filepath` is inside a
+ * liferay-frontend-projects checkout, otherwise returns null.
+ */
+function getFrontendProjectsRoot(filepath) {
+	let current = filepath;
+
+	// Walk up until we find marker file (indicating the root).
+
+	while (true) {
+		const parent = path.dirname(current);
+
+		const candidate = path.join(parent, '.liferay-frontend-projects');
+
+		if (fs.existsSync(candidate)) {
+			return parent;
+		}
+		else {
+			if (parent === current) {
+
+				// Can't go any higher.
+
+				return null;
+			}
+
+			current = parent;
+		}
+	}
+}
+
+/**
  * Hack because current working directory will usually be "/" in
  * the context of a VSCode extension, which means that our require
  * statements won't work: liferay-portal's node_modules folder is
@@ -1052,7 +1082,7 @@ function prepare(filepath) {
 
 	let file = 'prettier';
 
-	const root = getPortalRoot(filepath);
+	let root = getPortalRoot(filepath);
 
 	if (root) {
 		const modules = path.join(root, 'modules/node_modules');
@@ -1079,15 +1109,33 @@ function prepare(filepath) {
 		}
 	}
 	else {
-		const extension = require('vscode').extensions.getExtension(
-			'esbenp.prettier-vscode'
-		);
+		root = getFrontendProjectsRoot(filepath);
 
-		if (extension) {
-			dir = path.join(extension.extensionPath);
-			file = path.join(dir, 'node_modules/prettier');
+		if (root) {
+			const scripts = path.join(
+				root,
+				'projects/npm-tools/packages/npm-scripts'
+			);
+
+			const wrapper = path.join(scripts, 'src/scripts/prettier.js');
+
+			if (fs.existsSync(wrapper)) {
+				dir = scripts;
+				file = wrapper;
+			}
+		}
+		else {
+			const extension = require('vscode').extensions.getExtension(
+				'esbenp.prettier-vscode'
+			);
+
+			if (extension) {
+				dir = path.join(extension.extensionPath);
+				file = path.join(dir, 'node_modules/prettier');
+			}
 		}
 	}
+
 	try {
 		process.chdir(dir);
 
