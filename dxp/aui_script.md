@@ -1,12 +1,8 @@
-# Demystifying `aui:script` and `liferay-frontend:component` tags
-
-In JSP files you may notice a huge number of `aui:script` and `liferay-frontend:component` tags.
+# Demystifying `aui:script` tag
 
 ## IMPORTANT
 
 Infrastructure is sunsetting AlloyUI since when ["The status and direction of the frontend infrastructure in Liferay 7 & DXP"](https://liferay.dev/blogs/-/blogs/the-status-and-direction-of-the-frontend-infrastructure-in-liferay-7-dxp) blog post was released. Also, We are working hard in removing those components on [Remove AUI / YUI from Liferay Portal](https://issues.liferay.com/browse/LPS-98564) Epic. Please, avoid using AlloyUI JS components and tags, except for `aui:script` tag.
-
-## `aui:script` tag
 
 ### What it does
 
@@ -150,32 +146,3 @@ As a short brief, it will limit the scope of the script tag. See the following e
 You can't use both require and use in the same tag. use is for declaring dependencies on AUI modules, while require gives access to ES modules.
 
 You can see more information about `aui:script` [here](https://help.liferay.com/hc/en-us/articles/360017882752-Loading-Modules-with-AUI-Script-in-Liferay-DXP).
-
-## `liferay-frontend:component` tag
-
-We can use this tag for removing JavaScript code from JSPs. This tag accepts a `module` property through which We can pass a relative path for the script to be loaded. Also, this tag registers automatically the component to [Liferay’s component global registry](https://github.com/liferay/liferay-frontend-guidelines/blob/bc6dae8514af04a6384a7bea9d4ddf266087ffc5/dxp/liferay_component.md#register), depending on the `componentId` property. When using this tag, `namespace`(or `portletNamespace`) and `spritemap` props will become available.
-
-For example, in the JSP page:
-
-```jsp
-...
-<liferay-frontend:component
-	componentId="myComponent"
-	module="path/to/my/js/myComponent.js"
-/>
-...
-```
-
-And when exporting the `myComponent.js` file We can define a default function there like:
-
-```js
-export default function myComponent({namespace, spritemap, ...props}) {
-	// ... code that uses namespace, spritemap etc
-}
-```
-
-This tag can be very handy if you want to use modern JS features, since We don’t have support for transpiling modern JS from taglibs.
-
-Also, this tag adds some treatment for handling JavaScript in our JSPs like [adding special treatment for our built-in SPA framework](https://github.com/liferay/liferay-portal/blob/815f48f484351e18b61e4b9c9fbf40f0609bdc56/modules/apps/frontend-taglib/frontend-taglib/src/main/java/com/liferay/frontend/taglib/servlet/taglib/ComponentTag.java#L225).
-
-All the content will be injected on the page using `AUI_SCRIPT_DATA` already explained [here](https://github.com/liferay/liferay-frontend-guidelines/blob/bc6dae8514af04a6384a7bea9d4ddf266087ffc5/dxp/resource_injection.md#scriptdata).
