@@ -1034,7 +1034,7 @@ function getPortalRoot(filepath) {
 }
 
 /**
- * Returns the root directory of if `filepath` is inside a
+ * Returns the root directory if `filepath` is inside a
  * liferay-frontend-projects checkout, otherwise returns null.
  */
 function getFrontendProjectsRoot(filepath) {
