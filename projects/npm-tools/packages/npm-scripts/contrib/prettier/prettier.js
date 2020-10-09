@@ -1012,14 +1012,13 @@ function getPortalRoot(filepath) {
 
 			break;
 		}
+		else if (parent === current) {
+
+			// Can't go any higher.
+
+			return null;
+		}
 		else {
-			if (parent === current) {
-
-				// Can't go any higher.
-
-				return null;
-			}
-
 			current = parent;
 		}
 	}
@@ -1051,14 +1050,13 @@ function getFrontendProjectsRoot(filepath) {
 		if (fs.existsSync(candidate)) {
 			return parent;
 		}
+		else if (parent === current) {
+
+			// Can't go any higher.
+
+			return null;
+		}
 		else {
-			if (parent === current) {
-
-				// Can't go any higher.
-
-				return null;
-			}
-
 			current = parent;
 		}
 	}
