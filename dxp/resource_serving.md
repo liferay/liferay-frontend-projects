@@ -117,6 +117,8 @@ Once the locale is determined, it replaces each occurrence of `Liferay.Language.
 
 This filter is used to bundle multiple JavaScript files into a minified single resource (called bundle) that can be fetched from the server, as well as to minify single JavaScript or CSS files.
 
+In addition, it also gathers all JavaScript code contained in `<aui:script>` tags (and not marked inline) into a single block of code that is written at the end of the page.
+
 #### JavaScript Bundle
 
 > ⚠ This is a deprecated mechanism, though it still works if someone configures it. ⚠
