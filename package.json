@@ -14,7 +14,7 @@
 		"@types/jest": "^26.0.14",
 		"@types/webpack": "4.41.22",
 		"@types/yeoman-generator": "4.11.2",
-		"@typescript-eslint/parser": "4.3.0",
+		"@typescript-eslint/parser": "4.4.0",
 		"babel-eslint": "10.1.0",
 		"copyfiles": "^2.4.0",
 		"eslint": "7.10.0",
