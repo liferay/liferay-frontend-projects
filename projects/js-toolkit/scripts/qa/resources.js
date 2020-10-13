@@ -17,7 +17,8 @@ const {version: currentSDKVersion} = require(path.join(
 	'..',
 	'..',
 	'packages',
-	'liferay-npm-bundler',
+	'@liferay',
+	'npm-bundler',
 	'package.json'
 ));
 

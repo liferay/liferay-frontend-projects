@@ -15,7 +15,7 @@ import report from './report';
 import abort from './util/abort';
 import * as log from './util/log';
 
-/** Default entry point for the liferay-npm-bundler */
+/** Default entry point for the liferay-npm-bundler executable. */
 export default async function (argv: {version: boolean}): Promise<void> {
 	if (argv.version) {
 		const {versionsInfo} = project;

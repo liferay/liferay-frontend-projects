@@ -42,11 +42,11 @@ export default class Probe {
 			return ProjectType.LIFERAY_FRAGMENT;
 		}
 
-		// This must go last, as all other types have liferay-npm-bundler as
-		// dependency
+		// This must go last, as all other types have (or may have)
+		// @liferay/npm-bundler as dependency.
 
 		if (
-			this._hasDependency('liferay-npm-bundler') ||
+			this._hasDependency('@liferay/npm-bundler') ||
 			this._hasDependency('@liferay/js-toolkit-scripts') ||
 			this._hasScriptCalling('js-toolkit')
 		) {

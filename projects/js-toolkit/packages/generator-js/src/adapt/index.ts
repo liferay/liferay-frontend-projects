@@ -291,8 +291,8 @@ export default class extends Generator {
 			getSDKVersion('liferay-npm-build-support', {ignoreConfig: true})
 		);
 		pkgJson.addDevDependency(
-			'liferay-npm-bundler',
-			getSDKVersion('liferay-npm-bundler', {ignoreConfig: true})
+			'@liferay/npm-bundler',
+			getSDKVersion('@liferay/npm-bundler', {ignoreConfig: true})
 		);
 		pkgJson.addDevDependency(
 			`liferay-npm-bundler-preset-${preset}`,

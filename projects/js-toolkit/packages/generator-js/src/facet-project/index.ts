@@ -49,7 +49,9 @@ export default class extends Generator {
 		const cp = new Copier(this);
 
 		const context = {
-			liferayNpmBuildSupportVersion: getSDKVersion('liferay-npm-bundler'),
+			liferayNpmBuildSupportVersion: getSDKVersion(
+				'@liferay/npm-bundler'
+			),
 			liferayNpmBundlerVersion: getSDKVersion(
 				'liferay-npm-build-support'
 			),
