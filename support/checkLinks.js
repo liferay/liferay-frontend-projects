@@ -86,8 +86,20 @@ async function checkInternal(link, files) {
 			return match;
 		});
 
+		contents.replace(
+			/<[A-Za-z0-9]+[^i]*id="([^"]*)"/gm,
+			(match, codeId) => {
+				targets.add(codeId.toLowerCase());
+
+				return match;
+			}
+		);
+
 		if (!targets.has(link.slice(1).toLowerCase())) {
-			report(file, `No heading found matching internal target: ${link}`);
+			report(
+				file,
+				`No heading or id found matching internal target: ${link}`
+			);
 		}
 	}
 }
