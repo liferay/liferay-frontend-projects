@@ -86,14 +86,20 @@ async function checkInternal(link, files) {
 			return match;
 		});
 
-		contents.replace(
-			/<[A-Za-z0-9]+[^i]*id="([^"]*)"/gm,
-			(match, codeId) => {
-				targets.add(codeId.toLowerCase());
+		// When we write in source:
+		//
+		//      <code id="text-wrappedField">wrappedField</code>
+		//
+		// GitHub renders:
+		//
+		//      <code id="user-content-text-wrappedfield">wrappedField</code>
+		//
 
-				return match;
-			}
-		);
+		contents.replace(/<\w+[^>]+\s\bid="([^"]*)"/g, (match, codeId) => {
+			targets.add(codeId.toLowerCase());
+
+			return match;
+		});
 
 		if (!targets.has(link.slice(1).toLowerCase())) {
 			report(
