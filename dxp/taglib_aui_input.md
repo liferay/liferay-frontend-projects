@@ -37,7 +37,7 @@ The [<aui:input />](https://github.com/liferay/liferay-portal/tree/6d28f4266948e
 
 The only required attribute is `name`; without it the `jsp` build will fail. The example below shows the minimum amount of code required for the tag to output markup.
 
-** ⚠️ This is an example of code that SHOULD NOT be used in real life ⚠️ **
+**⚠️ This is an example of code that SHOULD NOT be used in real life ⚠️**
 
 _jsp_
 
