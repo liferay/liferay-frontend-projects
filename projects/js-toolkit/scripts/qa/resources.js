@@ -37,7 +37,7 @@ const liferayJsAdaptGeneratorPath = path.join(
 	'..',
 	'..',
 	'packages',
-	'generator-liferay-js',
+	'generator-js',
 	'generators',
 	'adapt',
 	'index.js'
@@ -48,7 +48,7 @@ const liferayJsGeneratorPath = path.join(
 	'..',
 	'..',
 	'packages',
-	'generator-liferay-js',
+	'generator-js',
 	'generators',
 	'app',
 	'index.js'

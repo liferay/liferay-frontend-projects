@@ -8,21 +8,16 @@
 /* eslint-disable no-console */
 
 const fs = require('fs');
+const path = require('path');
 const yeoman = require('yeoman-environment');
 
 const env = yeoman.createEnv();
 const paths = env.getNpmPaths();
 
-paths.forEach((path) => {
-	if (!fs.existsSync(path)) {
-		return;
+paths.forEach((candidate) => {
+	const generator = path.join(candidate, '@liferay', 'generator-js');
+
+	if (fs.existsSync(generator)) {
+		console.log('found @liferay/generator-js in', path);
 	}
-
-	const items = fs.readdirSync(path);
-
-	items.forEach((item) => {
-		if (item === 'generator-liferay-js') {
-			console.log('found generator-liferay-js in', path);
-		}
-	});
 });
