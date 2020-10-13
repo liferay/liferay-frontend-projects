@@ -18,9 +18,9 @@
 	"description": "Utility library for Liferay NPM Build Tools.",
 	"license": "LGPL-3.0",
 	"main": "lib/index.js",
-	"name": "liferay-js-toolkit-core",
+	"name": "@liferay/js-toolkit-core",
 	"repository": {
-		"directory": "projects/js-toolkit/packages/liferay-js-toolkit-core",
+		"directory": "projects/js-toolkit/packages/js-toolkit-core",
 		"type": "git",
 		"url": "https://github.com/liferay/liferay-frontend-projects.git"
 	},

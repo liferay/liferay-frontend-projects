@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import {PkgJson} from '@liferay/js-toolkit-core';
 import prop from 'dot-prop';
-import {PkgJson} from 'liferay-js-toolkit-core';
 import path from 'path';
 
 import {DEFAULT_CONFIGURATION} from '../facet-configuration/constants';

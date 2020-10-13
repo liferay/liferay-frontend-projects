@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import {ProjectType} from '@liferay/js-toolkit-core';
 import fs from 'fs-extra';
-import {ProjectType} from 'liferay-js-toolkit-core';
 import webpack from 'webpack';
 
 import adaptBundlerProject from '../adapt/bundler-project';

@@ -142,7 +142,7 @@ Copy the relevant section from the changelog to the corresponding entry on the [
 
 After the release, you can confirm that the packages are correctly listed in the NPM registry:
 
--   https://www.npmjs.com/package/liferay-js-toolkit-core
+-   https://www.npmjs.com/package/@liferay/js-toolkit-core
 -   https://www.npmjs.com/package/liferay-npm-bundler
 
 ## Releasing pre-release versions

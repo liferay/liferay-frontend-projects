@@ -7,5 +7,5 @@
 		"rootDir": "./src"
 	},
 	"include": ["src/**/*", "src/**/*.json"],
-	"references": [{"path": "../liferay-js-toolkit-core"}]
+	"references": [{"path": "../js-toolkit-core"}]
 }

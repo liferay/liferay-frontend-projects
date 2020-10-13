@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import {FilePath} from '@liferay/js-toolkit-core';
 import fs from 'fs-extra';
 import globby from 'globby';
-import {FilePath} from 'liferay-js-toolkit-core';
 import path from 'path';
 
 /**

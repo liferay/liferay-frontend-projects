@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import fs from 'fs-extra';
 import {
 	JsSourceTransform,
 	PkgJson,
@@ -13,7 +12,8 @@ import {
 	transformJsonFile,
 	transformTextFile,
 	wrapModule,
-} from 'liferay-js-toolkit-core';
+} from '@liferay/js-toolkit-core';
+import fs from 'fs-extra';
 import path from 'path';
 
 import {bundlerGeneratedDir, project} from '../globals';

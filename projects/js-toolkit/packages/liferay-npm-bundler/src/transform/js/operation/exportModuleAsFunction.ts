@@ -3,14 +3,14 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import estree from 'estree';
 import {
 	JsSource,
 	JsSourceTransform,
 	getAstProgramStatements,
 	parseAsAstProgram,
 	replaceJsSource,
-} from 'liferay-js-toolkit-core';
+} from '@liferay/js-toolkit-core';
+import estree from 'estree';
 
 export default function exportModuleAsFunction(): JsSourceTransform {
 	return ((source) => _exportModuleAsFunction(source)) as JsSourceTransform;

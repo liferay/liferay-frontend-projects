@@ -3,16 +3,16 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import fs from 'fs-extra';
-import globby, {GlobbyOptions} from 'globby';
-import JSZip from 'jszip';
 import {
 	ConfigurationJson,
 	ConfigurationJsonPortletInstance,
 	ConfigurationJsonSystem,
 	FilePath,
 	format,
-} from 'liferay-js-toolkit-core';
+} from '@liferay/js-toolkit-core';
+import fs from 'fs-extra';
+import globby, {GlobbyOptions} from 'globby';
+import JSZip from 'jszip';
 import path from 'path';
 
 import {project} from '../../config';

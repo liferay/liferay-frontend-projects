@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import {Manifest, Project} from '@liferay/js-toolkit-core';
 import fs from 'fs-extra';
-import {Manifest, Project} from 'liferay-js-toolkit-core';
 
 export const manifest = new Manifest();
 

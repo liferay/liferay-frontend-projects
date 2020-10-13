@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {Project, ProjectType, format} from 'liferay-js-toolkit-core';
+import {Project, ProjectType, format} from '@liferay/js-toolkit-core';
 import path from 'path';
 import {argv} from 'yargs';
 import Generator from 'yeoman-generator';

@@ -7,7 +7,7 @@ import {
 	ConfigurationJsonField,
 	ConfigurationJsonPortletInstance,
 	Project,
-} from 'liferay-js-toolkit-core';
+} from '@liferay/js-toolkit-core';
 
 interface Field {
 	dataType: string;

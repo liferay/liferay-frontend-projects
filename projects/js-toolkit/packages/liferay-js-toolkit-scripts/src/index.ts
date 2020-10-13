@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {format} from 'liferay-js-toolkit-core';
+import {format} from '@liferay/js-toolkit-core';
 
 import build from './scripts/build';
 import copyAssets from './scripts/copy-assets';

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {ConfigurationJsonField} from 'liferay-js-toolkit-core';
+import {ConfigurationJsonField} from '@liferay/js-toolkit-core';
 
 import {
 	addMetatypeAttr,
