@@ -86,8 +86,26 @@ async function checkInternal(link, files) {
 			return match;
 		});
 
+		// When we write in source:
+		//
+		//      <code id="text-wrappedField">wrappedField</code>
+		//
+		// GitHub renders:
+		//
+		//      <code id="user-content-text-wrappedfield">wrappedField</code>
+		//
+
+		contents.replace(/<\w+[^>]+\s\bid="([^"]*)"/g, (match, codeId) => {
+			targets.add(codeId.toLowerCase());
+
+			return match;
+		});
+
 		if (!targets.has(link.slice(1).toLowerCase())) {
-			report(file, `No heading found matching internal target: ${link}`);
+			report(
+				file,
+				`No heading or id found matching internal target: ${link}`
+			);
 		}
 	}
 }
