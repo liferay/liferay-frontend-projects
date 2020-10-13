@@ -22,10 +22,12 @@
 -   [Hidden](#hidden)
 -   [Image](#image)
 -   [Editor](#editor)
+-   [Bean Attribute](#bean-attribute)
 -   [Localized Attribute](#localized-attribute)
     -   [Localized Text](#localized-text)
     -   [Localized Textarea](#localized-textarea)
     -   [Localized Editor](#localized-editor)
+-   [Model Attribute](#model-attribute)
 -   [Prefix and Suffix Attributes](#prefix-and-suffix-attributes)
 -   [Prepending and Appending Text](#prepending-and-appending-text)
 -   [Asset Categories](#asset-categories)
@@ -35,7 +37,7 @@ The [<aui:input />](https://github.com/liferay/liferay-portal/tree/6d28f4266948e
 
 The only required attribute is `name`; without it the `jsp` build will fail. The example below shows the minimum amount of code required for the tag to output markup.
 
-**⚠️ Counterexample:**
+** ⚠️ This is an example of code that SHOULD NOT be used in real life ⚠️ **
 
 _jsp_
 
@@ -60,7 +62,7 @@ _html_
 </div>
 ```
 
-If a `type` attribute is not declared, the tag will, most likely, default to `text`, but it depends on the combination of attributes that are declared in the `aui:input` and if there is an associated `bean`. The type of `input` can be inferred from the name and the definition inside the `bean`. The associated `bean` definition can be found in `model-hints.xml`. This will be explained in detail later in this document. We always recommend specifying a `type` when creating a standard HTML form element to reduce confusion since this tag is a catch-all for Liferay form elements.
+If a `type` attribute is not declared, the tag will, most likely, default to `text`, but it depends on the combination of attributes that are declared in the `aui:input` and if there is an associated `bean`. The type of `input` can be inferred from the name and the definition inside the `bean`. The associated `bean` definition can be found in `model-hints.xml`. This will be explained in detail [later in this document](#model-attribute). We always recommend specifying a `type` when creating a standard HTML form element to reduce confusion since this tag is a catch-all for Liferay form elements.
 
 If a `label` attribute is not declared, the `aui:input` tag will use an escaped value of the `name` attribute.
 
@@ -79,17 +81,19 @@ Any attribute you pass to `<aui:input type="text" />` will be output. There are 
 | Attribute                                              | Description                                                                                                                                                                                                                                                                               |
 | ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | <code id="text-autoFocus">autoFocus</code>             | A `boolean` value that focuses the input on page load (e.g., `autoFocus="<%= true %>"`). This might not work with Single Page Applications.                                                                                                                                               |
-| <code id="text-bean">bean</code>                       | TODO: A bean to associate with the input component.                                                                                                                                                                                                                                       |
+| <code id="text-bean">bean</code>                       | See [Bean Attribute](#bean-attribute) below.                                                                                                                                                                                                                                              |
 | <code id="text-cssClass">cssClass</code>               | Adds classes to `<input class="form-control" />`                                                                                                                                                                                                                                          |
 | <code id="text-data">data</code>                       | A convenience attribute for pumping out data attributes from `key, value` pairs in a Java `HashMap`. For example, the `HashMap.Entry<"class-name", foo>` would render as the attribute `data-class-name=foo;`. You can also use the standard HTML data attribute `data-class-name="foo"`. |
 | `dynamicAttributes`                                    | `Map<String, Object>`                                                                                                                                                                                                                                                                     |
 | <code id="text-disabled">disabled</code>               | A `boolean` value that enables or disables the `input` (e.g., `disabled="<%= true %>"`).                                                                                                                                                                                                  |
+| <code id="text-field">field</code>                     | See [Bean Attribute](#bean-attribute) section.                                                                                                                                                                                                                                            |
+| <code id="text-fieldParam">fieldParam</code>           | See [Bean Attribute](#bean-attribute) section.                                                                                                                                                                                                                                            |
 | <code id="text-helpMessage">helpMessage</code>         | Adds an icon with tooltip next to label text that displays a tooltip with the `helpMessage`. This attribute accepts language keys.                                                                                                                                                        |
 | <code id="text-id">id</code>                           | Prepends the portlet namespace to the `id`; if no `id` is specified it's the same as the `name` attribute.                                                                                                                                                                                |
 | <code id="text-inlineField">inlineField</code>         | A `boolean` value that renders the group inline. This adds the class `form-group-inline` to `form-group`. Use `inlineField="<%= true %>"` to render the group inline.                                                                                                                     |
 | <code id="text-inlineLabel">inlineLabel</code>         | This attribute accepts a `string` and adds the class `form-inline` to `<div class="form-group">` to display the `label` and `input` on one line. Use `inlineLabel="any text here"`.                                                                                                       |
 | <code id="text-label">label</code>                     | The text to use inside the `<label>` element, if no `label` is specified it's the same as the `name` attribute. Use `label=""` to prevent the tag from outputting the `<label>` element. This attribute accepts language keys.                                                            |
-| <code id="text-localized">localized</code>             | See [Localized](#localized-attribute) section.                                                                                                                                                                                                                                            |
+| <code id="text-localized">localized</code>             | See [Localized Attribute](#localized-attribute) section.                                                                                                                                                                                                                                  |
 | <code id="text-name">name</code>                       | Prepends the portlet namespace to the `name` value. If the name contains `--`, the generated name will be the substring following the `--`, excluding the last two characters and any prefixes. For example, the pattern `prefix--customName--` would result in the name `customName`.    |
 | <code id="text-localizeLabel">localizeLabel</code>     | A `boolean` value that enables or disables localization in the `<label>` element (e.g., `localizeLabel="<%= false %>"`). This is `true` by default.                                                                                                                                       |
 | <code id="text-onChange">onChange</code>               | JavaScript to execute when the `change` event fires on the `input` (e.g., `onChange="console.log('onchange');"`.                                                                                                                                                                          |
@@ -633,10 +637,13 @@ The `aui:input` type `timeZone` outputs a `select` element containing time zones
 
 | Attributes     | Description                                                                                                                                                                                                                                                                                                                                                                                                       |
 | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `bean`         | See [Bean Attribute](#bean-attribute) below.                                                                                                                                                                                                                                                                                                                                                                      |
 | `cssClass`     | Adds classes to `<select class="form-control" />`.                                                                                                                                                                                                                                                                                                                                                                |
 | `daylight`     | Not supported. See [liferay-ui:input-time-zone](https://github.com/liferay/liferay-portal/blob/73d8e4d321a449328e9c36fe2eed01e975c79283/portal-web/docroot/html/taglib/ui/input_time_zone/page.jsp#L20-L26).                                                                                                                                                                                                      |
 | `disabled`     | A `boolean` value that enables or disables the `input` (e.g., `disabled="<%= true %>"`)                                                                                                                                                                                                                                                                                                                           |
 | `displayStyle` | This is directly passed to the underlying [TimeZone class](https://github.com/liferay/liferay-portal/blob/73d8e4d321a449328e9c36fe2eed01e975c79283/portal-web/docroot/html/taglib/ui/input_time_zone/page.jsp#L101) and must be one of the valid values for the [TimeZone.getDisplayName()](<https://docs.oracle.com/javase/7/docs/api/java/util/TimeZone.html#getDisplayName(boolean,%20int)>)'s style argument. |
+| `field`        | See [Bean Attribute](#bean-attribute) section.                                                                                                                                                                                                                                                                                                                                                                    |
+| `fieldParam`   | See [Bean Attribute](#bean-attribute) section.                                                                                                                                                                                                                                                                                                                                                                    |
 | `id`           | Not supported (`liferay-ui:input-time-zone` uses the `name` attribute to generate the `id`).                                                                                                                                                                                                                                                                                                                      |
 | `name`         | A `string` to use in the `name` attribute. This is also used as the `id`.                                                                                                                                                                                                                                                                                                                                         |
 | `nullable`     | Any `string` will output a blank `<option>` in the `<select>` element. Use `nullable="true"` to enable.                                                                                                                                                                                                                                                                                                           |
@@ -754,13 +761,16 @@ _html_
 
 The type `hidden` is used for embedding unviewable data inside a `<form>` element. The tag does not output a `<label>` or wrapper (`<div class="form-group input-text-wrapper">`).
 
-| Attribute  | Description                         |
-| ---------- | ----------------------------------- |
-| `cssClass` | See [Text](#text-cssClass).         |
-| `id`       | See [Text](#text-id).               |
-| `name`     | See [Text](#text-name).             |
-| `type`     | This must be specified as `hidden`. |
-| `value`    | See [Text](#text-value).            |
+| Attribute    | Description                                    |
+| ------------ | ---------------------------------------------- |
+| `bean`       | See [Bean Attribute](#bean-attribute) below.   |
+| `cssClass`   | See [Text](#text-cssClass).                    |
+| `field`      | See [Bean Attribute](#bean-attribute) section. |
+| `fieldParam` | See [Bean Attribute](#bean-attribute) section. |
+| `id`         | See [Text](#text-id).                          |
+| `name`       | See [Text](#text-name).                        |
+| `type`       | This must be specified as `hidden`.            |
+| `value`      | See [Text](#text-value).                       |
 
 _jsp_
 
@@ -873,19 +883,89 @@ _html_
 </div>
 ```
 
+## Bean Attribute
+
+The `bean` attribute can be used alone or with the `field` attribute. It describes the way to obtain the input's value from a [Java bean](https://en.wikipedia.org/wiki/JavaBeans).
+
+It can optionally be used with the `fieldParam` attribute, which defines the name of a request's parameter that, when present, can override the input's value from the bean.
+
+> Note that, in addition to specifying the `bean` directly in the `<aui:input>` tag, you can also use the `<aui:model-context>` tag (like in [this JSP file](https://github.com/liferay/liferay-portal/blob/fb399a0494e4dce83b2e3321387980f2ba3a99a2/modules/apps/portal-security/portal-security-service-access-policy-web/src/main/resources/META-INF/resources/edit_entry.jsp#L65)) to define the default `bean` to use for the subsequent `<aui:script>` tags.
+
+### Standard Text-like Fields
+
+For standard text-like fields (`color`, `email`, `hidden`, `number`, `range`, `tel`, `text`, `textarea`, and `timeZone`) the `bean` is a Java object (usually retrieved from a database row) with several fields that can be obtained via [getter methods](https://en.wikipedia.org/wiki/Mutator_method#Java). Specifically the field designated by the `field` attribute will be used to obtain the input's value (or the `bean`, directly, when `field` is missing).
+
+So, for example, say you have this model class:
+
+```java
+public class Student {
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String newName) {
+        name = newName;
+    }
+}
+```
+
+And an instance of it in the `student` variable. Then you write code like this in a JSP file:
+
+```jsp
+<aui:input type="text" bean="<%= student %>" field="name"></aui:input>
+```
+
+This will cause `student.getName()` to be invoked to get the input's value.
+
+### Localized Fields
+
+For localized `editor`, `text`, or `textarea` fields, the `bean` not only contains the values to be used (see [previous section](#standard-text-like-fields)) in [Liferay's localized XML format](https://gist.github.com/izaera/fcb41a4801ea9526e53ad1aaa37e1cff) but also the `groupId` to lookup to get the list of valid/available locales to show.
+
+So, for example, say you have this model class:
+
+```java
+public class Student {
+	private long groupId;
+    private String name;
+
+	public long getGroupId() {
+		return groupId;
+	}
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String newName) {
+        name = newName;
+    }
+}
+```
+
+And an instance of it in the `student` variable. Then you write code like this in a JSP file:
+
+```jsp
+<aui:input localized="<%= true %>" type="text" bean="<%= student %>" field="name"></aui:input>
+```
+
+This will cause `student.getName()` to be invoked to get the input's value in [Liferay's localized XML format](https://gist.github.com/izaera/fcb41a4801ea9526e53ad1aaa37e1cff) and `student.getGroupId()` to be called to get the `groupId` parameter to invoke the [`LanguageUtil.getAvailableLocales()`](https://github.com/liferay/liferay-portal/blob/c511093e3c4ffcb5cc842743c4d268142fb5ffee/portal-kernel/src/com/liferay/portal/kernel/language/LanguageUtil.java#L214) method.
+
 ## Localized Attribute
 
 The `localized` attribute enables Liferay's language translation input; an input with a dropdown of available languages. It can be of type `text`, `textarea`, or `editor`.
-
-TODO: This must be used in conjunction with the tag `<aui:model-context bean="<%= bean %>" model="<%= Bean.class %>" />`? Are there times when the `bean` is available with out that tag? Why use this instead of `<liferay-ui:localized-input>` directly?
 
 | Attribute            | Description                                                                                                                                                                                                                                                                                                                |
 | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `autoFocus`          | See [Text](#text-autoFocus).                                                                                                                                                                                                                                                                                               |
 | `availableLocales`   | This attribute doesn't exist in `aui:input`. The `availableLocales` array (e.g., `[en_US, ar_SA, es_ES]`) must be passed in through the `bean`. TODO: How does it get data from the bean?                                                                                                                                  |
+| `bean`               | See [Bean Attribute](#bean-attribute)                                                                                                                                                                                                                                                                                      |
 | `cssClass`           | See [Text](#text-cssClass).                                                                                                                                                                                                                                                                                                |
 | `defaultLanguageId`  | Sets the language of the input if `languageId` and `selectedLanguageId` are empty (e.g., `defaultLanguageId="es_ES"`).                                                                                                                                                                                                     |
 | `disabled`           | See [Text](#text-disabled).                                                                                                                                                                                                                                                                                                |
+| `field`              | See [Bean Attribute](#bean-attribute) section.                                                                                                                                                                                                                                                                             |
+| `fieldParam`         | See [Bean Attribute](#bean-attribute) section.                                                                                                                                                                                                                                                                             |
 | `formName`           | Not supported. The `name` of the form. This is an attribute in the [liferay-ui:input-localized](https://github.com/liferay/liferay-portal/blob/6d28f4266948e7b0eeb14c3e8d16b3d81e02e8bb/portal-web/docroot/html/taglib/aui/input/page.jsp#L320) tag used in `aui:input`, but `liferay-ui:input-localized` does not use it. |
 | `helpMessage`        | Help text that is displayed under the input. This value does not support language keys (e.g., `helpMessage="first-name"`).                                                                                                                                                                                                 |
 | `id`                 | See [Text](#text-id).                                                                                                                                                                                                                                                                                                      |
@@ -1329,6 +1409,18 @@ _html_
 	<div class="form-text"></div>
 </div>
 ```
+
+## Model Attribute
+
+The `model` attribute refers to a model class. When used with `bean` and `field` (see [Bean Attribute](#bean-attribute)) it suffices to describe what needs to be rendered, i.e., you don't need to specify any other attributes.
+
+> Note that, in addition to specifying the `model` directly in the `<aui:input>` tag, you can also use the `<aui:model-context>` tag (like in [this JSP file](https://github.com/liferay/liferay-portal/blob/fb399a0494e4dce83b2e3321387980f2ba3a99a2/modules/apps/portal-security/portal-security-service-access-policy-web/src/main/resources/META-INF/resources/edit_entry.jsp#L65)) to define the default `model` to use for the subsequent `<aui:script>` tags.
+
+This syntax is mainly intended to be used with [Service Builder](https://help.liferay.com/hc/en-us/articles/360033253091-What-is-Service-Builder-) model classes, though it could really be used for any others, as long as they commit to the conventions used by `<aui:input>`. This eases writing [CRUD user interfaces](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) because all you need to do is to operate on database rows using model classes and pass their instances to the `<aui:input>` tag, which will take care of all the details for you.
+
+You may be wondering how can all the information to render the input be obtained from just a Java `Class` object. This is because DXP exposes the [`ModelHints`](https://github.com/liferay/liferay-portal/blob/50888548989ba65c75f7cb7c9c90fa1957cd2117/portal-kernel/src/com/liferay/portal/kernel/model/ModelHints.java) API that describes model classes in depth, thus the input tag can obtain the `type` of input to render calling the [`ModelHints.getType()`](https://github.com/liferay/liferay-portal/blob/50888548989ba65c75f7cb7c9c90fa1957cd2117/portal-kernel/src/com/liferay/portal/kernel/model/ModelHints.java#L45) method.
+
+To obtain the `ModelHints` object, the input tag just needs to invoke [`ModelHintsUtil.getHints()`](https://github.com/liferay/liferay-portal/blob/1c333106f3c017e54b21f79c4a9a7d0d46c211a2/portal-kernel/src/com/liferay/portal/kernel/model/ModelHintsUtil.java#L41) with the given `model` and `field`, and the `ModelHintsUtil` gets the necessary values from a `portlet-model-hints.xml` file (for example, you can have a look at the hints for the `WikiPage.content` field in this [portlet-model-hints.xml](https://github.com/liferay/liferay-portal/blob/3e046bb5f7aa45978b86923694197213ea959fcf/modules/apps/wiki/wiki-service/src/main/resources/META-INF/portlet-model-hints.xml#L46) file).
 
 ## Prefix and Suffix Attributes
 
