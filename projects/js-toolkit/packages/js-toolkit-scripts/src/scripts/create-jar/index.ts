@@ -116,7 +116,7 @@ function addLocalizationFiles(zip: JSZip): void {
 function addManifest(zip: JSZip): void {
 	let contents = '';
 
-	const bundlerVersion = project.versionsInfo.get('liferay-npm-bundler')
+	const bundlerVersion = project.versionsInfo.get('@liferay/npm-bundler')
 		.version;
 
 	contents += `Manifest-Version: 1.0\n`;

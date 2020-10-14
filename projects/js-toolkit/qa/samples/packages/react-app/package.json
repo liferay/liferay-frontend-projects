@@ -34,8 +34,8 @@
 		]
 	},
 	"devDependencies": {
+		"@liferay/npm-bundler": "^3.0.0",
 		"liferay-npm-build-support": "^3.0.0",
-		"liferay-npm-bundler": "^3.0.0",
 		"liferay-npm-bundler-preset-create-react-app": "^3.0.0"
 	},
 	"portlet": {

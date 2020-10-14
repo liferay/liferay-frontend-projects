@@ -119,7 +119,7 @@ yarn ci
 # start again. Otherwise...
 
 # Change to the directory of the package you wish to publish:
-cd packages/liferay-npm-bundler
+cd packages/npm-bundler
 
 # Update the changelog:
 npx @liferay/changelog-generator --version=3.0.0
@@ -143,7 +143,7 @@ Copy the relevant section from the changelog to the corresponding entry on the [
 After the release, you can confirm that the packages are correctly listed in the NPM registry:
 
 -   https://www.npmjs.com/package/@liferay/js-toolkit-core
--   https://www.npmjs.com/package/liferay-npm-bundler
+-   https://www.npmjs.com/package/@liferay/npm-bundler
 
 ## Releasing pre-release versions
 

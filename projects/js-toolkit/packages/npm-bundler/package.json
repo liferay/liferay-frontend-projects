@@ -23,9 +23,9 @@
 	"description": "A CLI utility to bundle NPM dependencies of a Liferay OSGi bundle.",
 	"license": "LGPL-3.0",
 	"main": "lib/index.js",
-	"name": "liferay-npm-bundler",
+	"name": "@liferay/npm-bundler",
 	"repository": {
-		"directory": "projects/js-toolkit/packages/liferay-npm-bundler",
+		"directory": "projects/js-toolkit/packages/npm-bundler",
 		"type": "git",
 		"url": "https://github.com/liferay/liferay-frontend-projects.git"
 	},
