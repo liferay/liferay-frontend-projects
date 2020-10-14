@@ -35,6 +35,7 @@
 		"clean": "node ../../scripts/clean.js",
 		"copyfiles": "node ../../scripts/copyfiles.js",
 		"postversion": "npx liferay-js-publish",
+		"prepublishOnly": "yarn build",
 		"preversion": "yarn ci"
 	},
 	"version": "3.0.0-alpha.5"
