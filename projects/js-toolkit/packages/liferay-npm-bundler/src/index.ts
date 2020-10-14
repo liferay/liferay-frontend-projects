@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import {PkgDesc, ProjectType} from '@liferay/js-toolkit-core';
 import fs from 'fs-extra';
-import {PkgDesc, ProjectType} from 'liferay-js-toolkit-core';
 import pretty from 'pretty-time';
 
 import adaptAngularCli from './adapt/angular-cli';

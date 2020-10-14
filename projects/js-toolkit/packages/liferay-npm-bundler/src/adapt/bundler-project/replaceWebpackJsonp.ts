@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {JsSourceTransform, replaceJsSource} from 'liferay-js-toolkit-core';
-import {parseAsExpressionStatement} from 'liferay-js-toolkit-core/lib/transform/js/parse';
+import {JsSourceTransform, replaceJsSource} from '@liferay/js-toolkit-core';
+import {parseAsExpressionStatement} from '@liferay/js-toolkit-core/lib/transform/js/parse';
 
 const {expression: webpackManifestExpression} = parseAsExpressionStatement(
 	'__WEBPACK_MANIFEST__'

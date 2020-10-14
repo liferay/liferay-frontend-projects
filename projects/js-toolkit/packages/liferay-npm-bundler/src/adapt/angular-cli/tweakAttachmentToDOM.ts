@@ -7,7 +7,7 @@ import {
 	JsSourceTransform,
 	parseAsAstExpressionStatement,
 	replaceJsSource,
-} from 'liferay-js-toolkit-core';
+} from '@liferay/js-toolkit-core';
 
 /**
  * Changes `'app-root'` to `'#'+_LIFERAY_PARAMS_.portletElementId` so that

@@ -4,6 +4,7 @@
 		"liferay-npm-bundler": "bin/liferay-npm-bundler.js"
 	},
 	"dependencies": {
+		"@liferay/js-toolkit-core": "3.0.0-alpha.2",
 		"acorn": "^6.2.1",
 		"cross-spawn": "^7.0.0",
 		"ejs": "^2.6.1",
@@ -12,7 +13,6 @@
 		"fs-extra": "^8.1.0",
 		"globby": "^11.0.1",
 		"jszip": "^3.1.5",
-		"liferay-js-toolkit-core": "3.0.0-alpha.2",
 		"pretty-time": "^1.1.0",
 		"read-json-sync": "^2.0.1",
 		"source-map": "^0.7.3",

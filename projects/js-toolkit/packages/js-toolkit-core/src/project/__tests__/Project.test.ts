@@ -365,7 +365,7 @@ describe('project.versionsInfo', () => {
 		expect(versions).toEqual(
 			new Map([
 				[
-					'liferay-js-toolkit-core',
+					'@liferay/js-toolkit-core',
 					{
 						version: require('../../../package.json').version,
 						path: path.join('..', '..', '..', '..', '..', '..'),

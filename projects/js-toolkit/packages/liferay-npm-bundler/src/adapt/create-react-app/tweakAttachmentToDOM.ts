@@ -8,7 +8,7 @@ import {
 	JsSourceTransform,
 	parseAsAstExpressionStatement,
 	replaceJsSource,
-} from 'liferay-js-toolkit-core';
+} from '@liferay/js-toolkit-core';
 
 export default function tweakAttachmentToDOM(): JsSourceTransform {
 	return ((source) => _tweakAttachmentToDOM(source)) as JsSourceTransform;

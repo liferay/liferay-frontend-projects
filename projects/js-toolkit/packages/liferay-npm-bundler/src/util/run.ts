@@ -6,7 +6,7 @@
 import {
 	runNodeModulesBin as coreRunNodeModulesBin,
 	runPkgJsonScript as coreRunPkgJsonScript,
-} from 'liferay-js-toolkit-core';
+} from '@liferay/js-toolkit-core';
 
 import {project} from '../globals';
 

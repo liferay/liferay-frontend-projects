@@ -9,8 +9,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import {format} from '@liferay/js-toolkit-core';
 import fs from 'fs';
-import {format} from 'liferay-js-toolkit-core';
 import properties from 'properties';
 import request from 'request';
 import uuidv4 from 'uuid/v4';

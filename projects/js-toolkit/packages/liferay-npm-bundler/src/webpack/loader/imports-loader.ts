@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {transformJsSource} from 'liferay-js-toolkit-core';
+import {transformJsSource} from '@liferay/js-toolkit-core';
 
 import {project} from '../../globals';
 import report from '../../report';

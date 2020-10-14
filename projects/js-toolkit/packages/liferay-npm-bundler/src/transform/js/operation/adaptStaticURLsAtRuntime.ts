@@ -7,7 +7,7 @@ import {
 	JsSourceTransform,
 	parseAsAstExpressionStatement,
 	replaceJsSource,
-} from 'liferay-js-toolkit-core';
+} from '@liferay/js-toolkit-core';
 
 import {project} from '../../../globals';
 import {findFiles} from '../../../util/files';

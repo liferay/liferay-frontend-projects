@@ -3,14 +3,14 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {parse} from 'acorn';
-import estree from 'estree';
 import {
 	Imports,
 	JsSourceTransform,
 	addNamespace,
 	replaceJsSource,
-} from 'liferay-js-toolkit-core';
+} from '@liferay/js-toolkit-core';
+import {parse} from 'acorn';
+import estree from 'estree';
 
 import {project} from '../../../globals';
 import ReportLogger from '../../../report/logger';

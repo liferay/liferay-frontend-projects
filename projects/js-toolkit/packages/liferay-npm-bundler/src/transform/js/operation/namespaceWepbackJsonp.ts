@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import crypto from 'crypto';
 import {
 	JsSourceTransform,
 	replaceInStringLiterals,
-} from 'liferay-js-toolkit-core';
+} from '@liferay/js-toolkit-core';
+import crypto from 'crypto';
 
 import {project} from '../../../globals';
 

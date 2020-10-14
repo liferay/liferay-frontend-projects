@@ -5,5 +5,5 @@
 		"rootDir": "./src"
 	},
 	"include": ["**/*"],
-	"references": [{"path": "../liferay-js-toolkit-core"}]
+	"references": [{"path": "../js-toolkit-core"}]
 }
