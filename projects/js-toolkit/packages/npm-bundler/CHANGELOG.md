@@ -1,3 +1,11 @@
+## [npm-bundler/v3.0.0-alpha.5](https://github.com/liferay/liferay-frontend-projects/tree/npm-bundler/v3.0.0-alpha.5) (2020-10-14)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-npm-bundler/v3.0.0-alpha.5...npm-bundler/v3.0.0-alpha.5)
+
+### :house: Chores
+
+-   chore(js-toolkit): move liferay-npm-bundler (v3.x) to @liferay/npm-bundler ([\#154](https://github.com/liferay/liferay-frontend-projects/pull/154))
+
 ## [liferay-npm-bundler/v3.0.0-alpha.5](https://github.com/liferay/liferay-js-toolkit/tree/liferay-npm-bundler/v3.0.0-alpha.5) (2020-09-30)
 
 [Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/liferay-npm-bundler/v3.0.0-alpha.4...liferay-npm-bundler/v3.0.0-alpha.5)

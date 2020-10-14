@@ -1,3 +1,11 @@
+## [js-toolkit-core/v3.0.0-alpha.2](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v3.0.0-alpha.2) (2020-10-14)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit-core/v3.0.0-alpha.2...js-toolkit-core/v3.0.0-alpha.2)
+
+### :house: Chores
+
+-   chore(js-toolkit): move liferay-js-toolkit-core (v3.x) to @liferay/js-toolkit-core ([\#150](https://github.com/liferay/liferay-frontend-projects/pull/150))
+
 ## [liferay-js-toolkit-core/v3.0.0-alpha.2](https://github.com/liferay/liferay-js-toolkit/tree/liferay-js-toolkit-core/v3.0.0-alpha.2) (2020-09-29)
 
 [Full changelog](https://github.com/liferay/liferay-js-toolkit/compare/liferay-js-toolkit-core/v3.0.0-alpha.1...liferay-js-toolkit-core/v3.0.0-alpha.2)
