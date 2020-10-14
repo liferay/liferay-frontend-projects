@@ -1,3 +1,19 @@
+## [npm-bundler/v3.0.1-pre.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-bundler/v3.0.1-pre.0) (2020-10-14)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-bundler/v3.0.0-alpha.5...npm-bundler/v3.0.1-pre.0)
+
+### :wrench: Bug fixes
+
+-   fix(js-toolkit): fix various integration problems with DXP ([\#156](https://github.com/liferay/liferay-frontend-projects/pull/156))
+
+### :book: Documentation
+
+-   docs(js-tookit): update CHANGELOG files for first named scope releases ([\#155](https://github.com/liferay/liferay-frontend-projects/pull/155))
+
+### :house: Chores
+
+-   chore(js-toolkit): update dependencies on js-toolkit-core ([\#157](https://github.com/liferay/liferay-frontend-projects/pull/157))
+
 ## [npm-bundler/v3.0.0-alpha.5](https://github.com/liferay/liferay-frontend-projects/tree/npm-bundler/v3.0.0-alpha.5) (2020-10-14)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-npm-bundler/v3.0.0-alpha.5...npm-bundler/v3.0.0-alpha.5)
