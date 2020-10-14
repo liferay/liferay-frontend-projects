@@ -33,5 +33,5 @@
 		"prepublishOnly": "yarn build",
 		"preversion": "yarn ci"
 	},
-	"version": "3.0.0-alpha.2"
+	"version": "3.0.1-pre.0"
 }

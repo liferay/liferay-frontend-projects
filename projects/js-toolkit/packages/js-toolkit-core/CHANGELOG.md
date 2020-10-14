@@ -1,3 +1,15 @@
+## [js-toolkit-core/v3.0.1-pre.0](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v3.0.1-pre.0) (2020-10-14)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v3.0.0-alpha.2...js-toolkit-core/v3.0.1-pre.0)
+
+### :wrench: Bug fixes
+
+-   fix(js-toolkit): fix various integration problems with DXP ([\#156](https://github.com/liferay/liferay-frontend-projects/pull/156))
+
+### :book: Documentation
+
+-   docs(js-tookit): update CHANGELOG files for first named scope releases ([\#155](https://github.com/liferay/liferay-frontend-projects/pull/155))
+
 ## [js-toolkit-core/v3.0.0-alpha.2](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v3.0.0-alpha.2) (2020-10-14)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit-core/v3.0.0-alpha.2...js-toolkit-core/v3.0.0-alpha.2)
