@@ -1,3 +1,3 @@
-# liferay-js-toolkit-scripts
+# @liferay/js-toolkit-scripts
 
 A library of helper scripts used by Liferay JavaScript projects.
