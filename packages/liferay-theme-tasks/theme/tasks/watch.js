@@ -305,8 +305,6 @@ module.exports = function() {
 
 			const taskArray = getBuildTaskArray(resourceDir);
 
-			taskArray.push(clearChangedFile);
-
 			runSequence(...taskArray);
 		});
 	}
