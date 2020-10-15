@@ -1,3 +1,11 @@
+## [npm-bundler/v3.0.1-pre.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-bundler/v3.0.1-pre.1) (2020-10-15)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-bundler/v3.0.1-pre.0...npm-bundler/v3.0.1-pre.1)
+
+### :wrench: Bug fixes
+
+-   fix(js-toolkit): unbreak fragments toolkit ([\#160](https://github.com/liferay/liferay-frontend-projects/pull/160))
+
 ## [npm-bundler/v3.0.1-pre.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-bundler/v3.0.1-pre.0) (2020-10-14)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-bundler/v3.0.0-alpha.5...npm-bundler/v3.0.1-pre.0)
