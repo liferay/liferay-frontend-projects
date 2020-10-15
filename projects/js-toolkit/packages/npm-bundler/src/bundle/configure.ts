@@ -38,7 +38,9 @@ export default function configure(): webpack.Configuration {
 				generatedFile = exportDependencyModule(id, moduleName);
 			}
 
-			entry[id] = generatedFile.asPosix;
+			entry[id] = generatedFile.isAbsolute()
+				? generatedFile.asPosix
+				: generatedFile.toDotRelative().asPosix;
 
 			log.debug(`Generated entry point with id ${id} for ${moduleName}`);
 
