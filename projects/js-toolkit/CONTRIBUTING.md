@@ -2,6 +2,8 @@
 
 This guide only covers contributions to the bundler 3.x development while it is in its initial phase (prior to the first production release). Once it is released to the general public, they will be updated and some things may change.
 
+The source for the 2.x series of the JS toolkit can be found [under the `maintenance` directory](../../maintenance/projects/js-toolkit).
+
 ## Setup
 
 After cloning the repo, run:
@@ -23,8 +25,6 @@ Other auxiliary folders are:
 -   qa: contains projects and scripts for QA
 
 ## Pull requests & Github issues
-
-All pull requests should be sent to the `3.x-WIP` branch, as the `master` branch is currently for version 2.x. We will rename the `3.x-WIP` branch as `master` once we release the first production version.
 
 Before sending a PR it is wise to run:
 
