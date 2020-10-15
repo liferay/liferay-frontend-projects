@@ -147,23 +147,16 @@ After the release, you can confirm that the packages are correctly listed in the
 
 ## Releasing pre-release versions
 
-Because this branch is still in development phase we need to publish pre-release versions until we get to the final publication. For this reason, the above process needs to be tweaked a bit.
+The process is similar to the above but instead of `yarn version --minor` and friends, you should use one of the following [options supported by the `yarn version` command](https://classic.yarnpkg.com/en/docs/cli/version):
 
-The original steps up to `yarn version` remain the same, but then you must run:
+-   `yarn version --premajor`: Increments the major version number (ie. the `a` in `a.b.c`) and produces a prerelease of the form `[a+1].b.c-pre.0`.
+-   `yarn version --preminor`: Increments the minor version number (ie. the `b` in `a.b.c`) and produces a prerelease of the form `a.[b+1].c-pre.0`.
+-   `yarn version --prepatch`: Increments the patch version number (ie. the `c` in `a.b.c`) and produces a prerelease of the form `a.b.[c+1]-pre.0`.
+-   `yarn version --prerelease`: Increments the prerelease version number (ie. the `d` in `a.b.c-pre.d`) and produces a prerelease of the form `a.b.c-pre.[d+1]`.
 
-```sh
-$ yarn version --new-version 3.0.0-alpha.3
-```
+Note that all of these use the `preid` configured in [the `.yarnrc`](./.yarnrc) (ie. `pre`), and apply an [npm dist-tag](https://docs.npmjs.com/cli/dist-tag) of `prerelease` because that is what `@liferay/js-publish` will do for any package with a hyphen in its version number.
 
-This will create the release commit and the tag but refuse to push it or run `yarn publish` because we are not in `master` branch. The way to go is to continue manually:
-
-```sh
-$ git push upstream 3.x-WIP --follow-tags
-
-# When asked for the new version number just hit ENTER
-# If asked for an OTP token, just type the six digits and ENTER
-$ yarn publish --tag pre
-```
+Prerelease versions do not get the npm `latest` tag by default. If you want that tag to apply you must do it yourself with `npm dist-tag add @liferay/$PACKAGE_NAME@$VERSION latest`.
 
 ## Releasing local-only versions
 
