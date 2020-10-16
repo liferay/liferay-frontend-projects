@@ -375,6 +375,7 @@ function printUsage() {
 		'  --version=VERSION            Version being released',
 		'',
 		'Optional options:',
+		'  --dry-run|-d                 Preview changes without writing to disk',
 		'  --force|-f                   Disable safety checks',
 		'  --from=FROM                  Starting point (default: previous tag)',
 		'  --to=TO                      Ending point( default: "HEAD")',
