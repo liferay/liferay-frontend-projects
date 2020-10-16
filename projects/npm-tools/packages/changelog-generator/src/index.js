@@ -9,6 +9,7 @@ const {promisify} = require('util');
 
 const {cleanup, error, info, log, prompt, warn} = require('./console');
 const git = require('./git');
+const matchOption = require('./matchOption');
 const printBanner = require('./printBanner');
 const readYarnrc = require('./readYarnrc');
 
@@ -290,35 +291,6 @@ function printUsage() {
 	);
 }
 
-function matchOption(arg, matchers) {
-	for (const [name, matcher] of Object.entries(matchers)) {
-		if (name.endsWith('=')) {
-			const match = new RegExp(`^(?:-{0,2})(?:${name})(.+)`, 'i').exec(
-				arg
-			);
-
-			if (match) {
-				matcher(match[1]);
-
-				return;
-			}
-		}
-		else {
-			const match = new RegExp(`^(?:-{0,2})(no-)?(?:${name})$`, 'i').exec(
-				arg
-			);
-
-			if (match) {
-				matcher(!match[1]);
-
-				return;
-			}
-		}
-	}
-
-	error(`Unrecognized argument ${arg}; see --help for available options`);
-}
-
 const V_PREFIX_REGEX = /^v\d/;
 
 //  Regex to take a version number and extract:
@@ -460,34 +432,39 @@ async function parseArgs(args) {
 		updateTags: true,
 	};
 
-	args.forEach((arg) => {
-		matchOption(arg, {
-			/* eslint-disable no-return-assign */
-			'dry-run|d': (value) => (options.dryRun = value),
-			'force|f': (value) => (options.force = value),
-			'from=': (value) => (options.from = value),
-			'help|h': () => {
-				printUsage();
-				process.exit();
-			},
-			'interactive|i': (value) => (options.interactive = value),
-			major: (value) => value && (options.version = 'major'),
-			minor: (value) => value && (options.version = 'minor'),
-			'outfile=': (value) => (options.outfile = value),
-			patch: (value) => value && (options.version = 'patch'),
-			'preid=': (value) => (options.preid = value),
-			premajor: (value) => value && (options.version = 'premajor'),
-			preminor: (value) => value && (options.version = 'preminor'),
-			prepatch: (value) => value && (options.version = 'prepatch'),
-			prerelease: (value) => value && (options.version = 'prerelease'),
-			regenerate: (value) => (options.regenerate = value),
-			'remote-url=': (value) => (options.remote = value),
-			'to=': (value) => (options.to = value),
-			'update-tags': (value) => (options.updateTags = value),
-			'version=': (value) => (options.version = value),
-			/* eslint-enable no-return-assign */
-		});
-	});
+	if (
+		!args.every((arg) =>
+			matchOption(arg, {
+				/* eslint-disable no-return-assign */
+				'dry-run|d': (value) => (options.dryRun = value),
+				'force|f': (value) => (options.force = value),
+				'from=': (value) => (options.from = value),
+				'help|h': () => {
+					printUsage();
+					process.exit();
+				},
+				'interactive|i': (value) => (options.interactive = value),
+				major: (value) => value && (options.version = 'major'),
+				minor: (value) => value && (options.version = 'minor'),
+				'outfile=': (value) => (options.outfile = value),
+				patch: (value) => value && (options.version = 'patch'),
+				'preid=': (value) => (options.preid = value),
+				premajor: (value) => value && (options.version = 'premajor'),
+				preminor: (value) => value && (options.version = 'preminor'),
+				prepatch: (value) => value && (options.version = 'prepatch'),
+				prerelease: (value) =>
+					value && (options.version = 'prerelease'),
+				regenerate: (value) => (options.regenerate = value),
+				'remote-url=': (value) => (options.remote = value),
+				'to=': (value) => (options.to = value),
+				'update-tags': (value) => (options.updateTags = value),
+				'version=': (value) => (options.version = value),
+				/* eslint-enable no-return-assign */
+			})
+		)
+	) {
+		return null;
+	}
 
 	if (!options.version) {
 		if (options.dryRun || options.interactive) {
