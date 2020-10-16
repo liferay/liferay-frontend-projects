@@ -373,6 +373,13 @@ function printUsage() {
 		'',
 		'Required options (at least one of):',
 		'  --version=VERSION            Version being released',
+		'  --major                      New major (increment "a" in "a.b.c")',
+		'  --minor                      New minor (increment "b" in "a.b.c")',
+		'  --patch                      New patch (increment "c" in "a.b.c")',
+		'  --premajor                   New major prelease (increment "a" in "a.b.c-pre.0")',
+		'  --preminor                   New minor prelease (increment "b" in "a.b.c-pre.0")',
+		'  --prepatch                   New patch prelease (increment "c" in "a.b.c-pre.0")',
+		'  --prerelease                 New prelease (increment "d" in "a.b.c-pre.d")',
 		'',
 		'Optional options:',
 		'  --dry-run|-d                 Preview changes without writing to disk',
@@ -381,6 +388,7 @@ function printUsage() {
 		'  --to=TO                      Ending point( default: "HEAD")',
 		'  --no-update-tags             Disable tag prefetching',
 		'  --outfile=FILE               Output filename (default: "./CHANGELOG.md")',
+		'  --preid=ID                   Prerelease prefix (default: "pre")',
 		'  --regenerate                 Overwrite instead of appending',
 		'  --remote-url=REPOSITORY_URL  Remote repositor (default: inferred)',
 		'',
@@ -555,22 +563,29 @@ async function parseArgs(args) {
 			return;
 		}
 
+		match = arg.match(option('from='));
+		if (match) {
+			options.from = match[1];
+
+			return;
+		}
+
 		match = arg.match(option('help|h'));
 		if (match) {
 			printUsage();
 			process.exit();
 		}
 
-		match = arg.match(option('outfile='));
+		match = arg.match(option('major'));
 		if (match) {
-			options.outfile = match[1];
+			options.version = 'major';
 
 			return;
 		}
 
-		match = arg.match(option('from='));
+		match = arg.match(option('minor'));
 		if (match) {
-			options.from = match[1];
+			options.version = 'minor';
 
 			return;
 		}
@@ -582,9 +597,51 @@ async function parseArgs(args) {
 			return;
 		}
 
-		match = arg.match(option('remote-url='));
+		match = arg.match(option('outfile='));
 		if (match) {
-			options.remote = match[1];
+			options.outfile = match[1];
+
+			return;
+		}
+
+		match = arg.match(option('patch'));
+		if (match) {
+			options.version = 'patch';
+
+			return;
+		}
+
+		match = arg.match(option('preid='));
+		if (match) {
+			options.preid = match[1];
+
+			return;
+		}
+
+		match = arg.match(option('premajor'));
+		if (match) {
+			options.version = 'premajor';
+
+			return;
+		}
+
+		match = arg.match(option('preminor'));
+		if (match) {
+			options.version = 'preminor';
+
+			return;
+		}
+
+		match = arg.match(option('prepatch'));
+		if (match) {
+			options.version = 'prepatch';
+
+			return;
+		}
+
+		match = arg.match(option('prerelease'));
+		if (match) {
+			options.version = 'prerelease';
 
 			return;
 		}
@@ -592,6 +649,13 @@ async function parseArgs(args) {
 		match = arg.match(option('regenerate'));
 		if (match) {
 			options.regenerate = true;
+
+			return;
+		}
+
+		match = arg.match(option('remote-url='));
+		if (match) {
+			options.remote = match[1];
 
 			return;
 		}
@@ -631,6 +695,9 @@ async function parseArgs(args) {
 			return null;
 		}
 	}
+	else {
+		options.version = await getVersion(options);
+	}
 
 	return options;
 }
@@ -658,6 +725,139 @@ async function generate({date, from, remote, to, version}) {
 }
 
 /**
+ * If any of these special words are passed as a `version`, we'll try to derive
+ * the actual version number automatically.
+ */
+const DERIVED_VERSIONS = new Set([
+	'major',
+	'minor',
+	'patch',
+	'premajor',
+	'preminor',
+	'prepatch',
+	'prerelease',
+]);
+
+/**
+ * Returns the next version number based on the provided options.
+ *
+ * This will either be an explicitly provided version number (via
+ * the `--version`) switch, or a derived one based on the `--major`,
+ * `--minor` (etc) options. Note that derived version numbers require
+ * a well-formed `version` property in the package.json file in the
+ * current working directory.
+ */
+async function getVersion(options) {
+	if (DERIVED_VERSIONS.has(options.version)) {
+		let currentVersion;
+
+		try {
+			({version: currentVersion} = JSON.parse(
+				await readFileAsync('package.json', 'utf8')
+			));
+		}
+		catch (_error) {
+			currentVersion = '';
+		}
+
+		let [, major, minor, patch, preid, prerelease] =
+			currentVersion.match(/^(\d+)\.(\d+)\.(\d+)(?:-(\w+)\.(\d+))?$/) ||
+			[];
+
+		if (typeof major !== 'string') {
+			throw new Error(
+				'Unable to extract version from "package.json"; ' +
+					'please pass --version explicitly'
+			);
+		}
+
+		// Precedence: --preid option > .yarnrc setting > previous id > default.
+
+		if (options.preid) {
+			preid = options.preid;
+		}
+		else {
+			const settings = await getYarnRc();
+
+			preid = settings.get('--version.preid') || preid || 'pre';
+		}
+
+		const prefix = await getVersionTagPrefix();
+
+		switch (options.version) {
+			case 'major':
+			case 'premajor':
+				major++;
+				minor = 0;
+				patch = 0;
+
+				if (options.version === 'major') {
+					preid = undefined;
+					prerelease = undefined;
+				}
+				else {
+					prerelease = 0;
+				}
+				break;
+
+			case 'minor':
+			case 'preminor':
+				minor++;
+				patch = 0;
+
+				if (options.version === 'minor') {
+					preid = undefined;
+					prerelease = undefined;
+				}
+				else {
+					prerelease = 0;
+				}
+				break;
+
+			case 'prepatch':
+			case 'patch':
+				patch++;
+
+				if (options.version === 'patch') {
+					preid = undefined;
+					prerelease = undefined;
+				}
+				else {
+					prerelease = 0;
+				}
+				break;
+
+			case 'prerelease':
+				if (prerelease !== undefined) {
+					prerelease++;
+				}
+				else {
+					patch++;
+					prerelease = 0;
+				}
+				break;
+
+			default:
+				throw new Error('Unexpected version');
+		}
+
+		currentVersion = '';
+
+		if (prerelease !== undefined) {
+			currentVersion = `${major}.${minor}.${patch}-${preid}.${prerelease}`;
+		}
+		else {
+			currentVersion = `${major}.${minor}.${patch}`;
+		}
+
+		return `${prefix}${currentVersion}`;
+	}
+	else {
+		return options.version;
+	}
+}
+
+/**
  * Returns a tag prefix that can be used to construct or find a version tag.
  *
  * -   If we're being run from a subdirectory in a monorepo and a ".yarnrc" file
@@ -681,6 +881,34 @@ async function generate({date, from, remote, to, version}) {
  * wrong directory), an error is thrown.
  */
 async function getVersionTagPrefix() {
+	const settings = await getYarnRc();
+
+	const setting = settings.get('version-tag-prefix');
+
+	if (setting) {
+		const match = setting.match(/^"([^"]+)"$/);
+
+		if (match) {
+			return match[1];
+		}
+	}
+
+	return '';
+}
+
+const COMMENT_REGEXP = /^\s*#/;
+
+/**
+ * Reads any .yarnrc files between the repo root and in the current working
+ * directory, and returns a map representing their contents.
+ *
+ * Comments are ignored.
+ *
+ * Because local settings should override ones higher up in the hierarchy,
+ * duplicate settings are resolved by keeping only the last-seen instance of any
+ * given setting.
+ */
+async function getYarnRc() {
 	try {
 		fs.accessSync('package.json', fs.constants.R_OK);
 	}
@@ -690,41 +918,52 @@ async function getVersionTagPrefix() {
 		);
 	}
 
-	let prefix;
+	const settings = new Map();
 
-	const cwd = process.cwd();
+	let candidate = process.cwd();
 
 	const root = (await git('rev-parse', '--show-toplevel')).trim();
 
-	const candidates = new Set([cwd, root]);
+	// Will visit from most general to most local.
 
-	for (const candidate of candidates) {
+	while (true) {
 		try {
 			const contents = await readFileAsync(
 				path.join(candidate, '.yarnrc'),
 				'utf8'
 			);
 
-			contents.split(/\r\n|\r|\n/).find((line) => {
-				const match = line.match(/^\s*version-tag-prefix\s+"([^"]+)"/);
+			contents.split(/\r\n|\r|\n/).forEach((line) => {
+				if (COMMENT_REGEXP.test(line)) {
+					return;
+				}
+				else {
+					const match = line.match(/^\s*(\S+)\s+(.+)\s*$/);
 
-				if (match) {
-					prefix = match[1];
-
-					return true;
+					if (match) {
+						settings.set(match[1], match[2]);
+					}
 				}
 			});
-
-			break;
 		}
 		catch (_error) {
 
 			// No readable .yarnrc.
 
 		}
+
+		if (candidate === root) {
+			break;
+		}
+
+		const components = candidate.split(path.sep);
+
+		components.pop();
+
+		candidate = components.join(path.sep);
 	}
 
-	return prefix || '';
+	return settings;
 }
 
 async function main(_node, _script, ...args) {
