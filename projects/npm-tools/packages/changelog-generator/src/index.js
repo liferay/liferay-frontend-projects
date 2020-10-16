@@ -397,13 +397,31 @@ function printUsage() {
 	);
 }
 
-function option(name) {
-	if (name.endsWith('=')) {
-		return new RegExp(`^(?:--{1,2})${name}(.+)`);
+function matchOption(arg, matchers) {
+	for (const [name, matcher] of Object.entries(matchers)) {
+		if (name.endsWith('=')) {
+			const match = new RegExp(`^(?:-{0,2})${name}(.+)`, 'i').exec(arg);
+
+			if (match) {
+				matcher(match[1]);
+
+				return;
+			}
+		}
+		else {
+			const match = new RegExp(`^(?:-{0,2})(no-)?(?:${name})$`, 'i').exec(
+				arg
+			);
+
+			if (match) {
+				matcher(!match[1]);
+
+				return;
+			}
+		}
 	}
-	else {
-		return new RegExp(`^(?:--{0,2})(?:${name})$`);
-	}
+
+	error(`Unrecognized argument ${arg}; see --help for available options`);
 }
 
 const V_PREFIX_REGEX = /^v\d/;
@@ -547,136 +565,30 @@ async function parseArgs(args) {
 		updateTags: true,
 	};
 
-	let match;
 	args.forEach((arg) => {
-		match = arg.match(option('dry-run|d'));
-		if (match) {
-			options.dryRun = true;
-
-			return;
-		}
-
-		match = arg.match(option('force|f'));
-		if (match) {
-			options.force = true;
-
-			return;
-		}
-
-		match = arg.match(option('from='));
-		if (match) {
-			options.from = match[1];
-
-			return;
-		}
-
-		match = arg.match(option('help|h'));
-		if (match) {
-			printUsage();
-			process.exit();
-		}
-
-		match = arg.match(option('major'));
-		if (match) {
-			options.version = 'major';
-
-			return;
-		}
-
-		match = arg.match(option('minor'));
-		if (match) {
-			options.version = 'minor';
-
-			return;
-		}
-
-		match = arg.match(option('(no-)?update-tags'));
-		if (match) {
-			options.updateTags = !match[1];
-
-			return;
-		}
-
-		match = arg.match(option('outfile='));
-		if (match) {
-			options.outfile = match[1];
-
-			return;
-		}
-
-		match = arg.match(option('patch'));
-		if (match) {
-			options.version = 'patch';
-
-			return;
-		}
-
-		match = arg.match(option('preid='));
-		if (match) {
-			options.preid = match[1];
-
-			return;
-		}
-
-		match = arg.match(option('premajor'));
-		if (match) {
-			options.version = 'premajor';
-
-			return;
-		}
-
-		match = arg.match(option('preminor'));
-		if (match) {
-			options.version = 'preminor';
-
-			return;
-		}
-
-		match = arg.match(option('prepatch'));
-		if (match) {
-			options.version = 'prepatch';
-
-			return;
-		}
-
-		match = arg.match(option('prerelease'));
-		if (match) {
-			options.version = 'prerelease';
-
-			return;
-		}
-
-		match = arg.match(option('regenerate'));
-		if (match) {
-			options.regenerate = true;
-
-			return;
-		}
-
-		match = arg.match(option('remote-url='));
-		if (match) {
-			options.remote = match[1];
-
-			return;
-		}
-
-		match = arg.match(option('to='));
-		if (match) {
-			options.to = match[1];
-
-			return;
-		}
-
-		match = arg.match(option('version='));
-		if (match) {
-			options.version = match[1];
-
-			return;
-		}
-
-		error(`Unrecognized argument ${arg}; see --help for available options`);
-
-		return null;
+		matchOption(arg, {
+			'dry-run|d': (value) => (options.dryRun = value),
+			'force|f': (value) => (options.force = value),
+			'from=': (value) => (options.from = value),
+			'help|h': () => {
+				printUsage();
+				process.exit();
+			},
+			major: (value) => value && (options.version = 'major'),
+			minor: (value) => value && (options.version = 'minor'),
+			'update-tags': (value) => (options.updateTags = value),
+			'outfile=': (value) => (options.outfile = value),
+			patch: (value) => value && (options.version = 'patch'),
+			'preid=': (value) => (options.preid = value),
+			premajor: (value) => value && (options.version = 'premajor'),
+			preminor: (value) => value && (options.version = 'preminor'),
+			prepatch: (value) => value && (options.version = 'prepatch'),
+			prerelease: (value) => value && (options.version = 'prerelease'),
+			regenerate: (value) => (options.regenerate = value),
+			'remote-url=': (value) => (options.remote = value),
+			'to=': (value) => (options.to = value),
+			'version=': (value) => (options.version = value),
+		});
 	});
 
 	if (!options.version) {
