@@ -255,14 +255,10 @@ async function formatChanges(changes, remote) {
 		.join('\n\n');
 }
 
-function relative(filePath) {
-	return path.relative('.', filePath);
-}
-
 function printUsage() {
 	log(
 		'',
-		`${relative(__filename)} [option...]`,
+		`${path.relative('.', __filename)} [option...]`,
 		'',
 		'Required options (at least one of):',
 		'  --interactive|-i             Guided update (proposes version, shows preview etc)',
