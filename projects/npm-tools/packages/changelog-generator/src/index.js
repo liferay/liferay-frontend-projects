@@ -790,41 +790,20 @@ async function getVersion(options) {
 				major++;
 				minor = 0;
 				patch = 0;
-
-				if (options.version === 'major') {
-					preid = undefined;
-					prerelease = undefined;
-				}
-				else {
-					prerelease = 0;
-				}
+				prerelease = options.version === 'major' ? undefined : 0;
 				break;
 
 			case 'minor':
 			case 'preminor':
 				minor++;
 				patch = 0;
-
-				if (options.version === 'minor') {
-					preid = undefined;
-					prerelease = undefined;
-				}
-				else {
-					prerelease = 0;
-				}
+				prerelease = options.version === 'minor' ? undefined : 0;
 				break;
 
 			case 'prepatch':
 			case 'patch':
 				patch++;
-
-				if (options.version === 'patch') {
-					preid = undefined;
-					prerelease = undefined;
-				}
-				else {
-					prerelease = 0;
-				}
+				prerelease = options.version === 'patch' ? undefined : 0;
 				break;
 
 			case 'prerelease':
