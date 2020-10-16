@@ -729,11 +729,10 @@ async function getVersionTagPrefix() {
 
 async function main(_node, _script, ...args) {
 	printBanner(`
-		changelog.js
-		============
+		@liferay/changelog-generator
+		============================
 
-		Reporting
-		for duty!
+		Reporting for duty!
 	`);
 
 	const options = await parseArgs(args);
