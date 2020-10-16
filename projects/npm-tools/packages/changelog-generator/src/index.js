@@ -1113,9 +1113,6 @@ async function go(options) {
 		if (/^y(es?)?$/i.test(answer)) {
 			await git('add', '--', options.outfile);
 		}
-
-		// we appear to hang here... why?
-
 	}
 }
 
