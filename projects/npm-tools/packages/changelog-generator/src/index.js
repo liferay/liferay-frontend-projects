@@ -6,6 +6,7 @@
 const child_process = require('child_process');
 const fs = require('fs');
 const path = require('path');
+const {createInterface} = require('readline');
 const {promisify} = require('util');
 
 const readFileAsync = promisify(fs.readFile);
@@ -15,6 +16,10 @@ const GREEN = '\x1b[32m';
 const RED = '\x1b[31m';
 const RESET = '\x1b[0m';
 const YELLOW = '\x1b[33m';
+
+const PLACEHOLDER_VERSION = '0.0.0-placeholder.0';
+
+let readline;
 
 /**
  * Log a line to stderr.
@@ -63,6 +68,50 @@ function run(command, ...args) {
 				resolve(stdout);
 			}
 		});
+	});
+}
+
+/**
+ * Prompt the user for input.
+ */
+function prompt(question, options) {
+	if (!readline) {
+		readline = createInterface({
+			input: process.stdin,
+			output: process.stdout,
+		});
+	}
+
+	if (options.length) {
+		log('');
+
+		options.forEach((option, i) => {
+			log(`${i + 1}. ${option}`);
+		});
+
+		log('');
+	}
+
+	return new Promise((resolve) => {
+		readline.question(`${question} `, resolve);
+	}).then((result) => {
+		if (result.match(/^\s*-?\d+\s*$/)) {
+			const number = result;
+
+			if (number > 0 && number <= options.length) {
+				return options[number - 1];
+			}
+			else {
+				log('');
+
+				warn(`Valid choices lie between 1 and ${options.length}`);
+
+				return prompt(question, options);
+			}
+		}
+		else {
+			return result.trim();
+		}
 	});
 }
 
@@ -372,6 +421,7 @@ function printUsage() {
 		`${relative(__filename)} [option...]`,
 		'',
 		'Required options (at least one of):',
+		'  --interactive|-i             Guided update (proposes version, shows preview etc)',
 		'  --version=VERSION            Version being released',
 		'  --major                      New major (increment "a" in "a.b.c")',
 		'  --minor                      New minor (increment "b" in "a.b.c")',
@@ -400,7 +450,9 @@ function printUsage() {
 function matchOption(arg, matchers) {
 	for (const [name, matcher] of Object.entries(matchers)) {
 		if (name.endsWith('=')) {
-			const match = new RegExp(`^(?:-{0,2})${name}(.+)`, 'i').exec(arg);
+			const match = new RegExp(`^(?:-{0,2})(?:${name})(.+)`, 'i').exec(
+				arg
+			);
 
 			if (match) {
 				matcher(match[1]);
@@ -574,6 +626,7 @@ async function parseArgs(args) {
 				printUsage();
 				process.exit();
 			},
+			'interactive|i': (value) => (options.interactive = value),
 			major: (value) => value && (options.version = 'major'),
 			minor: (value) => value && (options.version = 'minor'),
 			'update-tags': (value) => (options.updateTags = value),
@@ -592,12 +645,14 @@ async function parseArgs(args) {
 	});
 
 	if (!options.version) {
-		if (options.dryRun) {
+		if (options.dryRun || options.interactive) {
 			const prefix = await getVersionTagPrefix();
 
-			const version = `${prefix}0.0.0-placeholder`;
+			const version = `${prefix}${PLACEHOLDER_VERSION}`;
 
-			info(`Using phony version ${version} during --dry-run`);
+			const reason = options.interactive ? '--interactive' : '--dry-run';
+
+			info(`[${reason}] Using phony version ${version}`);
 
 			options.version = version;
 		}
@@ -871,9 +926,7 @@ async function main(_node, _script, ...args) {
 		process.exit(1);
 	}
 
-	const {outfile, to, updateTags} = options;
-
-	if (updateTags) {
+	if (options.updateTags) {
 		try {
 			info('Fetching remote tags: run with --no-update-tags to skip');
 			await git('remote', 'update');
@@ -882,6 +935,41 @@ async function main(_node, _script, ...args) {
 			warn('Failed to update tags: run with --no-update-tags to skip');
 		}
 	}
+
+	try {
+		await go(options);
+	}
+	finally {
+		if (readline) {
+			readline.close();
+		}
+	}
+}
+
+/**
+ * Depending on the `options` in effect:
+ *
+ * - Prints `preview` to standard output (eg. during `--dry-run`); or:
+ * - Prints `contents` to the specified `outfile`.
+ */
+async function write(options, preview, contents) {
+	if (options.dryRun || options.version.endsWith(PLACEHOLDER_VERSION)) {
+		if (options.dryRun) {
+			info(`[--dry-run] Preview of changes 👀`);
+		}
+		else if (options.interactive) {
+			info(`[--interactive] Preview of changes 👀`);
+		}
+
+		process.stdout.write(preview + '\n');
+	}
+	else {
+		await writeFileAsync(options.outfile, contents);
+	}
+}
+
+async function go(options) {
+	const {outfile, to} = options;
 
 	const versionTagPrefix = await getVersionTagPrefix();
 
@@ -905,6 +993,7 @@ async function main(_node, _script, ...args) {
 	});
 
 	let written = 0;
+
 	if (options.regenerate) {
 		while (from && from !== options.from) {
 			let previousVersion = null;
@@ -934,16 +1023,13 @@ async function main(_node, _script, ...args) {
 			from = previousVersion;
 		}
 
-		if (options.dryRun) {
-			process.stdout.write(contents + '\n');
-		}
-		else {
-			await writeFileAsync(outfile, contents);
-		}
+		await write(options, contents, contents);
+
 		written = contents.length;
 	}
 	else {
 		let previousContents = '';
+
 		try {
 			previousContents = await readFileAsync(outfile, 'utf8');
 		}
@@ -972,21 +1058,63 @@ async function main(_node, _script, ...args) {
 			.filter(Boolean)
 			.join('\n');
 
-		if (options.dryRun) {
-			process.stdout.write(contents + '\n');
-		}
-		else {
-			await writeFileAsync(outfile, newContents);
-		}
+		await write(options, contents, newContents);
 
 		written = newContents.length;
 	}
 
-	if (options.dryRun) {
+	if (options.interactive && options.version.endsWith(PLACEHOLDER_VERSION)) {
+		info(`[--interactive] Would write ${outfile} ${written} bytes ✨`);
+
+		const answer = await prompt(
+			'Please choose a version from the list, or provide one in full (or enter to abort):',
+			Array.from(DERIVED_VERSIONS)
+		);
+
+		if (answer === '') {
+			process.exit();
+		}
+		else {
+			options.version = answer;
+
+			options.version = await getVersion(options);
+
+			return await go(options);
+		}
+	}
+	else if (options.dryRun) {
 		info(`[--dry-run] Would write ${outfile} ${written} bytes ✨`);
 	}
 	else {
 		info(`Wrote ${outfile} ${written} bytes ✨`);
+	}
+
+	if (options.interactive && !options.dryRun) {
+		info('[--interactive] git-diff preview 👀');
+
+		const diff = await git(
+			'-c',
+			'color.diff=always',
+			'diff',
+			'--',
+			options.outfile
+		);
+
+		log('');
+
+		log(diff);
+
+		const answer = await prompt(
+			'Would you like to stage these changes? (y/n)',
+			[]
+		);
+
+		if (/^y(es?)?$/i.test(answer)) {
+			await git('add', '--', options.outfile);
+		}
+
+		// we appear to hang here... why?
+
 	}
 }
 
