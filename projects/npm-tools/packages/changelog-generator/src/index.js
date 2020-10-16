@@ -178,7 +178,7 @@ function linkToVersion(version, remote) {
  *
  * @see https://www.conventionalcommits.org/en/v1.0.0/
  */
-const types = {
+const TYPES = {
 	/* eslint-disable sort-keys */
 
 	// Not a Conventional Commits type; we repeat breaking changes separately to
@@ -206,7 +206,7 @@ const types = {
 /**
  * Aliases mapping common mistakes to legit Conventional Commits types.
  */
-const aliases = {
+const ALIASES = {
 	bug: 'fix',
 	doc: 'docs',
 	feature: 'feat',
@@ -217,12 +217,12 @@ const TYPE_REGEXP = /^\s*(\w+)(\([^)]+\))?(!)?:\s+.+/;
 const BREAKING_TRAILER_REGEXP = /^BREAKING[ -]CHANGE:/m;
 
 async function formatChanges(changes, remote) {
-	const sections = new Map(Object.keys(types).map((type) => [type, []]));
+	const sections = new Map(Object.keys(TYPES).map((type) => [type, []]));
 
 	changes.forEach(({description, number}) => {
 		const match = description.match(TYPE_REGEXP);
 
-		const type = aliases[match && match[1]] || (match && match[1]);
+		const type = ALIASES[match && match[1]] || (match && match[1]);
 
 		const section = sections.get(type) || sections.get('misc');
 
@@ -245,7 +245,7 @@ async function formatChanges(changes, remote) {
 	return Array.from(sections.entries())
 		.map(([type, entries]) => {
 			if (entries.length) {
-				return `### ${types[type]}\n` + '\n' + entries.join('\n');
+				return `### ${TYPES[type]}\n` + '\n' + entries.join('\n');
 			}
 		})
 		.filter(Boolean)
