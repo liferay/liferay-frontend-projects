@@ -6,48 +6,14 @@
 const child_process = require('child_process');
 const fs = require('fs');
 const path = require('path');
-const {createInterface} = require('readline');
 const {promisify} = require('util');
+
+const {cleanup, error, info, log, prompt, warn} = require('./console');
 
 const readFileAsync = promisify(fs.readFile);
 const writeFileAsync = promisify(fs.writeFile);
 
-const GREEN = '\x1b[32m';
-const RED = '\x1b[31m';
-const RESET = '\x1b[0m';
-const YELLOW = '\x1b[33m';
-
 const PLACEHOLDER_VERSION = '0.0.0-placeholder.0';
-
-let readline;
-
-/**
- * Log a line to stderr.
- */
-function log(...args) {
-	process.stderr.write(`${args.join('\n')}\n`);
-}
-
-/**
- * Log a line to stderr, using green formatting.
- */
-function info(...args) {
-	log(`${GREEN}${args.join('\n')}${RESET}`);
-}
-
-/**
- * Log a line to stderr, using error formatting.
- */
-function error(...args) {
-	log(`${RED}error: ${args.join('\n')}${RESET}`);
-}
-
-/**
- * Log a line to stderr, using warning formatting.
- */
-function warn(...args) {
-	log(`${YELLOW}warning: ${args.join('\n')}${RESET}`);
-}
 
 /**
  * Run `command` and return its stdout (via a Promise).
@@ -68,50 +34,6 @@ function run(command, ...args) {
 				resolve(stdout);
 			}
 		});
-	});
-}
-
-/**
- * Prompt the user for input.
- */
-function prompt(question, options) {
-	if (!readline) {
-		readline = createInterface({
-			input: process.stdin,
-			output: process.stdout,
-		});
-	}
-
-	if (options.length) {
-		log('');
-
-		options.forEach((option, i) => {
-			log(`${i + 1}. ${option}`);
-		});
-
-		log('');
-	}
-
-	return new Promise((resolve) => {
-		readline.question(`${question} `, resolve);
-	}).then((result) => {
-		if (result.match(/^\s*-?\d+\s*$/)) {
-			const number = result;
-
-			if (number > 0 && number <= options.length) {
-				return options[number - 1];
-			}
-			else {
-				log('');
-
-				warn(`Valid choices lie between 1 and ${options.length}`);
-
-				return prompt(question, options);
-			}
-		}
-		else {
-			return result.trim();
-		}
 	});
 }
 
@@ -941,9 +863,7 @@ async function main(_node, _script, ...args) {
 		await go(options);
 	}
 	finally {
-		if (readline) {
-			readline.close();
-		}
+		cleanup();
 	}
 }
 
