@@ -618,6 +618,7 @@ async function parseArgs(args) {
 
 	args.forEach((arg) => {
 		matchOption(arg, {
+			/* eslint-disable no-return-assign */
 			'dry-run|d': (value) => (options.dryRun = value),
 			'force|f': (value) => (options.force = value),
 			'from=': (value) => (options.from = value),
@@ -628,7 +629,6 @@ async function parseArgs(args) {
 			'interactive|i': (value) => (options.interactive = value),
 			major: (value) => value && (options.version = 'major'),
 			minor: (value) => value && (options.version = 'minor'),
-			'update-tags': (value) => (options.updateTags = value),
 			'outfile=': (value) => (options.outfile = value),
 			patch: (value) => value && (options.version = 'patch'),
 			'preid=': (value) => (options.preid = value),
@@ -639,7 +639,9 @@ async function parseArgs(args) {
 			regenerate: (value) => (options.regenerate = value),
 			'remote-url=': (value) => (options.remote = value),
 			'to=': (value) => (options.to = value),
+			'update-tags': (value) => (options.updateTags = value),
 			'version=': (value) => (options.version = value),
+			/* eslint-enable no-return-assign */
 		});
 	});
 
