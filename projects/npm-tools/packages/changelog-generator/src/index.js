@@ -19,116 +19,6 @@ const writeFileAsync = promisify(fs.writeFile);
 const PLACEHOLDER_VERSION = '0.0.0-placeholder.0';
 
 /**
- * Return the date corresponding to the supplied `commitish`.
- */
-async function getDate(commitish) {
-	const timestamp = (
-		await git('log', -'1', commitish, '--pretty=format:%at')
-	).trim();
-
-	return new Date(+timestamp * 1000);
-}
-
-async function getPreviousReleasedVersion(before, tagPattern) {
-	const describe = await git(
-		'describe',
-		'--abbrev=0',
-		'--tags',
-		`--match=${tagPattern}`,
-		`${before}~`
-	);
-
-	return describe.trim();
-}
-
-async function getChanges(from, to) {
-	const range = from ? `${from}..${to}` : to;
-
-	const log = await git(
-		'log',
-		'--merges',
-		range,
-		'--numstat',
-		'-m',
-		'--first-parent',
-		'--relative',
-		'--pretty=format:%x00%H%x00%B%x00'
-	);
-
-	const changes = new Map();
-
-	const COMMIT = new RegExp(
-		'\0' + // Delimiter.
-			'([^\0]*)' + // Commit hash.
-			'\0' + // Delimiter.
-			'([^\0]*)' + // Commit message.
-			'\0' + // Delimiter.
-			'(\\n(?:-|\\d+)\\s+(?:-|\\d+)\\s+[^\\n]+)*' + // Optional file stat info.
-			'\\n\\n?',
-		'g'
-	);
-
-	while (true) {
-		const match = COMMIT.exec(log);
-
-		if (match) {
-			const [, hash, message, info] = match;
-
-			if (info) {
-				const [subject, description] = message.split(/\n+/);
-				const metadata = subject.match(/Merge pull request #(\d+)/);
-				const number = metadata ? metadata[1] : NaN;
-
-				if (description) {
-					changes.set(hash, {
-						description: description.trim(),
-						number,
-					});
-				}
-			}
-		}
-		else {
-			break;
-		}
-	}
-
-	if (!changes.size) {
-		warn(`No merges detected in range ${range}`);
-	}
-
-	return Array.from(changes.values());
-}
-
-/**
- * Returns the URL of the remote repository, or `null` if it cannot be
- * determined.
- */
-async function getRemote(options) {
-	if (options.remote) {
-		return options.remote;
-	}
-
-	const remotes = await git('remote', '-v');
-	const lines = remotes.split('\n');
-
-	for (let i = 0; i < lines.length; i++) {
-		const match = lines[i].match(
-			/\bgithub\.com[/:]liferay\/(\S+?)(?:\.git)?\s/i
-		);
-		if (match) {
-			return `https://github.com/liferay/${match[1]}`;
-		}
-	}
-
-	warn(
-		'Unable to determine remote repository URL!',
-		'Please specify one with --remote-url=REPOSITORY_URL'
-	);
-
-	return null;
-}
-
-/**
  * Escape `string` suitable for embedding in a Markdown document.
  */
 function escape(string) {
@@ -141,38 +31,6 @@ function escape(string) {
 		.replace(/&/g, '&amp;')
 		.replace(/</g, '&lt;')
 		.replace(/>/g, '&gt;');
-}
-
-function linkToComparison(from, to, remote) {
-	if (remote && from) {
-		return `[Full changelog](${remote}/compare/${from}...${to})`;
-	}
-	else {
-		return null;
-	}
-}
-
-function linkToPullRequest(number, remote) {
-	if (isNaN(number)) {
-		return null;
-	}
-	else if (remote) {
-		const url = `${remote}/pull/${number}`;
-
-		return `[\\#${number}](${url})`;
-	}
-	else {
-		return `#${number}`;
-	}
-}
-
-function linkToVersion(version, remote) {
-	if (remote) {
-		return `[${version}](${remote}/tree/${version})`;
-	}
-	else {
-		return version;
-	}
 }
 
 /**
@@ -255,36 +113,498 @@ async function formatChanges(changes, remote) {
 		.join('\n\n');
 }
 
-function printUsage() {
-	log(
-		'',
-		`${path.relative('.', __filename)} [option...]`,
-		'',
-		'Required options (at least one of):',
-		'  --interactive|-i             Guided update (proposes version, shows preview etc)',
-		'  --version=VERSION            Version being released',
-		'  --major                      New major (increment "a" in "a.b.c")',
-		'  --minor                      New minor (increment "b" in "a.b.c")',
-		'  --patch                      New patch (increment "c" in "a.b.c")',
-		'  --premajor                   New major prelease (increment "a" in "a.b.c-pre.0")',
-		'  --preminor                   New minor prelease (increment "b" in "a.b.c-pre.0")',
-		'  --prepatch                   New patch prelease (increment "c" in "a.b.c-pre.0")',
-		'  --prerelease                 New prelease (increment "d" in "a.b.c-pre.d")',
-		'',
-		'Optional options:',
-		'  --dry-run|-d                 Preview changes without writing to disk',
-		'  --force|-f                   Disable safety checks',
-		'  --from=FROM                  Starting point (default: previous tag)',
-		'  --to=TO                      Ending point( default: "HEAD")',
-		'  --no-update-tags             Disable tag prefetching',
-		'  --outfile=FILE               Output filename (default: "./CHANGELOG.md")',
-		'  --preid=ID                   Prerelease prefix (default: "pre")',
-		'  --regenerate                 Overwrite instead of appending',
-		'  --remote-url=REPOSITORY_URL  Remote repositor (default: inferred)',
-		'',
-		'Other options:',
-		'  --help|-h                    Show this help then exit'
+function formatDate(date) {
+	const year = date.getFullYear();
+	const month = (date.getMonth() + 1).toString().padStart(2, '0');
+	const day = date.getDate().toString().padStart(2, '0');
+
+	return `${year}-${month}-${day}`;
+}
+
+async function generate({date, from, remote, to, version}) {
+	const changes = await getChanges(from, to);
+
+	const header = `## ${linkToVersion(version, remote)} (${formatDate(date)})`;
+
+	const comparisonLink = linkToComparison(from, version, remote);
+
+	const changeList = await formatChanges(changes, remote);
+
+	return (
+		[header, comparisonLink, changeList].filter(Boolean).join('\n\n') + '\n'
 	);
+}
+
+async function getChanges(from, to) {
+	const range = from ? `${from}..${to}` : to;
+
+	const log = await git(
+		'log',
+		'--merges',
+		range,
+		'--numstat',
+		'-m',
+		'--first-parent',
+		'--relative',
+		'--pretty=format:%x00%H%x00%B%x00'
+	);
+
+	const changes = new Map();
+
+	const COMMIT = new RegExp(
+		'\0' + // Delimiter.
+			'([^\0]*)' + // Commit hash.
+			'\0' + // Delimiter.
+			'([^\0]*)' + // Commit message.
+			'\0' + // Delimiter.
+			'(\\n(?:-|\\d+)\\s+(?:-|\\d+)\\s+[^\\n]+)*' + // Optional file stat info.
+			'\\n\\n?',
+		'g'
+	);
+
+	while (true) {
+		const match = COMMIT.exec(log);
+
+		if (match) {
+			const [, hash, message, info] = match;
+
+			if (info) {
+				const [subject, description] = message.split(/\n+/);
+				const metadata = subject.match(/Merge pull request #(\d+)/);
+				const number = metadata ? metadata[1] : NaN;
+
+				if (description) {
+					changes.set(hash, {
+						description: description.trim(),
+						number,
+					});
+				}
+			}
+		}
+		else {
+			break;
+		}
+	}
+
+	if (!changes.size) {
+		warn(`No merges detected in range ${range}`);
+	}
+
+	return Array.from(changes.values());
+}
+
+/**
+ * Return the date corresponding to the supplied `commitish`.
+ */
+async function getDate(commitish) {
+	const timestamp = (
+		await git('log', -'1', commitish, '--pretty=format:%at')
+	).trim();
+
+	return new Date(+timestamp * 1000);
+}
+
+async function getPreviousReleasedVersion(before, tagPattern) {
+	const describe = await git(
+		'describe',
+		'--abbrev=0',
+		'--tags',
+		`--match=${tagPattern}`,
+		`${before}~`
+	);
+
+	return describe.trim();
+}
+
+/**
+ * Returns the URL of the remote repository, or `null` if it cannot be
+ * determined.
+ */
+async function getRemote(options) {
+	if (options.remote) {
+		return options.remote;
+	}
+
+	const remotes = await git('remote', '-v');
+	const lines = remotes.split('\n');
+
+	for (let i = 0; i < lines.length; i++) {
+		const match = lines[i].match(
+			/\bgithub\.com[/:]liferay\/(\S+?)(?:\.git)?\s/i
+		);
+		if (match) {
+			return `https://github.com/liferay/${match[1]}`;
+		}
+	}
+
+	warn(
+		'Unable to determine remote repository URL!',
+		'Please specify one with --remote-url=REPOSITORY_URL'
+	);
+
+	return null;
+}
+
+/**
+ * If any of these special words are passed as a `version`, we'll try to derive
+ * the actual version number automatically.
+ */
+const DERIVED_VERSIONS = new Set([
+	'major',
+	'minor',
+	'patch',
+	'premajor',
+	'preminor',
+	'prepatch',
+	'prerelease',
+]);
+
+/**
+ * Returns the next version number based on the provided options.
+ *
+ * This will either be an explicitly provided version number (via
+ * the `--version`) switch, or a derived one based on the `--major`,
+ * `--minor` (etc) options. Note that derived version numbers require
+ * a well-formed `version` property in the package.json file in the
+ * current working directory.
+ */
+async function getVersion(options) {
+	if (DERIVED_VERSIONS.has(options.version)) {
+		let currentVersion;
+
+		try {
+			({version: currentVersion} = JSON.parse(
+				await readFileAsync('package.json', 'utf8')
+			));
+		}
+		catch (_error) {
+			currentVersion = '';
+		}
+
+		let [, major, minor, patch, preid, prerelease] =
+			currentVersion.match(/^(\d+)\.(\d+)\.(\d+)(?:-(\w+)\.(\d+))?$/) ||
+			[];
+
+		if (typeof major !== 'string') {
+			throw new Error(
+				'Unable to extract version from "package.json"; ' +
+					'please pass --version explicitly'
+			);
+		}
+
+		// Precedence: --preid option > .yarnrc setting > previous id > default.
+
+		if (options.preid) {
+			preid = options.preid;
+		}
+		else {
+			const settings = await readYarnrc();
+
+			preid = settings.get('--version.preid') || preid || 'pre';
+		}
+
+		const prefix = await getVersionTagPrefix();
+
+		switch (options.version) {
+			case 'major':
+			case 'premajor':
+				major++;
+				minor = 0;
+				patch = 0;
+				prerelease = options.version === 'major' ? undefined : 0;
+				break;
+
+			case 'minor':
+			case 'preminor':
+				minor++;
+				patch = 0;
+				prerelease = options.version === 'minor' ? undefined : 0;
+				break;
+
+			case 'prepatch':
+			case 'patch':
+				patch++;
+				prerelease = options.version === 'patch' ? undefined : 0;
+				break;
+
+			case 'prerelease':
+				if (prerelease !== undefined) {
+					prerelease++;
+				}
+				else {
+					patch++;
+					prerelease = 0;
+				}
+				break;
+
+			default:
+				throw new Error('Unexpected version');
+		}
+
+		currentVersion = '';
+
+		if (prerelease !== undefined) {
+			currentVersion = `${major}.${minor}.${patch}-${preid}.${prerelease}`;
+		}
+		else {
+			currentVersion = `${major}.${minor}.${patch}`;
+		}
+
+		return `${prefix}${currentVersion}`;
+	}
+	else {
+		return options.version;
+	}
+}
+
+/**
+ * Returns a tag prefix that can be used to construct or find a version tag.
+ *
+ * -   If we're being run from a subdirectory in a monorepo and a ".yarnrc" file
+ *     exists, we return its "version-tag-prefix".
+ *
+ *     For example, given a prefix of "my-package/v", then we can find matching
+ *     tags using `git describe --match='my-package/v*'.
+ *
+ *     Likewise, if we're being run from the repo root and a ".yarnrc" file
+ *     exists there.
+ *
+ *     For example, given a prefix of "v", then we can find matching tags using
+ *     `git describe --match='v*'`.
+ *
+ * -   If we can't get a "version-tag-prefix", we use a fallback prefix of "".
+ *
+ *     With the fallback prefix of "", we can find matching tags using
+ *     `git describe --match='*'`.
+ *
+ * If none of the above apply (eg. because we're being run from the
+ * wrong directory), an error is thrown.
+ */
+async function getVersionTagPrefix() {
+	const settings = await readYarnrc();
+
+	const setting = settings.get('version-tag-prefix');
+
+	if (setting) {
+		const match = setting.match(/^"([^"]+)"$/);
+
+		if (match) {
+			return match[1];
+		}
+	}
+
+	return '';
+}
+
+async function go(options) {
+	const {outfile, to} = options;
+
+	const versionTagPrefix = await getVersionTagPrefix();
+
+	const tagPattern = `${versionTagPrefix}*`;
+
+	const version = await normalizeVersion(
+		options.version,
+		options,
+		versionTagPrefix
+	);
+
+	const remote = await getRemote(options);
+	let from = await getPreviousReleasedVersion(to, tagPattern);
+	const date = await getDate(to);
+	let contents = await generate({
+		date,
+		from,
+		remote,
+		to,
+		version,
+	});
+
+	let written = 0;
+
+	if (options.regenerate) {
+		while (from && from !== options.from) {
+			let previousVersion = null;
+			try {
+				previousVersion = await getPreviousReleasedVersion(
+					from,
+					tagPattern
+				);
+			}
+			catch (err) {
+
+				// This will be the last chunk we generate.
+
+				info('No more tags found (this is not an error) 🦄');
+			}
+
+			const date = await getDate(from);
+			const chunk = await generate({
+				date,
+				from: previousVersion,
+				remote,
+				to: from,
+				version: from,
+			});
+			contents += '\n' + chunk;
+
+			from = previousVersion;
+		}
+
+		await write(options, contents, contents);
+
+		written = contents.length;
+	}
+	else {
+		let previousContents = '';
+
+		try {
+			previousContents = await readFileAsync(outfile, 'utf8');
+		}
+		catch (error) {
+			warn(`Cannot read previous file ${outfile}; will create anew.`);
+		}
+
+		if (previousContents.indexOf(`[${version}]`) !== -1) {
+			const message = [
+				`${outfile} already contains a reference to ${version}.`,
+				'Did you mean to regenerate using the --regenerate switch?',
+			];
+			if (options.force) {
+				warn(...message);
+			}
+			else {
+				error(
+					...message,
+					'Alternatively, proceed anyway by using the --force switch.'
+				);
+				process.exit(1);
+			}
+		}
+
+		const newContents = [contents, previousContents]
+			.filter(Boolean)
+			.join('\n');
+
+		await write(options, contents, newContents);
+
+		written = newContents.length;
+	}
+
+	if (options.interactive && options.version.endsWith(PLACEHOLDER_VERSION)) {
+		info(`[--interactive] Would write ${outfile} ${written} bytes ✨`);
+
+		const answer = await prompt(
+			'Please choose a version from the list, or provide one in full (or enter to abort):',
+			Array.from(DERIVED_VERSIONS)
+		);
+
+		if (answer === '') {
+			process.exit();
+		}
+		else {
+			options.version = answer;
+
+			options.version = await getVersion(options);
+
+			return await go(options);
+		}
+	}
+	else if (options.dryRun) {
+		info(`[--dry-run] Would write ${outfile} ${written} bytes ✨`);
+	}
+	else {
+		info(`Wrote ${outfile} ${written} bytes ✨`);
+	}
+
+	if (options.interactive && !options.dryRun) {
+		info('[--interactive] git-diff preview 👀');
+
+		const diff = await git(
+			'-c',
+			'color.diff=always',
+			'diff',
+			'--',
+			options.outfile
+		);
+
+		log('');
+
+		log(diff);
+
+		const answer = await prompt(
+			'Would you like to stage these changes? (y/n)',
+			[]
+		);
+
+		if (/^y(es?)?$/i.test(answer)) {
+			await git('add', '--', options.outfile);
+		}
+	}
+}
+
+function linkToComparison(from, to, remote) {
+	if (remote && from) {
+		return `[Full changelog](${remote}/compare/${from}...${to})`;
+	}
+	else {
+		return null;
+	}
+}
+
+function linkToPullRequest(number, remote) {
+	if (isNaN(number)) {
+		return null;
+	}
+	else if (remote) {
+		const url = `${remote}/pull/${number}`;
+
+		return `[\\#${number}](${url})`;
+	}
+	else {
+		return `#${number}`;
+	}
+}
+
+function linkToVersion(version, remote) {
+	if (remote) {
+		return `[${version}](${remote}/tree/${version})`;
+	}
+	else {
+		return version;
+	}
+}
+
+async function main(_node, _script, ...args) {
+	printBanner(`
+		@liferay/changelog-generator
+		============================
+
+		Reporting for duty!
+	`);
+
+	const options = await parseArgs(args);
+
+	if (!options) {
+		process.exit(1);
+	}
+
+	if (options.updateTags) {
+		try {
+			info('Fetching remote tags: run with --no-update-tags to skip');
+			await git('remote', 'update');
+		}
+		catch (err) {
+			warn('Failed to update tags: run with --no-update-tags to skip');
+		}
+	}
+
+	try {
+		await go(options);
+	}
+	finally {
+		cleanup();
+	}
 }
 
 const V_PREFIX_REGEX = /^v\d/;
@@ -487,209 +807,36 @@ async function parseArgs(args) {
 	return options;
 }
 
-function formatDate(date) {
-	const year = date.getFullYear();
-	const month = (date.getMonth() + 1).toString().padStart(2, '0');
-	const day = date.getDate().toString().padStart(2, '0');
-
-	return `${year}-${month}-${day}`;
-}
-
-async function generate({date, from, remote, to, version}) {
-	const changes = await getChanges(from, to);
-
-	const header = `## ${linkToVersion(version, remote)} (${formatDate(date)})`;
-
-	const comparisonLink = linkToComparison(from, version, remote);
-
-	const changeList = await formatChanges(changes, remote);
-
-	return (
-		[header, comparisonLink, changeList].filter(Boolean).join('\n\n') + '\n'
+function printUsage() {
+	log(
+		'',
+		`${path.relative('.', __filename)} [option...]`,
+		'',
+		'Required options (at least one of):',
+		'  --interactive|-i             Guided update (proposes version, shows preview etc)',
+		'  --version=VERSION            Version being released',
+		'  --major                      New major (increment "a" in "a.b.c")',
+		'  --minor                      New minor (increment "b" in "a.b.c")',
+		'  --patch                      New patch (increment "c" in "a.b.c")',
+		'  --premajor                   New major prelease (increment "a" in "a.b.c-pre.0")',
+		'  --preminor                   New minor prelease (increment "b" in "a.b.c-pre.0")',
+		'  --prepatch                   New patch prelease (increment "c" in "a.b.c-pre.0")',
+		'  --prerelease                 New prelease (increment "d" in "a.b.c-pre.d")',
+		'',
+		'Optional options:',
+		'  --dry-run|-d                 Preview changes without writing to disk',
+		'  --force|-f                   Disable safety checks',
+		'  --from=FROM                  Starting point (default: previous tag)',
+		'  --to=TO                      Ending point( default: "HEAD")',
+		'  --no-update-tags             Disable tag prefetching',
+		'  --outfile=FILE               Output filename (default: "./CHANGELOG.md")',
+		'  --preid=ID                   Prerelease prefix (default: "pre")',
+		'  --regenerate                 Overwrite instead of appending',
+		'  --remote-url=REPOSITORY_URL  Remote repositor (default: inferred)',
+		'',
+		'Other options:',
+		'  --help|-h                    Show this help then exit'
 	);
-}
-
-/**
- * If any of these special words are passed as a `version`, we'll try to derive
- * the actual version number automatically.
- */
-const DERIVED_VERSIONS = new Set([
-	'major',
-	'minor',
-	'patch',
-	'premajor',
-	'preminor',
-	'prepatch',
-	'prerelease',
-]);
-
-/**
- * Returns the next version number based on the provided options.
- *
- * This will either be an explicitly provided version number (via
- * the `--version`) switch, or a derived one based on the `--major`,
- * `--minor` (etc) options. Note that derived version numbers require
- * a well-formed `version` property in the package.json file in the
- * current working directory.
- */
-async function getVersion(options) {
-	if (DERIVED_VERSIONS.has(options.version)) {
-		let currentVersion;
-
-		try {
-			({version: currentVersion} = JSON.parse(
-				await readFileAsync('package.json', 'utf8')
-			));
-		}
-		catch (_error) {
-			currentVersion = '';
-		}
-
-		let [, major, minor, patch, preid, prerelease] =
-			currentVersion.match(/^(\d+)\.(\d+)\.(\d+)(?:-(\w+)\.(\d+))?$/) ||
-			[];
-
-		if (typeof major !== 'string') {
-			throw new Error(
-				'Unable to extract version from "package.json"; ' +
-					'please pass --version explicitly'
-			);
-		}
-
-		// Precedence: --preid option > .yarnrc setting > previous id > default.
-
-		if (options.preid) {
-			preid = options.preid;
-		}
-		else {
-			const settings = await readYarnrc();
-
-			preid = settings.get('--version.preid') || preid || 'pre';
-		}
-
-		const prefix = await getVersionTagPrefix();
-
-		switch (options.version) {
-			case 'major':
-			case 'premajor':
-				major++;
-				minor = 0;
-				patch = 0;
-				prerelease = options.version === 'major' ? undefined : 0;
-				break;
-
-			case 'minor':
-			case 'preminor':
-				minor++;
-				patch = 0;
-				prerelease = options.version === 'minor' ? undefined : 0;
-				break;
-
-			case 'prepatch':
-			case 'patch':
-				patch++;
-				prerelease = options.version === 'patch' ? undefined : 0;
-				break;
-
-			case 'prerelease':
-				if (prerelease !== undefined) {
-					prerelease++;
-				}
-				else {
-					patch++;
-					prerelease = 0;
-				}
-				break;
-
-			default:
-				throw new Error('Unexpected version');
-		}
-
-		currentVersion = '';
-
-		if (prerelease !== undefined) {
-			currentVersion = `${major}.${minor}.${patch}-${preid}.${prerelease}`;
-		}
-		else {
-			currentVersion = `${major}.${minor}.${patch}`;
-		}
-
-		return `${prefix}${currentVersion}`;
-	}
-	else {
-		return options.version;
-	}
-}
-
-/**
- * Returns a tag prefix that can be used to construct or find a version tag.
- *
- * -   If we're being run from a subdirectory in a monorepo and a ".yarnrc" file
- *     exists, we return its "version-tag-prefix".
- *
- *     For example, given a prefix of "my-package/v", then we can find matching
- *     tags using `git describe --match='my-package/v*'.
- *
- *     Likewise, if we're being run from the repo root and a ".yarnrc" file
- *     exists there.
- *
- *     For example, given a prefix of "v", then we can find matching tags using
- *     `git describe --match='v*'`.
- *
- * -   If we can't get a "version-tag-prefix", we use a fallback prefix of "".
- *
- *     With the fallback prefix of "", we can find matching tags using
- *     `git describe --match='*'`.
- *
- * If none of the above apply (eg. because we're being run from the
- * wrong directory), an error is thrown.
- */
-async function getVersionTagPrefix() {
-	const settings = await readYarnrc();
-
-	const setting = settings.get('version-tag-prefix');
-
-	if (setting) {
-		const match = setting.match(/^"([^"]+)"$/);
-
-		if (match) {
-			return match[1];
-		}
-	}
-
-	return '';
-}
-
-async function main(_node, _script, ...args) {
-	printBanner(`
-		@liferay/changelog-generator
-		============================
-
-		Reporting for duty!
-	`);
-
-	const options = await parseArgs(args);
-
-	if (!options) {
-		process.exit(1);
-	}
-
-	if (options.updateTags) {
-		try {
-			info('Fetching remote tags: run with --no-update-tags to skip');
-			await git('remote', 'update');
-		}
-		catch (err) {
-			warn('Failed to update tags: run with --no-update-tags to skip');
-		}
-	}
-
-	try {
-		await go(options);
-	}
-	finally {
-		cleanup();
-	}
 }
 
 /**
@@ -711,153 +858,6 @@ async function write(options, preview, contents) {
 	}
 	else {
 		await writeFileAsync(options.outfile, contents);
-	}
-}
-
-async function go(options) {
-	const {outfile, to} = options;
-
-	const versionTagPrefix = await getVersionTagPrefix();
-
-	const tagPattern = `${versionTagPrefix}*`;
-
-	const version = await normalizeVersion(
-		options.version,
-		options,
-		versionTagPrefix
-	);
-
-	const remote = await getRemote(options);
-	let from = await getPreviousReleasedVersion(to, tagPattern);
-	const date = await getDate(to);
-	let contents = await generate({
-		date,
-		from,
-		remote,
-		to,
-		version,
-	});
-
-	let written = 0;
-
-	if (options.regenerate) {
-		while (from && from !== options.from) {
-			let previousVersion = null;
-			try {
-				previousVersion = await getPreviousReleasedVersion(
-					from,
-					tagPattern
-				);
-			}
-			catch (err) {
-
-				// This will be the last chunk we generate.
-
-				info('No more tags found (this is not an error) 🦄');
-			}
-
-			const date = await getDate(from);
-			const chunk = await generate({
-				date,
-				from: previousVersion,
-				remote,
-				to: from,
-				version: from,
-			});
-			contents += '\n' + chunk;
-
-			from = previousVersion;
-		}
-
-		await write(options, contents, contents);
-
-		written = contents.length;
-	}
-	else {
-		let previousContents = '';
-
-		try {
-			previousContents = await readFileAsync(outfile, 'utf8');
-		}
-		catch (error) {
-			warn(`Cannot read previous file ${outfile}; will create anew.`);
-		}
-
-		if (previousContents.indexOf(`[${version}]`) !== -1) {
-			const message = [
-				`${outfile} already contains a reference to ${version}.`,
-				'Did you mean to regenerate using the --regenerate switch?',
-			];
-			if (options.force) {
-				warn(...message);
-			}
-			else {
-				error(
-					...message,
-					'Alternatively, proceed anyway by using the --force switch.'
-				);
-				process.exit(1);
-			}
-		}
-
-		const newContents = [contents, previousContents]
-			.filter(Boolean)
-			.join('\n');
-
-		await write(options, contents, newContents);
-
-		written = newContents.length;
-	}
-
-	if (options.interactive && options.version.endsWith(PLACEHOLDER_VERSION)) {
-		info(`[--interactive] Would write ${outfile} ${written} bytes ✨`);
-
-		const answer = await prompt(
-			'Please choose a version from the list, or provide one in full (or enter to abort):',
-			Array.from(DERIVED_VERSIONS)
-		);
-
-		if (answer === '') {
-			process.exit();
-		}
-		else {
-			options.version = answer;
-
-			options.version = await getVersion(options);
-
-			return await go(options);
-		}
-	}
-	else if (options.dryRun) {
-		info(`[--dry-run] Would write ${outfile} ${written} bytes ✨`);
-	}
-	else {
-		info(`Wrote ${outfile} ${written} bytes ✨`);
-	}
-
-	if (options.interactive && !options.dryRun) {
-		info('[--interactive] git-diff preview 👀');
-
-		const diff = await git(
-			'-c',
-			'color.diff=always',
-			'diff',
-			'--',
-			options.outfile
-		);
-
-		log('');
-
-		log(diff);
-
-		const answer = await prompt(
-			'Would you like to stage these changes? (y/n)',
-			[]
-		);
-
-		if (/^y(es?)?$/i.test(answer)) {
-			await git('add', '--', options.outfile);
-		}
 	}
 }
 
