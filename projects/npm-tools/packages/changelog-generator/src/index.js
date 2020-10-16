@@ -3,47 +3,17 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const child_process = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const {promisify} = require('util');
 
 const {cleanup, error, info, log, prompt, warn} = require('./console');
+const git = require('./git');
 
 const readFileAsync = promisify(fs.readFile);
 const writeFileAsync = promisify(fs.writeFile);
 
 const PLACEHOLDER_VERSION = '0.0.0-placeholder.0';
-
-/**
- * Run `command` and return its stdout (via a Promise).
- */
-function run(command, ...args) {
-	return new Promise((resolve, reject) => {
-		child_process.execFile(command, args, (err, stdout, stderr) => {
-			if (err) {
-				const invocation = `${command} ${args.join(' ')}`;
-				log(
-					`command: ${invocation}`,
-					`stdout: ${stdout}`,
-					`stderr: ${stderr}`
-				);
-				reject(new Error(`Command: "${invocation}" failed: ${err}`));
-			}
-			else {
-				resolve(stdout);
-			}
-		});
-	});
-}
-
-/**
- * Convenience wrapper for running a Git command and returning its output (via a
- * Promise).
- */
-function git(...args) {
-	return run('git', ...args);
-}
 
 /**
  * Return the date corresponding to the supplied `commitish`.
