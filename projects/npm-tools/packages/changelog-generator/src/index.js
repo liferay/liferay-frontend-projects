@@ -362,17 +362,16 @@ async function formatChanges(changes, remote) {
 
 /**
  * Prints `message` in a silly banner like this:
- *  ____________________
- * (_)                  `
- *   |                  |
- *   |   changelog.js   |
- *   |   ============   |
- *   |                  |
- *   |   Reporting      |
- *   |   for duty!      |
- *   |                  |
- *   |__________________|
- *   (_)_________________)
+ *  ____________________________________
+ * (_)                                  `
+ *   |                                  |
+ *   |   @liferay/changelog-generator   |
+ *   |   ============                   |
+ *   |                                  |
+ *   |   Reporting for duty!            |
+ *   |                                  |
+ *   |__________________________________|
+ *   (_)________________________________)
  *
  */
 function printBanner(message) {
