@@ -371,16 +371,20 @@ function printUsage() {
 		'',
 		`${relative(__filename)} [option...]`,
 		'',
-		'Options:',
-		'  --force|-f                   [optional: disable safety checks]',
-		'  --from=FROM                  [default: previous tag]',
-		'  --to=TO                      [default: HEAD]',
-		'  --help|-h',
-		'  --no-update-tags             [optional: disable tag prefetching]',
-		'  --outfile=FILE               [default: ./CHANGELOG.md]',
-		'  --remote-url=REPOSITORY_URL  [default: inferred]',
-		'  --regenerate                 [optional: replace entire changelog]',
-		'  --version=VERSION            [required: version being released]'
+		'Required options (at least one of):',
+		'  --version=VERSION            Version being released',
+		'',
+		'Optional options:',
+		'  --force|-f                   Disable safety checks',
+		'  --from=FROM                  Starting point (default: previous tag)',
+		'  --to=TO                      Ending point( default: "HEAD")',
+		'  --no-update-tags             Disable tag prefetching',
+		'  --outfile=FILE               Output filename (default: "./CHANGELOG.md")',
+		'  --regenerate                 Overwrite instead of appending',
+		'  --remote-url=REPOSITORY_URL  Remote repositor (default: inferred)',
+		'',
+		'Other options:',
+		'  --help|-h                    Show this help then exit'
 	);
 }
 
