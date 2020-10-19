@@ -7,6 +7,8 @@
 /maintenance/projects/js-toolkit/**/lib
 /maintenance/projects/js-toolkit/**/__fixtures__
 
+/projects/amd-loader/build
+
 /projects/js-toolkit/qa
 /projects/js-toolkit/**/generators
 /projects/js-toolkit/**/lib
