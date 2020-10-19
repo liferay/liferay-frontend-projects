@@ -3,98 +3,136 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const child_process = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const {promisify} = require('util');
 
+const {cleanup, error, info, log, prompt, warn} = require('./console');
+const git = require('./git');
+const matchOption = require('./matchOption');
+const printBanner = require('./printBanner');
+const readYarnrc = require('./readYarnrc');
+
 const readFileAsync = promisify(fs.readFile);
 const writeFileAsync = promisify(fs.writeFile);
 
-const GREEN = '\x1b[32m';
-const RED = '\x1b[31m';
-const RESET = '\x1b[0m';
-const YELLOW = '\x1b[33m';
+const PLACEHOLDER_VERSION = '0.0.0-placeholder.0';
 
 /**
- * Log a line to stderr.
+ * Escape `string` suitable for embedding in a Markdown document.
  */
-function log(...args) {
-	process.stderr.write(`${args.join('\n')}\n`);
+function escape(string) {
+
+	// At the moment, not escaping some special Markdown characters (such as *,
+	// backticks etc) as they may prove useful.
+
+	return string
+		.replace(/_/g, '\\_')
+		.replace(/&/g, '&amp;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;');
 }
 
 /**
- * Log a line to stderr, using green formatting.
+ * Conventional commit types, and equivalent human-readable labels, in the order
+ * that we wish them to appear in the changelog.
+ *
+ * @see https://www.conventionalcommits.org/en/v1.0.0/
  */
-function info(...args) {
-	log(`${GREEN}${args.join('\n')}${RESET}`);
-}
+const TYPES = {
+	/* eslint-disable sort-keys */
+
+	// Not a Conventional Commits type; we repeat breaking changes separately to
+	// maximize their visibility:
+
+	breaking: ':boom: Breaking changes',
+
+	feat: ':new: Features',
+	fix: ':wrench: Bug fixes',
+	perf: ':racing_car: Peformance',
+	docs: ':book: Documentation',
+	chore: ':house: Chores',
+	refactor: ':woman_juggling: Refactoring',
+	style: ':nail_care: Style',
+	test: ':eyeglasses: Tests',
+	revert: ':leftwards_arrow_with_hook: Reverts',
+
+	// Not a Conventional Commits type; this is our catch-all:
+
+	misc: ':package: Miscellaneous',
+
+	/* eslint-enable sort-keys */
+};
 
 /**
- * Log a line to stderr, using error formatting.
+ * Aliases mapping common mistakes to legit Conventional Commits types.
  */
-function error(...args) {
-	log(`${RED}error: ${args.join('\n')}${RESET}`);
-}
+const ALIASES = {
+	bug: 'fix',
+	doc: 'docs',
+	feature: 'feat',
+};
 
-/**
- * Log a line to stderr, using warning formatting.
- */
-function warn(...args) {
-	log(`${YELLOW}warning: ${args.join('\n')}${RESET}`);
-}
+const TYPE_REGEXP = /^\s*(\w+)(\([^)]+\))?(!)?:\s+.+/;
 
-/**
- * Run `command` and return its stdout (via a Promise).
- */
-function run(command, ...args) {
-	return new Promise((resolve, reject) => {
-		child_process.execFile(command, args, (err, stdout, stderr) => {
-			if (err) {
-				const invocation = `${command} ${args.join(' ')}`;
-				log(
-					`command: ${invocation}`,
-					`stdout: ${stdout}`,
-					`stderr: ${stderr}`
-				);
-				reject(new Error(`Command: "${invocation}" failed: ${err}`));
-			}
-			else {
-				resolve(stdout);
-			}
-		});
+const BREAKING_TRAILER_REGEXP = /^BREAKING[ -]CHANGE:/m;
+
+async function formatChanges(changes, remote) {
+	const sections = new Map(Object.keys(TYPES).map((type) => [type, []]));
+
+	changes.forEach(({description, number}) => {
+		const match = description.match(TYPE_REGEXP);
+
+		const type = ALIASES[match && match[1]] || (match && match[1]);
+
+		const section = sections.get(type) || sections.get('misc');
+
+		const link = linkToPullRequest(number, remote);
+
+		const entry = link
+			? `-   ${escape(description)} (${link})`
+			: `-   ${escape(description)}`;
+
+		section.push(entry);
+
+		const breaking =
+			(match && match[3]) || BREAKING_TRAILER_REGEXP.test(description);
+
+		if (breaking) {
+			sections.get('breaking').push(entry);
+		}
 	});
+
+	return Array.from(sections.entries())
+		.map(([type, entries]) => {
+			if (entries.length) {
+				return `### ${TYPES[type]}\n` + '\n' + entries.join('\n');
+			}
+		})
+		.filter(Boolean)
+		.join('\n\n');
 }
 
-/**
- * Convenience wrapper for running a Git command and returning its output (via a
- * Promise).
- */
-function git(...args) {
-	return run('git', ...args);
+function formatDate(date) {
+	const year = date.getFullYear();
+	const month = (date.getMonth() + 1).toString().padStart(2, '0');
+	const day = date.getDate().toString().padStart(2, '0');
+
+	return `${year}-${month}-${day}`;
 }
 
-/**
- * Return the date corresponding to the supplied `commitish`.
- */
-async function getDate(commitish) {
-	const timestamp = (
-		await git('log', -'1', commitish, '--pretty=format:%at')
-	).trim();
+async function generate({date, from, remote, to, version}) {
+	const changes = await getChanges(from, to);
 
-	return new Date(+timestamp * 1000);
-}
+	const header = `## ${linkToVersion(version, remote)} (${formatDate(date)})`;
 
-async function getPreviousReleasedVersion(before, tagPattern) {
-	const describe = await git(
-		'describe',
-		'--abbrev=0',
-		'--tags',
-		`--match=${tagPattern}`,
-		`${before}~`
+	const comparisonLink = linkToComparison(from, version, remote);
+
+	const changeList = await formatChanges(changes, remote);
+
+	return (
+		[header, comparisonLink, changeList].filter(Boolean).join('\n\n') + '\n'
 	);
-
-	return describe.trim();
 }
 
 async function getChanges(from, to) {
@@ -156,6 +194,29 @@ async function getChanges(from, to) {
 }
 
 /**
+ * Return the date corresponding to the supplied `commitish`.
+ */
+async function getDate(commitish) {
+	const timestamp = (
+		await git('log', -'1', commitish, '--pretty=format:%at')
+	).trim();
+
+	return new Date(+timestamp * 1000);
+}
+
+async function getPreviousReleasedVersion(before, tagPattern) {
+	const describe = await git(
+		'describe',
+		'--abbrev=0',
+		'--tags',
+		`--match=${tagPattern}`,
+		`${before}~`
+	);
+
+	return describe.trim();
+}
+
+/**
  * Returns the URL of the remote repository, or `null` if it cannot be
  * determined.
  */
@@ -185,18 +246,301 @@ async function getRemote(options) {
 }
 
 /**
- * Escape `string` suitable for embedding in a Markdown document.
+ * If any of these special words are passed as a `version`, we'll try to derive
+ * the actual version number automatically.
  */
-function escape(string) {
+const DERIVED_VERSIONS = new Set([
+	'major',
+	'minor',
+	'patch',
+	'premajor',
+	'preminor',
+	'prepatch',
+	'prerelease',
+]);
 
-	// At the moment, not escaping some special Markdown characters (such as *,
-	// backticks etc) as they may prove useful.
+/**
+ * Returns the next version number based on the provided options.
+ *
+ * This will either be an explicitly provided version number (via
+ * the `--version`) switch, or a derived one based on the `--major`,
+ * `--minor` (etc) options. Note that derived version numbers require
+ * a well-formed `version` property in the package.json file in the
+ * current working directory.
+ */
+async function getVersion(options) {
+	if (DERIVED_VERSIONS.has(options.version)) {
+		let currentVersion;
 
-	return string
-		.replace(/_/g, '\\_')
-		.replace(/&/g, '&amp;')
-		.replace(/</g, '&lt;')
-		.replace(/>/g, '&gt;');
+		try {
+			({version: currentVersion} = JSON.parse(
+				await readFileAsync('package.json', 'utf8')
+			));
+		}
+		catch (_error) {
+			currentVersion = '';
+		}
+
+		let [, major, minor, patch, preid, prerelease] =
+			currentVersion.match(/^(\d+)\.(\d+)\.(\d+)(?:-(\w+)\.(\d+))?$/) ||
+			[];
+
+		if (typeof major !== 'string') {
+			throw new Error(
+				'Unable to extract version from "package.json"; ' +
+					'please pass --version explicitly'
+			);
+		}
+
+		// Precedence: --preid option > .yarnrc setting > previous id > default.
+
+		if (options.preid) {
+			preid = options.preid;
+		}
+		else {
+			const settings = await readYarnrc();
+
+			preid = settings.get('--version.preid') || preid || 'pre';
+		}
+
+		const prefix = await getVersionTagPrefix();
+
+		switch (options.version) {
+			case 'major':
+			case 'premajor':
+				major++;
+				minor = 0;
+				patch = 0;
+				prerelease = options.version === 'major' ? undefined : 0;
+				break;
+
+			case 'minor':
+			case 'preminor':
+				minor++;
+				patch = 0;
+				prerelease = options.version === 'minor' ? undefined : 0;
+				break;
+
+			case 'prepatch':
+			case 'patch':
+				patch++;
+				prerelease = options.version === 'patch' ? undefined : 0;
+				break;
+
+			case 'prerelease':
+				if (prerelease !== undefined) {
+					prerelease++;
+				}
+				else {
+					patch++;
+					prerelease = 0;
+				}
+				break;
+
+			default:
+				throw new Error('Unexpected version');
+		}
+
+		currentVersion = '';
+
+		if (prerelease !== undefined) {
+			currentVersion = `${major}.${minor}.${patch}-${preid}.${prerelease}`;
+		}
+		else {
+			currentVersion = `${major}.${minor}.${patch}`;
+		}
+
+		return `${prefix}${currentVersion}`;
+	}
+	else {
+		return options.version;
+	}
+}
+
+/**
+ * Returns a tag prefix that can be used to construct or find a version tag.
+ *
+ * -   If we're being run from a subdirectory in a monorepo and a ".yarnrc" file
+ *     exists, we return its "version-tag-prefix".
+ *
+ *     For example, given a prefix of "my-package/v", then we can find matching
+ *     tags using `git describe --match='my-package/v*'.
+ *
+ *     Likewise, if we're being run from the repo root and a ".yarnrc" file
+ *     exists there.
+ *
+ *     For example, given a prefix of "v", then we can find matching tags using
+ *     `git describe --match='v*'`.
+ *
+ * -   If we can't get a "version-tag-prefix", we use a fallback prefix of "".
+ *
+ *     With the fallback prefix of "", we can find matching tags using
+ *     `git describe --match='*'`.
+ *
+ * If none of the above apply (eg. because we're being run from the
+ * wrong directory), an error is thrown.
+ */
+async function getVersionTagPrefix() {
+	const settings = await readYarnrc();
+
+	const setting = settings.get('version-tag-prefix');
+
+	if (setting) {
+		const match = setting.match(/^"([^"]+)"$/);
+
+		if (match) {
+			return match[1];
+		}
+	}
+
+	return '';
+}
+
+async function go(options) {
+	const {outfile, to} = options;
+
+	const versionTagPrefix = await getVersionTagPrefix();
+
+	const tagPattern = `${versionTagPrefix}*`;
+
+	const version = await normalizeVersion(
+		options.version,
+		options,
+		versionTagPrefix
+	);
+
+	const remote = await getRemote(options);
+	let from = await getPreviousReleasedVersion(to, tagPattern);
+	const date = await getDate(to);
+	let contents = await generate({
+		date,
+		from,
+		remote,
+		to,
+		version,
+	});
+
+	let written = 0;
+
+	if (options.regenerate) {
+		while (from && from !== options.from) {
+			let previousVersion = null;
+			try {
+				previousVersion = await getPreviousReleasedVersion(
+					from,
+					tagPattern
+				);
+			}
+			catch (err) {
+
+				// This will be the last chunk we generate.
+
+				info('No more tags found (this is not an error) 🦄');
+			}
+
+			const date = await getDate(from);
+			const chunk = await generate({
+				date,
+				from: previousVersion,
+				remote,
+				to: from,
+				version: from,
+			});
+			contents += '\n' + chunk;
+
+			from = previousVersion;
+		}
+
+		await write(options, contents, contents);
+
+		written = contents.length;
+	}
+	else {
+		let previousContents = '';
+
+		try {
+			previousContents = await readFileAsync(outfile, 'utf8');
+		}
+		catch (error) {
+			warn(`Cannot read previous file ${outfile}; will create anew.`);
+		}
+
+		if (previousContents.indexOf(`[${version}]`) !== -1) {
+			const message = [
+				`${outfile} already contains a reference to ${version}.`,
+				'Did you mean to regenerate using the --regenerate switch?',
+			];
+			if (options.force) {
+				warn(...message);
+			}
+			else {
+				error(
+					...message,
+					'Alternatively, proceed anyway by using the --force switch.'
+				);
+				process.exit(1);
+			}
+		}
+
+		const newContents = [contents, previousContents]
+			.filter(Boolean)
+			.join('\n');
+
+		await write(options, contents, newContents);
+
+		written = newContents.length;
+	}
+
+	if (options.interactive && options.version.endsWith(PLACEHOLDER_VERSION)) {
+		info(`[--interactive] Would write ${outfile} ${written} bytes ✨`);
+
+		const answer = await prompt(
+			'Please choose a version from the list, or provide one in full (or enter to abort):',
+			Array.from(DERIVED_VERSIONS)
+		);
+
+		if (answer === '') {
+			process.exit();
+		}
+		else {
+			options.version = answer;
+
+			options.version = await getVersion(options);
+
+			return await go(options);
+		}
+	}
+	else if (options.dryRun) {
+		info(`[--dry-run] Would write ${outfile} ${written} bytes ✨`);
+	}
+	else {
+		info(`Wrote ${outfile} ${written} bytes ✨`);
+	}
+
+	if (options.interactive && !options.dryRun) {
+		info('[--interactive] git-diff preview 👀');
+
+		const diff = await git(
+			'-c',
+			'color.diff=always',
+			'diff',
+			'--',
+			options.outfile
+		);
+
+		log('');
+
+		log(diff);
+
+		const answer = await prompt(
+			'Would you like to stage these changes? (y/n)',
+			[]
+		);
+
+		if (/^y(es?)?$/i.test(answer)) {
+			await git('add', '--', options.outfile);
+		}
+	}
 }
 
 function linkToComparison(from, to, remote) {
@@ -231,165 +575,35 @@ function linkToVersion(version, remote) {
 	}
 }
 
-/**
- * Conventional commit types, and equivalent human-readable labels, in the order
- * that we wish them to appear in the changelog.
- *
- * @see https://www.conventionalcommits.org/en/v1.0.0/
- */
-const types = {
-	/* eslint-disable sort-keys */
+async function main(_node, _script, ...args) {
+	printBanner(`
+		@liferay/changelog-generator
+		============================
 
-	// Not a Conventional Commits type; we repeat breaking changes separately to
-	// maximize their visibility:
+		Reporting for duty!
+	`);
 
-	breaking: ':boom: Breaking changes',
+	const options = await parseArgs(args);
 
-	feat: ':new: Features',
-	fix: ':wrench: Bug fixes',
-	perf: ':racing_car: Peformance',
-	docs: ':book: Documentation',
-	chore: ':house: Chores',
-	refactor: ':woman_juggling: Refactoring',
-	style: ':nail_care: Style',
-	test: ':eyeglasses: Tests',
-	revert: ':leftwards_arrow_with_hook: Reverts',
-
-	// Not a Conventional Commits type; this is our catch-all:
-
-	misc: ':package: Miscellaneous',
-
-	/* eslint-enable sort-keys */
-};
-
-/**
- * Aliases mapping common mistakes to legit Conventional Commits types.
- */
-const aliases = {
-	bug: 'fix',
-	doc: 'docs',
-	feature: 'feat',
-};
-
-const TYPE_REGEXP = /^\s*(\w+)(\([^)]+\))?(!)?:\s+.+/;
-
-const BREAKING_TRAILER_REGEXP = /^BREAKING[ -]CHANGE:/m;
-
-async function formatChanges(changes, remote) {
-	const sections = new Map(Object.keys(types).map((type) => [type, []]));
-
-	changes.forEach(({description, number}) => {
-		const match = description.match(TYPE_REGEXP);
-
-		const type = aliases[match && match[1]] || (match && match[1]);
-
-		const section = sections.get(type) || sections.get('misc');
-
-		const link = linkToPullRequest(number, remote);
-
-		const entry = link
-			? `-   ${escape(description)} (${link})`
-			: `-   ${escape(description)}`;
-
-		section.push(entry);
-
-		const breaking =
-			(match && match[3]) || BREAKING_TRAILER_REGEXP.test(description);
-
-		if (breaking) {
-			sections.get('breaking').push(entry);
-		}
-	});
-
-	return Array.from(sections.entries())
-		.map(([type, entries]) => {
-			if (entries.length) {
-				return `### ${types[type]}\n` + '\n' + entries.join('\n');
-			}
-		})
-		.filter(Boolean)
-		.join('\n\n');
-}
-
-/**
- * Prints `message` in a silly banner like this:
- *  ____________________
- * (_)                  `
- *   |                  |
- *   |   changelog.js   |
- *   |   ============   |
- *   |                  |
- *   |   Reporting      |
- *   |   for duty!      |
- *   |                  |
- *   |__________________|
- *   (_)_________________)
- *
- */
-function printBanner(message) {
-	const lines = message.split('\n').map((line) => line.trim());
-
-	const width = lines.reduce((max, line) => {
-		return Math.max(max, line.length);
-	}, 0);
-
-	const TEMPLATE = [
-		[' _____', '_', '___  '],
-		['(_)   ', ' ', '   ` '],
-		['  |   ', '*', '   | '],
-		['  |___', '_', '___| '],
-		['  (_)_', '_', '____)'],
-	];
-
-	let banner = '';
-
-	TEMPLATE.forEach(([left, middle, right]) => {
-		if (middle === '*') {
-			lines.forEach((line) => {
-				banner +=
-					left +
-					line +
-					' '.repeat(width - line.length) +
-					right +
-					'\n';
-			});
-		}
-		else {
-			banner += left + middle.repeat(width) + right + '\n';
-		}
-	});
-
-	log(banner);
-}
-
-function relative(filePath) {
-	return path.relative('.', filePath);
-}
-
-function printUsage() {
-	log(
-		'',
-		`${relative(__filename)} [option...]`,
-		'',
-		'Options:',
-		'  --force|-f                   [optional: disable safety checks]',
-		'  --from=FROM                  [default: previous tag]',
-		'  --to=TO                      [default: HEAD]',
-		'  --help|-h',
-		'  --no-update-tags             [optional: disable tag prefetching]',
-		'  --outfile=FILE               [default: ./CHANGELOG.md]',
-		'  --remote-url=REPOSITORY_URL  [default: inferred]',
-		'  --regenerate                 [optional: replace entire changelog]',
-		'  --version=VERSION            [required: version being released]'
-	);
-}
-
-function option(name) {
-	if (name.endsWith('=')) {
-		return new RegExp(`^(?:--{1,2})${name}(.+)`);
+	if (!options) {
+		process.exit(1);
 	}
-	else {
-		return new RegExp(`^(?:--{0,2})(?:${name})$`);
+
+	if (options.updateTags) {
+		try {
+			info('Fetching remote tags: run with --no-update-tags to skip');
+			await git('remote', 'update');
+		}
+		catch (err) {
+			warn('Failed to update tags: run with --no-update-tags to skip');
+		}
+	}
+
+	try {
+		await go(options);
+	}
+	finally {
+		cleanup();
 	}
 }
 
@@ -534,89 +748,49 @@ async function parseArgs(args) {
 		updateTags: true,
 	};
 
-	let match;
-	args.forEach((arg) => {
-		match = arg.match(option('dry-run|d'));
-		if (match) {
-			options.dryRun = true;
-
-			return;
-		}
-
-		match = arg.match(option('force|f'));
-		if (match) {
-			options.force = true;
-
-			return;
-		}
-
-		match = arg.match(option('help|h'));
-		if (match) {
-			printUsage();
-			process.exit();
-		}
-
-		match = arg.match(option('outfile='));
-		if (match) {
-			options.outfile = match[1];
-
-			return;
-		}
-
-		match = arg.match(option('from='));
-		if (match) {
-			options.from = match[1];
-
-			return;
-		}
-
-		match = arg.match(option('(no-)?update-tags'));
-		if (match) {
-			options.updateTags = !match[1];
-
-			return;
-		}
-
-		match = arg.match(option('remote-url='));
-		if (match) {
-			options.remote = match[1];
-
-			return;
-		}
-
-		match = arg.match(option('regenerate'));
-		if (match) {
-			options.regenerate = true;
-
-			return;
-		}
-
-		match = arg.match(option('to='));
-		if (match) {
-			options.to = match[1];
-
-			return;
-		}
-
-		match = arg.match(option('version='));
-		if (match) {
-			options.version = match[1];
-
-			return;
-		}
-
-		error(`Unrecognized argument ${arg}; see --help for available options`);
-
+	if (
+		!args.every((arg) =>
+			matchOption(arg, {
+				/* eslint-disable no-return-assign */
+				'dry-run|d': (value) => (options.dryRun = value),
+				'force|f': (value) => (options.force = value),
+				'from=': (value) => (options.from = value),
+				'help|h': () => {
+					printUsage();
+					process.exit();
+				},
+				'interactive|i': (value) => (options.interactive = value),
+				major: (value) => value && (options.version = 'major'),
+				minor: (value) => value && (options.version = 'minor'),
+				'outfile=': (value) => (options.outfile = value),
+				patch: (value) => value && (options.version = 'patch'),
+				'preid=': (value) => (options.preid = value),
+				premajor: (value) => value && (options.version = 'premajor'),
+				preminor: (value) => value && (options.version = 'preminor'),
+				prepatch: (value) => value && (options.version = 'prepatch'),
+				prerelease: (value) =>
+					value && (options.version = 'prerelease'),
+				regenerate: (value) => (options.regenerate = value),
+				'remote-url=': (value) => (options.remote = value),
+				'to=': (value) => (options.to = value),
+				'update-tags': (value) => (options.updateTags = value),
+				'version=': (value) => (options.version = value),
+				/* eslint-enable no-return-assign */
+			})
+		)
+	) {
 		return null;
-	});
+	}
 
 	if (!options.version) {
-		if (options.dryRun) {
+		if (options.dryRun || options.interactive) {
 			const prefix = await getVersionTagPrefix();
 
-			const version = `${prefix}0.0.0-placeholder`;
+			const version = `${prefix}${PLACEHOLDER_VERSION}`;
 
-			info(`Using phony version ${version} during --dry-run`);
+			const reason = options.interactive ? '--interactive' : '--dry-run';
+
+			info(`[${reason}] Using phony version ${version}`);
 
 			options.version = version;
 		}
@@ -626,233 +800,64 @@ async function parseArgs(args) {
 			return null;
 		}
 	}
+	else {
+		options.version = await getVersion(options);
+	}
 
 	return options;
 }
 
-function formatDate(date) {
-	const year = date.getFullYear();
-	const month = (date.getMonth() + 1).toString().padStart(2, '0');
-	const day = date.getDate().toString().padStart(2, '0');
-
-	return `${year}-${month}-${day}`;
-}
-
-async function generate({date, from, remote, to, version}) {
-	const changes = await getChanges(from, to);
-
-	const header = `## ${linkToVersion(version, remote)} (${formatDate(date)})`;
-
-	const comparisonLink = linkToComparison(from, version, remote);
-
-	const changeList = await formatChanges(changes, remote);
-
-	return (
-		[header, comparisonLink, changeList].filter(Boolean).join('\n\n') + '\n'
+function printUsage() {
+	log(
+		'',
+		`${path.relative('.', __filename)} [option...]`,
+		'',
+		'Required options (at least one of):',
+		'  --interactive|-i             Guided update (proposes version, shows preview etc)',
+		'  --version=VERSION            Version being released',
+		'  --major                      New major (increment "a" in "a.b.c")',
+		'  --minor                      New minor (increment "b" in "a.b.c")',
+		'  --patch                      New patch (increment "c" in "a.b.c")',
+		'  --premajor                   New major prelease (increment "a" in "a.b.c-pre.0")',
+		'  --preminor                   New minor prelease (increment "b" in "a.b.c-pre.0")',
+		'  --prepatch                   New patch prelease (increment "c" in "a.b.c-pre.0")',
+		'  --prerelease                 New prelease (increment "d" in "a.b.c-pre.d")',
+		'',
+		'Optional options:',
+		'  --dry-run|-d                 Preview changes without writing to disk',
+		'  --force|-f                   Disable safety checks',
+		'  --from=FROM                  Starting point (default: previous tag)',
+		'  --to=TO                      Ending point( default: "HEAD")',
+		'  --no-update-tags             Disable tag prefetching',
+		'  --outfile=FILE               Output filename (default: "./CHANGELOG.md")',
+		'  --preid=ID                   Prerelease prefix (default: "pre")',
+		'  --regenerate                 Overwrite instead of appending',
+		'  --remote-url=REPOSITORY_URL  Remote repositor (default: inferred)',
+		'',
+		'Other options:',
+		'  --help|-h                    Show this help then exit'
 	);
 }
 
 /**
- * Returns a tag prefix that can be used to construct or find a version tag.
+ * Depending on the `options` in effect:
  *
- * -   If we're being run from a subdirectory in a monorepo and a ".yarnrc" file
- *     exists, we return its "version-tag-prefix".
- *
- *     For example, given a prefix of "my-package/v", then we can find matching
- *     tags using `git describe --match='my-package/v*'.
- *
- *     Likewise, if we're being run from the repo root and a ".yarnrc" file
- *     exists there.
- *
- *     For example, given a prefix of "v", then we can find matching tags using
- *     `git describe --match='v*'`.
- *
- * -   If we can't get a "version-tag-prefix", we use a fallback prefix of "".
- *
- *     With the fallback prefix of "", we can find matching tags using
- *     `git describe --match='*'`.
- *
- * If none of the above apply (eg. because we're being run from the
- * wrong directory), an error is thrown.
+ * - Prints `preview` to standard output (eg. during `--dry-run`); or:
+ * - Prints `contents` to the specified `outfile`.
  */
-async function getVersionTagPrefix() {
-	try {
-		fs.accessSync('package.json', fs.constants.R_OK);
-	}
-	catch (_error) {
-		throw new Error(
-			'Expected to run from a directory with a "package.json"'
-		);
-	}
-
-	let prefix;
-
-	const cwd = process.cwd();
-
-	const root = (await git('rev-parse', '--show-toplevel')).trim();
-
-	const candidates = new Set([cwd, root]);
-
-	for (const candidate of candidates) {
-		try {
-			const contents = await readFileAsync(
-				path.join(candidate, '.yarnrc'),
-				'utf8'
-			);
-
-			contents.split(/\r\n|\r|\n/).find((line) => {
-				const match = line.match(/^\s*version-tag-prefix\s+"([^"]+)"/);
-
-				if (match) {
-					prefix = match[1];
-
-					return true;
-				}
-			});
-
-			break;
-		}
-		catch (_error) {
-
-			// No readable .yarnrc.
-
-		}
-	}
-
-	return prefix || '';
-}
-
-async function main(_node, _script, ...args) {
-	printBanner(`
-		changelog.js
-		============
-
-		Reporting
-		for duty!
-	`);
-
-	const options = await parseArgs(args);
-
-	if (!options) {
-		process.exit(1);
-	}
-
-	const {outfile, to, updateTags} = options;
-
-	if (updateTags) {
-		try {
-			info('Fetching remote tags: run with --no-update-tags to skip');
-			await git('remote', 'update');
-		}
-		catch (err) {
-			warn('Failed to update tags: run with --no-update-tags to skip');
-		}
-	}
-
-	const versionTagPrefix = await getVersionTagPrefix();
-
-	const tagPattern = `${versionTagPrefix}*`;
-
-	const version = await normalizeVersion(
-		options.version,
-		options,
-		versionTagPrefix
-	);
-
-	const remote = await getRemote(options);
-	let from = await getPreviousReleasedVersion(to, tagPattern);
-	const date = await getDate(to);
-	let contents = await generate({
-		date,
-		from,
-		remote,
-		to,
-		version,
-	});
-
-	let written = 0;
-	if (options.regenerate) {
-		while (from && from !== options.from) {
-			let previousVersion = null;
-			try {
-				previousVersion = await getPreviousReleasedVersion(
-					from,
-					tagPattern
-				);
-			}
-			catch (err) {
-
-				// This will be the last chunk we generate.
-
-				info('No more tags found (this is not an error) 🦄');
-			}
-
-			const date = await getDate(from);
-			const chunk = await generate({
-				date,
-				from: previousVersion,
-				remote,
-				to: from,
-				version: from,
-			});
-			contents += '\n' + chunk;
-
-			from = previousVersion;
-		}
-
+async function write(options, preview, contents) {
+	if (options.dryRun || options.version.endsWith(PLACEHOLDER_VERSION)) {
 		if (options.dryRun) {
-			process.stdout.write(contents + '\n');
+			info(`[--dry-run] Preview of changes 👀`);
 		}
-		else {
-			await writeFileAsync(outfile, contents);
+		else if (options.interactive) {
+			info(`[--interactive] Preview of changes 👀`);
 		}
-		written = contents.length;
+
+		process.stdout.write(preview + '\n');
 	}
 	else {
-		let previousContents = '';
-		try {
-			previousContents = await readFileAsync(outfile, 'utf8');
-		}
-		catch (error) {
-			warn(`Cannot read previous file ${outfile}; will create anew.`);
-		}
-
-		if (previousContents.indexOf(`[${version}]`) !== -1) {
-			const message = [
-				`${outfile} already contains a reference to ${version}.`,
-				'Did you mean to regenerate using the --regenerate switch?',
-			];
-			if (options.force) {
-				warn(...message);
-			}
-			else {
-				error(
-					...message,
-					'Alternatively, proceed anyway by using the --force switch.'
-				);
-				process.exit(1);
-			}
-		}
-
-		const newContents = [contents, previousContents]
-			.filter(Boolean)
-			.join('\n');
-
-		if (options.dryRun) {
-			process.stdout.write(contents + '\n');
-		}
-		else {
-			await writeFileAsync(outfile, newContents);
-		}
-
-		written = newContents.length;
-	}
-
-	if (options.dryRun) {
-		info(`[--dry-run] Would write ${outfile} ${written} bytes ✨`);
-	}
-	else {
-		info(`Wrote ${outfile} ${written} bytes ✨`);
+		await writeFileAsync(options.outfile, contents);
 	}
 }
 
