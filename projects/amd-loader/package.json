@@ -1,66 +1,11 @@
 {
-	"name": "liferay-amd-loader",
-	"version": "4.3.0",
-	"description": "AMD Loader with support for combo URL and conditional loading",
-	"scripts": {
-		"clean": "rm -rf build",
-		"build": "node bin/build-loader.js",
-		"ci": "yarn format:check && yarn lint && yarn build && yarn build-demo && yarn test",
-		"build-demo": "node bin/build-demo.js",
-		"demo": "node bin/run-demo.js",
-		"test": "jest --runInBand",
-		"format": "prettier --write '{*,.*}.js' 'bin/**/{*,.*}.js' 'src/**/{*,.*}.js'",
-		"format:check": "prettier --list-different '{*,.*}.js' 'bin/**/{*,.*}.js' 'src/**/{*,.*}.js'",
-		"lint": "eslint '.*.js' '*.js' 'bin/**/{*,.*}.js' 'src/**/{*,.*}.js'",
-		"lint:fix": "eslint --fix '.*.js' '*.js' 'bin/**/{*,.*}.js' 'src/**/{*,.*}.js'",
-		"prepublish": "publish-please guard",
-		"publish-please": "publish-please",
-		"prepublishOnly": "yarn build && yarn build-demo && yarn test",
-		"proxyPortal": "webpack-dev-server --config webpack.proxyPortal.js"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/liferay/liferay-amd-loader.git"
-	},
-	"jest": {
-		"collectCoverage": true,
-		"coverageDirectory": "build/coverage",
-		"modulePathIgnorePatterns": [
-			"liferay-amd-loader/build/.*",
-			".*/__tests__/__fixtures__/.*"
-		],
-		"testPathIgnorePatterns": [
-			".eslintrc.js"
-		],
-		"testURL": "http://localhost/"
-	},
 	"author": {
 		"name": "Iliyan Peychev"
 	},
-	"license": "LGPL-3.0",
-	"keywords": [
-		"Liferay",
-		"AMD",
-		"ES6",
-		"Loader"
-	],
 	"bugs": {
 		"url": "https://github.com/liferay/liferay-amd-loader/issues"
 	},
-	"homepage": "https://github.com/liferay/liferay-amd-loader",
-	"files": [
-		".babelrc",
-		".eslintrc.js",
-		".publishrc",
-		"LICENSE.md",
-		"package.json",
-		"README.md",
-		"webpack.config.js",
-		"src",
-		"bin",
-		"build",
-		"src"
-	],
+	"description": "AMD Loader with support for combo URL and conditional loading",
 	"devDependencies": {
 		"babel-loader": "^7.1.2",
 		"babel-preset-es2015": "^6.24.1",
@@ -77,5 +22,60 @@
 		"webpack": "^4.29.6",
 		"webpack-cli": "^3.3.0",
 		"webpack-dev-server": "^3.2.1"
-	}
+	},
+	"files": [
+		".babelrc",
+		".eslintrc.js",
+		".publishrc",
+		"LICENSE.md",
+		"package.json",
+		"README.md",
+		"webpack.config.js",
+		"src",
+		"bin",
+		"build",
+		"src"
+	],
+	"homepage": "https://github.com/liferay/liferay-amd-loader",
+	"jest": {
+		"collectCoverage": true,
+		"coverageDirectory": "build/coverage",
+		"modulePathIgnorePatterns": [
+			"liferay-amd-loader/build/.*",
+			".*/__tests__/__fixtures__/.*"
+		],
+		"testPathIgnorePatterns": [
+			".eslintrc.js"
+		],
+		"testURL": "http://localhost/"
+	},
+	"keywords": [
+		"Liferay",
+		"AMD",
+		"ES6",
+		"Loader"
+	],
+	"license": "LGPL-3.0",
+	"name": "liferay-amd-loader",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/liferay/liferay-amd-loader.git"
+	},
+	"scripts": {
+		"build": "node bin/build-loader.js",
+		"build-demo": "node bin/build-demo.js",
+		"ci": "yarn format:check && yarn lint && yarn build && yarn build-demo && yarn test",
+		"clean": "rm -rf build",
+		"demo": "node bin/run-demo.js",
+		"format": "prettier --write '{*,.*}.js' 'bin/**/{*,.*}.js' 'src/**/{*,.*}.js'",
+		"format:check": "prettier --list-different '{*,.*}.js' 'bin/**/{*,.*}.js' 'src/**/{*,.*}.js'",
+		"lint": "eslint '.*.js' '*.js' 'bin/**/{*,.*}.js' 'src/**/{*,.*}.js'",
+		"lint:fix": "eslint --fix '.*.js' '*.js' 'bin/**/{*,.*}.js' 'src/**/{*,.*}.js'",
+		"prepublish": "publish-please guard",
+		"prepublishOnly": "yarn build && yarn build-demo && yarn test",
+		"proxyPortal": "webpack-dev-server --config webpack.proxyPortal.js",
+		"publish-please": "publish-please",
+		"test": "jest --runInBand"
+	},
+	"version": "4.3.0"
 }
