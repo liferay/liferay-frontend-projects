@@ -9,7 +9,6 @@
 	"files": [
 		".babelrc",
 		".eslintrc.js",
-		".publishrc",
 		"LICENSE.md",
 		"package.json",
 		"README.md",
