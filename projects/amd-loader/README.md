@@ -1,6 +1,6 @@
 # AMD Module Loader
 
-[![Build Status](https://travis-ci.org/liferay/liferay-amd-loader.svg)](https://travis-ci.org/liferay/liferay-amd-loader)
+![CI status](https://github.com/liferay/liferay-frontend-projects/workflows/ci/badge.svg)
 
 This repository holds the AMD Loader packed with Liferay DXP.
 
@@ -11,7 +11,7 @@ module resolution and load).
 ## Setup
 
 1. Clone this repository
-2. Install NodeJS >= [v6.11.0](http://nodejs.org/dist/v6.11.0/), if you don't have it yet
+2. Install NodeJS >= [v10.15.1](http://nodejs.org/dist/v10.15.1/), if you don't have it yet
 3. Run `yarn` to install dependencies
 4. Run `yarn build` to build it
 5. Run `yarn test` to run tests
