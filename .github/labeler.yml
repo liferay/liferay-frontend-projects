@@ -11,6 +11,10 @@
     - projects/js-toolkit/*
     - projects/js-toolkit/**/*
 
+amd-loader:
+    - projects/amd-loader/*
+    - projects/amd-loader/**/*
+
 changelog-generator:
     - projects/npm-tools/packages/changelog-generator/*
     - projects/npm-tools/packages/changelog-generator/**/*
