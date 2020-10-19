@@ -29,9 +29,10 @@
 		"url": "https://github.com/liferay/liferay-frontend-projects.git"
 	},
 	"scripts": {
-		"build": "node bin/build-loader.js",
-		"build-demo": "node bin/build-demo.js",
-		"ci": "yarn build && yarn build-demo",
+		"build": "yarn build:loader && yarn build:demo",
+		"build:demo": "node bin/build-demo.js",
+		"build:loader": "node bin/build-loader.js",
+		"ci": "cd ../.. && yarn ci",
 		"clean": "rm -rf build",
 		"demo": "node bin/run-demo.js",
 		"format": "cd ../.. && yarn format",
