@@ -9,6 +9,7 @@ module.exports = {
 
 		// Projects which require special configuration.
 
+		'projects/amd-loader/jest.config.js',
 		'projects/eslint-config/jest.config.js',
 		'projects/js-toolkit/jest.config.js',
 		'projects/npm-tools/packages/npm-scripts/jest.config.js',
@@ -32,6 +33,7 @@ module.exports = {
 		// Any project which had special configuration above should be
 		// ignored here.
 
+		'<rootDir>/projects/amd-loader',
 		'<rootDir>/projects/eslint-config',
 		'<rootDir>/projects/js-toolkit',
 		'<rootDir>/projects/npm-tools/packages/npm-scripts',

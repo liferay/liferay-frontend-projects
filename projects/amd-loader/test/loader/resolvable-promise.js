@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import ResolvablePromise from '../resolvable-promise';
+import ResolvablePromise from '../../src/loader/resolvable-promise';
 
 describe('ResolvablePromise', () => {
 	let resolvablePromise;

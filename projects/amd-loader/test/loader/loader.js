@@ -6,8 +6,8 @@
 import fs from 'fs';
 import path from 'path';
 
-import Config from '../config';
-import Loader from '../loader';
+import Config from '../../src/loader/config';
+import Loader from '../../src/loader/loader';
 
 describe('Loader', () => {
 	let config;

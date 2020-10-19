@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import Config from '../config';
-import URLBuilder from '../url-builder';
+import Config from '../../src/loader/config';
+import URLBuilder from '../../src/loader/url-builder';
 
 describe('URLBuilder', () => {
 	let config;

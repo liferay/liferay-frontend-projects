@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import Config from '../config';
-import ScriptLoader from '../script-loader';
+import Config from '../../src/loader/config';
+import ScriptLoader from '../../src/loader/script-loader';
 
 describe('ScriptLoader', () => {
 	let document;

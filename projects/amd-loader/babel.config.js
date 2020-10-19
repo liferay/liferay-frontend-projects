@@ -4,5 +4,20 @@
  */
 
 module.exports = {
+	overrides: [
+		{
+			presets: [
+				[
+					'@babel/env',
+					{
+						targets: {
+							node: '10.15',
+						},
+					},
+				],
+			],
+			test: '**/test/**/*.js',
+		},
+	],
 	presets: ['@babel/env'],
 };

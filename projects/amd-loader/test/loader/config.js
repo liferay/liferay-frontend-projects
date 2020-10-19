@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import Config from '../config';
-import Module from '../module';
+import Config from '../../src/loader/config';
+import Module from '../../src/loader/module';
 
 describe('Config', () => {
 	let config;

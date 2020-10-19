@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import Logger from '../logger';
+import Logger from '../../src/loader/logger';
 
 /* eslint-disable no-console */
 

@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import Config from '../config';
-import DependencyResolver from '../dependency-resolver';
+import Config from '../../src/loader/config';
+import DependencyResolver from '../../src/loader/dependency-resolver';
 
 describe('DependencyResolver', () => {
 	let config;

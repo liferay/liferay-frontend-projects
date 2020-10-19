@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import Module from '../module';
+import Module from '../../src/loader/module';
 
 describe('Module', () => {
 	let module;
