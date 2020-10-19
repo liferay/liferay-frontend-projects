@@ -6,23 +6,6 @@
 		"url": "https://github.com/liferay/liferay-frontend-projects/issues?q=is%3Aissue+is%3Aopen+label%3Aamd-loader"
 	},
 	"description": "AMD Loader with support for combo URL and conditional loading",
-	"devDependencies": {
-		"babel-loader": "^7.1.2",
-		"babel-preset-es2015": "^6.24.1",
-		"combohandler": "^0.4.0",
-		"eslint": "^6.5.1",
-		"eslint-config-liferay": "^13.0.0",
-		"fs-extra": "^5.0.0",
-		"globby": "^7.1.1",
-		"http-server": "^0.11.1",
-		"jest": "^22.2.1",
-		"prettier": "^1.16.4",
-		"publish-please": "^2.3.1",
-		"uglifyjs-webpack-plugin": "^1.2.0",
-		"webpack": "^4.29.6",
-		"webpack-cli": "^3.3.0",
-		"webpack-dev-server": "^3.2.1"
-	},
 	"files": [
 		".babelrc",
 		".eslintrc.js",
@@ -72,10 +55,8 @@
 		"format:check": "cd ../.. && yarn format:check",
 		"lint": "cd ../.. && yarn lint",
 		"lint:fix": "cd ../.. && yarn lint:fix",
-		"prepublish": "publish-please guard",
 		"prepublishOnly": "yarn build && yarn build-demo && yarn test",
 		"proxyPortal": "webpack-dev-server --config webpack.proxyPortal.js",
-		"publish-please": "publish-please",
 		"test": "cd ../.. && yarn test"
 	},
 	"version": "4.3.0"
