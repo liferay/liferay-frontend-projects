@@ -18,7 +18,7 @@ run(
 			globby.sync([
 				'src/loader/**/*.js',
 				'!src/loader/bootstrap.js',
-				'!src/**/__tests__/**/*',
+				'!test/**/*',
 			])
 		)
 );
