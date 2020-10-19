@@ -68,15 +68,15 @@
 		"ci": "yarn format:check && yarn lint && yarn build && yarn build-demo && yarn test",
 		"clean": "rm -rf build",
 		"demo": "node bin/run-demo.js",
-		"format": "prettier --write '{*,.*}.js' 'bin/**/{*,.*}.js' 'src/**/{*,.*}.js'",
-		"format:check": "prettier --list-different '{*,.*}.js' 'bin/**/{*,.*}.js' 'src/**/{*,.*}.js'",
-		"lint": "eslint '.*.js' '*.js' 'bin/**/{*,.*}.js' 'src/**/{*,.*}.js'",
-		"lint:fix": "eslint --fix '.*.js' '*.js' 'bin/**/{*,.*}.js' 'src/**/{*,.*}.js'",
+		"format": "cd ../.. && yarn format",
+		"format:check": "cd ../.. && yarn format:check",
+		"lint": "cd ../.. && yarn lint",
+		"lint:fix": "cd ../.. && yarn lint:fix",
 		"prepublish": "publish-please guard",
 		"prepublishOnly": "yarn build && yarn build-demo && yarn test",
 		"proxyPortal": "webpack-dev-server --config webpack.proxyPortal.js",
 		"publish-please": "publish-please",
-		"test": "jest --runInBand"
+		"test": "cd ../.. && yarn test"
 	},
 	"version": "4.3.0"
 }
