@@ -4,15 +4,7 @@
  */
 
 module.exports = {
-	env: {
-		amd: true,
-		browser: true,
-	},
-	extends: '../.eslintrc.js',
 	globals: {
 		Loader: true,
-	},
-	rules: {
-		'require-jsdoc': 'off',
 	},
 };
