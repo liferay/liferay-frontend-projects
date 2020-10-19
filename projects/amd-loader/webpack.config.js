@@ -3,8 +3,6 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-/* eslint-env node */
-
 const path = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
@@ -33,9 +31,11 @@ module.exports = ({flavor}) => {
 
 	const flavorConfig = {
 		debug: {
+			mode: 'development',
 			output: {...baseConfig.output, filename: 'loader-debug.js'},
 		},
 		min: {
+			mode: 'production',
 			output: {...baseConfig.output, filename: 'loader-min.js'},
 			plugins: [
 				new UglifyJsPlugin({
@@ -44,6 +44,7 @@ module.exports = ({flavor}) => {
 			],
 		},
 		prod: {
+			mode: 'production',
 			output: {...baseConfig.output, filename: 'loader.js'},
 		},
 	};
