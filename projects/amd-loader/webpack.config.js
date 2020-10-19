@@ -9,7 +9,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 module.exports = ({flavor}) => {
 	const baseConfig = {
 		devtool: 'source-map',
-		entry: path.resolve(__dirname, 'src/loader/bootstrap.js'),
+		entry: path.resolve(__dirname, 'src', 'loader', 'bootstrap.js'),
 		module: {
 			rules: [
 				{
