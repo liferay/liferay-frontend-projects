@@ -25,5 +25,5 @@
 		"preversion": "yarn ci",
 		"test": "echo 'No tests currently defined for @liferay/changelog-generator'"
 	},
-	"version": "1.5.0"
+	"version": "1.6.0"
 }

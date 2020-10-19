@@ -1,3 +1,21 @@
+## [changelog-generator/v1.6.0](https://github.com/liferay/liferay-frontend-projects/tree/changelog-generator/v1.6.0) (2020-10-19)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/changelog-generator/v1.5.0...changelog-generator/v1.6.0)
+
+### :new: Features
+
+-   feat(changelog-generator): add --major, --minor etc convenience switches ([\#196](https://github.com/liferay/liferay-frontend-projects/pull/196))
+-   feat(monorepo): use liferay-npm-scripts for formatting ([\#146](https://github.com/liferay/liferay-frontend-projects/pull/146))
+-   feat(changelog-generator): make --version optional when --dry-run is on ([\#116](https://github.com/liferay/liferay-frontend-projects/pull/116))
+
+### :book: Documentation
+
+-   docs(changelog-generator): update project links ([\#94](https://github.com/liferay/liferay-frontend-projects/pull/94))
+
+### :woman_juggling: Refactoring
+
+-   refactor(js-toolkit): make tests work in monorepo ([\#133](https://github.com/liferay/liferay-frontend-projects/pull/133))
+
 ## [changelog-generator/v1.5.0](https://github.com/liferay/liferay-frontend-projects/tree/changelog-generator/v1.5.0) (2020-09-29)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/changelog-generator/v1.4.1...changelog-generator/v1.5.0)
