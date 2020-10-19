@@ -1,9 +1,9 @@
 {
 	"author": {
-		"name": "Iliyan Peychev"
+		"name": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>"
 	},
 	"bugs": {
-		"url": "https://github.com/liferay/liferay-amd-loader/issues"
+		"url": "https://github.com/liferay/liferay-frontend-projects/issues?q=is%3Aissue+is%3Aopen+label%3Aamd-loader"
 	},
 	"description": "AMD Loader with support for combo URL and conditional loading",
 	"devDependencies": {
@@ -36,7 +36,7 @@
 		"build",
 		"src"
 	],
-	"homepage": "https://github.com/liferay/liferay-amd-loader",
+	"homepage": "https://github.com/liferay/liferay-frontend-projects/tree/master/projects/amd-loader",
 	"jest": {
 		"collectCoverage": true,
 		"coverageDirectory": "build/coverage",
@@ -58,8 +58,9 @@
 	"license": "LGPL-3.0",
 	"name": "liferay-amd-loader",
 	"repository": {
+		"directory": "projects/amd-loader",
 		"type": "git",
-		"url": "git+https://github.com/liferay/liferay-amd-loader.git"
+		"url": "https://github.com/liferay/liferay-frontend-projects.git"
 	},
 	"scripts": {
 		"build": "node bin/build-loader.js",
