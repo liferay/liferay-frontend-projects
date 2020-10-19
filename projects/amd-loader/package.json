@@ -7,16 +7,12 @@
 	},
 	"description": "AMD Loader with support for combo URL and conditional loading",
 	"files": [
-		".babelrc",
-		".eslintrc.js",
-		"LICENSE.md",
-		"package.json",
 		"README.md",
-		"webpack.config.js",
-		"src",
 		"bin",
 		"build",
-		"src"
+		"package.json",
+		"src",
+		"webpack.config.js"
 	],
 	"homepage": "https://github.com/liferay/liferay-frontend-projects/tree/master/projects/amd-loader",
 	"jest": {
