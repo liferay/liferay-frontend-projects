@@ -7,6 +7,7 @@
  *
  */
 export default class URLBuilder {
+
 	/**
 	 * Creates an instance of URLBuilder class
 	 * @constructor
@@ -35,14 +36,15 @@ export default class URLBuilder {
 			basePath += '/';
 		}
 
-		moduleNames.forEach(moduleName => {
+		moduleNames.forEach((moduleName) => {
 			const module = config.getModule(moduleName);
 			const path = this._getModulePath(module);
 
 			if (config.combine) {
 				bufferURL.push(path);
 				modulesURL.push(module.name);
-			} else {
+			}
+			else {
 				result.push({
 					modules: [module.name],
 					url: this._getURLWithParams(config.url + basePath + path),
@@ -51,6 +53,7 @@ export default class URLBuilder {
 		});
 
 		// Add to the result all modules, which have to be combined.
+
 		if (bufferURL.length) {
 			result = result.concat(
 				this._generateBufferURLs(modulesURL, bufferURL, {
@@ -94,7 +97,8 @@ export default class URLBuilder {
 			) {
 				urlResult.modules.push(module);
 				urlResult.url += '&' + basePath + path;
-			} else {
+			}
+			else {
 				result.push(urlResult);
 
 				urlResult = {
@@ -123,7 +127,7 @@ export default class URLBuilder {
 
 		let path = module.name;
 
-		Object.keys(paths).forEach(item => {
+		Object.keys(paths).forEach((item) => {
 			if (path === item || path.indexOf(item + '/') === 0) {
 				path = paths[item] + path.substring(item.length);
 			}
@@ -155,7 +159,7 @@ export default class URLBuilder {
 		}
 
 		const queryString = keys
-			.map(key => {
+			.map((key) => {
 				return key + '=' + defaultURLParams[key];
 			})
 			.join('&');

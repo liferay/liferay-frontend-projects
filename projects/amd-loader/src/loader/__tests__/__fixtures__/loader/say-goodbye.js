@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-Loader.define('say-goodbye', ['module'], module => {
-	module.exports = function() {
+Loader.define('say-goodbye', ['module'], (module) => {
+	module.exports = function () {
 		return 'Good bye';
 	};
 });

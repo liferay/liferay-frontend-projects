@@ -9,6 +9,7 @@ import ResolvablePromise from './resolvable-promise';
  * A module descriptor
  */
 export default class Module {
+
 	/**
 	 * @param {string} name name of module
 	 */

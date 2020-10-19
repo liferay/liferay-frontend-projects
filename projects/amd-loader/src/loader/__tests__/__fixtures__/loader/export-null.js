@@ -3,6 +3,6 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-Loader.define('export-null', ['module'], module => {
+Loader.define('export-null', ['module'], (module) => {
 	module.exports = null;
 });

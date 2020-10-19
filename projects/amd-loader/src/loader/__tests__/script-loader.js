@@ -30,7 +30,7 @@ describe('ScriptLoader', () => {
 		};
 	});
 
-	it('inserts synchronous DOM script nodes', done => {
+	it('inserts synchronous DOM script nodes', (done) => {
 		const config = new Config({combine: false, url: 'http://localhost'});
 		const scriptLoader = new ScriptLoader(document, config);
 
@@ -47,13 +47,13 @@ describe('ScriptLoader', () => {
 		});
 	});
 
-	it('works without combine flag', done => {
+	it('works without combine flag', (done) => {
 		const config = new Config({combine: false, url: 'http://localhost'});
 		const scriptLoader = new ScriptLoader(document, config);
 
 		const moduleNames = ['a@1.0.0', 'b@1.2.0'];
 
-		moduleNames.forEach(moduleName => config.addModule(moduleName));
+		moduleNames.forEach((moduleName) => config.addModule(moduleName));
 
 		scriptLoader.loadModules(moduleNames).then(() => {
 			expect(document.scripts).toHaveLength(2);
@@ -71,13 +71,13 @@ describe('ScriptLoader', () => {
 		});
 	});
 
-	it('works with combine flag', done => {
+	it('works with combine flag', (done) => {
 		const config = new Config({combine: true, url: 'http://localhost'});
 		const scriptLoader = new ScriptLoader(document, config);
 
 		const moduleNames = ['a@1.0.0', 'b@1.2.0'];
 
-		moduleNames.forEach(moduleName => config.addModule(moduleName));
+		moduleNames.forEach((moduleName) => config.addModule(moduleName));
 
 		scriptLoader.loadModules(moduleNames).then(() => {
 			expect(document.scripts).toHaveLength(1);
@@ -91,17 +91,17 @@ describe('ScriptLoader', () => {
 		});
 	});
 
-	it('rejects on error', done => {
+	it('rejects on error', (done) => {
 		const config = new Config({combine: true, url: 'http://localhost'});
 		const scriptLoader = new ScriptLoader(document, config);
 
 		const moduleNames = ['a@1.0.0', 'b@1.2.0'];
 
-		moduleNames.forEach(moduleName => config.addModule(moduleName));
+		moduleNames.forEach((moduleName) => config.addModule(moduleName));
 
 		document.eventHandler = 'onerror';
 
-		scriptLoader.loadModules(moduleNames).catch(err => {
+		scriptLoader.loadModules(moduleNames).catch((err) => {
 			expect(err.url).toBe('http://localhost/a@1.0.0.js&/b@1.2.0.js');
 			expect(err.modules).toEqual(moduleNames);
 			expect(err.script).toBe(document.scripts[0]);

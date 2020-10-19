@@ -7,6 +7,7 @@
  * A class that calls the server to resolve module dependencies.
  */
 export default class DependencyResolver {
+
 	/**
 	 * Creates an instance of DependencyResolver class
 	 * @constructor
@@ -53,8 +54,8 @@ export default class DependencyResolver {
 			}
 
 			fetch(url, options)
-				.then(response => response.text())
-				.then(text => {
+				.then((response) => response.text())
+				.then((text) => {
 					const resolution = JSON.parse(text);
 					this._cachedResolutions[modules] = resolution;
 					resolve(resolution);

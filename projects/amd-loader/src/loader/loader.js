@@ -14,6 +14,7 @@ import URLBuilder from './url-builder';
  *
  */
 export default class Loader {
+
 	/**
 	 * Creates an instance of Loader class.
 	 * @namespace Loader
@@ -73,12 +74,14 @@ export default class Loader {
 		let factory = args[2];
 
 		// Acccount for call polymorphism
+
 		if (args.length == 2) {
 			factory = dependencies;
 			dependencies = ['require', 'exports', 'module'];
 		}
 
 		// Normalize factory argument
+
 		if (typeof factory !== 'function') {
 			const exportedValue = factory;
 
@@ -86,6 +89,7 @@ export default class Loader {
 		}
 
 		// Do the things
+
 		module = config.getModule(name);
 
 		if (!module) {
@@ -137,27 +141,32 @@ export default class Loader {
 		let failure;
 
 		// Account for call polymorphism
+
 		if (args.length == 1) {
 			moduleNames = args[0];
 			success = undefined;
 			failure = undefined;
-		} else if (args.length == 2) {
+		}
+		else if (args.length == 2) {
 			const lastArg = args[args.length - 1];
 
 			if (typeof lastArg === 'function') {
 				moduleNames = args[0];
 				success = lastArg;
 				failure = undefined;
-			} else if (lastArg == null) {
+			}
+			else if (lastArg == null) {
 				moduleNames = args[0];
 				success = undefined;
 				failure = undefined;
-			} else {
+			}
+			else {
 				moduleNames = args;
 				success = undefined;
 				failure = undefined;
 			}
-		} else {
+		}
+		else {
 			const lastArg = args[args.length - 1];
 			let successGiven = false;
 
@@ -169,7 +178,8 @@ export default class Loader {
 				moduleNames = args;
 				success = undefined;
 				failure = undefined;
-			} else {
+			}
+			else {
 				const penultimateArg = args[args.length - 2];
 				let failureGiven = false;
 
@@ -184,7 +194,8 @@ export default class Loader {
 					moduleNames = args.slice(0, args.length - 1);
 					success = lastArg;
 					failure = undefined;
-				} else {
+				}
+				else {
 					moduleNames = args.slice(0, args.length - 2);
 					success = penultimateArg;
 					failure = lastArg;
@@ -193,28 +204,32 @@ export default class Loader {
 		}
 
 		// Flatten moduleNames argument if necessary
+
 		if (typeof moduleNames === 'string') {
 			moduleNames = [moduleNames];
-		} else if (moduleNames.length == 1 && Array.isArray(moduleNames[0])) {
+		}
+		else if (moduleNames.length == 1 && Array.isArray(moduleNames[0])) {
 			moduleNames = [].concat(...moduleNames);
 		}
 
 		// Provide default value for success
+
 		if (success === undefined) {
 			success = () => {};
 		}
 
 		// Provide default value for failure
+
 		if (failure === undefined) {
 			const captureStackError = new Error('');
 
-			failure = error => {
+			failure = (error) => {
 				let stack = '(n/a)';
 
 				if (captureStackError.stack) {
 					stack = captureStackError.stack
 						.split('\n')
-						.map(line => `        ${line}`)
+						.map((line) => `        ${line}`)
 						.join('\n');
 
 					stack = `\n${stack}`;
@@ -254,10 +269,12 @@ export default class Loader {
 		}
 
 		// Intercept handlers to explain resolutions
+
 		success = this._interceptHandler(success, 'success', requireCallId);
 		failure = this._interceptHandler(failure, 'failure', requireCallId);
 
 		// Global closure variables
+
 		let resolvedModuleNames;
 		let unregisteredModuleNames;
 		let rejectTimeout;
@@ -266,10 +283,13 @@ export default class Loader {
 		// Do the things (note that each then() block contains a synchronous
 		// block of code, that means that between then() blocks may be
 		// interrupted by any parallel call)
+
 		this._dependencyResolver
 			.resolve(moduleNames)
-			.then(resolution => {
+			.then((resolution) => {
+
 				// Show extra information when explainResolutions is active
+
 				this._log.resolution(
 					'Require call',
 					requireCallId,
@@ -280,12 +300,15 @@ export default class Loader {
 				);
 
 				// In case we are calling an older server, act upon errors
+
 				this._throwOnLegacyProtocolResolutionErrors(resolution);
 
 				// Show server warnings/errors
+
 				this._logServerMessages(moduleNames, resolution);
 
 				// Fail resolution on server errors
+
 				if (resolution.errors && resolution.errors.length > 1) {
 					throw Object.assign(
 						new Error(
@@ -297,23 +320,28 @@ export default class Loader {
 				}
 
 				// Merge global maps from resolution into config
+
 				config.addMappings(resolution.configMap);
 
 				// Merge global paths from resolution into config
+
 				config.addPaths(resolution.pathMap);
 
 				// Store resolved module names
+
 				resolvedModuleNames = resolution.resolvedModules;
 
 				// Grab unregistered module names (some of the resolved modules
 				// may have been registered by a parallel require() call, so we
 				// are not responsible for loading them).
+
 				unregisteredModuleNames = this._getUnregisteredModuleNames(
 					resolvedModuleNames
 				);
 
 				// Register the modules
-				unregisteredModuleNames.forEach(moduleName => {
+
+				unregisteredModuleNames.forEach((moduleName) => {
 					const moduleProperties = {
 						map: resolution.moduleMap[moduleName],
 					};
@@ -332,6 +360,7 @@ export default class Loader {
 				});
 
 				// Prepare load timeout
+
 				rejectTimeout = this._setRejectTimeout(
 					moduleNames,
 					resolution,
@@ -342,6 +371,7 @@ export default class Loader {
 				);
 
 				// Load the modules we are responsible for
+
 				this._log.resolution(
 					'Fetching',
 					unregisteredModuleNames,
@@ -352,17 +382,23 @@ export default class Loader {
 				return moduleLoader.loadModules(unregisteredModuleNames);
 			})
 			.then(() => {
+
 				// If reject timeout was hit don't do anything else
+
 				if (timeoutRejected) return;
 
 				// Wait for all unregistered modules to be defined
+
 				return this._waitForModuleDefinitions(resolvedModuleNames);
 			})
 			.then(() => {
+
 				// If reject timeout was hit don't do anything else
+
 				if (timeoutRejected) return;
 
 				// Everything went well so we can clear the timeout
+
 				clearTimeout(rejectTimeout);
 
 				// Set the implementations of all needed modules. Note that we
@@ -370,21 +406,26 @@ export default class Loader {
 				// require() call but it is necessary in case the require()
 				// call that loaded them aborted because of an error in the
 				// implementation of some module.
+
 				this._setModuleImplementations(
 					requireCallId,
 					resolvedModuleNames
 				);
 
 				// Now get all needed modules implementations
+
 				const implementations = this._getModuleImplementations(
 					moduleNames
 				);
 
 				// And invoke the sucess handler
+
 				success(...implementations);
 			})
-			.catch(err => {
+			.catch((err) => {
+
 				// If reject timeout was hit don't do anything else
+
 				if (timeoutRejected) return;
 
 				if (rejectTimeout) {
@@ -414,7 +455,8 @@ export default class Loader {
 
 			try {
 				handler(...args);
-			} catch (err) {
+			}
+			catch (err) {
 				this._log.error(
 					'\n',
 					'A require() call',
@@ -446,7 +488,9 @@ export default class Loader {
 	_getUnregisteredModuleNames(moduleNames) {
 		const config = this._config;
 
-		return moduleNames.filter(moduleName => !config.getModule(moduleName));
+		return moduleNames.filter(
+			(moduleName) => !config.getModule(moduleName)
+		);
 	}
 
 	/**
@@ -494,7 +538,7 @@ export default class Loader {
 		return setTimeout(() => {
 			const resolvedModuleNames = resolution.resolvedModules;
 
-			const missingModules = resolvedModuleNames.filter(moduleName => {
+			const missingModules = resolvedModuleNames.filter((moduleName) => {
 				const module = config.getModule(moduleName);
 				return !module || !module.implemented;
 			});
@@ -526,15 +570,17 @@ export default class Loader {
 	 */
 	_throwOnLegacyProtocolResolutionErrors(resolution) {
 		const resolutionErrors = resolution.resolvedModules
-			.filter(dep => dep.indexOf(':ERROR:') === 0)
-			.map(dep => dep.substr(7));
+			.filter((dep) => dep.indexOf(':ERROR:') === 0)
+			.map((dep) => dep.substr(7));
 
 		if (resolutionErrors.length > 0) {
 			throw Object.assign(
 				new Error(
 					'The following problems where detected while ' +
 						'resolving modules:\n' +
-						resolutionErrors.map(line => `    · ${line}`).join('\n')
+						resolutionErrors
+							.map((line) => `    · ${line}`)
+							.join('\n')
 				),
 				{resolutionErrors}
 			);
@@ -550,7 +596,7 @@ export default class Loader {
 		const config = this._config;
 
 		return Promise.all(
-			config.getModules(moduleNames).map(module => module.define)
+			config.getModules(moduleNames).map((module) => module.define)
 		);
 	}
 
@@ -563,7 +609,7 @@ export default class Loader {
 		const config = this._config;
 
 		return Promise.all(
-			config.getModules(moduleNames).map(module => module.implement)
+			config.getModules(moduleNames).map((module) => module.implement)
 		);
 	}
 
@@ -577,18 +623,22 @@ export default class Loader {
 	_setModuleImplementations(requireCallId, moduleNames) {
 		const config = this._config;
 
-		config.getModules(moduleNames).forEach(module => {
+		config.getModules(moduleNames).forEach((module) => {
+
 			// Skip already implemented modules
+
 			if (module.implemented) {
 				return;
 			}
 
 			// Fail for already rejected implementations
+
 			if (module.implement.rejected) {
 				throw module.implement.rejection;
 			}
 
 			// Show info about resolution
+
 			this._log.resolution(
 				'Implementing',
 				module.name,
@@ -597,7 +647,9 @@ export default class Loader {
 			);
 
 			try {
+
 				// Prepare CommonJS module implementation object
+
 				const moduleImpl = {
 					get exports() {
 						return module.implementation;
@@ -608,15 +660,19 @@ export default class Loader {
 				};
 
 				// Prepare arguments for the AMD factory function
+
 				const dependencyImplementations = module.dependencies.map(
-					dependency => {
+					(dependency) => {
 						if (dependency === 'exports') {
 							return moduleImpl.exports;
-						} else if (dependency === 'module') {
+						}
+						else if (dependency === 'module') {
 							return moduleImpl;
-						} else if (dependency === 'require') {
+						}
+						else if (dependency === 'require') {
 							return this._createLocalRequire(module);
-						} else {
+						}
+						else {
 							const dependencyModule = config.getDependency(
 								module.name,
 								dependency
@@ -647,15 +703,18 @@ export default class Loader {
 				);
 
 				// Invoke AMD factory function
+
 				const result = module.factory(...dependencyImplementations);
 
 				// Resolve the implementation
+
 				if (result !== undefined) {
 					module.implementation = result;
 				}
 
 				module.implement.resolve(module.implementation);
-			} catch (err) {
+			}
+			catch (err) {
 				if (!module.implement.fulfilled) {
 					module.implement.reject(err);
 				}
@@ -677,7 +736,8 @@ export default class Loader {
 		const localRequire = (moduleName, ...rest) => {
 			if (rest.length > 0) {
 				return this.require(moduleName, ...rest);
-			} else {
+			}
+			else {
 				const dependencyModule = config.getDependency(
 					module.name,
 					moduleName
@@ -699,7 +759,7 @@ export default class Loader {
 			}
 		};
 
-		localRequire.toUrl = moduleName => {
+		localRequire.toUrl = (moduleName) => {
 			const moduleURLs = this._urlBuilder.build([moduleName]);
 
 			return moduleURLs[0].url;
@@ -719,7 +779,7 @@ export default class Loader {
 
 		return config
 			.getModules(moduleNames)
-			.map(module => module.implementation);
+			.map((module) => module.implementation);
 	}
 }
 

@@ -21,7 +21,7 @@ describe('Loader', () => {
 
 		fetchResponse = undefined;
 
-		global.fetch = param => {
+		global.fetch = (param) => {
 			if (!fetchResponse) {
 				const modulesParam = decodeURIComponent(
 					param.replace(`${config.resolvePath}?modules=`, '')
@@ -62,7 +62,8 @@ describe('Loader', () => {
 						);
 
 						script['onload'].apply(script);
-					} catch (err) {
+					}
+					catch (err) {
 						script['onerror'].apply(script);
 					}
 				}, 1);
@@ -80,53 +81,53 @@ describe('Loader', () => {
 	describe('require can be called with different signatures', () => {
 		const noop = () => {};
 
-		it('array, function, function', done => {
+		it('array, function, function', (done) => {
 			loader.require(['say-hello'], () => done(), noop);
 		});
 
-		it('...string, function, function', done => {
+		it('...string, function, function', (done) => {
 			loader.require('say-hello', 'say-goodbye', () => done(), noop);
 		});
 
-		it('string, function, function', done => {
+		it('string, function, function', (done) => {
 			loader.require('say-hello', () => done(), noop);
 		});
 
-		it('array, function, null', done => {
+		it('array, function, null', (done) => {
 			loader.require(['say-hello'], () => done(), null);
 		});
 
-		it('...string, function, null', done => {
+		it('...string, function, null', (done) => {
 			loader.require('say-hello', 'say-goodbye', () => done(), null);
 		});
 
-		it('string, function, null', done => {
+		it('string, function, null', (done) => {
 			loader.require('say-hello', () => done(), null);
 		});
 
-		it('array, function', done => {
+		it('array, function', (done) => {
 			loader.require(['say-hello'], () => done());
 		});
 
-		it('...string, function', done => {
+		it('...string, function', (done) => {
 			loader.require('say-hello', 'say-goodbye', () => done());
 		});
 
-		it('string, function', done => {
+		it('string, function', (done) => {
 			loader.require('say-hello', () => done());
 		});
 	});
 
-	it('fails after a require timeout', done => {
+	it('fails after a require timeout', (done) => {
 		config._config.waitTimeout = 100;
 
-		loader.require('missing-module', jest.fn(), err => {
+		loader.require('missing-module', jest.fn(), (err) => {
 			expect(err).toHaveProperty('modules');
 			done();
 		});
 	});
 
-	it('implements local require', done => {
+	it('implements local require', (done) => {
 		fetchResponse = {
 			configMap: {},
 			moduleMap: {},
@@ -134,20 +135,20 @@ describe('Loader', () => {
 			resolvedModules: ['local-require/a', 'local-require/sync'],
 		};
 
-		loader.require('local-require/sync', module => {
+		loader.require('local-require/sync', (module) => {
 			expect(module).toBe('a');
 			done();
 		});
 	});
 
-	it('implements localRequire.toUrl', done => {
-		loader.require(['local-require/to-url'], module => {
+	it('implements localRequire.toUrl', (done) => {
+		loader.require(['local-require/to-url'], (module) => {
 			expect(module).toBe('/local-require/to-url.js');
 			done();
 		});
 	});
 
-	it('supports relative paths in local require', done => {
+	it('supports relative paths in local require', (done) => {
 		fetchResponse = {
 			configMap: {},
 			moduleMap: {
@@ -159,41 +160,41 @@ describe('Loader', () => {
 			resolvedModules: ['local-require/a', 'local-require/rel-path'],
 		};
 
-		loader.require(['local-require/rel-path'], module => {
+		loader.require(['local-require/rel-path'], (module) => {
 			expect(module).toBe('a');
 			done();
 		});
 	});
 
-	it('fails when local require is called with an undeclared module', done => {
-		loader.require(['local-require/failure'], jest.fn(), err => {
+	it('fails when local require is called with an undeclared module', (done) => {
+		loader.require(['local-require/failure'], jest.fn(), (err) => {
 			expect(err).toBeDefined();
 			done();
 		});
 	});
 
-	it('works correctly when a module exports `false`', done => {
-		loader.require('export-false', module => {
+	it('works correctly when a module exports `false`', (done) => {
+		loader.require('export-false', (module) => {
 			expect(module).toBe(false);
 			done();
 		});
 	});
 
-	it('works correctly when a module exports `null`', done => {
-		loader.require('export-null', module => {
+	it('works correctly when a module exports `null`', (done) => {
+		loader.require('export-null', (module) => {
 			expect(module).toBeNull();
 			done();
 		});
 	});
 
-	it('works correctly when a module exports `undefined`', done => {
-		loader.require('export-undefined', module => {
+	it('works correctly when a module exports `undefined`', (done) => {
+		loader.require('export-undefined', (module) => {
 			expect(module).toBeUndefined();
 			done();
 		});
 	});
 
-	it('localRequire should not mix contexts (issue 140)', done => {
+	it('localRequire should not mix contexts (issue 140)', (done) => {
 		fetchResponse = {
 			configMap: {},
 			moduleMap: {
@@ -206,7 +207,7 @@ describe('Loader', () => {
 			resolvedModules: ['issue-140/a', 'issue-140/m1', 'issue-140/m2/m2'],
 		};
 
-		loader.require('issue-140/m2/m2', m2 => {
+		loader.require('issue-140/m2/m2', (m2) => {
 			const result = m2();
 
 			expect(result.standard).toBe('standard:a');

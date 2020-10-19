@@ -9,7 +9,7 @@ const path = require('path');
 
 const copy = (input, output) =>
 	fs.copySync(input, output, {
-		filter: filePath => {
+		filter: (filePath) => {
 			if (path.basename(filePath).indexOf('.') == 0) return false;
 			return true;
 		},

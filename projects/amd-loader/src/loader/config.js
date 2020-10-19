@@ -9,6 +9,7 @@ import Module from './module';
  *
  */
 export default class Config {
+
 	/**
 	 * Creates an instance of Configuration class
 	 * @constructor
@@ -158,7 +159,7 @@ export default class Config {
 			return Object.values(this._modules);
 		}
 
-		return moduleNames.map(moduleName => this.getModule(moduleName));
+		return moduleNames.map((moduleName) => this.getModule(moduleName));
 	}
 
 	/**
@@ -267,12 +268,14 @@ export default class Config {
 
 		// Apply partial mapping only if exactMatch hasn't been
 		// already applied for this mapping
+
 		if (!match) {
 			match = this._mapPartialMatch(moduleName, maps);
 		}
 
 		// Apply * mapping only if neither exactMatch nor
 		// partialMatch have been already applied for this mapping
+
 		if (!match) {
 			match = this._mapWildcardMatch(moduleName, maps);
 		}

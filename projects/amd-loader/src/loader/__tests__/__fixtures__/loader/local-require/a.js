@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-Loader.define('local-require/a', ['module'], module => {
+Loader.define('local-require/a', ['module'], (module) => {
 	module.exports = {
 		func: () => 'a',
 		value: 'a',

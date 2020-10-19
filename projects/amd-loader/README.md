@@ -18,9 +18,9 @@ module resolution and load).
 
 This will build the loader in 'build/loader' directory. There will be three versions:
 
-- loader.js: release version
-- loader-min.js: minified release version
-- loader-debug.js: debug version
+-   loader.js: release version
+-   loader-min.js: minified release version
+-   loader-debug.js: debug version
 
 ## How to run the demo?
 

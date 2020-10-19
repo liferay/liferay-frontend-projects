@@ -10,7 +10,7 @@ var eggNumber = 1;
 Liferay.Loader.define(
 	'circular@1.0.0/egg',
 	['exports', 'require', './chicken'],
-	function(exports, require, chicken) {
+	function (exports, require, chicken) {
 		var Chicken = require('./chicken');
 
 		console.log('Egg module implementing');
@@ -29,7 +29,7 @@ Liferay.Loader.define(
 			console.log('New egg ' + this.eggNumber + ' laid');
 		}
 
-		Egg.prototype.hatch = function() {
+		Egg.prototype.hatch = function () {
 			console.log('Egg ' + this.eggNumber + ' giving birth to chicken');
 
 			var chicken = new Chicken.default();

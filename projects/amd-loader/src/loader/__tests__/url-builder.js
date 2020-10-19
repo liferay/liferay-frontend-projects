@@ -202,7 +202,7 @@ describe('URLBuilder', () => {
 
 		expect(modulesURL).toHaveLength(3);
 
-		const urlLengths = modulesURL.map(moduleURL => moduleURL.url.length);
+		const urlLengths = modulesURL.map((moduleURL) => moduleURL.url.length);
 
 		expect(urlLengths).toEqual([65, 85, 47]);
 	});

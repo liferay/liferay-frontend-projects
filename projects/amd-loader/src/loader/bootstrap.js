@@ -14,7 +14,8 @@ if (namespace) {
 	const ns = window[namespace] ? window[namespace] : {};
 	ns.Loader = loader;
 	window[namespace] = ns;
-} else {
+}
+else {
 	window.Loader = loader;
 }
 

@@ -38,9 +38,11 @@ const server = http.createServer((req, res) => {
 
 	if (resource.startsWith('/o/js_resolve_modules')) {
 		processModules(resource, res);
-	} else if (fs.existsSync(path.join('build', 'demo', resource))) {
+	}
+	else if (fs.existsSync(path.join('build', 'demo', resource))) {
 		processResource(resource, res);
-	} else {
+	}
+	else {
 		res.end();
 	}
 });

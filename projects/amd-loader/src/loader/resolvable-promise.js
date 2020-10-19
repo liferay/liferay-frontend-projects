@@ -11,6 +11,7 @@
  * magic to define this class.
  */
 export default class ResolvablePromise {
+
 	/**
 	 * Don't construct ResolvablePromise objects directly: rely on
 	 * ResolvablePromise.new() instead.
@@ -39,10 +40,11 @@ ResolvablePromise.new = () => {
 		resolved: false,
 	});
 
-	promise.resolve = value => resolve(promise, value);
-	promise.reject = error => reject(promise, error);
+	promise.resolve = (value) => resolve(promise, value);
+	promise.reject = (error) => reject(promise, error);
 
 	// This is to avoid UnhandledPromiseRejectionWarning errors during the tests
+
 	if (typeof jest !== 'undefined') {
 		promise.catch(() => {});
 	}

@@ -104,7 +104,7 @@ describe('Config', () => {
 		const addedModule2 = config.addModule('liferay2test');
 
 		config.addMappings({
-			'*': name => name + 'test',
+			'*': (name) => name + 'test',
 		});
 
 		const mappedModules = config.getModules(['liferay', 'liferay2']);
@@ -117,7 +117,7 @@ describe('Config', () => {
 		const addedModule2 = config.addModule('liferay2test');
 
 		config.addMappings({
-			'*': name => name + 'test',
+			'*': (name) => name + 'test',
 			liferay: 'liferay@1.0.0',
 		});
 

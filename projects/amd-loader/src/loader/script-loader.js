@@ -10,6 +10,7 @@ import URLBuilder from './url-builder';
  * from the server.
  */
 export default class ScriptLoader {
+
 	/**
 	 * @param {object} document DOM document object to use
 	 * @param {Config} config
@@ -40,7 +41,7 @@ export default class ScriptLoader {
 
 		const modulesURLs = urlBuilder.build(moduleNames);
 
-		const promises = modulesURLs.map(modulesURL =>
+		const promises = modulesURLs.map((modulesURL) =>
 			this._loadScript(modulesURL)
 		);
 
@@ -79,7 +80,7 @@ export default class ScriptLoader {
 				script.onload = script.onreadystatechange = null;
 				script.onerror = null;
 
-				modules.forEach(module => {
+				modules.forEach((module) => {
 					if (module.fetch.fulfilled) {
 						this._log.warn(
 							`Module '${module.name}' is being fetched from\n`,
@@ -112,13 +113,13 @@ export default class ScriptLoader {
 					}
 				);
 
-				modules.forEach(module => module.fetch.reject(error));
+				modules.forEach((module) => module.fetch.reject(error));
 			};
 
 			this._injectedScripts[modulesURL.url] = script;
 			this._document.head.appendChild(script);
 		}
 
-		return Promise.all(modules.map(module => module.fetch));
+		return Promise.all(modules.map((module) => module.fetch));
 	}
 }

@@ -18,7 +18,7 @@ copy('src/demo/index.html', 'build/demo/index.html');
 copy('src/demo/config.js', 'build/demo/config.js');
 
 fs.mkdirsSync(`build/demo/resolutions`);
-globby.sync('src/demo/resolutions/*').forEach(filePath => {
+globby.sync('src/demo/resolutions/*').forEach((filePath) => {
 	const fileName = path.basename(filePath);
 
 	copy(
@@ -27,7 +27,7 @@ globby.sync('src/demo/resolutions/*').forEach(filePath => {
 	);
 });
 
-globby.sync('src/demo/modules/**/*.js').forEach(file => {
+globby.sync('src/demo/modules/**/*.js').forEach((file) => {
 	const filePath = file.substring('src/demo/modules/'.length);
 	const dirname = path.dirname(filePath);
 

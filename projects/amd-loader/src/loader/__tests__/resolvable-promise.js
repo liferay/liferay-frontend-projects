@@ -27,7 +27,7 @@ describe('ResolvablePromise', () => {
 		expect(() => resolvablePromise.reject()).toThrow();
 	});
 
-	it('resolve should invoke pre and post registered thens', done => {
+	it('resolve should invoke pre and post registered thens', (done) => {
 		let preCalled;
 		let postCalled;
 
@@ -48,7 +48,7 @@ describe('ResolvablePromise', () => {
 		}, 100);
 	});
 
-	it('reject should invoke pre and post registered catches', done => {
+	it('reject should invoke pre and post registered catches', (done) => {
 		let preCalled;
 		let postCalled;
 

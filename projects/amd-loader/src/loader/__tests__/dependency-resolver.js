@@ -16,7 +16,7 @@ describe('DependencyResolver', () => {
 		dependencyResolver = new DependencyResolver(config);
 
 		originalFetch = window.fetch;
-		window.fetch = jest.fn(param => {
+		window.fetch = jest.fn((param) => {
 			const encodedModules = param.replace(
 				`${config.resolvePath}?modules=`,
 				''
@@ -39,7 +39,7 @@ describe('DependencyResolver', () => {
 	});
 
 	it('resolves a module', () => {
-		return dependencyResolver.resolve(['aui-core']).then(dependencies => {
+		return dependencyResolver.resolve(['aui-core']).then((dependencies) => {
 			expect(dependencies).toEqual(['aui-core']);
 		});
 	});
@@ -47,7 +47,7 @@ describe('DependencyResolver', () => {
 	it('resolves multiple modules', () => {
 		return dependencyResolver
 			.resolve(['aui-base', 'aui-core', 'aui-node', 'aui-dom-node'])
-			.then(dependencies => {
+			.then((dependencies) => {
 				expect(dependencies).toEqual([
 					'aui-base',
 					'aui-core',
