@@ -25,7 +25,7 @@ module.exports = ({flavor}) => {
 			],
 		},
 		output: {
-			path: path.resolve(__dirname, 'build/loader'),
+			path: path.resolve(__dirname, 'build', 'loader'),
 		},
 	};
 
