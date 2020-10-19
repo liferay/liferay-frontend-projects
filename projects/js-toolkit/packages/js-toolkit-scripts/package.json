@@ -31,6 +31,7 @@
 		"build": "tsc && yarn copyfiles",
 		"clean": "node ../../scripts/clean.js",
 		"copyfiles": "node ../../scripts/copyfiles.js",
+		"postversion": "node ../../../npm-tools/packages/js-publish/bin/liferay-js-publish.js",
 		"prepublishOnly": "yarn build"
 	},
 	"version": "3.0.0-alpha.1"

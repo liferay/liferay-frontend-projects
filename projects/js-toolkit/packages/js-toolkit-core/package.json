@@ -29,9 +29,8 @@
 		"ci": "cd ../.. && yarn ci",
 		"clean": "node ../../scripts/clean.js",
 		"copyfiles": "node ../../scripts/copyfiles.js",
-		"postversion": "npx liferay-js-publish",
-		"prepublishOnly": "yarn build",
-		"preversion": "yarn ci"
+		"postversion": "node ../../../npm-tools/packages/js-publish/bin/liferay-js-publish.js",
+		"prepublishOnly": "yarn build"
 	},
 	"version": "3.0.1-pre.0"
 }
