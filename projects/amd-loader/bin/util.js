@@ -12,10 +12,19 @@ const copy = (input, output) =>
 		filter: (filePath) => !path.basename(filePath).startsWith('.'),
 	});
 
-const run = (binary, ...args) =>
-	spawnSync(binary, args, {
+function run(binary, ...args) {
+	const {error, signal, status} = spawnSync(binary, args, {
 		shell: true,
 		stdio: 'inherit',
 	});
+
+	if (status !== 0) {
+		throw new Error(
+			`${binary} ${args.join(
+				' '
+			)} exited with status: ${status}, error: ${error}, signal: ${signal}`
+		);
+	}
+}
 
 module.exports = {copy, run};
