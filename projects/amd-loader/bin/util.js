@@ -14,6 +14,7 @@ const copy = (input, output) =>
 
 const run = (binary, ...args) =>
 	spawnSync(binary, args, {
+		shell: true,
 		stdio: 'inherit',
 	});
 
