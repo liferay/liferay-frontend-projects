@@ -6,7 +6,7 @@
 import fs from 'fs';
 import path from 'path';
 
-import Config from '../config.js';
+import Config from '../config';
 import Loader from '../loader';
 
 describe('Loader', () => {

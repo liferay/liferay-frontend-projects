@@ -385,7 +385,9 @@ export default class Loader {
 
 				// If reject timeout was hit don't do anything else
 
-				if (timeoutRejected) return;
+				if (timeoutRejected) {
+					return;
+				}
 
 				// Wait for all unregistered modules to be defined
 
@@ -395,7 +397,9 @@ export default class Loader {
 
 				// If reject timeout was hit don't do anything else
 
-				if (timeoutRejected) return;
+				if (timeoutRejected) {
+					return;
+				}
 
 				// Everything went well so we can clear the timeout
 
@@ -426,7 +430,9 @@ export default class Loader {
 
 				// If reject timeout was hit don't do anything else
 
-				if (timeoutRejected) return;
+				if (timeoutRejected) {
+					return;
+				}
 
 				if (rejectTimeout) {
 					clearTimeout(rejectTimeout);
@@ -540,6 +546,7 @@ export default class Loader {
 
 			const missingModules = resolvedModuleNames.filter((moduleName) => {
 				const module = config.getModule(moduleName);
+
 				return !module || !module.implemented;
 			});
 

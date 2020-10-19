@@ -38,6 +38,7 @@ export default class DependencyResolver {
 
 			if (resolution) {
 				resolve(resolution);
+
 				return;
 			}
 

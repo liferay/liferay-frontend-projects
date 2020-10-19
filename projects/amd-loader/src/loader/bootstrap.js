@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import Loader from './loader.js';
+import Loader from './loader';
 
 const cfg = window.__CONFIG__ || {};
 const namespace = typeof cfg.namespace === 'string' ? cfg.namespace : undefined;
