@@ -9,32 +9,42 @@ const path = require('path');
 
 const {copy, run} = require('./util');
 
-if (!fs.existsSync('build/loader/loader-debug.js')) {
+const DEMO_BUILD = path.join('build', 'demo');
+const DEMO_SRC = path.join('src', 'demo');
+const LOADER = path.join('build', 'loader');
+
+if (!fs.existsSync(path.join(LOADER, 'loader-debug.js'))) {
 	run('yarn', 'build');
 }
 
-copy('build/loader/loader-debug.js', 'build/demo/loader-debug.js');
-copy('src/demo/index.html', 'build/demo/index.html');
-copy('src/demo/config.js', 'build/demo/config.js');
+copy(
+	path.join(LOADER, 'loader-debug.js'),
+	path.join(DEMO_BUILD, 'loader-debug.js')
+);
+copy(path.join(DEMO_SRC, 'index.html'), path.join(DEMO_BUILD, 'index.html'));
+copy(path.join(DEMO_SRC, 'config.js'), path.join(DEMO_BUILD, 'config.js'));
 
-fs.mkdirsSync(`build/demo/resolutions`);
+fs.mkdirsSync(path.join(DEMO_BUILD, 'resolutions'));
+
 globby.sync('src/demo/resolutions/*').forEach((filePath) => {
 	const fileName = path.basename(filePath);
 
 	copy(
-		`src/demo/resolutions/${fileName}`,
-		`build/demo/resolutions/${fileName}`
+		path.join(DEMO_SRC, 'resolutions', fileName),
+		path.join(DEMO_BUILD, 'resolutions', fileName)
 	);
 });
 
 globby.sync('src/demo/modules/**/*.js').forEach((file) => {
-	const filePath = file.substring('src/demo/modules/'.length);
+	const filePath = file.substring(
+		path.join(DEMO_SRC, 'modules').length + path.sep.length
+	);
 	const dirname = path.dirname(filePath);
 
-	fs.mkdirsSync(`build/demo/modules/${dirname}`);
+	fs.mkdirsSync(DEMO_BUILD, 'modules', dirname);
 
 	copy(
-		path.join('src', 'demo', 'modules', filePath),
-		path.join('build', 'demo', 'modules', filePath)
+		path.join(DEMO_SRC, 'modules', filePath),
+		path.join(DEMO_BUILD, 'modules', filePath)
 	);
 });
