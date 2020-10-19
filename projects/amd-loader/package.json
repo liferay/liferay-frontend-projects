@@ -22,7 +22,7 @@
 		"Loader"
 	],
 	"license": "LGPL-3.0",
-	"name": "liferay-amd-loader",
+	"name": "@liferay/amd-loader",
 	"repository": {
 		"directory": "projects/amd-loader",
 		"type": "git",

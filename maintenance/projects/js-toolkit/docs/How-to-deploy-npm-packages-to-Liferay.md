@@ -1,4 +1,4 @@
-[Liferay](https://github.com/liferay/liferay-portal) comes with a builtin support for npm packages. The main goal of this support is to be able to use npm modules from inside portlets with the help of the [Liferay AMD Loader](https://github.com/liferay/liferay-amd-loader). This includes a standard npm based development workflow and a specific deployment-runtime workflow that allows sharing npm packages from different portlets and honors the semantic versioned dependencies found in `package.json` files.
+[Liferay](https://github.com/liferay/liferay-portal) comes with a builtin support for npm packages. The main goal of this support is to be able to use npm modules from inside portlets with the help of the [Liferay AMD Loader](https://www.npmjs.com/package/@liferay/amd-loader). This includes a standard npm based development workflow and a specific deployment-runtime workflow that allows sharing npm packages from different portlets and honors the semantic versioned dependencies found in `package.json` files.
 
 OSGi bundles containing npm packages must have a specific structure, described in the following section.
 
@@ -56,7 +56,7 @@ Regarding the inline package, it can be present or absent too, though only one i
 
 ## AMDization of JavaScript modules
 
-Given that [Liferay AMD Loader](https://github.com/liferay/liferay-amd-loader) follows the [AMD specification](https://github.com/amdjs/amdjs-api/blob/master/AMD.md), all modules inside an npm OSGi bundle must be in AMD format but usually modules inside npm packages are in [CommonJS format](https://nodejs.org/api/modules.html). However, they can be easily converted to AMD by wrapping the module code inside a `define()` call.
+Given that [Liferay AMD Loader](https://www.npmjs.com/package/@liferay/amd-loader) follows the [AMD specification](https://github.com/amdjs/amdjs-api/blob/master/AMD.md), all modules inside an npm OSGi bundle must be in AMD format but usually modules inside npm packages are in [CommonJS format](https://nodejs.org/api/modules.html). However, they can be easily converted to AMD by wrapping the module code inside a `define()` call.
 
 Let's see an example with `isobject@2.1.0` package. This package has a main module called `index.js` which contains the following code:
 
