@@ -8,6 +8,12 @@ This is an experimental exploration of the ideas proposed in [liferay-frontend-g
 
 ## Projects
 
+### `amd-loader`
+
+| Package                                        | Issues & PRs                                                                                                                 | Actions                                                                                                               |
+| ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| [`@liferay/amd-loader`](./projects/amd-loader) | [label: `amd-loader`](https://github.com/liferay/liferay-frontend-projects/issues?q=is%3Aissue+is%3Aopen+label%3Aamd-loader) | [New issue](https://github.com/liferay/liferay-frontend-projects/issues/new?labels=amd-loader&template=amd-loader.md) |
+
 ### `eslint-config`
 
 | Package                                              | Issues & PRs                                                                                                                       | Actions                                                                                                                     |
