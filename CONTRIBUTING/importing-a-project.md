@@ -87,6 +87,8 @@ git log --oneline --decorate --graph --all
 git commit --amend
 ```
 
+For a more complicated example of tag rewriting, see [eb97ca90f0](https://github.com/liferay/liferay-frontend-projects/commit/eb97ca90f0a40aa433ce6cb89cc4d0867e0db72e), which required us to fix some bit rot (inconsistent tag names, unreachable tags, and unannotated tags) in the old [liferay-amd-loader repo](https://github.com/liferay/liferay-amd-loader).
+
 Finally, here is an example of a three-step import where we brought in two branches and a wiki. The [js-toolkit](https://github.com/liferay/liferay-js-toolkit) had two active branches:
 
 -   The 3.x series, which is a ground-up rewrite and really a totally different product. This is the future of the toolkit, and was being developed on [the `3.x-WIP` branch](https://github.com/liferay/liferay-js-toolkit/tree/3.x-WIP).
