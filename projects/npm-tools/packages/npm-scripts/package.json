@@ -16,7 +16,7 @@
 		"@babel/preset-typescript": "^7.10.4",
 		"@liferay/eslint-config": "21.2.1",
 		"@liferay/jest-junit-reporter": "1.2.0",
-		"@liferay/npm-bundler-preset-liferay-dev": "4.6.4",
+		"@liferay/npm-bundler-preset-liferay-dev": "4.6.5",
 		"@storybook/addon-a11y": "^5.1.9",
 		"@storybook/addon-actions": "^5.1.9",
 		"@storybook/addon-knobs": "^5.1.9",
