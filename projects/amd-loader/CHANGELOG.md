@@ -1,3 +1,16 @@
+## [liferay-amd-loader/v4.3.1](https://github.com/liferay/liferay-frontend-projects/tree/liferay-amd-loader/v4.3.1) (2020-10-20)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-amd-loader/v4.3.0...liferay-amd-loader/v4.3.1)
+
+### :book: Documentation
+
+-   docs(amd-loader): add changelog ([\#204](https://github.com/liferay/liferay-frontend-projects/pull/204))
+
+### :house: Chores
+
+-   chore(amd-loader): prepare for releases via js-publish ([\#202](https://github.com/liferay/liferay-frontend-projects/pull/202))
+-   chore(amd-loader): remove an unnecessary line from the .gitignore ([\#201](https://github.com/liferay/liferay-frontend-projects/pull/201))
+
 ## [liferay-amd-loader/v4.3.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-amd-loader/v4.3.0) (2020-05-22)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-amd-loader/v4.2.0...liferay-amd-loader/v4.3.0)
