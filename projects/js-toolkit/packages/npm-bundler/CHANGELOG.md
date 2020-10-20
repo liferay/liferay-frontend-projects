@@ -1,6 +1,6 @@
-## [npm-bundler/v3.0.2](https://github.com/liferay/liferay-frontend-projects/tree/npm-bundler/v3.0.2) (2020-10-20)
+## [npm-bundler/v3.0.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-bundler/v3.0.1) (2020-10-20)
 
-[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-bundler/v3.0.1-pre.1...npm-bundler/v3.0.2)
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-bundler/v3.0.1-pre.1...npm-bundler/v3.0.1)
 
 ### :house: Chores
 
