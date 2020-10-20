@@ -100,10 +100,21 @@ As a final step, use [`npm deprecate`](https://docs.npmjs.com/cli/deprecate) to 
 npm deprecate eslint-config-liferay 'Please see @liferay/eslint-config instead'
 ```
 
-Once deprecated, `yarn add` will show a message like the following when using the old name:
+Note that `npm deprecate` can also take a version range; we used this, for example, with the move of `liferay-amd-loader` to `@liferay/amd-loader`, where we expect the v3.x series to continue to be used (optionally) on DXP 7.1 for some time:
 
+```sh
+npm deprecate liferay-amd-loader@">= 4.0.0" 'Please see @liferay/amd-loader instead'
 ```
-warning liferay-link-checker@0.0.1: Please see @liferay/link-checker instead
+
+The version range causes a deprecation warning to be shown only when installing v4.0.0 and above:
+
+```sh
+$ yarn add liferay-amd-loader@3.0.0
+success Saved 2 new dependencies.
+
+$ yarn add liferay-amd-loader
+warning liferay-amd-loader@4.3.1: Please see @liferay/amd-loader instead
+success Saved 1 new dependency.
 ```
 
 Likewise, the package on npmjs.com ([example page](https://www.npmjs.com/package/liferay-link-checker)) will show a message like:
