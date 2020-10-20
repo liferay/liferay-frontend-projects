@@ -9,7 +9,8 @@
 ## Normal releases
 
 > **Note:** @liferay/npm-scripts can be published independently, but if you update the preset, or the reporter, you need to update @liferay/npm-scripts as well, because it depends on the others. When doing this, it is important to publish the packages in order; with @liferay/npm-scripts always going last.
-> To publish a new version of a package:
+
+To publish a new version of a package:
 
 ```sh
 # Make sure the local "master" branch is up-to-date:
@@ -25,16 +26,11 @@ yarn ci
 # Change to the directory of the package you wish to publish:
 cd packages/npm-scripts
 
-# Preview the changelog changes, to decide on an appropriate version numbers:
-yarn run liferay-changelog-generator --dry-run
+# Preview the changelog changes, to decide on release type (major, minor etc),
+# and stage them:
+yarn run liferay-changelog-generator --interactive
 
-# Update the changelog:
-yarn run liferay-changelog-generator --version=29.0.1
-
-# Review and stage the generated changes:
-git add -p
-
-# Update the version number:
+# Update the version number using the same release type as decided in previous step:
 yarn version --minor # or --major, or --patch
 ```
 
@@ -97,8 +93,8 @@ yarn ci
 # Move into the package's directory
 cd packages/npm-scripts
 
-# Update the changelog.
-yarn run liferay-changelog-generator --version=$PACKAGE_NAME/v9.5.0-beta.1
+# Preview, update, and stage the changelog changes
+yarn run liferay-changelog-generator --interactive
 
 # Bump to the prerelease version number
 yarn version --new-version 9.5.0-beta.1

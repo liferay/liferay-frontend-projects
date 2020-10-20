@@ -36,15 +36,7 @@ This runs locally the same tests we run in our CI servers so that, in case anyth
 
 We track all discussions and decisions in GitHub issues and try to explain final decisions in git commits so that they are easily available without any need to visit GitHub.
 
-To maintain cross referenceability all commits must follow the [semantic commit convention](http://karma-runner.github.io/0.10/dev/git-commit-msg.html) and use `#nnn` as the first word in the subject (where `nnn` is the number of the issue associated to the commit).
-
-For example:
-
-```
-chore: #517 Fix yarn dependencies
-```
-
-No commit may be pushed without a reference to an issue unless it is self-evident and of type `chore`.
+All commits must follow [our commit message guidelines](https://github.com/liferay/liferay-frontend-guidelines/blob/master/general/commit_messages.md).
 
 ## Tests
 
@@ -121,13 +113,10 @@ yarn ci
 # Change to the directory of the package you wish to publish:
 cd packages/npm-bundler
 
-# Update the changelog:
-npx @liferay/changelog-generator --version=3.0.0
+# Preview, update, and stage the changelog:
+npx @liferay/changelog-generator --interactive
 
-# Review and stage the generated changes:
-git add -p
-
-# Update the version number:
+# Update the version number, using the same update type as decided in the previous step:
 yarn version --minor # or --major, or --patch
 ```
 
