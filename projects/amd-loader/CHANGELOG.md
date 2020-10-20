@@ -4,12 +4,12 @@
 
 ### :new: Features
 
--   feat: #230 enhance resolution errors handling ([\#231](https://github.com/liferay/liferay-frontend-projects/pull/231))
--   feat: update linting ([\#223](https://github.com/liferay/liferay-frontend-projects/pull/223))
+-   feat: #230 enhance resolution errors handling ([\#231](https://github.com/liferay/liferay-amd-loader/pull/231))
+-   feat: update linting ([\#223](https://github.com/liferay/liferay-amd-loader/pull/223))
 
 ### :house: Chores
 
--   chore: update for compliance with current Outbound Licensing Policy ([\#227](https://github.com/liferay/liferay-frontend-projects/pull/227))
+-   chore: update for compliance with current Outbound Licensing Policy ([\#227](https://github.com/liferay/liferay-amd-loader/pull/227))
 
 ## [liferay-amd-loader/v4.2.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-amd-loader/v4.2.0) (2019-09-17)
 
