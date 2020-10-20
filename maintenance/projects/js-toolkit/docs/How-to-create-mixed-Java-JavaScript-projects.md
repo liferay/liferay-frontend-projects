@@ -21,7 +21,7 @@ When you are ready to deploy your portlet, edit your `package.json` file and con
 
 The `build` script will be automatically run when you deploy your portlet to Liferay running `gradlew deploy`.
 
-After everything is transpiled (if necessary) to Ecmascript 5+ and CommonJS you must run the [liferay-npm-bundler](../packages/liferay-npm-bundler) tool to pack all JavaScript code (including npm dependencies) and transform it to AMD so that [Liferay AMD Loader](https://github.com/liferay/liferay-amd-loader) may grab it from the server to use it in the browser.
+After everything is transpiled (if necessary) to Ecmascript 5+ and CommonJS you must run the [liferay-npm-bundler](../packages/liferay-npm-bundler) tool to pack all JavaScript code (including npm dependencies) and transform it to AMD so that [Liferay AMD Loader](https://www.npmjs.com/package/@liferay/amd-loader) may grab it from the server to use it in the browser.
 
 ```
 👀 In essence, `liferay-npm-bundler` is a bundler (like webpack or Browserify)

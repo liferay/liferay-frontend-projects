@@ -180,7 +180,7 @@ Checking the documentation of these plugins we find out that Babel will:
 5. Namespace module names in `define()` and `require()` calls with the project's package name.
 6. Prefix `define()` calls with `Liferay.Loader.`.
 
-Thus, after running `liferay-npm-bundler` on our project we will have a folder with all our npm dependencies extracted from the project's `node_modules` folder and modified to make them work on Liferay Portal under management of its [Liferay AMD Loader](https://github.com/liferay/liferay-amd-loader).
+Thus, after running `liferay-npm-bundler` on our project we will have a folder with all our npm dependencies extracted from the project's `node_modules` folder and modified to make them work on Liferay Portal under management of its [Liferay AMD Loader](https://www.npmjs.com/package/@liferay/amd-loader).
 
 A similar section for the project's root package (denoted by `/`) is also listed in the `.npmbundlerrc` which defines similar steps for the project's `package.json` and `.js` files.
 
