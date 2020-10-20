@@ -1,3 +1,15 @@
+## [amd-loader/v4.3.1](https://github.com/liferay/liferay-frontend-projects/tree/amd-loader/v4.3.1) (2020-10-20)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-amd-loader/v4.3.1...amd-loader/v4.3.1)
+
+### :book: Documentation
+
+-   docs(monorepo): make CONTRIBUTING.md docs more consistent ([\#205](https://github.com/liferay/liferay-frontend-projects/pull/205))
+
+### :house: Chores
+
+-   chore(amd-loader): prepare to release under @liferay named scope ([\#200](https://github.com/liferay/liferay-frontend-projects/pull/200))
+
 ## [liferay-amd-loader/v4.3.1](https://github.com/liferay/liferay-frontend-projects/tree/liferay-amd-loader/v4.3.1) (2020-10-20)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-amd-loader/v4.3.0...liferay-amd-loader/v4.3.1)
