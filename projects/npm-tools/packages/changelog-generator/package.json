@@ -23,7 +23,7 @@
 		"ci": "cd ../.. && yarn ci",
 		"postversion": "node ../js-publish/bin/liferay-js-publish.js",
 		"preversion": "yarn ci",
-		"test": "echo 'No tests currently defined for @liferay/changelog-generator'"
+		"test": "cd ../.. && yarn test changelog-generator"
 	},
 	"version": "1.6.0"
 }
