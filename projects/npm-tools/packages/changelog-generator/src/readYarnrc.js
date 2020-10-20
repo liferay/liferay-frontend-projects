@@ -67,15 +67,13 @@ async function readYarnrc() {
 
 		}
 
-		if (candidate === root) {
+		const index = candidate.lastIndexOf(path.sep);
+
+		if (candidate === root || index === -1) {
 			break;
 		}
 
-		const components = candidate.split(path.sep);
-
-		components.pop();
-
-		candidate = components.join(path.sep);
+		candidate = candidate.slice(0, index);
 	}
 
 	return settings;
