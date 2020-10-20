@@ -35,7 +35,7 @@ describe('getVersion()', () => {
 
 		process.chdir(project);
 
-		child_process.spawnSync('git', ['init']);
+		child_process.spawnSync('git', ['init'], {shell: true});
 
 		setPrefix();
 	});
