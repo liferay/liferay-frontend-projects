@@ -1,3 +1,12 @@
+## [npm-bundler/v3.0.2](https://github.com/liferay/liferay-frontend-projects/tree/npm-bundler/v3.0.2) (2020-10-20)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-bundler/v3.0.1-pre.1...npm-bundler/v3.0.2)
+
+### :house: Chores
+
+-   chore(amd-loader): prepare to release under @liferay named scope ([\#200](https://github.com/liferay/liferay-frontend-projects/pull/200))
+-   chore(js-toolkit): make release process uniform ([\#203](https://github.com/liferay/liferay-frontend-projects/pull/203))
+
 ## [npm-bundler/v3.0.1-pre.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-bundler/v3.0.1-pre.1) (2020-10-15)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-bundler/v3.0.1-pre.0...npm-bundler/v3.0.1-pre.1)

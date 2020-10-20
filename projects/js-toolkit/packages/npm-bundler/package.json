@@ -37,5 +37,5 @@
 		"postversion": "node ../../../npm-tools/packages/js-publish/bin/liferay-js-publish.js",
 		"prepublishOnly": "yarn build"
 	},
-	"version": "3.0.1-pre.1"
+	"version": "3.0.1"
 }
