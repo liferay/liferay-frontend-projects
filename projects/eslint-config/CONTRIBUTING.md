@@ -14,30 +14,26 @@
 
     Run [`@liferay/changelog-generator`](https://www.npmjs.com/package/@liferay/changelog-generator):
 
-        yarn run liferay-changelog-generator --version=v4.1.0
+        yarn run liferay-changelog-generator --interactive
 
-    If you're not sure what version number to supply (ie. because you don't know exactly what changes will be included), you can pass the `--dry-run` switch to get a preview printed to standard output:
+    This will show a preview of the changes, prompt you to enter a release type (eg. major, minor etc, or a specific version), and then stage the changes for inclusion in the release commit.
 
-        yarn run liferay-changelog-generator --dry-run
-
-4.  Review the changes.
-
-    Use `git diff` to confirm that the CHANGELOG.md looks correct. Feel free to edit it if you want to make improvements. Then stage the changes:
+    Feel free to edit if you want to make improvements; if you do, remember to stage the changes:
 
         git add CHANGELOG.md
 
-5.  Tag and publish the new release.
+4.  Tag and publish the new release.
 
-    Run `yarn version --minor` (or `--major`, or `--patch`, as appropriate).
+    Run `yarn version --minor` (or `--major`, or `--patch`, using the same release type that you selected in the previous step).
 
     This will update the package.json and create a tagged commit, including the updates to the CHANGELOG that you previously made.
 
         We use [@liferay/js-publish](https://github.com/liferay/liferay-frontend-projects/tree/master/projects/npm-tools/packages/js-publish) from the "postversion" script to take care of pushing to the repo, and actually publishing to the NPM registry; just follow the prompts.
 
-6.  Update the release notes.
+5.  Update the release notes.
 
     Take the new section from the top of the CHANGELOG and add it to [the release page](https://github.com/liferay/liferay-frontend-projects/releases) on GitHub.
 
-7.  Sanity check [the @liferay/eslint-config page](https://www.npmjs.com/package/@liferay/eslint-config) on npmjs.com
+6.  Sanity check [the @liferay/eslint-config page](https://www.npmjs.com/package/@liferay/eslint-config) on npmjs.com
 
     Specifically, you should see the version you just released under the "Versions" tab on that page.
