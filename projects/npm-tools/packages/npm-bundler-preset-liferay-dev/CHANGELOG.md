@@ -1,3 +1,11 @@
+## [npm-bundler-preset-liferay-dev/v4.6.5](https://github.com/liferay/liferay-frontend-projects/tree/npm-bundler-preset-liferay-dev/v4.6.5) (2020-10-20)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-bundler-preset-liferay-dev/v4.6.4...npm-bundler-preset-liferay-dev/v4.6.5)
+
+### :house: Chores
+
+-   chore(amd-loader): prepare to release under @liferay named scope ([\#200](https://github.com/liferay/liferay-frontend-projects/pull/200))
+
 ## [npm-bundler-preset-liferay-dev/v4.6.4](https://github.com/liferay/liferay-frontend-projects/tree/npm-bundler-preset-liferay-dev/v4.6.4) (2020-10-08)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-bundler-preset-liferay-dev/v4.6.3...npm-bundler-preset-liferay-dev/v4.6.4)
