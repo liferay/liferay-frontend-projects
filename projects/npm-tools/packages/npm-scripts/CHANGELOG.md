@@ -1,3 +1,15 @@
+## [npm-scripts/v33.1.4](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v33.1.4) (2020-10-20)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v33.1.3...npm-scripts/v33.1.4)
+
+### :new: Features
+
+-   feat(monorepo): use liferay-npm-scripts for formatting ([\#146](https://github.com/liferay/liferay-frontend-projects/pull/146))
+
+### :house: Chores
+
+-   chore(npm-scripts): update preset dependency to v4.6.5 ([\#207](https://github.com/liferay/liferay-frontend-projects/pull/207))
+
 ## [npm-scripts/v33.1.3](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v33.1.3) (2020-10-08)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v33.1.2...npm-scripts/v33.1.3)
