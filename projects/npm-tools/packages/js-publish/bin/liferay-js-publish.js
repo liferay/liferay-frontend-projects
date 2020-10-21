@@ -5,4 +5,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-require('../src');
+const {main} = require('../src');
+
+main();
