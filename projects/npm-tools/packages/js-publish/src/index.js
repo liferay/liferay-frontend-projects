@@ -79,9 +79,7 @@ async function checkPackage(pkg) {
 	if (
 		!pkg.scripts ||
 		!pkg.scripts.postversion ||
-		!pkg.scripts.postversion.match(
-			/(?:\bliferay-js-publish|@liferay\/js-publish)\b/
-		)
+		!pkg.scripts.postversion.match(/\bpublish\b/)
 	) {
 		await confirm('No "postversion" script was found; proceed anyway?');
 	}
