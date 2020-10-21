@@ -113,28 +113,28 @@ describe('getVersion()', () => {
 	);
 
 	test.each`
-		from            | version         | throws
-		${'100.0-cool'} | ${'major'}      | ${true}
-		${'100.0-cool'} | ${'minor'}      | ${true}
-		${'100.0-cool'} | ${'patch'}      | ${true}
-		${'100.0-cool'} | ${'premajor'}   | ${true}
-		${'100.0-cool'} | ${'preminor'}   | ${true}
-		${'100.0-cool'} | ${'prepatch'}   | ${true}
-		${'100.0-cool'} | ${'prerelease'} | ${true}
-		${'100.0-cool'} | ${'10.11.12'}   | ${false}
+		from            | version
+		${'100.0-cool'} | ${'major'}
+		${'100.0-cool'} | ${'minor'}
+		${'100.0-cool'} | ${'patch'}
+		${'100.0-cool'} | ${'premajor'}
+		${'100.0-cool'} | ${'preminor'}
+		${'100.0-cool'} | ${'prepatch'}
+		${'100.0-cool'} | ${'prerelease'}
 	`(
-		'throws? ($throws) given version "$version" and a malformed package.json',
-		({from, throws, version}) => {
+		'throws given version "$version" and a malformed package.json',
+		({from, version}) => {
 			setVersion(from);
 
-			if (throws) {
-				return expect(() => getVersion({version})).rejects.toThrow(
-					/Unable to extract version/
-				);
-			}
-			else {
-				return expect(getVersion({version})).resolves.toBe(version);
-			}
+			return expect(() => getVersion({version})).rejects.toThrow(
+				/Unable to extract version/
+			);
 		}
 	);
+
+	it('ignores a malformed package.json when a concrete version is supplied', async () => {
+		setVersion('100.0-cool');
+
+		expect(await getVersion({version: '10.11.12'})).toBe('10.11.12');
+	});
 });
