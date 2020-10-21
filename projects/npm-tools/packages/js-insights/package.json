@@ -1,5 +1,8 @@
 {
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
+	"bin": {
+		"liferay-js-insights": "./bin/liferay-js-insights.js"
+	},
 	"dependencies": {
 		"@babel/parser": "^7.6.0",
 		"@babel/traverse": "^7.6.2",

@@ -82,7 +82,7 @@ async function getModuleMeta(modulePath) {
  * 	`npx @liferay/js-insights --json modules/private/apps`
  * 	`npx @liferay/js-insights --airtable src/*.es.js`
  */
-(async () => {
+async function main() {
 	const data = [];
 	const requestedInsights =
 		argv.insights && typeof argv.insights === 'string'
@@ -111,4 +111,8 @@ async function getModuleMeta(modulePath) {
 	}
 
 	report(data, argv);
-})();
+}
+
+module.exports = {
+	main,
+};
