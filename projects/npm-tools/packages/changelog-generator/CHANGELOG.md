@@ -1,3 +1,15 @@
+## [changelog-generator/v1.6.1](https://github.com/liferay/liferay-frontend-projects/tree/changelog-generator/v1.6.1) (2020-10-21)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/changelog-generator/v1.6.0...changelog-generator/v1.6.1)
+
+### :new: Features
+
+-   feat(monorepo): add liferay-workspace-scripts ([\#211](https://github.com/liferay/liferay-frontend-projects/pull/211))
+
+### :wrench: Bug fixes
+
+-   fix(changelog-generator): match `yarn version` behavior more closely ([\#209](https://github.com/liferay/liferay-frontend-projects/pull/209))
+
 ## [changelog-generator/v1.6.0](https://github.com/liferay/liferay-frontend-projects/tree/changelog-generator/v1.6.0) (2020-10-19)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/changelog-generator/v1.5.0...changelog-generator/v1.6.0)
