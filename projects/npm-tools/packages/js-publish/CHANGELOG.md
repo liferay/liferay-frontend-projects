@@ -1,3 +1,25 @@
+## [js-publish/v2.0.1](https://github.com/liferay/liferay-frontend-projects/tree/js-publish/v2.0.1) (2020-10-21)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-publish/v2.0.0...js-publish/v2.0.1)
+
+### :new: Features
+
+-   feat(monorepo): add liferay-workspace-scripts ([\#211](https://github.com/liferay/liferay-frontend-projects/pull/211))
+-   feat(monorepo): use liferay-npm-scripts for formatting ([\#146](https://github.com/liferay/liferay-frontend-projects/pull/146))
+
+### :house: Chores
+
+-   chore: update dependencies ([\#105](https://github.com/liferay/liferay-frontend-projects/pull/105))
+
+### :woman_juggling: Refactoring
+
+-   refactor(js-publish): make package check less strict ([\#212](https://github.com/liferay/liferay-frontend-projects/pull/212))
+-   refactor(js-toolkit): make tests work in monorepo ([\#133](https://github.com/liferay/liferay-frontend-projects/pull/133))
+
+### :eyeglasses: Tests
+
+-   test(monorepo): fill in test gaps ([\#213](https://github.com/liferay/liferay-frontend-projects/pull/213))
+
 ## [js-publish/v2.0.0](https://github.com/liferay/liferay-frontend-projects/tree/js-publish/v2.0.0) (2020-09-29)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-publish/v1.1.0...js-publish/v2.0.0)
