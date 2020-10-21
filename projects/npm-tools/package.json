@@ -17,7 +17,7 @@
 		"lint": "cd ../.. && yarn lint",
 		"lint:fix": "cd ../.. && yarn lint:fix",
 		"preversion": "echo Cannot version private package; false",
-		"test": "cd ../.. && yarn test"
+		"test": "cd ../.. && yarn test npm-tools"
 	},
 	"version": "0.1.0"
 }

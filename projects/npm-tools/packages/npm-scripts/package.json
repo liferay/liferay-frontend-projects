@@ -91,7 +91,7 @@
 		"ci": "cd ../.. && yarn ci",
 		"postversion": "node ../js-publish/bin/liferay-js-publish.js",
 		"preversion": "yarn ci",
-		"test": "jest"
+		"test": "cd ../.. && yarn test npm-scripts"
 	},
 	"version": "33.1.4"
 }
