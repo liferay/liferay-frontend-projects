@@ -48,15 +48,15 @@
 	},
 	"scripts": {
 		"build": "true",
-		"ci": "cd ../.. && yarn ci",
-		"format": "cd ../.. && yarn format",
-		"format:check": "cd ../.. && yarn format:check",
-		"lint": "cd ../.. && yarn lint",
-		"lint:fix": "cd ../.. && yarn lint:fix",
+		"ci": "yarn run liferay-workspace-scripts ci",
+		"format": "yarn run liferay-workspace-scripts format",
+		"format:check": "yarn run liferay-workspace-scripts format:check",
+		"lint": "yarn run liferay-workspace-scripts lint",
+		"lint:fix": "yarn run liferay-workspace-scripts lint:fix",
 		"postinstall": "node scripts/postinstall.js",
-		"postversion": "node ../npm-tools/packages/js-publish/bin/liferay-js-publish.js",
-		"preversion": "yarn ci",
-		"test": "cd ../.. && yarn test eslint-config"
+		"postversion": "yarn run liferay-workspace-scripts publish",
+		"preversion": "yarn run liferay-workspace-scripts ci",
+		"test": "yarn run liferay-workspace-scripts test"
 	},
 	"version": "21.2.1"
 }

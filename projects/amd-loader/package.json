@@ -32,18 +32,18 @@
 		"build": "yarn build:loader && yarn build:demo",
 		"build:demo": "node bin/build-demo.js",
 		"build:loader": "node bin/build-loader.js",
-		"ci": "cd ../.. && yarn ci",
+		"ci": "yarn run liferay-workspace-scripts ci",
 		"clean": "rm -rf build",
 		"demo": "node bin/run-demo.js",
-		"format": "cd ../.. && yarn format",
-		"format:check": "cd ../.. && yarn format:check",
-		"lint": "cd ../.. && yarn lint",
-		"lint:fix": "cd ../.. && yarn lint:fix",
-		"postversion": "node ../npm-tools/packages/js-publish/bin/liferay-js-publish.js",
+		"format": "yarn run liferay-workspace-scripts format",
+		"format:check": "yarn run liferay-workspace-scripts format:check",
+		"lint": "yarn run liferay-workspace-scripts lint",
+		"lint:fix": "yarn run liferay-workspace-scripts lint:fix",
+		"postversion": "yarn run liferay-workspace-scripts publish",
 		"prepublishOnly": "yarn build",
 		"preversion": "yarn ci",
 		"proxyPortal": "webpack-dev-server --config webpack.proxyPortal.js",
-		"test": "cd ../.. && yarn test amd-loader"
+		"test": "yarn run liferay-workspace-scripts test"
 	},
 	"version": "4.3.1"
 }

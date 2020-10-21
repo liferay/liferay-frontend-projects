@@ -44,18 +44,19 @@
 	"private": true,
 	"repository": "https://github.com/liferay/liferay-frontend-projects",
 	"scripts": {
-		"build": "yarn workspaces run build",
-		"ci": "yarn format:check && yarn lint && yarn test",
-		"format": "yarn run liferay-npm-scripts prettier --write \"**/*.{js,json,md,ts,yml}\" \"**/.*.{js,ts,yml}\"",
-		"format:check": "yarn run liferay-npm-scripts prettier --list-different \"**/*.{js,json,md,ts,yml}\" \"**/.*.{js,ts,yml}\"",
-		"lint": "eslint \"**/*.{js,ts}\" \"**/.*.{js,ts}\"",
-		"lint:fix": "eslint --fix \"**/*.{js,ts}\" \"**/.*.{js,ts}\"",
+		"build": "yarn run liferay-workspace-scripts build",
+		"ci": "yarn run liferay-workspace-scripts ci",
+		"format": "yarn run liferay-workspace-scripts format",
+		"format:check": "yarn run liferay-workspace-scripts format:check",
+		"lint": "yarn run liferay-workspace-scripts lint",
+		"lint:fix": "yarn run liferay-workspace-scripts lint:fix",
 		"preversion": "echo Cannot version private package; false",
-		"test": "jest"
+		"test": "yarn run liferay-workspace-scripts test"
 	},
 	"version": "0.0.1",
 	"workspaces": [
 		"projects/*",
-		"projects/*/packages/*"
+		"projects/*/packages/*",
+		"support/packages/*"
 	]
 }

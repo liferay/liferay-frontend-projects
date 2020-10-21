@@ -23,13 +23,13 @@
 	},
 	"scripts": {
 		"build": "true",
-		"ci": "cd ../.. && yarn ci",
-		"format": "cd ../.. && yarn format",
-		"format:check": "cd ../.. && yarn format:check",
-		"lint": "cd ../.. && yarn lint",
-		"lint:fix": "cd ../.. && yarn lint:fix",
-		"postversion": "node bin/liferay-js-publish.js",
-		"preversion": "yarn ci",
+		"ci": "yarn run liferay-workspace-scripts ci",
+		"format": "yarn run liferay-workspace-scripts format",
+		"format:check": "yarn run liferay-workspace-scripts format:check",
+		"lint": "yarn run liferay-workspace-scripts lint",
+		"lint:fix": "yarn run liferay-workspace-scripts lint:fix",
+		"postversion": "yarn run liferay-workspace-scripts publish",
+		"preversion": "yarn run liferay-workspace-scripts ci",
 		"test": "echo 'No tests currently defined for @liferay/js-publish'"
 	},
 	"version": "2.0.0"

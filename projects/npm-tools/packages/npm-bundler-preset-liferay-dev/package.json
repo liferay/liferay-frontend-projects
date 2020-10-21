@@ -21,14 +21,14 @@
 	},
 	"scripts": {
 		"build": "true",
-		"ci": "cd ../.. && yarn ci",
-		"format": "cd ../.. && yarn format",
-		"format:check": "cd ../.. && yarn format:check",
-		"lint": "cd ../.. && yarn lint",
-		"lint:fix": "cd ../.. && yarn lint:fix",
+		"ci": "yarn run liferay-workspace-scripts ci",
+		"format": "yarn run liferay-workspace-scripts format",
+		"format:check": "yarn run liferay-workspace-scripts format:check",
+		"lint": "yarn run liferay-workspace-scripts lint",
+		"lint:fix": "yarn run liferay-workspace-scripts lint:fix",
 		"postpublish": "echo '***'; echo 'NOTE: Remember to update and publish @liferay/npm-scripts'; echo '***'",
-		"postversion": "node ../js-publish/bin/liferay-js-publish.js",
-		"preversion": "yarn ci",
+		"postversion": "yarn run liferay-workspace-scripts publish",
+		"preversion": "yarn run liferay-workspace-scripts ci",
 		"test": "echo 'No tests currently defined for @liferay/npm-bundler-preset-liferay-dev'"
 	},
 	"version": "4.6.5"
