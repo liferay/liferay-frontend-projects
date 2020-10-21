@@ -285,7 +285,7 @@ async function getVersion(options) {
 			currentVersion.match(/^(\d+)\.(\d+)\.(\d+)(?:-(\w+)\.(\d+))?$/) ||
 			[];
 
-		if (typeof major !== 'string') {
+		if (major === undefined) {
 			throw new Error(
 				'Unable to extract version from "package.json"; ' +
 					'please pass --version explicitly'
@@ -306,25 +306,50 @@ async function getVersion(options) {
 		const prefix = await getVersionTagPrefix();
 
 		switch (options.version) {
-			case 'major':
 			case 'premajor':
 				major++;
 				minor = 0;
 				patch = 0;
-				prerelease = options.version === 'major' ? undefined : 0;
+				prerelease = 0;
 				break;
 
-			case 'minor':
+			case 'major':
+				if (
+					prerelease === undefined ||
+					minor !== '0' ||
+					patch !== '0'
+				) {
+					major++;
+				}
+				minor = 0;
+				patch = 0;
+				prerelease = undefined;
+				break;
+
 			case 'preminor':
 				minor++;
 				patch = 0;
-				prerelease = options.version === 'minor' ? undefined : 0;
+				prerelease = 0;
+				break;
+
+			case 'minor':
+				if (prerelease === undefined || patch !== '0') {
+					minor++;
+				}
+				patch = 0;
+				prerelease = undefined;
 				break;
 
 			case 'prepatch':
-			case 'patch':
 				patch++;
-				prerelease = options.version === 'patch' ? undefined : 0;
+				prerelease = 0;
+				break;
+
+			case 'patch':
+				if (prerelease === undefined) {
+					patch++;
+				}
+				prerelease = undefined;
 				break;
 
 			case 'prerelease':
@@ -861,4 +886,7 @@ async function write(options, preview, contents) {
 	}
 }
 
-module.exports = main;
+module.exports = {
+	getVersion,
+	main,
+};
