@@ -24,6 +24,10 @@
 	"scripts": {
 		"build": "true",
 		"ci": "cd ../.. && yarn ci",
+		"format": "cd ../.. && yarn format",
+		"format:check": "cd ../.. && yarn format:check",
+		"lint": "cd ../.. && yarn lint",
+		"lint:fix": "cd ../.. && yarn lint:fix",
 		"postversion": "node bin/liferay-js-publish.js",
 		"preversion": "yarn ci",
 		"test": "echo 'No tests currently defined for @liferay/js-publish'"

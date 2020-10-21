@@ -11,6 +11,7 @@
 		"level-deps": "node scripts/level-deps.js",
 		"lint": "cd ../.. && yarn lint",
 		"lint:fix": "cd ../.. && yarn lint:fix",
+		"preversion": "echo Cannot version private package; false",
 		"qa": "node scripts/qa/index.js",
 		"test": "cd ../.. && yarn test js-toolkit",
 		"watch": "node scripts/watch.js"
