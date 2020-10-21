@@ -56,7 +56,7 @@
 		"postinstall": "node scripts/postinstall.js",
 		"postversion": "node ../npm-tools/packages/js-publish/bin/liferay-js-publish.js",
 		"preversion": "yarn ci",
-		"test": "cd ../.. && yarn test"
+		"test": "cd ../.. && yarn test eslint-config"
 	},
 	"version": "21.2.1"
 }
