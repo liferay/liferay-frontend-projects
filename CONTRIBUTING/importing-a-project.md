@@ -237,7 +237,7 @@ Examples include:
 
 -   Format all code with `yarn format` ([example PR](https://github.com/liferay/liferay-frontend-projects/pull/119)).
 
--   Update `package.json` scripts to use [`liferay-workspace-scripts`](../support/packages/workspace-scripts); for example, a bespoke `format` script might change from `prettier --write \"**/*.{js,json,md,ts,yml}\" \"**/.*.{js,ts,yml}\""` to `yarn run liferay-workspace-scripts`.
+-   Update `package.json` scripts to use [`liferay-workspace-scripts`](../support/packages/workspace-scripts); for example, a bespoke `format` script might change from `prettier --write \"**/*.{js,json,md,ts,yml}\" \"**/.*.{js,ts,yml}\""` to `liferay-workspace-scripts format`.
 
 -   Sort `package.json` and other JSON files ([example PR](https://github.com/liferay/liferay-frontend-projects/pull/132)).
 
