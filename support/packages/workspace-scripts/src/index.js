@@ -76,7 +76,7 @@ function formatCheck(...args) {
 
 /**
  * Yarn may set the `cwd` to the top-level, but we can detect
- * sudirectory runs via `INIT_CWD`.
+ * subdirectory runs via `INIT_CWD`.
  */
 function getLocal() {
 	return process.env.INIT_CWD || process.cwd();
