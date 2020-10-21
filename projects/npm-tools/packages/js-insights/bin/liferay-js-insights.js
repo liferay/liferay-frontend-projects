@@ -7,4 +7,8 @@
 
 const {main} = require('../src');
 
-main();
+main().catch((error) => {
+	console.log(error); // eslint-disable-line no-console
+
+	process.exit(1);
+});

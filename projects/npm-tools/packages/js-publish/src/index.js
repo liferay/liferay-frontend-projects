@@ -27,35 +27,60 @@ const run = require('./run');
 let readline;
 
 async function main() {
-	const branch = git('rev-parse', '--abbrev-ref', 'HEAD');
+	let exitStatus = 0;
 
-	if (branch !== 'master') {
-		panic('Not on "master" branch');
+	try {
+		const branch = git('rev-parse', '--abbrev-ref', 'HEAD');
+
+		if (branch !== 'master') {
+			panic('Not on "master" branch');
+		}
+
+		checkCleanWorktree();
+
+		await checkYarnRc();
+
+		const pkg = JSON.parse(fs.readFileSync('package.json').toString());
+
+		await checkPackage(pkg);
+
+		const remote = getRemote();
+
+		await confirm(`Push to ${remote}/master?`);
+
+		git('push', remote, 'master', '--follow-tags');
+
+		await runYarnPublish(pkg);
+
+		const url = `https://www.npmjs.com/package/${pkg.name}`;
+
+		printBanner(
+			'Done! ✅',
+			'You can sanity-check that the package is correctly listed here:',
+			url
+		);
 	}
+	catch (error) {
+		printBanner(
+			'Failed to automatically publish package! ❌',
+			error.message,
+			'Please try publishing manually.',
+			'For reference, these are the publishing steps:',
+			'git rev-parse --abbrev-ref HEAD # expect "master"\n' +
+				'git diff --quiet # expect no output\n' +
+				'git push $REMOTE master --follow-tags # you will need to supply $REMOTE\n' +
+				'yarn publish'
+		);
 
-	checkCleanWorktree();
+		exitStatus = 1;
+	}
+	finally {
+		if (readline) {
+			readline.close();
+		}
 
-	await checkYarnRc();
-
-	const pkg = JSON.parse(fs.readFileSync('package.json').toString());
-
-	await checkPackage(pkg);
-
-	const remote = getRemote();
-
-	await confirm(`Push to ${remote}/master?`);
-
-	git('push', remote, 'master', '--follow-tags');
-
-	await runYarnPublish(pkg);
-
-	const url = `https://www.npmjs.com/package/${pkg.name}`;
-
-	printBanner(
-		'Done! ✅',
-		'You can sanity-check that the package is correctly listed here:',
-		url
-	);
+		process.exit(exitStatus);
+	}
 }
 
 function panic(reason) {
@@ -190,27 +215,7 @@ async function runYarnPublish(pkg) {
 	run('yarn', 'publish', ...args);
 }
 
-let exitStatus = 0;
-
-main()
-	.catch((error) => {
-		printBanner(
-			'Failed to automatically publish package! ❌',
-			error.message,
-			'Please try publishing manually.',
-			'For reference, these are the publishing steps:',
-			'git rev-parse --abbrev-ref HEAD # expect "master"\n' +
-				'git diff --quiet # expect no output\n' +
-				'git push $REMOTE master --follow-tags # you will need to supply $REMOTE\n' +
-				'yarn publish'
-		);
-
-		exitStatus = 1;
-	})
-	.finally(() => {
-		if (readline) {
-			readline.close();
-		}
-
-		process.exit(exitStatus);
-	});
+module.exports = {
+	isPrereleaseVersion,
+	main,
+};

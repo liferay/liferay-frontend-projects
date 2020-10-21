@@ -30,7 +30,7 @@
 		"lint:fix": "liferay-workspace-scripts lint:fix",
 		"postversion": "liferay-workspace-scripts publish",
 		"preversion": "liferay-workspace-scripts ci",
-		"test": "echo 'No tests currently defined for @liferay/js-publish'"
+		"test": "liferay-workspace-scripts test"
 	},
 	"version": "2.0.0"
 }

@@ -29,7 +29,7 @@
 		"postpublish": "echo '***'; echo 'NOTE: Remember to update and publish @liferay/npm-scripts'; echo '***'",
 		"postversion": "liferay-workspace-scripts publish",
 		"preversion": "liferay-workspace-scripts ci",
-		"test": "echo 'No tests currently defined for @liferay/npm-bundler-preset-liferay-dev'"
+		"test": "liferay-workspace-scripts test"
 	},
 	"version": "4.6.5"
 }
