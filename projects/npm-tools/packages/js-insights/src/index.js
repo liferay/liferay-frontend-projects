@@ -115,4 +115,5 @@ async function main() {
 
 module.exports = {
 	main,
+	parse,
 };
