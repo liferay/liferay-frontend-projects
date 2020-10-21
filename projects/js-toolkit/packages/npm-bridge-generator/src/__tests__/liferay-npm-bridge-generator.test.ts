@@ -10,4 +10,3 @@ describe('blinking light demo', () => {
 		expect(typeof main).toBe('function');
 	});
 });
-
