@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+const path = require('path');
+
 const getMergedConfig = require('../../src/utils/getMergedConfig');
 
 describe('getMergedConfig()', () => {
@@ -25,6 +27,29 @@ describe('getMergedConfig()', () => {
 	});
 
 	describe('"babel" config', () => {
+		let cwd;
+
+		beforeEach(() => {
+			cwd = process.cwd();
+		});
+
+		afterEach(() => {
+			process.chdir(cwd);
+		});
+
+		function getFixture(id) {
+			return path.join(
+				__dirname,
+				'..',
+				'..',
+				'__fixtures__',
+				'utils',
+				'getDXPVersion',
+				id,
+				'modules'
+			);
+		}
+
 		it('strips blacklisted presets', () => {
 			jest.resetModules();
 
@@ -83,6 +108,97 @@ describe('getMergedConfig()', () => {
 					'fancy',
 				]);
 			});
+		});
+
+		it('uses the standard config by default', () => {
+			const config = getMergedConfig('babel');
+
+			expect(config.presets).toEqual(
+				expect.arrayContaining([
+					[
+						'@babel/preset-env',
+						{
+							targets: expect.stringContaining('Chrome version'),
+						},
+					],
+				])
+			);
+		});
+
+		it('uses the standard config in 7.4', () => {
+			const modules = getFixture('7.4');
+
+			process.chdir(modules);
+
+			const config = getMergedConfig('babel');
+
+			expect(config.presets).toEqual(
+				expect.arrayContaining([
+					[
+						'@babel/preset-env',
+						{
+							targets: expect.stringContaining('Chrome version'),
+						},
+					],
+				])
+			);
+		});
+
+		it('uses the legacy config in 7.3', () => {
+			const modules = getFixture('7.3');
+
+			process.chdir(modules);
+
+			const config = getMergedConfig('babel');
+
+			expect(config.presets).toEqual(
+				expect.arrayContaining([
+					[
+						'@babel/preset-env',
+						{
+							targets: expect.stringContaining('defaults'),
+						},
+					],
+				])
+			);
+		});
+
+		it('uses the legacy config in 7.2', () => {
+			const modules = getFixture('7.2');
+
+			process.chdir(modules);
+
+			const config = getMergedConfig('babel');
+
+			expect(config.presets).toEqual(
+				expect.arrayContaining([
+					[
+						'@babel/preset-env',
+						{
+							targets: expect.stringContaining('defaults'),
+						},
+					],
+				])
+			);
+		});
+
+		it('uses the legacy config in 7.1', () => {
+			const modules = getFixture('7.1');
+
+			process.chdir(modules);
+
+			const config = getMergedConfig('babel');
+
+			expect(config.presets).toEqual(
+				expect.arrayContaining([
+					[
+						'@babel/preset-env',
+						{
+							targets: expect.stringContaining('defaults'),
+						},
+					],
+				])
+			);
 		});
 	});
 });

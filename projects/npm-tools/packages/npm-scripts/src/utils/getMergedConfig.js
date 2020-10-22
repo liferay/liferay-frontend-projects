@@ -4,6 +4,7 @@
  */
 
 const deepMerge = require('./deepMerge');
+const getDXPVersion = require('./getDXPVersion');
 const getUserConfig = require('./getUserConfig');
 
 /**
@@ -96,20 +97,30 @@ function getMergedConfig(type, property) {
 
 	switch (type) {
 		case 'babel':
-			mergedConfig = deepMerge(
-				[require('../config/babel'), getUserConfig('babel')],
-				deepMerge.MODE.BABEL
-			);
+			{
+				const {major, minor} = getDXPVersion() || {};
 
-			// (Temporary) special case required by:
-			//
-			// https://github.com/liferay/liferay-npm-tools/issues/303
-			//
-			// TODO: Remove once incremental-dom is no longer used in
-			// liferay-portal.
+				const baseConfig =
+					major === undefined ||
+					major > 7 ||
+					(major === 7 && minor > 3)
+						? require('../config/babel')
+						: require('../config/babel-legacy');
 
-			mergedConfig = hackilySupportIncrementalDOM(mergedConfig);
+				mergedConfig = deepMerge(
+					[baseConfig, getUserConfig('babel')],
+					deepMerge.MODE.BABEL
+				);
 
+				// (Temporary) special case required by:
+				//
+				// https://github.com/liferay/liferay-npm-tools/issues/303
+				//
+				// TODO: Remove once incremental-dom is no longer used in
+				// liferay-portal.
+
+				mergedConfig = hackilySupportIncrementalDOM(mergedConfig);
+			}
 			break;
 
 		case 'bundler':
