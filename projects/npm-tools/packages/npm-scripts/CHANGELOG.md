@@ -1,3 +1,23 @@
+## [npm-scripts/v34.0.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v34.0.0) (2020-10-22)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v33.1.4...npm-scripts/v34.0.0)
+
+### :boom: Breaking changes
+
+-   chore(npm-scripts)!: drop IE support from Babel config ([\#214](https://github.com/liferay/liferay-frontend-projects/pull/214))
+
+### :new: Features
+
+-   feat(monorepo): add liferay-workspace-scripts ([\#211](https://github.com/liferay/liferay-frontend-projects/pull/211))
+
+### :house: Chores
+
+-   chore(npm-scripts)!: drop IE support from Babel config ([\#214](https://github.com/liferay/liferay-frontend-projects/pull/214))
+
+### :eyeglasses: Tests
+
+-   test(monorepo): consistently run local tests scoped to project/package ([\#210](https://github.com/liferay/liferay-frontend-projects/pull/210))
+
 ## [npm-scripts/v33.1.4](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v33.1.4) (2020-10-20)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v33.1.3...npm-scripts/v33.1.4)
