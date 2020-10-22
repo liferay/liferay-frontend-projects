@@ -69,7 +69,9 @@ describe('getMergedConfig()', () => {
 
 				const config = getMergedConfig('babel');
 
-				expect(config.presets).toEqual(['@babel/preset-env']);
+				expect(config.presets).toEqual([['@babel/preset-env', {
+					targets: expect.stringContaining('Chrome version')
+				}]]);
 
 				expect(config.overrides[0].presets).toMatchObject([
 					['@babel/preset-env', expect.anything()],
