@@ -5,13 +5,24 @@
 
 const {Linter} = require('eslint');
 
+const getDXPVersion = require('../utils/getDXPVersion');
 const processJSP = require('./processJSP');
 
 const linter = new Linter();
 
-const rules = {
-	'no-debugger': 'error',
-	'no-extra-boolean-cast': 'error',
+const {major, minor} = getDXPVersion() || {};
+
+const ecmaVersion =
+	major === undefined || major > 7 || (major === 7 && minor > 3) ? 6 : 5;
+
+const config = {
+	parserOptions: {
+		ecmaVersion,
+	},
+	rules: {
+		'no-debugger': 'error',
+		'no-extra-boolean-cast': 'error',
+	},
 };
 
 const SEVERITY = {
@@ -39,10 +50,10 @@ function lintJSP(source, onReport, options = {}) {
 			let output;
 
 			if (fix) {
-				({messages, output} = linter.verifyAndFix(input, {rules}));
+				({messages, output} = linter.verifyAndFix(input, config));
 			}
 			else {
-				messages = linter.verify(input, {rules});
+				messages = linter.verify(input, config);
 				output = input;
 			}
 
