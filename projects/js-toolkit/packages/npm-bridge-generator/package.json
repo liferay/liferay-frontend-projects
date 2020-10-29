@@ -1,7 +1,7 @@
 {
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"bin": {
-		"liferay-npm-bridge-generator": "bin/liferay-npm-bridge-generator.js"
+		"liferay-npm-bridge-generator": "./bin/liferay-npm-bridge-generator"
 	},
 	"dependencies": {
 		"fs-extra": "^8.1.0",
