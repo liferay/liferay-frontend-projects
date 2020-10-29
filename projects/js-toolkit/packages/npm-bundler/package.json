@@ -1,7 +1,7 @@
 {
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"bin": {
-		"liferay-npm-bundler": "./bin/liferay-npm-bundler"
+		"liferay-npm-bundler": "./bin/liferay-npm-bundler.js"
 	},
 	"dependencies": {
 		"@liferay/js-toolkit-core": "3.0.1-pre.0",
