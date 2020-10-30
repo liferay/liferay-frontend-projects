@@ -1,7 +1,7 @@
 {
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"bin": {
-		"js-toolkit": "bin/js-toolkit.js"
+		"js-toolkit": "./bin/js-toolkit.js"
 	},
 	"dependencies": {
 		"@babel/core": "^7.0.0",
