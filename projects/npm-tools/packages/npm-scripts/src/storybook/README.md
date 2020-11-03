@@ -30,16 +30,16 @@ sample-web
     └── stories
 ```
 
-Create a file `index.es.js` which will be the entry point for the stories.
+Create a file `index.js` which will be the entry point for the stories.
 
 ```
 sample-web
 └── test
     └── stories
-        └── index.es.js
+        └── index.js
 ```
 
-Inside `index.es.js`, import `StorybookReact`
+Inside `index.js`, import `StorybookReact`
 
 ```javascript
 import {StorybookReact} from '@liferay/npm-scripts/src/storybook';

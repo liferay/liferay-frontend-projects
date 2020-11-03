@@ -4,7 +4,7 @@
  */
 
 const fs = require('fs');
-const proxy = require('http-proxy-middleware');
+const {createProxyMiddleware} = require('http-proxy-middleware');
 const path = require('path');
 
 const STORYBOOK_CONFIG = JSON.parse(
@@ -17,7 +17,7 @@ const STORYBOOK_CONFIG = JSON.parse(
 module.exports = function expressMiddleware(router) {
 	router.use(
 		'/o',
-		proxy({
+		createProxyMiddleware({
 			changeOrigin: true,
 			target: STORYBOOK_CONFIG.portalURL,
 		})

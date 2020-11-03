@@ -13,7 +13,7 @@ function loadStories() {
 	// "Critical dependency: the request of a dependency is an expression"
 
 	// eslint-disable-next-line @liferay/liferay/no-dynamic-require
-	require(process.env.STORYBOOK_CWD + '/test/stories/index.es.js');
+	require(process.env.STORYBOOK_CWD + '/test/stories/index.js');
 
 	addDecorator(withA11y);
 	addDecorator(withKnobs);

@@ -15,7 +15,7 @@ const BABEL_CONFIG = getMergedConfig('babel');
 const STORYBOOK_CONFIG = getMergedConfig('npmscripts').storybook;
 
 const NODE_PATHS = [
-	path.join(__dirname, '../../../../node_modules'),
+	path.join(__dirname, '../../../../../node_modules'),
 	path.join(__dirname, '../../node_modules'),
 ];
 
