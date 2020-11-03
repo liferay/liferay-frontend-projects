@@ -1,3 +1,11 @@
+## [npm-scripts/v34.0.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v34.0.1) (2020-11-03)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v34.0.0...npm-scripts/v34.0.1)
+
+### :new: Features
+
+-   feat(npm-scripts): fix storybook ([\#221](https://github.com/liferay/liferay-frontend-projects/pull/221))
+
 ## [npm-scripts/v34.0.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v34.0.0) (2020-10-22)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v33.1.4...npm-scripts/v34.0.0)
