@@ -30,8 +30,13 @@ export default class Manifest {
 		if (this._bundleVersion) {
 			throw new Error('BundleVersion can only be set once');
 		}
-
-		this._bundleVersion = bundleVersion;
+		const parts = bundleVersion.split('-');
+		if (parts.length > 1) {
+			this._bundleVersion = parts[0] + '.' + parts.slice(1).join('-');
+		}
+		else {
+			this._bundleVersion = bundleVersion;
+		}
 	}
 
 	set bundleName(bundleName: string) {
