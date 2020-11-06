@@ -1,3 +1,26 @@
+## [liferay-js-toolkit/v2.20.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.20.0) (2020-11-06)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.19.4...liferay-js-toolkit/v2.20.0)
+
+### :new: Features
+
+-   feat: upgrade sample project to Angular 10 ([\#227](https://github.com/liferay/liferay-frontend-projects/pull/227))
+-   feat(js-toolkit): convert package.json version classfier to OSGi version classifer ([\#219](https://github.com/liferay/liferay-frontend-projects/pull/219))
+-   feat(monorepo): use liferay-npm-scripts for formatting ([\#146](https://github.com/liferay/liferay-frontend-projects/pull/146))
+
+### :book: Documentation
+
+-   docs(js-toolkit): clean up imported js-toolkit wiki ([\#144](https://github.com/liferay/liferay-frontend-projects/pull/144))
+
+### :house: Chores
+
+-   chore(amd-loader): prepare to release under @liferay named scope ([\#200](https://github.com/liferay/liferay-frontend-projects/pull/200))
+-   chore(js-toolkit): make post-release tweaks ([\#141](https://github.com/liferay/liferay-frontend-projects/pull/141))
+
+### :package: Miscellaneous
+
+-   Done using:
+
 ## [liferay-js-toolkit/v2.19.4](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.19.4) (2020-10-08)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.19.3...liferay-js-toolkit/v2.19.4)
