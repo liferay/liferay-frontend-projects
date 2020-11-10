@@ -17,10 +17,6 @@
 -   chore(amd-loader): prepare to release under @liferay named scope ([\#200](https://github.com/liferay/liferay-frontend-projects/pull/200))
 -   chore(js-toolkit): make post-release tweaks ([\#141](https://github.com/liferay/liferay-frontend-projects/pull/141))
 
-### :package: Miscellaneous
-
--   Done using:
-
 ## [liferay-js-toolkit/v2.19.4](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.19.4) (2020-10-08)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.19.3...liferay-js-toolkit/v2.19.4)
