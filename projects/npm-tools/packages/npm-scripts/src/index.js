@@ -13,7 +13,7 @@ module.exports = async function () {
 	} = minimist(ARGS_ARRAY);
 
 	const PUBLIC_COMMANDS = {
-		build() {
+		async build() {
 			require('./scripts/build')();
 		},
 

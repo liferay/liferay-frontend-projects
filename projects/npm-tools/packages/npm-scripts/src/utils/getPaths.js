@@ -14,13 +14,22 @@ const log = require('../utils/log');
 const preprocessGlob = require('../utils/preprocessGlob');
 const readIgnoreFile = require('../utils/readIgnoreFile');
 
+const DEFAULT_OPTIONS = {
+	useDefaultIgnores: true,
+};
+
 /**
  * Given a set of `globs`, the file `extensions` we are interested
  * in, and the name of an `ignoreFile` (eg. '.prettierignore' or
  * '.eslintignore'), returns a list of matching files on the file
  * system.
  */
-function getPaths(globs, extensions, ignoreFile) {
+function getPaths(globs, extensions, ignoreFile, options = {}) {
+	options = {
+		...DEFAULT_OPTIONS,
+		...options,
+	};
+
 	const root = findRoot();
 
 	ignoreFile = ignoreFile ? path.join(root || '.', ignoreFile) : '';
@@ -29,7 +38,10 @@ function getPaths(globs, extensions, ignoreFile) {
 
 	// Match Prettier behavior and ignore node_modules by default.
 
-	if (ignores.indexOf('node_modules/**') === -1) {
+	if (
+		options.useDefaultIgnores &&
+		ignores.indexOf('node_modules/**') === -1
+	) {
 		ignores.unshift('node_modules/**');
 	}
 
