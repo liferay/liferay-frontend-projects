@@ -8,6 +8,7 @@ const path = require('path');
 const rimraf = require('rimraf');
 
 const getMergedConfig = require('../utils/getMergedConfig');
+const minify = require('../utils/minify');
 const runBabel = require('../utils/runBabel');
 const runBundler = require('../utils/runBundler');
 const setEnv = require('../utils/setEnv');
@@ -70,8 +71,9 @@ function runBridge() {
  * liferay-npm-bridge-generator and webpack are run if the corresponding
  * ".npmbridgerc" and "webpack.config.js" files, respectively, are
  * present, and soy is run when soy files are detected.
+ * `minify()` is run unless `NODE_ENV` is `development`.
  */
-module.exports = function () {
+module.exports = async function () {
 	setEnv('production');
 
 	validateConfig(
@@ -107,5 +109,9 @@ module.exports = function () {
 
 	if (useSoy) {
 		cleanSoy();
+	}
+
+	if (process.env.NODE_ENV !== 'development') {
+		await minify();
 	}
 };

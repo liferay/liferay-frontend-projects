@@ -185,6 +185,13 @@ function getMergedConfig(type, property) {
 			]);
 			break;
 
+		case 'terser':
+			mergedConfig = deepMerge([
+				require('../config/terser.config'),
+				getUserConfig('terser'),
+			]);
+			break;
+
 		default:
 			throw new Error(`'${type}' is not a valid config`);
 	}

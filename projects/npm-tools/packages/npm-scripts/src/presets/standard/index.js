@@ -32,6 +32,7 @@ module.exports = {
 		// - `babel` executable (via `runBabel()`).
 		// - `jest` executable (via resolver.js).
 		// - `translateSoy()`.
+		// - `minify()`.
 
 		output: 'build/node/packageRunBuild/resources',
 
