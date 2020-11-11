@@ -10,3 +10,22 @@ global.Liferay = require('./mocks/Liferay');
 global.fetch = require('jest-fetch-mock');
 
 global.themeDisplay = global.Liferay.ThemeDisplay;
+
+if (!global.createRange) {
+	global.createRange = () => ({
+		createContextualFragment(htmlString) {
+			const tempDiv = document.createElement('div'); // eslint-disable-line no-undef
+
+			tempDiv.innerHTML = `<br>${htmlString}`;
+			tempDiv.removeChild(tempDiv.firstChild);
+
+			const fragment = document.createDocumentFragment(); // eslint-disable-line no-undef
+
+			while (tempDiv.firstChild) {
+				fragment.appendChild(tempDiv.firstChild);
+			}
+
+			return fragment;
+		},
+	});
+}
