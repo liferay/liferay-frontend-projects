@@ -9,6 +9,9 @@ global.Headers = require('./mocks/Headers');
 
 global.Liferay = require('./mocks/Liferay');
 
+// Temporary `createRange` mock until we update Jest 26 and jsdom >= 16.
+// See: https://github.com/liferay/liferay-frontend-projects/issues/46
+
 if (!global.createRange) {
 	global.createRange = () => ({
 		createContextualFragment(htmlString) {
