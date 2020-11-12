@@ -30,7 +30,10 @@ module.exports = async function () {
 		},
 
 		storybook() {
-			require('./scripts/storybook')();
+
+			// Storybook is temporarily disabled until it supports webpack 5
+			// require('./scripts/storybook')();
+
 		},
 
 		test() {
