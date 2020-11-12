@@ -39,7 +39,7 @@ const IGNORE_FILE = '.prettierignore';
 /**
  * Prettier wrapper.
  */
-function format(options = {}) {
+async function format(options = {}) {
 	const {check} = {
 		...DEFAULT_OPTIONS,
 		...options,
@@ -61,7 +61,7 @@ function format(options = {}) {
 	let bad = 0;
 	let fixed = 0;
 
-	paths.forEach((filepath) => {
+	for (const filepath of paths) {
 		checked++;
 
 		try {
@@ -79,8 +79,10 @@ function format(options = {}) {
 			let format;
 
 			if (isJSP(filepath)) {
-				checkFormat = (source, prettierOptions) => {
-					return source === formatJSP(source, prettierOptions);
+				checkFormat = async (source, prettierOptions) => {
+					return (
+						source === (await formatJSP(source, prettierOptions))
+					);
 				};
 				format = formatJSP;
 			}
@@ -89,13 +91,14 @@ function format(options = {}) {
 				format = prettier.format;
 			}
 
-			if (!checkFormat(source, prettierOptions)) {
+			if (!(await checkFormat(source, prettierOptions))) {
 				if (check) {
 					log(`${filepath}: BAD`);
 					bad++;
 				}
 				else {
-					fs.writeFileSync(filepath, format(source, prettierOptions));
+					const formatted = await format(source, prettierOptions);
+					fs.writeFileSync(filepath, formatted);
 					fixed++;
 				}
 			}
@@ -107,7 +110,7 @@ function format(options = {}) {
 			log(`${filepath}: ${error}`);
 			bad++;
 		}
-	});
+	}
 
 	const files = (count) => (count === 1 ? 'file' : 'files');
 	const have = (count) => (count === 1 ? 'has' : 'have');

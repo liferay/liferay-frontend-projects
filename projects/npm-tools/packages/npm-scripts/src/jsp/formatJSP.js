@@ -12,13 +12,13 @@ const processJSP = require('./processJSP');
  *
  * Currently, the only formattable elements are script tags.
  */
-function formatJSP(source, prettierConfig = getMergedConfig('prettier')) {
+async function formatJSP(source, prettierConfig = getMergedConfig('prettier')) {
 	const prettierOptions = {
 		...prettierConfig,
 		parser: 'babel',
 	};
 
-	return processJSP(source, {
+	return await processJSP(source, {
 		onFormat: (input) => {
 			return prettier.format(input, prettierOptions);
 		},

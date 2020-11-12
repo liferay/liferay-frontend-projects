@@ -42,28 +42,28 @@ describe('lintJSP()', () => {
 		);
 	}
 
-	it('passes valid code straight through', () => {
+	it('passes valid code straight through', async () => {
 		const source = dedent(3)`
 			<script>
 				Liferay.fire('someEvent');
 			</script>
 		`;
 
-		const result = lintJSP(source, onReport);
+		const result = await lintJSP(source, onReport);
 
 		expect(result).toBe(source);
 
 		expect(onReport).not.toBeCalled();
 	});
 
-	it('reports simple problems (eg. no-extra-boolean-cast rule)', () => {
+	it('reports simple problems (eg. no-extra-boolean-cast rule)', async () => {
 		const source = dedent(3)`
 			<script>
 				var bool = !!!other;
 			</script>
 		`;
 
-		const result = lintJSP(source, onReport);
+		const result = await lintJSP(source, onReport);
 
 		// Note: did not autofix because we didn't pass `{fix: true}`.
 
@@ -92,14 +92,14 @@ describe('lintJSP()', () => {
 		});
 	});
 
-	it('reports debugger statements (eg. no-debugger rule)', () => {
+	it('reports debugger statements (eg. no-debugger rule)', async () => {
 		const source = dedent(3)`
 			<script>
 				debugger;
 			</script>
 		`;
 
-		const result = lintJSP(source, onReport);
+		const result = await lintJSP(source, onReport);
 
 		// No autofix.
 
@@ -127,7 +127,7 @@ describe('lintJSP()', () => {
 		});
 	});
 
-	it('deals with a mixture of fixable and not-fixable errors', () => {
+	it('deals with a mixture of fixable and not-fixable errors', async () => {
 
 		// eg: 1 autofix and 1 not-autofix
 
@@ -138,7 +138,7 @@ describe('lintJSP()', () => {
 			</script>
 		`;
 
-		const result = lintJSP(source, onReport);
+		const result = await lintJSP(source, onReport);
 
 		// No autofix.
 
@@ -182,14 +182,14 @@ describe('lintJSP()', () => {
 			process.chdir(modules);
 		});
 
-		it('rejects const declarations as syntax errors', () => {
+		it('rejects const declarations as syntax errors', async () => {
 			const source = dedent(3)`
 				<script>
 					const x = 1;
 				</script>
 			`;
 
-			const result = lintJSP(source, onReport);
+			const result = await lintJSP(source, onReport);
 
 			// No autofix.
 
@@ -219,14 +219,14 @@ describe('lintJSP()', () => {
 			});
 		});
 
-		it('rejects arrow functions as syntax errors', () => {
+		it('rejects arrow functions as syntax errors', async () => {
 			const source = dedent(3)`
 				<script>
 					var x = () => 1;
 				</script>
 			`;
 
-			const result = lintJSP(source, onReport);
+			const result = await lintJSP(source, onReport);
 
 			// No autofix.
 
@@ -263,28 +263,28 @@ describe('lintJSP()', () => {
 			process.chdir(modules);
 		});
 
-		it('permits const declarations', () => {
+		it('permits const declarations', async () => {
 			const source = dedent(3)`
 				<script>
 					const x = 1;
 				</script>
 			`;
 
-			const result = lintJSP(source, onReport);
+			const result = await lintJSP(source, onReport);
 
 			expect(result).toBe(source);
 
 			expect(onReport).not.toBeCalled();
 		});
 
-		it('permits arrow functions', () => {
+		it('permits arrow functions', async () => {
 			const source = dedent(3)`
 				<script>
 					var x = () => 1;
 				</script>
 			`;
 
-			const result = lintJSP(source, onReport);
+			const result = await lintJSP(source, onReport);
 
 			expect(result).toBe(source);
 
@@ -293,28 +293,28 @@ describe('lintJSP()', () => {
 	});
 
 	describe('`fix` option', () => {
-		it('passes valid code straight through', () => {
+		it('passes valid code straight through', async () => {
 			const source = dedent(3)`
 				<script>
 					Liferay.fire('someEvent');
 				</script>
 			`;
 
-			const result = lintJSP(source, onReport, {fix: true});
+			const result = await lintJSP(source, onReport, {fix: true});
 
 			expect(result).toBe(source);
 
 			expect(onReport).not.toBeCalled();
 		});
 
-		it('fixes simple problems (eg. no-extra-boolean-cast rule)', () => {
+		it('fixes simple problems (eg. no-extra-boolean-cast rule)', async () => {
 			const source = dedent(3)`
 				<script>
 					var bool = !!!other;
 				</script>
 			`;
 
-			const result = lintJSP(source, onReport, {fix: true});
+			const result = await lintJSP(source, onReport, {fix: true});
 
 			expect(result).toBe(dedent(3)`
 				<script>
@@ -327,14 +327,14 @@ describe('lintJSP()', () => {
 			expect(onReport).not.toBeCalled();
 		});
 
-		it('does not fix when `fix` is `false`', () => {
+		it('does not fix when `fix` is `false`', async () => {
 			const source = dedent(3)`
 				<script>
 					var bool = !!!other;
 				</script>
 			`;
 
-			const result = lintJSP(source, onReport, {fix: false});
+			const result = await lintJSP(source, onReport, {fix: false});
 
 			expect(result).toBe(source);
 
@@ -357,14 +357,14 @@ describe('lintJSP()', () => {
 			});
 		});
 
-		it('does not fix when `fix` is not explicitly passed', () => {
+		it('does not fix when `fix` is not explicitly passed', async () => {
 			const source = dedent(3)`
 				<script>
 					var bool = !!!other;
 				</script>
 			`;
 
-			const result = lintJSP(source, onReport);
+			const result = await lintJSP(source, onReport);
 
 			expect(result).toBe(source);
 
@@ -387,7 +387,7 @@ describe('lintJSP()', () => {
 			});
 		});
 
-		it('deals with a mixture of fixable and not-fixable errors', () => {
+		it('deals with a mixture of fixable and not-fixable errors', async () => {
 
 			// eg: 1 autofix and 1 not-autofix
 
@@ -398,7 +398,7 @@ describe('lintJSP()', () => {
 				</script>
 			`;
 
-			const result = lintJSP(source, onReport, {fix: true});
+			const result = await lintJSP(source, onReport, {fix: true});
 
 			expect(result).toBe(dedent(3)`
 				<script>
@@ -432,7 +432,7 @@ describe('lintJSP()', () => {
 		// "warn"  at all in liferay-portal; so we just show that it basically
 		// works the same as above.
 
-		it('works', () => {
+		it('works', async () => {
 
 			// eg: 1 autofix and 1 not-autofix
 
@@ -443,7 +443,10 @@ describe('lintJSP()', () => {
 				</script>
 			`;
 
-			const result = lintJSP(source, onReport, {fix: true, quiet: true});
+			const result = await lintJSP(source, onReport, {
+				fix: true,
+				quiet: true,
+			});
 
 			expect(result).toBe(dedent(3)`
 				<script>

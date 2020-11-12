@@ -46,24 +46,27 @@ describe('scripts/format.js', () => {
 		process.chdir(cwd);
 	});
 
-	it('invokes check() on our prettier.check() wrapper', () => {
-		format();
+	it('invokes check() on our prettier.check() wrapper', async () => {
+		await format();
+
 		expect(prettier.check).toHaveBeenCalledWith(
 			source.js,
 			expect.objectContaining({filepath: 'src/example.js'})
 		);
 	});
 
-	it('invokes format() on our prettier.format() wrapper', () => {
-		format();
+	it('invokes format() on our prettier.format() wrapper', async () => {
+		await format();
+
 		expect(prettier.format).toHaveBeenCalledWith(
 			source.js,
 			expect.objectContaining({filepath: 'src/example.js'})
 		);
 	});
 
-	it('invokes formatJSP()', () => {
-		format();
+	it('invokes formatJSP()', async () => {
+		await format();
+
 		expect(formatJSP).toHaveBeenCalledWith(
 			source.jsp,
 			expect.objectContaining({filepath: 'src/example.jsp'})
@@ -81,20 +84,23 @@ describe('scripts/format.js', () => {
 			fs.writeFileSync('npmscripts.config.js', config);
 		});
 
-		it('logs a message indicating how to configure globs', () => {
-			format();
+		it('logs a message indicating how to configure globs', async () => {
+			await format();
+
 			expect(log).toHaveBeenCalledWith(
 				expect.stringContaining('No globs applicable')
 			);
 		});
 
-		it('does not invoke prettier.check', () => {
-			format();
+		it('does not invoke prettier.check', async () => {
+			await format();
+
 			expect(prettier.check).not.toHaveBeenCalled();
 		});
 
-		it('does not invoke formatJSP', () => {
-			format();
+		it('does not invoke formatJSP', async () => {
+			await format();
+
 			expect(formatJSP).not.toHaveBeenCalled();
 		});
 	});

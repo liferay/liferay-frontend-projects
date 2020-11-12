@@ -9,7 +9,7 @@ const formatJSP = require('../../src/jsp/formatJSP');
 const getFixture = require('../../support/getFixture');
 
 describe('formatJSP()', () => {
-	it('deals with interleaved JS control structures and JSP tags', () => {
+	it('deals with interleaved JS control structures and JSP tags', async () => {
 
 		// eg. an `if()` that is conditionally added augmented with an `else()`
 		// based on a tag.
@@ -32,7 +32,9 @@ describe('formatJSP()', () => {
 		// due to special casing explained in the notes in the
 		// `tagReplacements()` implementation.
 
-		expect(formatJSP(source)).toBe(`
+		const formatted = await formatJSP(source);
+
+		expect(formatted).toBe(`
 			<p>Hi!</p>
 			<script>
 				if (richEditor.getEditor().getSession().getUndoManager().hasUndo()) {
@@ -47,7 +49,7 @@ describe('formatJSP()', () => {
 		`);
 	});
 
-	it('pads input so that Prettier syntax errors have accurate line numbers', () => {
+	it('pads input so that Prettier syntax errors have accurate line numbers', async () => {
 		const source = `
 			<p>Hi!</p>
 
@@ -69,10 +71,12 @@ describe('formatJSP()', () => {
 			</script>
 		`;
 
-		expect(() => formatJSP(source)).toThrow(/Unexpected token \(18:1\)/);
+		await expect(formatJSP(source)).rejects.toThrow(
+			/Unexpected token \(18:1\)/
+		);
 	});
 
-	it('trims unwanted leading blank lines', () => {
+	it('trims unwanted leading blank lines', async () => {
 		const source = `
 			<aui:script require="metal-dom/src/dom">
 
@@ -86,7 +90,9 @@ describe('formatJSP()', () => {
 			</aui:script>
 		`;
 
-		expect(formatJSP(source)).toBe(expected);
+		const formatted = await formatJSP(source);
+
+		expect(formatted).toBe(expected);
 	});
 
 	describe('fixing problems with indentation relative to script tag (#437)', () => {
@@ -94,7 +100,7 @@ describe('formatJSP()', () => {
 		// ie. each line is correct with respect to its neighbors, but overall,
 		// the code is wrong relative to the script tag.
 
-		it('corrects script content that is insufficiently indented', () => {
+		it('corrects script content that is insufficiently indented', async () => {
 			const source = `
 				<aui:script>
 				function <portlet:namespace />deleteOrganization(
@@ -125,10 +131,12 @@ describe('formatJSP()', () => {
 				</aui:script>
 			`;
 
-			expect(formatJSP(source)).toBe(expected);
+			const formatted = await formatJSP(source);
+
+			expect(formatted).toBe(expected);
 		});
 
-		it('corrects script content that is excessively indented', () => {
+		it('corrects script content that is excessively indented', async () => {
 
 			// Note that it works for <script> as well.
 
@@ -162,10 +170,12 @@ describe('formatJSP()', () => {
 				</script>
 			`;
 
-			expect(formatJSP(source)).toBe(expected);
+			const formatted = await formatJSP(source);
+
+			expect(formatted).toBe(expected);
 		});
 
-		it('corrects script content that is "negatively" indented', () => {
+		it('corrects script content that is "negatively" indented', async () => {
 			const source = `
 				<aui:script>
 			function <portlet:namespace />deleteOrganization(
@@ -196,10 +206,12 @@ describe('formatJSP()', () => {
 				</aui:script>
 			`;
 
-			expect(formatJSP(source)).toBe(expected);
+			const formatted = await formatJSP(source);
+
+			expect(formatted).toBe(expected);
 		});
 
-		it('fixes content that is on the same line as the script tag', () => {
+		it('fixes content that is on the same line as the script tag', async () => {
 
 			// source-formatter doesn't behave well with one-line scripts like
 			// this, so let's fix them for it.
@@ -231,11 +243,13 @@ describe('formatJSP()', () => {
 				</aui:script>
 			`;
 
-			expect(formatJSP(source)).toBe(expected);
+			const formatted = await formatJSP(source);
+
+			expect(formatted).toBe(expected);
 		});
 	});
 
-	it('correctly handles internal indentation inside control structures', () => {
+	it('correctly handles internal indentation inside control structures', async () => {
 
 		// This is a reduced example of what's in the source.jsp fixture.
 
@@ -274,7 +288,9 @@ describe('formatJSP()', () => {
 			</aui:script>
 		`;
 
-		expect(formatJSP(source)).toBe(`
+		const formatted = await formatJSP(source);
+
+		expect(formatted).toBe(`
 			<aui:script require="metal-dom/src/dom as dom">
 				var sourcePanel = document.querySelector('.source-container');
 
@@ -314,7 +330,7 @@ describe('formatJSP()', () => {
 		`);
 	});
 
-	it('respects indentation within a nested control structures', () => {
+	it('respects indentation within a nested control structures', async () => {
 
 		// This is a reduced example of what's in the source.jsp fixture.
 
@@ -374,10 +390,12 @@ describe('formatJSP()', () => {
 			</aui:script>
 		`;
 
-		expect(formatJSP(source)).toBe(expected);
+		const formatted = await formatJSP(source);
+
+		expect(formatted).toBe(expected);
 	});
 
-	it('returns the source unmodified if there are no JSP tags', () => {
+	it('returns the source unmodified if there are no JSP tags', async () => {
 		const source = `
 			<%--
 			/**
@@ -392,10 +410,12 @@ describe('formatJSP()', () => {
 			<h1><%= heading %></h1>
 		`;
 
-		expect(formatJSP(source)).toBe(source);
+		const formatted = await formatJSP(source);
+
+		expect(formatted).toBe(source);
 	});
 
-	it('handles an edge case (#258)', () => {
+	it('handles an edge case (#258)', async () => {
 
 		// Reduced example of what's in
 		// modules/apps/asset/asset-publisher-web/src/main/resources/META-INF/resources/configuration/source.jsp
@@ -431,7 +451,9 @@ describe('formatJSP()', () => {
 			</aui:script>
 		`;
 
-		expect(formatJSP(source)).toBe(`
+		const formatted = await formatJSP(source);
+
+		expect(formatted).toBe(`
 			<aui:script>
 
 				<%
@@ -485,12 +507,14 @@ describe('formatJSP()', () => {
 		])('%s matches snapshot', async (fixture) => {
 			const source = await getFixture(path.join('jsp', fixture));
 
-			expect(formatJSP(source)).toMatchSnapshot();
+			const formatted = await formatJSP(source);
+
+			expect(formatted).toMatchSnapshot();
 		});
 	});
 
 	describe('known limitations', () => {
-		it('cannot deal with conditionals at the end of object literals', () => {
+		it('cannot deal with conditionals at the end of object literals', async () => {
 
 			// This one from "edit_content_redirect.jsp": note that without
 			// trailing commas after the "redirect" and "refresh" properties,
@@ -518,7 +542,7 @@ describe('formatJSP()', () => {
 				</aui:script>
 			`;
 
-			expect(() => formatJSP(source)).toThrow(
+			await expect(formatJSP(source)).rejects.toThrow(
 				/Unexpected token, expected ","/
 			);
 		});

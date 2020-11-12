@@ -71,7 +71,7 @@ describe('code``', () => {
 
 describe('prettier/index.js', () => {
 	describe('prettier.format()', () => {
-		it('does not choke on SCSS files', () => {
+		it('does not choke on SCSS files', async () => {
 			function format(source, options = {}) {
 				return prettier.format(source, {
 					...config,
@@ -80,9 +80,8 @@ describe('prettier/index.js', () => {
 				});
 			}
 
-			expect(
-				format(
-					code`
+			const formatted = await format(
+				code`
 					@mixin button-base()
 					{
 						@include typography(button);
@@ -105,8 +104,9 @@ describe('prettier/index.js', () => {
 						}
 					}
 			`
-				)
-			).toBe(code`
+			);
+
+			expect(formatted).toBe(code`
 					@mixin button-base() {
 						@include typography(button);
 						@include ripple-surface;
@@ -142,12 +142,12 @@ describe('prettier/index.js', () => {
 					});
 				}
 
-				it('does standard prettier formatting', () => {
-					expect(
-						format(code`
+				it('does standard prettier formatting', async () => {
+					const formatted = await format(code`
 						if (test) { exit(); }
-				`)
-					).toBe(code`
+				`);
+
+					expect(formatted).toBe(code`
 						if (test) {
 							exit();
 						}
@@ -155,9 +155,8 @@ describe('prettier/index.js', () => {
 				});
 
 				describe('new-line-before-block-statements', () => {
-					it('breaks before "else"', () => {
-						expect(
-							format(code`
+					it('breaks before "else"', async () => {
+						const formatted = await format(code`
 							// Random ES6 to prove that custom lint rule can handle
 							// it without choking.
 
@@ -170,8 +169,9 @@ describe('prettier/index.js', () => {
 									return 2;
 								}
 							}
-					`)
-						).toBe(code`
+					`);
+
+						expect(formatted).toBe(code`
 							// Random ES6 to prove that custom lint rule can handle
 							// it without choking.
 
@@ -188,9 +188,8 @@ describe('prettier/index.js', () => {
 					`);
 					});
 
-					it('breaks before "else if"', () => {
-						expect(
-							format(code`
+					it('breaks before "else if"', async () => {
+						const formatted = await format(code`
 							function thing() {
 								if (test) {
 									return 1;
@@ -200,8 +199,9 @@ describe('prettier/index.js', () => {
 									return 3;
 								}
 							}
-					`)
-						).toBe(code`
+					`);
+
+						expect(formatted).toBe(code`
 							function thing() {
 								if (test) {
 									return 1;
@@ -216,21 +216,21 @@ describe('prettier/index.js', () => {
 					`);
 					});
 
-					it('preserves inline comments before alternates', () => {
+					it('preserves inline comments before alternates', async () => {
 
 						// Prettier does some "crazy" things with comments (moving them
 						// in and out of blocks) but this is one case where it leaves
 						// them alone.
 
-						expect(
-							format(code`
+						const formatted = await format(code`
 							if (test) {
 								a();
 							} /* comment */ else {
 								b();
 							}
-					`)
-						).toBe(code`
+					`);
+
+						expect(formatted).toBe(code`
 							if (test) {
 								a();
 							} /* comment */
@@ -240,7 +240,7 @@ describe('prettier/index.js', () => {
 					`);
 					});
 
-					it('preserves alone-on-a-line comments before alternates', () => {
+					it('preserves alone-on-a-line comments before alternates', async () => {
 
 						// This is a regression test.
 						//
@@ -270,8 +270,7 @@ describe('prettier/index.js', () => {
 						// We were incorrectly stripping the comment before the
 						// alternate (ie. the first one).
 
-						expect(
-							format(code`
+						const formatted = await format(code`
 							if (test) {
 								a();
 							}
@@ -283,8 +282,9 @@ describe('prettier/index.js', () => {
 							}
 
 							// closing JSP tag comment
-					`)
-						).toBe(code`
+					`);
+
+						expect(formatted).toBe(code`
 							if (test) {
 								a();
 							}
@@ -299,22 +299,22 @@ describe('prettier/index.js', () => {
 					`);
 					});
 
-					it('does not re-fix alternates that are already correct', () => {
+					it('does not re-fix alternates that are already correct', async () => {
 
 						// Prettier will first move the "else" here back onto
 						// the preceding line, then our wrapper moves it back down
 						// again.
 
-						expect(
-							format(code`
+						const formatted = await format(code`
 							if (test) {
 								a();
 							}
 							else {
 								b();
 							}
-					`)
-						).toBe(code`
+					`);
+
+						expect(formatted).toBe(code`
 							if (test) {
 								a();
 							}
@@ -324,16 +324,16 @@ describe('prettier/index.js', () => {
 					`);
 					});
 
-					it('breaks before "catch" (with catch binding)', () => {
-						expect(
-							format(code`
+					it('breaks before "catch" (with catch binding)', async () => {
+						const formatted = await format(code`
 							try {
 								a();
 							} catch (error) {
 								log(error);
 							}
-					`)
-						).toBe(code`
+					`);
+
+						expect(formatted).toBe(code`
 							try {
 								a();
 							}
@@ -345,16 +345,16 @@ describe('prettier/index.js', () => {
 
 					// Disabled until we switch our ESLint ecmaVersion to '2019'.
 
-					it.skip('breaks before "catch" (without optional catch binding)', () => {
-						expect(
-							format(code`
+					it.skip('breaks before "catch" (without optional catch binding)', async () => {
+						const formatted = await format(code`
 							try {
 								b();
 							} catch {
 								c();
 							}
-					`)
-						).toBe(code`
+					`);
+
+						expect(formatted).toBe(code`
 							try {
 								b();
 							}
@@ -364,9 +364,8 @@ describe('prettier/index.js', () => {
 					`);
 					});
 
-					it('breaks before "finally" (after a "catch" handler)', () => {
-						expect(
-							format(code`
+					it('breaks before "finally" (after a "catch" handler)', async () => {
+						const formatted = await format(code`
 							try {
 								a();
 							} catch (error) {
@@ -374,8 +373,9 @@ describe('prettier/index.js', () => {
 							} finally {
 								dispose();
 							}
-					`)
-						).toBe(code`
+					`);
+
+						expect(formatted).toBe(code`
 							try {
 								a();
 							}
@@ -388,16 +388,16 @@ describe('prettier/index.js', () => {
 					`);
 					});
 
-					it('breaks before "finally" (when no "catch" handler)', () => {
-						expect(
-							format(code`
+					it('breaks before "finally" (when no "catch" handler)', async () => {
+						const formatted = await format(code`
 							try {
 								a();
 							} finally {
 								dispose();
 							}
-					`)
-						).toBe(code`
+					`);
+
+						expect(formatted).toBe(code`
 							try {
 								a();
 							}
@@ -407,13 +407,12 @@ describe('prettier/index.js', () => {
 					`);
 					});
 
-					it('copes with comments near "try"/"catch" constructs', () => {
+					it('copes with comments near "try"/"catch" constructs', async () => {
 
 						// Note: the movement of "comment 2" below is Prettier
 						// craziness and not the fault of our post-processor.
 
-						expect(
-							format(code`
+						const formatted = await format(code`
 							try {
 								a();
 							} /* comment 1 */ catch /* comment 2 */ (error) {
@@ -421,8 +420,9 @@ describe('prettier/index.js', () => {
 							} /* comment 3 */ finally /* comment 4 */ {
 								dispose();
 							}
-					`)
-						).toBe(code`
+					`);
+
+						expect(formatted).toBe(code`
 							try {
 								a();
 							} /* comment 1 */
@@ -435,9 +435,8 @@ describe('prettier/index.js', () => {
 					`);
 					});
 
-					it('copes with import statements', () => {
-						expect(
-							format(code`
+					it('copes with import statements', async () => {
+						const formatted = await format(code`
 							import {a, b} from './a';
 
 							if (test) {
@@ -445,8 +444,9 @@ describe('prettier/index.js', () => {
 							} else {
 								b();
 							}
-					`)
-						).toBe(code`
+					`);
+
+						expect(formatted).toBe(code`
 							import {a, b} from './a';
 
 							if (test) {
@@ -458,9 +458,8 @@ describe('prettier/index.js', () => {
 					`);
 					});
 
-					it('copes with static class properties', () => {
-						expect(
-							format(code`
+					it('copes with static class properties', async () => {
+						const formatted = await format(code`
 							class Thing extends React.Component {
 								static propTypes = {};
 
@@ -472,8 +471,9 @@ describe('prettier/index.js', () => {
 									}
 								}
 							}
-					`)
-						).toBe(code`
+					`);
+
+						expect(formatted).toBe(code`
 							class Thing extends React.Component {
 								static propTypes = {};
 
@@ -489,10 +489,9 @@ describe('prettier/index.js', () => {
 					`);
 					});
 
-					it('copes with JSX', () => {
+					it('copes with JSX', async () => {
 						if (extension === '.js' || extension === '.tsx') {
-							expect(
-								format(code`
+							const formatted = await format(code`
 							class Thing extends React.Component {
 								render() {
 									if (x()) {
@@ -502,8 +501,9 @@ describe('prettier/index.js', () => {
 									}
 								}
 							}
-					`)
-							).toBe(code`
+					`);
+
+							expect(formatted).toBe(code`
 							class Thing extends React.Component {
 								render() {
 									if (x()) {
