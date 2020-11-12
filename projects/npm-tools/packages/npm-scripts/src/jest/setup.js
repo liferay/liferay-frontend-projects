@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+/* eslint-env browser */
+
 global.Headers = require('./mocks/Headers');
 
 global.Liferay = require('./mocks/Liferay');
@@ -10,12 +12,12 @@ global.Liferay = require('./mocks/Liferay');
 if (!global.createRange) {
 	global.createRange = () => ({
 		createContextualFragment(htmlString) {
-			const div = document.createElement('div'); // eslint-disable-line no-undef
+			const div = document.createElement('div');
 
 			div.innerHTML = `<br>${htmlString}`;
 			div.removeChild(div.firstChild);
 
-			const fragment = document.createDocumentFragment(); // eslint-disable-line no-undef
+			const fragment = document.createDocumentFragment();
 
 			while (div.firstChild) {
 				fragment.appendChild(div.firstChild);
