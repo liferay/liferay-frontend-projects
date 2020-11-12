@@ -7,6 +7,8 @@ const fs = require('fs');
 const path = require('path');
 const {minify: terser} = require('terser');
 
+const isJSP = require('../jsp/isJSP');
+const processJSP = require('../jsp/processJSP');
 const getMergedConfig = require('./getMergedConfig');
 const getPaths = require('./getPaths');
 const log = require('./log');
@@ -17,6 +19,8 @@ const MINIFIER_CONFIG = getMergedConfig('terser');
 
 const MINIFY_GLOBS = [
 	path.posix.join(BUILD_CONFIG.output, '**', '*.js'),
+	path.posix.join(BUILD_CONFIG.output, '**', '*.jsp'),
+	path.posix.join(BUILD_CONFIG.output, '**', '*.jspf'),
 	'!*-min.js',
 	'!*.min.js',
 ];
@@ -26,31 +30,89 @@ async function minify() {
 
 	const paths = getPaths(MINIFY_GLOBS, [], '', {useDefaultIgnores: false});
 
-	let successes = 0;
-	let errors = 0;
-	let before = 0;
-	let after = 0;
+	let afterSize = 0;
+	let beforeSize = 0;
+	let errorCount = 0;
 
 	for (const source of paths) {
 		const contents = fs.readFileSync(source, 'utf8');
 
-		before += contents.length;
+		beforeSize += contents.length;
 
-		const sourceMap = {
-			url: path.basename(source) + '.map',
-		};
+		if (isJSP(source)) {
+			const errors = [];
 
-		if (fs.existsSync(source + '.map')) {
-			sourceMap.content = fs.readFileSync(source + '.map', 'utf8');
-		}
+			const processed = await processJSP(contents, {
+				async onMinify(input) {
+					try {
+						const result = await terser(input, {
 
-		try {
-			const result = await terser(contents, {
-				...MINIFIER_CONFIG,
-				sourceMap,
+							// TODO maybe simplify or change the options here
+
+							...MINIFIER_CONFIG,
+							format: {
+								comments: /./, // TODO: keep hack comments in place
+							},
+						});
+
+						return result.code;
+					}
+					catch (error) {
+						errors.push(error);
+
+						return input;
+					}
+				},
 			});
 
-			if (result.code !== contents) {
+			if (errors.length) {
+				if (process.env.DEBUG) {
+					log(
+						`[error: ${errors
+							.map((error) => error.toString())
+							.join(', ')}]: ${source}`
+					);
+				}
+
+				errorCount++;
+			}
+
+			if (processed !== contents) {
+				fs.writeFileSync(source, processed);
+
+				if (process.env.DEBUG) {
+					log(`${contents.length} -> ${processed.length}: ${source}`);
+				}
+			}
+
+			afterSize += processed.length;
+		}
+		else {
+			const sourceMap = {
+				url: path.basename(source) + '.map',
+			};
+
+			if (fs.existsSync(source + '.map')) {
+				sourceMap.content = fs.readFileSync(source + '.map', 'utf8');
+			}
+
+			let result;
+
+			try {
+				result = await terser(contents, {
+					...MINIFIER_CONFIG,
+					sourceMap,
+				});
+			}
+			catch (error) {
+				if (process.env.DEBUG) {
+					log(`[error: ${error}]: ${source}`);
+				}
+
+				errorCount++;
+			}
+
+			if (result && result.code !== contents) {
 				fs.writeFileSync(source, result.code);
 				fs.writeFileSync(source + '.map', result.map);
 
@@ -59,28 +121,23 @@ async function minify() {
 						`${contents.length} -> ${result.code.length}: ${source}`
 					);
 				}
-			}
 
-			after += result.code.length;
-			successes++;
-		}
-		catch (error) {
-			if (process.env.DEBUG) {
-				log(`[ignored: ${error}]: ${source}`);
+				afterSize += result.code.length;
 			}
-
-			errors++;
+			else {
+				afterSize += contents.length;
+			}
 		}
 	}
 
 	log(
-		'Summary:',
-		`  Files minified: ${successes}`,
-		`  Files skipped:  ${errors}`,
-		`  Before size:    ${before}`,
-		`  After size:     ${after}`,
-		`  Delta:          ${before - after}`,
-		`  Elapsed:        ${((Date.now() - start) / 1000).toFixed(2)}`
+		'Minification summary:',
+		`  Files processed:   ${paths.length}`,
+		`  Files with errors: ${errorCount}`,
+		`  Before size:       ${beforeSize}`,
+		`  After size:        ${afterSize}`,
+		`  Delta:             ${beforeSize - afterSize}`,
+		`  Elapsed:           ${((Date.now() - start) / 1000).toFixed(2)}`
 	);
 }
 

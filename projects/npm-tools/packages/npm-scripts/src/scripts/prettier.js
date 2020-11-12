@@ -18,7 +18,7 @@ const IGNORE_FILE = '.prettierignore';
  * Exposes a version of our augumented Prettier suitable for use within editors
  * and editor plugins.
  */
-function main(...args) {
+async function main(...args) {
 	let i;
 
 	let files = [];
@@ -184,7 +184,11 @@ function main(...args) {
 
 	let status = 0;
 
-	files.forEach(({contents, filepath}) => {
+	for (const file of files) {
+		const {filepath} = file;
+
+		let {contents} = file;
+
 		contents =
 			contents === null ? fs.readFileSync(filepath, 'utf8') : contents;
 
@@ -196,7 +200,7 @@ function main(...args) {
 		let formattedContents;
 
 		if (isJSP(filepath)) {
-			formattedContents = formatJSP(contents, prettierOptions);
+			formattedContents = await formatJSP(contents, prettierOptions);
 		}
 		else {
 			formattedContents = format(contents, prettierOptions);
@@ -221,7 +225,7 @@ function main(...args) {
 		if (!options.write && !options.listDifferent) {
 			write(formattedContents);
 		}
-	});
+	}
 
 	if (options.listDifferent && status) {
 		process.exit(status);
