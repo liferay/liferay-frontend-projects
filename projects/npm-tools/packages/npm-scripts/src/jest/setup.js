@@ -7,10 +7,6 @@ global.Headers = require('./mocks/Headers');
 
 global.Liferay = require('./mocks/Liferay');
 
-global.fetch = require('jest-fetch-mock');
-
-global.themeDisplay = global.Liferay.ThemeDisplay;
-
 if (!global.createRange) {
 	global.createRange = () => ({
 		createContextualFragment(htmlString) {
@@ -29,3 +25,7 @@ if (!global.createRange) {
 		},
 	});
 }
+
+global.fetch = require('jest-fetch-mock');
+
+global.themeDisplay = global.Liferay.ThemeDisplay;
