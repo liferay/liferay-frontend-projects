@@ -74,7 +74,7 @@ async function transformBundles(): Promise<void> {
 		const sourceFile = bundlerWebpackDir.join(fileName);
 
 		if (!fs.existsSync(sourceFile.asNative)) {
-			break;
+			continue;
 		}
 
 		const destFile = project.outputDir.join(fileName);
