@@ -75,16 +75,15 @@ async function minify() {
 					try {
 						const result = await terser(input, {
 							...MINIFIER_CONFIG,
+							format: {
+								comments: JSP_COMMENT_REGEXP,
+							},
 
 							// We can't risk renaming anything because
 							// JSP's may contain "hidden" code (via
 							// interpolation).
 
 							mangle: false,
-
-							format: {
-								comments: JSP_COMMENT_REGEXP,
-							},
 						});
 
 						return result.code;
