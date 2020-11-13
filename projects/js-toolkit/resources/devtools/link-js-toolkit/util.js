@@ -10,9 +10,9 @@ const fs = require('fs-extra');
 const path = require('path');
 const readJsonSync = require('read-json-sync');
 
-const toolkitProjectNames = fs.readdirSync(
-	path.join(__dirname, '..', '..', '..', 'packages')
-);
+const toolkitProjectNames = fs
+	.readdirSync(path.join(__dirname, '..', '..', '..', 'packages'))
+	.map((dir) => `@liferay/${dir}`);
 
 function isToolkitDep(pkgName) {
 	return toolkitProjectNames.indexOf(pkgName) != -1;
