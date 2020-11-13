@@ -8,7 +8,11 @@ const path = require('path');
 const {minify: terser} = require('terser');
 
 const isJSP = require('../jsp/isJSP');
+const {PADDING_MARKER} = require('../jsp/padLines');
 const processJSP = require('../jsp/processJSP');
+const {SCRIPTLET_CONTENT} = require('../jsp/substituteTags');
+const {BLOCK_CLOSE, BLOCK_OPEN} = require('../jsp/tagReplacements');
+const {FILLER_CHAR, SPACE_CHAR, TAB_CHAR} = require('../jsp/toFiller');
 const getMergedConfig = require('./getMergedConfig');
 const getPaths = require('./getPaths');
 const log = require('./log');
@@ -28,6 +32,26 @@ const MINIFY_GLOBS = [
 	'!*-min.js',
 	'!*.min.js',
 ];
+
+/**
+ * We need to keep "special" JSP comments so that we can reverse the various
+ * transformations that we need to apply in order to make the "JS" in there
+ * actually parseable. So, we produce a RegExp that looks something like this:
+ *
+ *      /ʅ|ʃ|╳|«pad»|Ɯ|ɸ|Ƭ/
+ *
+ */
+const JSP_COMMENT_REGEXP = new RegExp(
+	[
+		BLOCK_CLOSE,
+		BLOCK_OPEN,
+		FILLER_CHAR,
+		PADDING_MARKER,
+		SPACE_CHAR,
+		SCRIPTLET_CONTENT,
+		TAB_CHAR,
+	].join('|')
+);
 
 async function minify() {
 	const start = Date.now();
@@ -50,12 +74,16 @@ async function minify() {
 				async onMinify(input) {
 					try {
 						const result = await terser(input, {
-
-							// TODO maybe simplify or change the options here
-
 							...MINIFIER_CONFIG,
+
+							// We can't risk renaming anything because
+							// JSP's may contain "hidden" code (via
+							// interpolation).
+
+							mangle: false,
+
 							format: {
-								comments: /./, // TODO: keep hack comments in place
+								comments: JSP_COMMENT_REGEXP,
 							},
 						});
 

@@ -81,14 +81,14 @@ async function processJSP(source, {onFormat, onLint, onMinify}) {
 
 		// Restore base indent.
 
-		const indented = indent(restored, baseIndent);
+		const indented = onMinify ? restored : indent(restored, baseIndent);
 
 		transformed.push({
 			...block,
 			contents:
-				(prefix || '\n') +
+				(onMinify ? '' : prefix || '\n') +
 				indented +
-				(suffix || '\t'.repeat(baseIndent - 1)),
+				(onMinify ? '' : suffix || '\t'.repeat(baseIndent - 1)),
 		});
 	}
 
