@@ -15,12 +15,16 @@ const log = require('./log');
 
 const BUILD_CONFIG = getMergedConfig('npmscripts', 'build');
 
+const BUILD = BUILD_CONFIG.output;
+
+const CLASSES = BUILD.replace(/^build\/.*/, 'classes/');
+
 const MINIFIER_CONFIG = getMergedConfig('terser');
 
 const MINIFY_GLOBS = [
-	path.posix.join(BUILD_CONFIG.output, '**', '*.js'),
-	path.posix.join(BUILD_CONFIG.output, '**', '*.jsp'),
-	path.posix.join(BUILD_CONFIG.output, '**', '*.jspf'),
+	path.posix.join(BUILD, '**', '*.js'),
+	path.posix.join(CLASSES, '**', '*.jsp'),
+	path.posix.join(CLASSES, '**', '*.jspf'),
 	'!*-min.js',
 	'!*.min.js',
 ];
