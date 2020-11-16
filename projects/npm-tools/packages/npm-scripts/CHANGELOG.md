@@ -1,6 +1,6 @@
-## [npm-scripts/v35.0.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v35.0.0) (2020-11-16)
+## [npm-scripts/v36.0.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v36.0.0) (2020-11-16)
 
-[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v34.0.1...npm-scripts/v35.0.0)
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v34.0.1...npm-scripts/v36.0.0)
 
 ### :new: Features
 
