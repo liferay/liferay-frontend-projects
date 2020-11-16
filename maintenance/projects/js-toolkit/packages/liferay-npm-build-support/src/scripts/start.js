@@ -42,6 +42,7 @@ function copyWebpackResources() {
 		pkgName: pkgJson.name,
 		port: cfg.getWebpackPort(),
 		proxy: util.inspect(cfg.getWebpackProxy()),
+		plugins: cfg.getWebpackPlugins(),
 		rules: util.inspect(
 			cfg.getWebpackRules().map((rule) => {
 				rule.test = new RegExp(rule.test);

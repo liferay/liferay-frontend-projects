@@ -27,6 +27,9 @@ function loadConfig() {
 	normalize(npmbuildrc, 'webpack.extensions', ['.js']);
 	normalize(npmbuildrc, 'webpack.port', null);
 	normalize(npmbuildrc, 'webpack.proxy', {});
+	normalize(npmbuildrc, 'webpack.plugins', [
+		"new require('copy-webpack-plugin')(['../assets'])",
+	]);
 
 	normalize(
 		npmbundlerrc,
@@ -89,6 +92,14 @@ export function getWebpackPort() {
  */
 export function getWebpackProxy() {
 	return npmbuildrc.webpack.proxy;
+}
+
+/**
+ * Get the list of supported locales
+ * @return {Array<string>}
+ */
+export function getWebpackPlugins() {
+	return npmbuildrc.webpack.plugins;
 }
 
 /**

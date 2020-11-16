@@ -15,7 +15,7 @@ module.exports = {
 		<% if (proxy) { %>proxy: <%= proxy %>,<% } %>
 		publicPath: '/o/<%= pkgName %>/',
 	},
-	plugins: [new require('copy-webpack-plugin')(['../assets'])],
+	plugins: [ <%= plugins %> ],
 	module: {
 		rules: <%= rules %>,
 	},
