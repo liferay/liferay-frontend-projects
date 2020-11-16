@@ -8,8 +8,6 @@ module.exports = {
 		defaults: true,
 	},
 	mangle: {
-		properties: {
-			reserved: [],
-		},
+		properties: false,
 	},
 };
