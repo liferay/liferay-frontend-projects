@@ -1,3 +1,20 @@
+## [npm-bundler/v3.1.0-pre.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-bundler/v3.1.0-pre.0) (2020-11-16)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-bundler/v3.0.1...npm-bundler/v3.1.0-pre.0)
+
+### :new: Features
+
+-   feat: support for webpack 5 in npm-scripts/bundler ([\#236](https://github.com/liferay/liferay-frontend-projects/pull/236))
+-   feat(monorepo): add liferay-workspace-scripts ([\#211](https://github.com/liferay/liferay-frontend-projects/pull/211))
+
+### :woman_juggling: Refactoring
+
+-   refactor: prepend './' to binary scripts path ([\#220](https://github.com/liferay/liferay-frontend-projects/pull/220))
+
+### :eyeglasses: Tests
+
+-   test(monorepo): fill in test gaps ([\#213](https://github.com/liferay/liferay-frontend-projects/pull/213))
+
 ## [npm-bundler/v3.0.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-bundler/v3.0.1) (2020-10-20)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-bundler/v3.0.1-pre.1...npm-bundler/v3.0.1)
