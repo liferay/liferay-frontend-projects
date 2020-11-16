@@ -1,3 +1,20 @@
+## [js-toolkit-core/v3.0.1-pre.1](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v3.0.1-pre.1) (2020-11-16)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v3.0.1-pre.0...js-toolkit-core/v3.0.1-pre.1)
+
+### :new: Features
+
+-   feat: support for webpack 5 in npm-scripts/bundler ([\#236](https://github.com/liferay/liferay-frontend-projects/pull/236))
+-   feat(monorepo): add liferay-workspace-scripts ([\#211](https://github.com/liferay/liferay-frontend-projects/pull/211))
+
+### :house: Chores
+
+-   chore(js-toolkit): make release process uniform ([\#203](https://github.com/liferay/liferay-frontend-projects/pull/203))
+
+### :eyeglasses: Tests
+
+-   test(monorepo): fill in test gaps ([\#213](https://github.com/liferay/liferay-frontend-projects/pull/213))
+
 ## [js-toolkit-core/v3.0.1-pre.0](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v3.0.1-pre.0) (2020-10-14)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v3.0.0-alpha.2...js-toolkit-core/v3.0.1-pre.0)
