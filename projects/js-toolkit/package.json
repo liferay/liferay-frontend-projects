@@ -3,6 +3,7 @@
 	"private": true,
 	"scripts": {
 		"build": "node scripts/build.js && node scripts/copyfiles.js --all",
+		"ci": "liferay-workspace-scripts ci",
 		"clean": "node scripts/clean.js --all",
 		"format": "liferay-workspace-scripts format",
 		"format:check": "liferay-workspace-scripts format:check",
