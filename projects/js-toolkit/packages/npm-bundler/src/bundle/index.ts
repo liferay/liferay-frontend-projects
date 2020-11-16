@@ -4,7 +4,6 @@
  */
 
 import {ProjectType} from '@liferay/js-toolkit-core';
-import fs from 'fs-extra';
 import webpack from 'webpack';
 
 import adaptBundlerProject from '../adapt/bundler-project';
@@ -63,27 +62,23 @@ function runWebpack(options: webpack.Configuration): Promise<webpack.Stats> {
 	return new Promise((resolve, reject) => {
 		const compiler = webpack(options);
 
-		compiler.run((err, stats) => {
-			if (err) {
-				reject(err);
+		compiler.hooks.done.tap('npm-bundler', (stats) => {
+			if (stats.hasErrors()) {
+				reject(new Error('Webpack execution failed'));
 			}
 			else {
 				resolve(stats);
 			}
 		});
+
+		compiler.run(undefined);
 	});
 }
 
 function writeResults(stats: webpack.Stats): void {
 	const {compilation} = stats;
 
-	Object.entries(compilation.assets as object).forEach(
-		([fileName, source]) => {
-			const filePath = bundlerWebpackDir.join(fileName).asNative;
-
-			fs.writeFileSync(filePath, source.source());
-
-			log.debug(`Emitted file ${filePath}`);
-		}
-	);
+	Object.keys(compilation.assets as object).forEach((fileName) => {
+		log.debug(`Emitted file ${bundlerWebpackDir.join(fileName).asNative}`);
+	});
 }

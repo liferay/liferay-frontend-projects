@@ -4,7 +4,7 @@
  */
 
 const path = require('path');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = ({flavor}) => {
 	const baseConfig = {
@@ -36,12 +36,11 @@ module.exports = ({flavor}) => {
 		},
 		min: {
 			mode: 'production',
+			optimization: {
+				minimize: true,
+				minimizer: [new TerserPlugin()],
+			},
 			output: {...baseConfig.output, filename: 'loader-min.js'},
-			plugins: [
-				new UglifyJsPlugin({
-					sourceMap: true,
-				}),
-			],
 		},
 		prod: {
 			mode: 'production',
