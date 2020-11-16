@@ -1,3 +1,12 @@
+## [npm-scripts/v35.0.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v35.0.0) (2020-11-16)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v34.0.1...npm-scripts/v35.0.0)
+
+### :new: Features
+
+-   feat: support for webpack 5 in npm-scripts/bundler ([\#236](https://github.com/liferay/liferay-frontend-projects/pull/236))
+-   feat(npm-scripts): add jest mock for createRange and createContextualFragment ([\#234](https://github.com/liferay/liferay-frontend-projects/pull/234))
+
 ## [npm-scripts/v34.0.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v34.0.1) (2020-11-03)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v34.0.0...npm-scripts/v34.0.1)
