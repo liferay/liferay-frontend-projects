@@ -34,7 +34,8 @@ module.exports = function (...args) {
 			];
 
 			withWebpackConfig(WEBPACK_DEV_CONFIG_FILE, (configFilePath) => {
-				spawnSync('webpack-dev-server', [
+				spawnSync('webpack', [
+					'serve',
 					'--config',
 					configFilePath,
 					...otherArgs,
