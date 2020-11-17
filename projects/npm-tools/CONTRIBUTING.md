@@ -5,6 +5,7 @@
 -   [Normal releases](#normal-releases)
 -   [Publishing manually](#publishing-manually)
 -   [Publishing a preview release](#publishing-a-preview-release)
+-   [Integrating in liferay-portal](#integrating-in-liferay-portal)
 
 ## Normal releases
 
@@ -121,3 +122,20 @@ yarn publish --tag beta
 For bonus points, create a draft PR like [this one](https://github.com/liferay/liferay-npm-tools/pull/201) so that others have visibility into what you are doing. After the release is done you should feel free to close the PR and delete the temporary branch that you pushed (but keep the tag in case anybody ever wants to look up the source that was published to NPM).
 
 Finally, visit the versions tab on [the NPM registry page](https://www.npmjs.com/package/@liferay/npm-scripts) to confirm that your release is visible and is appropriately tagged as "beta" (not "latest").
+
+## Integrating in [liferay-portal](https://github.com/liferay/liferay-portal)
+
+One of the design goals for and motivating features of `@liferay/npm-scripts` is to abstract over our development dependencies by "hiding" them inside a single package. This means that updating liferay-portal is basically just a single `yarn add` command from inside the `modules/` directory:
+
+1. `yarn add -W --dev @liferay/npm-scripts@a.b.c`, where `a.b.c` is the version that you wish to integrate.
+2. Check the `yarn.lock` file for unwanted duplication (see below for some notes on this).
+3. Perform testing and sanity-checking (the exact nature of this depends on what changes are included in the release).
+
+**Note:** To avoid potential pitfalls, you should use the same version of NodeJS used by liferay-portal. At the time of writing, [that's v10.15.1](https://github.com/liferay/liferay-portal/blob/157241864d789de0467b23ad63b8a2a8f40a2985/modules/sdk/gradle-plugins/src/main/java/com/liferay/gradle/plugins/NodeDefaultsPlugin.java#L207). The [`n` version manager](https://github.com/tj/n) can be used to install and switch between specific versions on your system, if required. Alternatively, if you wanted to use a "close to the metal" method for running liferay-portal's NodeJS and Yarn, you could do something like `env PATH=../build/node/bin:$PATH node ../build/node/lib/node_modules/yarn/yarn-1.13.0.js` from the `modules/` directory instead, although bear in mind that the version number may change over time, and the `node` and `yarn-1.13.0.js` executables are installed by the build, so they are not available in a clean checkout prior to building.
+
+If you detect unwanted duplication in the `yarn.lock`, there are a number of tools you can try (from least to most aggressive):
+
+1. `npx yarn-deduplicate yarn.lock` (historically this one used to be enough).
+2. `yarn install` (at the time of writing, this one is often required).
+3. `yarn install --force` (rarely needed).
+4. `rm yarn.lock && yarn install` (this is the nuclear option, and a very aggressive last resort).
