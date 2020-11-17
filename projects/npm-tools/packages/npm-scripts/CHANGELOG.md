@@ -1,3 +1,11 @@
+## [npm-scripts/v36.0.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v36.0.1) (2020-11-17)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v36.0.0...npm-scripts/v36.0.1)
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): webpack watch feature ([\#244](https://github.com/liferay/liferay-frontend-projects/pull/244))
+
 ## [npm-scripts/v36.0.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v36.0.0) (2020-11-16)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v34.0.1...npm-scripts/v36.0.0)
