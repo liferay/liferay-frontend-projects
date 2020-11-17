@@ -52,7 +52,8 @@ describe('scripts/webpack.js', () => {
 
 		webpack('--watch');
 
-		expect(spawnSync).toHaveBeenCalledWith('webpack-dev-server', [
+		expect(spawnSync).toHaveBeenCalledWith('webpack', [
+			'serve',
 			'--config',
 			expect.stringMatching(/[/\\]webpack\.config\.dev\.js$/),
 		]);
@@ -62,7 +63,8 @@ describe('scripts/webpack.js', () => {
 		process.chdir(FIXTURES);
 		webpack('--watch', '--lazy');
 
-		expect(spawnSync).toHaveBeenCalledWith('webpack-dev-server', [
+		expect(spawnSync).toHaveBeenCalledWith('webpack', [
+			'serve',
 			'--config',
 			expect.stringMatching(/[/\\]webpack\.config\.dev\.js$/),
 			'--lazy',
