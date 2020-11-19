@@ -29,6 +29,11 @@ describe('getRegExpForGlob()', () => {
 			expect('bar').not.toMatchGlob('foo');
 			expect('a/b/bar').not.toMatchGlob('foo');
 		});
+
+		it('does not match when file path is absolute', () => {
+			expect('/foo').not.toMatchGlob('foo');
+			expect('/a/b/foo').not.toMatchGlob('foo');
+		});
 	});
 
 	describe('"*"', () => {
