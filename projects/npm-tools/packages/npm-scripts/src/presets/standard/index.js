@@ -21,6 +21,12 @@ module.exports = {
 
 		dependencies: [...clay, ...liferay, ...metal],
 
+		// Used to determine if the build process should also build scss files.
+		// This flag should only be used as we migrate liferay-portal from
+		// away from build css with java.
+
+		disableSass: false,
+
 		// Passed to:
 		// - `babel` executable (via `runBabel()`).
 		// - `jest` executable (via resolver.js).

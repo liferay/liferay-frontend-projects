@@ -9,6 +9,7 @@ const path = require('path');
 const getRegExpForGlob = require('./getRegExpForGlob');
 
 const DEFAULT_OPTIONS = {
+	baseDir: '.',
 	maxDepth: Infinity,
 	type: 'file',
 };
@@ -18,10 +19,11 @@ const DEFAULT_OPTIONS = {
  * of matching files, searching in the current dirctory.
  */
 function expandGlobs(matchGlobs, ignoreGlobs = [], options = {}) {
-	const {maxDepth, type} = {
+	const {baseDir, maxDepth, type} = {
 		...DEFAULT_OPTIONS,
 		...options,
 	};
+
 	const ignorers = [];
 	const matchers = matchGlobs.map(getRegExpForGlob);
 	const results = [];
@@ -128,6 +130,9 @@ function expandGlobs(matchGlobs, ignoreGlobs = [], options = {}) {
 		const entries = fs.readdirSync(directory);
 		entries.forEach((entry) => {
 			const file = path.posix.join(directory, entry);
+			const testedFilePath = path.isAbsolute(baseDir)
+				? path.relative(baseDir, file)
+				: file;
 
 			// Check trie to see whether entire subtree can be pruned.
 
@@ -160,7 +165,7 @@ function expandGlobs(matchGlobs, ignoreGlobs = [], options = {}) {
 					continue;
 				}
 
-				if (ignorer.test(file)) {
+				if (ignorer.test(testedFilePath)) {
 					if (ignorer.negated) {
 
 						// File got unignored.
@@ -185,7 +190,8 @@ function expandGlobs(matchGlobs, ignoreGlobs = [], options = {}) {
 
 			const stat = fs.statSync(file);
 
-			const match = () => matchers.some((matcher) => matcher.test(file));
+			const match = () =>
+				matchers.some((matcher) => matcher.test(testedFilePath));
 
 			if (stat.isDirectory()) {
 				if (type === 'directory' && match()) {
@@ -203,7 +209,7 @@ function expandGlobs(matchGlobs, ignoreGlobs = [], options = {}) {
 		currentDepth--;
 	}
 
-	traverse('.');
+	traverse(baseDir);
 
 	return results;
 }

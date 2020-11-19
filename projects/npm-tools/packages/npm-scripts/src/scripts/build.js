@@ -6,6 +6,7 @@
 const fs = require('fs');
 const path = require('path');
 
+const buildSass = require('../sass/build');
 const getMergedConfig = require('../utils/getMergedConfig');
 const instrument = require('../utils/instrument');
 let minify = require('../utils/minify');
@@ -51,6 +52,18 @@ if (!BUILD_CONFIG) {
 	throw new Error('npmscripts.config.js is missing required "build" key');
 }
 
+// Utility for getting paths to @clayui/css variables
+// This shouldn't ever fail, but is necessary so that we don't require
+// '@clayui/css' as a dependency in this package.
+
+const getClayPaths = () => {
+	try {
+		return require('@clayui/css').includePaths;
+	} catch (e) {
+		return [];
+	}
+};
+
 /**
  * Main script that runs all all specified build tasks synchronously.
  *
@@ -93,8 +106,7 @@ module.exports = async function (...args) {
 
 	if (!disableOldBuild) {
 		runBundler();
-	}
-	else {
+	} else {
 		const {output} = BUILD_CONFIG;
 
 		fs.copyFileSync('package.json', path.join(output, 'package.json'));
@@ -115,6 +127,13 @@ module.exports = async function (...args) {
 
 	if (useSoy) {
 		cleanSoy();
+	}
+
+	if (!BUILD_CONFIG.disableSass) {
+		buildSass(path.join(CWD, BUILD_CONFIG.input), {
+			imports: getClayPaths(),
+			outputDir: BUILD_CONFIG.output,
+		});
 	}
 
 	if (process.env.NODE_ENV !== 'development') {
