@@ -7,6 +7,7 @@ const fs = require('fs');
 const path = require('path');
 const rimraf = require('rimraf');
 
+const buildSass = require('../sass/build');
 const getMergedConfig = require('../utils/getMergedConfig');
 const runBabel = require('../utils/runBabel');
 const runBundler = require('../utils/runBundler');
@@ -108,4 +109,8 @@ module.exports = function () {
 	if (useSoy) {
 		cleanSoy();
 	}
+
+	buildSass(path.join(CWD, BUILD_CONFIG.input), {
+		outputDir: BUILD_CONFIG.output,
+	});
 };
