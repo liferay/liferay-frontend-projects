@@ -5,5 +5,6 @@
 
 module.exports = {
 	setupFilesAfterEnv: ['<rootDir>/support/jest/matchers.js'],
+	testEnvironment: 'node',
 	testMatch: ['**/test/**/*.js'],
 };
