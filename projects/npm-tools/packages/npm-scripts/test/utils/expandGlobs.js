@@ -220,4 +220,22 @@ describe('expandGlobs()', () => {
 			/Redundant ignore patterns/
 		);
 	});
+
+	it('can match files in a different directory', () => {
+		const randomTempDir = fs.mkdtempSync(
+			path.join(os.tmpdir(), 'scripts-basedir-')
+		);
+
+		const tempFilePath = path.join(randomTempDir, 'test.js');
+
+		fs.writeFileSync(tempFilePath, '');
+
+		const doesntMatch = expand(['*']);
+
+		expect(doesntMatch).not.toEqual([tempFilePath]);
+
+		const matches = expand(['*'], [], {baseDir: randomTempDir});
+
+		expect(matches).toEqual([tempFilePath]);
+	});
 });
