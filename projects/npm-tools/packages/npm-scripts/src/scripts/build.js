@@ -7,6 +7,8 @@ const fs = require('fs');
 const path = require('path');
 
 let createBridges = require('../utils/createBridges');
+let buildSass = require('../sass/build');
+const expandGlobs = require('../utils/expandGlobs');
 const getMergedConfig = require('../utils/getMergedConfig');
 const instrument = require('../utils/instrument');
 let minify = require('../utils/minify');
@@ -24,6 +26,7 @@ const {build: BUILD_CONFIG, federation: FEDERATION_CONFIG} = getMergedConfig(
 const CWD = process.cwd();
 
 ({
+	buildSass,
 	buildSoy,
 	cleanSoy,
 	createBridges,
@@ -35,6 +38,7 @@ const CWD = process.cwd();
 	translateSoy,
 	webpack,
 } = instrument({
+	buildSass,
 	buildSoy,
 	cleanSoy,
 	createBridges,
@@ -69,6 +73,8 @@ module.exports = async function (...args) {
 		'liferay-npm-scripts: `build`'
 	);
 
+	const inputPathExists = fs.existsSync(BUILD_CONFIG.input);
+
 	const useSoy = soyExists();
 
 	if (useSoy) {
@@ -78,7 +84,7 @@ module.exports = async function (...args) {
 	const runLegacyBuild =
 		!FEDERATION_CONFIG || FEDERATION_CONFIG.runLegacyBuild !== false;
 
-	if (runLegacyBuild) {
+	if (inputPathExists && runLegacyBuild) {
 		runBabel(
 			BUILD_CONFIG.input,
 			'--out-dir',
@@ -92,9 +98,16 @@ module.exports = async function (...args) {
 	}
 
 	if (runLegacyBuild) {
-		runBundler();
-	}
-	else {
+		const hasJS =
+			inputPathExists &&
+			!!expandGlobs([
+				path.join(BUILD_CONFIG.input, '**/*.{js,jsx,ts,tsx}'),
+			]).length;
+
+		if (hasJS) {
+			runBundler();
+		}
+	} else {
 		const {output} = BUILD_CONFIG;
 
 		fs.copyFileSync('package.json', path.join(output, 'package.json'));
@@ -113,6 +126,13 @@ module.exports = async function (...args) {
 
 	if (useSoy) {
 		cleanSoy();
+	}
+
+	if (!BUILD_CONFIG.disableSass && inputPathExists) {
+		buildSass(path.join(CWD, BUILD_CONFIG.input), {
+			imports: BUILD_CONFIG.sassIncludePaths,
+			outputDir: BUILD_CONFIG.output,
+		});
 	}
 
 	if (process.env.NODE_ENV !== 'development') {
