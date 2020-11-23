@@ -29,16 +29,6 @@ const SASS_EXCLUDE = [
 	'**/tmp/**',
 ];
 
-const getClayPaths = () => {
-	try {
-		return require('@clayui/css').includePaths;
-	} catch (e) {
-		return [];
-	}
-};
-
-const clayIncludePaths = getClayPaths();
-
 async function collectSassFiles(baseDir, excludes = []) {
 	const excludePaths = [
 		...SASS_EXCLUDE.map((exclude) => path.join(baseDir, exclude)),
@@ -51,7 +41,7 @@ async function collectSassFiles(baseDir, excludes = []) {
 	]);
 }
 
-function buildSass(file, output) {
+function buildSass(file, output, includePaths) {
 	const newFileName = file
 		.split('/')
 		[file.split('/').length - 1].replace('.scss', '.css');
@@ -60,7 +50,7 @@ function buildSass(file, output) {
 
 	const result = sass.renderSync({
 		file,
-		includePaths: clayIncludePaths,
+		includePaths,
 		outFile: outputFile,
 		sourceMap: true,
 	});
@@ -78,7 +68,10 @@ function copyCss(filePath, newDirectory) {
 
 const SASS_DIR = '.sass-cache';
 
-async function main(baseDir, {excludes, outputDir = '', rtl = false}) {
+async function main(
+	baseDir,
+	{excludes, imports = [], outputDir = '', rtl = false}
+) {
 	const files = await collectSassFiles(baseDir, excludes);
 
 	if (!files.length) {
@@ -102,7 +95,8 @@ async function main(baseDir, {excludes, outputDir = '', rtl = false}) {
 
 		const [outputFile, css, sourceMap] = buildSass(
 			file,
-			sassBuildDirectory
+			sassBuildDirectory,
+			imports
 		);
 
 		if (!fs.existsSync(sassBuildDirectory)) {

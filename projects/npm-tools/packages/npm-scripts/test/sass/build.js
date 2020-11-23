@@ -129,16 +129,17 @@ describe('sass', () => {
 		);
 	});
 
-	it('allows for @clayui/css variables', async () => {
-		await buildSass(FIXTURES + '/clay', {
+	it('allows for importing variables from other files', async () => {
+		await buildSass(FIXTURES + '/imports', {
+			imports: [path.join(FIXTURES, 'imports', 'fake-atlas.scss')],
 			outputDir: `../${OUTPUT_DIR}`,
 		});
 
-		expect(fs.existsSync(OUTPUT_SASS_DIR_PATH + '/clay.css')).toBe(true);
+		expect(fs.existsSync(OUTPUT_SASS_DIR_PATH + '/imports.css')).toBe(true);
 
 		expect(
-			fs.readFileSync(OUTPUT_SASS_DIR_PATH + '/clay.css', 'utf-8')
-		).toContain('color: #0053f0');
+			fs.readFileSync(OUTPUT_SASS_DIR_PATH + '/imports.css', 'utf-8')
+		).toContain('color: red;');
 	});
 
 	it('ignores explicit excluded files', async () => {
