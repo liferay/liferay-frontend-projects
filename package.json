@@ -19,7 +19,7 @@
 		"babel-loader": "^8.1.0",
 		"combohandler": "^0.4.0",
 		"copyfiles": "^2.4.0",
-		"eslint": "7.10.0",
+		"eslint": "7.14.0",
 		"execa": "^4.0.3",
 		"fs-extra": "^9.0.1",
 		"globby": "^11.0.1",
