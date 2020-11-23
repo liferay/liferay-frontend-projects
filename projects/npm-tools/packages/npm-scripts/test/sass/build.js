@@ -91,6 +91,16 @@ describe('sass', () => {
 	`);
 	});
 
+	it('excludes partial files from building into their own files', async () => {
+		await buildSass(FIXTURES + '/partial', {
+			outputDir: `../${OUTPUT_DIR}`,
+		});
+
+		expect(fs.existsSync(OUTPUT_SASS_DIR_PATH + '/_some-partial.css')).toBe(
+			false
+		);
+	});
+
 	it('builds with rtl support', async () => {
 		await buildSass(FIXTURES + '/rtl', {
 			outputDir: `../${OUTPUT_DIR}`,
