@@ -29,24 +29,22 @@ const SASS_EXCLUDE = [
 	'**/tmp/**',
 ];
 
-async function collectSassFiles(baseDir, excludes = []) {
+function collectSassFiles(baseDir, excludes = []) {
 	const excludePaths = [
 		...SASS_EXCLUDE.map((exclude) => path.join(baseDir, exclude)),
 		...excludes.map((exclude) => path.join(baseDir, exclude)),
 	];
 
-	return await globby([
+	return globby([
 		path.join(baseDir, '**/*.scss'),
 		...excludePaths.map((exclude) => `!${exclude}`),
 	]);
 }
 
 function buildSass(file, output, includePaths) {
-	const newFileName = file
-		.split('/')
-		[file.split('/').length - 1].replace('.scss', '.css');
+	const cssFileName = path.basename(file).replace(/\.scss$/, '.css');
 
-	const outputFile = path.join(output, newFileName);
+	const outputFile = path.join(output, cssFileName);
 
 	const result = sass.renderSync({
 		file,
@@ -55,13 +53,11 @@ function buildSass(file, output, includePaths) {
 		sourceMap: true,
 	});
 
-	return [outputFile, result.css, result.map];
+	return {...result, outputFile};
 }
 
 function copyCss(filePath, newDirectory) {
-	if (!fs.existsSync(newDirectory)) {
-		fs.mkdirSync(newDirectory, {recursive: true});
-	}
+	fs.mkdirSync(newDirectory, {recursive: true});
 
 	fs.copyFileSync(filePath, path.join(newDirectory, path.basename(filePath)));
 }
@@ -80,32 +76,28 @@ async function main(
 		return;
 	}
 
-	for (let i = 0; i < files.length; i++) {
-		const file = files[i];
-
+	for (const file of files) {
 		const baseBuildDirectory = path.join(
-			baseDir,
+			path.isAbsolute(outputDir) ? '' : baseDir,
 			outputDir,
-			path.parse(file).dir.replace(baseDir, '')
+			path.dirname(path.relative(baseDir, file))
 		);
 
 		const sassBuildDirectory = path.join(baseBuildDirectory, SASS_DIR);
 
 		copyCss(file, baseBuildDirectory);
 
-		const [outputFile, css, sourceMap] = buildSass(
+		const {css, outputFile, sourceMap} = buildSass(
 			file,
 			sassBuildDirectory,
 			imports
 		);
 
-		if (!fs.existsSync(sassBuildDirectory)) {
-			fs.mkdirSync(sassBuildDirectory, {recursive: true});
-		}
+		fs.mkdirSync(sassBuildDirectory, {recursive: true});
 
 		if (rtl) {
 			fs.writeFileSync(
-				outputFile.replace('.css', '_rtl.css'),
+				outputFile.replace(/\.css$/, '_rtl.css'),
 				r2.swap(css.toString())
 			);
 		}

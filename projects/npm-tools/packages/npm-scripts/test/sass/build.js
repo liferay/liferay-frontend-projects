@@ -4,8 +4,8 @@
  */
 
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
-const rimraf = require('rimraf');
 
 const buildSass = require('../../src/sass/build');
 const log = require('../../src/utils/log');
@@ -13,43 +13,37 @@ const log = require('../../src/utils/log');
 jest.mock('../../src/utils/log');
 
 const FIXTURES = path.resolve(__dirname, '../../__fixtures__/sass');
-const OUTPUT_DIR = 'tmp';
 const OUTPUT_SASS_DIR = '.sass-cache';
-const OUTPUT_DIR_PATH = path.resolve(FIXTURES, OUTPUT_DIR);
-const OUTPUT_SASS_DIR_PATH = path.resolve(
-	FIXTURES,
-	OUTPUT_DIR,
-	OUTPUT_SASS_DIR
-);
 
 describe('sass', () => {
-	beforeEach(() => {
-		fs.mkdirSync(OUTPUT_DIR_PATH);
-	});
+	let tempDir;
+	let tempSassDir;
 
-	afterEach(() => {
-		rimraf.sync(OUTPUT_DIR_PATH);
+	beforeAll(() => {
+		tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'scripts-'));
+
+		tempSassDir = path.join(tempDir, OUTPUT_SASS_DIR);
 	});
 
 	it('copies scss files', async () => {
-		await buildSass(FIXTURES + '/main', {
-			outputDir: `../${OUTPUT_DIR}`,
+		await buildSass(path.join(FIXTURES, 'main'), {
+			outputDir: tempDir,
 		});
 
-		expect(fs.existsSync(OUTPUT_DIR_PATH + '/main.scss')).toBe(true);
+		expect(fs.existsSync(path.join(tempDir, '/main.scss'))).toBe(true);
 	});
 
 	it('builds css and generates sourcemap', async () => {
-		await buildSass(FIXTURES + '/main', {
-			outputDir: `../${OUTPUT_DIR}`,
+		await buildSass(path.join(FIXTURES, 'main'), {
+			outputDir: tempDir,
 		});
 
-		expect(fs.existsSync(OUTPUT_SASS_DIR_PATH + '/main.css')).toBe(true);
-		expect(fs.existsSync(OUTPUT_SASS_DIR_PATH + '/main.css.map')).toBe(
+		expect(fs.existsSync(path.join(tempSassDir, 'main.css'))).toBe(true);
+		expect(fs.existsSync(path.join(tempSassDir, 'main.css.map'))).toBe(
 			true
 		);
 
-		expect(fs.readFileSync(OUTPUT_SASS_DIR_PATH + '/main.css', 'utf-8'))
+		expect(fs.readFileSync(path.join(tempSassDir, 'main.css'), 'utf-8'))
 			.toMatchInlineSnapshot(`
 		".parent-class .child-class {
 		  color: red;
@@ -62,8 +56,8 @@ describe('sass', () => {
 	it('logs message if no files found', async () => {
 		expect(log).toBeCalledTimes(0);
 
-		await buildSass(FIXTURES + '/none', {
-			outputDir: `../${OUTPUT_DIR}`,
+		await buildSass(path.join(FIXTURES, 'none'), {
+			outputDir: tempDir,
 		});
 
 		expect(log).toBeCalledTimes(1);
@@ -72,16 +66,16 @@ describe('sass', () => {
 	});
 
 	it('builds css with partials', async () => {
-		await buildSass(FIXTURES + '/partial', {
-			outputDir: `../${OUTPUT_DIR}`,
+		await buildSass(path.join(FIXTURES, 'partial'), {
+			outputDir: tempDir,
 		});
 
-		expect(fs.existsSync(OUTPUT_SASS_DIR_PATH + '/partial.css')).toBe(true);
-		expect(fs.existsSync(OUTPUT_SASS_DIR_PATH + '/partial.css.map')).toBe(
+		expect(fs.existsSync(path.join(tempSassDir, 'partial.css'))).toBe(true);
+		expect(fs.existsSync(path.join(tempSassDir, 'partial.css.map'))).toBe(
 			true
 		);
 
-		expect(fs.readFileSync(OUTPUT_SASS_DIR_PATH + '/partial.css', 'utf-8'))
+		expect(fs.readFileSync(path.join(tempSassDir, 'partial.css'), 'utf-8'))
 			.toMatchInlineSnapshot(`
 		".this-is-a-partial {
 		  color: blue;
@@ -92,25 +86,25 @@ describe('sass', () => {
 	});
 
 	it('excludes partial files from building into their own files', async () => {
-		await buildSass(FIXTURES + '/partial', {
-			outputDir: `../${OUTPUT_DIR}`,
+		await buildSass(path.join(FIXTURES, 'partial'), {
+			outputDir: tempDir,
 		});
 
-		expect(fs.existsSync(OUTPUT_SASS_DIR_PATH + '/_some-partial.css')).toBe(
+		expect(fs.existsSync(path.join(tempSassDir, '_some-partial.css'))).toBe(
 			false
 		);
 	});
 
 	it('builds with rtl support', async () => {
-		await buildSass(FIXTURES + '/rtl', {
-			outputDir: `../${OUTPUT_DIR}`,
+		await buildSass(path.join(FIXTURES, 'rtl'), {
+			outputDir: tempDir,
 			rtl: true,
 		});
 
-		expect(fs.existsSync(OUTPUT_SASS_DIR_PATH + '/rtl.css')).toBe(true);
-		expect(fs.existsSync(OUTPUT_SASS_DIR_PATH + '/rtl_rtl.css')).toBe(true);
+		expect(fs.existsSync(path.join(tempSassDir, 'rtl.css'))).toBe(true);
+		expect(fs.existsSync(path.join(tempSassDir, 'rtl_rtl.css'))).toBe(true);
 
-		expect(fs.readFileSync(OUTPUT_SASS_DIR_PATH + '/rtl.css', 'utf-8'))
+		expect(fs.readFileSync(path.join(tempSassDir, 'rtl.css'), 'utf-8'))
 			.toMatchInlineSnapshot(`
 		".swap-for-rtl {
 		  float: left;
@@ -123,35 +117,35 @@ describe('sass', () => {
 	`);
 
 		expect(
-			fs.readFileSync(OUTPUT_SASS_DIR_PATH + '/rtl_rtl.css', 'utf-8')
+			fs.readFileSync(path.join(tempSassDir, 'rtl_rtl.css'), 'utf-8')
 		).toMatchInlineSnapshot(
 			`".swap-for-rtl{float:right;margin-left:2px;padding:1px 4px 3px 2px;right:5px;}"`
 		);
 	});
 
 	it('allows for importing variables from other files', async () => {
-		await buildSass(FIXTURES + '/imports', {
+		await buildSass(path.join(FIXTURES, 'imports'), {
 			imports: [path.join(FIXTURES, 'imports', 'fake-atlas.scss')],
-			outputDir: `../${OUTPUT_DIR}`,
+			outputDir: tempDir,
 		});
 
-		expect(fs.existsSync(OUTPUT_SASS_DIR_PATH + '/imports.css')).toBe(true);
+		expect(fs.existsSync(path.join(tempSassDir, 'imports.css'))).toBe(true);
 
 		expect(
-			fs.readFileSync(OUTPUT_SASS_DIR_PATH + '/imports.css', 'utf-8')
+			fs.readFileSync(path.join(tempSassDir, 'imports.css'), 'utf-8')
 		).toContain('color: red;');
 	});
 
 	it('ignores explicit excluded files', async () => {
-		await buildSass(FIXTURES + '/excludes', {
+		await buildSass(path.join(FIXTURES, 'excludes'), {
 			excludes: ['excluded*'],
-			outputDir: `../${OUTPUT_DIR}`,
+			outputDir: tempDir,
 		});
 
-		expect(fs.existsSync(OUTPUT_SASS_DIR_PATH + '/excluded.css')).toBe(
+		expect(fs.existsSync(path.join(tempSassDir, 'excluded.css'))).toBe(
 			false
 		);
-		expect(fs.existsSync(OUTPUT_SASS_DIR_PATH + '/included.css')).toBe(
+		expect(fs.existsSync(path.join(tempSassDir, 'included.css'))).toBe(
 			true
 		);
 	});
