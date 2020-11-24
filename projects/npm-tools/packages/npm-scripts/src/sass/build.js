@@ -4,11 +4,11 @@
  */
 
 const fs = require('fs');
-const globby = require('globby');
 const r2 = require('liferay-r2');
 const path = require('path');
 const sass = require('sass');
 
+const expandGlobs = require('../utils/expandGlobs');
 const log = require('../utils/log');
 
 const SASS_EXCLUDE = [
@@ -29,16 +29,12 @@ const SASS_EXCLUDE = [
 	'**/tmp/**',
 ];
 
-function collectSassFiles(baseDir, excludes = []) {
-	const excludePaths = [
-		...SASS_EXCLUDE.map((exclude) => path.join(baseDir, exclude)),
-		...excludes.map((exclude) => path.join(baseDir, exclude)),
-	];
+const SASS_INCLUDE = ['**/*.scss'];
 
-	return globby([
-		path.join(baseDir, '**/*.scss'),
-		...excludePaths.map((exclude) => `!${exclude}`),
-	]);
+function collectSassFiles(baseDir, excludes = []) {
+	const excludeGlobs = [...SASS_EXCLUDE, ...excludes];
+
+	return expandGlobs(SASS_INCLUDE, excludeGlobs, {baseDir});
 }
 
 function buildSass(file, output, includePaths) {
@@ -64,11 +60,8 @@ function copyCss(filePath, newDirectory) {
 
 const SASS_DIR = '.sass-cache';
 
-async function main(
-	baseDir,
-	{excludes, imports = [], outputDir = '', rtl = false}
-) {
-	const files = await collectSassFiles(baseDir, excludes);
+function main(baseDir, {excludes, imports = [], outputDir = '', rtl = false}) {
+	const files = collectSassFiles(baseDir, excludes);
 
 	if (!files.length) {
 		log(`BUILD CSS: No files found.`);

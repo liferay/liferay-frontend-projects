@@ -25,16 +25,16 @@ describe('sass', () => {
 		tempSassDir = path.join(tempDir, OUTPUT_SASS_DIR);
 	});
 
-	it('copies scss files', async () => {
-		await buildSass(path.join(FIXTURES, 'main'), {
+	it('copies scss files', () => {
+		buildSass(path.join(FIXTURES, 'main'), {
 			outputDir: tempDir,
 		});
 
 		expect(fs.existsSync(path.join(tempDir, '/main.scss'))).toBe(true);
 	});
 
-	it('builds css and generates sourcemap', async () => {
-		await buildSass(path.join(FIXTURES, 'main'), {
+	it('builds css and generates sourcemap', () => {
+		buildSass(path.join(FIXTURES, 'main'), {
 			outputDir: tempDir,
 		});
 
@@ -53,10 +53,10 @@ describe('sass', () => {
 	`);
 	});
 
-	it('logs message if no files found', async () => {
+	it('logs message if no files found', () => {
 		expect(log).toBeCalledTimes(0);
 
-		await buildSass(path.join(FIXTURES, 'none'), {
+		buildSass(path.join(FIXTURES, 'none'), {
 			outputDir: tempDir,
 		});
 
@@ -65,8 +65,8 @@ describe('sass', () => {
 		expect(log).toBeCalledWith('BUILD CSS: No files found.');
 	});
 
-	it('builds css with partials', async () => {
-		await buildSass(path.join(FIXTURES, 'partial'), {
+	it('builds css with partials', () => {
+		buildSass(path.join(FIXTURES, 'partial'), {
 			outputDir: tempDir,
 		});
 
@@ -85,8 +85,8 @@ describe('sass', () => {
 	`);
 	});
 
-	it('excludes partial files from building into their own files', async () => {
-		await buildSass(path.join(FIXTURES, 'partial'), {
+	it('excludes partial files from building into their own files', () => {
+		buildSass(path.join(FIXTURES, 'partial'), {
 			outputDir: tempDir,
 		});
 
@@ -95,8 +95,8 @@ describe('sass', () => {
 		);
 	});
 
-	it('builds with rtl support', async () => {
-		await buildSass(path.join(FIXTURES, 'rtl'), {
+	it('builds with rtl support', () => {
+		buildSass(path.join(FIXTURES, 'rtl'), {
 			outputDir: tempDir,
 			rtl: true,
 		});
@@ -123,8 +123,8 @@ describe('sass', () => {
 		);
 	});
 
-	it('allows for importing variables from other files', async () => {
-		await buildSass(path.join(FIXTURES, 'imports'), {
+	it('allows for importing variables from other files', () => {
+		buildSass(path.join(FIXTURES, 'imports'), {
 			imports: [path.join(FIXTURES, 'imports', 'fake-atlas.scss')],
 			outputDir: tempDir,
 		});
@@ -136,8 +136,8 @@ describe('sass', () => {
 		).toContain('color: red;');
 	});
 
-	it('ignores explicit excluded files', async () => {
-		await buildSass(path.join(FIXTURES, 'excludes'), {
+	it('ignores explicit excluded files', () => {
+		buildSass(path.join(FIXTURES, 'excludes'), {
 			excludes: ['excluded*'],
 			outputDir: tempDir,
 		});
