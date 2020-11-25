@@ -1,3 +1,11 @@
+## [npm-scripts/v36.1.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v36.1.0) (2020-11-25)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v36.0.1...npm-scripts/v36.1.0)
+
+### :new: Features
+
+-   feat(npm-scripts): add minification to build process ([\#233](https://github.com/liferay/liferay-frontend-projects/pull/233))
+
 ## [npm-scripts/v36.0.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v36.0.1) (2020-11-17)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v36.0.0...npm-scripts/v36.0.1)
