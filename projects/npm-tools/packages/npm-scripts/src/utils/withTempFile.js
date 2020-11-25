@@ -3,13 +3,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const fs = require('fs-extra');
-const path = require('path');
-
-const SignalHandler = require('../utils/SignalHandler');
-const getMergedConfig = require('./getMergedConfig');
-
-const BUILD_CONFIG = getMergedConfig('npmscripts', 'build');
+const createTempFile = require('./createTempFile');
 
 /**
  * Execute a block of code after writing a temporary file. The function ensures
@@ -26,20 +20,10 @@ const BUILD_CONFIG = getMergedConfig('npmscripts', 'build');
  * The code to execute.
  */
 function withTempFile(filename, content, callback) {
-	const tempDirPath = path.join(BUILD_CONFIG.temp, 'tmp');
-
-	fs.ensureDirSync(tempDirPath);
-
-	const tempFilePath = path.resolve(path.join(tempDirPath, filename));
-
-	fs.writeFileSync(tempFilePath, content);
-
-	const {dispose} = SignalHandler.onExit(() => {
-		fs.unlinkSync(tempFilePath);
-	});
+	const {dispose, filePath} = createTempFile(filename, content);
 
 	try {
-		callback(tempFilePath);
+		callback(filePath);
 	}
 	finally {
 		dispose();
