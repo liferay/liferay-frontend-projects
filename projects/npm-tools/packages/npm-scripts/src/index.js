@@ -13,7 +13,7 @@ module.exports = async function () {
 	} = minimist(ARGS_ARRAY);
 
 	const PUBLIC_COMMANDS = {
-		build() {
+		async build() {
 			require('./scripts/build')();
 		},
 
@@ -25,8 +25,8 @@ module.exports = async function () {
 			await require('./scripts/fix')();
 		},
 
-		prettier() {
-			require('./scripts/prettier')(...ARGS_ARRAY.slice(1));
+		async prettier() {
+			await require('./scripts/prettier')(...ARGS_ARRAY.slice(1));
 		},
 
 		storybook() {
@@ -61,12 +61,12 @@ module.exports = async function () {
 	};
 
 	const PRIVATE_COMMANDS = {
-		format() {
-			require('./scripts/format')();
+		async format() {
+			await require('./scripts/format')();
 		},
 
-		'format:check': function formatCheck() {
-			require('./scripts/format')({check: true});
+		'format:check': async function formatCheck() {
+			await require('./scripts/format')({check: true});
 		},
 
 		async lint() {

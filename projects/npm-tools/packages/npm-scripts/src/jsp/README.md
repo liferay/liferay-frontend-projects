@@ -2,7 +2,7 @@
 
 This document provides a brief table of contents for the main items in [the npm-scripts/src/format directory](../format), which is responsible for formatting and linting JS inside JSP files.
 
-The main workhorse is [the `processJSP()` function](./processJSP.js), which takes a JSP source string and extracts the contents of any script tags contained within so that they can be processed by Prettier and/or ESLint. Formatting is handled by calling the Prettier API from an `onFormat` callback passed to `processJSP()`; linting is handled by calling the ESLint API from an `onLint` callback. The overall sequence is:
+The main workhorse is [the `processJSP()` function](./processJSP.js), which takes a JSP source string and extracts the contents of any script tags contained within so that they can be processed by Prettier, ESLint, or Terser. Formatting is handled by calling the Prettier API from an `onFormat` callback passed to `processJSP()`; linting is handled by calling the ESLint API from an `onLint` callback; minifying is handled by calling the Terser API from an `onMinify` callback. The overall sequence is:
 
 1. Extract blocks of JS (ie. code inside `<script>` and `<aui:script>` tags) using [the `extractJS()` function](./extractJS.js).
 2. For each block of JS:
@@ -11,7 +11,7 @@ The main workhorse is [the `processJSP()` function](./processJSP.js), which take
     3. Turn JSP tags, expressions, scriptlets (etc) — which are not JavaScript — into valid JS placeholders that allow Prettier and ESLint to parse each block as JavaScript without errors. Peculiar Unicode characters are used in replacements to ensure that the substitutions can be reversed after Prettier has finished formatting. This is done by [the `substituteTags()` function](./substituteTags.js).
     4. Strip indents inside JSP tags (eg. `<c:if>`/`</c:if>` tags) using [the `stripIndents()` function](./stripIndents.js).
     5. Pad the block with a number of lines containing empty statements so that any errors reported by Prettier or ESLint correspond to the source line numbers in the original JSP input, using [the `padLines()` function](./padLines.js).
-    6. Via the `onFormat` callback, actually format the code via the Prettier API; via the `onLint` callback pass the code to the ESLint API for linting. Both callbacks are optional, but in practice we always pass at least one so that `processJSP()` can actually do something useful.
+    6. Via the `onFormat` callback, actually format the code via the Prettier API; via the `onLint` callback pass the code to the ESLint API for linting; via the `onMinify` callback pass the code to the Terser API for minification. All callbacks are optional, but in practice we always pass at least one so that `processJSP()` can actually do something useful.
     7. Remove the padding lines inserted in Step 5.
     8. Swap out the placeholder items inserted in Step 3 for the original JSP tags, expressions and scriptlets, using [the `restoreTags()` function](./restoreTags.js).
     9. Restore the base indent that was removed in Step 2, using [the `indent()` function](./indent.js).

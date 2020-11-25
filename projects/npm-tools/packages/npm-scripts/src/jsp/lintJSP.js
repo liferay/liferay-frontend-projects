@@ -41,10 +41,10 @@ const SEVERITY = {
  *
  * Currently, the only lintable elements are script tags.
  */
-function lintJSP(source, onReport, options = {}) {
+async function lintJSP(source, onReport, options = {}) {
 	const {fix, quiet} = options;
 
-	return processJSP(source, {
+	return await processJSP(source, {
 		onLint: (input) => {
 			let messages;
 			let output;

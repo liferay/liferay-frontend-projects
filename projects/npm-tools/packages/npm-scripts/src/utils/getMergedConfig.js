@@ -130,13 +130,6 @@ function getMergedConfig(type, property) {
 			]);
 			break;
 
-		case 'stylelint':
-			mergedConfig = deepMerge([
-				require('../config/stylelint'),
-				getUserConfig('stylelint'),
-			]);
-			break;
-
 		case 'eslint':
 			mergedConfig = deepMerge([
 				require('../config/eslint.config'),
@@ -184,6 +177,20 @@ function getMergedConfig(type, property) {
 
 			break;
 		}
+
+		case 'stylelint':
+			mergedConfig = deepMerge([
+				require('../config/stylelint'),
+				getUserConfig('stylelint'),
+			]);
+			break;
+
+		case 'terser':
+			mergedConfig = deepMerge([
+				require('../config/terser.config'),
+				getUserConfig('terser'),
+			]);
+			break;
 
 		default:
 			throw new Error(`'${type}' is not a valid config`);

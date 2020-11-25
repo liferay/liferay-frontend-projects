@@ -19,7 +19,7 @@ const {PADDING_LINE} = padLines;
  *
  * Currently, the only processable elements are script tags.
  */
-function processJSP(source, {onFormat, onLint}) {
+async function processJSP(source, {onFormat, onLint, onMinify}) {
 	const blocks = extractJS(source);
 
 	// TODO: may want to pass filename here too, but I am not sure.
@@ -30,7 +30,9 @@ function processJSP(source, {onFormat, onLint}) {
 
 	// TODO: lint for <(aui:)?script> not followed by newline (there are basically none in liferay-portal)
 
-	const transformed = blocks.map((block) => {
+	const transformed = [];
+
+	for (const block of blocks) {
 		const {contents, openTag, range} = block;
 
 		// Script content should be indented one tab more than the opening tag.
@@ -65,9 +67,13 @@ function processJSP(source, {onFormat, onLint}) {
 
 		const formatted = onFormat ? onFormat(fixed) : fixed;
 
+		// (Optionally) actually minify.
+
+		const minified = onMinify ? await onMinify(formatted) : formatted;
+
 		// Remove previously inserted padding lines.
 
-		const unpadded = formatted.replace(PADDING_LINE, '');
+		const unpadded = minified.replace(PADDING_LINE, '');
 
 		// Replace placeholders with their corresponding original JSP tokens.
 
@@ -75,16 +81,16 @@ function processJSP(source, {onFormat, onLint}) {
 
 		// Restore base indent.
 
-		const indented = indent(restored, baseIndent);
+		const indented = onMinify ? restored : indent(restored, baseIndent);
 
-		return {
+		transformed.push({
 			...block,
 			contents:
-				(prefix || '\n') +
+				(onMinify ? '' : prefix || '\n') +
 				indented +
-				(suffix || '\t'.repeat(baseIndent - 1)),
-		};
-	});
+				(onMinify ? '' : suffix || '\t'.repeat(baseIndent - 1)),
+		});
+	}
 
 	let result = '';
 	let lastIndex = 0;

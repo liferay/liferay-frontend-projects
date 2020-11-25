@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+const PADDING_MARKER = '\u00abpad\u00bb';
+
 /**
  * The default padding string: a valid JS statement and reasonably unlikely
  * to exist organically anywhere in the liferay-portal repo.
@@ -11,9 +13,9 @@
  * "Mark" («) and Right-Pointing Double Angle Quotation Mark" (»)
  * "respectively.
  */
-const DEFAULT_PADDING = 'void 0; /* \u00abpad\u00bb */';
+const DEFAULT_PADDING = `void 0; /* ${PADDING_MARKER} */`;
 
-const PADDING_LINE = /\s*void\s+0;\s*\/\*\s*\u00abpad\u00bb\s*\*\/\n/g;
+const PADDING_LINE = /(?:\s*void\s+0;\s*)?\/\*\s*\u00abpad\u00bb\s*\*\/\n/g;
 
 /**
  * Prefixes `string` with lines containing the `padding` string such that the
@@ -27,6 +29,7 @@ function padLines(string, startLine, padding = DEFAULT_PADDING) {
 	return `${padding}\n`.repeat(startLine) + string;
 }
 
+padLines.PADDING_MARKER = PADDING_MARKER;
 padLines.PADDING_LINE = PADDING_LINE;
 
 module.exports = padLines;
