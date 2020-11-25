@@ -4,6 +4,7 @@
  */
 
 const fs = require('fs');
+const parseArgs = require('minimist');
 const path = require('path');
 const rimraf = require('rimraf');
 
@@ -73,7 +74,9 @@ function runBridge() {
  * present, and soy is run when soy files are detected.
  * `minify()` is run unless `NODE_ENV` is `development`.
  */
-module.exports = async function () {
+module.exports = async function (...argv) {
+	const args = parseArgs(argv);
+
 	setEnv('production');
 
 	validateConfig(
@@ -95,11 +98,11 @@ module.exports = async function () {
 		'--source-maps'
 	);
 
-	if (fs.existsSync(path.join(CWD, 'webpack.config.js'))) {
-		webpack();
+	if (fs.existsSync(path.join(CWD, 'webpack.config.js')) || args.federation) {
+		webpack(...argv);
 	}
 
-	runBundler();
+	runBundler(args.federation ? 'bundler-with-federation' : 'bundler');
 
 	translateSoy(BUILD_CONFIG.output);
 

@@ -14,7 +14,7 @@ module.exports = async function () {
 
 	const PUBLIC_COMMANDS = {
 		async build() {
-			require('./scripts/build')();
+			require('./scripts/build')(...ARGS_ARRAY.slice(1));
 		},
 
 		async check() {
