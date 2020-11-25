@@ -130,6 +130,16 @@ function getMergedConfig(type, property) {
 			]);
 			break;
 
+		case 'bundler-with-federation':
+			mergedConfig = deepMerge([
+				require('../config/npm-bundler'),
+				getUserConfig('npmbundler'),
+				{
+					ignore: ['webpack/**/*'],
+				},
+			]);
+			break;
+
 		case 'eslint':
 			mergedConfig = deepMerge([
 				require('../config/eslint.config'),
