@@ -102,7 +102,6 @@ async function minify() {
 								hoist_props: true,
 								if_return: true,
 								inline: true,
-								join_vars: true,
 								keep_fargs: true,
 								loops: true,
 								negate_iife: true,
@@ -113,16 +112,37 @@ async function minify() {
 								side_effects: true,
 								switches: true,
 								typeofs: true,
-								unused: true,
 
 								// Turn this one back off because it reorders
 								// statements/expressions and breaks our
 								// substitution and restoration of JSP syntax.
 
 								sequences: false,
+
+								//
+								// And for similar reasons, this one
+								// (which would join multiple variable
+								// declarations together with comma)
+								// needs to be off too, because it can re-order
+								// and move things.
+								//
+
+								join_vars: false,
+
+								//
+								// Not safe to drop "unused" functions and
+								// variables in JSP because usage may be
+								// invisible.
+								//
+
+								unused: false,
 							},
 
 							format: {
+
+								// Add `beautify: true` here to debug tests, if
+								// necessary.
+
 								comments: JSP_COMMENT_REGEXP,
 							},
 
