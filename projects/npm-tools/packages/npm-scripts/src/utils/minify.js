@@ -81,61 +81,7 @@ async function minify() {
 							// "hidden" code (via interpolation).
 
 							compress: {
-
-								// Start with all minification off.
-
 								defaults: false,
-
-								// Turn most things back on.
-
-								arrows: true,
-								booleans: true,
-								collapse_vars: true,
-								comparisons: true,
-								computed_props: true,
-								conditionals: true,
-								dead_code: true,
-								directives: true,
-								drop_debugger: true,
-								ecma: 5,
-								evaluate: true,
-								hoist_props: true,
-								if_return: true,
-								inline: true,
-								keep_fargs: true,
-								loops: true,
-								negate_iife: true,
-								passes: 1,
-								properties: true,
-								pure_getters: 'strict',
-								reduce_vars: true,
-								side_effects: true,
-								switches: true,
-								typeofs: true,
-
-								// Turn this one back off because it reorders
-								// statements/expressions and breaks our
-								// substitution and restoration of JSP syntax.
-
-								sequences: false,
-
-								//
-								// And for similar reasons, this one
-								// (which would join multiple variable
-								// declarations together with comma)
-								// needs to be off too, because it can re-order
-								// and move things.
-								//
-
-								join_vars: false,
-
-								//
-								// Not safe to drop "unused" functions and
-								// variables in JSP because usage may be
-								// invisible.
-								//
-
-								unused: false,
 							},
 
 							format: {
