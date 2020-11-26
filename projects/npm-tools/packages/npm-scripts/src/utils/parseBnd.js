@@ -6,7 +6,14 @@
 const fs = require('fs');
 
 /**
+ * Parse a bnd.bnd file and return it as a hash (object) of key-value pairs.
  *
+ * Note that the returned values are not modified in any way other than trimming
+ * by the sides.
+ *
+ * @param {string} filePath path to bnd file (by default bnb.bnd in cwd)
+ *
+ * @return {object} a hash of parsed key-value pairs.
  */
 function parseBnd(filePath = './bnd.bnd') {
 	const content = fs.readFileSync(filePath).toString();

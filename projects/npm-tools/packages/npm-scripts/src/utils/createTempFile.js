@@ -12,14 +12,10 @@ const getMergedConfig = require('./getMergedConfig');
 const BUILD_CONFIG = getMergedConfig('npmscripts', 'build');
 
 /**
- * Write a temporary file that will be deleted when the tool finishes
- * execution.
+ * Write a temporary file that will be deleted when the tool finishes execution.
  *
- * @param {string} filename
- * The name of the file.
- *
- * @param {string|Buffer} content
- * Content of the file.
+ * @param {string} filename the name of the file
+ * @param {string|Buffer} content content of the file
  *
  * @return {object}
  * An object with the `dispose` function (in case the caller wants to invoke it

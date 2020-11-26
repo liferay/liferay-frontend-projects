@@ -17,6 +17,14 @@ const CORE_SHARES = ['react'];
 
 const BABEL_CONFIG = getMergedConfig('babel');
 
+/**
+ * Modify an existing webpack config to conform to Liferay standards.
+ *
+ * @param {object|Array} webpackConfig
+ * @param {boolean} federation set to true to inject federation support
+ *
+ * @return {object|Array} the tweaked webpack config
+ */
 function tweakWebpackConfig(webpackConfig, {federation} = {}) {
 	const ret = [];
 
@@ -36,6 +44,14 @@ function tweakWebpackConfig(webpackConfig, {federation} = {}) {
 	return ret.length === 1 ? ret[0] : ret;
 }
 
+/**
+ * Create a webpack configuration to inject federation support to the build.
+ *
+ * Note that the default federation configuration exports the "main" entry point
+ * as a federation module and makes it available through Liferay DXP.
+ *
+ * @return {object} a webpack configuration
+ */
 function createFederationConfig() {
 	// eslint-disable-next-line @liferay/liferay/no-dynamic-require
 	const packageJson = require(path.join(process.cwd(), 'package.json'));

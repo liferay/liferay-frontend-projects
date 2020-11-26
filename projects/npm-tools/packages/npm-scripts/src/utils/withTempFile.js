@@ -10,14 +10,11 @@ const createTempFile = require('./createTempFile');
  * that the temporary file is deleted after the block execution (which is
  * assumed to be synchronous).
  *
- * @param {string} filename
- * The name of the file.
+ * @param {string} filename the name of the file
+ * @param {string|Buffer} content content of the file
+ * @param {function} callback the code to execute
  *
- * @param {string|Buffer} content
- * Content of the file.
- *
- * @param {function} callback
- * The code to execute.
+ * @return {void}
  */
 function withTempFile(filename, content, callback) {
 	const {dispose, filePath} = createTempFile(filename, content);
