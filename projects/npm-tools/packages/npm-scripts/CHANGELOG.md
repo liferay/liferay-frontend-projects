@@ -1,3 +1,11 @@
+## [npm-scripts/v36.1.1-pre.3](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v36.1.1-pre.3) (2020-11-26)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v36.1.0...npm-scripts/v36.1.1-pre.3)
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): try formatting JS in JSP inside build ([\#251](https://github.com/liferay/liferay-frontend-projects/pull/251))
+
 ## [npm-scripts/v36.1.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v36.1.0) (2020-11-25)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v36.0.1...npm-scripts/v36.1.0)
