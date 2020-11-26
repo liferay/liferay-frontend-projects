@@ -16,8 +16,12 @@ const fs = require('fs');
  * @return {object} a hash of parsed key-value pairs.
  */
 function parseBnd(filePath = './bnd.bnd') {
-	const content = fs.readFileSync(filePath).toString();
-	const lines = content.replace(/\\\n/g, ' ').split('\n');
+	let content = fs.readFileSync(filePath).toString();
+
+	content = content.replace(/\r\n/g, '\n');
+	content = content.replace(/\\\n/g, ' ');
+
+	const lines = content.split('\n');
 
 	return lines.reduce((entries, line) => {
 		line = line.trim();
