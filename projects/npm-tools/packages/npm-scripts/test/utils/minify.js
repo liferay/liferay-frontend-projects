@@ -95,4 +95,43 @@ describe('minify()', () => {
 			<script>alert("minify this too");</script>
 		`);
 	});
+
+	// Regression test.
+	// See: https://github.com/liferay/liferay-frontend-projects/pull/251
+
+	it('does not re-order JSP syntax during minification', async () => {
+
+		// Reduced example from site-navigation-menu-web's configuration.jsp.
+
+		fs.writeFileSync(
+			'build/node/packageRunBuild/resources/configuration.jsp',
+			`
+				<aui:script>
+					var form = document.<portlet:namespace />fm;
+
+					form.addEventListener('change', <portlet:namespace />resetPreview);
+
+					function <portlet:namespace />resetPreview() {
+						// Terser was hosting this function to the top,
+						// causing the JSP expressions and namespace
+						// tags to get restored back into the wrong
+						// slots.
+
+						var data = Liferay.Util.ns('_<%= HtmlUtil.escapeJS(portletResource) %>_', data);
+					}
+				</aui:script>
+		`
+		);
+
+		await minify();
+
+		expect(
+			fs.readFileSync(
+				'build/node/packageRunBuild/resources/configuration.jsp',
+				'utf8'
+			)
+		).toBe(`
+				<aui:script>var form=document.<portlet:namespace />fm;form.addEventListener("change",<portlet:namespace />resetPreview);function <portlet:namespace />resetPreview(){var data=Liferay.Util.ns("_<%= HtmlUtil.escapeJS(portletResource) %>_",data)}</aui:script>
+		`);
+	});
 });

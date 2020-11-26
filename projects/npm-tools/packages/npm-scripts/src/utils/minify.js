@@ -71,16 +71,55 @@ async function minify() {
 			const processed = await processJSP(contents, {
 				async onMinify(input) {
 					try {
+						/* eslint-disable sort-keys */
+
 						const result = await terser(input, {
 							...MINIFIER_CONFIG,
 
-							// We can't risk renaming anything because
-							// JSP's may contain "hidden" code (via
-							// interpolation).
+							// We can't risk renaming or reordering
+							// anything because JSP's may contain
+							// "hidden" code (via interpolation).
 
 							compress: {
-								keep_classnames: true,
-								keep_fnames: true,
+
+								// Start with all minification off.
+
+								defaults: false,
+
+								// Turn most things back on.
+
+								arrows: true,
+								booleans: true,
+								collapse_vars: true,
+								comparisons: true,
+								computed_props: true,
+								conditionals: true,
+								dead_code: true,
+								directives: true,
+								drop_debugger: true,
+								ecma: 5,
+								evaluate: true,
+								hoist_props: true,
+								if_return: true,
+								inline: true,
+								join_vars: true,
+								keep_fargs: true,
+								loops: true,
+								negate_iife: true,
+								passes: 1,
+								properties: true,
+								pure_getters: 'strict',
+								reduce_vars: true,
+								side_effects: true,
+								switches: true,
+								typeofs: true,
+								unused: true,
+
+								// Turn this one back off because it reorders
+								// statements/expressions and breaks our
+								// substitution and restoration of JSP syntax.
+
+								sequences: false,
 							},
 
 							format: {
@@ -89,6 +128,8 @@ async function minify() {
 
 							mangle: false,
 						});
+
+						/* eslint-enable sort-keys */
 
 						return result.code;
 					}
