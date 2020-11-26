@@ -25,9 +25,6 @@ describe('minify()', () => {
 		fs.mkdirSync('build/node/packageRunBuild');
 		fs.mkdirSync('build/node/packageRunBuild/resources');
 
-		fs.mkdirSync('classes');
-		fs.mkdirSync('classes/resources');
-
 		fs.writeFileSync(
 			'build/node/packageRunBuild/resources/script.js',
 			`
@@ -36,7 +33,7 @@ describe('minify()', () => {
 		);
 
 		fs.writeFileSync(
-			'classes/resources/page.jsp',
+			'build/node/packageRunBuild/resources/page.jsp',
 			`
 			<h1>Hi</h1>
 
@@ -84,10 +81,15 @@ describe('minify()', () => {
 		);
 	});
 
-	it('minifies JS in a JSP file in the "classes/" directory', async () => {
+	it('minifies JS in a JSP file in the "build/" directory', async () => {
 		await minify();
 
-		expect(fs.readFileSync('classes/resources/page.jsp', 'utf8')).toBe(`
+		expect(
+			fs.readFileSync(
+				'build/node/packageRunBuild/resources/page.jsp',
+				'utf8'
+			)
+		).toBe(`
 			<h1>Hi</h1>
 
 			<script>alert("minify this too");</script>
