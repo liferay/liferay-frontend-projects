@@ -4,47 +4,41 @@
  */
 
 const fs = require('fs');
-const parseArgs = require('minimist');
 const path = require('path');
 
+const getMergedConfig = require('../utils/getMergedConfig');
 const spawnSync = require('../utils/spawnSync');
 const withTempFile = require('../utils/withTempFile');
 
+const FEDERATION_ENABLED = getMergedConfig('npmscripts', 'federation');
+const TWEAK_WEBPACK_CONFIG_PATH = 
+		require.resolve('../utils/tweakWebpackConfig');
 const WEBPACK_CONFIG_FILE = 'webpack.config.js';
 const WEBPACK_DEV_CONFIG_FILE = 'webpack.config.dev.js';
 
 /**
  * Main function for running webpack within the liferay-portal repo.
  */
-module.exports = function (...argv) {
-	const extraArgs = argv.filter(
-		(arg) => !['--federation', '--watch'].includes(arg)
-	);
-	const args = parseArgs(argv);
-
-	if (args.watch) {
+module.exports = function (...args) {
+	if (args.includes('--watch')) {
 		if (!fs.existsSync(WEBPACK_DEV_CONFIG_FILE)) {
 			throw new Error(
 				`--watch supplied but "${WEBPACK_DEV_CONFIG_FILE}" not found`
 			);
 		}
 
-		withWebpackConfig(WEBPACK_DEV_CONFIG_FILE, {}, (configFilePath) => {
+		withWebpackConfig(WEBPACK_DEV_CONFIG_FILE, (configFilePath) => {
 			spawnSync('webpack', [
 				'serve',
 				'--config',
 				configFilePath,
-				...extraArgs,
+				...args.filter(arg => arg !== '--watch'),
 			]);
 		});
 	}
 	else {
-		const options = {
-			federation: args.federation,
-		};
-
-		withWebpackConfig(WEBPACK_CONFIG_FILE, options, (configFilePath) => {
-			spawnSync('webpack', ['--config', configFilePath, ...extraArgs]);
+		withWebpackConfig(WEBPACK_CONFIG_FILE, (configFilePath) => {
+			spawnSync('webpack', ['--config', configFilePath, ...args]);
 		});
 	}
 };
@@ -53,16 +47,13 @@ function escapeLiteralString(str) {
 	return str.replace(/\\/g, '\\\\');
 }
 
-function withWebpackConfig(filename, {federation}, callback) {
-	const tweakWebpackConfigPath = require.resolve(
-		'../utils/tweakWebpackConfig'
-	);
+function withWebpackConfig(filename, callback) {
 	const webpackConfigPath = path.resolve(filename);
 
 	const webpackConfig = `
 		const fs = require('fs');
 		const tweakWebpackConfig = require('${escapeLiteralString(
-			tweakWebpackConfigPath
+			TWEAK_WEBPACK_CONFIG_PATH 
 		)}');
 
 		const webpackConfigPath = '${escapeLiteralString(webpackConfigPath)}';
@@ -76,7 +67,7 @@ function withWebpackConfig(filename, {federation}, callback) {
 		module.exports = tweakWebpackConfig(
 			webpackConfig,
 			{
-				federation: ${federation}
+				federation: ${FEDERATION_ENABLED}
 			}
 		);
 	`;
