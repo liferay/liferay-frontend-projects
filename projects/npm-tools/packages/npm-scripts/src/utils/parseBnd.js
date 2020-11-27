@@ -18,7 +18,12 @@ const fs = require('fs');
 function parseBnd(filePath = './bnd.bnd') {
 	let content = fs.readFileSync(filePath).toString();
 
+	// Convert Windows line feeds to Unix
+
 	content = content.replace(/\r\n/g, '\n');
+
+	// Handle line continuation (`\` at the end of a line)
+
 	content = content.replace(/\\\n/g, ' ');
 
 	const lines = content.split('\n');
