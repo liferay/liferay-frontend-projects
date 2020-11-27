@@ -122,14 +122,17 @@ describe('tweakWebpackConfig() with federation', () => {
 	beforeEach(() => {
 		savedCwd = process.cwd();
 
-		const directory = 
-			fs.mkdtempSync(path.join(os.tmpdir(), 'tweakWebpackConfig-'));
+		const directory = fs.mkdtempSync(
+			path.join(os.tmpdir(), 'tweakWebpackConfig-')
+		);
 
 		process.chdir(directory);
 
-		['bnd.bnd', 'package.json'].forEach(file => {
+		['bnd.bnd', 'package.json'].forEach((file) => {
 			fs.copyFileSync(
-				getFixturePath('utils', 'tweakWebpackConfig', file), file)
+				getFixturePath('utils', 'tweakWebpackConfig', file),
+				file
+			);
 		});
 	});
 

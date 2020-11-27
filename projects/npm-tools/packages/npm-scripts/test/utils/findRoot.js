@@ -9,10 +9,7 @@ const path = require('path');
 const findRoot = require('../../src/utils/findRoot');
 const getFixturePath = require('../../support/getFixturePath');
 
-const FIXTURES = getFixturePath(
-	'utils',
-	'findRoot'
-);
+const FIXTURES = getFixturePath('utils', 'findRoot');
 const MODULES = path.join(FIXTURES, 'modules');
 const PUBLIC_PROJECT = path.join(MODULES, 'apps', 'some', 'project');
 const PRIVATE_PROJECT = path.join(

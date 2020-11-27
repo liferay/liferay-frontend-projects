@@ -31,12 +31,9 @@ describe('lintJSP()', () => {
 	});
 
 	function getFixture(id) {
-		return getFixturePath(path.join(
-			'utils',
-			'getDXPVersion',
-			id,
-			'modules'
-		));
+		return getFixturePath(
+			path.join('utils', 'getDXPVersion', id, 'modules')
+		);
 	}
 
 	it('passes valid code straight through', async () => {

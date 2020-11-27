@@ -37,12 +37,7 @@ describe('getMergedConfig()', () => {
 		});
 
 		function getFixture(id) {
-			return getFixturePath(
-				'utils',
-				'getDXPVersion',
-				id,
-				'modules'
-			);
+			return getFixturePath('utils', 'getDXPVersion', id, 'modules');
 		}
 
 		it('strips blacklisted presets', () => {

@@ -9,9 +9,7 @@ const getFixturePath = require('../../support/getFixturePath');
 
 jest.mock('../../src/utils/spawnSync');
 
-const FIXTURES = getFixturePath(
-	'scripts', 'webpack', 'sample'
-);
+const FIXTURES = getFixturePath('scripts', 'webpack', 'sample');
 
 describe('scripts/webpack.js', () => {
 	let cwd;

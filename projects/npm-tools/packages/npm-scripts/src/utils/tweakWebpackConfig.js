@@ -26,15 +26,17 @@ const BABEL_CONFIG = getMergedConfig('babel');
  * @return {object|Array} the tweaked webpack config
  */
 function tweakWebpackConfig(webpackConfig, {federation} = {}) {
-	let arrayConfig = 
-		Array.isArray(webpackConfig) ? webpackConfig : [webpackConfig];
+	let arrayConfig = Array.isArray(webpackConfig)
+		? webpackConfig
+		: [webpackConfig];
 
 	if (federation) {
 		arrayConfig.push(createFederationConfig());
 	}
 
-	arrayConfig = arrayConfig.map(
-		webpackConfig => mergeBabelLoaderOptions(webpackConfig));
+	arrayConfig = arrayConfig.map((webpackConfig) =>
+		mergeBabelLoaderOptions(webpackConfig)
+	);
 
 	return arrayConfig.length === 1 ? arrayConfig[0] : arrayConfig;
 }

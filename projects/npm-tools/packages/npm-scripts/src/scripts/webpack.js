@@ -11,8 +11,9 @@ const spawnSync = require('../utils/spawnSync');
 const withTempFile = require('../utils/withTempFile');
 
 const FEDERATION_ENABLED = getMergedConfig('npmscripts', 'federation');
-const TWEAK_WEBPACK_CONFIG_PATH = 
-		require.resolve('../utils/tweakWebpackConfig');
+const TWEAK_WEBPACK_CONFIG_PATH = require.resolve(
+	'../utils/tweakWebpackConfig'
+);
 const WEBPACK_CONFIG_FILE = 'webpack.config.js';
 const WEBPACK_DEV_CONFIG_FILE = 'webpack.config.dev.js';
 
@@ -32,7 +33,7 @@ module.exports = function (...args) {
 				'serve',
 				'--config',
 				configFilePath,
-				...args.filter(arg => arg !== '--watch'),
+				...args.filter((arg) => arg !== '--watch'),
 			]);
 		});
 	}
@@ -53,7 +54,7 @@ function withWebpackConfig(filename, callback) {
 	const webpackConfig = `
 		const fs = require('fs');
 		const tweakWebpackConfig = require('${escapeLiteralString(
-			TWEAK_WEBPACK_CONFIG_PATH 
+			TWEAK_WEBPACK_CONFIG_PATH
 		)}');
 
 		const webpackConfigPath = '${escapeLiteralString(webpackConfigPath)}';

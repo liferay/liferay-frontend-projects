@@ -20,12 +20,7 @@ describe('getDXPVersion()', () => {
 	});
 
 	function getFixture(id) {
-		return getFixturePath(
-			'utils',
-			'getDXPVersion',
-			id,
-			'modules'
-		);
+		return getFixturePath('utils', 'getDXPVersion', id, 'modules');
 	}
 
 	test.each`

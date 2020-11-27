@@ -21,15 +21,36 @@ const APPS = path.join(MODULES, 'apps');
 const NODE_MODULES = path.join(MODULES, 'node_modules');
 const FJORD = path.join(APPS, 'frontend-theme-fjord', 'frontend-theme-fjord');
 const CLASSIC = path.join(APPS, 'frontend-theme', 'frontend-theme-classic');
-const BAD = path.join(FIXTURES, 'not', 'the', 'modules', 'you', 'are', 'looking', 'for');
+const BAD = path.join(
+	FIXTURES,
+	'not',
+	'the',
+	'modules',
+	'you',
+	'are',
+	'looking',
+	'for'
+);
 const FRONTEND = path.join(APPS, 'frontend-theme');
 const STYLED = path.join(
 	FRONTEND,
-	'frontend-theme-styled', 'src', 'main', 'resources', 'META-INF', 'resources', '_styled'
+	'frontend-theme-styled',
+	'src',
+	'main',
+	'resources',
+	'META-INF',
+	'resources',
+	'_styled'
 );
 const UNSTYLED = path.join(
 	FRONTEND,
-	'frontend-theme-unstyled', 'src', 'main', 'resources', 'META-INF', 'resources', '_unstyled'
+	'frontend-theme-unstyled',
+	'src',
+	'main',
+	'resources',
+	'META-INF',
+	'resources',
+	'_unstyled'
 );
 
 describe('scripts/theme.js', () => {
