@@ -10,9 +10,11 @@
 					"else",
 					"extend",
 					"for",
+					"function",
 					"if",
 					"include",
 					"mixin",
+					"return",
 					"warn"
 				]
 			}
