@@ -15,8 +15,8 @@ const fs = require('fs');
  *
  * @return {object} a hash of parsed key-value pairs.
  */
-function parseBnd(filePath = './bnd.bnd') {
-	let content = fs.readFileSync(filePath).toString();
+function parseBnd(filePath = 'bnd.bnd') {
+	let content = fs.readFileSync(filePath, 'utf8');
 
 	// Convert Windows line feeds to Unix
 
