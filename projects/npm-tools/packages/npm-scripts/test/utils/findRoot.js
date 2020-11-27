@@ -7,12 +7,9 @@ const os = require('os');
 const path = require('path');
 
 const findRoot = require('../../src/utils/findRoot');
+const getFixturePath = require('../../support/getFixturePath');
 
-const FIXTURES = path.join(
-	__dirname,
-	'..',
-	'..',
-	'__fixtures__',
+const FIXTURES = getFixturePath(
 	'utils',
 	'findRoot'
 );

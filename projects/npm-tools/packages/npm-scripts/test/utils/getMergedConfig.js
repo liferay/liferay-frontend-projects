@@ -3,9 +3,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const path = require('path');
-
 const getMergedConfig = require('../../src/utils/getMergedConfig');
+const getFixturePath = require('../../support/getFixturePath');
 
 describe('getMergedConfig()', () => {
 	it('rejects invalid types', () => {
@@ -38,11 +37,7 @@ describe('getMergedConfig()', () => {
 		});
 
 		function getFixture(id) {
-			return path.join(
-				__dirname,
-				'..',
-				'..',
-				'__fixtures__',
+			return getFixturePath(
 				'utils',
 				'getDXPVersion',
 				id,

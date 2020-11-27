@@ -6,6 +6,7 @@
 const path = require('path');
 
 const getDXPVersion = require('../../src/utils/getDXPVersion');
+const getFixturePath = require('../../support/getFixturePath');
 
 describe('getDXPVersion()', () => {
 	let cwd;
@@ -19,11 +20,7 @@ describe('getDXPVersion()', () => {
 	});
 
 	function getFixture(id) {
-		return path.join(
-			__dirname,
-			'..',
-			'..',
-			'__fixtures__',
+		return getFixturePath(
 			'utils',
 			'getDXPVersion',
 			id,

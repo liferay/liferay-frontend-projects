@@ -6,6 +6,7 @@
 const path = require('path');
 
 const dedent = require('../../support/dedent');
+const getFixturePath = require('../../support/getFixturePath');
 
 describe('lintJSP()', () => {
 	let cwd;
@@ -30,16 +31,12 @@ describe('lintJSP()', () => {
 	});
 
 	function getFixture(id) {
-		return path.join(
-			__dirname,
-			'..',
-			'..',
-			'__fixtures__',
+		return getFixturePath(path.join(
 			'utils',
 			'getDXPVersion',
 			id,
 			'modules'
-		);
+		));
 	}
 
 	it('passes valid code straight through', async () => {

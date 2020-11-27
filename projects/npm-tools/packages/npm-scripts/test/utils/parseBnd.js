@@ -3,25 +3,14 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const path = require('path');
-
 const parseBnd = require('../../src/utils/parseBnd');
+const getFixturePath = require('../../support/getFixturePath');
 
 describe('parseBnd()', () => {
-	function getBndPath() {
-		return path.join(
-			__dirname,
-			'..',
-			'..',
-			'__fixtures__',
-			'utils',
-			'parseBnd',
-			'bnd.bnd'
-		);
-	}
+	const bndPath = getFixturePath('utils/parseBnd/bnd.bnd');
 
-	it('correctly parses a bnd.bnd file', () => {
-		const entries = parseBnd(getBndPath());
+	it('correctly parses a bnd.bnd file', async () => {
+		const entries = parseBnd(bndPath);
 
 		expect(Object.keys(entries)).toHaveLength(9);
 
