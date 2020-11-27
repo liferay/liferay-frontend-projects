@@ -10,8 +10,8 @@ const withTempFile = require('./withTempFile');
 /**
  * Runs liferay-npm-bundler with given args and uses a temp .npmbundlerrc file
  */
-function runBundler(mergedConfigName, ...args) {
-	const config = getMergedConfig(mergedConfigName);
+function runBundler(...args) {
+	const config = getMergedConfig('bundler');
 
 	withTempFile(
 		'.npmbundlerrc',
