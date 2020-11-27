@@ -37,7 +37,7 @@ function parseBnd(filePath = 'bnd.bnd') {
 
 		const i = line.indexOf(':');
 		const key = line.substring(0, i);
-		const value = line.substring(i + 2);
+		const value = line.substring(i + 1).trimLeft();
 
 		entries[key] = value;
 
