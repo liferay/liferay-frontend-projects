@@ -89,6 +89,7 @@ async function minify() {
 								// Add `beautify: true` here to debug tests, if
 								// necessary.
 
+								braces: true,
 								comments: JSP_COMMENT_REGEXP,
 							},
 

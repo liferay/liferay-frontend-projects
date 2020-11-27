@@ -195,5 +195,29 @@ if (ddmTemplate != null) {
 %>var ddmTemplateId="<%= ddmTemplateId %>"}));</aui:script>
 				`);
 		});
+
+		it('preserves braces', async () => {
+			fs.writeFileSync(
+				'build/node/packageRunBuild/resources/configuration.jsp',
+				`
+					<aui:script>
+						if (something()) {
+							proceed();
+						}
+					</aui:script>
+			`
+			);
+
+			await minify();
+
+			expect(
+				fs.readFileSync(
+					'build/node/packageRunBuild/resources/configuration.jsp',
+					'utf8'
+				)
+			).toBe(`
+					<aui:script>if(something()){proceed()}</aui:script>
+			`);
+		});
 	});
 });
