@@ -4,6 +4,7 @@
  */
 
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
 const {
 	container: {ModuleFederationPlugin},
@@ -11,6 +12,7 @@ const {
 
 const getMergedConfig = require('../../src/utils/getMergedConfig');
 const tweakWebpackConfig = require('../../src/utils/tweakWebpackConfig');
+const getFixturePath = require('../../support/getFixturePath');
 
 const BABEL_CONFIG = getMergedConfig('babel');
 
@@ -120,21 +122,18 @@ describe('tweakWebpackConfig() with federation', () => {
 	beforeEach(() => {
 		savedCwd = process.cwd();
 
-		process.chdir(
-			path.join(
-				__dirname,
-				'..',
-				'..',
-				'__fixtures__',
-				'utils',
-				'tweakWebpackConfig'
-			)
-		);
+		const directory = 
+			fs.mkdtempSync(path.join(os.tmpdir(), 'tweakWebpackConfig-'));
+
+		process.chdir(directory);
+
+		['bnd.bnd', 'package.json'].forEach(file => {
+			fs.copyFileSync(
+				getFixturePath('utils', 'tweakWebpackConfig', file), file)
+		});
 	});
 
 	afterEach(() => {
-		fs.rmdirSync('build', {recursive: true});
-
 		process.chdir(savedCwd);
 	});
 
