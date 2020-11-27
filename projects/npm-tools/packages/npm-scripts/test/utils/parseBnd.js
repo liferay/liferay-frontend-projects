@@ -16,7 +16,7 @@ describe('parseBnd()', () => {
 
 		expect(entries['Bundle-Name']).toBe('Liferay Frontend JS Web');
 		expect(entries['Provide-Capability']).toBe(
-			'	osgi.extender; ' +
+			'osgi.extender; ' +
 				'		osgi.extender="liferay.js"; ' +
 				'		version:Version="${Bundle-Version}"'
 		);
