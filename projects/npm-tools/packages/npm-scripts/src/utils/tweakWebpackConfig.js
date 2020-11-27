@@ -20,15 +20,23 @@ const BABEL_CONFIG = getMergedConfig('babel');
 /**
  * Modify an existing webpack config to conform to Liferay standards.
  *
- * @param {object|Array} webpackConfig
+ * @param {object|Array|undefined} webpackConfig
  * @param {boolean} federation set to true to inject federation support
  *
  * @return {object|Array} the tweaked webpack config
  */
 function tweakWebpackConfig(webpackConfig, {federation} = {}) {
-	let arrayConfig = Array.isArray(webpackConfig)
-		? webpackConfig
-		: [webpackConfig];
+	let arrayConfig;
+
+	if (!webpackConfig) {
+		arrayConfig = [];
+	}
+	else if (Array.isArray(webpackConfig)) {
+		arrayConfig = webpackConfig;
+	}
+	else {
+		arrayConfig = [webpackConfig];
+	}
 
 	if (federation) {
 		arrayConfig.push(createFederationConfig());
