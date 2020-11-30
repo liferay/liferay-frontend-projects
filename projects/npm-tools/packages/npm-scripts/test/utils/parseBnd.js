@@ -9,7 +9,7 @@ const getFixturePath = require('../../support/getFixturePath');
 describe('parseBnd()', () => {
 	const bndPath = getFixturePath('utils/parseBnd/bnd.bnd');
 
-	it('correctly parses a bnd.bnd file', async () => {
+	it('correctly parses a bnd.bnd file', () => {
 		const entries = parseBnd(bndPath);
 
 		expect(Object.keys(entries)).toHaveLength(9);

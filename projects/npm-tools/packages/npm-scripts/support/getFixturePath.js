@@ -6,7 +6,7 @@
 const path = require('path');
 
 function getFixturePath(...fixture) {
-	return path.join(__dirname, '../__fixtures__', ...fixture);
+	return path.join(__dirname, '..', '__fixtures__', ...fixture);
 }
 
 module.exports = getFixturePath;

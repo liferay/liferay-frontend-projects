@@ -11,7 +11,7 @@ const getFixturePath = require('./getFixturePath');
 const readFile = util.promisify(fs.readFile);
 
 async function getFixture(fixture) {
-	return await readFile(getFixturePath(fixture), 'utf8');
+	return readFile(getFixturePath(fixture), 'utf8');
 }
 
 module.exports = getFixture;
