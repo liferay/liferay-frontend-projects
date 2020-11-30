@@ -97,9 +97,9 @@ function createFederationConfig() {
 		output: {
 			filename: 'main.bundle.js',
 			path: path.resolve(
-				'./build/node/packageRunBuild/resources/webpack'
+				'./build/node/packageRunBuild/resources/__generated__'
 			),
-			publicPath: `/o${webContextPath}/webpack/`,
+			publicPath: `/o${webContextPath}/__generated__/`,
 		},
 		plugins: [
 			new ModuleFederationPlugin({
@@ -116,7 +116,7 @@ function createFederationConfig() {
 				remotes: CORE_REMOTES.reduce((remotes, name) => {
 					remotes[
 						name
-					] = `Liferay.Webpack.Container["${name}"]@/o/${name}/webpack/container.js`;
+					] = `Liferay.Webpack.Container["${name}"]@/o/${name}/__generated__/container.js`;
 
 					return remotes;
 				}, {}),

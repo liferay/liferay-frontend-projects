@@ -1,4 +1,4 @@
 {
 	"preset": "@liferay/npm-bundler-preset-liferay-dev",
-	"ignore": ["webpack/**/*"]
+	"ignore": ["__generated__/**/*"]
 }
