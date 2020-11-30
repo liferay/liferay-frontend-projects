@@ -155,9 +155,9 @@ describe('tweakWebpackConfig() with federation', () => {
 			devtool: 'source-map',
 			output: {
 				path: path.resolve(
-					'./build/node/packageRunBuild/resources/webpack'
+					'./build/node/packageRunBuild/resources/__generated__'
 				),
-				publicPath: '/o/frontend-js-web/webpack/',
+				publicPath: '/o/frontend-js-web/__generated__/',
 			},
 		});
 
