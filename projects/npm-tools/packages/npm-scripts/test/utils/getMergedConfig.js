@@ -3,9 +3,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const path = require('path');
-
 const getMergedConfig = require('../../src/utils/getMergedConfig');
+const getFixturePath = require('../../support/getFixturePath');
 
 describe('getMergedConfig()', () => {
 	it('rejects invalid types', () => {
@@ -38,16 +37,7 @@ describe('getMergedConfig()', () => {
 		});
 
 		function getFixture(id) {
-			return path.join(
-				__dirname,
-				'..',
-				'..',
-				'__fixtures__',
-				'utils',
-				'getDXPVersion',
-				id,
-				'modules'
-			);
+			return getFixturePath('utils', 'getDXPVersion', id, 'modules');
 		}
 
 		it('strips blacklisted presets', () => {

@@ -3,17 +3,13 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const path = require('path');
-
 const webpack = require('../../src/scripts/webpack');
 const spawnSync = require('../../src/utils/spawnSync');
+const getFixturePath = require('../../support/getFixturePath');
 
 jest.mock('../../src/utils/spawnSync');
 
-const FIXTURES = path.resolve(
-	__dirname,
-	'../../__fixtures__/scripts/webpack/sample'
-);
+const FIXTURES = getFixturePath('scripts', 'webpack', 'sample');
 
 describe('scripts/webpack.js', () => {
 	let cwd;

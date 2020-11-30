@@ -3,10 +3,9 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const path = require('path');
+const getFixturePath = require('../../support/getFixturePath');
 
-const FIXTURES = path.resolve(__dirname, '../../__fixtures__/scripts/lint');
-const MODULES = path.join(FIXTURES, 'modules');
+const MODULES = getFixturePath('scripts', 'lint', 'modules');
 
 describe('scripts/lint.js', () => {
 	let cwd;

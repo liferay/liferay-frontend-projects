@@ -6,9 +6,14 @@
 const fs = require('fs');
 const path = require('path');
 
+const getMergedConfig = require('../utils/getMergedConfig');
 const spawnSync = require('../utils/spawnSync');
 const withTempFile = require('../utils/withTempFile');
 
+const FEDERATION_ENABLED = getMergedConfig('npmscripts', 'federation');
+const TWEAK_WEBPACK_CONFIG_PATH = require.resolve(
+	'../utils/tweakWebpackConfig'
+);
 const WEBPACK_CONFIG_FILE = 'webpack.config.js';
 const WEBPACK_DEV_CONFIG_FILE = 'webpack.config.dev.js';
 
@@ -16,32 +21,21 @@ const WEBPACK_DEV_CONFIG_FILE = 'webpack.config.dev.js';
  * Main function for running webpack within the liferay-portal repo.
  */
 module.exports = function (...args) {
-	const watch = args.indexOf('--watch');
-	if (watch !== -1) {
+	if (args.includes('--watch')) {
 		if (!fs.existsSync(WEBPACK_DEV_CONFIG_FILE)) {
 			throw new Error(
 				`--watch supplied but "${WEBPACK_DEV_CONFIG_FILE}" not found`
 			);
 		}
-		else {
 
-			// Cut out the "watch" argument; `splice()` would mutate, so create
-			// a new array instead.
-
-			const otherArgs = [
-				...args.slice(0, watch),
-				...args.slice(watch + 1),
-			];
-
-			withWebpackConfig(WEBPACK_DEV_CONFIG_FILE, (configFilePath) => {
-				spawnSync('webpack', [
-					'serve',
-					'--config',
-					configFilePath,
-					...otherArgs,
-				]);
-			});
-		}
+		withWebpackConfig(WEBPACK_DEV_CONFIG_FILE, (configFilePath) => {
+			spawnSync('webpack', [
+				'serve',
+				'--config',
+				configFilePath,
+				...args.filter((arg) => arg !== '--watch'),
+			]);
+		});
 	}
 	else {
 		withWebpackConfig(WEBPACK_CONFIG_FILE, (configFilePath) => {
@@ -55,14 +49,27 @@ function escapeLiteralString(str) {
 }
 
 function withWebpackConfig(filename, callback) {
-	const mergeBabelLoaderOptionsPath = require.resolve(
-		'../utils/mergeBabelLoaderOptions'
-	);
 	const webpackConfigPath = path.resolve(filename);
 
 	const webpackConfig = `
-		module.exports = require('${escapeLiteralString(mergeBabelLoaderOptionsPath)}')(
-			require('${escapeLiteralString(webpackConfigPath)}')
+		const fs = require('fs');
+		const tweakWebpackConfig = require('${escapeLiteralString(
+			TWEAK_WEBPACK_CONFIG_PATH
+		)}');
+
+		const webpackConfigPath = '${escapeLiteralString(webpackConfigPath)}';
+
+		let webpackConfig;
+
+		if (fs.existsSync(webpackConfigPath)) {
+			webpackConfig = require(webpackConfigPath);
+		}
+
+		module.exports = tweakWebpackConfig(
+			webpackConfig,
+			{
+				federation: ${FEDERATION_ENABLED}
+			}
 		);
 	`;
 

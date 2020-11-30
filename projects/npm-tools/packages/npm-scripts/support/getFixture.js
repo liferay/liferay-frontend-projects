@@ -4,16 +4,14 @@
  */
 
 const fs = require('fs');
-const path = require('path');
 const util = require('util');
+
+const getFixturePath = require('./getFixturePath');
 
 const readFile = util.promisify(fs.readFile);
 
 async function getFixture(fixture) {
-	return await readFile(
-		path.join(__dirname, '../__fixtures__', fixture),
-		'utf8'
-	);
+	return readFile(getFixturePath(fixture), 'utf8');
 }
 
 module.exports = getFixture;

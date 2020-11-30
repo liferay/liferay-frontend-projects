@@ -7,30 +7,50 @@ const os = require('os');
 const path = require('path');
 
 const spawnSync = require('../../src/utils/spawnSync');
+const getFixturePath = require('../../support/getFixturePath');
 
 jest.mock('../../src/utils/spawnSync');
 
 // Use path.normalize to make tests behave uniformly on Linux and Windows.
 
 const {normalize} = path;
-const join = (...segments) => normalize(path.join(...segments));
-const resolve = (...segments) => normalize(path.resolve(...segments));
 
-const FIXTURES = resolve(__dirname, '../../__fixtures__/scripts/theme');
-const MODULES = join(FIXTURES, 'modules');
-const APPS = join(MODULES, 'apps');
-const NODE_MODULES = join(MODULES, 'node_modules');
-const FJORD = join(APPS, 'frontend-theme-fjord/frontend-theme-fjord');
-const CLASSIC = join(APPS, 'frontend-theme/frontend-theme-classic');
-const BAD = join(FIXTURES, 'not/the/modules/you/are/looking/for');
-const FRONTEND = join(APPS, 'frontend-theme');
-const STYLED = join(
-	FRONTEND,
-	'frontend-theme-styled/src/main/resources/META-INF/resources/_styled'
+const FIXTURES = getFixturePath('scripts', 'theme');
+const MODULES = path.join(FIXTURES, 'modules');
+const APPS = path.join(MODULES, 'apps');
+const NODE_MODULES = path.join(MODULES, 'node_modules');
+const FJORD = path.join(APPS, 'frontend-theme-fjord', 'frontend-theme-fjord');
+const CLASSIC = path.join(APPS, 'frontend-theme', 'frontend-theme-classic');
+const BAD = path.join(
+	FIXTURES,
+	'not',
+	'the',
+	'modules',
+	'you',
+	'are',
+	'looking',
+	'for'
 );
-const UNSTYLED = join(
+const FRONTEND = path.join(APPS, 'frontend-theme');
+const STYLED = path.join(
 	FRONTEND,
-	'frontend-theme-unstyled/src/main/resources/META-INF/resources/_unstyled'
+	'frontend-theme-styled',
+	'src',
+	'main',
+	'resources',
+	'META-INF',
+	'resources',
+	'_styled'
+);
+const UNSTYLED = path.join(
+	FRONTEND,
+	'frontend-theme-unstyled',
+	'src',
+	'main',
+	'resources',
+	'META-INF',
+	'resources',
+	'_unstyled'
 );
 
 describe('scripts/theme.js', () => {

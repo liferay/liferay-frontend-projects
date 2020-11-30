@@ -17,8 +17,14 @@ const spawnSync = require('../utils/spawnSync');
 const validateConfig = require('../utils/validateConfig');
 const webpack = require('./webpack');
 
-const BUILD_CONFIG = getMergedConfig('npmscripts', 'build');
+const {build: BUILD_CONFIG, federation: FEDERATION_ENABLED} = getMergedConfig(
+	'npmscripts'
+);
 const CWD = process.cwd();
+
+if (!BUILD_CONFIG) {
+	throw new Error('npmscripts.config.js is missing required "build" key');
+}
 
 ///
 // Runs the `liferay-npm-bridge-generator` executable and removes sourcemaps to
@@ -73,7 +79,7 @@ function runBridge() {
  * present, and soy is run when soy files are detected.
  * `minify()` is run unless `NODE_ENV` is `development`.
  */
-module.exports = async function () {
+module.exports = async function (...args) {
 	setEnv('production');
 
 	validateConfig(
@@ -95,8 +101,8 @@ module.exports = async function () {
 		'--source-maps'
 	);
 
-	if (fs.existsSync(path.join(CWD, 'webpack.config.js'))) {
-		webpack();
+	if (fs.existsSync('webpack.config.js') || !!FEDERATION_ENABLED) {
+		webpack(...args);
 	}
 
 	runBundler();
