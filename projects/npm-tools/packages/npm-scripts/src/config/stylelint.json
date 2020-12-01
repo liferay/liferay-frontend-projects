@@ -10,12 +10,15 @@
 					"else",
 					"extend",
 					"for",
+					"forward",
 					"function",
 					"if",
 					"include",
 					"mixin",
 					"return",
-					"warn"
+					"use",
+					"warn",
+					"while"
 				]
 			}
 		],
