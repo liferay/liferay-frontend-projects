@@ -1,3 +1,15 @@
+## [npm-scripts/v36.3.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v36.3.0) (2020-12-02)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v36.2.0...npm-scripts/v36.3.0)
+
+### :new: Features
+
+-   feat(npm-scripts): add `@function` and `@return` to list of stylelint at-rules ([\#254](https://github.com/liferay/liferay-frontend-projects/pull/254))
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): avoid unhandled promise rejection ([\#259](https://github.com/liferay/liferay-frontend-projects/pull/259))
+
 ## [npm-scripts/v36.2.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v36.2.0) (2020-11-30)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v36.1.0...npm-scripts/v36.2.0)
