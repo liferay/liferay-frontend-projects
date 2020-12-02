@@ -29,14 +29,22 @@ export default function createJar() {
 	addSystemConfigurationFiles(zip);
 	addPortletInstanceConfigurationFile(zip);
 
-	return zip.generateAsync({type: 'nodebuffer'}).then((buffer) => {
-		fs.mkdirpSync(project.jar.outputDir.asNative);
+	const {compression, compressionOptions} = getCompressionConfiguration();
 
-		fs.writeFileSync(
-			project.jar.outputDir.join(project.jar.outputFilename).asNative,
-			buffer
-		);
-	});
+	return zip
+		.generateAsync({
+			compression,
+			compressionOptions,
+			type: 'nodebuffer',
+		})
+		.then((buffer) => {
+			fs.mkdirpSync(project.jar.outputDir.asNative);
+
+			fs.writeFileSync(
+				project.jar.outputDir.join(project.jar.outputFilename).asNative,
+				buffer
+			);
+		});
 }
 
 /**
@@ -223,6 +231,23 @@ function addPortletInstanceConfigurationFile(zip) {
 		'portlet_preferences.json',
 		JSON.stringify(ddmJson, null, 2)
 	);
+}
+
+/**
+ * Get compression and compressionOptions configuration based on project's
+ * configuration.
+ * @return {object} an object with compression and compressionOptions fields
+ */
+function getCompressionConfiguration() {
+	if (project.jar.compressionLevel === 0) {
+		return {compression: 'STORE'};
+	}
+	else {
+		return {
+			compression: 'DEFLATE',
+			compressionOptions: {level: project.jar.compressionLevel},
+		};
+	}
 }
 
 /**

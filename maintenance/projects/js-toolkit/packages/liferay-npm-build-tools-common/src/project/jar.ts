@@ -19,6 +19,25 @@ export default class Jar {
 	}
 
 	/**
+	 * Get compression level to apply when making the JAR file.
+	 * @return a number between 0 (no compression) and 9 (maximum compression)
+	 */
+	get compressionLevel(): number {
+		const {_project} = this;
+		const {npmbundlerrc} = _project;
+
+		if (this._compressionLevel === undefined) {
+			this._compressionLevel = prop.get(
+				npmbundlerrc,
+				'create-jar.compression-level',
+				6
+			);
+		}
+
+		return this._compressionLevel;
+	}
+
+	/**
 	 * Get configuration description file path.
 	 * @return path of the file or undefined if not configured
 	 */
@@ -171,6 +190,7 @@ export default class Jar {
 		return this._webContextPath;
 	}
 
+	private _compressionLevel: number;
 	private _customManifestHeaders: object;
 	private _outputDir: FilePath;
 	private _outputFilename: string;
