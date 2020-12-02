@@ -100,10 +100,12 @@ function addLocalizationFiles(zip) {
  * @param {JSZip} zip the ZIP file
  */
 function addManifest(zip) {
+	const bundleVersion = getBundleVersionAndClassifier(pkgJson.version);
+
 	const manifest = new Manifest();
 
 	manifest.bundleSymbolicName = pkgJson.name;
-	manifest.bundleVersion = pkgJson.version;
+	manifest.bundleVersion = bundleVersion;
 	if (pkgJson.description) {
 		manifest.bundleName = pkgJson.description;
 	}
@@ -112,7 +114,7 @@ function addManifest(zip) {
 
 	manifest.addProvideCapability(
 		'osgi.webresource',
-		`osgi.webresource=${pkgJson.name};version:Version="${pkgJson.version}"`
+		`osgi.webresource=${pkgJson.name};version:Version="${bundleVersion}"`
 	);
 
 	if (project.l10n.supported) {
@@ -299,4 +301,19 @@ function getSystemConfigurationJson() {
 	}
 
 	return configurationJson.system;
+}
+
+/**
+ * Get the OSGi bundle version from the package.json version. Respects
+ * the different types of version classifiers.
+ * @return {object}
+ */
+function getBundleVersionAndClassifier(pkgJsonVersion) {
+	const parts = pkgJsonVersion.split('-');
+	if (parts.length > 1) {
+		return parts[0] + '.' + parts.slice(1).join('-');
+	}
+	else {
+		return pkgJsonVersion;
+	}
 }
