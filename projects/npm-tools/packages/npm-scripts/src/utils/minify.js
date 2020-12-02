@@ -25,11 +25,16 @@ const MINIFIER_CONFIG = getMergedConfig('terser');
 
 const MINIFY_GLOBS = [
 	path.posix.join(BUILD, '**', '*.js'),
-	path.posix.join(BUILD, '**', '*.jsp'),
-	path.posix.join(BUILD, '**', '*.jspf'),
 	'!*-min.js',
 	'!*.min.js',
 ];
+
+if (process.env.MINIFY_JSP) {
+	MINIFY_GLOBS.push(
+		path.posix.join(BUILD, '**', '*.jsp'),
+		path.posix.join(BUILD, '**', '*.jspf')
+	);
+}
 
 /**
  * We need to keep "special" JSP comments so that we can reverse the various

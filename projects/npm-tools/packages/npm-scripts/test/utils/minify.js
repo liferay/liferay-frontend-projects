@@ -81,22 +81,94 @@ describe('minify()', () => {
 		);
 	});
 
-	it('minifies JS in a JSP file in the "build/" directory', async () => {
-		await minify();
+	describe('when MINIFY_JSP is not set', () => {
+		let MINIFY_JSP;
+		let minify;
 
-		expect(
-			fs.readFileSync(
-				'build/node/packageRunBuild/resources/page.jsp',
-				'utf8'
-			)
-		).toBe(`
+		beforeEach(() => {
+			MINIFY_JSP = process.env.MINIFY_JSP;
+
+			delete process.env.MINIFY_JSP;
+
+			jest.resetModules();
+
+			minify = require('../../src/utils/minify');
+		});
+
+		afterEach(() => {
+			process.env.MINIFY_JSP = MINIFY_JSP;
+		});
+
+		it('does not minify JS in a JSP file in the "build/" directory', async () => {
+			await minify();
+
+			expect(
+				fs.readFileSync(
+					'build/node/packageRunBuild/resources/page.jsp',
+					'utf8'
+				)
+			).toBe(`
+			<h1>Hi</h1>
+
+			<script>
+				alert( 'minify this too' );
+			</script>
+		`);
+		});
+	});
+
+	describe('when MINIFY_JSP is set', () => {
+		let MINIFY_JSP;
+		let minify;
+
+		beforeEach(() => {
+			MINIFY_JSP = process.env.MINIFY_JSP;
+
+			process.env.MINIFY_JSP = '1';
+
+			jest.resetModules();
+
+			minify = require('../../src/utils/minify');
+		});
+
+		afterEach(() => {
+			process.env.MINIFY_JSP = MINIFY_JSP;
+		});
+
+		it('minifies JS in a JSP file in the "build/" directory', async () => {
+			await minify();
+
+			expect(
+				fs.readFileSync(
+					'build/node/packageRunBuild/resources/page.jsp',
+					'utf8'
+				)
+			).toBe(`
 			<h1>Hi</h1>
 
 			<script>alert("minify this too");</script>
 		`);
+		});
 	});
 
 	describe('regressions documented in https://github.com/liferay/liferay-frontend-projects/pull/251', () => {
+		let MINIFY_JSP;
+		let minify;
+
+		beforeEach(() => {
+			MINIFY_JSP = process.env.MINIFY_JSP;
+
+			process.env.MINIFY_JSP = '1';
+
+			jest.resetModules();
+
+			minify = require('../../src/utils/minify');
+		});
+
+		afterEach(() => {
+			process.env.MINIFY_JSP = MINIFY_JSP;
+		});
+
 		it('does not reorder or merge statements during minification', async () => {
 
 			// Reduced example from site-navigation-menu-web's configuration.jsp.
