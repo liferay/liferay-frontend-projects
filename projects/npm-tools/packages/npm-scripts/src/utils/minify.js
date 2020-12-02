@@ -21,17 +21,20 @@ const BUILD_CONFIG = getMergedConfig('npmscripts', 'build');
 
 const BUILD = BUILD_CONFIG.output;
 
-const CLASSES = BUILD.replace(/^build\/.*/, 'classes/');
-
 const MINIFIER_CONFIG = getMergedConfig('terser');
 
 const MINIFY_GLOBS = [
 	path.posix.join(BUILD, '**', '*.js'),
-	path.posix.join(CLASSES, '**', '*.jsp'),
-	path.posix.join(CLASSES, '**', '*.jspf'),
 	'!*-min.js',
 	'!*.min.js',
 ];
+
+if (process.env.MINIFY_JSP) {
+	MINIFY_GLOBS.push(
+		path.posix.join(BUILD, '**', '*.jsp'),
+		path.posix.join(BUILD, '**', '*.jspf')
+	);
+}
 
 /**
  * We need to keep "special" JSP comments so that we can reverse the various
@@ -73,24 +76,32 @@ async function minify() {
 			const processed = await processJSP(contents, {
 				async onMinify(input) {
 					try {
+						/* eslint-disable sort-keys */
+
 						const result = await terser(input, {
 							...MINIFIER_CONFIG,
 
-							// We can't risk renaming anything because
-							// JSP's may contain "hidden" code (via
-							// interpolation).
+							// We can't risk renaming or reordering
+							// anything because JSP's may contain
+							// "hidden" code (via interpolation).
 
 							compress: {
-								keep_classnames: true,
-								keep_fnames: true,
+								defaults: false,
 							},
 
 							format: {
+
+								// Add `beautify: true` here to debug tests, if
+								// necessary.
+
+								braces: true,
 								comments: JSP_COMMENT_REGEXP,
 							},
 
 							mangle: false,
 						});
+
+						/* eslint-enable sort-keys */
 
 						return result.code;
 					}

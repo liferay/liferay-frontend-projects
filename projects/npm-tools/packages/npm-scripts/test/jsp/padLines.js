@@ -32,13 +32,25 @@ describe('padLines()', () => {
 
 	it('can strip padding comments even after minification', () => {
 
-		// Minification strips the "void 0;" statements, but we can still remove
-		// the comments.
+		// Minification may strip or alter the "void 0;" statements, but
+		// we can still remove the comments.
 
 		expect(
 			(
+				'void 0; /* «pad» */\n' +
+				'void 0; /* «pad» */' +
+				'void 0;/* «pad» */\n' +
+				'void 0;/* «pad» */' +
+				'void 0 /* «pad» */\n' +
+				'void 0 /* «pad» */' +
+				'void 0/* «pad» */\n' +
+				'void 0/* «pad» */' +
 				'/* «pad» */\n' +
 				'/* «pad» */\n' +
+				'/* «pad» */\n' +
+				'/* «pad» */' +
+				'/* «pad» */' +
+				'/* «pad» */' +
 				'someCode();\n' +
 				'otherCode();'
 			).replace(padLines.PADDING_LINE, '')
