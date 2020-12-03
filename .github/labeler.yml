@@ -3,6 +3,10 @@
 #
 # See: https://github.com/actions/labeler
 
+10.x:
+    - projects/js-themes-toolkit/*
+    - projects/js-themes-toolkit/**/*
+
 2.x:
     - maintenance/projects/js-toolkit/*
     - maintenance/projects/js-toolkit/**/*
@@ -10,6 +14,14 @@
 3.x:
     - projects/js-toolkit/*
     - projects/js-toolkit/**/*
+
+8.x:
+    - maintenance/projects/js-themes-toolkit-v8-x/*
+    - maintenance/projects/js-themes-toolkit-v8-x/**/*
+
+9.x:
+    - maintenance/projects/js-themes-toolkit-v9-x/*
+    - maintenance/projects/js-themes-toolkit-v9-x/**/*
 
 amd-loader:
     - projects/amd-loader/*
@@ -34,6 +46,14 @@ js-insights:
 js-publish:
     - projects/npm-tools/packages/js-publish/*
     - projects/npm-tools/packages/js-publish/**/*
+
+js-themes-toolkit:
+    - projects/js-themes-toolkit/*
+    - projects/js-themes-toolkit/**/*
+    - maintenance/projects/js-themes-toolkit-v8-x/*
+    - maintenance/projects/js-themes-toolkit-v8-x/**/*
+    - maintenance/projects/js-themes-toolkit-v9-x/*
+    - maintenance/projects/js-themes-toolkit-v9-x/**/*
 
 js-toolkit:
     - maintenance/projects/js-toolkit/*
