@@ -131,12 +131,11 @@ Go to [liferay-js-themes-toolkit/release](https://github.com/liferay/liferay-js-
 
 ### 7. Do the NPM publish
 
-We used to use Lerna to manage this repo, but as the number of packages has reduced to (to just 3 on the current "master" branch) we decided to drop it. This means we have to publish the packages manually in dependency order:
+We used to use Lerna to manage this repo, but as the number of packages has reduced (to just 2 on the current "master" branch) we decided to drop it. This means we have to publish the packages manually in dependency order:
 
 -   First "liferay-theme-deps-7.0" and "liferay-theme-deps-7.1" (in any order).
 -   Then "liferay-theme-tasks".
 -   And finally "generator-liferay-theme".
--   "liferay-theme-mixins" specifies no dependencies and is not depended on by the other packages, so can be published at any point.
 
 ```sh
 cd packages
@@ -145,7 +144,6 @@ cd packages
 (cd liferay-theme-deps-7.1 && yarn publish)
 (cd liferay-theme-tasks && yarn publish)
 (cd generator-liferay-theme && yarn publish)
-(cd liferay-theme-mixins && yarn publish)
 ```
 
 We may partially automate this in the future, but don't actually anticipate much change on the 8.x branch moving forward, so it may not be worth it.
@@ -158,4 +156,3 @@ Check that the releases are reflected on the NPM registry pages:
 -   https://www.npmjs.com/package/liferay-theme-deps-7.1
 -   https://www.npmjs.com/package/liferay-theme-tasks
 -   https://www.npmjs.com/package/generator-liferay-theme
--   https://www.npmjs.com/package/liferay-theme-mixins
