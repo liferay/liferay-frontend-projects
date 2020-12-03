@@ -1,0 +1,65 @@
+{
+	"name": "generator-liferay-theme",
+	"version": "10.0.1",
+	"description": "Yeoman generator for creating Liferay themes",
+	"license": "MIT",
+	"main": "generators/app/index.js",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/liferay/liferay-js-themes-toolkit",
+		"directory": "packages/generator-liferay-theme"
+	},
+	"author": {
+		"name": "Nate Cavanaugh",
+		"email": "nathan.cavanaugh@liferay.com",
+		"url": "https://github.com/natecavanaugh"
+	},
+	"contributors": [
+		{
+			"name": "Rob Frampton",
+			"email": "rob.g.frampton@gmail.com"
+		}
+	],
+	"engines": {
+		"node": ">=8.0.0"
+	},
+	"files": [
+		"generators",
+		"lib"
+	],
+	"keywords": [
+		"yeoman-generator",
+		"liferay",
+		"theme"
+	],
+	"dependencies": {
+		"async": "^2.6.1",
+		"chalk": "^3.0.0",
+		"extract-zip": "^1.6.7",
+		"fs-extra": "^8.1.0",
+		"got": "^10.2.2",
+		"gulp": "^4.0.0",
+		"inquirer": "^0.12.0",
+		"liferay-npm-build-tools-common": "^2.17.1",
+		"liferay-theme-tasks": "^10.0.0",
+		"lodash": "^4.17.11",
+		"rimraf": "^3.0.0",
+		"semver": "^7.1.1",
+		"xml2js": "^0.4.23",
+		"yargs": "^15.1.0",
+		"yeoman-generator": "^3.2.0"
+	},
+	"devDependencies": {
+		"chai": "^1.10.0",
+		"chai-fs": "^0.1.0",
+		"gulp-coveralls": "^0.1.4",
+		"sinon": "^4.4.6",
+		"strip-ansi": "^3.0.1"
+	},
+	"scripts": {
+		"changelog": "npx liferay-changelog-generator",
+		"ci": "cd ../.. && yarn ci",
+		"postversion": "npx liferay-js-publish",
+		"preversion": "yarn ci"
+	}
+}

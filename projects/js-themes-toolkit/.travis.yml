@@ -1,0 +1,13 @@
+before_install:
+    - gem install compass
+
+install:
+    - yarn
+
+language: node_js
+
+node_js:
+    - '10'
+
+script:
+    - yarn ci
