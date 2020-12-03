@@ -63,13 +63,14 @@ function isReadable(file) {
 	);
 }
 
-module.exports = function() {
+module.exports = function () {
 	const {gulp, options, store} = project;
 	const {runSequence} = gulp;
 	const {argv, distName, pathBuild, pathSrc, resourcePrefix} = options;
 	const {deploymentStrategy, dockerContainerName} = store;
 
 	// Calculate some values
+
 	const proxyUrl = argv.url || store.url;
 	const pluginName = store.pluginName || '';
 	const explodedBuildDir = path.join(project.dir, EXPLODED_BUILD_DIR_NAME);
@@ -86,10 +87,12 @@ module.exports = function() {
 		project.watching = true;
 
 		// Get tasks array
+
 		const taskArray = getCleanTaskArray(deploymentStrategy);
 
 		// Push final task that deploys the theme and starts live reloads
-		taskArray.push(err => {
+
+		taskArray.push((err) => {
 			if (err) {
 				throw err;
 			}
@@ -104,13 +107,14 @@ module.exports = function() {
 		});
 
 		// Run tasks in sequence
+
 		runSequence(...taskArray);
 	});
 
 	/**
 	 * Clean the exploded build dir
 	 */
-	gulp.task('watch:clean', cb => {
+	gulp.task('watch:clean', (cb) => {
 		fs.removeSync(explodedBuildDir);
 		cb();
 	});
@@ -118,7 +122,7 @@ module.exports = function() {
 	/**
 	 * Clean the remote exploded build dir in docker
 	 */
-	gulp.task('watch:docker:clean', cb => {
+	gulp.task('watch:docker:clean', (cb) => {
 		themeUtil.dockerExec(
 			dockerContainerName,
 			'rm -rf ' + dockerBundleDirPath
@@ -130,7 +134,7 @@ module.exports = function() {
 	/**
 	 * Copy the exploded build dir to docker
 	 */
-	gulp.task('watch:docker:copy', cb => {
+	gulp.task('watch:docker:copy', (cb) => {
 		themeUtil.dockerExec(
 			dockerContainerName,
 			'mkdir -p ' + dockerBundleDirPath
@@ -156,7 +160,7 @@ module.exports = function() {
 	/**
 	 * Cleanup watch machinery
 	 */
-	gulp.task('watch:teardown', cb => {
+	gulp.task('watch:teardown', (cb) => {
 		store.webBundleDir = undefined;
 
 		const taskArray = getTeardownTaskArray();
@@ -168,7 +172,7 @@ module.exports = function() {
 
 	let livereload;
 
-	gulp.task('watch:reload', cb => {
+	gulp.task('watch:reload', (cb) => {
 		const {changedFile} = store;
 		const srcPath = path.relative(project.dir, changedFile.path);
 		const dstPath = srcPath.replace(/^src\//, '');
@@ -197,7 +201,7 @@ module.exports = function() {
 
 		const livereloadTag = `<script src="http://localhost:${tinylrPort}/livereload.js"></script>`;
 		livereload = tinylr();
-		livereload.server.on('error', err => {
+		livereload.server.on('error', (err) => {
 			// eslint-disable-next-line no-console
 			console.error(err);
 		});
@@ -206,22 +210,26 @@ module.exports = function() {
 		const proxy = httpProxy.createServer();
 
 		proxy.on('proxyReq', (proxyReq, _req, _res, _options) => {
+
 			// Disable compression because it complicates the task of appending
 			// our livereload tag.
+
 			proxyReq.setHeader('Accept-Encoding', 'identity');
 		});
 
 		proxy.on('proxyRes', (proxyRes, req, res) => {
+
 			// Make sure that "web passes" (eg. header setting and such) still
 			// happen even though we are in "selfHandleResponse" mode.
 			// See: https://github.com/nodejitsu/node-http-proxy/issues/1263
+
 			for (let i = 0; i < PASSES.length; i++) {
 				if (PASSES[i](req, res, proxyRes, project.options)) {
 					break;
 				}
 			}
 
-			proxyRes.on('data', data => {
+			proxyRes.on('data', (data) => {
 				res.write(data);
 			});
 
@@ -235,13 +243,14 @@ module.exports = function() {
 
 				if (appendLivereloadTag) {
 					res.end(livereloadTag);
-				} else {
+				}
+				else {
 					res.end();
 				}
 			});
 		});
 
-		proxy.on('error', err => {
+		proxy.on('error', (err) => {
 			// eslint-disable-next-line no-console
 			console.error(err);
 		});
@@ -260,23 +269,25 @@ module.exports = function() {
 				const filepath = path.resolve('build', match[3]);
 				const ext = path.extname(filepath);
 
-				isReadable(filepath).then(exists => {
+				isReadable(filepath).then((exists) => {
 					if (exists) {
 						if (MIME_TYPES[ext]) {
 							res.setHeader('Content-Type', MIME_TYPES[ext]);
 						}
 
 						fs.createReadStream(filepath)
-							.on('error', err => {
+							.on('error', (err) => {
 								// eslint-disable-next-line no-console
 								console.error(err);
 							})
 							.pipe(res);
-					} else {
+					}
+					else {
 						dispatchToProxy();
 					}
 				});
-			} else {
+			}
+			else {
 				dispatchToProxy();
 			}
 		}).listen(httpPort, () => {
@@ -298,7 +309,7 @@ module.exports = function() {
 			opn(url);
 		});
 
-		watch(path.join(pathSrc.asPosix, '**', '*'), vinyl => {
+		watch(path.join(pathSrc.asPosix, '**', '*'), (vinyl) => {
 			store.changedFile = vinyl;
 
 			const resourceDir = getResourceDir(vinyl.path, pathSrc);
@@ -339,9 +350,11 @@ module.exports = function() {
 				'build:remove-old-css-dir',
 				'watch:reload',
 			];
-		} else if (resourceDir === 'js') {
+		}
+		else if (resourceDir === 'js') {
 			taskArray = ['build:src', 'watch:reload'];
-		} else {
+		}
+		else {
 			taskArray = ['deploy', 'watch:reload'];
 		}
 

@@ -42,14 +42,16 @@ class ExtendPrompt {
 						addedThemelets: [moduleName],
 						modules,
 					});
-				} else {
+				}
+				else {
 					this._afterPromptTheme({
 						module: moduleName,
 						modules,
 					});
 				}
 			});
-		} else {
+		}
+		else {
 			this._promptThemeSource();
 		}
 	}
@@ -57,7 +59,8 @@ class ExtendPrompt {
 	_afterPromptModule(answers) {
 		if (answers.addedThemelets) {
 			this._afterPromptThemelets(answers);
-		} else {
+		}
+		else {
 			this._afterPromptTheme(answers);
 		}
 	}
@@ -96,7 +99,7 @@ class ExtendPrompt {
 		const reducedThemelets = this._reduceThemelets(
 			answers,
 			themeletDependencies,
-			item => this._reducePkgData(item)
+			(item) => this._reducePkgData(item)
 		);
 
 		const removedThemelets = answers.removedThemelets;
@@ -115,7 +118,8 @@ class ExtendPrompt {
 
 		if (answers.addedThemelets.length) {
 			this._installDependencies(dependencies, () => this.done());
-		} else {
+		}
+		else {
 			this.done();
 		}
 	}
@@ -126,7 +130,8 @@ class ExtendPrompt {
 
 		if (themeSource === 'styled' || themeSource === 'unstyled') {
 			this._setStaticBaseTheme(themeSource);
-		} else {
+		}
+		else {
 			const config = {
 				selectedModules: this._getSelectedModules(themelet),
 				themelet,
@@ -137,12 +142,14 @@ class ExtendPrompt {
 					config,
 					this._afterPromptModule.bind(this)
 				);
-			} else if (themeSource === 'npm') {
+			}
+			else if (themeSource === 'npm') {
 				NPMModulePrompt.prompt(
 					config,
 					this._afterPromptModule.bind(this)
 				);
-			} else if (themeSource === 'url') {
+			}
+			else if (themeSource === 'url') {
 				URLPackagePrompt.prompt(
 					config,
 					this._afterPromptModule.bind(this)
@@ -160,7 +167,7 @@ class ExtendPrompt {
 	_getDependencyInstallationArray(dependencies) {
 		const themeVersion = this.themeConfig.version;
 
-		return _.map(dependencies, item => {
+		return _.map(dependencies, (item) => {
 			const pathOrURL = item.__realPath__ || item.__packageURL__;
 
 			return (
@@ -180,7 +187,8 @@ class ExtendPrompt {
 			this._hasPublishTag(config)
 		) {
 			tag += version.replace('.', '_') + '_x';
-		} else {
+		}
+		else {
 			tag += '*';
 		}
 
@@ -195,9 +203,10 @@ class ExtendPrompt {
 		if (themelet) {
 			selectedModules = _.map(
 				this.themeConfig.themeletDependencies,
-				item => item.name
+				(item) => item.name
 			);
-		} else if (_.isObject(baseTheme)) {
+		}
+		else if (_.isObject(baseTheme)) {
 			selectedModules = [baseTheme.name];
 		}
 
@@ -268,14 +277,14 @@ class ExtendPrompt {
 			}
 		};
 
-		child.on('error', error => {
+		child.on('error', (error) => {
 			// eslint-disable-next-line no-console
 			console.log.bind(error);
 
 			finalize();
 		});
 
-		child.on('exit', code => {
+		child.on('exit', (code) => {
 			if (code) {
 				const command = `npm ${args.join(' ')}`;
 
@@ -343,7 +352,7 @@ class ExtendPrompt {
 	_reduceThemelets(answers, accumulator, reduceFunction) {
 		const modulePackages = answers.modules;
 		const reduceAccumulator = accumulator || {};
-		const reduce = reduceFunction || (item => item);
+		const reduce = reduceFunction || ((item) => item);
 
 		const reducedThemelets = _.reduce(
 			answers.addedThemelets,
@@ -358,7 +367,7 @@ class ExtendPrompt {
 		const removedThemelets = answers.removedThemelets;
 
 		if (removedThemelets) {
-			_.forEach(removedThemelets, item => {
+			_.forEach(removedThemelets, (item) => {
 				delete reducedThemelets[item];
 			});
 		}

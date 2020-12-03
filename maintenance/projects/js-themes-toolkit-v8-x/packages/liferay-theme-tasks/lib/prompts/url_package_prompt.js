@@ -24,7 +24,8 @@ class URLPackagePrompt {
 	_validatePackageURL(packageURL, _answers) {
 		try {
 			new URL(packageURL);
-		} catch (err) {
+		}
+		catch (err) {
 			return `"${packageURL}" is not a valid URL`;
 		}
 
@@ -53,7 +54,8 @@ class URLPackagePrompt {
 					answers.removedThemelets.splice(index, 1);
 				}
 			}
-		} else {
+		}
+		else {
 			answers.module = config.name;
 		}
 

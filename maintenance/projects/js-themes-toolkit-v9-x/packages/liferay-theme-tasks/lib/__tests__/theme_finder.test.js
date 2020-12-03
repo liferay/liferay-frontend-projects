@@ -25,7 +25,7 @@ afterEach(() => {
 	process.chdir(initCwd);
 });
 
-it('getLiferayThemeModule should retrieve package.json file from npm', done => {
+it('getLiferayThemeModule should retrieve package.json file from npm', (done) => {
 	const pkgName = 'lfr-product-menu-animation-themelet';
 
 	themeFinder.getLiferayThemeModule(pkgName, (err, pkg) => {
@@ -38,7 +38,7 @@ it('getLiferayThemeModule should retrieve package.json file from npm', done => {
 	});
 });
 
-it('getLiferayThemeModule should return error because module does not exist', done => {
+it('getLiferayThemeModule should return error because module does not exist', (done) => {
 	themeFinder.getLiferayThemeModule('fake-themelet-123', (err, pkg) => {
 		expect(_.isUndefined(pkg)).toBe(true);
 		expect(err.message).toEqual(
@@ -49,7 +49,7 @@ it('getLiferayThemeModule should return error because module does not exist', do
 	});
 });
 
-it('getLiferayThemeModule should return error because module is not a liferay theme module', done => {
+it('getLiferayThemeModule should return error because module is not a liferay theme module', (done) => {
 	themeFinder.getLiferayThemeModule('generator-liferay-theme', (err, pkg) => {
 		expect(_.isNull(pkg)).toBe(true);
 		expect(err.message).toEqual(
@@ -60,22 +60,22 @@ it('getLiferayThemeModule should return error because module is not a liferay th
 	});
 });
 
-it('getLiferayThemeModules should return an object when searching for global modules', done => {
-	themeFinder.getLiferayThemeModules(themeResults => {
+it('getLiferayThemeModules should return an object when searching for global modules', (done) => {
+	themeFinder.getLiferayThemeModules((themeResults) => {
 		expect(_.isObject(themeResults)).toBe(true);
 
 		done();
 	});
 });
 
-it('getLiferayThemeModules should return an object when searching for npm modules', done => {
+it('getLiferayThemeModules should return an object when searching for npm modules', (done) => {
 	themeFinder.getLiferayThemeModules(
 		{
 			globalModules: false,
 			themelet: true,
 		},
-		themeResults => {
-			_.forEach(themeResults, item => {
+		(themeResults) => {
+			_.forEach(themeResults, (item) => {
 				expect(_.isObject(item)).toBe(true);
 				expect(_.isObject(item.liferayTheme)).toBe(true);
 				expect(item.keywords.indexOf('liferay-theme') > -1).toBe(true);

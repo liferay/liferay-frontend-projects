@@ -17,7 +17,7 @@ class ThemeConfig {
 	removeConfig(keys) {
 		const {_project} = this;
 
-		_project.modifyPkgJson(pkgJson => ({
+		_project.modifyPkgJson((pkgJson) => ({
 			...pkgJson,
 			liferayTheme: _.omit(pkgJson.liferayTheme, keys),
 		}));
@@ -26,7 +26,7 @@ class ThemeConfig {
 	setConfig(config) {
 		const {_project} = this;
 
-		_project.modifyPkgJson(pkgJson => {
+		_project.modifyPkgJson((pkgJson) => {
 			if (pkgJson.liferayTheme) {
 				if (config.baseTheme) {
 					pkgJson.liferayTheme.baseTheme = undefined;

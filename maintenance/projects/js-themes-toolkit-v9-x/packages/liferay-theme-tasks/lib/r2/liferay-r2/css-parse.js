@@ -5,9 +5,10 @@
 
 // http://www.w3.org/TR/CSS21/grammar.html
 // https://github.com/visionmedia/css-parse/pull/49#issuecomment-30088027
+
 var commentre = /\/\*[^*]*\*+([^/*][^*]*\*+)*\//g;
 
-module.exports = function(css, options) {
+module.exports = function (css, options) {
 	options = options || {};
 	options.position = options.position === false ? false : true;
 
@@ -39,7 +40,7 @@ module.exports = function(css, options) {
 
 		var start = {column, line: lineno};
 
-		return function(node) {
+		return function (node) {
 			node.position = new Position(start);
 			whitespace();
 			return node;
@@ -195,6 +196,7 @@ module.exports = function(css, options) {
 	function selector() {
 		var m = match(/^([^{]+)/);
 		if (!m) return;
+
 		/* @fix Remove all comments from selectors
 		 * http://ostermiller.org/findcomment.html */
 		return trim(m[0])
@@ -210,14 +212,17 @@ module.exports = function(css, options) {
 		var pos = position();
 
 		// prop
+
 		var prop = match(/^(\*?[-#/*\w]+(\[[0-9a-z_-]+\])?)\s*/);
 		if (!prop) return;
 		prop = trim(prop[0]);
 
 		// :
+
 		if (!match(/^:\s*/)) return error("property missing ':'");
 
 		// val
+
 		var val = match(/^((?:'(?:\\'|.)*?'|"(?:\\"|.)*?"|\([^)]*?\)|[^};])+)/);
 		if (!val) return error('property missing value');
 
@@ -228,6 +233,7 @@ module.exports = function(css, options) {
 		});
 
 		// ;
+
 		match(/^[;\s]*/);
 
 		return ret;
@@ -244,6 +250,7 @@ module.exports = function(css, options) {
 		comments(decls);
 
 		// declarations
+
 		var decl, rule;
 		while ((decl = declaration()) || (rule = expandedatrule())) {
 			if (decl) {
@@ -296,6 +303,7 @@ module.exports = function(css, options) {
 		var vendor = m[1];
 
 		// identifier
+
 		m = match(/^([-\w]+)\s*/);
 		if (!m) return error('@keyframes missing name');
 		var name = m[1];
@@ -404,6 +412,7 @@ module.exports = function(css, options) {
 		var decls = comments();
 
 		// declarations
+
 		var decl;
 		while ((decl = declaration())) {
 			decls.push(decl);

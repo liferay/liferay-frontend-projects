@@ -26,8 +26,10 @@ beforeAll(() => {
 });
 
 afterAll(() => {
+
 	// Clean things on exit to avoid GulpStorage.save() errors because of left
 	// over async operations when changing tests.
+
 	testUtil.cleanTempTheme(
 		'base-theme-7-2',
 		'7.2',
@@ -56,7 +58,7 @@ describe('using lib_sass', () => {
 			namespace,
 			registerTasksOptions: {
 				hookFn: buildHookFn,
-				sassOptions: defaults => {
+				sassOptions: (defaults) => {
 					sassOptionsSpy();
 
 					expect(defaults.includePaths).toBeTruthy();
@@ -84,7 +86,7 @@ describe('using lib_sass', () => {
 		expect(sassOptionsSpy.calledOnce).toBe(true);
 	});
 
-	it('build task should correctly compile theme', done => {
+	it('build task should correctly compile theme', (done) => {
 		runSequence('build', done);
 	});
 

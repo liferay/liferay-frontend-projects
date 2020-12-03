@@ -58,7 +58,7 @@ describe('globally installed theme', () => {
 		cleanTempTheme(tempTheme);
 	});
 
-	it('kickstarts', done => {
+	it('kickstarts', (done) => {
 		project.gulp.runSequence('kickstart', () => {
 			const srcDir = path.join(tempTheme.tempPath, 'src');
 
@@ -118,7 +118,7 @@ describe('npm theme', () => {
 		cleanTempTheme(tempTheme);
 	});
 
-	it('kickstarts', done => {
+	it('kickstarts', (done) => {
 		project.gulp.runSequence('kickstart', done);
 	});
 });

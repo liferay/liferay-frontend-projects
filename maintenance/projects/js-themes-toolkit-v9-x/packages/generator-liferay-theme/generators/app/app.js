@@ -11,6 +11,7 @@ const Copier = require('../../lib/Copier');
 const Project = require('../../lib/Project');
 
 // If --which parameter is given show path to generator and exit
+
 if (argv.which) {
 	// eslint-disable-next-line no-console
 	console.log(require.resolve('./index'));

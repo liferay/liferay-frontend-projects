@@ -19,7 +19,7 @@ const PluginError = gutil.PluginError;
 const PLUGIN_NAME = 'gulp-R2-css';
 
 function gulpR2() {
-	const task = through.obj(function(file, enc, cb) {
+	const task = through.obj(function (file, enc, cb) {
 		if (file.isNull()) {
 			return cb(null, file);
 		}
@@ -30,7 +30,8 @@ function gulpR2() {
 					file.contents,
 					path.relative('.', file.path)
 				);
-			} catch (err) {
+			}
+			catch (err) {
 				this.push(file);
 
 				// eslint-disable-next-line no-console

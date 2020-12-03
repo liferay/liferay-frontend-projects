@@ -5,11 +5,12 @@
 
 var {EventEmitter} = require('events');
 
-module.exports = function(gulp) {
+module.exports = function (gulp) {
 	gulp.hook('before:build', () => {
 		var eventEmitter = new EventEmitter();
 
 		// Simulates the end of an async gulp stream
+
 		setTimeout(() => {
 			eventEmitter.emit('end');
 		}, 200);

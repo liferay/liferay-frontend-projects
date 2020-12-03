@@ -19,7 +19,7 @@ const lfrThemeConfig = require('./lib/liferay_theme_config');
 
 const themeConfig = lfrThemeConfig.getConfig();
 
-module.exports.registerTasks = function(options) {
+module.exports.registerTasks = function (options) {
 	options = require('./lib/options')(options);
 
 	liferayPluginTasks.registerTasks(
@@ -50,7 +50,7 @@ function register(options) {
 
 	globby
 		.sync([path.resolve(__dirname, 'tasks/**/*')])
-		.forEach(function(item) {
+		.forEach(function (item) {
 			if (item.indexOf('__tests__') == -1) {
 				require(item)(options);
 			}

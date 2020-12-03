@@ -11,14 +11,14 @@ const replace = require('gulp-replace-task');
 const lfrThemeConfig = require('../../liferay_theme_config');
 const devDependencies = require('../../devDependencies')['theme']['7.3'];
 
-module.exports = function(options) {
+module.exports = function (options) {
 	const gulp = options.gulp;
 
 	const runSequence = require('run-sequence').use(gulp);
 
 	const pkgJson = lfrThemeConfig.getConfig(true);
 
-	gulp.task('upgrade:dependencies', cb => {
+	gulp.task('upgrade:dependencies', (cb) => {
 		lfrThemeConfig.setDependencies(devDependencies.default, true);
 
 		if (pkgJson.devDependencies['liferay-font-awesome']) {
@@ -72,7 +72,7 @@ module.exports = function(options) {
 			.pipe(gulp.dest('src/WEB-INF'));
 	});
 
-	return function(cb) {
+	return function (cb) {
 		const taskArray = ['upgrade:config', 'upgrade:dependencies'];
 
 		taskArray.push(cb);

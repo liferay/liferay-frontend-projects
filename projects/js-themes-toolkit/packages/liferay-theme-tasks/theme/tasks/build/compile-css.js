@@ -16,28 +16,31 @@ const project = require('../../../lib/project');
 const themeUtil = require('../../../lib/util');
 const {createBourbonFile} = require('../../lib/bourbon_dependencies');
 
-module.exports = function() {
+module.exports = function () {
 	const {gulp, options} = project;
 	const {runSequence} = gulp;
 	const {pathBuild} = options;
 
-	const handleScssError = err => {
+	const handleScssError = (err) => {
 		if (project.watching) {
 			log(err);
 
 			this.emit('end');
-		} else {
+		}
+		else {
 			throw err;
 		}
 	};
 
-	gulp.task('build:compile-css', cb => {
+	gulp.task('build:compile-css', (cb) => {
+
 		// For backwards compatibility we keep this task around, but all it does
 		// is call through to the one that does the actual work:
+
 		runSequence('build:compile-lib-sass', cb);
 	});
 
-	gulp.task('build:compile-lib-sass', cb => {
+	gulp.task('build:compile-lib-sass', (cb) => {
 		const {options} = project;
 
 		const gulpIf = require('gulp-if');
@@ -122,11 +125,12 @@ function getPostCSSOptions(config) {
 
 		postCSSOptions.enabled = true;
 
-		postCSSOptions.plugins = config.map(pluginDependency =>
+		postCSSOptions.plugins = config.map((pluginDependency) =>
 			// eslint-disable-next-line liferay/no-dynamic-require
 			require(pluginDependency)
 		);
-	} else if (rc) {
+	}
+	else if (rc) {
 		postCSSOptions.enabled = true;
 	}
 
@@ -146,7 +150,7 @@ function getSassIncludePaths() {
 	if (argv['sass-include-paths']) {
 		const customPaths = argv['sass-include-paths']
 			.split(',')
-			.map(item => path.resolve(item));
+			.map((item) => path.resolve(item));
 		log(
 			'using custom SASS include paths:',
 			colors.magenta(customPaths.join(', '))
@@ -169,7 +173,8 @@ function getSassIncludePaths() {
 function getSassOptions(sassOptions, defaults) {
 	if (_.isFunction(sassOptions)) {
 		sassOptions = sassOptions(defaults);
-	} else {
+	}
+	else {
 		sassOptions = _.assign(defaults, sassOptions);
 	}
 

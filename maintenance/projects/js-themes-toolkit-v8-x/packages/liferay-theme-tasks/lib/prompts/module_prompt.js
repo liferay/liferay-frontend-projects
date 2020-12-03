@@ -41,7 +41,7 @@ class ModulePrompt {
 
 	_filterModule(input) {
 		if (this.themelet) {
-			return _.mapValues(this.modules, function(theme, name) {
+			return _.mapValues(this.modules, function (theme, name) {
 				return input.indexOf(name) > -1;
 			});
 		}

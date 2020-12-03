@@ -194,9 +194,11 @@ InitPrompt.prototype = {
 
 			if (!fs.existsSync(appServerPath)) {
 				retVal = '"%s" does not exist';
-			} else if (!fs.statSync(appServerPath).isDirectory()) {
+			}
+			else if (!fs.statSync(appServerPath).isDirectory()) {
 				retVal = '"%s" is not a directory';
-			} else {
+			}
+			else {
 				var glassfishPath = path.join(appServerPath, 'domains');
 				var jbossPath = path.join(
 					appServerPath,
@@ -213,7 +215,8 @@ InitPrompt.prototype = {
 						fs.statSync(tomcatPath).isDirectory())
 				) {
 					return retVal;
-				} else {
+				}
+				else {
 					retVal =
 						'"%s" doesn\'t appear to be an app server directory';
 				}

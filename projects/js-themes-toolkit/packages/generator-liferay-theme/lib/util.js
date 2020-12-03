@@ -90,7 +90,8 @@ function runGulpInit(registerTasksModule) {
 				'liferay_portal_1'
 			);
 		}
-	} else {
+	}
+	else {
 		gulp.series('init')();
 	}
 }
@@ -137,9 +138,7 @@ function sayHello(generator) {
  * Returns a "snake case" version of `name` (eg. "foo_bar_baz").
  */
 function snakeCase(name) {
-	return splitWords(name)
-		.join('_')
-		.toLowerCase();
+	return splitWords(name).join('_').toLowerCase();
 }
 
 /**

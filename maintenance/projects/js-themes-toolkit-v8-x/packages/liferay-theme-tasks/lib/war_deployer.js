@@ -102,10 +102,10 @@ class WarDeployer extends EventEmitter {
 	_makeRequest() {
 		const protocol = require(this.protocol);
 
-		const req = protocol.request(this._getPostOptions(), res => {
+		const req = protocol.request(this._getPostOptions(), (res) => {
 			res.setEncoding('utf8');
 
-			res.on('data', chunk => {
+			res.on('data', (chunk) => {
 				this._onResponseData(chunk);
 			});
 
@@ -114,7 +114,7 @@ class WarDeployer extends EventEmitter {
 			});
 		});
 
-		req.on('error', err => {
+		req.on('error', (err) => {
 			if (err) {
 				throw err;
 			}
@@ -130,8 +130,11 @@ class WarDeployer extends EventEmitter {
 			if (responseData && !responseData.error) {
 				this.deployed = true;
 			}
-		} catch (err) {
+		}
+		catch (err) {
+
 			// Swallow.
+
 		}
 	}
 
@@ -142,7 +145,8 @@ class WarDeployer extends EventEmitter {
 				'successfully deployed to',
 				this.host
 			);
-		} else {
+		}
+		else {
 			log(
 				colors.yellow('Warning:'),
 				'There was a problem deploying',
@@ -165,14 +169,15 @@ class WarDeployer extends EventEmitter {
 		}
 
 		if (questions.length) {
-			inquirer.prompt(questions, answers => {
-				Object.keys(answers).forEach(key => {
+			inquirer.prompt(questions, (answers) => {
+				Object.keys(answers).forEach((key) => {
 					this[key] = answers[key];
 				});
 
 				this._makeRequest();
 			});
-		} else {
+		}
+		else {
 			this._makeRequest();
 		}
 	}
@@ -208,12 +213,9 @@ class WarDeployer extends EventEmitter {
 
 				this.emit('end');
 			})
-			.pipe(
-				req,
-				{
-					end: false,
-				}
-			);
+			.pipe(req, {
+				end: false,
+			});
 	}
 }
 

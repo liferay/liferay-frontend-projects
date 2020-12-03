@@ -36,12 +36,13 @@ function dockerCopy(containerName, sourceFolder, destFolder, sourceFiles, cb) {
 		sourceFiles = undefined;
 	}
 
-	const wcb = error => {
+	const wcb = (error) => {
 		if (!cb) return;
 
 		if (error) {
 			cb(error);
-		} else {
+		}
+		else {
 			cb();
 		}
 	};
@@ -109,7 +110,7 @@ function getLanguageProperties(pathBuild) {
 	if (fs.existsSync(pathContent) && fs.statSync(pathContent).isDirectory()) {
 		const contentFiles = fs.readdirSync(pathContent);
 
-		_.forEach(contentFiles, item => {
+		_.forEach(contentFiles, (item) => {
 			if (item.match(/Language.*properties/)) {
 				const xmlElement =
 					'<language-properties>content/' +
@@ -150,7 +151,8 @@ function getCustomDependencyPath(dependency) {
 
 	if (flag && argv[flag]) {
 		customPath = argv[flag];
-	} else if (envVariable && process.env[envVariable]) {
+	}
+	else if (envVariable && process.env[envVariable]) {
 		customPath = process.env[envVariable];
 	}
 
@@ -188,6 +190,7 @@ function validateCustomDependencyPath(customPath) {
 }
 
 // Export private methods when in tests
+
 if (typeof jest !== 'undefined') {
 	Object.assign(module.exports, {
 		validateCustomDependencyPath,

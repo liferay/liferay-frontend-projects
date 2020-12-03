@@ -27,6 +27,7 @@ module.exports = {
 
 			// Some nasty special-casing for the FIXTURE, which has multiple
 			// "version" strings inside it that we don't want to mess with.
+
 			if (filename === FIXTURE) {
 				return match;
 			}

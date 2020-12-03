@@ -8,10 +8,10 @@
 const project = require('../../lib/project');
 const ExtendPrompt = require('../prompts/extend_prompt');
 
-module.exports = function() {
+module.exports = function () {
 	const {gulp} = project;
 
-	gulp.task('extend', cb => {
+	gulp.task('extend', (cb) => {
 		ExtendPrompt.prompt(cb);
 	});
 };

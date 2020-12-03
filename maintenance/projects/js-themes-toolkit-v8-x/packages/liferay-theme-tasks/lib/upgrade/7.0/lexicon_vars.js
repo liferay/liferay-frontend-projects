@@ -60,7 +60,7 @@ const removed = [
 	'state-warning-text',
 ];
 
-const rules = removed.map(varName => {
+const rules = removed.map((varName) => {
 	return {
 		name: varName,
 		message: `$${varName} was deprecated in Lexicon CSS 1.x.x and has been removed in the new Clay 2.x.x version`,

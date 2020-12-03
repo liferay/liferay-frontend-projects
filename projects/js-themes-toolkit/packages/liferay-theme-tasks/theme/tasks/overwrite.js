@@ -17,11 +17,11 @@ const path = require('path');
 
 const project = require('../../lib/project');
 
-module.exports = function() {
+module.exports = function () {
 	const {gulp} = project;
 	const {pathBuild, pathSrc} = project.options;
 
-	gulp.task('overwrite', cb => {
+	gulp.task('overwrite', (cb) => {
 		promptFiles('.', cb);
 	});
 
@@ -126,10 +126,11 @@ module.exports = function() {
 				name: 'file',
 				type: 'list',
 			},
-			answers => {
+			(answers) => {
 				if (answers.file.dir) {
 					promptFiles(answers.file.path, cb);
-				} else {
+				}
+				else {
 					logChanges(answers.file.path);
 
 					gulp.src(
@@ -150,8 +151,11 @@ module.exports = function() {
 
 		try {
 			files = fs.readdirSync(dirPath);
-		} catch (err) {
+		}
+		catch (err) {
+
 			// Swallow.
+
 		}
 
 		return files;

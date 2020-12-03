@@ -59,7 +59,7 @@ function registerTasks(options = {}) {
 			options.extensions = [options.extensions];
 		}
 
-		_.forEach(options.extensions, extension => {
+		_.forEach(options.extensions, (extension) => {
 			extension(options);
 		});
 	}

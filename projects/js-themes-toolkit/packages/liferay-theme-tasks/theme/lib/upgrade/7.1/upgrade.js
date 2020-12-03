@@ -15,12 +15,12 @@ const devDependencies = require('../../../../lib/devDependencies')['theme'][
 	'7.2'
 ];
 
-module.exports = function() {
+module.exports = function () {
 	const options = {...project.options};
 	const {gulp, themeConfig} = project;
 	const {runSequence} = gulp;
 
-	gulp.task('upgrade:dependencies', cb => {
+	gulp.task('upgrade:dependencies', (cb) => {
 		project.removeDependencies(['liferay-theme-deps-7.1']);
 		project.setDependencies(devDependencies.default, true);
 
@@ -32,7 +32,8 @@ module.exports = function() {
 				},
 				true
 			);
-		} else {
+		}
+		else {
 			project.removeDependencies(['liferay-font-awesome']);
 		}
 
@@ -91,7 +92,7 @@ module.exports = function() {
 			.pipe(gulp.dest('src/css/'));
 	});
 
-	return function(cb) {
+	return function (cb) {
 		inquirer.prompt(
 			[
 				{
@@ -102,7 +103,7 @@ module.exports = function() {
 					type: 'confirm',
 				},
 			],
-			answers => {
+			(answers) => {
 				const taskArray = ['upgrade:config', 'upgrade:dependencies'];
 
 				if (answers.includeFontAwesome) {

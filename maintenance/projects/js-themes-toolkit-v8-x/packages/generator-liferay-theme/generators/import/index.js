@@ -25,7 +25,9 @@ module.exports = class extends Base {
 	}
 
 	configuring() {
+
 		// Must resolve theme files path before calling super (which chdirs).
+
 		this.themeFiles = path.resolve(this.importTheme);
 
 		super.configuring();
@@ -45,10 +47,13 @@ module.exports = class extends Base {
 	}
 
 	writing() {
+
 		// Copy files from ../templates:
+
 		this._writeApp();
 
 		// Copy files from imported theme:
+
 		this._writeThemeFiles();
 	}
 
@@ -92,7 +97,8 @@ module.exports = class extends Base {
 			if (match) {
 				defaultValue = match[1];
 			}
-		} catch (e) {
+		}
+		catch (e) {
 			this.log(chalk.yellow('   Warning ') + '%s not found', filePath);
 		}
 
@@ -165,9 +171,11 @@ module.exports = class extends Base {
 
 			if (!fs.existsSync(filePath)) {
 				retVal = '"%s" does not exist';
-			} else if (!fs.statSync(filePath).isDirectory()) {
+			}
+			else if (!fs.statSync(filePath).isDirectory()) {
 				retVal = '"%s" is not a directory';
-			} else {
+			}
+			else {
 				const propsFile = path.join(
 					filePath,
 					'docroot',

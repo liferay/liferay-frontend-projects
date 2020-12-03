@@ -44,7 +44,7 @@ describe('using lib_sass', () => {
 					distName: 'base-theme',
 					gulp: new Gulp(),
 					hookFn: buildHookFn,
-					sassOptions: defaults => {
+					sassOptions: (defaults) => {
 						sassOptionsCalled = true;
 
 						expect(defaults.includePaths).toBeTruthy();
@@ -70,7 +70,7 @@ describe('using lib_sass', () => {
 		cleanTempTheme(tempTheme);
 	});
 
-	it('build task should correctly compile theme', done => {
+	it('build task should correctly compile theme', (done) => {
 		project.gulp.runSequence('build', done);
 	});
 

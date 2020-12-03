@@ -35,10 +35,13 @@ function injectJS() {
 		'/liferay-frontend-theme-unstyled/templates/portal_normal\\.(ftl|vm)$'
 	);
 
-	return through.obj(function(file, encoding, callback) {
+	return through.obj(function (file, encoding, callback) {
 		if (!file.path.match(targetRegExp) || file.isNull()) {
+
 			// Nothing to do.
-		} else if (file.isStream()) {
+
+		}
+		else if (file.isStream()) {
 			file.contents = file.contents.pipe(() => {
 				let output = '';
 				return through(
@@ -52,11 +55,13 @@ function injectJS() {
 					}
 				);
 			});
-		} else if (file.isBuffer()) {
+		}
+		else if (file.isBuffer()) {
 			file.contents = Buffer.from(
 				normalize(file.contents.toString('utf8'))
 			);
-		} else {
+		}
+		else {
 			return this.emit(
 				'error',
 				new PluginError('injectJS', 'Unsupported file type')
@@ -67,12 +72,12 @@ function injectJS() {
 	});
 }
 
-module.exports = function(options) {
+module.exports = function (options) {
 	const {gulp, pathBuild, pathSrc} = options;
 
 	const runSequence = require('run-sequence').use(gulp);
 
-	gulp.task('build', cb => {
+	gulp.task('build', (cb) => {
 		runSequence(
 			'build:clean',
 			'build:base',
@@ -94,7 +99,7 @@ module.exports = function(options) {
 		);
 	});
 
-	gulp.task('build:clean', cb => {
+	gulp.task('build:clean', (cb) => {
 		del([pathBuild]).then(() => cb());
 	});
 
@@ -123,51 +128,58 @@ module.exports = function(options) {
 			.pipe(gulp.dest(pathBuild + '/WEB-INF/classes'));
 	});
 
-	gulp.task('build:liferay-look-and-feel', cb => {
+	gulp.task('build:liferay-look-and-feel', (cb) => {
 		const themePath = process.cwd();
 
-		lookAndFeelUtil.mergeLookAndFeelJSON(themePath, {}, lookAndFeelJSON => {
-			if (!lookAndFeelJSON) {
-				return cb();
-			}
+		lookAndFeelUtil.mergeLookAndFeelJSON(
+			themePath,
+			{},
+			(lookAndFeelJSON) => {
+				if (!lookAndFeelJSON) {
+					return cb();
+				}
 
-			const themeName = lookAndFeelUtil.getNameFromPluginPackageProperties(
-				themePath
-			);
+				const themeName = lookAndFeelUtil.getNameFromPluginPackageProperties(
+					themePath
+				);
 
-			lookAndFeelUtil.correctJSONIdentifiers(lookAndFeelJSON, themeName);
+				lookAndFeelUtil.correctJSONIdentifiers(
+					lookAndFeelJSON,
+					themeName
+				);
 
-			let doctypeElement = lookAndFeelUtil.getLookAndFeelDoctype(
-				themePath
-			);
+				let doctypeElement = lookAndFeelUtil.getLookAndFeelDoctype(
+					themePath
+				);
 
-			if (!doctypeElement) {
-				doctypeElement = lookAndFeelUtil.getLookAndFeelDoctypeByVersion(
-					themeConfig.version
+				if (!doctypeElement) {
+					doctypeElement = lookAndFeelUtil.getLookAndFeelDoctypeByVersion(
+						themeConfig.version
+					);
+				}
+
+				const xml = lookAndFeelUtil.buildXML(
+					lookAndFeelJSON,
+					doctypeElement
+				);
+
+				fs.writeFile(
+					path.join(
+						themePath,
+						pathBuild,
+						'WEB-INF/liferay-look-and-feel.xml'
+					),
+					xml,
+					(err) => {
+						if (err) {
+							throw err;
+						}
+
+						cb();
+					}
 				);
 			}
-
-			const xml = lookAndFeelUtil.buildXML(
-				lookAndFeelJSON,
-				doctypeElement
-			);
-
-			fs.writeFile(
-				path.join(
-					themePath,
-					pathBuild,
-					'WEB-INF/liferay-look-and-feel.xml'
-				),
-				xml,
-				err => {
-					if (err) {
-						throw err;
-					}
-
-					cb();
-				}
-			);
-		});
+		);
 	});
 
 	gulp.task('build:hook', () => {
@@ -197,12 +209,13 @@ module.exports = function(options) {
 			.pipe(gulp.dest(path.join(pathBuild, 'WEB-INF')));
 	});
 
-	gulp.task('build:rename-css-dir', cb => {
+	gulp.task('build:rename-css-dir', (cb) => {
 		fs.rename(pathBuild + '/css', pathBuild + '/_css', cb);
 	});
 
 	// Temp fix for libSass compilation issue with empty url() functions
-	gulp.task('build:fix-url-functions', cb => {
+
+	gulp.task('build:fix-url-functions', (cb) => {
 		gulp.src(pathBuild + '/_css/**/*.css')
 			.pipe(
 				replace({
@@ -228,7 +241,7 @@ module.exports = function(options) {
 			.pipe(gulp.dest(pathBuild + '/css'));
 	});
 
-	gulp.task('build:remove-old-css-dir', cb => {
+	gulp.task('build:remove-old-css-dir', (cb) => {
 		del([pathBuild + '/_css']).then(() => cb());
 	});
 
@@ -271,7 +284,7 @@ module.exports = function(options) {
 			});
 	});
 
-	gulp.task('build:copy:fontAwesome', done => {
+	gulp.task('build:copy:fontAwesome', (done) => {
 		const packageJSON = JSON.parse(fs.readFileSync('package.json', 'utf8'))
 			.liferayTheme;
 
@@ -290,15 +303,15 @@ module.exports = function(options) {
 		);
 	});
 
-	gulp.task('build:war', done => {
+	gulp.task('build:war', (done) => {
 		runSequence.apply(this, ['plugin:version', 'plugin:war', done]);
 	});
 };
 
 function getFixAtDirectivesPatterns() {
-	const keyframeRulesReplace = function(match, m1, m2) {
+	const keyframeRulesReplace = function (match, m1, m2) {
 		return (
-			_.map(m1.split(','), item => {
+			_.map(m1.split(','), (item) => {
 				return item.replace(/.*?(from|to|[0-9.]+%)/g, '$1');
 			}).join(',') + m2
 		);

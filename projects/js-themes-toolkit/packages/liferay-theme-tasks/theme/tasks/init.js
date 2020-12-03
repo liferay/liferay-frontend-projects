@@ -7,7 +7,7 @@
 
 const project = require('../../lib/project');
 
-module.exports = function() {
+module.exports = function () {
 	const {gulp} = project;
 
 	gulp.task('init', gulp.series('plugin:init'));

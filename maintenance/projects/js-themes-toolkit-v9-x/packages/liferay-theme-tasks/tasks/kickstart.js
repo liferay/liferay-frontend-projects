@@ -18,7 +18,7 @@ function registerTasks(options) {
 	const gulp = options.gulp;
 	const pathSrc = options.pathSrc;
 
-	gulp.task('kickstart', cb => {
+	gulp.task('kickstart', (cb) => {
 		log(
 			colors.yellow('Warning:'),
 			'the',
@@ -30,13 +30,14 @@ function registerTasks(options) {
 			{
 				themeConfig: lfrThemeConfig.getConfig(),
 			},
-			answers => {
+			(answers) => {
 				let tempNodeModulesPath;
 				let themeSrcPath;
 
 				if (answers.modulePath) {
 					themeSrcPath = answers.modulePath;
-				} else if (answers.module) {
+				}
+				else if (answers.module) {
 					tempNodeModulesPath = path.join(
 						process.cwd(),
 						'.temp_node_modules'
@@ -53,7 +54,7 @@ function registerTasks(options) {
 				if (themeSrcPath) {
 					const globs = _.map(
 						['css', 'images', 'js', 'templates'],
-						folder => {
+						(folder) => {
 							return path.join(themeSrcPath, folder, '**/*');
 						}
 					);
@@ -65,11 +66,13 @@ function registerTasks(options) {
 						.on('end', () => {
 							if (tempNodeModulesPath) {
 								del([tempNodeModulesPath]).then(() => cb());
-							} else {
+							}
+							else {
 								cb();
 							}
 						});
-				} else {
+				}
+				else {
 					log(colors.yellow('Theme not selected'));
 
 					cb();

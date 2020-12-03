@@ -162,16 +162,16 @@ var liferayThemeTasks = require('liferay-theme-tasks');
 
 liferayThemeTasks.registerTasks({
 	gulp: gulp,
-	hookFn: function(gulp) {
-		gulp.hook('before:build:src', function(done) {
+	hookFn: function (gulp) {
+		gulp.hook('before:build:src', function (done) {
 			// Fires before build:src task
 		});
 
-		gulp.hook('after:build', function(done) {
+		gulp.hook('after:build', function (done) {
 			// Fires after build task
 		});
 
-		gulp.task('build:base', function(done) {
+		gulp.task('build:base', function (done) {
 			// Overwrites build:base task
 		});
 	},

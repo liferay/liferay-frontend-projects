@@ -20,13 +20,13 @@ var resizeHandleRegexp = /.yui3-resize-handle/,
 		tl: '-58px 0',
 		tr: '-47px 0',
 	},
-	plug = function(r2) {
+	plug = function (r2) {
 		var originalBgPosFn = r2.valueMap['background-position'];
 
-		var yui3ResizeCursor = function(v, ctx) {
+		var yui3ResizeCursor = function (v, ctx) {
 			var swap = false;
 
-			ctx.rule.selectors.forEach(selector => {
+			ctx.rule.selectors.forEach((selector) => {
 				if (resizeHandleRegexp.test(selector) && cursorRegexp.test(v)) {
 					swap = true;
 				}
@@ -39,10 +39,10 @@ var resizeHandleRegexp = /.yui3-resize-handle/,
 			return v;
 		};
 
-		var yui3ResizeBgPosition = function(v, ctx) {
+		var yui3ResizeBgPosition = function (v, ctx) {
 			var swap = '';
 
-			ctx.rule.selectors.some(selector => {
+			ctx.rule.selectors.some((selector) => {
 				if (resizeHandleInnerRegexp.test(selector)) {
 					swap = selector;
 					return true;
@@ -52,17 +52,18 @@ var resizeHandleRegexp = /.yui3-resize-handle/,
 			if (swap) {
 				var handle = resizeHandleInnerRegexp.exec(swap)[1];
 				v = swapHandleInnerBg[handle] || v;
-			} else {
+			}
+			else {
 				v = originalBgPosFn(v, ctx);
 			}
 
 			return v;
 		};
 
-		var yui3ResizeOffset = function(v, ctx) {
+		var yui3ResizeOffset = function (v, ctx) {
 			var swap = '';
 
-			ctx.rule.selectors.some(selector => {
+			ctx.rule.selectors.some((selector) => {
 				if (resizeHandleInnerRegexp.test(selector)) {
 					swap = selector;
 					return true;

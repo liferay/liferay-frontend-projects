@@ -99,7 +99,7 @@ class Project {
 	}
 
 	removeDependencies(dependencies) {
-		this.modifyPkgJson(pkgJson => {
+		this.modifyPkgJson((pkgJson) => {
 			this._deleteDependencies(pkgJson.dependencies, dependencies);
 			this._deleteDependencies(pkgJson.devDependencies, dependencies);
 
@@ -112,7 +112,7 @@ class Project {
 	}
 
 	setDependencies(dependencies, devDependencies) {
-		this.modifyPkgJson(pkgJson => {
+		this.modifyPkgJson((pkgJson) => {
 			const selector = devDependencies
 				? 'devDependencies'
 				: 'dependencies';
@@ -161,7 +161,7 @@ class Project {
 	}
 
 	_reload() {
-		Object.keys(this).forEach(key => delete this[key]);
+		Object.keys(this).forEach((key) => delete this[key]);
 
 		this._loadFrom('.');
 	}

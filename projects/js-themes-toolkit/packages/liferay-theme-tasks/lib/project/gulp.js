@@ -11,7 +11,8 @@ class Gulp {
 
 		if (gulp !== undefined) {
 			this._gulp = gulp;
-		} else {
+		}
+		else {
 			// eslint-disable-next-line liferay/no-dynamic-require
 			this._gulp = require(resolve.sync('gulp', {
 				basedir: project.dir,
@@ -26,10 +27,11 @@ class Gulp {
 			}
 
 			this._gulp.series(
-				...args.map(task => {
+				...args.map((task) => {
 					if (Array.isArray(task)) {
 						return this._gulp.parallel(...task);
-					} else {
+					}
+					else {
 						return task;
 					}
 				})

@@ -17,11 +17,12 @@ const lfrThemeConfig = require('../lib/liferay_theme_config.js');
 
 const themeConfig = lfrThemeConfig.getConfig();
 
-module.exports = function(options) {
+module.exports = function (options) {
 	const gulp = options.gulp;
 	const argv = options.argv;
 
 	// If not inside a theme, don't register tasks
+
 	if (!themeConfig) {
 		return;
 	}
@@ -44,7 +45,7 @@ module.exports = function(options) {
 		versionUpgradeTask = require(modulePath)(options);
 	}
 
-	gulp.task('upgrade', cb => {
+	gulp.task('upgrade', (cb) => {
 		if (_.isFunction(versionUpgradeTask)) {
 			inquirer.prompt(
 				[
@@ -57,9 +58,9 @@ module.exports = function(options) {
 						type: 'confirm',
 					},
 				],
-				answers => {
+				(answers) => {
 					if (answers.sure) {
-						versionUpgradeTask(err => {
+						versionUpgradeTask((err) => {
 							if (err) {
 								log(
 									colors.red('Error:'),
@@ -70,12 +71,14 @@ module.exports = function(options) {
 							}
 							cb();
 						});
-					} else {
+					}
+					else {
 						cb();
 					}
 				}
 			);
-		} else {
+		}
+		else {
 			throw new PluginError(
 				'gulp-theme-upgrader',
 				colors.red(

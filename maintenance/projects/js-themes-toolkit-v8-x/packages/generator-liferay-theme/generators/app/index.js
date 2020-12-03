@@ -42,6 +42,7 @@ module.exports = class extends Generator {
 		this._setPromptDeprecationMap();
 
 		// Have Yeoman greet the user.
+
 		instance.log(
 			yosay(
 				'Welcome to the splendid ' +
@@ -56,10 +57,12 @@ module.exports = class extends Generator {
 			if (config.batchMode()) {
 				insight.optOut = true;
 				this._prompt();
-			} else {
+			}
+			else {
 				insight.askPermission(null, _.bind(this._prompt, this));
 			}
-		} else {
+		}
+		else {
 			this._prompt();
 		}
 	}
@@ -153,7 +156,8 @@ module.exports = class extends Generator {
 			this.on('npmInstall:end', () => {
 				if (config.batchMode()) {
 					this._runBatchGulpInit();
-				} else {
+				}
+				else {
 					this._runGulpInit();
 				}
 			});
@@ -244,7 +248,7 @@ module.exports = class extends Generator {
 		const deprecated = argv.deprecated;
 		const promptDeprecationMap = this.promptDeprecationMap;
 
-		return function(answers) {
+		return function (answers) {
 			let propertyValue = argv[flag];
 
 			const liferayVersion =
@@ -278,7 +282,8 @@ module.exports = class extends Generator {
 				args[propertyName] = propertyValue;
 
 				ask = false;
-			} else if (promptDeprecationMap) {
+			}
+			else if (promptDeprecationMap) {
 				const deprecatedVersions = promptDeprecationMap[propertyName];
 
 				ask = !deprecatedVersions;
@@ -321,7 +326,7 @@ module.exports = class extends Generator {
 			this,
 			this._getPromptNamespace(),
 			this._getPrompts()
-		).then(props => {
+		).then((props) => {
 			props = this._mixArgs(props, this._getArgs());
 
 			this._promptCallback(props);
@@ -396,7 +401,8 @@ module.exports = class extends Generator {
 				'webapps',
 				answers.pluginName
 			);
-		} else {
+		}
+		else {
 			answers.appServerPathPlugin = path.join(
 				answers.appServerPath,
 				'webapps',

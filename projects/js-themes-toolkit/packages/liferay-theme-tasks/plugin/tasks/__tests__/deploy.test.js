@@ -37,7 +37,7 @@ afterEach(() => {
 	cleanTempPlugin(tempPlugin);
 });
 
-test('deploy task should deploy war file to specified appserver', done => {
+test('deploy task should deploy war file to specified appserver', (done) => {
 	project.gulp.runSequence('deploy', () => {
 		expect(path.join(deployPath, 'test-plugin-layouttpl.war')).toBeFile();
 

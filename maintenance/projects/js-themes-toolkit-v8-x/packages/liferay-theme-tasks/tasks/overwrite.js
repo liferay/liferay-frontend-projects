@@ -15,13 +15,13 @@ const path = require('path');
 
 const CWD = process.cwd();
 
-module.exports = function(options) {
+module.exports = function (options) {
 	const gulp = options.gulp;
 
 	const pathBuild = options.pathBuild;
 	const pathSrc = options.pathSrc;
 
-	gulp.task('overwrite', function(cb) {
+	gulp.task('overwrite', function (cb) {
 		promptFiles('.', cb);
 	});
 
@@ -40,7 +40,7 @@ module.exports = function(options) {
 
 		const choices = _.reduce(
 			buildFiles,
-			function(result, item) {
+			function (result, item) {
 				const filePath = path.join(dirPath, item);
 
 				const dir = isDir(filePath);
@@ -120,10 +120,11 @@ module.exports = function(options) {
 				name: 'file',
 				type: 'list',
 			},
-			function(answers) {
+			function (answers) {
 				if (answers.file.dir) {
 					promptFiles(answers.file.path, cb);
-				} else {
+				}
+				else {
 					logChanges(answers.file.path);
 
 					gulp.src(path.join(pathBuild, answers.file.path), {
@@ -141,8 +142,11 @@ module.exports = function(options) {
 
 		try {
 			files = fs.readdirSync(dirPath);
-		} catch (err) {
+		}
+		catch (err) {
+
 			// Swallow.
+
 		}
 
 		return files;

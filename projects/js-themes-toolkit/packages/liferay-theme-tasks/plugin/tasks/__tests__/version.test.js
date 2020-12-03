@@ -31,7 +31,7 @@ afterEach(() => {
 	cleanTempPlugin(tempPlugin);
 });
 
-test('plugin:version should add package.json version to liferay-plugin-package.properties', done => {
+test('plugin:version should add package.json version to liferay-plugin-package.properties', (done) => {
 	project.gulp.runSequence('plugin:version', () => {
 		expect(
 			path.join(
@@ -46,7 +46,7 @@ test('plugin:version should add package.json version to liferay-plugin-package.p
 	});
 });
 
-test('plugin:version should add package.json version to liferay-plugin-package.properties', done => {
+test('plugin:version should add package.json version to liferay-plugin-package.properties', (done) => {
 	const pkgPath = path.join(tempPlugin.tempPath, 'package.json');
 
 	// eslint-disable-next-line liferay/no-dynamic-require

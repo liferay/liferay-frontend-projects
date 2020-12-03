@@ -38,7 +38,8 @@ function getBaseDependencies(version) {
 			dependencies.push(path.resolve(baseThemePath, 'src/**/*'));
 
 			return get(baseThemePath, dependencies);
-		} else if (
+		}
+		else if (
 			baseTheme === 'styled' ||
 			baseTheme === 'classic' ||
 			baseTheme === 'admin'

@@ -26,6 +26,6 @@ afterEach(() => {
 	testUtil.restoreConsole();
 });
 
-it('status task should print base theme/themelet information', done => {
+it('status task should print base theme/themelet information', (done) => {
 	runSequence('status', done);
 });

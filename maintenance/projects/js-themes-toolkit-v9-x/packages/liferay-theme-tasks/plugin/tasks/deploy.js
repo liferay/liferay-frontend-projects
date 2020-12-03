@@ -12,7 +12,7 @@ var TASK_BUILD = 'build';
 
 var TASK_PLUGIN_DEPLOY = 'plugin:deploy';
 
-module.exports = function(options) {
+module.exports = function (options) {
 	var gulp = options.gulp;
 
 	var runSequence = require('run-sequence').use(gulp);
@@ -35,7 +35,7 @@ module.exports = function(options) {
 		return stream;
 	});
 
-	gulp.task('deploy', cb => {
+	gulp.task('deploy', (cb) => {
 		runSequence(TASK_BUILD, TASK_PLUGIN_DEPLOY, cb);
 	});
 };

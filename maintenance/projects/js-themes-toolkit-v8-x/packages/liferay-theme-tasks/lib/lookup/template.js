@@ -25,17 +25,18 @@ function choices(version) {
 }
 
 function isLanguage(version) {
-	return function(language) {
+	return function (language) {
 		if (version === '7.0' || version === '7.1') {
 			return language === 'ftl' || language === 'vm';
-		} else {
+		}
+		else {
 			return language === 'ftl';
 		}
 	};
 }
 
 function printWarnings(version) {
-	return function(generator, {templateLanguage}) {
+	return function (generator, {templateLanguage}) {
 		if (templateLanguage == 'vm') {
 			if (version === '7.0') {
 				generator.log(
@@ -43,7 +44,8 @@ function printWarnings(version) {
 						'   Warning: Velocity is deprecated for 7.0, some features will be removed in the next release.'
 					)
 				);
-			} else {
+			}
+			else {
 				generator.log(
 					chalk.yellow(
 						'   Warning: Velocity support was removed in 7.1.'

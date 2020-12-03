@@ -8,10 +8,10 @@
 const lfrThemeConfig = require('../lib/liferay_theme_config');
 const ExtendPrompt = require('../lib/prompts/extend_prompt');
 
-module.exports = function(options) {
+module.exports = function (options) {
 	const gulp = options.gulp;
 
-	gulp.task('extend', cb => {
+	gulp.task('extend', (cb) => {
 		ExtendPrompt.prompt(
 			{
 				themeConfig: lfrThemeConfig.getConfig(),

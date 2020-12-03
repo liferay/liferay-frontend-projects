@@ -12,7 +12,8 @@ function devDependencies(version) {
 
 	if (version === '7.0') {
 		dependencies['liferay-theme-deps-7.0'] = '8.2.2';
-	} else if (version === '7.1') {
+	}
+	else if (version === '7.1') {
 		dependencies['liferay-theme-deps-7.1'] = '8.2.2';
 	}
 

@@ -40,8 +40,8 @@ afterEach(() => {
 	fs.removeSync(deployPath);
 });
 
-test('registerTasks should invoke extension functions', done => {
-	var extFunction = function(options) {
+test('registerTasks should invoke extension functions', (done) => {
+	var extFunction = function (options) {
 		expect(options).toEqual({
 			argv: getArgv(),
 			distName: 'test-plugin-layouttpl',
@@ -64,8 +64,8 @@ test('registerTasks should invoke extension functions', done => {
 	});
 });
 
-test('registerTasks should accept array of extension function', done => {
-	var extFunction = function(options) {
+test('registerTasks should accept array of extension function', (done) => {
+	var extFunction = function (options) {
 		expect(options.gulp).toBe(gulp);
 
 		done();
@@ -77,23 +77,23 @@ test('registerTasks should accept array of extension function', done => {
 	});
 });
 
-test('registerTasks should register hooks', done => {
+test('registerTasks should register hooks', (done) => {
 	var hookSpy = sinon.spy();
 
-	var hookFn = function(gulp) {
-		gulp.hook('before:plugin:war', cb => {
+	var hookFn = function (gulp) {
+		gulp.hook('before:plugin:war', (cb) => {
 			hookSpy('before:plugin:war');
 
 			cb();
 		});
 
-		gulp.hook('after:plugin:war', cb => {
+		gulp.hook('after:plugin:war', (cb) => {
 			hookSpy('after:plugin:war');
 
 			cb();
 		});
 
-		gulp.hook('after:plugin:deploy', cb => {
+		gulp.hook('after:plugin:deploy', (cb) => {
 			hookSpy('after:plugin:deploy');
 
 			cb();
@@ -120,17 +120,17 @@ test('registerTasks should register hooks', done => {
 	});
 });
 
-test('registerTasks should register hooks for extension tasks', done => {
+test('registerTasks should register hooks for extension tasks', (done) => {
 	var hookSpy = sinon.spy();
 
-	var hookFn = function(gulp) {
-		gulp.hook('before:plugin:war', cb => {
+	var hookFn = function (gulp) {
+		gulp.hook('before:plugin:war', (cb) => {
 			hookSpy('before:plugin:war');
 
 			cb();
 		});
 
-		gulp.hook('after:my-custom:task', cb => {
+		gulp.hook('after:my-custom:task', (cb) => {
 			hookSpy('after:my-custom:task');
 
 			cb();
@@ -139,7 +139,7 @@ test('registerTasks should register hooks for extension tasks', done => {
 
 	registerTasks({
 		extensions(options) {
-			options.gulp.task('my-custom:task', cb => {
+			options.gulp.task('my-custom:task', (cb) => {
 				hookSpy('my-custom:task');
 
 				cb();
@@ -160,17 +160,17 @@ test('registerTasks should register hooks for extension tasks', done => {
 	});
 });
 
-test('registerTasks should overwrite task', done => {
+test('registerTasks should overwrite task', (done) => {
 	var hookSpy = sinon.spy();
 
-	var hookFn = function(gulp) {
-		gulp.hook('before:plugin:war', cb => {
+	var hookFn = function (gulp) {
+		gulp.hook('before:plugin:war', (cb) => {
 			hookSpy('before:plugin:war');
 
 			cb();
 		});
 
-		gulp.task('plugin:war', cb => {
+		gulp.task('plugin:war', (cb) => {
 			hookSpy('plugin:war');
 
 			cb();
@@ -190,7 +190,7 @@ test('registerTasks should overwrite task', done => {
 	});
 });
 
-test('registerTasks should use distName as template if delimiters are present', done => {
+test('registerTasks should use distName as template if delimiters are present', (done) => {
 	registerTasks({
 		distName: '${name}-${version}-${liferayPlugin.version}',
 		extensions(options) {

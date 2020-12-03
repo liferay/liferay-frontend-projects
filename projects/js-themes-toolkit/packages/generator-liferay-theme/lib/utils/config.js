@@ -39,7 +39,9 @@ function batchMode() {
  * @return {*} the default value for the answer
  */
 function getDefaultAnswer(namespace, question, defaultDefault = undefined) {
+
 	// Return defaultDefault if no answers section
+
 	if (config.answers === undefined) {
 		return defaultDefault;
 	}
@@ -47,11 +49,13 @@ function getDefaultAnswer(namespace, question, defaultDefault = undefined) {
 	let value;
 
 	// Try to get value from specific namespace section
+
 	if (config.answers[namespace] !== undefined) {
 		value = config.answers[namespace][question];
 	}
 
 	// If not found in specific namespace section, try to get value from *
+
 	if (value === undefined) {
 		if (config.answers['*'] !== undefined) {
 			value = config.answers['*'][question];
@@ -69,7 +73,8 @@ function getDefaultAnswer(namespace, question, defaultDefault = undefined) {
 function safeReadJsonSync(path) {
 	try {
 		return fs.readJsonSync(path);
-	} catch (err) {
+	}
+	catch (err) {
 		if (err.code !== 'ENOENT') {
 			throw err;
 		}

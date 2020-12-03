@@ -49,7 +49,8 @@ class URLPackagePrompt {
 						answers.removedThemelets.splice(index, 1);
 					}
 				}
-			} else {
+			}
+			else {
 				answers.module = config.name;
 			}
 		}
@@ -60,12 +61,12 @@ class URLPackagePrompt {
 	_filterModule(input) {
 		return _.mapValues(
 			this.config.selectedModules,
-			name => input.indexOf(name) > -1
+			(name) => input.indexOf(name) > -1
 		);
 	}
 
 	_getModuleChoices() {
-		const choices = _.map(this.config.selectedModules, name => ({
+		const choices = _.map(this.config.selectedModules, (name) => ({
 			checked: true,
 			name,
 		}));
@@ -79,7 +80,7 @@ class URLPackagePrompt {
 
 	_handleThemeletSelection(answers) {
 		if (this.themelet && answers.module) {
-			Object.keys(answers.module).forEach(k => {
+			Object.keys(answers.module).forEach((k) => {
 				const moduleName = this.config.selectedModules[k];
 				answers.module[moduleName] = answers.module[k];
 				delete answers.module[k];
@@ -134,7 +135,8 @@ class URLPackagePrompt {
 	_validatePackageURL(packageURL, _answers) {
 		try {
 			new URL(packageURL);
-		} catch (err) {
+		}
+		catch (err) {
 			return `"${packageURL}" is not a valid URL`;
 		}
 

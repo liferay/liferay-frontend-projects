@@ -13,10 +13,10 @@ var chalk = gutil.colors;
 
 var REGEX_MODULE_VERSION = /module-version=([0-9.]+)/;
 
-module.exports = function(options) {
+module.exports = function (options) {
 	var gulp = options.gulp;
 
-	gulp.task('plugin:version', done => {
+	gulp.task('plugin:version', (done) => {
 		var npmPackageVersion = JSON.parse(
 			fs.readFileSync('package.json', 'utf8')
 		).version;
@@ -48,7 +48,8 @@ module.exports = function(options) {
 					);
 
 					logWarning();
-				} else if (!moduleVersion) {
+				}
+				else if (!moduleVersion) {
 					result += '\nmodule-version=' + npmPackageVersion;
 				}
 

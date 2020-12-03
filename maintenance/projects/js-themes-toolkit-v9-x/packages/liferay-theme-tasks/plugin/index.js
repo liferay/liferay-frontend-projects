@@ -14,7 +14,7 @@ var RegisterHooks = require('./lib/register_hooks');
 
 var CWD = process.cwd();
 
-module.exports.registerTasks = function(options) {
+module.exports.registerTasks = function (options) {
 	options = require('./lib/options')(options);
 
 	var gulp = options.gulp;
@@ -32,7 +32,7 @@ module.exports.registerTasks = function(options) {
 
 	var tasks = require('./tasks/index');
 
-	_.forEach(tasks, task => {
+	_.forEach(tasks, (task) => {
 		task(options);
 	});
 
@@ -41,7 +41,7 @@ module.exports.registerTasks = function(options) {
 			options.extensions = [options.extensions];
 		}
 
-		_.forEach(options.extensions, extension => {
+		_.forEach(options.extensions, (extension) => {
 			extension(options);
 		});
 	}

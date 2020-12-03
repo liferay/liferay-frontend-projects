@@ -12,11 +12,11 @@ const path = require('path');
 
 const themeUtil = require('./util');
 
-const formatPath = function(filePath) {
+const formatPath = function (filePath) {
 	return filePath.replace(/\\/g, '/');
 };
 
-exports.createBourbonFile = function() {
+exports.createBourbonFile = function () {
 	const options = require('./options')();
 
 	const pathSrc = options.pathSrc;

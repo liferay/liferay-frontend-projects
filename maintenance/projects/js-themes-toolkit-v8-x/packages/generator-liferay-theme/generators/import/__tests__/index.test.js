@@ -16,15 +16,15 @@ const sinonAssert = sinon.assert;
 
 const liferayThemeImport = require('../index');
 
-describe('liferay-theme:import unit tests', function() {
+describe('liferay-theme:import unit tests', function () {
 	var prototype;
 
-	beforeEach(function() {
+	beforeEach(function () {
 		prototype = _.create(liferayThemeImport.prototype);
 	});
 
-	describe('_getSettingFromConfigFile', function() {
-		it('should output a specific string if certain conditions are met', function() {
+	describe('_getSettingFromConfigFile', function () {
+		it('should output a specific string if certain conditions are met', function () {
 			var config = {};
 			var expectedOutput = chalk.yellow('   Warning ') + '%s not found';
 
@@ -39,8 +39,8 @@ describe('liferay-theme:import unit tests', function() {
 		});
 	});
 
-	describe('_validatePath', function() {
-		it('should pass', function() {
+	describe('_validatePath', function () {
+		it('should pass', function () {
 			var retVal = prototype._validatePath('/does/not/exist');
 
 			assert.equal(retVal, '"/does/not/exist" does not exist');

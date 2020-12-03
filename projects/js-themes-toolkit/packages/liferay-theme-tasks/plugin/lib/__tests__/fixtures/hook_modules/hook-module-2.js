@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: MIT
  */
 
-module.exports = function(gulp) {
-	gulp.hook('after:build', cb => {
+module.exports = function (gulp) {
+	gulp.hook('after:build', (cb) => {
 		cb();
 	});
 };

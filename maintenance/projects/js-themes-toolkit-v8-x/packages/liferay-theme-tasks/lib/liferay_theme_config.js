@@ -73,7 +73,7 @@ module.exports = {
 };
 
 function deleteDependencies(sourceDependencies, deletedDependencies) {
-	_.forEach(sourceDependencies, function(item, index) {
+	_.forEach(sourceDependencies, function (item, index) {
 		if (deletedDependencies.indexOf(index) > -1) {
 			delete sourceDependencies[index];
 		}

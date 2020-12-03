@@ -36,9 +36,11 @@ class KickstartPrompt {
 			answers.modulePath = path.join(pkg.__realPath__, 'src');
 
 			done(answers);
-		} else if (pkg) {
+		}
+		else if (pkg) {
 			this._installTempModule(module, () => done(answers));
-		} else {
+		}
+		else {
 			done(answers);
 		}
 	}
@@ -51,11 +53,12 @@ class KickstartPrompt {
 		const themeSource = answers.themeSource;
 
 		if (themeSource === 'npm') {
-			NPMModulePrompt.prompt(config, answers =>
+			NPMModulePrompt.prompt(config, (answers) =>
 				this._afterPromptModule(answers)
 			);
-		} else if (themeSource === 'global') {
-			GlobalModulePrompt.prompt(config, answers =>
+		}
+		else if (themeSource === 'global') {
+			GlobalModulePrompt.prompt(config, (answers) =>
 				this._afterPromptModule(answers)
 			);
 		}
@@ -80,14 +83,14 @@ class KickstartPrompt {
 			}
 		};
 
-		child.on('error', error => {
+		child.on('error', (error) => {
 			// eslint-disable-next-line no-console
 			console.log.bind(error);
 
 			finalize();
 		});
 
-		child.on('exit', code => {
+		child.on('exit', (code) => {
 			if (code) {
 				const command = `npm ${args.join(' ')}`;
 

@@ -2,11 +2,17 @@
 # Project-specific
 #
 
+/maintenance/projects/js-themes-toolkit-v8-x/packages/generator-liferay-theme/generators/app/templates/_package.json
+
+/maintenance/projects/js-themes-toolkit-v9-x/packages/generator-liferay-theme/generators/app/templates/_package.json
+
 /maintenance/projects/js-toolkit/**/generators
 /maintenance/projects/js-toolkit/**/lib
 /maintenance/projects/js-toolkit/packages/liferay-npm-build-tools-common/src/__tests__/__fixtures__/alias/invalid.json
 
 /projects/amd-loader/build
+
+/projects/js-themes-toolkit/packages/generator-liferay-theme/generators/app/templates/_package.json
 
 /projects/js-toolkit/**/generators
 /projects/js-toolkit/**/lib

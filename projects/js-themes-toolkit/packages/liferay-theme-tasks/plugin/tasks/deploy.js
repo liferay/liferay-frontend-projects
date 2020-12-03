@@ -9,7 +9,7 @@ const gutil = require('gulp-util');
 
 const project = require('../../lib/project');
 
-module.exports = function() {
+module.exports = function () {
 	const {gulp, store} = project;
 	const {runSequence} = gulp;
 
@@ -30,7 +30,7 @@ module.exports = function() {
 		return stream;
 	});
 
-	gulp.task('deploy', cb => {
+	gulp.task('deploy', (cb) => {
 		runSequence('build', 'plugin:deploy', cb);
 	});
 };

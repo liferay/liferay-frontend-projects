@@ -27,7 +27,7 @@ afterEach(() => {
 	cleanTempPlugin(tempPlugin);
 });
 
-test('plugin:war should build war file', done => {
+test('plugin:war should build war file', (done) => {
 	registerTasks({
 		gulp: new Gulp(),
 	});
@@ -41,7 +41,7 @@ test('plugin:war should build war file', done => {
 	});
 });
 
-test('plugin:war should use name for war file and pathDist for alternative dist location', done => {
+test('plugin:war should use name for war file and pathDist for alternative dist location', (done) => {
 	registerTasks({
 		distName: 'my-plugin-name',
 		gulp: new Gulp(),

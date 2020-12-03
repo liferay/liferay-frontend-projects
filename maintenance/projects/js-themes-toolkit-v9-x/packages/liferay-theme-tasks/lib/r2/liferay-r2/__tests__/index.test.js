@@ -6,7 +6,7 @@
 const {swap} = require('../index');
 
 describe('border', () => {
-	it('swap long-hand properties', done => {
+	it('swap long-hand properties', (done) => {
 		expect(swap('p{border-left:1px;}')).toEqual(
 			'p{border-right:1px;}',
 			'border-left: 1px => border-right: 1px'
@@ -22,7 +22,7 @@ describe('border', () => {
 		done();
 	});
 
-	it('swap style', done => {
+	it('swap style', (done) => {
 		expect(swap('p{border-style:solid;}')).toEqual(
 			'p{border-style:solid;}',
 			'border-style: solid => border-style: solid'
@@ -42,7 +42,7 @@ describe('border', () => {
 		done();
 	});
 
-	it('swap color', done => {
+	it('swap color', (done) => {
 		expect(swap('p{border-color:#fff;}')).toEqual(
 			'p{border-color:#fff;}',
 			'border-color: #fff => border-color: #fff'
@@ -88,7 +88,7 @@ describe('border', () => {
 		done();
 	});
 
-	it('swap border color', done => {
+	it('swap border color', (done) => {
 		expect(swap('p{border-left-color:#fff;}')).toEqual(
 			'p{border-right-color:#fff;}',
 			'border-left-color: #fff => border-right-color: #fff'
@@ -100,7 +100,7 @@ describe('border', () => {
 		done();
 	});
 
-	it('swap width', done => {
+	it('swap width', (done) => {
 		expect(swap('p{border-width:0;}')).toEqual(
 			'p{border-width:0;}',
 			'border-width: 0 => border-width: 0'
@@ -122,8 +122,10 @@ describe('border', () => {
 });
 
 describe('border-radius', () => {
-	it('swap border-radius', done => {
+	it('swap border-radius', (done) => {
+
 		// radius
+
 		expect(swap('p{border-radius:0;}')).toEqual(
 			'p{border-radius:0;}',
 			'border-radius: 0 => border-radius: 0'
@@ -138,6 +140,7 @@ describe('border-radius', () => {
 		);
 
 		// top-left top-right-and-bottom-left bottom-right
+
 		expect(swap('p{border-radius:0 1px 2px;}')).toEqual(
 			'p{border-radius:1px 0 1px 2px;}',
 			'border-radius: 0 1px 2px => border-radius: 1px 0 1px 2px'
@@ -152,6 +155,7 @@ describe('border-radius', () => {
 		);
 
 		// top-left top-right bottom-right bottom-left
+
 		expect(swap('p{border-radius:0 1px 2px 3px;}')).toEqual(
 			'p{border-radius:1px 0 3px 2px;}',
 			'border-radius: 0 1px 2px 3px => border-radius: 1px 0 3px 2px'
@@ -167,7 +171,7 @@ describe('border-radius', () => {
 		done();
 	});
 
-	it('swap top-left', done => {
+	it('swap top-left', (done) => {
 		expect(swap('p{border-top-left-radius:5px;}')).toEqual(
 			'p{border-top-right-radius:5px;}',
 			'border-top-left-radius:5px => border-top-right-radius: 5px'
@@ -183,7 +187,7 @@ describe('border-radius', () => {
 		done();
 	});
 
-	it('swap top-right', done => {
+	it('swap top-right', (done) => {
 		expect(swap('p{border-top-right-radius:5px;}')).toEqual(
 			'p{border-top-left-radius:5px;}',
 			'border-top-right-radius:5px => border-top-left-radius: 5px'
@@ -199,7 +203,7 @@ describe('border-radius', () => {
 		done();
 	});
 
-	it('swap bottom-left', done => {
+	it('swap bottom-left', (done) => {
 		expect(swap('p{border-bottom-left-radius:5px;}')).toEqual(
 			'p{border-bottom-right-radius:5px;}',
 			'border-bottom-left-radius:5px => border-bottom-right-radius: 5px'
@@ -215,7 +219,7 @@ describe('border-radius', () => {
 		done();
 	});
 
-	it('swap bottom-right', done => {
+	it('swap bottom-right', (done) => {
 		expect(swap('p{border-bottom-right-radius:5px;}')).toEqual(
 			'p{border-bottom-left-radius:5px;}',
 			'border-bottom-right-radius:5px => border-bottom-left-radius: 5px'
@@ -233,7 +237,7 @@ describe('border-radius', () => {
 });
 
 describe('padding', () => {
-	it('swap shorthand properties', done => {
+	it('swap shorthand properties', (done) => {
 		expect(swap('p{padding:0;}')).toEqual(
 			'p{padding:0;}',
 			'padding: 0 => padding: 0'
@@ -253,7 +257,7 @@ describe('padding', () => {
 		done();
 	});
 
-	it('swap longhand properties', done => {
+	it('swap longhand properties', (done) => {
 		expect(swap('p{padding-left:0;}')).toEqual(
 			'p{padding-right:0;}',
 			'padding-right: 0 => padding-left: 0'
@@ -267,7 +271,7 @@ describe('padding', () => {
 });
 
 describe('margin', () => {
-	it('swap shorthand properties', done => {
+	it('swap shorthand properties', (done) => {
 		expect(swap('p{margin:0;}')).toEqual(
 			'p{margin:0;}',
 			'margin: 0 => margin: 0'
@@ -287,7 +291,7 @@ describe('margin', () => {
 		done();
 	});
 
-	it('swap longhand properties', done => {
+	it('swap longhand properties', (done) => {
 		expect(swap('p{margin-left:0;}')).toEqual(
 			'p{margin-right:0;}',
 			'margin-right: 0 => margin-left: 0'
@@ -301,7 +305,7 @@ describe('margin', () => {
 });
 
 describe('float', () => {
-	it('swap float direction', done => {
+	it('swap float direction', (done) => {
 		expect(swap('p{float:right;}')).toEqual(
 			'p{float:left;}',
 			'float: left => float: right'
@@ -315,7 +319,7 @@ describe('float', () => {
 });
 
 describe('clear', () => {
-	it('swap clear direction', done => {
+	it('swap clear direction', (done) => {
 		expect(swap('p{clear:right;}')).toEqual(
 			'p{clear:left;}',
 			'clear: left => clear: right'
@@ -329,7 +333,7 @@ describe('clear', () => {
 });
 
 describe('text-align', () => {
-	it('swap text alignment', done => {
+	it('swap text alignment', (done) => {
 		expect(swap('p{text-align:right;}')).toEqual(
 			'p{text-align:left;}',
 			'text-align: left => text-align: right'
@@ -343,7 +347,7 @@ describe('text-align', () => {
 });
 
 describe('position', () => {
-	it('swap right/left', done => {
+	it('swap right/left', (done) => {
 		expect(swap('p{left:50%;}')).toEqual(
 			'p{right:50%;}',
 			'left: 50% => right: 50%'
@@ -357,7 +361,7 @@ describe('position', () => {
 });
 
 describe('direction', () => {
-	it('swap direction', done => {
+	it('swap direction', (done) => {
 		expect(swap('p{direction:rtl;}')).toEqual(
 			'p{direction:ltr;}',
 			'direction: rtl => direction: ltr'
@@ -375,7 +379,7 @@ describe('direction', () => {
 });
 
 describe('background-position', () => {
-	it('swap background-position', done => {
+	it('swap background-position', (done) => {
 		expect(swap('p{background-position:left top;}')).toEqual(
 			'p{background-position:right top;}',
 			'background-position: left top => right top'
@@ -393,7 +397,7 @@ describe('background-position', () => {
 });
 
 describe('background', () => {
-	it('swap shorthand position values', done => {
+	it('swap shorthand position values', (done) => {
 		expect(
 			swap('p{background:url(../left/right/test_left.png) left 30%;}')
 		).toEqual(
@@ -425,7 +429,7 @@ describe('background', () => {
 });
 
 describe('important', () => {
-	it('retain important declaration', done => {
+	it('retain important declaration', (done) => {
 		expect(swap('p{float:left!important;}')).toEqual(
 			'p{float:right!important;}',
 			'float:right!important => float:left!important'
@@ -435,14 +439,14 @@ describe('important', () => {
 });
 
 describe('empty input', () => {
-	it('not fail on empty input', done => {
+	it('not fail on empty input', (done) => {
 		expect(swap('')).toEqual('', 'Empty input => Empty output');
 		done();
 	});
 });
 
 describe('empty rule definitions', () => {
-	it('not fail on empty empty definitions', done => {
+	it('not fail on empty empty definitions', (done) => {
 		expect(
 			swap('a {}\nb:hover{ left: 10px; }\nh1{  }\nh2 { top: 2px; }')
 		).toEqual(
@@ -454,7 +458,7 @@ describe('empty rule definitions', () => {
 });
 
 describe('media expressions', () => {
-	it('handle media declarations', done => {
+	it('handle media declarations', (done) => {
 		expect(
 			swap(
 				'@media (max-width: 320px) { #myid { margin-right: 1px; } .cls { padding-left: 3px; } } td { float: left; }'
@@ -468,7 +472,7 @@ describe('media expressions', () => {
 });
 
 describe('asterisk', () => {
-	it('not ignore rules starting with asterisk', done => {
+	it('not ignore rules starting with asterisk', (done) => {
 		expect(swap('p{*left:50%;}')).toEqual(
 			'p{*right:50%;}',
 			'*left: 50% => *right: 50%'
@@ -482,7 +486,7 @@ describe('asterisk', () => {
 });
 
 describe('semicolon in content', () => {
-	it('not fail when there is a quoted semicolon in the declaration', done => {
+	it('not fail when there is a quoted semicolon in the declaration', (done) => {
 		expect(swap('b.broke:before { content:"&darr;";}')).toEqual(
 			'b.broke:before{content:"&darr;";}',
 			"Semicolon didn't affect parsing"
@@ -492,7 +496,7 @@ describe('semicolon in content', () => {
 });
 
 describe('comments in property names or values', () => {
-	it('ignore comments in property names and values', done => {
+	it('ignore comments in property names and values', (done) => {
 		expect(swap('hello { padding/*hello*/: 1px 2px;}')).toEqual(
 			'hello{padding:1px 2px;}',
 			'Ignored comment in property name'
@@ -513,7 +517,7 @@ describe('comments in property names or values', () => {
 });
 
 describe('comments', () => {
-	it('ignore comments', done => {
+	it('ignore comments', (done) => {
 		expect(swap('/*le comment*/ p { margin-left: 5px;}')).toEqual(
 			'p{margin-right:5px;}',
 			'Ignored comment before rule'
@@ -527,7 +531,7 @@ describe('comments', () => {
 });
 
 describe('no compress', () => {
-	it('not compress if the option is false', done => {
+	it('not compress if the option is false', (done) => {
 		expect(
 			swap('/* some comment*/\n\np {\n  margin-left: 5px;\n}', {
 				compress: false,
@@ -541,7 +545,7 @@ describe('no compress', () => {
 });
 
 describe('noflip', () => {
-	it('skip if a rule is preceded with /* @noflip */', done => {
+	it('skip if a rule is preceded with /* @noflip */', (done) => {
 		expect(swap('/* @noflip */ p {margin-left: 5px;}')).toEqual(
 			'p{margin-left:5px;}',
 			'Did not flip'

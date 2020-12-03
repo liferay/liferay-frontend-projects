@@ -36,7 +36,7 @@ const logBuffers = {
 	liferay: [getLogHeader('Liferay Upgrade (7.0 to 7.1)')],
 };
 
-module.exports = function(options) {
+module.exports = function (options) {
 	const gulp = options.gulp;
 
 	const runSequence = require('run-sequence').use(gulp);
@@ -45,7 +45,7 @@ module.exports = function(options) {
 
 	const pathSrc = options.pathSrc;
 
-	gulp.task('upgrade:dependencies', function(cb) {
+	gulp.task('upgrade:dependencies', function (cb) {
 		lfrThemeConfig.removeDependencies(['liferay-theme-deps-7.0']);
 		lfrThemeConfig.setDependencies(
 			{
@@ -63,7 +63,7 @@ module.exports = function(options) {
 		npmInstall.on('close', cb);
 	});
 
-	gulp.task('upgrade:config', function() {
+	gulp.task('upgrade:config', function () {
 		const lfrThemeConfig = require('../../liferay_theme_config.js');
 
 		lfrThemeConfig.setConfig({
@@ -99,7 +99,7 @@ module.exports = function(options) {
 			.pipe(gulp.dest('src/WEB-INF'));
 	});
 
-	gulp.task('upgrade:ftl-templates', function() {
+	gulp.task('upgrade:ftl-templates', function () {
 		const ftlRules = [
 			{
 				message:
@@ -138,7 +138,7 @@ module.exports = function(options) {
 		];
 
 		return gulp.src('src/templates/**/*.ftl').pipe(
-			vinylPaths(function(path, done) {
+			vinylPaths(function (path, done) {
 				checkFile(
 					path,
 					path.includes('portlet.ftl')
@@ -152,31 +152,31 @@ module.exports = function(options) {
 		);
 	});
 
-	gulp.task('upgrade:log-changes', function(cb) {
+	gulp.task('upgrade:log-changes', function (cb) {
 		logBuffer(logBuffers.lexicon);
 		logBuffer(logBuffers.liferay);
 
 		cb();
 	});
 
-	gulp.task('upgrade:rename-core-files', function(cb) {
+	gulp.task('upgrade:rename-core-files', function (cb) {
 		const auiScssPath = path.join(CWD, DIR_SRC_CSS, 'aui.scss');
 
 		gulp.src(auiScssPath)
 			.pipe(
-				plugins.rename(function(path) {
+				plugins.rename(function (path) {
 					path.basename = 'clay';
 				})
 			)
 			.pipe(gulp.dest(DIR_SRC_CSS))
-			.on('end', function() {
+			.on('end', function () {
 				logBuffers.liferay.push(`Renamed aui.scss to clay.scss \n`);
 
 				del(auiScssPath, cb);
 			});
 	});
 
-	gulp.task('upgrade:rename-core-imports', function() {
+	gulp.task('upgrade:rename-core-imports', function () {
 		return gulp
 			.src(cssSrcPath)
 			.pipe(
@@ -222,11 +222,11 @@ module.exports = function(options) {
 			.pipe(gulp.dest(DIR_SRC_CSS));
 	});
 
-	gulp.task('upgrade:collect-removed-bootstrap-vars', function() {
+	gulp.task('upgrade:collect-removed-bootstrap-vars', function () {
 		return gulp
 			.src(cssSrcPath)
 			.pipe(
-				vinylPaths(function(path, done) {
+				vinylPaths(function (path, done) {
 					checkFile(path, bootstrapVars.rules, 'bootstrap');
 
 					done();
@@ -235,11 +235,11 @@ module.exports = function(options) {
 			.pipe(gulp.dest(DIR_SRC_CSS));
 	});
 
-	gulp.task('upgrade:collect-removed-lexicon-mixins', function() {
+	gulp.task('upgrade:collect-removed-lexicon-mixins', function () {
 		return gulp
 			.src(cssSrcPath)
 			.pipe(
-				vinylPaths(function(path, done) {
+				vinylPaths(function (path, done) {
 					const usedLexiconMixins = checkFile(
 						path,
 						lexiconMixins.rules,
@@ -254,11 +254,11 @@ module.exports = function(options) {
 			.pipe(gulp.dest(DIR_SRC_CSS));
 	});
 
-	gulp.task('upgrade:collect-removed-lexicon-vars', function() {
+	gulp.task('upgrade:collect-removed-lexicon-vars', function () {
 		return gulp
 			.src(cssSrcPath)
 			.pipe(
-				vinylPaths(function(path, done) {
+				vinylPaths(function (path, done) {
 					const usedLexiconVars = checkFile(
 						path,
 						lexiconVars.rules,
@@ -273,22 +273,20 @@ module.exports = function(options) {
 			.pipe(gulp.dest(DIR_SRC_CSS));
 	});
 
-	gulp.task('upgrade:create-removed-lexicon-mixins-file', function(cb) {
+	gulp.task('upgrade:create-removed-lexicon-mixins-file', function (cb) {
 		const removedMixinsUsage = Object.keys(
 			lexiconUpgrade.removedMixinsUsage
 		)
-			.map(file => lexiconUpgrade.removedMixinsUsage[file])
+			.map((file) => lexiconUpgrade.removedMixinsUsage[file])
 			.reduce((acc, value) => acc.concat(value));
 
 		if (removedMixinsUsage.length) {
 			const removedMixinsFileContent = [
 				...new Set(removedMixinsUsage),
-			].map(mixinName => {
+			].map((mixinName) => {
 				return fs.readFileSync(
 					path.normalize(
-						`${__dirname}/theme_data/mixins/${
-							lexiconMixins.removed[mixinName]
-						}.scss`
+						`${__dirname}/theme_data/mixins/${lexiconMixins.removed[mixinName]}.scss`
 					)
 				);
 			});
@@ -309,9 +307,9 @@ module.exports = function(options) {
 		cb();
 	});
 
-	gulp.task('upgrade:create-removed-lexicon-vars-file', function(cb) {
+	gulp.task('upgrade:create-removed-lexicon-vars-file', function (cb) {
 		const removedVarsUsage = Object.keys(lexiconUpgrade.removedVarsUsage)
-			.map(file => lexiconUpgrade.removedVarsUsage[file])
+			.map((file) => lexiconUpgrade.removedVarsUsage[file])
 			.reduce((acc, value) => acc.concat(value));
 
 		if (removedVarsUsage.length) {
@@ -332,7 +330,7 @@ module.exports = function(options) {
 		cb();
 	});
 
-	gulp.task('upgrade:import-removed-bootstrap-mixins', function() {
+	gulp.task('upgrade:import-removed-bootstrap-mixins', function () {
 		const importsFilePath = path.join(
 			process.cwd(),
 			pathSrc,
@@ -350,10 +348,10 @@ module.exports = function(options) {
 			.pipe(gulp.dest(DIR_SRC_CSS));
 	});
 
-	gulp.task('upgrade:import-removed-lexicon-mixins', function() {
+	gulp.task('upgrade:import-removed-lexicon-mixins', function () {
 		const removedMixinsUsage = Object.keys(
 			lexiconUpgrade.removedMixinsUsage
-		).filter(file => lexiconUpgrade.removedMixinsUsage[file].length);
+		).filter((file) => lexiconUpgrade.removedMixinsUsage[file].length);
 
 		if (removedMixinsUsage.length) {
 			const importsFilePath = path.join(
@@ -370,10 +368,10 @@ module.exports = function(options) {
 		}
 	});
 
-	gulp.task('upgrade:import-removed-lexicon-vars', function() {
+	gulp.task('upgrade:import-removed-lexicon-vars', function () {
 		const removedVarsUsage = Object.keys(
 			lexiconUpgrade.removedVarsUsage
-		).filter(file => lexiconUpgrade.removedVarsUsage[file].length);
+		).filter((file) => lexiconUpgrade.removedVarsUsage[file].length);
 
 		if (removedVarsUsage.length) {
 			const importsFilePath = path.join(
@@ -392,9 +390,9 @@ module.exports = function(options) {
 		}
 	});
 
-	gulp.task('upgrade:unsupported-vm-templates', function() {
+	gulp.task('upgrade:unsupported-vm-templates', function () {
 		return gulp.src('src/templates/**/*.vm').pipe(
-			vinylPaths(function(filePath, done) {
+			vinylPaths(function (filePath, done) {
 				const fileName = colors.white(
 					'File: ' + colors.underline(path.basename(filePath)) + '\n'
 				);
@@ -415,7 +413,7 @@ module.exports = function(options) {
 		);
 	});
 
-	return function(cb) {
+	return function (cb) {
 		runSequence(
 			'upgrade:config',
 			'upgrade:rename-core-files',
@@ -449,7 +447,7 @@ function checkFile(filePath, rules, logBuffer) {
 
 		const fileContents = fs.readFileSync(filePath, config);
 
-		_.forEach(rules, function(item) {
+		_.forEach(rules, function (item) {
 			if (item.fileName && item.fileName !== path.basename(filePath)) {
 				return;
 			}

@@ -24,8 +24,8 @@ var swapIcons = {
 		f178: 'f177',
 	},
 	contentRegexp = /^"\\(.*)"$/,
-	plug = function(r2) {
-		r2.valueMap['content'] = function(v) {
+	plug = function (r2) {
+		r2.valueMap['content'] = function (v) {
 			if (contentRegexp.test(v)) {
 				const icon = contentRegexp.exec(v)[1];
 

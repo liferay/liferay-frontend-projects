@@ -30,11 +30,11 @@ var initCwd = process.cwd();
 var registerTasks;
 var runSequence;
 
-beforeAll(done => {
+beforeAll((done) => {
 	fs.copy(
 		path.join(__dirname, '../fixtures/plugins/test-plugin-layouttpl'),
 		tempPath,
-		err => {
+		(err) => {
 			if (err) {
 				throw err;
 			}
@@ -54,7 +54,7 @@ beforeAll(done => {
 	);
 });
 
-afterAll(done => {
+afterAll((done) => {
 	del([path.join(tempPath, '**')], {
 		force: true,
 	}).then(() => {
@@ -64,7 +64,7 @@ afterAll(done => {
 	});
 });
 
-test('plugin:war should build war file', done => {
+test('plugin:war should build war file', (done) => {
 	runSequence('plugin:war', () => {
 		assert.isFile(path.join(tempPath, 'dist', 'test-plugin-layouttpl.war'));
 
@@ -72,7 +72,7 @@ test('plugin:war should build war file', done => {
 	});
 });
 
-test('plugin:war should use name for war file and pathDist for alternative dist location', done => {
+test('plugin:war should use name for war file and pathDist for alternative dist location', (done) => {
 	gulp = new Gulp();
 
 	registerTasks({

@@ -110,7 +110,8 @@ it('getModuleChoices should get module choices that are appropriate for extend t
 
 		if (number == 1) {
 			expect(item.checked).toBe(true);
-		} else {
+		}
+		else {
 			expect(!item.checked).toBe(true);
 		}
 

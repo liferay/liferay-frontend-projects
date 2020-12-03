@@ -24,7 +24,8 @@ function status(themeConfig) {
 			baseThemeLabel +
 				colors.green(`${baseThemeName} ${baseThemeVersion}`)
 		);
-	} else {
+	}
+	else {
 		statusBuffer.push(
 			baseThemeLabel + colors.red('no base theme specified')
 		);
@@ -35,7 +36,7 @@ function status(themeConfig) {
 	if (themeletDependencies) {
 		statusBuffer.push(colors.cyan('Themelets:'));
 
-		_.forEach(themeletDependencies, function(item) {
+		_.forEach(themeletDependencies, function (item) {
 			statusBuffer.push(
 				' - ' + colors.green(item.name + ' v' + item.version)
 			);

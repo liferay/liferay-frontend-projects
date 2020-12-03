@@ -33,6 +33,7 @@ class Store {
 		this._filePath = path.join(project.dir, fileName);
 
 		// Load default values
+
 		this._deployed = false;
 		this._pluginName = path.basename(project.dir);
 
@@ -192,7 +193,8 @@ class Store {
 
 		try {
 			json = fs.readJSONSync(this._filePath);
-		} catch (err) {
+		}
+		catch (err) {
 			if (err.code !== 'ENOENT') {
 				throw err;
 			}
@@ -200,7 +202,7 @@ class Store {
 
 		json = json[this._section] || {};
 
-		PERSISTENT_PROPERTIES.FilePath.forEach(prop => {
+		PERSISTENT_PROPERTIES.FilePath.forEach((prop) => {
 			const posixPath = json[prop];
 
 			if (posixPath !== undefined) {
@@ -208,7 +210,7 @@ class Store {
 			}
 		});
 
-		PERSISTENT_PROPERTIES.primitive.forEach(prop => {
+		PERSISTENT_PROPERTIES.primitive.forEach((prop) => {
 			this[`_${prop}`] = json[prop];
 		});
 	}

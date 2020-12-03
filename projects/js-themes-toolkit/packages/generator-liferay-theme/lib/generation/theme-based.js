@@ -62,10 +62,12 @@ async function writing(generator, themeName) {
 	await downloadThemeFiles(project, themeName, themeVersion);
 
 	// Remove downloaded output .css files which shouldn't go in `src`
+
 	removeCssFiles();
 
 	// Merge files which are both in downloaded theme and in the project we are
 	// generating (because facet-theme writes them).
+
 	await mergeLiferayLookAndFeelXml(project);
 	await mergeLiferayPluginPackageProperties();
 	await mergeThumbnailPng();
@@ -93,7 +95,7 @@ async function downloadThemeFiles(project, themeName, themeVersion) {
 
 		const progressLine = new ProgressLine();
 
-		stream.on('downloadProgress', progress =>
+		stream.on('downloadProgress', (progress) =>
 			progressLine.update(progress)
 		);
 
@@ -104,7 +106,8 @@ async function downloadThemeFiles(project, themeName, themeVersion) {
 		await extract(warFile, {dir: path.resolve('src')});
 
 		fs.unlinkSync(warFile);
-	} catch (err) {
+	}
+	catch (err) {
 		print(error`
 			Error downloading and extracting Liferay's ${themeName} theme:
 
@@ -117,7 +120,7 @@ function getLatestThemeVersion(themeName, themeVersions, liferayVersion) {
 	const themeSemverExpr = versions.theme[themeName][liferayVersion];
 
 	const sortedCompatibleVersions = themeVersions
-		.filter(version => semver.satisfies(version, themeSemverExpr))
+		.filter((version) => semver.satisfies(version, themeSemverExpr))
 		.sort((l, r) => -semver.compare(l, r));
 
 	if (sortedCompatibleVersions === undefined) {
@@ -153,7 +156,8 @@ async function getThemeVersions(themeName) {
 		}
 
 		return themeVersions;
-	} catch (err) {
+	}
+	catch (err) {
 		print(error`
 			Error when querying https://mvnrepository.com for the list of 
 			available versions of Liferay's ${themeName} theme:
@@ -166,11 +170,13 @@ async function getThemeVersions(themeName) {
 }
 
 async function mergeLiferayLookAndFeelXml(project) {
+
 	// The strategy for merging this file is: use the name and id written
 	// by facet-theme to substitute the ones comming from the downloaded theme.
 	// The rest remains the same as in the downloaded theme.
 
 	// Read the XML from downloaded theme
+
 	const downloadXml = await new xml2js.Parser().parseStringPromise(
 		fs.readFileSync(
 			path.resolve('src', 'WEB-INF', 'liferay-look-and-feel.xml')
@@ -180,9 +186,10 @@ async function mergeLiferayLookAndFeelXml(project) {
 	fs.unlinkSync(path.resolve('src', 'WEB-INF', 'liferay-look-and-feel.xml'));
 
 	// Merge it into project's XML
+
 	project.modifyXmlFile(
 		path.join('src', 'WEB-INF', 'liferay-look-and-feel.xml'),
-		xml => {
+		(xml) => {
 			const {id, name} = xml['look-and-feel']['theme'][0]['$'];
 
 			downloadXml['look-and-feel']['compatibility'][0]['version'] =
@@ -199,16 +206,20 @@ async function mergeLiferayLookAndFeelXml(project) {
 }
 
 function mergeLiferayPluginPackageProperties() {
+
 	// The strategy for merging this file is simple: use the new on that
 	// facet-theme creates and remove the one coming from downloaded theme.
+
 	fs.unlinkSync(
 		path.resolve('src', 'WEB-INF', 'liferay-plugin-package.properties')
 	);
 }
 
 function mergeThumbnailPng() {
+
 	// The strategy for merging this file is simple: use the new on that
 	// facet-theme creates and remove the one coming from downloaded theme.
+
 	fs.unlinkSync(path.resolve('src', 'images', 'thumbnail.png'));
 }
 

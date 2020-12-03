@@ -43,7 +43,7 @@ beforeEach(() => {
 	themeConfig = new ThemeConfig({
 		modifyPkgJson(modifier) {
 			const newPkgJson = modifier({...pkgJson});
-			Object.keys(pkgJson).forEach(key => delete pkgJson[key]);
+			Object.keys(pkgJson).forEach((key) => delete pkgJson[key]);
 			Object.assign(pkgJson, newPkgJson);
 		},
 		pkgJson,

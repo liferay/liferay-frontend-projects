@@ -18,6 +18,7 @@ function strict(version) {
 }
 
 // Define versions that are common to every Liferay DXP version and project type
+
 const gulpVersion = '4.0.2';
 const themeTasksVersion = `^${pkgJson.version}`;
 
@@ -25,13 +26,13 @@ const themeTasksVersion = `^${pkgJson.version}`;
 /* eslint-disable quote-props */
 module.exports = {
 	layout: {
-		'7.2': {
+		7.2: {
 			default: {
 				gulp: gulpVersion,
 				'liferay-theme-tasks': themeTasksVersion,
 			},
 		},
-		'7.3': {
+		7.3: {
 			default: {
 				gulp: gulpVersion,
 				'liferay-theme-tasks': themeTasksVersion,
@@ -39,7 +40,7 @@ module.exports = {
 		},
 	},
 	theme: {
-		'7.2': {
+		7.2: {
 			default: {
 				'compass-mixins': strict('0.12.10'),
 				gulp: gulpVersion,
@@ -52,7 +53,7 @@ module.exports = {
 				'liferay-font-awesome': strict('3.4.0'),
 			},
 		},
-		'7.3': {
+		7.3: {
 			default: {
 				'compass-mixins': strict('0.12.10'),
 				gulp: gulpVersion,

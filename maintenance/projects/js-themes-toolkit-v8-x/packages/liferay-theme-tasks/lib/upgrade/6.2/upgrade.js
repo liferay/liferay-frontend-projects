@@ -35,7 +35,7 @@ const logBuffers = {
 	liferay: [getLogHeader('Liferay Upgrade (6.2 to 7)')],
 };
 
-module.exports = function(options) {
+module.exports = function (options) {
 	const gulp = options.gulp;
 
 	const runSequence = require('run-sequence').use(gulp);
@@ -46,7 +46,7 @@ module.exports = function(options) {
 
 	let patterns;
 
-	gulp.task('upgrade:convert-bootstrap', function(cb) {
+	gulp.task('upgrade:convert-bootstrap', function (cb) {
 		const files = globby.sync('src/css/*');
 
 		const convertBootstrap = new ConvertBootstrapCLI({
@@ -68,7 +68,7 @@ module.exports = function(options) {
 		convertBootstrap.init();
 	});
 
-	gulp.task('upgrade:dependencies', function(cb) {
+	gulp.task('upgrade:dependencies', function (cb) {
 		lfrThemeConfig.removeDependencies(['liferay-theme-deps-6.2']);
 		lfrThemeConfig.setDependencies(
 			{
@@ -85,15 +85,15 @@ module.exports = function(options) {
 		npmInstall.on('close', cb);
 	});
 
-	gulp.task('upgrade:black-list', function() {
+	gulp.task('upgrade:black-list', function () {
 		return gulp.src(cssSrcPath).pipe(
-			gulpBlackList(null, function(result) {
+			gulpBlackList(null, function (result) {
 				patterns = require('./replace_patterns.js')(result);
 			})
 		);
 	});
 
-	gulp.task('upgrade:config', function() {
+	gulp.task('upgrade:config', function () {
 		const lfrThemeConfig = require('../../liferay_theme_config.js');
 
 		lfrThemeConfig.setConfig({
@@ -129,7 +129,7 @@ module.exports = function(options) {
 			.pipe(gulp.dest('src/WEB-INF'));
 	});
 
-	gulp.task('upgrade:create-deprecated-mixins', function(cb) {
+	gulp.task('upgrade:create-deprecated-mixins', function (cb) {
 		const NEW_LINE = '\n';
 
 		const includeCompass =
@@ -149,7 +149,7 @@ module.exports = function(options) {
 
 		const deprecatedMixins = _.map(
 			require('./theme_data/deprecated_mixins.json'),
-			function(item) {
+			function (item) {
 				const buffer = ['@mixin '];
 
 				buffer.push(item);
@@ -191,7 +191,7 @@ module.exports = function(options) {
 		cb();
 	});
 
-	gulp.task('upgrade:ftl-templates', function() {
+	gulp.task('upgrade:ftl-templates', function () {
 		const ftlRules = [
 			{
 				message:
@@ -213,7 +213,7 @@ module.exports = function(options) {
 		];
 
 		return gulp.src('src/templates/**/*.ftl').pipe(
-			vinylPaths(function(path, done) {
+			vinylPaths(function (path, done) {
 				checkFile(path, ftlRules);
 
 				done();
@@ -221,14 +221,14 @@ module.exports = function(options) {
 		);
 	});
 
-	gulp.task('upgrade:log-changes', function(cb) {
+	gulp.task('upgrade:log-changes', function (cb) {
 		logBuffer(logBuffers.bootstrap);
 		logBuffer(logBuffers.liferay);
 
 		cb();
 	});
 
-	gulp.task('upgrade:rename-core-files', function(cb) {
+	gulp.task('upgrade:rename-core-files', function (cb) {
 		const renamedCssFiles = require('./theme_data/renamed_css_files.json');
 
 		const baseFile = ['aui', 'main'];
@@ -236,7 +236,7 @@ module.exports = function(options) {
 		const prompts = [];
 		const srcPaths = [];
 
-		_.forEach(fs.readdirSync(path.join(CWD, DIR_SRC_CSS)), function(item) {
+		_.forEach(fs.readdirSync(path.join(CWD, DIR_SRC_CSS)), function (item) {
 			const fileName = path.basename(item, '.css');
 
 			if (
@@ -274,12 +274,12 @@ module.exports = function(options) {
 
 		gulp.src(srcPaths)
 			.pipe(
-				plugins.prompt.prompt(prompts, function(results) {
+				plugins.prompt.prompt(prompts, function (results) {
 					promptResults = results;
 				})
 			)
 			.pipe(
-				plugins.filter(function(file) {
+				plugins.filter(function (file) {
 					const extname = path.extname(file.path).slice(1);
 					const basename = path.basename(file.path, `.${extname}`);
 
@@ -292,7 +292,7 @@ module.exports = function(options) {
 				})
 			)
 			.pipe(
-				plugins.rename(function(path) {
+				plugins.rename(function (path) {
 					path.extname = '.scss';
 
 					if (baseFile.indexOf(path.basename) < 0) {
@@ -301,12 +301,12 @@ module.exports = function(options) {
 				})
 			)
 			.pipe(gulp.dest(DIR_SRC_CSS))
-			.on('end', function() {
+			.on('end', function () {
 				del(filteredPaths, cb);
 			});
 	});
 
-	gulp.task('upgrade:replace-compass', function() {
+	gulp.task('upgrade:replace-compass', function () {
 		return gulp
 			.src(cssSrcPath)
 			.pipe(
@@ -317,7 +317,7 @@ module.exports = function(options) {
 			.pipe(gulp.dest(DIR_SRC_CSS));
 	});
 
-	gulp.task('upgrade:vm-templates', function() {
+	gulp.task('upgrade:vm-templates', function () {
 		const vmRules = [
 			{
 				message:
@@ -339,7 +339,7 @@ module.exports = function(options) {
 		];
 
 		return gulp.src('src/templates/**/*.vm').pipe(
-			vinylPaths(function(path, done) {
+			vinylPaths(function (path, done) {
 				checkFile(path, vmRules);
 
 				done();
@@ -347,7 +347,7 @@ module.exports = function(options) {
 		);
 	});
 
-	return function(cb) {
+	return function (cb) {
 		runSequence(
 			'upgrade:black-list',
 			'upgrade:replace-compass',
@@ -374,7 +374,7 @@ function checkFile(filePath, rules) {
 
 		const fileContents = fs.readFileSync(filePath, config);
 
-		_.forEach(rules, function(item) {
+		_.forEach(rules, function (item) {
 			if (item.fileName && item.fileName !== path.basename(filePath)) {
 				return;
 			}

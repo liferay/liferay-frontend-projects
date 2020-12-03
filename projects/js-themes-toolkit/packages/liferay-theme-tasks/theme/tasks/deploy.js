@@ -21,19 +21,20 @@ function registerTasks() {
 		webBundleDir,
 	} = store;
 
-	gulp.task('deploy', cb => {
+	gulp.task('deploy', (cb) => {
 		const sequence = ['build', 'deploy:war', cb];
 
 		if (argv.l || argv.live) {
 			sequence.splice(1, 1, 'deploy-live:war');
-		} else if (webBundleDir === 'watching') {
+		}
+		else if (webBundleDir === 'watching') {
 			sequence.splice(2, 0, 'watch:teardown');
 		}
 
 		runSequence(...sequence);
 	});
 
-	gulp.task('deploy:docker', cb => {
+	gulp.task('deploy:docker', (cb) => {
 		const themeName = pkgJson.name;
 
 		themeUtil.dockerCopy(
@@ -50,12 +51,13 @@ function registerTasks() {
 		);
 	});
 
-	gulp.task('deploy:war', cb => {
+	gulp.task('deploy:war', (cb) => {
 		const sequence = [];
 
 		if (deploymentStrategy === DEPLOYMENT_STRATEGIES.DOCKER_CONTAINER) {
 			sequence.push('deploy:docker');
-		} else {
+		}
+		else {
 			sequence.push('plugin:deploy');
 		}
 
@@ -63,7 +65,7 @@ function registerTasks() {
 		runSequence(...sequence);
 	});
 
-	gulp.task('deploy-live:war', cb => {
+	gulp.task('deploy-live:war', (cb) => {
 		const password = argv.p || argv.password;
 		const url = argv.url || store.url;
 		const username = argv.u || argv.username;

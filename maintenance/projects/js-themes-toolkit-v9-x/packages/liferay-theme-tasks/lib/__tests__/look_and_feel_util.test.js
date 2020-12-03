@@ -80,8 +80,8 @@ it('getLookAndFeelDoctypeByVersion should generate correct doctype string based 
 	);
 });
 
-it('getLookAndFeelJSON should convert look-and-feel xml to json', done => {
-	lookAndFeelUtil.getLookAndFeelJSON(baseThemePath, result => {
+it('getLookAndFeelJSON should convert look-and-feel xml to json', (done) => {
+	lookAndFeelUtil.getLookAndFeelJSON(baseThemePath, (result) => {
 		expect(result).toBeTruthy();
 		expect(result).toHaveProperty('look-and-feel');
 		expect(result['look-and-feel']).toBeTruthy();
@@ -90,8 +90,8 @@ it('getLookAndFeelJSON should convert look-and-feel xml to json', done => {
 	});
 });
 
-it('mergeLookAndFeelJSON should merge look and feel json', done => {
-	lookAndFeelUtil.mergeLookAndFeelJSON(baseThemePath, {}, result => {
+it('mergeLookAndFeelJSON should merge look and feel json', (done) => {
+	lookAndFeelUtil.mergeLookAndFeelJSON(baseThemePath, {}, (result) => {
 		expect(result).toBeTruthy();
 		expect(result).toHaveProperty('look-and-feel');
 
@@ -102,9 +102,11 @@ it('mergeLookAndFeelJSON should merge look and feel json', done => {
 });
 
 it('readLookAndFeelXML should return xml and access file only once', () => {
+
 	// erase cache for sinon spy
+
 	Object.keys(lookAndFeelUtil.xmlCache).forEach(
-		key => delete lookAndFeelUtil.xmlCache[key]
+		(key) => delete lookAndFeelUtil.xmlCache[key]
 	);
 
 	const spy = sinon.spy(fs, 'readFileSync');
@@ -117,8 +119,8 @@ it('readLookAndFeelXML should return xml and access file only once', () => {
 	expect(spy.callCount).toBe(1);
 });
 
-it('extractThemeElement should extract elements based on tag name', done => {
-	lookAndFeelUtil.getLookAndFeelJSON(baseThemePath, result => {
+it('extractThemeElement should extract elements based on tag name', (done) => {
+	lookAndFeelUtil.getLookAndFeelJSON(baseThemePath, (result) => {
 		const portletDecorators = lookAndFeelUtil.extractThemeElement(
 			result,
 			'portlet-decorator'

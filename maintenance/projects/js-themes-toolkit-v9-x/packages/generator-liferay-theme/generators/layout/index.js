@@ -19,7 +19,8 @@ module.exports = class extends Generator {
 
 		if (project.type === Project.THEME) {
 			this.composeWith(require.resolve('./theme-layout'));
-		} else {
+		}
+		else {
 			this.composeWith(require.resolve('./standalone-layout'));
 		}
 	}

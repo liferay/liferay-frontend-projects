@@ -23,14 +23,14 @@ const FORWARD_SLASH = '/';
 const customCssFileName = '_custom.scss';
 const defaultTemplateLanguage = 'ftl';
 
-module.exports = function() {
+module.exports = function () {
 	const {gulp, options} = project;
 	const {runSequence} = gulp;
 	const {pathBuild} = options;
 
 	const themeConfig = project.themeConfig.config;
 
-	gulp.task('build:themelets', cb => {
+	gulp.task('build:themelets', (cb) => {
 		runSequence(
 			['build:themelet-src'],
 			['build:themelet-css-inject', 'build:themelet-js-inject'],
@@ -38,7 +38,7 @@ module.exports = function() {
 		);
 	});
 
-	gulp.task('build:themelet-css-inject', cb => {
+	gulp.task('build:themelet-css-inject', (cb) => {
 		const themeSrcPaths = pathBuild.join(
 			'themelets',
 			'**',
@@ -102,7 +102,7 @@ module.exports = function() {
 			});
 	});
 
-	gulp.task('build:themelet-js-inject', cb => {
+	gulp.task('build:themelet-js-inject', (cb) => {
 		const themeSrcPaths = pathBuild.join(
 			'themelets',
 			'**',
@@ -179,7 +179,7 @@ module.exports = function() {
 			});
 	});
 
-	gulp.task('build:themelet-src', cb => {
+	gulp.task('build:themelet-src', (cb) => {
 		runThemeletDependenciesSeries((item, index, done) => {
 			gulp.src(
 				new FilePath(project.dir).join(
@@ -196,7 +196,7 @@ module.exports = function() {
 	});
 
 	function runThemeletDependenciesSeries(asyncTask, cb) {
-		const themeletStreamMap = _.map(getThemeletDependencies(), function(
+		const themeletStreamMap = _.map(getThemeletDependencies(), function (
 			item,
 			index
 		) {

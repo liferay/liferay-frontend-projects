@@ -18,7 +18,7 @@ const lfrThemeConfig = require('../lib/liferay_theme_config.js');
 
 const themeConfig = lfrThemeConfig.getConfig();
 
-module.exports = function(options) {
+module.exports = function (options) {
 	const gulp = options.gulp;
 	const argv = options.argv;
 
@@ -39,7 +39,7 @@ module.exports = function(options) {
 		versionUpgradeTask = require(modulePath)(options);
 	}
 
-	gulp.task('upgrade', function(cb) {
+	gulp.task('upgrade', function (cb) {
 		if (_.isFunction(versionUpgradeTask)) {
 			inquirer.prompt(
 				{
@@ -50,9 +50,9 @@ module.exports = function(options) {
 					name: 'sure',
 					type: 'confirm',
 				},
-				function(answers) {
+				function (answers) {
 					if (answers.sure) {
-						versionUpgradeTask(function(err) {
+						versionUpgradeTask(function (err) {
 							if (err) {
 								log(
 									colors.red('Error:'),
@@ -63,12 +63,14 @@ module.exports = function(options) {
 							}
 							cb();
 						});
-					} else {
+					}
+					else {
 						cb();
 					}
 				}
 			);
-		} else {
+		}
+		else {
 			throw new PluginError(
 				'gulp-theme-upgrader',
 				colors.red(

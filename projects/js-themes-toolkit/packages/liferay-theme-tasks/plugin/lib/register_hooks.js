@@ -10,7 +10,7 @@ var _ = require('lodash');
 
 var chalk = gutil.colors;
 
-var RegisterHooks = function(gulp, config) {
+var RegisterHooks = function (gulp, config) {
 	this.gulp = gulp;
 	this.hookFn = config.hookFn;
 	this.hookModules = config.hookModules;
@@ -20,7 +20,7 @@ var RegisterHooks = function(gulp, config) {
 	this._registerHooks();
 };
 
-RegisterHooks.hook = function(gulp, config) {
+RegisterHooks.hook = function (gulp, config) {
 	return new RegisterHooks(gulp, config);
 };
 
@@ -109,7 +109,8 @@ RegisterHooks.prototype = {
 	_registerHookFn() {
 		if (_.isFunction(this.hookFn)) {
 			this.hookFn(this.gulp, this.options);
-		} else if (this.hookFn) {
+		}
+		else if (this.hookFn) {
 			gutil.log(chalk.red('hookFn must be a function.'));
 		}
 	},
@@ -121,7 +122,8 @@ RegisterHooks.prototype = {
 
 			if (_.isFunction(hookFn)) {
 				hookFn(this.gulp, this.options);
-			} else {
+			}
+			else {
 				gutil.log(
 					chalk.red(
 						moduleName,
@@ -129,7 +131,8 @@ RegisterHooks.prototype = {
 					)
 				);
 			}
-		} catch (e) {
+		}
+		catch (e) {
 			gutil.log('There was an issue registering', moduleName);
 		}
 	},
@@ -149,7 +152,7 @@ RegisterHooks.prototype = {
 	_registerHooks() {
 		var instance = this;
 
-		this.gulp.hook = function(name, fn) {
+		this.gulp.hook = function (name, fn) {
 			var hooks = instance.hooks;
 
 			if (!hooks[name]) {

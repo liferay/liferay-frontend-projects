@@ -53,7 +53,8 @@ async function promptWithQA(generator, prompts) {
 		}, {});
 
 		return answers;
-	} else {
+	}
+	else {
 		return await generator.prompt(prompts);
 	}
 }
@@ -72,6 +73,7 @@ function runGulpInit(registerTasksModule) {
 	);
 
 	// Skip step if ran in QA mode
+
 	if (argv.qa) {
 		return;
 	}
@@ -87,6 +89,7 @@ function runGulpInit(registerTasksModule) {
 	);
 
 	// We cannot load this before the project is created because it crashes
+
 	let liferayThemeTasks;
 
 	switch (registerTasksModule) {
@@ -160,9 +163,7 @@ function sayHello(generator) {
  * Returns a "snake case" version of `name` (eg. "foo_bar_baz").
  */
 function snakeCase(name) {
-	return splitWords(name)
-		.join('_')
-		.toLowerCase();
+	return splitWords(name).join('_').toLowerCase();
 }
 
 /**

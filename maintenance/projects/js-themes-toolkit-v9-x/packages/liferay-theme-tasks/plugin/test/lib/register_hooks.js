@@ -23,12 +23,12 @@ beforeEach(() => {
 	prototype = _.create(RegisterHooks.prototype);
 });
 
-test('_addToSequence should add function to sequence differently based on if cb is expected or stream is returned', done => {
+test('_addToSequence should add function to sequence differently based on if cb is expected or stream is returned', (done) => {
 	var sequence = [];
 
 	var spy = sinon.spy();
 
-	prototype._addToSequence(sequence, cb => {
+	prototype._addToSequence(sequence, (cb) => {
 		spy();
 
 		cb();
@@ -60,11 +60,11 @@ test('_addToSequence should add function to sequence differently based on if cb 
 test('_applyHooks should pass', () => {
 	prototype.gulp = new Gulp();
 
-	prototype.gulp.task('test', ['test2'], cb => {
+	prototype.gulp.task('test', ['test2'], (cb) => {
 		cb();
 	});
 
-	prototype.gulp.task('test2', cb => {
+	prototype.gulp.task('test2', (cb) => {
 		cb();
 	});
 
@@ -86,7 +86,7 @@ test('_applyHooks should pass', () => {
 	);
 });
 
-test('_createTaskSequence should create sequences that work with async methods', done => {
+test('_createTaskSequence should create sequences that work with async methods', (done) => {
 	var sequence = prototype._createTaskSequence(_.noop, {});
 
 	expect(sequence.length).toBe(1);
@@ -96,7 +96,7 @@ test('_createTaskSequence should create sequences that work with async methods',
 
 	sequence = prototype._createTaskSequence(_.noop, {
 		after: [
-			function(cb) {
+			function (cb) {
 				hookSpy();
 
 				cb();

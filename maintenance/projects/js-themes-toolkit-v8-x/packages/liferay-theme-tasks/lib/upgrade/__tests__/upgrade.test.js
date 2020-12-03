@@ -13,8 +13,10 @@ const lfrThemeConfig = require('../../liferay_theme_config.js');
 const initCwd = process.cwd();
 
 afterAll(() => {
+
 	// Clean things on exit to avoid GulpStorage.save() errors because of left
 	// over async operations when changing tests.
+
 	[
 		'upgrade_task_black_list',
 		'upgrade_task_config',
@@ -23,7 +25,7 @@ afterAll(() => {
 		'upgrade_task_log_changes',
 		'upgrade_task_replace_compass',
 		'upgrade_task_upgrade_templates',
-	].forEach(namespace =>
+	].forEach((namespace) =>
 		testUtil.cleanTempTheme('upgrade-theme', '6.2', namespace, initCwd)
 	);
 });
@@ -56,12 +58,12 @@ describe('black list', () => {
 		gulp = config.gulp;
 	});
 
-	it('should create blacklist of scss mixins found in theme css files', done => {
-		runSequence('upgrade:black-list', function(err) {
+	it('should create blacklist of scss mixins found in theme css files', (done) => {
+		runSequence('upgrade:black-list', function (err) {
 			if (err) throw err;
 
 			gulp.src(path.join(tempPath, 'src/css/*')).pipe(
-				gulpBlackList(null, function(result) {
+				gulpBlackList(null, function (result) {
 					expect(result.mixins).toBeTruthy();
 					expect(result.mixins.indexOf('border-radius') > -1).toBe(
 						true
@@ -92,8 +94,8 @@ describe('config', () => {
 		tempPath = config.tempPath;
 	});
 
-	it('upgrade:config', done => {
-		runSequence('upgrade:config', err => {
+	it('upgrade:config', (done) => {
+		runSequence('upgrade:config', (err) => {
 			if (err) throw err;
 
 			const themeConfig = lfrThemeConfig.getConfig();
@@ -126,7 +128,7 @@ describe('convert bootstrap', () => {
 	let runSequence;
 	let tempPath;
 
-	beforeEach(done => {
+	beforeEach((done) => {
 		const config = testUtil.copyTempTheme({
 			namespace: 'upgrade_task_convert_bootstrap',
 			themeName: 'upgrade-theme',
@@ -142,8 +144,8 @@ describe('convert bootstrap', () => {
 		done();
 	});
 
-	it('upgrade:convert-bootstrap should run convert-bootstrap-2-to-3 module on css files', done => {
-		runSequence('upgrade:convert-bootstrap', err => {
+	it('upgrade:convert-bootstrap should run convert-bootstrap-2-to-3 module on css files', (done) => {
+		runSequence('upgrade:convert-bootstrap', (err) => {
 			if (err) throw err;
 
 			const customCSSPath = path.join(tempPath, 'src/css/custom.css');
@@ -175,11 +177,11 @@ describe('create deprecated mixins', () => {
 		tempPath = config.tempPath;
 	});
 
-	it('should create deprecated mixins file', done => {
+	it('should create deprecated mixins file', (done) => {
 		runSequence(
 			'upgrade:config',
 			'upgrade:create-deprecated-mixins',
-			function(err) {
+			function (err) {
 				if (err) throw err;
 
 				expect(
@@ -208,8 +210,8 @@ describe('log changes', () => {
 		runSequence = config.runSequence;
 	});
 
-	it('should log changes that have been and should be made', done => {
-		runSequence('upgrade:log-changes', function(err) {
+	it('should log changes that have been and should be made', (done) => {
+		runSequence('upgrade:log-changes', function (err) {
 			if (err) throw err;
 
 			// implement sinon stubs
@@ -235,8 +237,8 @@ describe('replace compass', () => {
 		runSequence = config.runSequence;
 	});
 
-	it('upgrade:replace-compass should replace compass mixins with bourbon equivalents exluding anything mixins/functions on blacklist', done => {
-		runSequence('upgrade:black-list', 'upgrade:replace-compass', err => {
+	it('upgrade:replace-compass should replace compass mixins with bourbon equivalents exluding anything mixins/functions on blacklist', (done) => {
+		runSequence('upgrade:black-list', 'upgrade:replace-compass', (err) => {
 			if (err) throw err;
 
 			const customCSSPath = path.join(
@@ -271,8 +273,8 @@ describe('upgrade templates', () => {
 		runSequence = config.runSequence;
 	});
 
-	it('should scrape templates for needed changes', done => {
-		runSequence('upgrade:ftl-templates', 'upgrade:vm-templates', err => {
+	it('should scrape templates for needed changes', (done) => {
+		runSequence('upgrade:ftl-templates', 'upgrade:vm-templates', (err) => {
 			if (err) throw err;
 
 			// TODO: implement 'upgrade templates' test

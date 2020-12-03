@@ -103,7 +103,8 @@ function runYarnInstall() {
 
 	// Delete local package dependencies so that they are resolved locally from
 	// the project's workspace
-	prjDirs.forEach(prjDir => {
+
+	prjDirs.forEach((prjDir) => {
 		const pkgJsonPath = path.join(pkgsDir, prjDir, 'package.json');
 
 		let pkgJson = require(pkgJsonPath);

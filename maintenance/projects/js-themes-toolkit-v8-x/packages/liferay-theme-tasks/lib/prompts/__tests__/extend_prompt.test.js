@@ -83,7 +83,9 @@ it('_afterPromptModule should use after method which corresponds to addedThemele
 	expect(prototype._afterPromptThemelets.calledWith(answers)).toBe(true);
 	expect(prototype._afterPromptTheme.callCount).toBe(1);
 });
+
 //
+
 it('_afterPromptTheme should save and install new dependencies', () => {
 	const removeDependencies = lfrThemeConfig.removeDependencies;
 	const setConfig = lfrThemeConfig.setConfig;
@@ -136,7 +138,7 @@ it('_afterPromptTheme should save and install new dependencies', () => {
 	lfrThemeConfig.setConfig = setConfig;
 });
 
-it('_afterPromptTheme should end task and not throw error if no module was found', done => {
+it('_afterPromptTheme should end task and not throw error if no module was found', (done) => {
 	prototype.done = done;
 
 	prototype._afterPromptTheme({

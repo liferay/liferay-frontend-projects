@@ -28,7 +28,7 @@ afterEach(() => {
 	cleanTempPlugin(tempPlugin);
 });
 
-test('plugin:init should prompt user for appserver information', done => {
+test('plugin:init should prompt user for appserver information', (done) => {
 	const savedPrompt = InitPrompt.prompt;
 
 	let promptCalled = false;

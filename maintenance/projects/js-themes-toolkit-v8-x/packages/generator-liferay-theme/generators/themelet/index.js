@@ -66,7 +66,9 @@ module.exports = class extends Base {
 	}
 
 	install() {
+
 		// No-op.
+
 	}
 
 	_getPromptNamespace() {
@@ -78,15 +80,17 @@ module.exports = class extends Base {
 
 		const prompts = super._getPrompts.call(instance);
 
-		return prompts.reduce(function(result, item) {
+		return prompts.reduce(function (result, item) {
 			const name = item.name;
 
 			if (name == 'themeName') {
 				item.default = 'My Liferay Themelet';
 				item.message = 'What would you like to call your themelet?';
-			} else if (name == 'themeId') {
+			}
+			else if (name == 'themeId') {
 				item.message = 'Would you like to use this as the themeletId?';
-			} else if (name == 'liferayVersion') {
+			}
+			else if (name == 'liferayVersion') {
 				item.choices = ['7.1', '7.0', 'All'];
 				item.message = 'Which version of Liferay is this themelet for?';
 			}

@@ -109,7 +109,8 @@ function runYarnInstall() {
 
 	// Delete local package dependencies so that they are resolved locally from
 	// the project's workspace
-	prjDirs.forEach(prjDir => {
+
+	prjDirs.forEach((prjDir) => {
 		const pkgJsonPath = path.join(pkgsDir, prjDir, 'package.json');
 
 		let pkgJson = require(pkgJsonPath);
@@ -125,7 +126,7 @@ function runYarnInstall() {
 function configureProjects() {
 	const prjDirs = fs.readdirSync(pkgsDir);
 
-	prjDirs.forEach(prjDir => {
+	prjDirs.forEach((prjDir) => {
 		const pkgJsonPath = path.join(pkgsDir, prjDir, 'package.json');
 
 		const pkgJson = require(pkgJsonPath);
@@ -135,7 +136,8 @@ function configureProjects() {
 		if (pkgJson.liferayTheme && !pkgJson.liferayTheme.themelet) {
 			fileName = 'liferay-theme.json';
 			jsonProperty = 'LiferayTheme';
-		} else if (pkgJson.liferayLayoutTemplate) {
+		}
+		else if (pkgJson.liferayLayoutTemplate) {
 			fileName = 'liferay-plugin.json';
 			jsonProperty = 'LiferayPlugin';
 		}

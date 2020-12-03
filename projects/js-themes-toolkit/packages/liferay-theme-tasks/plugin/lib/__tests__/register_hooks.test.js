@@ -21,12 +21,13 @@ beforeEach(() => {
 	prototype = _.create(RegisterHooks.prototype);
 });
 
-test('_applyHooks should pass', done => {
+test('_applyHooks should pass', (done) => {
 	const gulp = new Gulp();
 
 	prototype.gulp = gulp;
 
 	// Prepare a function to trace task calls to the tasksTrace array
+
 	const tasksTrace = [];
 	const trace = (name, cb) => {
 		tasksTrace.push(name);
@@ -34,18 +35,20 @@ test('_applyHooks should pass', done => {
 	};
 
 	// Register tasks
-	gulp.task('test2', cb => trace('test2', cb));
+
+	gulp.task('test2', (cb) => trace('test2', cb));
 	gulp.task(
 		'test',
-		gulp.series(['test2'], cb => trace('test', cb))
+		gulp.series(['test2'], (cb) => trace('test', cb))
 	);
 
 	// Register hooks
+
 	prototype.hooks = {
-		'after:test2': cb => trace('after:test2', cb),
-		'after:test3': cb => trace('after:test3', cb),
-		'before:test': cb => trace('before:test', cb),
-		'invalid:test': cb => trace('invalid:test', cb),
+		'after:test2': (cb) => trace('after:test2', cb),
+		'after:test3': (cb) => trace('after:test3', cb),
+		'before:test': (cb) => trace('before:test', cb),
+		'invalid:test': (cb) => trace('invalid:test', cb),
 	};
 
 	gulp.task = sinon.spy();
@@ -63,18 +66,22 @@ test('_applyHooks should pass', done => {
 	expect(taskName1).toBe('test');
 
 	// Define a function to invoke gulp tasks
-	const callTask = task =>
-		new Promise(resolve => {
+
+	const callTask = (task) =>
+		new Promise((resolve) => {
 			tasksTrace.length = 0;
 
 			task(() => resolve(tasksTrace));
 		});
 
 	// Call tasks and check their trace
+
 	callTask(task0)
-		.then(trace => expect(trace).toEqual(['test2', 'after:test2']))
+		.then((trace) => expect(trace).toEqual(['test2', 'after:test2']))
 		.then(() => callTask(task1))
-		.then(trace => expect(trace).toEqual(['before:test', 'test2', 'test']))
+		.then((trace) =>
+			expect(trace).toEqual(['before:test', 'test2', 'test'])
+		)
 		.then(() => done());
 });
 

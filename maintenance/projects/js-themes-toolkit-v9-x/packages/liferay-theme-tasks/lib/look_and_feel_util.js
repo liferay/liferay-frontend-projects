@@ -148,10 +148,11 @@ function getNameFromPluginPackageProperties(themePath) {
 }
 
 function mergeLookAndFeelJSON(themePath, lookAndFeelJSON, cb) {
-	getLookAndFeelJSON(themePath, json => {
+	getLookAndFeelJSON(themePath, (json) => {
 		if (_.isEmpty(lookAndFeelJSON)) {
 			lookAndFeelJSON = json;
-		} else if (json) {
+		}
+		else if (json) {
 			lookAndFeelJSON = mergeJSON(lookAndFeelJSON, json);
 		}
 
@@ -167,7 +168,8 @@ function mergeLookAndFeelJSON(themePath, lookAndFeelJSON, cb) {
 			themePath = path.join(themePath, 'node_modules', baseTheme.name);
 
 			mergeLookAndFeelJSON(themePath, lookAndFeelJSON, cb);
-		} else {
+		}
+		else {
 			cb(lookAndFeelJSON);
 		}
 	});
@@ -192,7 +194,8 @@ function readLookAndFeelXML(themePath) {
 
 	try {
 		fs.statSync(lookAndFeelPath);
-	} catch (err) {
+	}
+	catch (err) {
 		lookAndFeelPath = lookAndFeelDefaultPath;
 	}
 
@@ -200,8 +203,11 @@ function readLookAndFeelXML(themePath) {
 		xmlString = fs.readFileSync(lookAndFeelPath, 'utf8');
 
 		xmlCache[themePath] = xmlString;
-	} catch (err) {
+	}
+	catch (err) {
+
 		// Swallow.
+
 	}
 
 	return xmlString;
@@ -237,9 +243,11 @@ function mergeJSON(themeObj, baseThemeObj) {
 				themeElement,
 				baseThemeElement
 			);
-		} else if (item === 'single') {
+		}
+		else if (item === 'single') {
 			mergedElement = themeElement || baseThemeElement;
-		} else {
+		}
+		else {
 			mergedElement = mergeThemeElementById(
 				themeElement,
 				baseThemeElement,
@@ -291,6 +299,7 @@ function mergeThemeElementByValue(themeElements, baseThemeElements) {
 }
 
 // Export private methods when in tests
+
 if (typeof jest !== 'undefined') {
 	Object.assign(module.exports, {
 		extractThemeElement,

@@ -13,9 +13,11 @@ const prototypeMethodSpy = new testUtil.PrototypeMethodSpy();
 const initCwd = process.cwd();
 
 afterAll(() => {
+
 	// Clean things on exit to avoid GulpStorage.save() errors because of left
 	// over async operations when changing tests.
-	['kickstart_task_global', 'kickstart_task_npm'].forEach(namespace =>
+
+	['kickstart_task_global', 'kickstart_task_npm'].forEach((namespace) =>
 		testUtil.cleanTempTheme('base-theme', '7.1', namespace, initCwd)
 	);
 });
@@ -39,7 +41,7 @@ describe('globally installed theme', () => {
 		KickstartPrompt = require('../../lib/prompts/kickstart_prompt');
 	});
 
-	it('kickstarts', done => {
+	it('kickstarts', (done) => {
 		const promptInitSpy = prototypeMethodSpy.add(
 			KickstartPrompt.prototype,
 			'init'
@@ -111,7 +113,7 @@ describe('npm theme', () => {
 		KickstartPrompt = require('../../lib/prompts/kickstart_prompt');
 	});
 
-	it('kickstarts', done => {
+	it('kickstarts', (done) => {
 		const promptInitSpy = prototypeMethodSpy.add(
 			KickstartPrompt.prototype,
 			'init'

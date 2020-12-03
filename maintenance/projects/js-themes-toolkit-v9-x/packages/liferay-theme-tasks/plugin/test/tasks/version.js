@@ -30,11 +30,11 @@ var initCwd = process.cwd();
 var registerTasks;
 var runSequence;
 
-beforeAll(done => {
+beforeAll((done) => {
 	fs.copy(
 		path.join(__dirname, '../fixtures/plugins/test-plugin-layouttpl'),
 		tempPath,
-		err => {
+		(err) => {
 			if (err) {
 				throw err;
 			}
@@ -54,7 +54,7 @@ beforeAll(done => {
 	);
 });
 
-afterAll(done => {
+afterAll((done) => {
 	del([path.join(tempPath, '**')], {
 		force: true,
 	}).then(() => {
@@ -64,7 +64,7 @@ afterAll(done => {
 	});
 });
 
-test('plugin:version should add package.json version to liferay-plugin-package.properties', done => {
+test('plugin:version should add package.json version to liferay-plugin-package.properties', (done) => {
 	runSequence('plugin:version', () => {
 		assert.fileContentMatch(
 			path.join(
@@ -78,7 +78,7 @@ test('plugin:version should add package.json version to liferay-plugin-package.p
 	});
 });
 
-test('plugin:version should add package.json version to liferay-plugin-package.properties', done => {
+test('plugin:version should add package.json version to liferay-plugin-package.properties', (done) => {
 	var pkgPath = path.join(tempPath, 'package.json');
 
 	// eslint-disable-next-line liferay/no-dynamic-require

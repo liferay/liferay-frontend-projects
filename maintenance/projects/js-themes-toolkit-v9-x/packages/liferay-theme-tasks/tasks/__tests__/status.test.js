@@ -21,6 +21,6 @@ afterEach(() => {
 	testUtil.cleanTempTheme('base-theme', '7.1', 'status_task', initCwd);
 });
 
-it('status task should print base theme/themelet information', done => {
+it('status task should print base theme/themelet information', (done) => {
 	runSequence('status', done);
 });

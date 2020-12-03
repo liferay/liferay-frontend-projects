@@ -10,7 +10,9 @@
  */
 function checkNodeVersion() {
 	const REQUIREMENTS = [
+
 		// Added to NodeJS v7: https://nodejs.org/fa/blog/release/v7.0.0/
+
 		() => !!Object.values,
 	];
 

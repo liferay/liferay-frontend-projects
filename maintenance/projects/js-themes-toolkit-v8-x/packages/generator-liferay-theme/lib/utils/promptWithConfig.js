@@ -23,7 +23,8 @@ async function promptWithConfig(generator, namespace, prompts) {
 	}
 
 	// Tweak defaults with config values
-	prompts = prompts.map(prompt => {
+
+	prompts = prompts.map((prompt) => {
 		let defaultDefault = undefined;
 
 		if (prompt.default !== undefined) {
@@ -40,6 +41,7 @@ async function promptWithConfig(generator, namespace, prompts) {
 	});
 
 	// Decide wether to run in batch or interactive mode
+
 	if (config.batchMode()) {
 		return prompts.reduce((answers, prompt) => {
 			let val = prompt.default;
@@ -52,7 +54,8 @@ async function promptWithConfig(generator, namespace, prompts) {
 
 			return answers;
 		}, {});
-	} else {
+	}
+	else {
 		return await generator.prompt(prompts);
 	}
 }

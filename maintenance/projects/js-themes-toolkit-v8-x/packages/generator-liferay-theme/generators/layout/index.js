@@ -48,7 +48,7 @@ module.exports = class extends Base {
 
 			const themePackagePath = path.join(process.cwd(), 'package.json');
 
-			fs.stat(themePackagePath, function(err, stat) {
+			fs.stat(themePackagePath, function (err, stat) {
 				if (!err && stat.isFile()) {
 					const themePackage = require(themePackagePath);
 
@@ -68,7 +68,8 @@ module.exports = class extends Base {
 
 				done();
 			});
-		} else {
+		}
+		else {
 			done();
 		}
 	}
@@ -126,7 +127,8 @@ module.exports = class extends Base {
 				this.destinationPath('gulpfile.js'),
 				this
 			);
-		} else {
+		}
+		else {
 			this.templateDestination = path.join(
 				'/layouttpl/custom/',
 				this.layoutDirName
@@ -190,7 +192,8 @@ module.exports = class extends Base {
 			this.on('npmInstall:end', () => {
 				if (config.batchMode()) {
 					this._runBatchGulpInit();
-				} else {
+				}
+				else {
 					this._runGulpInit();
 				}
 			});
@@ -292,7 +295,8 @@ module.exports = class extends Base {
 				'webapps',
 				answers.pluginName
 			);
-		} else {
+		}
+		else {
 			answers.appServerPathPlugin = path.join(
 				answers.appServerPath,
 				'webapps',

@@ -21,7 +21,7 @@ function registerTasks() {
 	const {gulp} = project;
 	const {pathSrc} = project.options;
 
-	gulp.task('kickstart', cb => {
+	gulp.task('kickstart', (cb) => {
 		log(
 			colors.yellow('Warning:'),
 			'the',
@@ -33,13 +33,14 @@ function registerTasks() {
 			{
 				themeConfig: project.themeConfig.config,
 			},
-			answers => {
+			(answers) => {
 				let tempNodeModulesPath;
 				let themeSrcPath;
 
 				if (answers.modulePath) {
 					themeSrcPath = new FilePath(answers.modulePath);
-				} else if (answers.module) {
+				}
+				else if (answers.module) {
 					tempNodeModulesPath = new FilePath(
 						path.join(project.dir, '.temp_node_modules')
 					);
@@ -54,7 +55,7 @@ function registerTasks() {
 				if (themeSrcPath) {
 					const globs = _.map(
 						['css', 'images', 'js', 'templates'],
-						folder => themeSrcPath.join(folder, '**', '*').asPosix
+						(folder) => themeSrcPath.join(folder, '**', '*').asPosix
 					);
 
 					gulp.src(globs, {
@@ -65,11 +66,13 @@ function registerTasks() {
 							if (tempNodeModulesPath) {
 								fs.removeSync(tempNodeModulesPath.asNative);
 								cb();
-							} else {
+							}
+							else {
 								cb();
 							}
 						});
-				} else {
+				}
+				else {
 					log(colors.yellow('Theme not selected'));
 
 					cb();

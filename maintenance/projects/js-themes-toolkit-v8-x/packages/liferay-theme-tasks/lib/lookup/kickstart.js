@@ -12,7 +12,7 @@ const NPMModulePrompt = require('../prompts/npm_module_prompt');
 const themeUtil = require('../util');
 
 function afterPromptThemeSource(version) {
-	return function(answers, promptInstance) {
+	return function (answers, promptInstance) {
 		const config = {
 			themelet: false,
 		};
@@ -24,12 +24,14 @@ function afterPromptThemeSource(version) {
 				config,
 				_.bind(promptInstance._afterPromptModule, promptInstance)
 			);
-		} else if (themeSource === 'global') {
+		}
+		else if (themeSource === 'global') {
 			GlobalModulePrompt.prompt(
 				config,
 				_.bind(promptInstance._afterPromptModule, promptInstance)
 			);
-		} else if (version === '7.0' && themeSource === 'classic') {
+		}
+		else if (version === '7.0' && themeSource === 'classic') {
 			const classicPath = themeUtil.resolveDependency(
 				'liferay-frontend-theme-classic-web',
 				promptInstance.themeConfig.version

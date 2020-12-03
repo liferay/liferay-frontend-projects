@@ -14,18 +14,18 @@ const lfrThemeConfig = require('./liferay_theme_config');
 
 const SUPPORTED_TASKS = {
 	upgrade: {
-		'6.2': true,
+		6.2: true,
 		'7.0': true,
-		'7.1':
+		7.1:
 			' - please run ' +
 			'"npm install --save-dev liferay-theme-tasks@9.0.0-alpha.1" ' +
 			'and then "gulp upgrade" again',
 	},
 
 	default: {
-		'6.2': ' - please run "gulp upgrade" first',
+		6.2: ' - please run "gulp upgrade" first',
 		'7.0': true,
-		'7.1': true,
+		7.1: true,
 	},
 };
 
@@ -118,7 +118,7 @@ function checkDependencySources(liferayTheme) {
 	}
 
 	if (themeletDependencies) {
-		_.forEach(themeletDependencies, function(item) {
+		_.forEach(themeletDependencies, function (item) {
 			if (item.path) {
 				localDependencies.push(item);
 			}
@@ -149,7 +149,7 @@ function haltTask(missingDeps) {
 }
 
 function logLocalDependencies(localDependencies) {
-	const dependenciesString = _.map(localDependencies, function(item) {
+	const dependenciesString = _.map(localDependencies, function (item) {
 		return item.name;
 	}).join(', ');
 

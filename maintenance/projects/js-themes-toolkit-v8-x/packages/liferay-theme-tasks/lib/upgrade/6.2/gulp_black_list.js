@@ -37,7 +37,7 @@ function gulpBlackList(options, done) {
 	};
 
 	return through.obj(
-		function(file, enc, cb) {
+		function (file, enc, cb) {
 			if (file.isNull()) {
 				return cb(null, file);
 			}
@@ -51,7 +51,7 @@ function gulpBlackList(options, done) {
 
 			cb(null, file);
 		},
-		function(cb) {
+		function (cb) {
 			done(blackListData);
 
 			cb();

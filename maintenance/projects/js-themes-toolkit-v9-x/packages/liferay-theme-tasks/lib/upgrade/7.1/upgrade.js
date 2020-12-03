@@ -13,12 +13,12 @@ const inquirer = require('inquirer');
 const lfrThemeConfig = require('../../liferay_theme_config');
 const devDependencies = require('../../devDependencies')['theme']['7.2'];
 
-module.exports = function(options) {
+module.exports = function (options) {
 	const gulp = options.gulp;
 
 	const runSequence = require('run-sequence').use(gulp);
 
-	gulp.task('upgrade:dependencies', cb => {
+	gulp.task('upgrade:dependencies', (cb) => {
 		lfrThemeConfig.removeDependencies(['liferay-theme-deps-7.1']);
 		lfrThemeConfig.setDependencies(devDependencies.default, true);
 
@@ -30,7 +30,8 @@ module.exports = function(options) {
 				},
 				true
 			);
-		} else {
+		}
+		else {
 			lfrThemeConfig.removeDependencies(['liferay-font-awesome']);
 		}
 
@@ -91,7 +92,7 @@ module.exports = function(options) {
 			.pipe(gulp.dest('src/css/'));
 	});
 
-	return function(cb) {
+	return function (cb) {
 		inquirer.prompt(
 			[
 				{
@@ -102,7 +103,7 @@ module.exports = function(options) {
 					type: 'confirm',
 				},
 			],
-			answers => {
+			(answers) => {
 				const taskArray = ['upgrade:config', 'upgrade:dependencies'];
 
 				if (answers.includeFontAwesome) {

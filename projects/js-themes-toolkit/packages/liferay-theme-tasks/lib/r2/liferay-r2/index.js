@@ -12,7 +12,9 @@ const fa = require('./plugins/fontawesome');
 const yui3 = require('./plugins/yui3');
 
 function quad(v, m) {
+
 	// 1px 2px 3px 4px => 1px 4px 3px 2px
+
 	if ((m = v.trim().split(/\s+(?=[^)]*(?:[(]|$))/)) && m.length == 4) {
 		return [m[0], m[3], m[2], m[1]].join(' ');
 	}
@@ -21,15 +23,20 @@ function quad(v, m) {
 
 function quad_radius(v) {
 	var m = v.trim().split(/\s+/);
+
 	// 1px 2px 3px 4px => 1px 2px 4px 3px
 	// since border-radius: top-left top-right bottom-right bottom-left
 	// will be border-radius: top-right top-left bottom-left bottom-right
+
 	if (m && m.length == 4) {
 		return [m[1], m[0], m[3], m[2]].join(' ');
-	} else if (m && m.length == 3) {
+	}
+	else if (m && m.length == 3) {
+
 		// super odd how this works
 		// 5px 10px 20px => 10px 5px 10px 20px
 		// yeah it's pretty dumb
+
 		return [m[1], m[0], m[1], m[2]].join(' ');
 	}
 	return v;
@@ -48,7 +55,8 @@ function rtltr(v) {
 function bgPosition(v) {
 	if (v.match(/\bleft\b/)) {
 		v = v.replace(/\bleft\b/, 'right');
-	} else if (v.match(/\bright\b/)) {
+	}
+	else if (v.match(/\bright\b/)) {
 		v = v.replace(/\bright\b/, 'left');
 	}
 	var m = v.trim().split(/\s+/);
@@ -56,7 +64,9 @@ function bgPosition(v) {
 		v = 'right ' + v;
 	}
 	if (m && m.length == 2 && m[0].match(/\d+%/)) {
+
 		// 30% => 70% (100 - x)
+
 		v = 100 - parseInt(m[0], 10) + '% ' + m[1];
 	}
 	return v;
@@ -125,17 +135,20 @@ function processRule(rule, idx, list) {
 		return;
 
 	if (rule.declarations)
-		rule.declarations.forEach(declaration => {
+		rule.declarations.forEach((declaration) => {
 			processDeclaration(declaration, rule);
 		});
 	else if (rule.rules) rule.rules.forEach(processRule);
 }
 
 function processDeclaration(declaration, rule) {
+
 	// Ignore comments in declarations
+
 	if (declaration.type !== 'declaration') return;
 
 	// RegEx for comments is taken from http://www.w3.org/TR/CSS21/grammar.html
+
 	var commentRegEx = /\/\*[^*]*\*+([^/*][^*]*\*+)*\//g,
 		prop = declaration.property.replace(commentRegEx, ''), // remove comments
 		val = declaration.value.replace(commentRegEx, ''),
@@ -146,7 +159,8 @@ function processDeclaration(declaration, rule) {
 	if (asterisk) {
 		prop = asterisk[2];
 		asterisk = asterisk[1];
-	} else {
+	}
+	else {
 		asterisk = '';
 	}
 	prop = propertyMap[prop] || prop;
@@ -168,7 +182,7 @@ function r2(css, options) {
 	return builder(ast, options);
 }
 
-module.exports.exec = function(args) {
+module.exports.exec = function (args) {
 	const read = args[0];
 	const out = args[1];
 	const options = {compress: args[2] !== '--no-compress'};
@@ -185,7 +199,7 @@ module.exports.exec = function(args) {
 		process.stdin.resume();
 		process.stdin.setEncoding('utf8');
 
-		process.stdin.on('data', chunk => {
+		process.stdin.on('data', (chunk) => {
 			buffer += chunk;
 		});
 
@@ -195,7 +209,9 @@ module.exports.exec = function(args) {
 				console.log(r2(buffer, options));
 			}
 		});
-	} else {
+	}
+	else {
+
 		/*
     	/  If reading from a file then print to stdout or out arg
     	/  To stdout: r2 styles.css
@@ -206,14 +222,15 @@ module.exports.exec = function(args) {
 			// eslint-disable-next-line no-console
 			console.log('Swapping ' + read + ' to ' + out + '...');
 			fs.writeFileSync(out, r2(data, options), 'utf8');
-		} else {
+		}
+		else {
 			// eslint-disable-next-line no-console
 			console.log(r2(data, options));
 		}
 	}
 };
 
-module.exports.swap = function(css, options) {
+module.exports.swap = function (css, options) {
 	return r2(css, options);
 };
 

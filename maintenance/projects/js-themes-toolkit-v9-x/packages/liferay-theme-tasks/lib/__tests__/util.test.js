@@ -47,14 +47,17 @@ describe('resolveDependency()', () => {
 			);
 
 			expect(styledPath).toContain('liferay-frontend-theme-styled');
-		} finally {
+		}
+		finally {
 			delete process.env.LIFERAY_THEME_STYLED_PATH;
 		}
 	});
 
 	it('resolves relative to the current working directory', () => {
+
 		// Note that due to use of copyTempTheme(), the current working
 		// directory will be some "tmp" directory outside the repo.
+
 		const resolved = util.resolveDependency(
 			'liferay-frontend-theme-styled'
 		);

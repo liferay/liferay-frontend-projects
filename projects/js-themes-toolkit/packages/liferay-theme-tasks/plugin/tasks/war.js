@@ -9,7 +9,7 @@ var zip = require('gulp-zip');
 
 const project = require('../../lib/project');
 
-module.exports = function() {
+module.exports = function () {
 	const {gulp} = project;
 	const {runSequence} = gulp;
 
@@ -22,7 +22,7 @@ module.exports = function() {
 			.pipe(gulp.dest(options.pathDist.asNative));
 	});
 
-	gulp.task('build', done => {
+	gulp.task('build', (done) => {
 		runSequence('plugin:version', 'plugin:war', done);
 	});
 };

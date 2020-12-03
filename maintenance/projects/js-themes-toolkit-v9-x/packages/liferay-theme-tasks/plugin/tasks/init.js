@@ -11,12 +11,12 @@ var InitPrompt = require('../lib/init_prompt');
 
 var TASK_PLUGIN_INIT = 'plugin:init';
 
-module.exports = function(options) {
+module.exports = function (options) {
 	var gulp = options.gulp;
 
 	var store = gulp.storage;
 
-	gulp.task(TASK_PLUGIN_INIT, cb => {
+	gulp.task(TASK_PLUGIN_INIT, (cb) => {
 		new InitPrompt(
 			{
 				appServerPathDefault:

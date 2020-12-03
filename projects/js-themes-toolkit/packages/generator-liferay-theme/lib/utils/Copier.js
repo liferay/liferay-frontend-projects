@@ -10,6 +10,7 @@ const path = require('path');
  * A class to help copying Yeoman templates.
  */
 module.exports = class Copier {
+
 	/**
 	 * @param {Generator} generator a Yeoman generator
 	 */
@@ -52,7 +53,7 @@ module.exports = class Copier {
 		const gen = this._generator;
 		const files = fs.readdirSync(gen.templatePath(src));
 
-		files.forEach(file => {
+		files.forEach((file) => {
 			if (file === '.DS_Store') {
 				return;
 			}
@@ -61,7 +62,8 @@ module.exports = class Copier {
 
 			if (fs.statSync(gen.templatePath(filePath)).isDirectory()) {
 				this.copyDir(filePath, {context});
-			} else {
+			}
+			else {
 				const rawCopy = !filePath.endsWith('.ejs');
 
 				this.copyFile(filePath.replace(/\.ejs$/, ''), {

@@ -62,21 +62,26 @@ function isReadable(file) {
 	);
 }
 
-module.exports = function(options) {
+module.exports = function (options) {
+
 	// Get things from options
+
 	const {argv, distName, gulp, pathBuild, pathSrc, resourcePrefix} = options;
 
 	// Initialize global things
+
 	const {storage} = gulp;
 	const runSequence = require('run-sequence').use(gulp);
 
 	// Get config from liferay-theme.json
+
 	const proxyUrl = argv.url || storage.get('url');
 	const deploymentStrategy = storage.get('deploymentStrategy');
 	const dockerContainerName = storage.get('dockerContainerName');
 	const pluginName = storage.get('pluginName') || '';
 
 	// Calculate some values
+
 	const explodedBuildDir = path.join(process.cwd(), EXPLODED_BUILD_DIR_NAME);
 	const dockerThemePath = path.posix.join('/tmp', pluginName);
 	const dockerBundleDirPath = path.posix.join(
@@ -87,16 +92,18 @@ module.exports = function(options) {
 	/**
 	 * Start watching project folder
 	 */
-	gulp.task('watch', function() {
+	gulp.task('watch', function () {
 		options.watching = true;
 
 		storage.set('appServerPathPlugin', explodedBuildDir);
 
 		// Get tasks array
+
 		const taskArray = getCleanTaskArray(deploymentStrategy);
 
 		// Push final task that deploys the theme and starts live reloads
-		taskArray.push(err => {
+
+		taskArray.push((err) => {
 			if (err) {
 				throw err;
 			}
@@ -111,20 +118,21 @@ module.exports = function(options) {
 		});
 
 		// Run tasks in sequence
+
 		runSequence.apply(this, taskArray);
 	});
 
 	/**
 	 * Clean the exploded build dir
 	 */
-	gulp.task('watch:clean', cb => {
+	gulp.task('watch:clean', (cb) => {
 		del([explodedBuildDir]).then(() => cb());
 	});
 
 	/**
 	 * Clean the remote exploded build dir in docker
 	 */
-	gulp.task('watch:docker:clean', cb => {
+	gulp.task('watch:docker:clean', (cb) => {
 		themeUtil.dockerExec(
 			dockerContainerName,
 			'rm -rf ' + dockerBundleDirPath
@@ -136,7 +144,7 @@ module.exports = function(options) {
 	/**
 	 * Copy the exploded build dir to docker
 	 */
-	gulp.task('watch:docker:copy', cb => {
+	gulp.task('watch:docker:copy', (cb) => {
 		themeUtil.dockerExec(
 			dockerContainerName,
 			'mkdir -p ' + dockerBundleDirPath
@@ -162,7 +170,7 @@ module.exports = function(options) {
 	/**
 	 * Cleanup watch machinery
 	 */
-	gulp.task('watch:teardown', function(cb) {
+	gulp.task('watch:teardown', function (cb) {
 		storage.set('webBundleDir');
 
 		const taskArray = getTeardownTaskArray();
@@ -174,7 +182,7 @@ module.exports = function(options) {
 
 	let livereload;
 
-	gulp.task('watch:reload', cb => {
+	gulp.task('watch:reload', (cb) => {
 		const changedFile = storage.get('changedFile');
 		const srcPath = path.relative(process.cwd(), changedFile.path);
 		const dstPath = srcPath.replace(/^src\//, '');
@@ -203,7 +211,7 @@ module.exports = function(options) {
 
 		const livereloadTag = `<script src="http://localhost:${tinylrPort}/livereload.js"></script>`;
 		livereload = tinylr();
-		livereload.server.on('error', err => {
+		livereload.server.on('error', (err) => {
 			// eslint-disable-next-line no-console
 			console.error(err);
 		});
@@ -212,22 +220,26 @@ module.exports = function(options) {
 		const proxy = httpProxy.createServer();
 
 		proxy.on('proxyReq', (proxyReq, _req, _res, _options) => {
+
 			// Disable compression because it complicates the task of appending
 			// our livereload tag.
+
 			proxyReq.setHeader('Accept-Encoding', 'identity');
 		});
 
 		proxy.on('proxyRes', (proxyRes, req, res) => {
+
 			// Make sure that "web passes" (eg. header setting and such) still
 			// happen even though we are in "selfHandleResponse" mode.
 			// See: https://github.com/nodejitsu/node-http-proxy/issues/1263
+
 			for (let i = 0; i < PASSES.length; i++) {
 				if (PASSES[i](req, res, proxyRes, options)) {
 					break;
 				}
 			}
 
-			proxyRes.on('data', data => {
+			proxyRes.on('data', (data) => {
 				res.write(data);
 			});
 
@@ -241,13 +253,14 @@ module.exports = function(options) {
 
 				if (appendLivereloadTag) {
 					res.end(livereloadTag);
-				} else {
+				}
+				else {
 					res.end();
 				}
 			});
 		});
 
-		proxy.on('error', err => {
+		proxy.on('error', (err) => {
 			// eslint-disable-next-line no-console
 			console.error(err);
 		});
@@ -266,23 +279,25 @@ module.exports = function(options) {
 				const filepath = path.resolve('build', match[3]);
 				const ext = path.extname(filepath);
 
-				isReadable(filepath).then(exists => {
+				isReadable(filepath).then((exists) => {
 					if (exists) {
 						if (MIME_TYPES[ext]) {
 							res.setHeader('Content-Type', MIME_TYPES[ext]);
 						}
 
 						fs.createReadStream(filepath)
-							.on('error', err => {
+							.on('error', (err) => {
 								// eslint-disable-next-line no-console
 								console.error(err);
 							})
 							.pipe(res);
-					} else {
+					}
+					else {
 						dispatchToProxy();
 					}
 				});
-			} else {
+			}
+			else {
 				dispatchToProxy();
 			}
 		}).listen(httpPort, () => {
@@ -304,7 +319,7 @@ module.exports = function(options) {
 			opn(url);
 		});
 
-		gulp.watch(path.join(pathSrc, '**/*'), function(vinyl) {
+		gulp.watch(path.join(pathSrc, '**/*'), function (vinyl) {
 			storage.set('changedFile', vinyl);
 
 			const resourceDir = getResourceDir(vinyl.path, pathSrc);
@@ -347,9 +362,11 @@ module.exports = function(options) {
 				'build:remove-old-css-dir',
 				'watch:reload',
 			];
-		} else if (resourceDir === 'js') {
+		}
+		else if (resourceDir === 'js') {
 			taskArray = ['build:src', 'watch:reload'];
-		} else {
+		}
+		else {
 			taskArray = ['deploy', 'watch:reload'];
 		}
 

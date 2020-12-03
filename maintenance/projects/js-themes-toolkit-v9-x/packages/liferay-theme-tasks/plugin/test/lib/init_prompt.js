@@ -64,15 +64,15 @@ test('_afterPrompt should store normalized answers', () => {
 	prototype._afterPrompt(defaultAnswers);
 });
 
-test('_deployPathWhen should return false and add deployPath to answers', done => {
+test('_deployPathWhen should return false and add deployPath to answers', (done) => {
 	var defaultAnswers = getDefaultAnswers();
 
 	var answers = {
 		appServerPath: defaultAnswers.appServerPath,
 	};
 
-	prototype.async = function() {
-		return function(ask) {
+	prototype.async = function () {
+		return function (ask) {
 			expect(answers.deployPath).toBe(defaultAnswers.deployPath);
 			expect(!ask).toBe(true);
 
@@ -83,15 +83,15 @@ test('_deployPathWhen should return false and add deployPath to answers', done =
 	prototype._deployPathWhen(answers);
 });
 
-test('_deployPathWhen should return true when deploy path is not a sibling with provided appServerPath', done => {
+test('_deployPathWhen should return true when deploy path is not a sibling with provided appServerPath', (done) => {
 	var defaultAnswers = getDefaultAnswers();
 
 	var answers = {
 		appServerPath: path.join(defaultAnswers.appServerPath, '..'),
 	};
 
-	prototype.async = function() {
-		return function(ask) {
+	prototype.async = function () {
+		return function (ask) {
 			expect(_.isUndefined(answers.deployPath)).toBe(true);
 			expect(ask).toBeTruthy();
 
@@ -148,7 +148,7 @@ test('_prompt should invoke inquirer.prompt with correct args', () => {
 
 	var args = inquirer.prompt.args[0];
 
-	_.forEach(args[0], item => {
+	_.forEach(args[0], (item) => {
 		expect(_.isObject(item)).toBe(true);
 	});
 

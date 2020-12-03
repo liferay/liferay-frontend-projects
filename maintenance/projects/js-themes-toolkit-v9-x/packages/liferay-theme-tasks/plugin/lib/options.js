@@ -11,7 +11,7 @@ var path = require('path');
 
 var {getArgv} = require('../../lib/util');
 
-module.exports = function(options) {
+module.exports = function (options) {
 	var argv = getArgv();
 
 	var CWD = process.cwd();
@@ -26,8 +26,11 @@ module.exports = function(options) {
 		);
 
 		distName = pkg.name;
-	} catch (e) {
+	}
+	catch (e) {
+
 		// Swallow.
+
 	}
 
 	distName = options.distName || distName;

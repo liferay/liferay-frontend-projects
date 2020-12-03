@@ -23,7 +23,7 @@ afterEach(() => {
 	cleanTempTheme(tempTheme);
 });
 
-it('status task should print base theme/themelet information', done => {
+it('status task should print base theme/themelet information', (done) => {
 	const savedConsole = global.console;
 
 	global.console = {

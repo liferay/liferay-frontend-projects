@@ -39,7 +39,7 @@ const removed = [
 	'state-danger-border',
 ];
 
-const rules = removed.map(varName => {
+const rules = removed.map((varName) => {
 	return {
 		name: varName,
 		message: `$${varName} was removed in Bootstrap 4.x.x`,

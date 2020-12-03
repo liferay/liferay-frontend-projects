@@ -21,7 +21,7 @@ class GlobalModulePrompt {
 		this.selectedModules = config.selectedModules;
 		this.themelet = config.themelet;
 
-		this._getGlobalModules(modules => {
+		this._getGlobalModules((modules) => {
 			this.modules = modules;
 
 			ModulePrompt.prompt(this, _.bind(this._afterPrompt, this));

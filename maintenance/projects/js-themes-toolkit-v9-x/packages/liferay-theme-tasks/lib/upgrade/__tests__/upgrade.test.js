@@ -11,12 +11,14 @@ const lfrThemeConfig = require('../../liferay_theme_config.js');
 const initCwd = process.cwd();
 
 afterAll(() => {
+
 	// Clean things on exit to avoid GulpStorage.save() errors because of left
 	// over async operations when changing tests.
+
 	[
 		'upgrade_task_config',
 		'upgrade_task_upgrade_templates',
-	].forEach(namespace =>
+	].forEach((namespace) =>
 		testUtil.cleanTempTheme('base-theme', '7.1', namespace, initCwd)
 	);
 });
@@ -36,8 +38,8 @@ describe('config', () => {
 		tempPath = config.tempPath;
 	});
 
-	it('upgrade:config', done => {
-		runSequence('upgrade:config', err => {
+	it('upgrade:config', (done) => {
+		runSequence('upgrade:config', (err) => {
 			if (err) throw err;
 
 			const themeConfig = lfrThemeConfig.getConfig();

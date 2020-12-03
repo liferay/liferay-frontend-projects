@@ -13,13 +13,13 @@ const devDependencies = require('../../../../lib/devDependencies')['theme'][
 	'7.3'
 ];
 
-module.exports = function() {
+module.exports = function () {
 	const {gulp} = project;
 	const {runSequence} = gulp;
 
 	const pkgJson = project.pkgJson;
 
-	gulp.task('upgrade:dependencies', cb => {
+	gulp.task('upgrade:dependencies', (cb) => {
 		project.setDependencies(devDependencies.default, true);
 
 		if (pkgJson.devDependencies['liferay-font-awesome']) {
@@ -73,7 +73,7 @@ module.exports = function() {
 			.pipe(gulp.dest('src/WEB-INF'));
 	});
 
-	return function(cb) {
+	return function (cb) {
 		const taskArray = ['upgrade:config', 'upgrade:dependencies'];
 
 		taskArray.push(cb);

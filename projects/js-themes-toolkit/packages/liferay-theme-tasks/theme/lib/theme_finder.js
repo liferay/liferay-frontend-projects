@@ -51,13 +51,15 @@ function run(command, args) {
 				results.error
 			}`
 		);
-	} else if (results.signal) {
+	}
+	else if (results.signal) {
 		error = new Error(
 			`Command \`${getDescription()}\` exited due to signal: ${
 				results.signal
 			}`
 		);
-	} else if (results.status) {
+	}
+	else if (results.status) {
 		error = new Error(
 			`Command \`${getDescription()}\` exited with status: ${
 				results.status
@@ -91,12 +93,14 @@ function getLiferayThemeModuleFromURL(url) {
 
 	// Install the package in a temporary directory in order to get
 	// the package.json.
+
 	withScratchDirectory(() => {
 		run('npm', ['init', '-y']);
 
 		// Ideally, we wouldn't install any dependencies at all, but this is
 		// the closest we can get (production only, skipping optional
 		// dependencies).
+
 		run('npm', [
 			'install',
 			'--ignore-scripts',
@@ -106,6 +110,7 @@ function getLiferayThemeModuleFromURL(url) {
 		]);
 
 		// Just in case package name doesn't match URL basename, read it.
+
 		const {dependencies} = JSON.parse(fs.readFileSync('package.json'));
 		const themeName = Object.keys(dependencies)[0];
 
@@ -115,7 +120,8 @@ function getLiferayThemeModuleFromURL(url) {
 
 	if (!isLiferayTheme(config)) {
 		throw new Error(`URL ${url} is not a liferay-theme`);
-	} else {
+	}
+	else {
 		return config;
 	}
 }
@@ -135,7 +141,7 @@ function getLiferayThemeModules(config, cb) {
 
 	const searchFn = globalModules ? searchGlobalModules : searchNpm;
 
-	searchFn.call(this, config, moduleResults => {
+	searchFn.call(this, config, (moduleResults) => {
 		reportDiscardedModules(
 			moduleResults,
 			LiferayThemeModuleStatus.NO_PACKAGE_JSON,
@@ -185,7 +191,8 @@ function withScratchDirectory(cb) {
 	try {
 		process.chdir(directory);
 		cb();
-	} finally {
+	}
+	finally {
 		process.chdir(cwd);
 	}
 }
@@ -214,7 +221,7 @@ function reportDiscardedModules(moduleResults, outcome, message) {
 function findThemeModulesIn(paths) {
 	let modules = [];
 
-	_.forEach(paths, rootPath => {
+	_.forEach(paths, (rootPath) => {
 		if (!rootPath) {
 			return;
 		}
@@ -223,7 +230,7 @@ function findThemeModulesIn(paths) {
 			.sync(['*-theme', '*-themelet'], {
 				cwd: rootPath,
 			})
-			.map(match => path.join(rootPath, match))
+			.map((match) => path.join(rootPath, match))
 			.concat(modules);
 	});
 
@@ -254,7 +261,8 @@ function getNpmPaths() {
 		paths = _.compact(process.env.NODE_PATH.split(path.delimiter)).concat(
 			paths
 		);
-	} else {
+	}
+	else {
 		const results = spawn.sync('npm', ['root', '-g']);
 
 		if (!results.error && results.stdout) {
@@ -267,7 +275,8 @@ function getNpmPaths() {
 
 		if (win32) {
 			paths.push(path.join(process.env.APPDATA, 'npm', 'node_modules'));
-		} else {
+		}
+		else {
 			paths.push('/usr/lib/node_modules');
 			paths.push('/usr/local/lib/node_modules');
 		}
@@ -278,7 +287,7 @@ function getNpmPaths() {
 
 function getPackageJSON(theme, cb) {
 	packageJson(theme.name, {fullMetadata: true})
-		.then(pkg => cb(null, pkg))
+		.then((pkg) => cb(null, pkg))
 		.catch(cb);
 }
 
@@ -372,8 +381,11 @@ function searchGlobalModules(config, cb) {
 				json.__realPath__ = item;
 
 				result.push(json);
-			} catch (err) {
+			}
+			catch (err) {
+
 				// Swallow.
+
 			}
 
 			return result;
@@ -387,7 +399,7 @@ function searchGlobalModules(config, cb) {
 }
 
 function searchNpm(config, cb) {
-	npmKeyword(config.keyword).then(packages => {
+	npmKeyword(config.keyword).then((packages) => {
 		async.map(packages, getPackageJSON, (err, results) => {
 			if (err) {
 				cb(err);

@@ -10,11 +10,11 @@ const path = require('path');
 const project = require('../../lib/project');
 const InitPrompt = require('../prompts/init_prompt');
 
-module.exports = function() {
+module.exports = function () {
 	const {gulp, store} = project;
 	const {appServerPath, dockerContainerName} = store;
 
-	gulp.task('plugin:init', cb => {
+	gulp.task('plugin:init', (cb) => {
 		InitPrompt.prompt(
 			{
 				appServerPathDefault: appServerPath

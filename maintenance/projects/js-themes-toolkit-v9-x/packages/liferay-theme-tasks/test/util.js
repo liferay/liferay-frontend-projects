@@ -25,36 +25,43 @@ expect.extend({
 				if (!fs.statSync(path).isDirectory()) {
 					pass = false;
 					message = `Path '${path}' is not a folder`;
-				} else if (fs.readdirSync(path).length == 0) {
+				}
+				else if (fs.readdirSync(path).length == 0) {
 					pass = false;
 					message = `Folder '${path}' is empty`;
 				}
-			} catch (err) {
+			}
+			catch (err) {
 				pass = false;
 
 				if (err.code === 'ENOENT') {
 					message = `Folder '${path}' does not exist`;
-				} else {
+				}
+				else {
 					message = err.toString();
 				}
 			}
 
 			pass = !pass;
-		} else {
+		}
+		else {
 			try {
 				if (!fs.statSync(path).isDirectory()) {
 					pass = false;
 					message = `Path '${path}' is not a folder`;
-				} else if (fs.readdirSync(path).length != 0) {
+				}
+				else if (fs.readdirSync(path).length != 0) {
 					pass = false;
 					message = `Folder '${path}' is not empty`;
 				}
-			} catch (err) {
+			}
+			catch (err) {
 				pass = false;
 
 				if (err.code === 'ENOENT') {
 					message = `Folder '${path}' does not exist`;
-				} else {
+				}
+				else {
 					message = err.toString();
 				}
 			}
@@ -75,7 +82,8 @@ expect.extend({
 				pass = false;
 				message = `Path '${path}' is not a file`;
 			}
-		} catch (err) {
+		}
+		catch (err) {
 			pass = false;
 			message = err.toString();
 		}
@@ -99,36 +107,43 @@ expect.extend({
 				if (!fs.statSync(path).isFile()) {
 					pass = false;
 					message = `Path '${path}' is not a file`;
-				} else if (regex.test(fs.readFileSync(path).toString())) {
+				}
+				else if (regex.test(fs.readFileSync(path).toString())) {
 					pass = false;
 					message = `File '${path}' matches ${regex}`;
 				}
-			} catch (err) {
+			}
+			catch (err) {
 				pass = false;
 
 				if (err.code === 'ENOENT') {
 					message = `File '${path}' does not exist`;
-				} else {
+				}
+				else {
 					message = err.toString();
 				}
 			}
 
 			pass = !pass;
-		} else {
+		}
+		else {
 			try {
 				if (!fs.statSync(path).isFile()) {
 					pass = false;
 					message = `Path '${path}' is not a file`;
-				} else if (!regex.test(fs.readFileSync(path).toString())) {
+				}
+				else if (!regex.test(fs.readFileSync(path).toString())) {
 					pass = false;
 					message = `File '${path}' does not match ${regex}`;
 				}
-			} catch (err) {
+			}
+			catch (err) {
 				pass = false;
 
 				if (err.code === 'ENOENT') {
 					message = `File '${path}' does not exist`;
-				} else {
+				}
+				else {
 					message = err.toString();
 				}
 			}
@@ -149,7 +164,8 @@ expect.extend({
 				pass = false;
 				message = `Path '${path}' is not a folder`;
 			}
-		} catch (err) {
+		}
+		catch (err) {
 			pass = false;
 			message = err.toString();
 		}
@@ -183,7 +199,8 @@ class PrototypeMethodSpy {
 
 		if (stub) {
 			parent[methodName] = sinon.stub();
-		} else {
+		}
+		else {
 			parent[methodName] = sinon.spy();
 		}
 
@@ -191,7 +208,7 @@ class PrototypeMethodSpy {
 	}
 
 	flush() {
-		_.forEach(this.methods, item => {
+		_.forEach(this.methods, (item) => {
 			item.parent[item.methodName] = item.method;
 		});
 
@@ -202,7 +219,7 @@ class PrototypeMethodSpy {
 function assertBoundFunction(prototype, methodName, _stub) {
 	prototype[methodName] = sinon.spy();
 
-	return function(fn) {
+	return function (fn) {
 		fn('argument');
 
 		expect(prototype[methodName].calledOnce).toBe(true);
@@ -211,7 +228,9 @@ function assertBoundFunction(prototype, methodName, _stub) {
 }
 
 function copyTempTheme(options) {
+
 	// TODO: rework all this
+
 	const themeName = options.themeName || 'base-theme';
 	const version = options.version || '7.1';
 	const namespace = options.namespace;
@@ -292,7 +311,7 @@ function cleanTempTheme(themeName, version, component, initCwd) {
 function deleteDirJsFromCache(relativePath) {
 	const files = fs.readdirSync(path.join(__dirname, relativePath));
 
-	_.forEach(files, item => {
+	_.forEach(files, (item) => {
 		if (_.endsWith(item, '.js')) {
 			deleteJsFileFromCache(path.join(__dirname, relativePath, item));
 		}

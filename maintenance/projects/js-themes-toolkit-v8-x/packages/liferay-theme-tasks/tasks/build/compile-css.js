@@ -16,27 +16,30 @@ const {createBourbonFile} = require('../../lib/bourbon_dependencies');
 const lfrThemeConfig = require('../../lib/liferay_theme_config');
 const themeUtil = require('../../lib/util');
 
-module.exports = function(options) {
+module.exports = function (options) {
 	const {gulp, pathBuild} = options;
 
-	const handleScssError = err => {
+	const handleScssError = (err) => {
 		if (options.watching) {
 			log(err);
 
 			this.emit('end');
-		} else {
+		}
+		else {
 			throw err;
 		}
 	};
 	const runSequence = require('run-sequence').use(gulp);
 
-	gulp.task('build:compile-css', function(cb) {
+	gulp.task('build:compile-css', function (cb) {
+
 		// For backwards compatibility we keep this task around, but all it does
 		// is call through to the one that does the actual work:
+
 		runSequence('build:compile-lib-sass', cb);
 	});
 
-	gulp.task('build:compile-lib-sass', function(cb) {
+	gulp.task('build:compile-lib-sass', function (cb) {
 		const themeConfig = lfrThemeConfig.getConfig();
 
 		const gulpIf = require('gulp-if');
@@ -122,10 +125,11 @@ function getPostCSSOptions(config) {
 
 		postCSSOptions.enabled = true;
 
-		postCSSOptions.plugins = config.map(pluginDependency =>
+		postCSSOptions.plugins = config.map((pluginDependency) =>
 			require(pluginDependency)
 		);
-	} else if (rc) {
+	}
+	else if (rc) {
 		postCSSOptions.enabled = true;
 	}
 
@@ -146,7 +150,8 @@ function getSassIncludePaths() {
 function getSassOptions(sassOptions, defaults) {
 	if (_.isFunction(sassOptions)) {
 		sassOptions = sassOptions(defaults);
-	} else {
+	}
+	else {
 		sassOptions = _.assign(defaults, sassOptions);
 	}
 

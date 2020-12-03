@@ -110,7 +110,7 @@ it('_afterPromptTheme should save and install new dependencies', () => {
 	themeConfig.setConfig = setConfig;
 });
 
-it('_afterPromptTheme should end task and not throw error if no module was found', done => {
+it('_afterPromptTheme should end task and not throw error if no module was found', (done) => {
 	prototype.done = done;
 
 	prototype._afterPromptTheme({

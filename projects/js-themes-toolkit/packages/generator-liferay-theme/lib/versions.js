@@ -6,13 +6,16 @@
 const semver = require('semver');
 
 module.exports = {
+
 	// Supported portal versions (must be sorted from most recent to oldest
 	// because that's the contract with outer modules using this array).
+
 	supported: ['7.3', '7.2'].sort(
 		(l, r) => -semver.compare(semver.coerce(l), semver.coerce(r))
 	),
 
 	// Supported theme versions indexed by portal version
+
 	theme: {
 		admin: {
 			7.2: '^2.0.0',

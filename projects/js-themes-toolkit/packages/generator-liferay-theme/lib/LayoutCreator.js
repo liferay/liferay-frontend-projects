@@ -23,7 +23,7 @@ var layoutTemplateTpl = _.template(templateString);
 
 var listRender = inquirer.prompt.prompts.list.prototype.render;
 
-inquirer.prompt.prompts.list.prototype.render = function() {
+inquirer.prompt.prompts.list.prototype.render = function () {
 	var index = this.selected;
 
 	var choices = _.reduce(
@@ -53,7 +53,7 @@ inquirer.prompt.prompts.list.prototype.render = function() {
 	choice.name = originalName;
 };
 
-var LayoutCreator = function(options) {
+var LayoutCreator = function (options) {
 	this.className = options.className;
 	this.liferayVersion = options.liferayVersion || '7.1';
 	this.rowData = options.rowData;
@@ -67,7 +67,8 @@ LayoutCreator.prototype = {
 			this.rows.splice(rowInsertIndex, 0, data);
 
 			this.rowInsertIndex = null;
-		} else {
+		}
+		else {
 			this.rows.push(data);
 		}
 
@@ -107,11 +108,14 @@ LayoutCreator.prototype = {
 
 		if (finish == 'add') {
 			this._promptRow(cb);
-		} else if (finish == 'insert') {
+		}
+		else if (finish == 'insert') {
 			this._promptInsertRow(cb);
-		} else if (answers.finish == 'finish') {
+		}
+		else if (answers.finish == 'finish') {
 			cb(null);
-		} else if (finish == 'remove') {
+		}
+		else if (finish == 'remove') {
 			this._promptRemoveRow(cb);
 		}
 	},
@@ -167,12 +171,14 @@ LayoutCreator.prototype = {
 
 		if (total <= 1) {
 			classNames = ['portlet-column-only', 'portlet-column-content-only'];
-		} else if (number <= 1) {
+		}
+		else if (number <= 1) {
 			classNames = [
 				'portlet-column-first',
 				'portlet-column-content-first',
 			];
-		} else if (number >= total) {
+		}
+		else if (number >= total) {
 			classNames = ['portlet-column-last', 'portlet-column-content-last'];
 		}
 
@@ -185,7 +191,7 @@ LayoutCreator.prototype = {
 		var takenWidth = 0;
 		var totalWidth = 12;
 
-		_.forEach(answers, item => {
+		_.forEach(answers, (item) => {
 			item = _.parseInt(item);
 
 			takenWidth = takenWidth + item;
@@ -194,6 +200,7 @@ LayoutCreator.prototype = {
 		var availableWidth = totalWidth - takenWidth;
 
 		// if it's the last column, give remaining width as the only choice
+
 		if (columnIndex + 1 >= columnCount) {
 			var selectedName = instance._formatPercentageValue(
 				availableWidth,
@@ -213,12 +220,13 @@ LayoutCreator.prototype = {
 					value: availableWidth,
 				},
 			];
-		} else {
+		}
+		else {
 			var remainingColumns = columnCount - (columnIndex + 1);
 
 			availableWidth = availableWidth - remainingColumns;
 
-			var choices = _.times(availableWidth, index => {
+			var choices = _.times(availableWidth, (index) => {
 				var spanValue = index + 1;
 
 				var selectedName = instance._formatPercentageValue(
@@ -385,7 +393,7 @@ LayoutCreator.prototype = {
 
 		var totalColumnCount = 0;
 
-		var rowData = _.map(rows, row => {
+		var rowData = _.map(rows, (row) => {
 			var columnCount = _.size(row);
 
 			return _.map(row, (size, index) => {
@@ -428,7 +436,7 @@ LayoutCreator.prototype = {
 
 		var preview =
 			rowSeperator +
-			_.map(this.rows, item => {
+			_.map(this.rows, (item) => {
 				return (
 					instance._renderPreviewLine(item, {
 						label: true,
@@ -462,7 +470,7 @@ LayoutCreator.prototype = {
 					validate: instance._validateColumnCount,
 				},
 			],
-			answers => this._afterPromptColumnCount(answers, cb)
+			(answers) => this._afterPromptColumnCount(answers, cb)
 		);
 	},
 
@@ -471,7 +479,7 @@ LayoutCreator.prototype = {
 
 		var rowNumber = instance._getRowNumber();
 
-		var questions = _.times(columnCount, index => {
+		var questions = _.times(columnCount, (index) => {
 			var columnNumber = index + 1;
 
 			return {
@@ -489,7 +497,7 @@ LayoutCreator.prototype = {
 			};
 		});
 
-		this.prompt(questions, answers =>
+		this.prompt(questions, (answers) =>
 			this._afterPromptColumnWidths(answers, cb)
 		);
 	},
@@ -504,7 +512,7 @@ LayoutCreator.prototype = {
 					type: 'list',
 				},
 			],
-			answers => this._afterPromptFinishRow(answers, cb)
+			(answers) => this._afterPromptFinishRow(answers, cb)
 		);
 	},
 
@@ -518,7 +526,7 @@ LayoutCreator.prototype = {
 					type: 'list',
 				},
 			],
-			answers => this._afterPromptInsertRow(answers, cb)
+			(answers) => this._afterPromptInsertRow(answers, cb)
 		);
 	},
 
@@ -532,7 +540,7 @@ LayoutCreator.prototype = {
 					type: 'list',
 				},
 			],
-			answers => this._afterPromptRemoveRow(answers, cb)
+			(answers) => this._afterPromptRemoveRow(answers, cb)
 		);
 	},
 
@@ -573,7 +581,7 @@ LayoutCreator.prototype = {
 
 		var width = 0;
 
-		_.forEach(column, columnWidth => {
+		_.forEach(column, (columnWidth) => {
 			var prevWidth = width;
 
 			width = width + columnWidth * 3;
@@ -612,7 +620,7 @@ LayoutCreator.prototype = {
 
 	_stylePreviewLine(line, label) {
 		if (label) {
-			line = line.replace(/\d/g, match => {
+			line = line.replace(/\d/g, (match) => {
 				return chalk.cyan(match);
 			});
 		}
@@ -640,7 +648,8 @@ LayoutCreator.prototype = {
 					rowData: this.rowData,
 				})
 			);
-		} else {
+		}
+		else {
 			this.rows = [];
 
 			this._printHelpMessage();
@@ -654,7 +663,7 @@ LayoutCreator.prototype = {
 	},
 
 	run() {
-		return new Promise(resolve => {
+		return new Promise((resolve) => {
 			this.after = resolve;
 			this.init();
 		});

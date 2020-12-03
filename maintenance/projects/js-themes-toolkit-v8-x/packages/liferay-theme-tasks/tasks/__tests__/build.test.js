@@ -14,8 +14,10 @@ const testUtil = require('../../test/util');
 const initCwd = process.cwd();
 
 afterAll(() => {
+
 	// Clean things on exit to avoid GulpStorage.save() errors because of left
 	// over async operations when changing tests.
+
 	testUtil.cleanTempTheme(
 		'base-theme',
 		'7.0',
@@ -43,7 +45,7 @@ describe('using lib_sass', () => {
 		const config = testUtil.copyTempTheme({
 			namespace,
 			registerTasksOptions: {
-				sassOptions: defaults => {
+				sassOptions: (defaults) => {
 					sassOptionsSpy();
 
 					expect(defaults.includePaths).toBeTruthy();
@@ -74,7 +76,7 @@ describe('using lib_sass', () => {
 		testUtil.restoreConsole();
 	});
 
-	it('build task should correctly compile theme', done => {
+	it('build task should correctly compile theme', (done) => {
 		runSequence('build', done);
 	});
 

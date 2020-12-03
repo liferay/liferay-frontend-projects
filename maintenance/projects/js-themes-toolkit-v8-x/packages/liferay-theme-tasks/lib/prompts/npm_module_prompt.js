@@ -32,14 +32,15 @@ class NPMModulePrompt {
 	_afterPromptSearchTerms(answers) {
 		const themelet = this.themelet;
 
-		this._getNPMModules(answers.searchTerms, modules => {
+		this._getNPMModules(answers.searchTerms, (modules) => {
 			if (_.isEmpty(modules)) {
 				const type = themelet ? 'themelets' : 'themes';
 
 				log(colors.yellow('No ' + type + ' matched your search!'));
 
 				this._promptSearchTerms();
-			} else {
+			}
+			else {
 				this.modules = modules;
 
 				ModulePrompt.prompt(this, _.bind(this._afterPrompt, this));

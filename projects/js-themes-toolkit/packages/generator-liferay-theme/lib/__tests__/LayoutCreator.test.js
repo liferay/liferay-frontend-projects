@@ -405,6 +405,7 @@ describe('LayoutCreator', () => {
 			choices = prototype._getColumnWidthChoices(0, 2, {});
 
 			// assert.equal(_.last(choices).type, 'separator');
+
 			assert.equal(choices[choices.length - 1].value, 11);
 			assert.equal(choices.length, 11);
 
@@ -469,7 +470,8 @@ describe('LayoutCreator', () => {
 						stripAnsi(choice.line),
 						'  |3       |9                         |'
 					);
-				} else {
+				}
+				else {
 					assert.equal(
 						choice.name,
 						'  -------------------------------------'
@@ -530,7 +532,8 @@ describe('LayoutCreator', () => {
 					);
 
 					choiceValue++;
-				} else {
+				}
+				else {
 					assert.equal(
 						stripAnsi(choice.line),
 						'  -------------------------------------'
@@ -609,10 +612,10 @@ describe('LayoutCreator', () => {
 
 			var number = 0;
 
-			_.forEach(rowDataFromObjects, row => {
+			_.forEach(rowDataFromObjects, (row) => {
 				assert(_.isArray(row), 'each row is an array');
 
-				_.forEach(row, column => {
+				_.forEach(row, (column) => {
 					assert(_.isObject(column), 'each row is an array');
 
 					number++;
@@ -767,11 +770,11 @@ describe('LayoutCreator', () => {
 	});
 
 	describe('_promptRow', () => {
-		it('removes last row and print layout', done => {
+		it('removes last row and print layout', (done) => {
 			var waterfallSpy = sinon.spy();
 
-			var getWaterfallFunction = function(name) {
-				return function(data, cb) {
+			var getWaterfallFunction = function (name) {
+				return function (data, cb) {
 					if (!cb) {
 						cb = data;
 					}
