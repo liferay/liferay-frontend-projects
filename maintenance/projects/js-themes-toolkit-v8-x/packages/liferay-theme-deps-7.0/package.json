@@ -4,7 +4,7 @@
 	"description": "Set of dependencies required by liferay-theme-tasks",
 	"main": "package.json",
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
-	"license": "ISC",
+	"license": "MIT",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/liferay/liferay-frontend-projects",

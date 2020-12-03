@@ -9,7 +9,7 @@
 		"liferay-frontend-theme-unstyled": "3.0.13"
 	},
 	"description": "Set of dependencies required by liferay-theme-tasks",
-	"license": "ISC",
+	"license": "MIT",
 	"main": "package.json",
 	"name": "liferay-theme-deps-7.1",
 	"version": "8.2.2",
