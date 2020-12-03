@@ -154,7 +154,10 @@ function mergeLookAndFeelJSON(themePath, lookAndFeelJSON, cb) {
 			lookAndFeelJSON = mergeJSON(lookAndFeelJSON, json);
 		}
 
-		const {liferayTheme: themeInfo} = require(path.join(themePath, 'package.json'));
+		const {liferayTheme: themeInfo} = require(path.join(
+			themePath,
+			'package.json'
+		));
 
 		const baseTheme = themeInfo.baseTheme;
 

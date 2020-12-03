@@ -166,19 +166,14 @@ module.exports = class extends Base {
 				];
 			}
 
-			new LayoutCreator(
-				{
-					after(templateContent) {
-							instance.fs.write(
-								templateDestination,
-								templateContent
-							);
+			new LayoutCreator({
+				after(templateContent) {
+					instance.fs.write(templateDestination, templateContent);
 
-							done();
-						},
-					...options
-				}
-			);
+					done();
+				},
+				...options,
+			});
 		}
 	}
 

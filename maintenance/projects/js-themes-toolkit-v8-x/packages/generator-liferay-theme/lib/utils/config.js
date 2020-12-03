@@ -10,8 +10,9 @@ const os = require('os');
 const path = require('path');
 
 let config = {
-	
-	...safeReadJsonSync(path.join(os.homedir(), '.generator-liferay-theme.json'))
+	...safeReadJsonSync(
+		path.join(os.homedir(), '.generator-liferay-theme.json')
+	),
 };
 
 process.argv.forEach((arg, index) => {

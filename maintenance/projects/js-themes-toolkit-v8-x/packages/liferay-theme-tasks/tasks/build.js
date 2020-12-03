@@ -123,50 +123,55 @@ module.exports = function (options) {
 	gulp.task('build:liferay-look-and-feel', (cb) => {
 		const themePath = process.cwd();
 
-		lookAndFeelUtil.mergeLookAndFeelJSON(themePath, {}, (
-			lookAndFeelJSON
-		) => {
-			if (!lookAndFeelJSON) {
-				return cb();
-			}
+		lookAndFeelUtil.mergeLookAndFeelJSON(
+			themePath,
+			{},
+			(lookAndFeelJSON) => {
+				if (!lookAndFeelJSON) {
+					return cb();
+				}
 
-			const themeName = lookAndFeelUtil.getNameFromPluginPackageProperties(
-				themePath
-			);
+				const themeName = lookAndFeelUtil.getNameFromPluginPackageProperties(
+					themePath
+				);
 
-			lookAndFeelUtil.correctJSONIdentifiers(lookAndFeelJSON, themeName);
+				lookAndFeelUtil.correctJSONIdentifiers(
+					lookAndFeelJSON,
+					themeName
+				);
 
-			let doctypeElement = lookAndFeelUtil.getLookAndFeelDoctype(
-				themePath
-			);
+				let doctypeElement = lookAndFeelUtil.getLookAndFeelDoctype(
+					themePath
+				);
 
-			if (!doctypeElement) {
-				doctypeElement = lookAndFeelUtil.getLookAndFeelDoctypeByVersion(
-					themeConfig.version
+				if (!doctypeElement) {
+					doctypeElement = lookAndFeelUtil.getLookAndFeelDoctypeByVersion(
+						themeConfig.version
+					);
+				}
+
+				const xml = lookAndFeelUtil.buildXML(
+					lookAndFeelJSON,
+					doctypeElement
+				);
+
+				fs.writeFile(
+					path.join(
+						themePath,
+						pathBuild,
+						'WEB-INF/liferay-look-and-feel.xml'
+					),
+					xml,
+					(err) => {
+						if (err) {
+							throw err;
+						}
+
+						cb();
+					}
 				);
 			}
-
-			const xml = lookAndFeelUtil.buildXML(
-				lookAndFeelJSON,
-				doctypeElement
-			);
-
-			fs.writeFile(
-				path.join(
-					themePath,
-					pathBuild,
-					'WEB-INF/liferay-look-and-feel.xml'
-				),
-				xml,
-				(err) => {
-					if (err) {
-						throw err;
-					}
-
-					cb();
-				}
-			);
-		});
+		);
 	});
 
 	gulp.task('build:hook', () => {

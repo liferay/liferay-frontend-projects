@@ -43,7 +43,9 @@ function registerTasks() {
 			deployPath.asNative,
 			[themeName + '.war'],
 			(err, _data) => {
-				if (err) {throw err;}
+				if (err) {
+					throw err;
+				}
 
 				store.deployed = true;
 				cb();

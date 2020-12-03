@@ -40,7 +40,9 @@ describe('config', () => {
 
 	it('upgrade:config', (done) => {
 		runSequence('upgrade:config', (err) => {
-			if (err) {throw err;}
+			if (err) {
+				throw err;
+			}
 
 			const themeConfig = lfrThemeConfig.getConfig();
 

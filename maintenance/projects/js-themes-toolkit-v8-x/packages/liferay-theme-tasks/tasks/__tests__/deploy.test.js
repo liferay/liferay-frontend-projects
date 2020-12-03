@@ -49,7 +49,9 @@ afterEach(() => {
 
 it('should deploy to deploy server', (done) => {
 	runSequence('deploy', (err) => {
-		if (err) {throw err;}
+		if (err) {
+			throw err;
+		}
 
 		expect(fs.existsSync(path.join(deployPath, 'base-theme.war'))).toBe(
 			true

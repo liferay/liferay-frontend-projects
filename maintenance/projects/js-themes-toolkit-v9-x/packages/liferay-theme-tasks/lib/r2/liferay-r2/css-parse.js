@@ -26,7 +26,9 @@ module.exports = function (css, options) {
 
 	function updatePosition(str) {
 		var lines = str.match(/\n/g);
-		if (lines) {lineno += lines.length;}
+		if (lines) {
+			lineno += lines.length;
+		}
 		var i = str.lastIndexOf('\n');
 		column = ~i ? str.length - i : column + str.length;
 	}
@@ -36,7 +38,9 @@ module.exports = function (css, options) {
 	 */
 
 	function position() {
-		if (!options.position) {return positionNoop;}
+		if (!options.position) {
+			return positionNoop;
+		}
 
 		var start = {column, line: lineno};
 
@@ -138,7 +142,9 @@ module.exports = function (css, options) {
 
 	function match(re) {
 		var m = re.exec(css);
-		if (!m) {return;}
+		if (!m) {
+			return;
+		}
 		var str = m[0];
 		updatePosition(str);
 		css = css.slice(str.length);
@@ -161,7 +167,9 @@ module.exports = function (css, options) {
 	function comments(rules) {
 		var c;
 		rules = rules || [];
-		while ((c = comment())) {rules.push(c);}
+		while ((c = comment())) {
+			rules.push(c);
+		}
 
 		return rules;
 	}
@@ -172,14 +180,17 @@ module.exports = function (css, options) {
 
 	function comment() {
 		var pos = position();
-		if ('/' != css.charAt(0) || '*' != css.charAt(1)) {return;}
+		if ('/' != css.charAt(0) || '*' != css.charAt(1)) {
+			return;
+		}
 
 		var i = 2;
 		while (
 			null != css.charAt(i) &&
 			('*' != css.charAt(i) || '/' != css.charAt(i + 1))
-		)
-			{++i;}
+		) {
+			++i;
+		}
 		i += 2;
 
 		var str = css.slice(2, i - 2);
@@ -200,7 +211,9 @@ module.exports = function (css, options) {
 
 	function selector() {
 		var m = match(/^([^{]+)/);
-		if (!m) {return;}
+		if (!m) {
+			return;
+		}
 
 		/* @fix Remove all comments from selectors
 		 * http://ostermiller.org/findcomment.html */
@@ -219,17 +232,23 @@ module.exports = function (css, options) {
 		// prop
 
 		var prop = match(/^(\*?[-#/*\w]+(\[[0-9a-z_-]+\])?)\s*/);
-		if (!prop) {return;}
+		if (!prop) {
+			return;
+		}
 		prop = trim(prop[0]);
 
 		// :
 
-		if (!match(/^:\s*/)) {return error("property missing ':'");}
+		if (!match(/^:\s*/)) {
+			return error("property missing ':'");
+		}
 
 		// val
 
 		var val = match(/^((?:'(?:\\'|.)*?'|"(?:\\"|.)*?"|\([^)]*?\)|[^};])+)/);
-		if (!val) {return error('property missing value');}
+		if (!val) {
+			return error('property missing value');
+		}
 
 		var ret = pos({
 			property: prop.replace(commentre, ''),
@@ -251,7 +270,9 @@ module.exports = function (css, options) {
 	function declarations() {
 		var decls = [];
 
-		if (!open()) {return error("missing '{'");}
+		if (!open()) {
+			return error("missing '{'");
+		}
 		comments(decls);
 
 		// declarations
@@ -269,7 +290,9 @@ module.exports = function (css, options) {
 			}
 		}
 
-		if (!close()) {return error("missing '}'");}
+		if (!close()) {
+			return error("missing '}'");
+		}
 
 		return decls;
 	}
@@ -288,7 +311,9 @@ module.exports = function (css, options) {
 			match(/^,\s*/);
 		}
 
-		if (!vals.length) {return;}
+		if (!vals.length) {
+			return;
+		}
 
 		return pos({
 			declarations: declarations(),
@@ -305,16 +330,22 @@ module.exports = function (css, options) {
 		var pos = position();
 		var m = match(/^@([-\w]+)?keyframes */);
 
-		if (!m) {return;}
+		if (!m) {
+			return;
+		}
 		var vendor = m[1];
 
 		// identifier
 
 		m = match(/^([-\w]+)\s*/);
-		if (!m) {return error('@keyframes missing name');}
+		if (!m) {
+			return error('@keyframes missing name');
+		}
 		var name = m[1];
 
-		if (!open()) {return error("@keyframes missing '{'");}
+		if (!open()) {
+			return error("@keyframes missing '{'");
+		}
 
 		var frame;
 		var frames = comments();
@@ -323,7 +354,9 @@ module.exports = function (css, options) {
 			frames = frames.concat(comments());
 		}
 
-		if (!close()) {return error("@keyframes missing '}'");}
+		if (!close()) {
+			return error("@keyframes missing '}'");
+		}
 
 		return pos({
 			keyframes: frames,
@@ -341,14 +374,20 @@ module.exports = function (css, options) {
 		var pos = position();
 		var m = match(/^@supports *([^{]+)/);
 
-		if (!m) {return;}
+		if (!m) {
+			return;
+		}
 		var supports = trim(m[1]);
 
-		if (!open()) {return error("@supports missing '{'");}
+		if (!open()) {
+			return error("@supports missing '{'");
+		}
 
 		var style = comments().concat(rules());
 
-		if (!close()) {return error("@supports missing '}'");}
+		if (!close()) {
+			return error("@supports missing '}'");
+		}
 
 		return pos({
 			rules: style,
@@ -365,13 +404,19 @@ module.exports = function (css, options) {
 		var pos = position();
 		var m = match(/^@host */);
 
-		if (!m) {return;}
+		if (!m) {
+			return;
+		}
 
-		if (!open()) {return error("@host missing '{'");}
+		if (!open()) {
+			return error("@host missing '{'");
+		}
 
 		var style = comments().concat(rules());
 
-		if (!close()) {return error("@host missing '}'");}
+		if (!close()) {
+			return error("@host missing '}'");
+		}
 
 		return pos({
 			rules: style,
@@ -387,14 +432,20 @@ module.exports = function (css, options) {
 		var pos = position();
 		var m = match(/^@media *([^{]+)/);
 
-		if (!m) {return;}
+		if (!m) {
+			return;
+		}
 		var media = trim(m[1]);
 
-		if (!open()) {return error("@media missing '{'");}
+		if (!open()) {
+			return error("@media missing '{'");
+		}
 
 		var style = comments().concat(rules());
 
-		if (!close()) {return error("@media missing '}'");}
+		if (!close()) {
+			return error("@media missing '}'");
+		}
 
 		return pos({
 			media,
@@ -410,11 +461,15 @@ module.exports = function (css, options) {
 	function atpage() {
 		var pos = position();
 		var m = match(/^@page */);
-		if (!m) {return;}
+		if (!m) {
+			return;
+		}
 
 		var sel = selector() || [];
 
-		if (!open()) {return error("@page missing '{'");}
+		if (!open()) {
+			return error("@page missing '{'");
+		}
 		var decls = comments();
 
 		// declarations
@@ -425,7 +480,9 @@ module.exports = function (css, options) {
 			decls = decls.concat(comments());
 		}
 
-		if (!close()) {return error("@page missing '}'");}
+		if (!close()) {
+			return error("@page missing '}'");
+		}
 
 		return pos({
 			declarations: decls,
@@ -441,16 +498,22 @@ module.exports = function (css, options) {
 	function atdocument() {
 		var pos = position();
 		var m = match(/^@([-\w]+)?document *([^{]+)/);
-		if (!m) {return;}
+		if (!m) {
+			return;
+		}
 
 		var vendor = trim(m[1]);
 		var doc = trim(m[2]);
 
-		if (!open()) {return error("@document missing '{'");}
+		if (!open()) {
+			return error("@document missing '{'");
+		}
 
 		var style = comments().concat(rules());
 
-		if (!close()) {return error("@document missing '}'");}
+		if (!close()) {
+			return error("@document missing '}'");
+		}
 
 		return pos({
 			document: doc,
@@ -464,7 +527,9 @@ module.exports = function (css, options) {
 		var pos = position();
 		var m = match(/^@([-\w]+)?viewport */);
 
-		if (!m) {return;}
+		if (!m) {
+			return;
+		}
 		var vendor = m[1];
 
 		return pos({
@@ -478,7 +543,9 @@ module.exports = function (css, options) {
 		var pos = position();
 		var m = match(/^@([-\w]+)?font-face */);
 
-		if (!m) {return;}
+		if (!m) {
+			return;
+		}
 
 		return pos({
 			declarations: declarations(),
@@ -517,7 +584,9 @@ module.exports = function (css, options) {
 	function _atrule(name) {
 		var pos = position();
 		var m = match(new RegExp('^@' + name + ' *([^;\\n]+);'));
-		if (!m) {return;}
+		if (!m) {
+			return;
+		}
 		var ret = {type: name};
 		ret[name] = trim(m[1]);
 
@@ -529,7 +598,9 @@ module.exports = function (css, options) {
 	 */
 
 	function atrule() {
-		if (css[0] != '@') {return;}
+		if (css[0] != '@') {
+			return;
+		}
 
 		return (
 			atkeyframes() ||
@@ -556,7 +627,9 @@ module.exports = function (css, options) {
 		var pos = position();
 		var sel = selector();
 
-		if (!sel) {return error('selector missing');}
+		if (!sel) {
+			return error('selector missing');
+		}
 		comments();
 
 		return pos({

@@ -59,7 +59,9 @@ describe('black list', () => {
 
 	it('should create blacklist of scss mixins found in theme css files', (done) => {
 		runSequence('upgrade:black-list', (err) => {
-			if (err) {throw err;}
+			if (err) {
+				throw err;
+			}
 
 			gulp.src(path.join(tempPath, 'src/css/*')).pipe(
 				gulpBlackList(null, (result) => {
@@ -95,7 +97,9 @@ describe('config', () => {
 
 	it('upgrade:config', (done) => {
 		runSequence('upgrade:config', (err) => {
-			if (err) {throw err;}
+			if (err) {
+				throw err;
+			}
 
 			const themeConfig = lfrThemeConfig.getConfig();
 
@@ -145,7 +149,9 @@ describe('convert bootstrap', () => {
 
 	it('upgrade:convert-bootstrap should run convert-bootstrap-2-to-3 module on css files', (done) => {
 		runSequence('upgrade:convert-bootstrap', (err) => {
-			if (err) {throw err;}
+			if (err) {
+				throw err;
+			}
 
 			const customCSSPath = path.join(tempPath, 'src/css/custom.css');
 
@@ -181,7 +187,9 @@ describe('create deprecated mixins', () => {
 			'upgrade:config',
 			'upgrade:create-deprecated-mixins',
 			(err) => {
-				if (err) {throw err;}
+				if (err) {
+					throw err;
+				}
 
 				expect(
 					path.join(tempPath, 'src/css/_deprecated_mixins.scss')
@@ -211,7 +219,9 @@ describe('log changes', () => {
 
 	it('should log changes that have been and should be made', (done) => {
 		runSequence('upgrade:log-changes', (err) => {
-			if (err) {throw err;}
+			if (err) {
+				throw err;
+			}
 
 			// implement sinon stubs
 
@@ -238,7 +248,9 @@ describe('replace compass', () => {
 
 	it('upgrade:replace-compass should replace compass mixins with bourbon equivalents exluding anything mixins/functions on blacklist', (done) => {
 		runSequence('upgrade:black-list', 'upgrade:replace-compass', (err) => {
-			if (err) {throw err;}
+			if (err) {
+				throw err;
+			}
 
 			const customCSSPath = path.join(
 				process.cwd(),
@@ -274,7 +286,9 @@ describe('upgrade templates', () => {
 
 	it('should scrape templates for needed changes', (done) => {
 		runSequence('upgrade:ftl-templates', 'upgrade:vm-templates', (err) => {
-			if (err) {throw err;}
+			if (err) {
+				throw err;
+			}
 
 			// TODO: implement 'upgrade templates' test
 

@@ -37,7 +37,7 @@ class URLPackagePrompt {
 		);
 
 		answers.modules = {
-			[config.name]: { ...config, __packageURL__: answers.packageURL,},
+			[config.name]: {...config, __packageURL__: answers.packageURL},
 		};
 
 		if (this.themelet) {

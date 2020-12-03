@@ -42,7 +42,9 @@ function dockerCopy(containerName, sourceFolder, destFolder, sourceFiles, cb) {
 	}
 
 	const wcb = (error) => {
-		if (!cb) {return;}
+		if (!cb) {
+			return;
+		}
 
 		if (error) {
 			cb(error);
@@ -65,7 +67,9 @@ function dockerCopy(containerName, sourceFolder, destFolder, sourceFiles, cb) {
 
 	tar.pack(sourceFolder, packConfig).pipe(
 		es.wait((err, body) => {
-			if (err) {throw err;}
+			if (err) {
+				throw err;
+			}
 
 			const proc = spawn.sync(
 				'docker',

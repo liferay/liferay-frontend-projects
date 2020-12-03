@@ -47,13 +47,11 @@ function register(options) {
 
 	store.set('changedFile');
 
-	globby
-		.sync([path.resolve(__dirname, 'tasks/**/*')])
-		.forEach((item) => {
-			if (item.indexOf('__tests__') == -1) {
-				require(item)(options);
-			}
-		});
+	globby.sync([path.resolve(__dirname, 'tasks/**/*')]).forEach((item) => {
+		if (item.indexOf('__tests__') == -1) {
+			require(item)(options);
+		}
+	});
 
 	const haltOnMissingDeps =
 		_.intersection(['build', 'deploy', 'watch'], options.argv._).length > 0;
