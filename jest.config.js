@@ -11,6 +11,7 @@ module.exports = {
 
 		'projects/amd-loader/jest.config.js',
 		'projects/eslint-config/jest.config.js',
+		'projects/js-themes-toolkit/jest.config.js',
 		'projects/js-toolkit/jest.config.js',
 		'projects/npm-tools/packages/npm-scripts/jest.config.js',
 
@@ -35,6 +36,7 @@ module.exports = {
 
 		'<rootDir>/projects/amd-loader',
 		'<rootDir>/projects/eslint-config',
+		'<rootDir>/projects/js-themes-toolkit',
 		'<rootDir>/projects/js-toolkit',
 		'<rootDir>/projects/npm-tools/packages/npm-scripts',
 

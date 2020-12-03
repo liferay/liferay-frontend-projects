@@ -9,25 +9,6 @@
 		"prettier": "^1.18.2",
 		"yargs": "^15.1.0"
 	},
-	"jest": {
-		"modulePathIgnorePatterns": [
-			"/generator-liferay-theme/generators/layout/"
-		],
-		"setupFilesAfterEnv": [
-			"<rootDir>/jest.js"
-		],
-		"testPathIgnorePatterns": [
-			"/__fixtures__/",
-			"/__snapshots__/",
-			"/fixtures/",
-			"/node_modules/"
-		],
-		"testRegex": [
-			".*\\.test\\.js",
-			"/__tests__/.*\\.js",
-			"/plugin/test/.*\\.js"
-		]
-	},
 	"keywords": [
 		"yeoman-generator"
 	],
