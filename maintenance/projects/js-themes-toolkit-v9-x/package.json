@@ -7,7 +7,6 @@
 		"sinon": "^4.4.6"
 	},
 	"private": true,
-	"repository": "https://github.com/liferay/liferay-js-themes-toolkit",
 	"scripts": {
 		"changelog": "npx liferay-changelog-generator",
 		"changelog:regenerate": "npx liferay-changelog-generator --regenerate",

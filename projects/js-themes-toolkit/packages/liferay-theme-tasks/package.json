@@ -63,8 +63,8 @@
 	"name": "liferay-theme-tasks",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/liferay/liferay-js-themes-toolkit",
-		"directory": "packages/liferay-theme-tasks"
+		"url": "https://github.com/liferay/liferay-frontend-projects",
+		"directory": "projects/js-themes-toolkit/packages/liferay-theme-tasks"
 	},
 	"scripts": {
 		"changelog": "npx liferay-changelog-generator",

@@ -7,8 +7,8 @@
 	"license": "ISC",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/liferay/liferay-js-themes-toolkit",
-		"directory": "packages/liferay-theme-deps-7.0"
+		"url": "https://github.com/liferay/liferay-frontend-projects",
+		"directory": "maintenance/projects/js-themes-toolkit-v8-x/packages/liferay-theme-deps-7.0"
 	},
 	"dependencies": {
 		"compass-mixins": "0.12.10",

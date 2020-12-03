@@ -6,8 +6,8 @@
 	"main": "generators/app/index.js",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/liferay/liferay-js-themes-toolkit",
-		"directory": "packages/generator-liferay-theme"
+		"url": "https://github.com/liferay/liferay-frontend-projects.git",
+		"directory": "projects/js-themes-toolkit/packages/generator-liferay-theme"
 	},
 	"author": {
 		"name": "Nate Cavanaugh",

@@ -15,7 +15,7 @@
 	"version": "8.2.2",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/liferay/liferay-js-themes-toolkit",
-		"directory": "liferay-theme-deps-7.1"
+		"url": "https://github.com/liferay/liferay-frontend-projects",
+		"directory": "maintenance/projects/js-themes-toolkit-v8-x/packages/liferay-theme-deps-7.1"
 	}
 }

@@ -10,7 +10,6 @@
 		"yargs": "^15.1.0"
 	},
 	"private": true,
-	"repository": "https://github.com/liferay/liferay-js-themes-toolkit",
 	"scripts": {
 		"ci": "yarn format:check && yarn lint && yarn test",
 		"format": "prettier --write \".*.js\" \"*.{js,json,md}\" \"packages/**/*.{js,json,md}\" \"scripts/*.js\"",
