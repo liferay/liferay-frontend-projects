@@ -33,13 +33,14 @@
 	],
 	"private": true,
 	"scripts": {
-		"ci": "yarn format:check && yarn lint && yarn test",
-		"format": "prettier --write \".*.js\" \"*.{js,json,md}\" \"packages/**/*.{js,json,md}\" \"scripts/*.js\"",
-		"format:check": "prettier --list-different \".*.js\" \"*.{js,json,md}\" \"packages/**/*.{js,json,md}\" \"scripts/*.js\"",
-		"lint": "eslint \".*.js\" \"*.js\" \"packages/**/*.js\" \"scripts/*.js\"",
-		"lint:fix": "eslint --fix \".*.js\" \"*.js\" \"packages/**/*.js\" \"scripts/*.js\"",
+		"build": true,
+		"ci": "liferay-workspace-scripts ci",
+		"format": "liferay-workspace-scripts format",
+		"format:check": "liferay-workspace-scripts format:check",
+		"lint": "liferay-workspace-scripts lint",
+		"lint:fix": "liferay-workspace-scripts lint:fix",
 		"qa": "node scripts/qa.js",
-		"test": "jest"
+		"test": "liferay-workspace-scripts test"
 	},
 	"workspaces": [
 		"packages/*"
