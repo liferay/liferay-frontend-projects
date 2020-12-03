@@ -121,4 +121,3 @@ Go to [liferay-js-themes-toolkit/release](https://github.com/liferay/liferay-js-
 
 -   https://www.npmjs.com/package/liferay-theme-tasks
 -   https://www.npmjs.com/package/generator-liferay-theme
--   https://www.npmjs.com/package/liferay-theme-mixins
