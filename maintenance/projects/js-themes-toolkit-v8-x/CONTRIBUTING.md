@@ -121,7 +121,7 @@ Once we've seen the CI pass above, we can **close the PR without merging it** (i
 git checkout 8.x-stable
 git pull upstream 8.x-stable
 git merge --ff-only 8.x
-git tag v$VERSION -m v$VERSION
+git tag liferay-js-themes-toolkit/v$VERSION -m liferay-js-themes-toolkit/v$VERSION
 git push upstream 8.x-stable --follow-tags
 ```
 

@@ -79,7 +79,7 @@ yarn ci
 # Prepare and push final commit:
 git add -A
 git commit -m "chore: prepare $VERSION release"
-git tag v$VERSION -m v$VERSION
+git tag liferay-js-themes-toolkit/v$VERSION -m liferay-js-themes-toolkit/v$VERSION
 git push upstream 9.x --follow-tags
 ```
 
