@@ -12,10 +12,10 @@
 	"license": "MIT",
 	"main": "package.json",
 	"name": "liferay-theme-deps-7.1",
-	"version": "8.2.2",
 	"repository": {
+		"directory": "maintenance/projects/js-themes-toolkit-v8-x/packages/liferay-theme-deps-7.1",
 		"type": "git",
-		"url": "https://github.com/liferay/liferay-frontend-projects",
-		"directory": "maintenance/projects/js-themes-toolkit-v8-x/packages/liferay-theme-deps-7.1"
-	}
+		"url": "https://github.com/liferay/liferay-frontend-projects"
+	},
+	"version": "8.2.2"
 }

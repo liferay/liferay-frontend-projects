@@ -48,9 +48,6 @@
 		"liferay-frontend-theme-unstyled": "^4.0.19",
 		"sinon": "^4.4.6"
 	},
-	"peerDependencies": {
-		"gulp": "^4.0.0"
-	},
 	"engines": {
 		"node": ">=8.0.0"
 	},
@@ -61,10 +58,13 @@
 	"license": "MIT",
 	"main": "./theme",
 	"name": "liferay-theme-tasks",
+	"peerDependencies": {
+		"gulp": "^4.0.0"
+	},
 	"repository": {
+		"directory": "projects/js-themes-toolkit/packages/liferay-theme-tasks",
 		"type": "git",
-		"url": "https://github.com/liferay/liferay-frontend-projects",
-		"directory": "projects/js-themes-toolkit/packages/liferay-theme-tasks"
+		"url": "https://github.com/liferay/liferay-frontend-projects"
 	},
 	"scripts": {
 		"changelog": "npx liferay-changelog-generator",

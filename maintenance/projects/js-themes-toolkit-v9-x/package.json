@@ -1,4 +1,8 @@
 {
+	"dependencies": {
+		"gulp": "^3.9.1",
+		"replace-in-file": "^3.4.2"
+	},
 	"devDependencies": {
 		"eslint": "^6.5.1",
 		"eslint-config-liferay": "^13.0.0",
@@ -6,27 +10,10 @@
 		"prettier": "^1.18.2",
 		"sinon": "^4.4.6"
 	},
-	"private": true,
-	"scripts": {
-		"changelog": "npx liferay-changelog-generator",
-		"changelog:regenerate": "npx liferay-changelog-generator --regenerate",
-		"ci": "yarn format:check && yarn lint && yarn test",
-		"format": "prettier --write \".*.js\" \"*.{js,json,md}\" \"packages/**/*.{js,json,md}\" \"scripts/*.js\"",
-		"format:check": "prettier --list-different \".*.js\" \"*.{js,json,md}\" \"packages/**/*.{js,json,md}\" \"scripts/*.js\"",
-		"lint": "eslint \".*.js\" \"*.js\" \"packages/**/*.js\" \"scripts/*.js\"",
-		"lint:fix": "eslint --fix \".*.js\" \"*.js\" \"packages/**/*.js\" \"scripts/*.js\"",
-		"qa": "node scripts/qa.js",
-		"updatePackageVersions": "replace-in-file --configFile=update-package-versions-config.js",
-		"test": "jest"
-	},
-	"keywords": [
-		"yeoman-generator"
-	],
-	"dependencies": {
-		"gulp": "^3.9.1",
-		"replace-in-file": "^3.4.2"
-	},
 	"jest": {
+		"modulePathIgnorePatterns": [
+			"/generator-liferay-theme/generators/layout/"
+		],
 		"setupFilesAfterEnv": [
 			"<rootDir>/jest.js"
 		],
@@ -36,17 +23,30 @@
 			"/fixtures/",
 			"/node_modules/"
 		],
-		"modulePathIgnorePatterns": [
-			"/generator-liferay-theme/generators/layout/"
-		],
 		"testRegex": [
 			".*\\.test\\.js",
 			"/__tests__/.*\\.js",
 			"/plugin/test/.*\\.js"
 		]
 	},
+	"keywords": [
+		"yeoman-generator"
+	],
+	"private": true,
 	"resolutions": {
 		"ansi-colors": "3.2.4"
+	},
+	"scripts": {
+		"changelog": "npx liferay-changelog-generator",
+		"changelog:regenerate": "npx liferay-changelog-generator --regenerate",
+		"ci": "yarn format:check && yarn lint && yarn test",
+		"format": "prettier --write \".*.js\" \"*.{js,json,md}\" \"packages/**/*.{js,json,md}\" \"scripts/*.js\"",
+		"format:check": "prettier --list-different \".*.js\" \"*.{js,json,md}\" \"packages/**/*.{js,json,md}\" \"scripts/*.js\"",
+		"lint": "eslint \".*.js\" \"*.js\" \"packages/**/*.js\" \"scripts/*.js\"",
+		"lint:fix": "eslint --fix \".*.js\" \"*.js\" \"packages/**/*.js\" \"scripts/*.js\"",
+		"qa": "node scripts/qa.js",
+		"test": "jest",
+		"updatePackageVersions": "replace-in-file --configFile=update-package-versions-config.js"
 	},
 	"workspaces": [
 		"packages/*"
