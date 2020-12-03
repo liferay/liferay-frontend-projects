@@ -4,16 +4,18 @@
  */
 
 const chai = require('chai');
+const chaiFs = require('chai-fs');
 const chalk = require('chalk');
 const _ = require('lodash');
 const path = require('path');
 const sinon = require('sinon');
 
-chai.use(require('chai-fs'));
+const liferayThemeImport = require('../index');
+
+chai.use(chaiFs);
+
 const assert = chai.assert;
 const sinonAssert = sinon.assert;
-
-const liferayThemeImport = require('../index');
 
 describe('liferay-theme:import unit tests', () => {
 	var prototype;
@@ -23,7 +25,7 @@ describe('liferay-theme:import unit tests', () => {
 	});
 
 	describe('_getSettingFromConfigFile', () => {
-		it('should output a specific string if certain conditions are met', () => {
+		it('outputs a specific string if certain conditions are met', () => {
 			var config = {};
 			var expectedOutput = chalk.yellow('   Warning ') + '%s not found';
 
@@ -39,7 +41,7 @@ describe('liferay-theme:import unit tests', () => {
 	});
 
 	describe('_validatePath', () => {
-		it('should pass', () => {
+		it('passes', () => {
 			var retVal = prototype._validatePath('/does/not/exist');
 
 			assert.equal(retVal, '"/does/not/exist" does not exist');

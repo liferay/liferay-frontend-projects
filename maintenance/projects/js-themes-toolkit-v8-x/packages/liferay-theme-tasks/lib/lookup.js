@@ -25,9 +25,9 @@ function lookup(key, version = null) {
 		baseThemeDependencies: () =>
 			require('./lookup/base').getBaseDependencies,
 		devDependencies: () => require('./lookup/dependencies').devDependencies,
-		'kickstart:choices': () => require('./lookup/kickstart').choices,
 		'kickstart:afterPromptThemeSource': () =>
 			require('./lookup/kickstart').afterPromptThemeSource,
+		'kickstart:choices': () => require('./lookup/kickstart').choices,
 		'template:choices': () => require('./lookup/template').choices,
 		'template:isLanguage': () => require('./lookup/template').isLanguage,
 		'template:printWarnings': () =>

@@ -8,12 +8,14 @@
 const colors = require('ansi-colors');
 const async = require('async');
 const log = require('fancy-log');
-const plugins = require('gulp-load-plugins')();
+const loadPlugins = require('gulp-load-plugins');
 const _ = require('lodash');
 const path = require('path');
 const vinylPaths = require('vinyl-paths');
 
 const lfrThemeConfig = require('../../lib/liferay_theme_config');
+
+const plugins = loadPlugins();
 
 const themeConfig = lfrThemeConfig.getConfig();
 
@@ -211,6 +213,7 @@ function getThemeletFilePathArray(filePath) {
 }
 
 function getThemeletDependencies() {
+	// eslint-disable-next-line @liferay/liferay/no-dynamic-require
 	const packageJSON = require(path.join(CWD, 'package.json'));
 
 	let themeletDependencies;

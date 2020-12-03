@@ -7,7 +7,7 @@
 
 const del = require('del');
 const fs = require('fs-extra');
-const plugins = require('gulp-load-plugins')();
+const loadPlugins = require('gulp-load-plugins');
 const replace = require('gulp-replace-task');
 const _ = require('lodash');
 const path = require('path');
@@ -19,6 +19,8 @@ const lookAndFeelUtil = require('../lib/look_and_feel_util');
 const lookup = require('../lib/lookup');
 const normalize = require('../lib/normalize');
 const themeUtil = require('../lib/util');
+
+const plugins = loadPlugins();
 
 const themeConfig = lfrThemeConfig.getConfig();
 

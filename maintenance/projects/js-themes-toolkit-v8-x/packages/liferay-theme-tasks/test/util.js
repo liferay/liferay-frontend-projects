@@ -36,56 +36,6 @@ function restoreConsole() {
 }
 
 expect.extend({
-	toBeFile(path) {
-		let pass = true;
-		let message = '';
-
-		try {
-			if (!fs.statSync(path).isFile()) {
-				pass = false;
-				message = `Path '${path}' is not a file`;
-			}
-		}
-		catch (err) {
-			pass = false;
-			message = err.toString();
-		}
-
-		if (this.isNot && pass) {
-			message = `File '${path}' exists`;
-		}
-
-		return {
-			message: () => message,
-			pass,
-		};
-	},
-
-	toBeFolder(path) {
-		let pass = true;
-		let message = '';
-
-		try {
-			if (!fs.statSync(path).isDirectory()) {
-				pass = false;
-				message = `Path '${path}' is not a folder`;
-			}
-		}
-		catch (err) {
-			pass = false;
-			message = err.toString();
-		}
-
-		if (this.isNot && pass) {
-			message = `Folder '${path}' exists`;
-		}
-
-		return {
-			message: () => message,
-			pass,
-		};
-	},
-
 	toBeEmptyFolder(path) {
 		let pass = true;
 		let message = '';
@@ -143,6 +93,31 @@ expect.extend({
 		};
 	},
 
+	toBeFile(path) {
+		let pass = true;
+		let message = '';
+
+		try {
+			if (!fs.statSync(path).isFile()) {
+				pass = false;
+				message = `Path '${path}' is not a file`;
+			}
+		}
+		catch (err) {
+			pass = false;
+			message = err.toString();
+		}
+
+		if (this.isNot && pass) {
+			message = `File '${path}' exists`;
+		}
+
+		return {
+			message: () => message,
+			pass,
+		};
+	},
+
 	toBeFileMatching(path, regex) {
 		let pass = true;
 		let message = '';
@@ -192,6 +167,31 @@ expect.extend({
 					message = err.toString();
 				}
 			}
+		}
+
+		return {
+			message: () => message,
+			pass,
+		};
+	},
+
+	toBeFolder(path) {
+		let pass = true;
+		let message = '';
+
+		try {
+			if (!fs.statSync(path).isDirectory()) {
+				pass = false;
+				message = `Path '${path}' is not a folder`;
+			}
+		}
+		catch (err) {
+			pass = false;
+			message = err.toString();
+		}
+
+		if (this.isNot && pass) {
+			message = `Folder '${path}' exists`;
 		}
 
 		return {
@@ -289,10 +289,10 @@ function copyTempTheme(options) {
 		registerTasksOptions = _.assign(
 			{
 				distName: 'base-theme',
-				pathBuild: './custom_build_path',
 				gulp,
-				pathSrc: './custom_src_path',
 				insideTests: true,
+				pathBuild: './custom_build_path',
+				pathSrc: './custom_src_path',
 			},
 			options.registerTasksOptions
 		);
@@ -347,13 +347,13 @@ function stripNewlines(string) {
 }
 
 module.exports = {
-	copyTempTheme,
-	cleanTempTheme,
 	PrototypeMethodSpy,
 	assertBoundFunction,
-	stripNewlines,
+	cleanTempTheme,
+	copyTempTheme,
 	hideConsole,
 	restoreConsole,
+	stripNewlines,
 };
 
 function cleanDirectory(directory) {

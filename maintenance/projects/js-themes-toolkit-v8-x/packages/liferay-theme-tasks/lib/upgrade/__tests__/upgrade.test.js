@@ -45,11 +45,11 @@ describe('black list', () => {
 	beforeEach(() => {
 		const config = testUtil.copyTempTheme({
 			namespace: 'upgrade_task_black_list',
-			themeName: 'upgrade-theme',
-			version: '6.2',
 			registerTasksOptions: {
 				pathSrc: 'src',
 			},
+			themeName: 'upgrade-theme',
+			version: '6.2',
 		});
 
 		tempPath = config.tempPath;
@@ -57,7 +57,7 @@ describe('black list', () => {
 		gulp = config.gulp;
 	});
 
-	it('should create blacklist of scss mixins found in theme css files', (done) => {
+	it('creates blacklist of scss mixins found in theme css files', (done) => {
 		runSequence('upgrade:black-list', (err) => {
 			if (err) {
 				throw err;
@@ -84,11 +84,11 @@ describe('config', () => {
 	beforeEach(() => {
 		const config = testUtil.copyTempTheme({
 			namespace: 'upgrade_task_config',
-			themeName: 'upgrade-theme',
-			version: '6.2',
 			registerTasksOptions: {
 				pathSrc: 'src',
 			},
+			themeName: 'upgrade-theme',
+			version: '6.2',
 		});
 
 		runSequence = config.runSequence;
@@ -134,11 +134,11 @@ describe('convert bootstrap', () => {
 	beforeEach((done) => {
 		const config = testUtil.copyTempTheme({
 			namespace: 'upgrade_task_convert_bootstrap',
-			themeName: 'upgrade-theme',
-			version: '6.2',
 			registerTasksOptions: {
 				pathSrc: 'src',
 			},
+			themeName: 'upgrade-theme',
+			version: '6.2',
 		});
 
 		runSequence = config.runSequence;
@@ -171,18 +171,18 @@ describe('create deprecated mixins', () => {
 	beforeEach(() => {
 		const config = testUtil.copyTempTheme({
 			namespace: 'upgrade_task_create_deprecated_mixins',
-			themeName: 'upgrade-theme',
-			version: '6.2',
 			registerTasksOptions: {
 				pathSrc: 'src',
 			},
+			themeName: 'upgrade-theme',
+			version: '6.2',
 		});
 
 		runSequence = config.runSequence;
 		tempPath = config.tempPath;
 	});
 
-	it('should create deprecated mixins file', (done) => {
+	it('creates deprecated mixins file', (done) => {
 		runSequence(
 			'upgrade:config',
 			'upgrade:create-deprecated-mixins',
@@ -207,17 +207,17 @@ describe('log changes', () => {
 	beforeEach(() => {
 		const config = testUtil.copyTempTheme({
 			namespace: 'upgrade_task_log_changes',
-			themeName: 'upgrade-theme',
-			version: '6.2',
 			registerTasksOptions: {
 				pathSrc: 'src',
 			},
+			themeName: 'upgrade-theme',
+			version: '6.2',
 		});
 
 		runSequence = config.runSequence;
 	});
 
-	it('should log changes that have been and should be made', (done) => {
+	it('logs changes that have been and should be made', (done) => {
 		runSequence('upgrade:log-changes', (err) => {
 			if (err) {
 				throw err;
@@ -236,11 +236,11 @@ describe('replace compass', () => {
 	beforeEach(() => {
 		const config = testUtil.copyTempTheme({
 			namespace: 'upgrade_task_replace_compass',
-			themeName: 'upgrade-theme',
-			version: '6.2',
 			registerTasksOptions: {
 				pathSrc: 'src',
 			},
+			themeName: 'upgrade-theme',
+			version: '6.2',
 		});
 
 		runSequence = config.runSequence;
@@ -274,17 +274,17 @@ describe('upgrade templates', () => {
 	beforeEach(() => {
 		const config = testUtil.copyTempTheme({
 			namespace: 'upgrade_task_upgrade_templates',
-			themeName: 'upgrade-theme',
-			version: '6.2',
 			registerTasksOptions: {
 				pathSrc: 'src',
 			},
+			themeName: 'upgrade-theme',
+			version: '6.2',
 		});
 
 		runSequence = config.runSequence;
 	});
 
-	it('should scrape templates for needed changes', (done) => {
+	it('scrapes templates for needed changes', (done) => {
 		runSequence('upgrade:ftl-templates', 'upgrade:vm-templates', (err) => {
 			if (err) {
 				throw err;

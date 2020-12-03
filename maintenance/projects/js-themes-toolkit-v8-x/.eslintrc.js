@@ -3,10 +3,19 @@
  * SPDX-License-Identifier: MIT
  */
 
+const path = require('path');
+
 module.exports = {
 	env: {
-		node: true,
 		jest: true,
+		node: true,
 	},
-	rules: {},
+	rules: {
+		'notice/notice': [
+			'error',
+			{
+				templateFile: path.join(__dirname, 'copyright.js'),
+			},
+		],
+	},
 };

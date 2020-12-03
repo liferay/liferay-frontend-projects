@@ -49,6 +49,7 @@ module.exports = class extends Base {
 
 			fs.stat(themePackagePath, (err, stat) => {
 				if (!err && stat.isFile()) {
+					// eslint-disable-next-line @liferay/liferay/no-dynamic-require
 					const themePackage = require(themePackagePath);
 
 					if (themePackage.liferayTheme) {
@@ -220,11 +221,11 @@ module.exports = class extends Base {
 				when: instance._getWhenFn('layoutId', 'id', _.isString),
 			},
 			{
+				choices: ['7.1', '7.0'],
 				default: '7.1',
 				message:
 					'Which version of Liferay is this layout template for?',
 				name: 'liferayVersion',
-				choices: ['7.1', '7.0'],
 				type: 'list',
 				when: instance._getWhenFn(
 					'liferayVersion',

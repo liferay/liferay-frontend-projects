@@ -61,8 +61,8 @@ const removed = [
 
 const rules = removed.map((varName) => {
 	return {
-		name: varName,
 		message: `$${varName} was deprecated in Lexicon CSS 1.x.x and has been removed in the new Clay 2.x.x version`,
+		name: varName,
 		regex: new RegExp(`\\$${varName}`, 'g'),
 	};
 });

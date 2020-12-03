@@ -6,7 +6,7 @@
 const spawn = require('cross-spawn');
 const inquirer = require('inquirer');
 const _ = require('lodash');
-const argv = require('minimist')(process.argv.slice(2));
+const minimist = require('minimist');
 
 const lfrThemeConfig = require('../liferay_theme_config');
 const themeFinder = require('../theme_finder');
@@ -14,6 +14,8 @@ const GlobalModulePrompt = require('./global_module_prompt');
 const NPMModulePrompt = require('./npm_module_prompt');
 const promptUtil = require('./prompt_util');
 const URLPackagePrompt = require('./url_package_prompt');
+
+const argv = minimist(process.argv.slice(2));
 
 const moduleName = argv.name;
 

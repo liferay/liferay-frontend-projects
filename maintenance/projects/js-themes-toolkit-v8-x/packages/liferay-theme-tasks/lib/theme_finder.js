@@ -291,11 +291,11 @@ function getPackageJSON(theme, cb) {
 }
 
 const LiferayThemeModuleStatus = {
-	NO_PACKAGE_JSON: 'NO_PACKAGE_JSON',
 	NO_LIFERAY_THEME: 'NO_LIFERAY_THEME',
+	NO_PACKAGE_JSON: 'NO_PACKAGE_JSON',
+	OK: 'OK',
 	TARGET_VERSION_DOES_NOT_MATCH: 'TARGET_VERSION_DOES_NOT_MATCH',
 	THEMELET_FLAG_DOES_NOT_MATCH: 'THEMELET_FLAG_DOES_NOT_MATCH',
-	OK: 'OK',
 };
 
 function getLiferayThemeModuleStatus(pkg, themelet) {
@@ -373,6 +373,7 @@ function searchGlobalModules(config, cb) {
 		modules,
 		(result, item) => {
 			try {
+				// eslint-disable-next-line @liferay/liferay/no-dynamic-require
 				const json = require(path.join(item, 'package.json'));
 
 				json.__realPath__ = item;

@@ -9,11 +9,13 @@ const es = require('event-stream');
 const log = require('fancy-log');
 const fs = require('fs-extra');
 const _ = require('lodash');
-const argv = require('minimist')(process.argv.slice(2));
+const minimist = require('minimist');
 const path = require('path');
 const tar = require('tar-fs');
 
 const lfrThemeConfig = require('./liferay_theme_config');
+
+const argv = minimist(process.argv.slice(2));
 
 const pkg = lfrThemeConfig.getConfig(true);
 const themeConfig = pkg.liferayTheme;
@@ -30,8 +32,8 @@ const CUSTOM_DEP_PATH_FLAG_MAP = {
 };
 
 const DEPLOYMENT_STRATEGIES = {
-	LOCAL_APP_SERVER: 'LocalAppServer',
 	DOCKER_CONTAINER: 'DockerContainer',
+	LOCAL_APP_SERVER: 'LocalAppServer',
 	OTHER: 'Other',
 };
 
@@ -143,6 +145,7 @@ function requireDependency(dependency, version) {
 
 	const dependencyPath = require.resolve(dependency, {paths: [depsPath]});
 
+	// eslint-disable-next-line @liferay/liferay/no-dynamic-require
 	return require(dependencyPath);
 }
 

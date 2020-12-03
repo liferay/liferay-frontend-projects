@@ -9,7 +9,7 @@ const colors = require('ansi-colors');
 const spawn = require('cross-spawn');
 const del = require('del');
 const fs = require('fs-extra');
-const plugins = require('gulp-load-plugins')();
+const loadPlugins = require('gulp-load-plugins');
 const replace = require('gulp-replace-task');
 const _ = require('lodash');
 const path = require('path');
@@ -19,6 +19,8 @@ const lfrThemeConfig = require('../../liferay_theme_config');
 const bootstrapVars = require('./bootstrap_vars');
 const lexiconMixins = require('./lexicon_mixins');
 const lexiconVars = require('./lexicon_vars');
+
+const plugins = loadPlugins();
 
 const CWD = process.cwd();
 

@@ -12,6 +12,12 @@ const lfrThemeConfig = require('./liferay_theme_config');
 /* eslint-disable quote-props */
 
 const SUPPORTED_TASKS = {
+	default: {
+		6.2: ' - please run "gulp upgrade" first',
+		'7.0': true,
+		7.1: true,
+	},
+
 	upgrade: {
 		6.2: true,
 		'7.0': true,
@@ -19,12 +25,6 @@ const SUPPORTED_TASKS = {
 			' - please run ' +
 			'"npm install --save-dev liferay-theme-tasks@9.0.0-alpha.1" ' +
 			'and then "gulp upgrade" again',
-	},
-
-	default: {
-		6.2: ' - please run "gulp upgrade" first',
-		'7.0': true,
-		7.1: true,
 	},
 };
 

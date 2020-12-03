@@ -40,8 +40,8 @@ const removed = [
 
 const rules = removed.map((varName) => {
 	return {
-		name: varName,
 		message: `$${varName} was removed in Bootstrap 4.x.x`,
+		name: varName,
 		regex: new RegExp(`\\$${varName}`, 'g'),
 	};
 });

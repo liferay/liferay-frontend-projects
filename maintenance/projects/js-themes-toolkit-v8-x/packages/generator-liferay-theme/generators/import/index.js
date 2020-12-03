@@ -155,10 +155,10 @@ module.exports = class extends Base {
 				compass: 'c',
 				path: 'p',
 			},
+			boolean: ['compass'],
 			default: {
 				compass: null,
 			},
-			boolean: ['compass'],
 		});
 	}
 

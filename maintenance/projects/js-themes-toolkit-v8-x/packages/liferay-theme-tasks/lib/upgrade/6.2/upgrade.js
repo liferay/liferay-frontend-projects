@@ -11,7 +11,7 @@ const spawn = require('cross-spawn');
 const del = require('del');
 const fs = require('fs-extra');
 const globby = require('globby');
-const plugins = require('gulp-load-plugins')();
+const loadPlugins = require('gulp-load-plugins');
 const replace = require('gulp-replace-task');
 const _ = require('lodash');
 const path = require('path');
@@ -19,6 +19,8 @@ const vinylPaths = require('vinyl-paths');
 
 const lfrThemeConfig = require('../../liferay_theme_config');
 const gulpBlackList = require('./gulp_black_list');
+
+const plugins = loadPlugins();
 
 const CWD = process.cwd();
 
@@ -198,9 +200,9 @@ module.exports = function (options) {
 			},
 			{
 				fileName: 'portal_normal.ftl',
-				negativeMatch: true,
 				message:
 					'Warning: not all admin controls will be visible without <@liferay.control_menu />',
+				negativeMatch: true,
 				regex: /<@liferay\.control_menu\s\/>/g,
 			},
 			{
@@ -330,9 +332,9 @@ module.exports = function (options) {
 			},
 			{
 				fileName: 'portal_normal.vm',
-				negativeMatch: true,
 				message:
 					'Warning: not all admin controls will be visible without #control_menu()',
+				negativeMatch: true,
 				regex: /#control_menu\(\)/g,
 			},
 		];

@@ -40,32 +40,47 @@ afterEach(() => {
 	testUtil.restoreConsole();
 });
 
-it('should throw appropriate error message', () => {
+it('throws appropriate error message', () => {
 	const pkgJsonPath = path.join(__dirname, './fixtures/doctor/_package.json');
+	// eslint-disable-next-line @liferay/liferay/no-dynamic-require
 	const pkgJson = require(pkgJsonPath);
 
 	expect(() =>
-		doctor({themeConfig: pkgJson, haltOnMissingDeps: true, tasks: []})
+		doctor({
+			haltOnMissingDeps: true,
+			tasks: [],
+			themeConfig: pkgJson,
+		})
 	).toThrow(new Error('Missing 1 theme dependencies'));
 });
 
-it('should look for dependencies regardless if devDependency or not', () => {
+it('looks for dependencies regardless if devDependency or not', () => {
 	const pkgJsonPath = path.join(
 		__dirname,
 		'./fixtures/doctor/_package_mixed_dependencies.json'
 	);
+	// eslint-disable-next-line @liferay/liferay/no-dynamic-require
 	const pkgJson = require(pkgJsonPath);
 
 	expect(() =>
-		doctor({themeConfig: pkgJson, haltOnMissingDeps: true, tasks: []})
+		doctor({
+			haltOnMissingDeps: true,
+			tasks: [],
+			themeConfig: pkgJson,
+		})
 	).not.toThrow();
 });
 
-it('should remove supportCompass', () => {
+it('removes supportCompass', () => {
 	const pkgJsonPath = path.join(tempPath, 'package.json');
+	// eslint-disable-next-line @liferay/liferay/no-dynamic-require
 	const pkgJson = require(pkgJsonPath);
 
-	doctor({themeConfig: pkgJson, haltOnMissingDeps: true, tasks: []});
+	doctor({
+		haltOnMissingDeps: true,
+		tasks: [],
+		themeConfig: pkgJson,
+	});
 
 	const updatedPkg = JSON.parse(fs.readFileSync(pkgJsonPath));
 

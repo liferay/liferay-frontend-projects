@@ -38,9 +38,9 @@ describe('globally installed theme', () => {
 	beforeEach(() => {
 		const config = testUtil.copyTempTheme({
 			namespace: 'kickstart_task_global',
+			registerTasks: true,
 			themeName: 'base-theme',
 			version: '7.0',
-			registerTasks: true,
 		});
 
 		runSequence = config.runSequence;
@@ -49,7 +49,7 @@ describe('globally installed theme', () => {
 		KickstartPrompt = require('../../lib/prompts/kickstart_prompt');
 	});
 
-	it('should kickstart', (done) => {
+	it('kickstarts', (done) => {
 		const promptInitSpy = prototypeMethodSpy.add(
 			KickstartPrompt.prototype,
 			'init'
@@ -121,7 +121,7 @@ describe('npm theme', () => {
 		KickstartPrompt = require('../../lib/prompts/kickstart_prompt');
 	});
 
-	it('should kickstart', (done) => {
+	it('kickstarts', (done) => {
 		const promptInitSpy = prototypeMethodSpy.add(
 			KickstartPrompt.prototype,
 			'init'

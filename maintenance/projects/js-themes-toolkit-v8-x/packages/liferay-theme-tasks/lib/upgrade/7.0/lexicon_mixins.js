@@ -10,8 +10,8 @@ const removed = {
 
 const rules = Object.keys(removed).map((varName) => {
 	return {
-		name: varName,
 		message: `The mixin @${varName} has been removed in the new Clay 2.x.x version`,
+		name: varName,
 		regex: new RegExp(`@include ${varName}\\([^)]*\\)`, 'g'),
 	};
 });

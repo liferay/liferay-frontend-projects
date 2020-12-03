@@ -9,7 +9,9 @@ const path = require('path');
 const util = require('util');
 const xml2js = require('xml2js');
 
-const {pathSrc} = require('./options')();
+const options = require('./options');
+
+const {pathSrc} = options();
 
 const QUERY_ELEMENTS = {
 	'color-scheme': 'id',
@@ -154,6 +156,7 @@ function mergeLookAndFeelJSON(themePath, lookAndFeelJSON, cb) {
 			lookAndFeelJSON = mergeJSON(lookAndFeelJSON, json);
 		}
 
+		// eslint-disable-next-line @liferay/liferay/no-dynamic-require
 		const {liferayTheme: themeInfo} = require(path.join(
 			themePath,
 			'package.json'

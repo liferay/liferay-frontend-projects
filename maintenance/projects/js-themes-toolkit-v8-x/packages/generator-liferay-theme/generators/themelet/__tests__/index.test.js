@@ -4,16 +4,18 @@
  */
 
 const chai = require('chai');
+const chaiFs = require('chai-fs');
 const _ = require('lodash');
 
 const liferayThemeThemelet = require('../index');
 
-chai.use(require('chai-fs'));
+chai.use(chaiFs);
+
 const assert = chai.assert;
 
 describe('liferay-theme:themelet unit tests', () => {
 	describe('_isLiferayVersion', () => {
-		it('should check for valid Liferay versions', () => {
+		it('checks for valid Liferay versions', () => {
 			_.forEach(['All', '7.1', '7.0'], (version) => {
 				assert.isTrue(
 					liferayThemeThemelet.prototype._isLiferayVersion(version),

@@ -4,13 +4,15 @@
  */
 
 const chai = require('chai');
+const chaiFs = require('chai-fs');
 const chalk = require('chalk');
 const _ = require('lodash');
 const sinon = require('sinon');
 
 const liferayThemeApp = require('../index');
 
-chai.use(require('chai-fs'));
+chai.use(chaiFs);
+
 const chaiAssert = chai.assert;
 const sinonAssert = sinon.assert;
 
@@ -63,7 +65,7 @@ describe('liferay-theme:app unit tests', () => {
 			whenFn = prototype._getWhenFn(propertyName, flagName);
 		});
 
-		it('should correctly implement validator fn', () => {
+		it('correctly implements validator fn', () => {
 			prototype.args = {};
 			prototype.argv = {};
 
@@ -112,7 +114,7 @@ describe('liferay-theme:app unit tests', () => {
 			chaiAssert.equal(prototype.args[propertyName], undefined);
 		});
 
-		it('should not prompt if deprecated for specified liferayVersion', () => {
+		it('does not prompt if deprecated for specified liferayVersion', () => {
 			prototype.args = {};
 			prototype.argv = {};
 			prototype.promptDeprecationMap = {
@@ -147,7 +149,7 @@ describe('liferay-theme:app unit tests', () => {
 	});
 
 	describe('_isLiferayVersion', () => {
-		it('should check for valid Liferay versions', () => {
+		it('checks for valid Liferay versions', () => {
 			_.forEach(['7.1', '7.0'], (version) => {
 				chaiAssert.isTrue(
 					prototype._isLiferayVersion(version),
@@ -165,7 +167,7 @@ describe('liferay-theme:app unit tests', () => {
 	});
 
 	describe('_isTemplateLanguage', () => {
-		it('should check for valid template languages', () => {
+		it('checks for valid template languages', () => {
 			_.forEach(['ftl'], (template) => {
 				chaiAssert.isTrue(
 					prototype._isTemplateLanguage(template, {
@@ -220,7 +222,7 @@ describe('liferay-theme:app unit tests', () => {
 	});
 
 	describe('_printWarnings', () => {
-		it('should output a specific string if certain conditions are met', () => {
+		it('outputs a specific string if certain conditions are met', () => {
 			const deprecated =
 				'   Warning: Velocity is deprecated for 7.0, ' +
 				'some features will be removed in the next release.';
@@ -259,7 +261,7 @@ describe('liferay-theme:app unit tests', () => {
 	});
 
 	describe('_setArgv', () => {
-		it('should set correct argv properties based on shorthand values', () => {
+		it('sets correct argv properties based on shorthand values', () => {
 			var originalArgv = process.argv;
 
 			var mockArgv = [

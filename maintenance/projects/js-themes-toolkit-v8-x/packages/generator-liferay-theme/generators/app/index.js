@@ -25,8 +25,8 @@ module.exports = class extends Generator {
 		this.pkg = pkg;
 
 		this._insight = new Insight({
-			trackingCode: 'UA-69122110-1',
 			pkg,
+			trackingCode: 'UA-69122110-1',
 		});
 	}
 
@@ -201,10 +201,10 @@ module.exports = class extends Generator {
 				when: instance._getWhenFn('themeId', 'id', _.isString),
 			},
 			{
+				choices: ['7.1', '7.0'],
 				default: '7.1',
 				message: 'Which version of Liferay is this theme for?',
 				name: 'liferayVersion',
-				choices: ['7.1', '7.0'],
 				type: 'list',
 				when: instance._getWhenFn(
 					'liferayVersion',
@@ -213,6 +213,7 @@ module.exports = class extends Generator {
 				),
 			},
 			{
+				choices: _.bind(instance._getTemplateLanguageChoices, instance),
 				default(answers) {
 					return instance._getTemplateLanguageChoices(answers)[0]
 						.value;
@@ -220,7 +221,6 @@ module.exports = class extends Generator {
 				message:
 					'What template language would you like this theme to use?',
 				name: 'templateLanguage',
-				choices: _.bind(instance._getTemplateLanguageChoices, instance),
 				type: 'list',
 				when: instance._getWhenFn(
 					'templateLanguage',

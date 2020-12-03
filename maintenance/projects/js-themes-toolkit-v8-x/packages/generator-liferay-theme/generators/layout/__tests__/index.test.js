@@ -4,8 +4,9 @@
  */
 
 var chai = require('chai');
+var chaiFs = require('chai-fs');
 
-chai.use(require('chai-fs'));
+chai.use(chaiFs);
 
 // TODO: fix functional tests and remove from ignores list
 // var _ = require('lodash');

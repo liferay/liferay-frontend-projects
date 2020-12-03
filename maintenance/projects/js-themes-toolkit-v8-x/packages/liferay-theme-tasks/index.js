@@ -5,16 +5,19 @@
 
 'use strict';
 
-require('./lib/checkNodeVersion')();
-
 const globby = require('globby');
-const plugins = require('gulp-load-plugins')();
+const loadPlugins = require('gulp-load-plugins');
 const liferayPluginTasks = require('liferay-plugin-node-tasks');
 const _ = require('lodash');
 const path = require('path');
 
+const check = require('./lib/checkNodeVersion');
 const {doctor} = require('./lib/doctor');
 const lfrThemeConfig = require('./lib/liferay_theme_config');
+
+check();
+
+const plugins = loadPlugins();
 
 const themeConfig = lfrThemeConfig.getConfig();
 
@@ -49,6 +52,7 @@ function register(options) {
 
 	globby.sync([path.resolve(__dirname, 'tasks/**/*')]).forEach((item) => {
 		if (item.indexOf('__tests__') == -1) {
+			// eslint-disable-next-line @liferay/liferay/no-dynamic-require
 			require(item)(options);
 		}
 	});
