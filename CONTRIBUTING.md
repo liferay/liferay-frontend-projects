@@ -89,11 +89,10 @@ Go to [liferay-js-themes-toolkit/release](https://github.com/liferay/liferay-js-
 
 ### 6. Do the NPM publish
 
-We used to use Lerna to manage this repo, but as the number of packages has reduced (to just 3 on the current "9.x" branch) we decided to drop it. This means we have to publish the packages manually in dependency order:
+We used to use Lerna to manage this repo, but as the number of packages has reduced (to just 2 on the current "9.x" branch) we decided to drop it. This means we have to publish the packages manually in dependency order:
 
 -   First "liferay-theme-tasks".
 -   Then "generator-liferay-theme".
--   "liferay-theme-mixins" specifies no dependencies and is not depended on by the other packages, so can be published at any point.
 
 When publishing a normal release, the `maintenance` _dist-tag_ is automatically used (as configured in the root [.yarnrc](https://github.com/liferay/liferay-js-themes-toolkit/blob/9.x/.yarnrc) file):
 
@@ -101,10 +100,7 @@ When publishing a normal release, the `maintenance` _dist-tag_ is automatically 
 cd packages
 (cd liferay-theme-tasks && yarn publish)
 (cd generator-liferay-theme && yarn publish)
-(cd liferay-theme-mixins && yarn publish --tag=latest)
 ```
-
-👀 Note how we force the _dist-tag_ to be `latest` for `liferay-theme-mixins`. This is because there's no such project in the following versions (10.x, ...).
 
 To publish an "alpha", "beta" or other pre-release, you must provide the `prerelease` _dist-tag_:
 
@@ -112,7 +108,6 @@ To publish an "alpha", "beta" or other pre-release, you must provide the `prerel
 cd packages
 (cd liferay-theme-tasks && yarn publish --tag=prerelease)
 (cd generator-liferay-theme && yarn publish --tag=prerelease)
-(cd liferay-theme-mixins && yarn publish --tag=prerelease)
 ```
 
 We may partially automate this in the future, but if we do, it will be in the form of a very simple shell script.
@@ -121,4 +116,3 @@ We may partially automate this in the future, but if we do, it will be in the fo
 
 -   https://www.npmjs.com/package/liferay-theme-tasks
 -   https://www.npmjs.com/package/generator-liferay-theme
--   https://www.npmjs.com/package/liferay-theme-mixins
