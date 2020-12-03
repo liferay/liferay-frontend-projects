@@ -44,6 +44,7 @@ function injectJS() {
 		else if (file.isStream()) {
 			file.contents = file.contents.pipe(() => {
 				let output = '';
+
 				return through(
 					function transform(chunk, encoding, callback) {
 						output += chunk.toString();

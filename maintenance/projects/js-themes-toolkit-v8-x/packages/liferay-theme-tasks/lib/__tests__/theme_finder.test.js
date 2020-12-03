@@ -1,6 +1,5 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: MIT
  */
 
@@ -25,7 +24,7 @@ beforeEach(() => {
 	process.chdir(baseThemePath);
 
 	delete require.cache[path.join(__dirname, '../theme_finder.js')];
-	themeFinder = require('../theme_finder.js');
+	themeFinder = require('../theme_finder');
 });
 
 afterEach(() => {

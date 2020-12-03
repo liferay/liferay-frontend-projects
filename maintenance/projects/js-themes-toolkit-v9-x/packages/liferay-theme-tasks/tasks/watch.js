@@ -48,6 +48,7 @@ function getPathComponents(pathString) {
  */
 function getResourceDir(pathString, pathSrc) {
 	const relativePath = path.relative(pathSrc, pathString);
+
 	return getPathComponents(relativePath)[0];
 }
 

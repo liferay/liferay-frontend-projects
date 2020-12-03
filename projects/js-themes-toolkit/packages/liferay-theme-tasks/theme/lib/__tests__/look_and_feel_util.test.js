@@ -12,7 +12,7 @@ const {
 	setupTempTheme,
 	stripNewlines,
 } = require('../../../lib/test/util');
-const lookAndFeelUtil = require('../look_and_feel_util.js');
+const lookAndFeelUtil = require('../look_and_feel_util');
 const baseLookAndFeelJSON = require('./fixtures/look_and_feel_util/base-look-and-feel.json');
 const mixedLookAndFeelJSON = require('./fixtures/look_and_feel_util/mixed-look-and-feel.json');
 const parentLookAndFeelJSON = require('./fixtures/look_and_feel_util/parent-look-and-feel.json');

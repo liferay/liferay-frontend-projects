@@ -1,11 +1,10 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: MIT
  */
 
-const _ = require('lodash');
 const fs = require('fs-extra');
+const _ = require('lodash');
 
 function getConfig(all) {
 	const packageJSON = getPackageJSON();
@@ -73,7 +72,7 @@ module.exports = {
 };
 
 function deleteDependencies(sourceDependencies, deletedDependencies) {
-	_.forEach(sourceDependencies, function (item, index) {
+	_.forEach(sourceDependencies, (item, index) => {
 		if (deletedDependencies.indexOf(index) > -1) {
 			delete sourceDependencies[index];
 		}

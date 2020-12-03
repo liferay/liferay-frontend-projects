@@ -1,6 +1,5 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: MIT
  */
 
@@ -8,12 +7,12 @@
 
 const del = require('del');
 const fs = require('fs-extra');
-const _ = require('lodash');
-const path = require('path');
 const plugins = require('gulp-load-plugins')();
 const replace = require('gulp-replace-task');
-const through = require('through2');
+const _ = require('lodash');
+const path = require('path');
 const PluginError = require('plugin-error');
+const through = require('through2');
 
 const lfrThemeConfig = require('../lib/liferay_theme_config');
 const lookAndFeelUtil = require('../lib/look_and_feel_util');
@@ -35,8 +34,9 @@ function injectJS() {
 
 		}
 		else if (file.isStream()) {
-			file.contents = file.contents.pipe(function () {
+			file.contents = file.contents.pipe(() => {
 				let output = '';
+
 				return through(
 					function transform(chunk, encoding, callback) {
 						output += chunk.toString();
@@ -70,7 +70,7 @@ module.exports = function (options) {
 
 	const runSequence = require('run-sequence').use(gulp);
 
-	gulp.task('build', function (cb) {
+	gulp.task('build', (cb) => {
 		runSequence(
 			'build:clean',
 			'build:base',
@@ -91,11 +91,11 @@ module.exports = function (options) {
 		);
 	});
 
-	gulp.task('build:clean', function (cb) {
+	gulp.task('build:clean', (cb) => {
 		del([pathBuild], cb);
 	});
 
-	gulp.task('build:base', function () {
+	gulp.task('build:base', () => {
 		const sourceFiles = lookup('baseThemeDependencies')();
 
 		return gulp
@@ -104,7 +104,7 @@ module.exports = function (options) {
 			.pipe(gulp.dest(pathBuild));
 	});
 
-	gulp.task('build:src', function () {
+	gulp.task('build:src', () => {
 		return gulp
 			.src(path.join(pathSrc, '**/*'), {
 				base: pathSrc,
@@ -112,7 +112,7 @@ module.exports = function (options) {
 			.pipe(gulp.dest(pathBuild));
 	});
 
-	gulp.task('build:web-inf', function () {
+	gulp.task('build:web-inf', () => {
 		return gulp
 			.src(pathBuild + '/WEB-INF/src/**/*', {
 				base: pathBuild + '/WEB-INF/src',
@@ -120,12 +120,12 @@ module.exports = function (options) {
 			.pipe(gulp.dest(pathBuild + '/WEB-INF/classes'));
 	});
 
-	gulp.task('build:liferay-look-and-feel', function (cb) {
+	gulp.task('build:liferay-look-and-feel', (cb) => {
 		const themePath = process.cwd();
 
-		lookAndFeelUtil.mergeLookAndFeelJSON(themePath, {}, function (
+		lookAndFeelUtil.mergeLookAndFeelJSON(themePath, {}, (
 			lookAndFeelJSON
-		) {
+		) => {
 			if (!lookAndFeelJSON) {
 				return cb();
 			}
@@ -158,7 +158,7 @@ module.exports = function (options) {
 					'WEB-INF/liferay-look-and-feel.xml'
 				),
 				xml,
-				function (err) {
+				(err) => {
 					if (err) {
 						throw err;
 					}
@@ -169,7 +169,7 @@ module.exports = function (options) {
 		});
 	});
 
-	gulp.task('build:hook', function () {
+	gulp.task('build:hook', () => {
 		const languageProperties = themeUtil.getLanguageProperties(pathSrc);
 
 		return gulp
@@ -196,13 +196,13 @@ module.exports = function (options) {
 			.pipe(gulp.dest(path.join(pathBuild, 'WEB-INF')));
 	});
 
-	gulp.task('build:rename-css-dir', function (cb) {
+	gulp.task('build:rename-css-dir', (cb) => {
 		fs.rename(pathBuild + '/css', pathBuild + '/_css', cb);
 	});
 
 	// Temp fix for libSass compilation issue with empty url() functions
 
-	gulp.task('build:fix-url-functions', function (cb) {
+	gulp.task('build:fix-url-functions', (cb) => {
 		gulp.src(pathBuild + '/_css/**/*.css')
 			.pipe(
 				replace({
@@ -222,17 +222,17 @@ module.exports = function (options) {
 			.on('end', cb);
 	});
 
-	gulp.task('build:move-compiled-css', function () {
+	gulp.task('build:move-compiled-css', () => {
 		return gulp
 			.src(pathBuild + '/_css/**/*')
 			.pipe(gulp.dest(pathBuild + '/css'));
 	});
 
-	gulp.task('build:remove-old-css-dir', function (cb) {
+	gulp.task('build:remove-old-css-dir', (cb) => {
 		del([pathBuild + '/_css'], cb);
 	});
 
-	gulp.task('build:fix-at-directives', function () {
+	gulp.task('build:fix-at-directives', () => {
 		return gulp
 			.src(pathBuild + '/css/*.css')
 			.pipe(
@@ -243,7 +243,7 @@ module.exports = function (options) {
 			.pipe(gulp.dest(pathBuild + '/css'));
 	});
 
-	gulp.task('build:r2', function () {
+	gulp.task('build:r2', () => {
 		const r2 = require('gulp-liferay-r2-css');
 
 		return gulp
@@ -265,7 +265,7 @@ module.exports = function (options) {
 function getFixAtDirectivesPatterns() {
 	const keyframeRulesReplace = function (match, m1, m2) {
 		return (
-			_.map(m1.split(','), function (item) {
+			_.map(m1.split(','), (item) => {
 				return item.replace(/.*?(from|to|[0-9.]+%)/g, '$1');
 			}).join(',') + m2
 		);

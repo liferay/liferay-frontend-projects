@@ -1,13 +1,12 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: MIT
  */
 
-const _ = require('lodash');
 const del = require('del');
 const fs = require('fs-extra');
-const Gulp = require('gulp').Gulp;
+const {Gulp} = require('gulp');
+const _ = require('lodash');
 const os = require('os');
 const path = require('path');
 const sinon = require('sinon');
@@ -229,7 +228,7 @@ class PrototypeMethodSpy {
 	}
 
 	flush() {
-		_.forEach(this.methods, function (item) {
+		_.forEach(this.methods, (item) => {
 			item.parent[item.methodName] = item.method;
 		});
 
@@ -283,7 +282,7 @@ function copyTempTheme(options) {
 	if (options.registerTasksOptions || options.registerTasks) {
 		deleteJsFromCache();
 
-		const registerTasks = require('../index.js').registerTasks;
+		const {registerTasks} = require('../index');
 
 		gulp = new Gulp();
 
@@ -330,7 +329,7 @@ function cleanTempTheme(themeName, version, component, initCwd) {
 function deleteDirJsFromCache(relativePath) {
 	const files = fs.readdirSync(path.join(__dirname, relativePath));
 
-	_.forEach(files, function (item) {
+	_.forEach(files, (item) => {
 		if (_.endsWith(item, '.js')) {
 			deleteJsFileFromCache(path.join(__dirname, relativePath, item));
 		}

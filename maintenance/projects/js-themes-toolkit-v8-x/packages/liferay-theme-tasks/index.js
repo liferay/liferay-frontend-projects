@@ -1,6 +1,5 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: MIT
  */
 
@@ -8,11 +7,11 @@
 
 require('./lib/checkNodeVersion')();
 
-const _ = require('lodash');
 const globby = require('globby');
-const liferayPluginTasks = require('liferay-plugin-node-tasks');
-const path = require('path');
 const plugins = require('gulp-load-plugins')();
+const liferayPluginTasks = require('liferay-plugin-node-tasks');
+const _ = require('lodash');
+const path = require('path');
 
 const {doctor} = require('./lib/doctor');
 const lfrThemeConfig = require('./lib/liferay_theme_config');
@@ -50,7 +49,7 @@ function register(options) {
 
 	globby
 		.sync([path.resolve(__dirname, 'tasks/**/*')])
-		.forEach(function (item) {
+		.forEach((item) => {
 			if (item.indexOf('__tests__') == -1) {
 				require(item)(options);
 			}

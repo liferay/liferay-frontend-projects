@@ -1,17 +1,16 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: MIT
  */
 
 'use strict';
 
-const _ = require('lodash');
-const async = require('async');
 const colors = require('ansi-colors');
+const async = require('async');
 const log = require('fancy-log');
-const path = require('path');
 const plugins = require('gulp-load-plugins')();
+const _ = require('lodash');
+const path = require('path');
 const vinylPaths = require('vinyl-paths');
 
 const lfrThemeConfig = require('../../lib/liferay_theme_config');
@@ -30,7 +29,7 @@ module.exports = function (options) {
 
 	const runSequence = require('run-sequence').use(gulp);
 
-	gulp.task('build:themelets', function (cb) {
+	gulp.task('build:themelets', (cb) => {
 		runSequence(
 			['build:themelet-src'],
 			['build:themelet-css-inject', 'build:themelet-js-inject'],
@@ -38,7 +37,7 @@ module.exports = function (options) {
 		);
 	});
 
-	gulp.task('build:themelet-css-inject', function (cb) {
+	gulp.task('build:themelet-css-inject', (cb) => {
 		const themeSrcPaths = path.join(
 			pathBuild,
 			'themelets',
@@ -55,7 +54,7 @@ module.exports = function (options) {
 				read: false,
 			})
 			.pipe(
-				vinylPaths(function (path, cb) {
+				vinylPaths((path, cb) => {
 					themeletSources = true;
 
 					cb();
@@ -86,7 +85,7 @@ module.exports = function (options) {
 				})
 			)
 			.pipe(gulp.dest(path.join(pathBuild, 'css')))
-			.on('end', function () {
+			.on('end', () => {
 				if (
 					!injected &&
 					themeletSources &&
@@ -103,7 +102,7 @@ module.exports = function (options) {
 			});
 	});
 
-	gulp.task('build:themelet-js-inject', function (cb) {
+	gulp.task('build:themelet-js-inject', (cb) => {
 		const themeSrcPaths = path.join(
 			pathBuild,
 			'themelets',
@@ -120,7 +119,7 @@ module.exports = function (options) {
 				read: false,
 			})
 			.pipe(
-				vinylPaths(function (path, cb) {
+				vinylPaths((path, cb) => {
 					themeletSources = true;
 
 					cb();
@@ -163,7 +162,7 @@ module.exports = function (options) {
 				})
 			)
 			.pipe(gulp.dest(path.join(pathBuild, 'templates')))
-			.on('end', function () {
+			.on('end', () => {
 				if (
 					!injected &&
 					themeletSources &&
@@ -180,8 +179,8 @@ module.exports = function (options) {
 			});
 	});
 
-	gulp.task('build:themelet-src', function (cb) {
-		runThemeletDependenciesSeries(function (item, index, done) {
+	gulp.task('build:themelet-src', (cb) => {
+		runThemeletDependenciesSeries((item, index, done) => {
 			gulp.src(path.resolve(CWD, 'node_modules', index, 'src', '**', '*'))
 				.pipe(gulp.dest(path.join(pathBuild, 'themelets', index)))
 				.on('end', done);

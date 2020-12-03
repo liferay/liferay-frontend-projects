@@ -1,20 +1,19 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: MIT
  */
 
 'use strict';
 
-const _ = require('lodash');
 const colors = require('ansi-colors');
+const log = require('fancy-log');
 const fs = require('fs-extra');
 const inquirer = require('inquirer');
-const log = require('fancy-log');
+const _ = require('lodash');
 const path = require('path');
 const PluginError = require('plugin-error');
 
-const lfrThemeConfig = require('../lib/liferay_theme_config.js');
+const lfrThemeConfig = require('../lib/liferay_theme_config');
 
 const themeConfig = lfrThemeConfig.getConfig();
 
@@ -39,7 +38,7 @@ module.exports = function (options) {
 		versionUpgradeTask = require(modulePath)(options);
 	}
 
-	gulp.task('upgrade', function (cb) {
+	gulp.task('upgrade', (cb) => {
 		if (_.isFunction(versionUpgradeTask)) {
 			inquirer.prompt(
 				{
@@ -50,9 +49,9 @@ module.exports = function (options) {
 					name: 'sure',
 					type: 'confirm',
 				},
-				function (answers) {
+				(answers) => {
 					if (answers.sure) {
-						versionUpgradeTask(function (err) {
+						versionUpgradeTask((err) => {
 							if (err) {
 								log(
 									colors.red('Error:'),

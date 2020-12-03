@@ -1,20 +1,19 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: MIT
  */
 
 const spawn = require('cross-spawn');
+const inquirer = require('inquirer');
 const _ = require('lodash');
 const argv = require('minimist')(process.argv.slice(2));
-const inquirer = require('inquirer');
 
-const GlobalModulePrompt = require('./global_module_prompt');
 const lfrThemeConfig = require('../liferay_theme_config');
-const NPMModulePrompt = require('./npm_module_prompt');
-const URLPackagePrompt = require('./url_package_prompt');
-const promptUtil = require('./prompt_util');
 const themeFinder = require('../theme_finder');
+const GlobalModulePrompt = require('./global_module_prompt');
+const NPMModulePrompt = require('./npm_module_prompt');
+const promptUtil = require('./prompt_util');
+const URLPackagePrompt = require('./url_package_prompt');
 
 const moduleName = argv.name;
 

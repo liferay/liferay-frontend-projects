@@ -50,6 +50,7 @@ class Project {
 		this.modifyPkgJson((pkgJson) => {
 			pkgJson.devDependencies = pkgJson.devDependencies || {};
 			pkgJson.devDependencies[pkgName] = pkgVersion;
+
 			return pkgJson;
 		});
 	}

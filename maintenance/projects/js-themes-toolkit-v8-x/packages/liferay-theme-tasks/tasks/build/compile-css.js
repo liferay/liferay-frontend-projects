@@ -1,16 +1,15 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: MIT
  */
 
 'use strict';
 
+const log = require('fancy-log');
 const fs = require('fs');
+const postcss = require('gulp-postcss');
 const _ = require('lodash');
 const path = require('path');
-const log = require('fancy-log');
-const postcss = require('gulp-postcss');
 
 const {createBourbonFile} = require('../../lib/bourbon_dependencies');
 const lfrThemeConfig = require('../../lib/liferay_theme_config');
@@ -31,7 +30,7 @@ module.exports = function (options) {
 	};
 	const runSequence = require('run-sequence').use(gulp);
 
-	gulp.task('build:compile-css', function (cb) {
+	gulp.task('build:compile-css', (cb) => {
 
 		// For backwards compatibility we keep this task around, but all it does
 		// is call through to the one that does the actual work:
@@ -39,7 +38,7 @@ module.exports = function (options) {
 		runSequence('build:compile-lib-sass', cb);
 	});
 
-	gulp.task('build:compile-lib-sass', function (cb) {
+	gulp.task('build:compile-lib-sass', (cb) => {
 		const themeConfig = lfrThemeConfig.getConfig();
 
 		const gulpIf = require('gulp-if');
@@ -97,6 +96,7 @@ function exists(file) {
  */
 function getPostCSSRC() {
 	const themeConfig = lfrThemeConfig.getConfig(true);
+
 	return (
 		(themeConfig.hasOwnProperty('postcss') && 'package.json "postcss"') ||
 		exists('.postcssrc') ||

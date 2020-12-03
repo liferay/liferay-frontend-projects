@@ -45,6 +45,7 @@ var resizeHandleRegexp = /.yui3-resize-handle/,
 			ctx.rule.selectors.some((selector) => {
 				if (resizeHandleInnerRegexp.test(selector)) {
 					swap = selector;
+
 					return true;
 				}
 			});
@@ -66,6 +67,7 @@ var resizeHandleRegexp = /.yui3-resize-handle/,
 			ctx.rule.selectors.some((selector) => {
 				if (resizeHandleInnerRegexp.test(selector)) {
 					swap = selector;
+
 					return true;
 				}
 			});

@@ -1,13 +1,12 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: MIT
  */
 
 const _ = require('lodash');
 const sinon = require('sinon');
 
-const testUtil = require('../../../test/util.js');
+const testUtil = require('../../../test/util');
 
 const prototypeMethodSpy = new testUtil.PrototypeMethodSpy();
 
@@ -24,8 +23,8 @@ beforeEach(() => {
 		namespace: 'global_module_prompt',
 	});
 
-	GlobalModulePrompt = require('../global_module_prompt.js');
-	ModulePrompt = require('../module_prompt.js');
+	GlobalModulePrompt = require('../global_module_prompt');
+	ModulePrompt = require('../module_prompt');
 	themeFinder = require('../../theme_finder');
 
 	prototype = _.create(GlobalModulePrompt.prototype);

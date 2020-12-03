@@ -12,8 +12,8 @@ const {
 	setupTempTheme,
 } = require('../../../lib/test/util');
 const themeFinder = require('../../lib/theme_finder');
-const GlobalModulePrompt = require('../global_module_prompt.js');
-const ModulePrompt = require('../module_prompt.js');
+const GlobalModulePrompt = require('../global_module_prompt');
+const ModulePrompt = require('../module_prompt');
 
 const prototypeMethodSpy = new PrototypeMethodSpy();
 

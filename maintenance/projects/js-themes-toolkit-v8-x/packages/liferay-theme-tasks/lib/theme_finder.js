@@ -1,18 +1,17 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: MIT
  */
 
-const _ = require('lodash');
 const async = require('async');
+const spawn = require('cross-spawn');
 const fs = require('fs');
 const globby = require('globby');
+const _ = require('lodash');
 const npmKeyword = require('npm-keyword');
 const os = require('os');
 const packageJson = require('package-json');
 const path = require('path');
-const spawn = require('cross-spawn');
 const {URL} = require('url');
 
 const lfrThemeConfig = require('./liferay_theme_config');

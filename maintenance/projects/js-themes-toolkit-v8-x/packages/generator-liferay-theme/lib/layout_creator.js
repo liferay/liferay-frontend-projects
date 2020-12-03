@@ -1,16 +1,15 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: MIT
  */
 
 'use strict';
 
-var _ = require('lodash');
 var async = require('async');
 var chalk = require('chalk');
 var fs = require('fs');
 var inquirer = require('inquirer');
+var _ = require('lodash');
 var path = require('path');
 
 var templateString = fs.readFileSync(
@@ -29,7 +28,7 @@ inquirer.prompt.prompts.list.prototype.render = function () {
 
 	var choices = _.reduce(
 		this.opt.choices.choices,
-		function (result, item) {
+		(result, item) => {
 			if (item.type != 'separator') {
 				result.push(item);
 			}
@@ -221,7 +220,7 @@ LayoutCreator.prototype = {
 		var takenWidth = 0;
 		var totalWidth = 12;
 
-		_.forEach(answers, function (item) {
+		_.forEach(answers, (item) => {
 			item = _.parseInt(item);
 
 			takenWidth = takenWidth + item;
@@ -256,7 +255,7 @@ LayoutCreator.prototype = {
 
 			availableWidth = availableWidth - remainingColumns;
 
-			var choices = _.times(availableWidth, function (index) {
+			var choices = _.times(availableWidth, (index) => {
 				var spanValue = index + 1;
 
 				var selectedName = instance._formatPercentageValue(
@@ -318,7 +317,7 @@ LayoutCreator.prototype = {
 
 		var choicesArray = _.reduce(
 			this.rows,
-			function (choices, row, index) {
+			(choices, row, index) => {
 				choices.push({
 					name: insertName,
 					selectedName: insertSelectedName,
@@ -367,7 +366,7 @@ LayoutCreator.prototype = {
 
 		var choicesArray = _.reduce(
 			this.rows,
-			function (choices, row, index) {
+			(choices, row, index) => {
 				choices.push(new inquirer.Separator(seperator));
 
 				choices.push({
@@ -423,10 +422,10 @@ LayoutCreator.prototype = {
 
 		var totalColumnCount = 0;
 
-		var rowData = _.map(rows, function (row) {
+		var rowData = _.map(rows, (row) => {
 			var columnCount = _.size(row);
 
-			return _.map(row, function (size, index) {
+			return _.map(row, (size, index) => {
 				var columnNumber = _.parseInt(index) + 1;
 
 				totalColumnCount++;
@@ -466,7 +465,7 @@ LayoutCreator.prototype = {
 
 		var preview =
 			rowSeperator +
-			_.map(this.rows, function (item) {
+			_.map(this.rows, (item) => {
 				return (
 					instance._renderPreviewLine(item, {
 						label: true,
@@ -509,7 +508,7 @@ LayoutCreator.prototype = {
 
 		var rowNumber = instance._getRowNumber();
 
-		var questions = _.times(columnCount, function (index) {
+		var questions = _.times(columnCount, (index) => {
 			var columnNumber = index + 1;
 
 			return {
@@ -602,7 +601,7 @@ LayoutCreator.prototype = {
 
 		var width = 0;
 
-		_.forEach(column, function (columnWidth) {
+		_.forEach(column, (columnWidth) => {
 			var prevWidth = width;
 
 			width = width + columnWidth * 3;
@@ -650,7 +649,7 @@ LayoutCreator.prototype = {
 
 	_stylePreviewLine(line, label) {
 		if (label) {
-			line = line.replace(/\d/g, function (match) {
+			line = line.replace(/\d/g, (match) => {
 				return chalk.cyan(match);
 			});
 		}

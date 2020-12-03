@@ -1,12 +1,11 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: MIT
  */
 
-const _ = require('lodash');
 const colors = require('ansi-colors');
 const log = require('fancy-log');
+const _ = require('lodash');
 
 const lfrThemeConfig = require('./liferay_theme_config');
 
@@ -118,7 +117,7 @@ function checkDependencySources(liferayTheme) {
 	}
 
 	if (themeletDependencies) {
-		_.forEach(themeletDependencies, function (item) {
+		_.forEach(themeletDependencies, (item) => {
 			if (item.path) {
 				localDependencies.push(item);
 			}
@@ -149,7 +148,7 @@ function haltTask(missingDeps) {
 }
 
 function logLocalDependencies(localDependencies) {
-	const dependenciesString = _.map(localDependencies, function (item) {
+	const dependenciesString = _.map(localDependencies, (item) => {
 		return item.name;
 	}).join(', ');
 

@@ -1,6 +1,5 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: MIT
  */
 
@@ -37,7 +36,7 @@ function gulpBlackList(options, done) {
 	};
 
 	return through.obj(
-		function (file, enc, cb) {
+		(file, enc, cb) => {
 			if (file.isNull()) {
 				return cb(null, file);
 			}
@@ -51,7 +50,7 @@ function gulpBlackList(options, done) {
 
 			cb(null, file);
 		},
-		function (cb) {
+		(cb) => {
 			done(blackListData);
 
 			cb();

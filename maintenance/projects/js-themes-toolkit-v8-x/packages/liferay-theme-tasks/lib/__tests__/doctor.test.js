@@ -1,6 +1,5 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: MIT
  */
 
@@ -9,8 +8,8 @@ const fs = require('fs-extra');
 const os = require('os');
 const path = require('path');
 
-const {doctor} = require('../doctor');
 const testUtil = require('../../test/util');
+const {doctor} = require('../doctor');
 
 const initCwd = process.cwd();
 const tempPath = path.join(

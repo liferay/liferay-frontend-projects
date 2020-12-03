@@ -8,7 +8,7 @@ const _ = require('lodash');
 const path = require('path');
 const sinon = require('sinon');
 
-const testUtil = require('../../../test/util.js');
+const testUtil = require('../../../test/util');
 
 const initCwd = process.cwd();
 
@@ -22,9 +22,9 @@ beforeEach(() => {
 		namespace: 'kickstart_prompt',
 	});
 
-	GlobalModulePrompt = require('../global_module_prompt.js');
-	KickstartPrompt = require('../kickstart_prompt.js');
-	NPMModulePrompt = require('../npm_module_prompt.js');
+	GlobalModulePrompt = require('../global_module_prompt');
+	KickstartPrompt = require('../kickstart_prompt');
+	NPMModulePrompt = require('../npm_module_prompt');
 
 	prototype = _.create(KickstartPrompt.prototype);
 });

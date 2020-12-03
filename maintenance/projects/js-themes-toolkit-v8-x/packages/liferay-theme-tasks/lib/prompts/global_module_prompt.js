@@ -1,15 +1,14 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: MIT
  */
 
-const _ = require('lodash');
 const colors = require('ansi-colors');
 const log = require('fancy-log');
+const _ = require('lodash');
 
-const ModulePrompt = require('./module_prompt');
 const themeFinder = require('../theme_finder');
+const ModulePrompt = require('./module_prompt');
 
 class GlobalModulePrompt {
 	constructor(...args) {

@@ -1,6 +1,5 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: MIT
  */
 
@@ -38,9 +37,7 @@ class URLPackagePrompt {
 		);
 
 		answers.modules = {
-			[config.name]: Object.assign({}, config, {
-				__packageURL__: answers.packageURL,
-			}),
+			[config.name]: { ...config, __packageURL__: answers.packageURL,},
 		};
 
 		if (this.themelet) {

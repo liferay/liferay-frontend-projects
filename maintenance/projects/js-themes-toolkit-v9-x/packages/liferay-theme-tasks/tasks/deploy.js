@@ -43,7 +43,7 @@ function registerTasks(options) {
 			deployPath,
 			[themeName + '.war'],
 			(err, _data) => {
-				if (err) throw err;
+				if (err) {throw err;}
 
 				storage.set('deployed', true);
 				cb();

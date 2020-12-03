@@ -6,8 +6,8 @@
 const _ = require('lodash');
 const sinon = require('sinon');
 
-const testUtil = require('../../../test/util.js');
-const lfrThemeConfig = require('../../liferay_theme_config.js');
+const testUtil = require('../../../test/util');
+const lfrThemeConfig = require('../../liferay_theme_config');
 
 const assertBoundFunction = testUtil.assertBoundFunction;
 const prototypeMethodSpy = new testUtil.PrototypeMethodSpy();

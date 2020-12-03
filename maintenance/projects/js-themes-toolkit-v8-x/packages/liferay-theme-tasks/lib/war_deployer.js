@@ -1,15 +1,14 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: MIT
  */
 
-const EventEmitter = require('events').EventEmitter;
-const _ = require('lodash');
 const colors = require('ansi-colors');
+const {EventEmitter} = require('events');
+const log = require('fancy-log');
 const fs = require('fs');
 const inquirer = require('inquirer');
-const log = require('fancy-log');
+const _ = require('lodash');
 const path = require('path');
 const url = require('url');
 

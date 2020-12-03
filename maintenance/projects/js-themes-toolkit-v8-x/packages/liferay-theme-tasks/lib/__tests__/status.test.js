@@ -1,10 +1,9 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: MIT
  */
 
-const status = require('../../lib/status.js');
+const status = require('../../lib/status');
 const testUtil = require('../../test/util');
 
 beforeEach(() => {

@@ -4,7 +4,7 @@
  */
 
 const testUtil = require('../../test/util');
-const lfrThemeConfig = require('../liferay_theme_config.js');
+const lfrThemeConfig = require('../liferay_theme_config');
 
 const initCwd = process.cwd();
 

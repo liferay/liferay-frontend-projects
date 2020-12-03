@@ -1,16 +1,14 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: MIT
  */
 
-const _ = require('lodash');
 const fs = require('fs-extra');
+const _ = require('lodash');
 const path = require('path');
 const sinon = require('sinon');
 
 const testUtil = require('../../test/util');
-
 const baseLookAndFeelJSON = require('./fixtures/look_and_feel_util/base-look-and-feel.json');
 const mixedLookAndFeelJSON = require('./fixtures/look_and_feel_util/mixed-look-and-feel.json');
 const parentLookAndFeelJSON = require('./fixtures/look_and_feel_util/parent-look-and-feel.json');
@@ -30,7 +28,7 @@ beforeEach(() => {
 		pathSrc: './custom_src_path',
 	});
 
-	lookAndFeelUtil = require('../look_and_feel_util.js');
+	lookAndFeelUtil = require('../look_and_feel_util');
 });
 
 afterEach(() => {

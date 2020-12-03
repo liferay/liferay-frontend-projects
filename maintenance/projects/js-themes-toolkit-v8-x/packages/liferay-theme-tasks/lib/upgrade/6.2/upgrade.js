@@ -1,25 +1,24 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: MIT
  */
 
 'use strict';
 
-const ConvertBootstrapCLI = require('convert-bootstrap-2-to-3').constructor;
-const _ = require('lodash');
 const colors = require('ansi-colors');
+const {constructor: ConvertBootstrapCLI} = require('convert-bootstrap-2-to-3');
+const spawn = require('cross-spawn');
 const del = require('del');
 const fs = require('fs-extra');
 const globby = require('globby');
-const path = require('path');
 const plugins = require('gulp-load-plugins')();
 const replace = require('gulp-replace-task');
-const spawn = require('cross-spawn');
+const _ = require('lodash');
+const path = require('path');
 const vinylPaths = require('vinyl-paths');
 
-const gulpBlackList = require('./gulp_black_list.js');
 const lfrThemeConfig = require('../../liferay_theme_config');
+const gulpBlackList = require('./gulp_black_list');
 
 const CWD = process.cwd();
 
@@ -46,7 +45,7 @@ module.exports = function (options) {
 
 	let patterns;
 
-	gulp.task('upgrade:convert-bootstrap', function (cb) {
+	gulp.task('upgrade:convert-bootstrap', (cb) => {
 		const files = globby.sync('src/css/*');
 
 		const convertBootstrap = new ConvertBootstrapCLI({
@@ -68,7 +67,7 @@ module.exports = function (options) {
 		convertBootstrap.init();
 	});
 
-	gulp.task('upgrade:dependencies', function (cb) {
+	gulp.task('upgrade:dependencies', (cb) => {
 		lfrThemeConfig.removeDependencies(['liferay-theme-deps-6.2']);
 		lfrThemeConfig.setDependencies(
 			{
@@ -85,16 +84,16 @@ module.exports = function (options) {
 		npmInstall.on('close', cb);
 	});
 
-	gulp.task('upgrade:black-list', function () {
+	gulp.task('upgrade:black-list', () => {
 		return gulp.src(cssSrcPath).pipe(
-			gulpBlackList(null, function (result) {
-				patterns = require('./replace_patterns.js')(result);
+			gulpBlackList(null, (result) => {
+				patterns = require('./replace_patterns')(result);
 			})
 		);
 	});
 
-	gulp.task('upgrade:config', function () {
-		const lfrThemeConfig = require('../../liferay_theme_config.js');
+	gulp.task('upgrade:config', () => {
+		const lfrThemeConfig = require('../../liferay_theme_config');
 
 		lfrThemeConfig.setConfig({
 			version: '7.0',
@@ -129,7 +128,7 @@ module.exports = function (options) {
 			.pipe(gulp.dest('src/WEB-INF'));
 	});
 
-	gulp.task('upgrade:create-deprecated-mixins', function (cb) {
+	gulp.task('upgrade:create-deprecated-mixins', (cb) => {
 		const NEW_LINE = '\n';
 
 		const includeCompass =
@@ -149,7 +148,7 @@ module.exports = function (options) {
 
 		const deprecatedMixins = _.map(
 			require('./theme_data/deprecated_mixins.json'),
-			function (item) {
+			(item) => {
 				const buffer = ['@mixin '];
 
 				buffer.push(item);
@@ -183,15 +182,14 @@ module.exports = function (options) {
 
 		fs.writeFileSync(filePath, includeCompass + deprecatedMixins.join(''));
 
-		const createBourbonFile = require('../../bourbon_dependencies')
-			.createBourbonFile;
+		const {createBourbonFile} = require('../../bourbon_dependencies');
 
 		createBourbonFile(true);
 
 		cb();
 	});
 
-	gulp.task('upgrade:ftl-templates', function () {
+	gulp.task('upgrade:ftl-templates', () => {
 		const ftlRules = [
 			{
 				message:
@@ -213,7 +211,7 @@ module.exports = function (options) {
 		];
 
 		return gulp.src('src/templates/**/*.ftl').pipe(
-			vinylPaths(function (path, done) {
+			vinylPaths((path, done) => {
 				checkFile(path, ftlRules);
 
 				done();
@@ -221,14 +219,14 @@ module.exports = function (options) {
 		);
 	});
 
-	gulp.task('upgrade:log-changes', function (cb) {
+	gulp.task('upgrade:log-changes', (cb) => {
 		logBuffer(logBuffers.bootstrap);
 		logBuffer(logBuffers.liferay);
 
 		cb();
 	});
 
-	gulp.task('upgrade:rename-core-files', function (cb) {
+	gulp.task('upgrade:rename-core-files', (cb) => {
 		const renamedCssFiles = require('./theme_data/renamed_css_files.json');
 
 		const baseFile = ['aui', 'main'];
@@ -236,7 +234,7 @@ module.exports = function (options) {
 		const prompts = [];
 		const srcPaths = [];
 
-		_.forEach(fs.readdirSync(path.join(CWD, DIR_SRC_CSS)), function (item) {
+		_.forEach(fs.readdirSync(path.join(CWD, DIR_SRC_CSS)), (item) => {
 			const fileName = path.basename(item, '.css');
 
 			if (
@@ -274,17 +272,18 @@ module.exports = function (options) {
 
 		gulp.src(srcPaths)
 			.pipe(
-				plugins.prompt.prompt(prompts, function (results) {
+				plugins.prompt.prompt(prompts, (results) => {
 					promptResults = results;
 				})
 			)
 			.pipe(
-				plugins.filter(function (file) {
+				plugins.filter((file) => {
 					const extname = path.extname(file.path).slice(1);
 					const basename = path.basename(file.path, `.${extname}`);
 
 					if (promptResults[basename][extname]) {
 						filteredPaths.push(file.path);
+
 						return true;
 					}
 
@@ -292,7 +291,7 @@ module.exports = function (options) {
 				})
 			)
 			.pipe(
-				plugins.rename(function (path) {
+				plugins.rename((path) => {
 					path.extname = '.scss';
 
 					if (baseFile.indexOf(path.basename) < 0) {
@@ -301,12 +300,12 @@ module.exports = function (options) {
 				})
 			)
 			.pipe(gulp.dest(DIR_SRC_CSS))
-			.on('end', function () {
+			.on('end', () => {
 				del(filteredPaths, cb);
 			});
 	});
 
-	gulp.task('upgrade:replace-compass', function () {
+	gulp.task('upgrade:replace-compass', () => {
 		return gulp
 			.src(cssSrcPath)
 			.pipe(
@@ -317,7 +316,7 @@ module.exports = function (options) {
 			.pipe(gulp.dest(DIR_SRC_CSS));
 	});
 
-	gulp.task('upgrade:vm-templates', function () {
+	gulp.task('upgrade:vm-templates', () => {
 		const vmRules = [
 			{
 				message:
@@ -339,7 +338,7 @@ module.exports = function (options) {
 		];
 
 		return gulp.src('src/templates/**/*.vm').pipe(
-			vinylPaths(function (path, done) {
+			vinylPaths((path, done) => {
 				checkFile(path, vmRules);
 
 				done();
@@ -374,7 +373,7 @@ function checkFile(filePath, rules) {
 
 		const fileContents = fs.readFileSync(filePath, config);
 
-		_.forEach(rules, function (item) {
+		_.forEach(rules, (item) => {
 			if (item.fileName && item.fileName !== path.basename(filePath)) {
 				return;
 			}

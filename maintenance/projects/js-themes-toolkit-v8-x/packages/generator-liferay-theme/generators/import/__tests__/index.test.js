@@ -1,12 +1,11 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: MIT
  */
 
-const _ = require('lodash');
 const chai = require('chai');
 const chalk = require('chalk');
+const _ = require('lodash');
 const path = require('path');
 const sinon = require('sinon');
 
@@ -16,15 +15,15 @@ const sinonAssert = sinon.assert;
 
 const liferayThemeImport = require('../index');
 
-describe('liferay-theme:import unit tests', function () {
+describe('liferay-theme:import unit tests', () => {
 	var prototype;
 
-	beforeEach(function () {
+	beforeEach(() => {
 		prototype = _.create(liferayThemeImport.prototype);
 	});
 
-	describe('_getSettingFromConfigFile', function () {
-		it('should output a specific string if certain conditions are met', function () {
+	describe('_getSettingFromConfigFile', () => {
+		it('should output a specific string if certain conditions are met', () => {
 			var config = {};
 			var expectedOutput = chalk.yellow('   Warning ') + '%s not found';
 
@@ -39,8 +38,8 @@ describe('liferay-theme:import unit tests', function () {
 		});
 	});
 
-	describe('_validatePath', function () {
-		it('should pass', function () {
+	describe('_validatePath', () => {
+		it('should pass', () => {
 			var retVal = prototype._validatePath('/does/not/exist');
 
 			assert.equal(retVal, '"/does/not/exist" does not exist');

@@ -44,7 +44,7 @@ module.exports = function (options) {
 	});
 
 	gulp.task('upgrade:config', () => {
-		const lfrThemeConfig = require('../../liferay_theme_config.js');
+		const lfrThemeConfig = require('../../liferay_theme_config');
 
 		lfrThemeConfig.setConfig({
 			fontAwesome: options.includeFontAwesome,

@@ -1,13 +1,12 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: MIT
  */
 
-var _ = require('lodash');
 var chai = require('chai');
 var fs = require('fs');
 var inquirer = require('inquirer');
+var _ = require('lodash');
 var path = require('path');
 var sinon = require('sinon');
 var stripAnsi = require('strip-ansi');
@@ -17,15 +16,15 @@ var sinonAssert = sinon.assert;
 
 var LayoutCreator = require('../../lib/layout_creator');
 
-describe('LayoutCreator', function () {
+describe('LayoutCreator', () => {
 	var prototype;
 
-	beforeEach(function () {
+	beforeEach(() => {
 		prototype = _.create(LayoutCreator.prototype);
 	});
 
-	describe('constructor', function () {
-		it('should set options as instance properties and throw error if after function is not set', function () {
+	describe('constructor', () => {
+		it('should set options as instance properties and throw error if after function is not set', () => {
 			var init = LayoutCreator.prototype.init;
 
 			LayoutCreator.prototype.init = sinon.spy();
@@ -39,7 +38,7 @@ describe('LayoutCreator', function () {
 			assert.equal(layoutCreator.className, 'class-name');
 			sinonAssert.calledOnce(LayoutCreator.prototype.init);
 
-			assert.throws(function () {
+			assert.throws(() => {
 				new LayoutCreator({
 					className: 'class-name',
 				});
@@ -49,8 +48,8 @@ describe('LayoutCreator', function () {
 		});
 	});
 
-	describe('init', function () {
-		it('should set rows to empty array and init prompting if rowData is undefined', function () {
+	describe('init', () => {
+		it('should set rows to empty array and init prompting if rowData is undefined', () => {
 			prototype.after = sinon.spy();
 			prototype._promptRow = sinon.spy();
 
@@ -63,7 +62,7 @@ describe('LayoutCreator', function () {
 			sinonAssert.notCalled(prototype.after);
 		});
 
-		it('should use rowData if defined and skip prompting', function () {
+		it('should use rowData if defined and skip prompting', () => {
 			prototype._promptRow = sinon.spy();
 			prototype._renderLayoutTemplate = sinon.stub().returns('template');
 			prototype.after = sinon.spy();
@@ -84,8 +83,8 @@ describe('LayoutCreator', function () {
 		});
 	});
 
-	describe('prompt', function () {
-		it('should pass arguments to inquirer.prompt', function () {
+	describe('prompt', () => {
+		it('should pass arguments to inquirer.prompt', () => {
 			var prompt = inquirer.prompt;
 
 			inquirer.prompt = sinon.spy();
@@ -104,8 +103,8 @@ describe('LayoutCreator', function () {
 		});
 	});
 
-	describe('_addRow', function () {
-		it('should add new row and print layout', function () {
+	describe('_addRow', () => {
+		it('should add new row and print layout', () => {
 			prototype._printLayoutPreview = sinon.spy();
 			prototype.rows = [];
 
@@ -129,8 +128,8 @@ describe('LayoutCreator', function () {
 		});
 	});
 
-	describe('_addWhiteSpace', function () {
-		it('should add whitespace', function () {
+	describe('_addWhiteSpace', () => {
+		it('should add whitespace', () => {
 			var choices = [];
 
 			prototype._addWhiteSpace(choices);
@@ -143,8 +142,8 @@ describe('LayoutCreator', function () {
 		});
 	});
 
-	describe('_afterPrompt', function () {
-		it('should process data returned from prompts and render template passing content to after property', function () {
+	describe('_afterPrompt', () => {
+		it('should process data returned from prompts and render template passing content to after property', () => {
 			prototype.after = sinon.spy();
 			prototype.className = 'class-name';
 			prototype.rows = [
@@ -166,8 +165,8 @@ describe('LayoutCreator', function () {
 		});
 	});
 
-	describe('_afterPromptColumnCount', function () {
-		it('should should pass columnCount to cb function', function () {
+	describe('_afterPromptColumnCount', () => {
+		it('should should pass columnCount to cb function', () => {
 			var answers = {
 				columnCount: 3,
 			};
@@ -181,8 +180,8 @@ describe('LayoutCreator', function () {
 		});
 	});
 
-	describe('_afterPromptColumnWidths', function () {
-		it('should should pass columnCount to cb function', function () {
+	describe('_afterPromptColumnWidths', () => {
+		it('should should pass columnCount to cb function', () => {
 			prototype._addRow = sinon.spy();
 			prototype.rows = [1];
 
@@ -200,8 +199,8 @@ describe('LayoutCreator', function () {
 		});
 	});
 
-	describe('_afterPromptFinishRow', function () {
-		it('should follow correct workflow based on selection', function () {
+	describe('_afterPromptFinishRow', () => {
+		it('should follow correct workflow based on selection', () => {
 			var cbSpy = sinon.spy();
 			prototype.rows = [1];
 
@@ -253,7 +252,7 @@ describe('LayoutCreator', function () {
 			sinonAssert.calledOnce(prototype._promptRow);
 		});
 
-		it('should not call anything if invalid value', function () {
+		it('should not call anything if invalid value', () => {
 			var cbSpy = sinon.spy();
 			prototype.rows = [1];
 
@@ -275,8 +274,8 @@ describe('LayoutCreator', function () {
 		});
 	});
 
-	describe('_afterPromptInsertRow', function () {
-		it('should set rowInserIndex based on answers and pass cb to _promptRow', function () {
+	describe('_afterPromptInsertRow', () => {
+		it('should set rowInserIndex based on answers and pass cb to _promptRow', () => {
 			var cb = _.noop;
 
 			prototype._promptRow = sinon.spy();
@@ -293,8 +292,8 @@ describe('LayoutCreator', function () {
 		});
 	});
 
-	describe('_afterPromptRemoveRow', function () {
-		it('should pass rowIndex answer to _removeRow and re-prompt finish row', function () {
+	describe('_afterPromptRemoveRow', () => {
+		it('should pass rowIndex answer to _removeRow and re-prompt finish row', () => {
 			prototype._promptFinishRow = sinon.spy();
 			prototype._removeRow = sinon.spy();
 			prototype.rows = [2];
@@ -313,8 +312,8 @@ describe('LayoutCreator', function () {
 		});
 	});
 
-	describe('_formatInlineChoicePreview', function () {
-		it('should return formatted preview', function () {
+	describe('_formatInlineChoicePreview', () => {
+		it('should return formatted preview', () => {
 			var preview = prototype._formatInlineChoicePreview(2, 2);
 
 			assert.match(preview, /\S+\s{2}\S+\s{2}\S+\s{8}/);
@@ -329,8 +328,8 @@ describe('LayoutCreator', function () {
 		});
 	});
 
-	describe('_formatPercentageValue', function () {
-		it('should return formatted label with column width percentage', function () {
+	describe('_formatPercentageValue', () => {
+		it('should return formatted label with column width percentage', () => {
 			prototype._formatInlineChoicePreview = sinon
 				.stub()
 				.returns('preview');
@@ -350,7 +349,7 @@ describe('LayoutCreator', function () {
 				'12/12 - 100%',
 			];
 
-			_.forEach(labels, function (label, index) {
+			_.forEach(labels, (label, index) => {
 				assert(
 					_.startsWith(
 						prototype._formatPercentageValue(index + 1),
@@ -361,7 +360,7 @@ describe('LayoutCreator', function () {
 
 			sinonAssert.notCalled(prototype._formatInlineChoicePreview);
 
-			_.forEach(labels, function (label, index) {
+			_.forEach(labels, (label, index) => {
 				var formattedLabel = prototype._formatPercentageValue(
 					index + 1,
 					0,
@@ -382,8 +381,8 @@ describe('LayoutCreator', function () {
 		});
 	});
 
-	describe('_getColumnClassNames', function () {
-		it('should return appropriate column classes', function () {
+	describe('_getColumnClassNames', () => {
+		it('should return appropriate column classes', () => {
 			var classNames = prototype._getColumnClassNames(1, 1);
 
 			assert.equal(classNames[0], 'portlet-column-only');
@@ -405,8 +404,8 @@ describe('LayoutCreator', function () {
 		});
 	});
 
-	describe('_getColumnWidthChoices', function () {
-		it('should return limited width choices based on columnIndex, columnCount, and available row width', function () {
+	describe('_getColumnWidthChoices', () => {
+		it('should return limited width choices based on columnIndex, columnCount, and available row width', () => {
 			var choices = prototype._getColumnWidthChoices(0, 1, {});
 
 			assert.equal(choices.length, 1);
@@ -434,8 +433,8 @@ describe('LayoutCreator', function () {
 		});
 	});
 
-	describe('_getFinishRowChoices', function () {
-		it('should only return add option if rows property is empty', function () {
+	describe('_getFinishRowChoices', () => {
+		it('should only return add option if rows property is empty', () => {
 			var rows = [];
 
 			var choices = prototype._getFinishRowChoices(rows);
@@ -454,8 +453,8 @@ describe('LayoutCreator', function () {
 		});
 	});
 
-	describe('_getInsertRowChoices', function () {
-		it('should return compact layout preview where row borders are choices', function () {
+	describe('_getInsertRowChoices', () => {
+		it('should return compact layout preview where row borders are choices', () => {
 			prototype.rows = [
 				{
 					0: 3,
@@ -471,7 +470,7 @@ describe('LayoutCreator', function () {
 
 			let choiceValue = 0;
 
-			_.forEach(choices, function (choice, index) {
+			_.forEach(choices, (choice, index) => {
 				index = index + 1;
 
 				if (index % 2 == 0) {
@@ -514,8 +513,8 @@ describe('LayoutCreator', function () {
 		});
 	});
 
-	describe('_getRemoveRowChoices', function () {
-		it('should return compact layout preview where row bodies are choices', function () {
+	describe('_getRemoveRowChoices', () => {
+		it('should return compact layout preview where row bodies are choices', () => {
 			prototype.rows = [
 				{
 					0: 3,
@@ -531,7 +530,7 @@ describe('LayoutCreator', function () {
 
 			let choiceValue = 0;
 
-			_.forEach(choices, function (choice, index) {
+			_.forEach(choices, (choice, index) => {
 				index = index + 1;
 
 				if (index % 2 == 0) {
@@ -570,8 +569,8 @@ describe('LayoutCreator', function () {
 		});
 	});
 
-	describe('_getRowNumber', function () {
-		it('should return next row number for labels and messages', function () {
+	describe('_getRowNumber', () => {
+		it('should return next row number for labels and messages', () => {
 			prototype.rows = [1, 2];
 
 			var rowNumber = prototype._getRowNumber();
@@ -586,8 +585,8 @@ describe('LayoutCreator', function () {
 		});
 	});
 
-	describe('_preprocessLayoutTemplateData', function () {
-		it('should convert prompt data to data that template can easily process', function () {
+	describe('_preprocessLayoutTemplateData', () => {
+		it('should convert prompt data to data that template can easily process', () => {
 			var rows = [
 				{
 					0: 2,
@@ -622,10 +621,10 @@ describe('LayoutCreator', function () {
 
 			var number = 0;
 
-			_.forEach(rowDataFromObjects, function (row) {
+			_.forEach(rowDataFromObjects, (row) => {
 				assert(_.isArray(row), 'each row is an array');
 
-				_.forEach(row, function (column) {
+				_.forEach(row, (column) => {
 					assert(_.isObject(column), 'each row is an array');
 
 					number++;
@@ -651,8 +650,8 @@ describe('LayoutCreator', function () {
 		});
 	});
 
-	describe('_printLayoutPreview', function () {
-		it('should print layout preview', function () {
+	describe('_printLayoutPreview', () => {
+		it('should print layout preview', () => {
 			prototype.rows = [
 				[6, 6],
 				[3, 3, 6],
@@ -680,8 +679,8 @@ describe('LayoutCreator', function () {
 		});
 	});
 
-	describe('_promptColumnCount', function () {
-		it('should prompt user for column count using correct row number in prompt message', function () {
+	describe('_promptColumnCount', () => {
+		it('should prompt user for column count using correct row number in prompt message', () => {
 			prototype.prompt = sinon.spy();
 
 			prototype.rows = [];
@@ -716,8 +715,8 @@ describe('LayoutCreator', function () {
 		});
 	});
 
-	describe('_promptColumnWidths', function () {
-		it('should prompt user for column widths', function () {
+	describe('_promptColumnWidths', () => {
+		it('should prompt user for column widths', () => {
 			prototype.prompt = sinon.spy();
 			prototype.rows = [];
 
@@ -738,7 +737,7 @@ describe('LayoutCreator', function () {
 				'it creates a question for every column'
 			);
 
-			_.forEach(questions, function (question, index) {
+			_.forEach(questions, (question, index) => {
 				var columnNumber = index + 1;
 
 				assert.equal(index, question.name, 'name is index');
@@ -751,8 +750,8 @@ describe('LayoutCreator', function () {
 		});
 	});
 
-	describe('_promptFinishRow', function () {
-		it('should prompt user for next action (add, insert, remove, finish)', function () {
+	describe('_promptFinishRow', () => {
+		it('should prompt user for next action (add, insert, remove, finish)', () => {
 			assertPromptFn(prototype, '_promptFinishRow', [[], _.noop], {
 				message: 'What now?',
 				name: 'finish',
@@ -760,8 +759,8 @@ describe('LayoutCreator', function () {
 		});
 	});
 
-	describe('_promptInsertRow', function () {
-		it('should prompt user for where they want to insert row', function () {
+	describe('_promptInsertRow', () => {
+		it('should prompt user for where they want to insert row', () => {
 			assertPromptFn(prototype, '_promptInsertRow', [_.noop], {
 				message: 'Where would you like to insert a new row?',
 				name: 'rowIndex',
@@ -769,8 +768,8 @@ describe('LayoutCreator', function () {
 		});
 	});
 
-	describe('_promptRemoveRow', function () {
-		it('should prompt user for what row they want to remove', function () {
+	describe('_promptRemoveRow', () => {
+		it('should prompt user for what row they want to remove', () => {
 			assertPromptFn(prototype, '_promptRemoveRow', [_.noop], {
 				message: 'What row would you like to remove?',
 				name: 'rowIndex',
@@ -778,8 +777,8 @@ describe('LayoutCreator', function () {
 		});
 	});
 
-	describe('_promptRow', function () {
-		it('should remove last row and print layout', function (done) {
+	describe('_promptRow', () => {
+		it('should remove last row and print layout', (done) => {
 			var waterfallSpy = sinon.spy();
 
 			var getWaterfallFunction = function (name) {
@@ -804,7 +803,7 @@ describe('LayoutCreator', function () {
 				'_promptFinishRow'
 			);
 
-			prototype._promptRow(function () {
+			prototype._promptRow(() => {
 				sinonAssert.calledWith(
 					waterfallSpy.getCall(0),
 					'_promptColumnCount'
@@ -825,8 +824,8 @@ describe('LayoutCreator', function () {
 		});
 	});
 
-	describe('_removeRow', function () {
-		it('should remove row by index and print layout', function () {
+	describe('_removeRow', () => {
+		it('should remove row by index and print layout', () => {
 			prototype._printLayoutPreview = sinon.spy();
 			prototype.rows = [1, 2, 3];
 
@@ -842,8 +841,8 @@ describe('LayoutCreator', function () {
 		});
 	});
 
-	describe('_renderPreviewLine', function () {
-		it('should render preview line', function () {
+	describe('_renderPreviewLine', () => {
+		it('should render preview line', () => {
 			var line = prototype._renderPreviewLine({
 				0: 4,
 				1: 8,
@@ -871,8 +870,8 @@ describe('LayoutCreator', function () {
 		});
 	});
 
-	describe('_renderLayoutTemplate', function () {
-		it('should compile data into valid template', function () {
+	describe('_renderLayoutTemplate', () => {
+		it('should compile data into valid template', () => {
 			var fileOptions = {
 				encoding: 'utf8',
 			};
@@ -907,22 +906,22 @@ describe('LayoutCreator', function () {
 		});
 	});
 
-	describe('_replaceAt', function () {
-		it('should replace string character at index', function () {
+	describe('_replaceAt', () => {
+		it('should replace string character at index', () => {
 			assert.equal(prototype._replaceAt('string', 0, 'x'), 'xtring');
 			assert.equal(prototype._replaceAt('string', 2, 'x'), 'stxing');
 			assert.equal(prototype._replaceAt('string', 6, 'x'), 'stringx');
 		});
 	});
 
-	describe('_stylePreviewLine', function () {
-		it('passes', function () {
+	describe('_stylePreviewLine', () => {
+		it('passes', () => {
 			expect(() => prototype._stylePreviewLine).not.toThrow();
 		});
 	});
 
-	describe('_validateColumnCount', function () {
-		it('should validate column count', function () {
+	describe('_validateColumnCount', () => {
+		it('should validate column count', () => {
 			var errMessage = 'Please enter a number between 1 and 12!';
 
 			var retVal = prototype._validateColumnCount(1);

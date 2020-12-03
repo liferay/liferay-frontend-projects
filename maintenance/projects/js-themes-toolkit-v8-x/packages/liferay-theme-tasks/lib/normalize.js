@@ -1,6 +1,5 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: MIT
  */
 
@@ -17,7 +16,7 @@ function normalize(template) {
 	const replacementContent = '<!-- inject:js -->\n<!-- endinject -->\n\n';
 
 	if (template.indexOf(replacementContent) === -1) {
-		template = template.replace(beforeRegex, function (match) {
+		template = template.replace(beforeRegex, (match) => {
 			return replacementContent + match;
 		});
 	}

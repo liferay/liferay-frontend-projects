@@ -26,7 +26,7 @@ beforeEach(() => {
 
 	require('../../lib/options')({});
 
-	lookAndFeelUtil = require('../look_and_feel_util.js');
+	lookAndFeelUtil = require('../look_and_feel_util');
 });
 
 afterEach(() => {

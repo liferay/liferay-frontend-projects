@@ -1,13 +1,12 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: MIT
  */
 
 const fs = require('fs-extra');
-const parseString = require('xml2js').parseString;
 const path = require('path');
 const sinon = require('sinon');
+const {parseString} = require('xml2js');
 
 const testUtil = require('../../test/util');
 
@@ -133,7 +132,7 @@ describe('using lib_sass', () => {
 		});
 
 		parseString(liferayHookXML, (err, result) => {
-			if (err) throw err;
+			if (err) {throw err;}
 
 			expect(result.hook['language-properties']).toEqual([
 				'content/Language_en.properties',

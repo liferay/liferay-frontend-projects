@@ -1,6 +1,5 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: MIT
  */
 
@@ -80,7 +79,7 @@ module.exports = class extends Base {
 
 		const prompts = super._getPrompts.call(instance);
 
-		return prompts.reduce(function (result, item) {
+		return prompts.reduce((result, item) => {
 			const name = item.name;
 
 			if (name == 'themeName') {

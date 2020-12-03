@@ -78,6 +78,7 @@ function safeReadJsonSync(path) {
 		if (err.code !== 'ENOENT') {
 			throw err;
 		}
+
 		return {};
 	}
 }

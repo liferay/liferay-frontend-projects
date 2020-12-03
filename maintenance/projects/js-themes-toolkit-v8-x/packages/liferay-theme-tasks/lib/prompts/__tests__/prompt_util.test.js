@@ -1,6 +1,5 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: MIT
  */
 
@@ -77,7 +76,7 @@ it('getModuleChoices should get module choices that are appropriate for extend t
 		selectedModules: ['themelet-1'],
 	});
 
-	_.forEach(choices, function (item, index) {
+	_.forEach(choices, (item, index) => {
 		const number = index + 1;
 		const name = 'themelet-' + number;
 
@@ -92,7 +91,7 @@ it('getModuleChoices should get module choices that are appropriate for extend t
 		themelet: true,
 	});
 
-	_.forEach(choices, function (item, index) {
+	_.forEach(choices, (item, index) => {
 		const number = index + 1;
 		const name = 'themelet-' + number;
 
@@ -105,7 +104,7 @@ it('getModuleChoices should get module choices that are appropriate for extend t
 		themelet: true,
 	});
 
-	_.forEach(choices, function (item, index) {
+	_.forEach(choices, (item, index) => {
 		const number = index + 1;
 		const name = 'themelet-' + number;
 

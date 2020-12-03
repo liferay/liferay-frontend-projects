@@ -1,16 +1,15 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: MIT
  */
 
-const _ = require('lodash');
-const argv = require('minimist')(process.argv.slice(2));
 const colors = require('ansi-colors');
 const spawn = require('cross-spawn');
 const es = require('event-stream');
-const fs = require('fs-extra');
 const log = require('fancy-log');
+const fs = require('fs-extra');
+const _ = require('lodash');
+const argv = require('minimist')(process.argv.slice(2));
 const path = require('path');
 const tar = require('tar-fs');
 
@@ -43,7 +42,7 @@ function dockerCopy(containerName, sourceFolder, destFolder, sourceFiles, cb) {
 	}
 
 	const wcb = (error) => {
-		if (!cb) return;
+		if (!cb) {return;}
 
 		if (error) {
 			cb(error);
@@ -65,8 +64,8 @@ function dockerCopy(containerName, sourceFolder, destFolder, sourceFiles, cb) {
 	}
 
 	tar.pack(sourceFolder, packConfig).pipe(
-		es.wait(function (err, body) {
-			if (err) throw err;
+		es.wait((err, body) => {
+			if (err) {throw err;}
 
 			const proc = spawn.sync(
 				'docker',

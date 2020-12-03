@@ -6,7 +6,7 @@
 const _ = require('lodash');
 
 const {cleanTempTheme, setupTempTheme} = require('../../../lib/test/util');
-const themeFinder = require('../theme_finder.js');
+const themeFinder = require('../theme_finder');
 
 let tempTheme;
 

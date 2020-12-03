@@ -18,7 +18,7 @@ beforeEach(() => {
 	process.chdir(baseThemePath);
 
 	delete require.cache[path.join(__dirname, '../theme_finder.js')];
-	themeFinder = require('../theme_finder.js');
+	themeFinder = require('../theme_finder');
 });
 
 afterEach(() => {

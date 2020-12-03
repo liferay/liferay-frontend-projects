@@ -13,7 +13,7 @@ const _ = require('lodash');
 const path = require('path');
 const PluginError = require('plugin-error');
 
-const lfrThemeConfig = require('../lib/liferay_theme_config.js');
+const lfrThemeConfig = require('../lib/liferay_theme_config');
 
 const themeConfig = lfrThemeConfig.getConfig();
 

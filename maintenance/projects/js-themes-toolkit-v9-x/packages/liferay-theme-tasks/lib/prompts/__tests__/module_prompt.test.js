@@ -7,7 +7,7 @@ const inquirer = require('inquirer');
 const _ = require('lodash');
 const sinon = require('sinon');
 
-const testUtil = require('../../../test/util.js');
+const testUtil = require('../../../test/util');
 
 const assertBoundFunction = testUtil.assertBoundFunction;
 const prototypeMethodSpy = new testUtil.PrototypeMethodSpy();
@@ -23,8 +23,8 @@ beforeEach(() => {
 		namespace: 'module_prompt',
 	});
 
-	ModulePrompt = require('../../../lib/prompts/module_prompt.js');
-	promptUtil = require('../../../lib/prompts/prompt_util.js');
+	ModulePrompt = require('../../../lib/prompts/module_prompt');
+	promptUtil = require('../../../lib/prompts/prompt_util');
 
 	prototype = _.create(ModulePrompt.prototype);
 });

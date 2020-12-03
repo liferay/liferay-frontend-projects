@@ -1,6 +1,5 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: MIT
  */
 
@@ -15,7 +14,7 @@ function getNonBlackListedMixins(mixins, blackList) {
 
 	mixins = _.reduce(
 		mixins,
-		function (result, item) {
+		(result, item) => {
 			if (!_.includes(blackList, item)) {
 				result.push(item);
 			}

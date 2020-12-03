@@ -1,17 +1,16 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: MIT
  */
 
 'use strict';
 
-const _ = require('lodash');
 const fs = require('fs');
-const LayoutCreator = require('../../lib/layout_creator');
+const _ = require('lodash');
 const minimist = require('minimist');
 const path = require('path');
 
+const LayoutCreator = require('../../lib/layout_creator');
 const config = require('../../lib/utils/config');
 const Base = require('../app');
 
@@ -48,7 +47,7 @@ module.exports = class extends Base {
 
 			const themePackagePath = path.join(process.cwd(), 'package.json');
 
-			fs.stat(themePackagePath, function (err, stat) {
+			fs.stat(themePackagePath, (err, stat) => {
 				if (!err && stat.isFile()) {
 					const themePackage = require(themePackagePath);
 
@@ -168,9 +167,8 @@ module.exports = class extends Base {
 			}
 
 			new LayoutCreator(
-				Object.assign(
-					{
-						after(templateContent) {
+				{
+					after(templateContent) {
 							instance.fs.write(
 								templateDestination,
 								templateContent
@@ -178,9 +176,8 @@ module.exports = class extends Base {
 
 							done();
 						},
-					},
-					options
-				)
+					...options
+				}
 			);
 		}
 	}

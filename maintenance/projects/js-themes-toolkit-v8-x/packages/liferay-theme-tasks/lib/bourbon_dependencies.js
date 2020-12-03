@@ -1,13 +1,12 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: MIT
  */
 
 'use strict';
 
-const bourbon = require('node-bourbon');
 const fs = require('fs-extra');
+const bourbon = require('node-bourbon');
 const path = require('path');
 
 const themeUtil = require('./util');

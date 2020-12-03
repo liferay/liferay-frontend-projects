@@ -1,14 +1,13 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: MIT
  */
 
 'use strict';
 
-const _ = require('lodash');
 const chalk = require('chalk');
 const fs = require('fs');
+const _ = require('lodash');
 const minimist = require('minimist');
 const path = require('path');
 const util = require('util');

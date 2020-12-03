@@ -1,6 +1,5 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: MIT
  */
 
@@ -9,8 +8,8 @@ const inquirer = require('inquirer');
 const _ = require('lodash');
 const path = require('path');
 
-const promptUtil = require('./prompt_util');
 const lookup = require('../lookup');
+const promptUtil = require('./prompt_util');
 
 class KickstartPrompt {
 	constructor(...args) {

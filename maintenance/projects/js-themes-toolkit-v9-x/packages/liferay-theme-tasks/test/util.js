@@ -265,7 +265,7 @@ function copyTempTheme(options) {
 	if (options.registerTasksOptions || options.registerTasks) {
 		deleteJsFromCache();
 
-		const {registerTasks} = require('../index.js');
+		const {registerTasks} = require('../index');
 
 		gulp = new Gulp();
 

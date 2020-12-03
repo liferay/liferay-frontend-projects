@@ -18,6 +18,7 @@ function quad(v, m) {
 	if ((m = v.trim().split(/\s+(?=[^)]*(?:[(]|$))/)) && m.length == 4) {
 		return [m[0], m[3], m[2], m[1]].join(' ');
 	}
+
 	return v;
 }
 
@@ -39,6 +40,7 @@ function quad_radius(v) {
 
 		return [m[1], m[0], m[1], m[2]].join(' ');
 	}
+
 	return v;
 }
 
@@ -47,8 +49,9 @@ function direction(v) {
 }
 
 function rtltr(v) {
-	if (v.match(/left/)) return 'right';
-	if (v.match(/right/)) return 'left';
+	if (v.match(/left/)) {return 'right';}
+	if (v.match(/right/)) {return 'left';}
+
 	return v;
 }
 
@@ -69,6 +72,7 @@ function bgPosition(v) {
 
 		v = 100 - parseInt(m[0], 10) + '% ' + m[1];
 	}
+
 	return v;
 }
 
@@ -132,20 +136,20 @@ var valueMap = {
 function processRule(rule, idx, list) {
 	var prev = list[idx - 1];
 	if (prev && prev.type === 'comment' && prev.comment.trim() === '@noflip')
-		return;
+		{return;}
 
 	if (rule.declarations)
-		rule.declarations.forEach((declaration) => {
+		{rule.declarations.forEach((declaration) => {
 			processDeclaration(declaration, rule);
-		});
-	else if (rule.rules) rule.rules.forEach(processRule);
+		});}
+	else if (rule.rules) {rule.rules.forEach(processRule);}
 }
 
 function processDeclaration(declaration, rule) {
 
 	// Ignore comments in declarations
 
-	if (declaration.type !== 'declaration') return;
+	if (declaration.type !== 'declaration') {return;}
 
 	// RegEx for comments is taken from http://www.w3.org/TR/CSS21/grammar.html
 
@@ -166,7 +170,7 @@ function processDeclaration(declaration, rule) {
 	prop = propertyMap[prop] || prop;
 	val = valueMap[prop] ? valueMap[prop](val, {decl: declaration, rule}) : val;
 
-	if (!val.match(important) && isImportant) val += '!important';
+	if (!val.match(important) && isImportant) {val += '!important';}
 
 	declaration.property = asterisk + prop;
 	declaration.value = val;
@@ -174,7 +178,7 @@ function processDeclaration(declaration, rule) {
 
 function r2(css, options) {
 	var ast;
-	if (!options) options = {compress: true};
+	if (!options) {options = {compress: true};}
 
 	ast = parser(css, {filename: options.filename});
 	ast.stylesheet.rules.forEach(processRule);

@@ -92,6 +92,7 @@ function exists(file) {
  */
 function getPostCSSRC() {
 	const themeConfig = lfrThemeConfig.getConfig(true);
+
 	return (
 		(Object.prototype.hasOwnProperty.call(themeConfig, 'postcss') &&
 			'package.json "postcss"') ||

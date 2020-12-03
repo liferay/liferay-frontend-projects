@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-const status = require('../../lib/status.js');
+const status = require('../../lib/status');
 
 it('status should return appropriate status message', () => {
 	let statusMessage = status({

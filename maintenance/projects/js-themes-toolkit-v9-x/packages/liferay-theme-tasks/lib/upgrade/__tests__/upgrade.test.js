@@ -6,7 +6,7 @@
 const path = require('path');
 
 const testUtil = require('../../../test/util');
-const lfrThemeConfig = require('../../liferay_theme_config.js');
+const lfrThemeConfig = require('../../liferay_theme_config');
 
 const initCwd = process.cwd();
 
@@ -40,7 +40,7 @@ describe('config', () => {
 
 	it('upgrade:config', (done) => {
 		runSequence('upgrade:config', (err) => {
-			if (err) throw err;
+			if (err) {throw err;}
 
 			const themeConfig = lfrThemeConfig.getConfig();
 

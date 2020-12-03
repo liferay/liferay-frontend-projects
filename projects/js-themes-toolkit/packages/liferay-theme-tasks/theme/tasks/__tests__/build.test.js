@@ -127,7 +127,7 @@ describe('using lib_sass', () => {
 		});
 
 		parseString(liferayHookXML, (err, result) => {
-			if (err) throw err;
+			if (err) {throw err;}
 
 			expect(result.hook['language-properties']).toEqual([
 				'content/Language_en.properties',

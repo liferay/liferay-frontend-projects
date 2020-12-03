@@ -9,9 +9,9 @@ const path = require('path');
 const sinon = require('sinon');
 
 const {cleanTempTheme, setupTempTheme} = require('../../../lib/test/util');
-const GlobalModulePrompt = require('../global_module_prompt.js');
-const KickstartPrompt = require('../kickstart_prompt.js');
-const NPMModulePrompt = require('../npm_module_prompt.js');
+const GlobalModulePrompt = require('../global_module_prompt');
+const KickstartPrompt = require('../kickstart_prompt');
+const NPMModulePrompt = require('../npm_module_prompt');
 
 let prototype;
 let tempTheme;

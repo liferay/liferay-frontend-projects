@@ -1,11 +1,10 @@
 /**
- * © 2017 Liferay, Inc. <https://liferay.com>
- *
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: MIT
  */
 
-const _ = require('lodash');
 const inquirer = require('inquirer');
+const _ = require('lodash');
 
 const promptUtil = require('./prompt_util');
 
@@ -41,7 +40,7 @@ class ModulePrompt {
 
 	_filterModule(input) {
 		if (this.themelet) {
-			return _.mapValues(this.modules, function (theme, name) {
+			return _.mapValues(this.modules, (theme, name) => {
 				return input.indexOf(name) > -1;
 			});
 		}
