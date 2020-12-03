@@ -1,5 +1,5 @@
 {
-	"author": "Chema Balsas <jose.balsas@liferay.com> (https://github.com/jbalsas)",
+	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"dependencies": {
 		"compass-mixins": "0.12.10",
 		"gulp-sass": "3.2.0",

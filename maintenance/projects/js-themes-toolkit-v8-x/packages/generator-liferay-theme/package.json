@@ -9,18 +9,7 @@
 		"url": "https://github.com/liferay/liferay-frontend-projects",
 		"directory": "maintenance/projects/js-themes-toolkit-v8-x/packages/generator-liferay-theme"
 	},
-	"author": {
-		"name": "Nate Cavanaugh",
-		"email": "nathan.cavanaugh@liferay.com",
-		"url": "https://github.com/natecavanaugh"
-	},
-	"contributors": [
-		{
-			"name": "Rob Frampton",
-			"email": "rob.g.frampton@gmail.com",
-			"web": "https://github.com/Robert-Frampton"
-		}
-	],
+	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"engines": {
 		"node": ">=8.0.0"
 	},
