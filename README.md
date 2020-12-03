@@ -20,6 +20,14 @@ This is an experimental exploration of the ideas proposed in [liferay-frontend-g
 | ---------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
 | [`@liferay/eslint-config`](./projects/eslint-config) | [label: `eslint-config`](https://github.com/liferay/liferay-frontend-projects/issues?q=is%3Aissue+is%3Aopen+label%3Aeslint-config) | [New issue](https://github.com/liferay/liferay-frontend-projects/issues/new?labels=eslint-config&template=eslint-config.md) |
 
+### `js-themes-toolkit`
+
+| Project                                                                 | Issues & PRs                                                                                                                                                    | Actions                                                                                                    |
+| ----------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| [`js-themes-toolkit` v10](./projects/js-themes-toolkit)                 | [label: `js-themes-toolkit`, `10.x`](https://github.com/liferay/liferay-frontend-projects/issues?q=is%3Aissue+is%3Aopen+label%3Ajs-themes-toolkit+label%3A10.x) | [New issue](https://github.com/liferay/liferay-frontend-projects/issues/new?labels=js-themes-toolkit,10.x) |
+| [`js-themes-toolkit` v9](./maintenance/projects/js-themes-toolkit-v9-x) | [label: `js-themes-toolkit`, `9.x`](https://github.com/liferay/liferay-frontend-projects/issues?q=is%3Aissue+is%3Aopen+label%3Ajs-themes-toolkit+label%3A9.x)   | [New issue](https://github.com/liferay/liferay-frontend-projects/issues/new?labels=js-themes-toolkit,9.x)  |
+| [`js-themes-toolkit` v8](./maintenance/projects/js-themes-toolkit-v8-x) | [label: `js-themes-toolkit`, `8.x`](https://github.com/liferay/liferay-frontend-projects/issues?q=is%3Aissue+is%3Aopen+label%3Ajs-themes-toolkit+label%3A8.x)   | [New issue](https://github.com/liferay/liferay-frontend-projects/issues/new?labels=js-themes-toolkit,8.x)  |
+
 ### `js-toolkit`
 
 | Project                                              | Issues & PRs                                                                                                                                    | Actions                                                                                            |
