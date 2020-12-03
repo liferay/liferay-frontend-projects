@@ -1,0 +1,25 @@
+{
+	"name": "<%= themeDirName %>",
+	"version": "1.0.0",
+	"main": "package.json",
+	"keywords": ["liferay-theme"],
+	"liferayTheme": {
+		"baseTheme": "styled",
+		"fontAwesome": <%= fontAwesome %>,
+		"screenshot": "",
+		"templateLanguage": "ftl",
+		"version": "<%= liferayVersion %>"
+	},
+	"devDependencies": <%- devDependencies %>,
+	"scripts": {
+		"init": "gulp init",
+		"build": "gulp build",
+		"deploy": "gulp deploy",
+		"extend": "gulp extend",
+		"init": "gulp init",
+		"kickstart": "gulp kickstart",
+		"status": "gulp status",
+		"upgrade": "gulp upgrade",
+		"watch": "gulp watch"
+	}
+}
