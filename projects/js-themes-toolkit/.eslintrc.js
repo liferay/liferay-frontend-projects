@@ -10,7 +10,6 @@ module.exports = {
 		jest: true,
 		node: true,
 	},
-	extends: 'liferay',
 	parserOptions: {
 		ecmaVersion: 2018,
 	},

@@ -4,10 +4,7 @@
 		"replace-in-file": "^3.4.2"
 	},
 	"devDependencies": {
-		"eslint": "^5.15.1",
-		"eslint-config-liferay": "^3.0.0",
 		"jest": "^24.1.0",
-		"prettier-eslint-cli": "^4.7.1",
 		"sinon": "^4.4.6"
 	},
 	"jest": {

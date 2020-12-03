@@ -3,6 +3,5 @@ module.exports = {
 		node: true,
 		jest: true,
 	},
-	extends: 'liferay',
 	rules: {},
 };

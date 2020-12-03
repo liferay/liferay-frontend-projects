@@ -2,11 +2,7 @@
 	"devDependencies": {
 		"chalk": "^3.0.0",
 		"cross-spawn": "^7.0.1",
-		"eslint": "^6.5.1",
-		"eslint-config-liferay": "^13.0.0",
 		"fs-extra": "^8.1.0",
-		"jest": "^24.1.0",
-		"prettier": "^1.18.2",
 		"yargs": "^15.1.0"
 	},
 	"keywords": [
@@ -22,8 +18,5 @@
 		"lint:fix": "liferay-workspace-scripts lint:fix",
 		"qa": "node scripts/qa.js",
 		"test": "liferay-workspace-scripts test"
-	},
-	"workspaces": [
-		"packages/*"
-	]
+	}
 }
