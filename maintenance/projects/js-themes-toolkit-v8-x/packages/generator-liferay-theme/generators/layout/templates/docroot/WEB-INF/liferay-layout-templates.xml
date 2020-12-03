@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!DOCTYPE layout-templates PUBLIC "-//Liferay//DTD Layout Templates <%= liferayVersion %>.0//EN" "http://www.liferay.com/dtd/liferay-layout-templates_<%= liferayVersion.replace('.', '_') %>_0.dtd">
+
+<layout-templates>
+	<custom>
+		<layout-template id="<%= layoutId %>" name="<%= layoutName %>">
+			<template-path><%= templateDestination %>/<%= templateFilename %></template-path>
+			<thumbnail-path><%= templateDestination %>/<%= thumbnailFilename %></thumbnail-path>
+		</layout-template>
+	</custom>
+</layout-templates>
