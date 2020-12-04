@@ -49,6 +49,13 @@ describe('resolveDependency()', () => {
 	});
 
 	it('resolves relative to the current working directory', () => {
+		if (process.platform === 'win32') {
+
+			// Skipping some tests on Windows, for now; see:
+			// https://github.com/liferay/liferay-frontend-projects/pull/260
+
+			return;
+		}
 
 		// Note that due to use of copyTempTheme(), the current working
 		// directory will be some "tmp" directory outside the repo.

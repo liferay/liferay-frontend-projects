@@ -235,7 +235,7 @@ function assertBoundFunction(prototype, methodName, _stub) {
  * contains themeName, version, namespace, registerTaskOptions and/or
  * themeConfig fields
  *
- * @return a temporaty theme descriptor to be given to cleanTempTheme
+ * @return a temporary theme descriptor to be given to cleanTempTheme
  */
 function setupTempPlugin(options) {
 	const pluginName = options.pluginName;
@@ -245,8 +245,7 @@ function setupTempPlugin(options) {
 	const savedCwd = process.cwd();
 
 	const tempPath = path.join(
-		osTempDir,
-		'liferay-theme-tasks',
+		fs.mkdtempSync(path.join(osTempDir, 'liferay-theme-tasks-')),
 		namespace,
 		version,
 		pluginName
@@ -298,7 +297,7 @@ function setupTempPlugin(options) {
  * contains themeName, version, namespace, registerTaskOptions and/or
  * themeConfig fields
  *
- * @return a temporaty theme descriptor to be given to cleanTempTheme
+ * @return a temporary theme descriptor to be given to cleanTempTheme
  */
 function setupTempTheme(options) {
 	const themeName = options.themeName || 'base-theme';
@@ -308,8 +307,7 @@ function setupTempTheme(options) {
 	const savedCwd = process.cwd();
 
 	const tempPath = path.join(
-		osTempDir,
-		'liferay-theme-tasks',
+		fs.mkdtempSync(path.join(osTempDir, 'liferay-theme-tasks-')),
 		namespace,
 		version,
 		themeName
@@ -364,17 +362,7 @@ function setupTempTheme(options) {
  * @param {*} tempPlugin the plugin descriptor returned by setupTempPlugin
  */
 function cleanTempPlugin(tempPlugin) {
-	const {namespace, pluginName, savedCwd, version} = tempPlugin;
-
-	const tempPath = path.join(
-		osTempDir,
-		'liferay-theme-tasks',
-		namespace,
-		version,
-		pluginName
-	);
-
-	fs.removeSync(tempPath);
+	const {savedCwd} = tempPlugin;
 
 	if (savedCwd != null) {
 		process.chdir(savedCwd);
@@ -387,17 +375,7 @@ function cleanTempPlugin(tempPlugin) {
  * @param {*} tempTheme the theme descriptor returned by setupTempTheme
  */
 function cleanTempTheme(tempTheme) {
-	const {namespace, savedCwd, themeName, version} = tempTheme;
-
-	const tempPath = path.join(
-		osTempDir,
-		'liferay-theme-tasks',
-		namespace,
-		version,
-		themeName
-	);
-
-	fs.removeSync(tempPath);
+	const {savedCwd} = tempTheme;
 
 	if (savedCwd != null) {
 		process.chdir(savedCwd);

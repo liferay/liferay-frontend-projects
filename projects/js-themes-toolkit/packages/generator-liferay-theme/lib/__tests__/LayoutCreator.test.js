@@ -5,22 +5,44 @@
 
 const chai = require('chai');
 const fs = require('fs');
-const inquirer = require('inquirer');
 const _ = require('lodash');
 const path = require('path');
 const sinon = require('sinon');
 const stripAnsi = require('strip-ansi');
 
-const LayoutCreator = require('../../lib/LayoutCreator');
-
 const assert = chai.assert;
 const sinonAssert = sinon.assert;
 
 describe('LayoutCreator', () => {
+	let FORCE_COLOR;
+
+	let LayoutCreator;
+
+	let inquirer;
+
 	var prototype;
 
 	beforeEach(() => {
+		FORCE_COLOR = process.env.FORCE_COLOR;
+
+		process.env.FORCE_COLOR = 3;
+
+		jest.resetModules();
+
+		LayoutCreator = require('../../lib/LayoutCreator');
+
+		inquirer = require('inquirer');
+
 		prototype = _.create(LayoutCreator.prototype);
+	});
+
+	afterEach(() => {
+		if (FORCE_COLOR !== undefined) {
+			process.env.FORCE_COLOR = FORCE_COLOR;
+		}
+		else {
+			delete process.env.FORCE_COLOR;
+		}
 	});
 
 	describe('constructor', () => {
@@ -82,11 +104,26 @@ describe('LayoutCreator', () => {
 
 			var cb = sinon.spy();
 
-			prototype.prompt(['question1', 'question2'], cb);
+			prototype.prompt(
+				[
+					{
+						default: 'foobar',
+						message: 'question1',
+						name: 'thing',
+					},
+				],
+				cb
+			);
 
 			sinonAssert.calledWith(
 				inquirer.prompt,
-				['question1', 'question2'],
+				[
+					{
+						default: 'foobar',
+						message: 'question1',
+						name: 'thing',
+					},
+				],
 				cb
 			);
 
@@ -125,11 +162,10 @@ describe('LayoutCreator', () => {
 
 			prototype._addWhiteSpace(choices);
 
-			assert.deepEqual(
-				choices[0],
-				new inquirer.Separator(' '),
-				'Array has whitespace.'
-			);
+			const separator = new inquirer.Separator(' ');
+
+			assert.equal(choices[0].line, separator.line);
+			assert.equal(choices[0].type, separator.type);
 		});
 	});
 

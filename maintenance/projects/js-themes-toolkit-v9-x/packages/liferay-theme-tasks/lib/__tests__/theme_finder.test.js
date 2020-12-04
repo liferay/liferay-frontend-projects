@@ -9,7 +9,7 @@ const path = require('path');
 const initCwd = process.cwd();
 const baseThemePath = path.join(
 	__dirname,
-	'../../test/fixtures/themes/7.1/base-theme'
+	'../../test/fixtures/7.1/base-theme'
 );
 
 let themeFinder;

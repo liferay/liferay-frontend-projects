@@ -41,6 +41,16 @@ afterEach(() => {
 });
 
 test('registerTasks should invoke extension functions', (done) => {
+	if (process.platform === 'win32') {
+
+		// Skipping some tests on Windows, for now; see:
+		// https://github.com/liferay/liferay-frontend-projects/pull/260
+
+		done();
+
+		return;
+	}
+
 	var extFunction = function (options) {
 		expect(options).toEqual({
 			argv: getArgv(),

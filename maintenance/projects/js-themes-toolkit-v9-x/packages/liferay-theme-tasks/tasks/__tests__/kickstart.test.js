@@ -83,7 +83,7 @@ describe('globally installed theme', () => {
 
 		const kickstartThemePath = path.join(
 			__dirname,
-			'../../test/fixtures/themes/7.1/kickstart-theme/src'
+			'../../test/fixtures/7.1/kickstart-theme/src'
 		);
 
 		const answers = {

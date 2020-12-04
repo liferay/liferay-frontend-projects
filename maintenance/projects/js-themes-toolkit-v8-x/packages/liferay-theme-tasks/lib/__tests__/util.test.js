@@ -7,7 +7,7 @@ const path = require('path');
 
 const testUtil = require('../../test/util');
 
-const themeName = 'explicit-dependency-theme';
+const themeName = 'explicit-dep-theme';
 const initCwd = process.cwd();
 
 let util;
