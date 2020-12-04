@@ -46,6 +46,7 @@
 		"url": "https://github.com/liferay/liferay-frontend-projects.git"
 	},
 	"scripts": {
+		"build": "true",
 		"changelog": "npx liferay-changelog-generator",
 		"ci": "liferay-workspace-scripts ci",
 		"format": "liferay-workspace-scripts format",
