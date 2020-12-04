@@ -6,7 +6,7 @@ Basically, we take a project like [liferay-npm-tools](https://github.com/liferay
 
 This operation is non-destructive. The original commits are immutable and intact in the original repo, along with the issues and other metadata; and the repo itself is only ever archived, which means that it is kept around as read-only but never deleted. This means that links to issues and so forth in the original repo will continue to work.
 
-It is also _mostly_ information-preserving, in the sense that commit messages, hashes, and the shape of the original commit graph in carried forward identically into the monorepo. This means that even old commit messages which contain references to specific commit hashes (eg. naked SHA-1 hashes) like [4793d6e8405fe703dba](https://github.com/liferay/liferay-frontend-projects/commit/4793d6e8405fe703dba9517fbc61ba8f55799a5f) will continue to be valid. Likewise, fully qualified URLs ([example](https://github.com/liferay/eslint-config-liferay/commit/551b32b4b40fde27f1f063a935cc8544edc09a6b)) will continue to be evergreen (although they will point to the archived version of the repo). The only sense in which information is mutated is that source repos which used tags without namespaces (eg. of the form "v1.0.0") will have rewritten tags in the monorepo (ie. of the form "some-package/v1.0.0") in order to avoid collisions.
+It is also _mostly_ information-preserving, in the sense that commit messages, hashes, and the shape of the original commit graph is carried forward identically into the monorepo. This means that even old commit messages which contain references to specific commit hashes (eg. naked SHA-1 hashes) like [4793d6e8405fe703dba](https://github.com/liferay/liferay-frontend-projects/commit/4793d6e8405fe703dba9517fbc61ba8f55799a5f) will continue to be valid. Likewise, fully qualified URLs ([example](https://github.com/liferay/eslint-config-liferay/commit/551b32b4b40fde27f1f063a935cc8544edc09a6b)) will continue to be evergreen (although they will point to the archived version of the repo). The only sense in which information is mutated is that source repos which used tags without namespaces (eg. of the form "v1.0.0") will have rewritten tags in the monorepo (ie. of the form "some-package/v1.0.0") in order to avoid collisions.
 
 This shows what the commit graph will look like after an import:
 
@@ -32,7 +32,7 @@ Note that we've effectively grafted the other project's history into the monorep
 3. Rewrite the tags if necessary, using [the `filter-tags.sh` script](../support/filter-tags.sh).
 4. Perform the subtree merge.
 5. Verify the result
-6. Document and variations from the standard procedure in the commit message.
+6. Document any variations from the standard procedure in the commit message.
 
 ## Examples
 
