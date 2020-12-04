@@ -267,7 +267,7 @@ function copyTempTheme(options) {
 	let runSequence;
 
 	fs.copySync(
-		path.join(__dirname, './fixtures/themes', version, themeName),
+		path.join(__dirname, './fixtures', version, themeName),
 		tempPath
 	);
 

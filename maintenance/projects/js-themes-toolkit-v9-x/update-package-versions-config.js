@@ -12,7 +12,7 @@ module.exports = {
 		'packages/*/package.json',
 		'packages/liferay-theme-tasks/lib/**/*',
 		(FIXTURE =
-			'packages/liferay-theme-tasks/test/fixtures/themes/7.2/base-theme-7-2/package.json'),
+			'packages/liferay-theme-tasks/test/fixtures/7.2/base-theme-7-2/package.json'),
 	],
 	from: [
 		/"liferay-theme-tasks": ".*"/g,

@@ -11,7 +11,7 @@ const argv = minimist(process.argv.slice(2));
 const initCwd = process.cwd();
 const baseThemePath = path.join(
 	__dirname,
-	'../../test/fixtures/themes/7.0/base-theme'
+	'../../test/fixtures/7.0/base-theme'
 );
 
 beforeEach(() => {

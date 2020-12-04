@@ -11,7 +11,7 @@ const testUtil = require('../../test/util');
 const initCwd = process.cwd();
 const baseThemePath = path.join(
 	__dirname,
-	'../../test/fixtures/themes/7.0/base-theme'
+	'../../test/fixtures/7.0/base-theme'
 );
 
 let themeFinder;
