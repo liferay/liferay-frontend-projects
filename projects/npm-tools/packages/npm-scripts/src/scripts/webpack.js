@@ -10,7 +10,7 @@ const getMergedConfig = require('../utils/getMergedConfig');
 const spawnSync = require('../utils/spawnSync');
 const withTempFile = require('../utils/withTempFile');
 
-const FEDERATION_ENABLED = getMergedConfig('npmscripts', 'federation');
+const FEDERATION = getMergedConfig('npmscripts', 'federation');
 const TWEAK_WEBPACK_CONFIG_PATH = require.resolve(
 	'../utils/tweakWebpackConfig'
 );
@@ -68,7 +68,10 @@ function withWebpackConfig(filename, callback) {
 		module.exports = tweakWebpackConfig(
 			webpackConfig,
 			{
-				federation: ${FEDERATION_ENABLED}
+				federation:
+					${typeof FEDERATION == 'string'
+						? `'${FEDERATION}'`
+						: FEDERATION}
 			}
 		);
 	`;

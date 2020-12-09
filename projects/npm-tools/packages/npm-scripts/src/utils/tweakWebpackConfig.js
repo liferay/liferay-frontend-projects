@@ -12,8 +12,20 @@ const createTempFile = require('./createTempFile');
 const getMergedConfig = require('./getMergedConfig');
 const parseBnd = require('./parseBnd');
 
-const CORE_REMOTES = ['frontend-js-react-web'];
-const CORE_SHARES = ['react'];
+const CORE_REMOTES = [
+	'frontend-js-react-web',
+	'frontend-taglib-clay'
+];
+const CORE_SHARES = [
+	'@clayui/icon',
+	'classnames',
+	'formik',
+	'prop-types',
+	'react',
+	'react-dnd',
+	'react-dnd-html5-backend',
+	'react-dom'
+];
 
 const BABEL_CONFIG = getMergedConfig('babel');
 
@@ -39,7 +51,9 @@ function tweakWebpackConfig(webpackConfig, {federation} = {}) {
 	}
 
 	if (federation) {
-		arrayConfig.push(createFederationConfig());
+		arrayConfig.push(
+			createFederationConfig(
+				typeof federation === 'string' ? federation : undefined));
 	}
 
 	arrayConfig = arrayConfig.map((webpackConfig) =>
@@ -55,15 +69,19 @@ function tweakWebpackConfig(webpackConfig, {federation} = {}) {
  * Note that the default federation configuration exports the "main" entry point
  * as a federation module and makes it available through Liferay DXP.
  *
+ * @param {string|undefined} federation
+ * If given it points to the explicit federation entry point. Otherwise the
+ * value inside the `main` field of the `package.json` file is used.
+ *
  * @return {object} a webpack configuration
  */
-function createFederationConfig() {
+function createFederationConfig(federation) {
 	// eslint-disable-next-line @liferay/liferay/no-dynamic-require
 	const packageJson = require(path.join(process.cwd(), 'package.json'));
 	const bnd = parseBnd();
 
 	const name = packageJson.name;
-	const main = packageJson.main || 'index.js';
+	const main = federation || packageJson.main || 'index.js';
 	const webContextPath = bnd['Web-ContextPath'] || name;
 
 	const {filePath: nullJsFilePath} = createTempFile('null.js', '');
