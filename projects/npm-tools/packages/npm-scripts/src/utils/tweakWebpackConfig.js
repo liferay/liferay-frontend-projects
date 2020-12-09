@@ -126,7 +126,7 @@ function createFederationConfig(federation) {
 				},
 				filename: 'container.js',
 				library: {
-					name: `Liferay.Webpack.Container["${name}"]`,
+					name: `window[Symbol.for("__LIFERAY_WEBPACK_CONTAINERS__")]["${name}"]`,
 					type: 'assign',
 				},
 				name,
@@ -134,7 +134,7 @@ function createFederationConfig(federation) {
 				remotes: CORE_REMOTES.reduce((remotes, name) => {
 					remotes[
 						name
-					] = `Liferay.Webpack.Container["${name}"]@/o/${name}/__generated__/container.js`;
+					] = `window[Symbol.for("__LIFERAY_WEBPACK_CONTAINERS__")]["${name}"]@/o/${name}/__generated__/container.js`;
 
 					return remotes;
 				}, {}),
