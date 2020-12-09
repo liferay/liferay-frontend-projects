@@ -5,6 +5,8 @@
 
 import project from 'liferay-npm-build-tools-common/lib/project';
 
+import * as osgi from './osgi';
+
 const FORBIDDEN_CUSTOM_HEADERS = new Set([
 	'Bundle-ManifestVersion',
 	'Bundle-Name',
@@ -30,13 +32,7 @@ export default class Manifest {
 		if (this._bundleVersion) {
 			throw new Error('BundleVersion can only be set once');
 		}
-		const parts = bundleVersion.split('-');
-		if (parts.length > 1) {
-			this._bundleVersion = parts[0] + '.' + parts.slice(1).join('-');
-		}
-		else {
-			this._bundleVersion = bundleVersion;
-		}
+		this._bundleVersion = osgi.getBundleVersionAndClassifier(bundleVersion);
 	}
 
 	set bundleName(bundleName: string) {
