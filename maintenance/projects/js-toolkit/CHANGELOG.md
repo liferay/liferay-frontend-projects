@@ -1,3 +1,15 @@
+## [liferay-js-toolkit/v2.21.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.21.0) (2020-12-09)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.20.0...liferay-js-toolkit/v2.21.0)
+
+### :new: Features
+
+-   feat(js-toolkit): RequireCapability: convert package.json version classfier to OSGi version classifer ([\#257](https://github.com/liferay/liferay-frontend-projects/pull/257))
+
+### :book: Documentation
+
+-   docs(js-toolkit): clean some cruft out of changelog ([\#232](https://github.com/liferay/liferay-frontend-projects/pull/232))
+
 ## [liferay-js-toolkit/v2.20.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.20.0) (2020-11-06)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.19.4...liferay-js-toolkit/v2.20.0)
