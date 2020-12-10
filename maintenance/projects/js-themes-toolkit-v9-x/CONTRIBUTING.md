@@ -2,18 +2,9 @@
 
 If you wish to contribute to Liferay Themes Toolkit these guidelines will be important for you. They cover instructions for setup, information on how the repository is organized, as well as contribution requirements.
 
-## Setup
-
-TBD
-
-## Repo organization
-
-TBD
-
 ## Pull requests & Github issues
 
--   All pull requests should be sent to the `9.x` branch, as the `master` branch should always reflect the most recent release.
--   Aim to create one Pull Request per bug fix or feature, if possible, as this helps to generate a high-quality CHANGELOG.md file. We use [liferay-changelog-generator](https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-changelog-generator) to produce changelogs automatically; it will base the changelog on the titles of the PRs merged for each release, so bear that in mind when writing PR titles.
+-   Aim to create one Pull Request per bug fix or feature, if possible, as this helps to generate a high-quality CHANGELOG.md file. We use [@liferay/changelog-generator](https://github.com/liferay/liferay-frontend-projects/tree/master/projects/npm-tools/packages/changelog-generator) to produce changelogs automatically; it will base the changelog on the titles of the PRs merged for each release, so bear that in mind when writing PR titles.
 
 ## Tests
 
@@ -33,23 +24,17 @@ All changes need to follow the general formatting guidelines that are enforced i
 yarn format
 ```
 
-## JS Docs
-
-All methods should be documented, following [google's format](https://github.com/google/closure-compiler/wiki/Annotating-JavaScript-for-the-Closure-Compiler).
-
 # Releasing
 
 Collaborators with publish permissions should follow these steps.
 
-There are two different workflows for publishing this project, one for scheduled releases, and one for emergency hot fixes.
-
 ## Scheduled release
 
-### 1. Update the `9.x` branch
+### 1. Update the local branch
 
 ```sh
-git checkout 9.x
-git pull upstream 9.x
+git checkout master
+git pull upstream master
 ```
 
 ### 2. Update dependency versions
@@ -80,12 +65,12 @@ yarn ci
 git add -A
 git commit -m "chore: prepare $VERSION release"
 git tag liferay-js-themes-toolkit/v$VERSION -m liferay-js-themes-toolkit/v$VERSION
-git push upstream 9.x --follow-tags
+git push upstream master --follow-tags
 ```
 
 ### 5. Update the release notes
 
-Go to [liferay-js-themes-toolkit/release](https://github.com/liferay/liferay-js-themes-toolkit/releases) and add a copy of the relevant section from the CHANGELOG.md.
+Go to [the releases page](https://github.com/liferay/liferay-frontend-projects/releases) and add a copy of the relevant section from the CHANGELOG.md.
 
 ### 6. Do the NPM publish
 
@@ -94,7 +79,7 @@ We used to use Lerna to manage this repo, but as the number of packages has redu
 -   First "liferay-theme-tasks".
 -   Then "generator-liferay-theme".
 
-When publishing a normal release, the `maintenance` _dist-tag_ is automatically used (as configured in the root [.yarnrc](https://github.com/liferay/liferay-js-themes-toolkit/blob/9.x/.yarnrc) file):
+When publishing a normal release, the `maintenance` _dist-tag_ is automatically used (as configured in the [.yarnrc](.yarnrc) file):
 
 ```sh
 cd packages

@@ -152,8 +152,9 @@ function sayHello(generator) {
 
 		We recommend using version 10.x instead of 9.x whenever possible.
 
-		See https://github.com/liferay/liferay-js-themes-toolkit#compatibility
-		for more information.
+		For more information, see:
+
+		https://github.com/liferay/liferay-frontend-projects/tree/master/projects/js-themes-toolkit#compatibility
 
 		`
 	);
