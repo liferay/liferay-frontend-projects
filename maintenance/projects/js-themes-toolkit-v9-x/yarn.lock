@@ -1491,10 +1491,10 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
-clay-css@2.14.2:
-  version "2.14.2"
-  resolved "https://registry.yarnpkg.com/clay-css/-/clay-css-2.14.2.tgz#28e4410f2a46b42a9107cdbd7e6fa9f8a078ccf3"
-  integrity sha512-KaVFEeJ+hNWppAwI8NPSbA33iz1YqFbnqpS7Le3GRnTQxaeuV3pM+gcIOtslf4ABoBApcab1ykSyhgNdmLC2/Q==
+clay-css@2.19.0:
+  version "2.19.0"
+  resolved "https://registry.yarnpkg.com/clay-css/-/clay-css-2.19.0.tgz#fbe8b603aa6e396d54c397544ece4ff40cfa7f1b"
+  integrity sha512-byWj/V4I1CIr4au5KPOSI1ezKqZdR7uIMMsa7RMyD8joSquD2qMQpty8YpL9bRK3KgRR2hCUKZIiR/8iRetgHQ==
 
 cli-cursor@^1.0.1:
   version "1.0.2"
@@ -4691,17 +4691,17 @@ liferay-frontend-common-css@^1.0.4:
   resolved "https://registry.yarnpkg.com/liferay-frontend-common-css/-/liferay-frontend-common-css-1.0.4.tgz#e4d73e406020d907c909bcacb2700a52fa1c7f16"
   integrity sha1-5Nc+QGAg2QfJCbyssnAKUvocfxY=
 
-liferay-frontend-theme-styled@^3.0.13:
-  version "3.0.19"
-  resolved "https://registry.yarnpkg.com/liferay-frontend-theme-styled/-/liferay-frontend-theme-styled-3.0.19.tgz#8f6fa2b8af756cd6eb3a3c31f6bf39c9eabbf333"
-  integrity sha512-f+R5zEEOByQWATxVW2ZtHGn6AmYg9egH1v9mWbO1nU8/B99vFt7KfOjfWaqSbX5aIRSMe//TXerAjZm1E3FxwQ==
+liferay-frontend-theme-styled@5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/liferay-frontend-theme-styled/-/liferay-frontend-theme-styled-5.0.0.tgz#829d759db7b376894528cad0d04d7c456175fbb9"
+  integrity sha512-ZOa5MhnOqn7klGztEP6d5p8I1LOB6Ic6WHPG5OY+g/9IzedQffDLtXRZ/vxP7qj41arMLSrFAAMjDFr8cTFjfg==
 
-liferay-frontend-theme-unstyled@^3.0.13:
-  version "3.0.29"
-  resolved "https://registry.yarnpkg.com/liferay-frontend-theme-unstyled/-/liferay-frontend-theme-unstyled-3.0.29.tgz#a31634b39d481c229d65ceefaef64e0de853e33c"
-  integrity sha512-98vDg9Yh2ofP6w3ky0ny+DELCPUyATJdrG97H140XsSblofe2Y1610zhm9Z6BEWy6Ydm+eBxznod5hM2IUeZXA==
+liferay-frontend-theme-unstyled@5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/liferay-frontend-theme-unstyled/-/liferay-frontend-theme-unstyled-5.0.0.tgz#55b1d0c42fc1a257acbf706abe53a6f8563f8ef8"
+  integrity sha512-iC3inBxZjGwC7PDFxZbn+h0+UbLK33QmDTTGwwxhzC7dA9Nx3ttmcrYwfHV4oAgPC8NwLjl5b82HqlHsXLaicw==
   dependencies:
-    clay-css "2.14.2"
+    clay-css "2.19.0"
 
 liferay-npm-build-tools-common@2.17.1, liferay-npm-build-tools-common@^2.17.1:
   version "2.17.1"

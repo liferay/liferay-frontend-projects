@@ -8,6 +8,8 @@
 		"chai-fs": "^2.0.0",
 		"gulp-coveralls": "0.1.4",
 		"jest": "^24.1.0",
+		"liferay-frontend-theme-styled": "5.0.0",
+		"liferay-frontend-theme-unstyled": "5.0.0",
 		"sinon": "^9.2.1",
 		"strip-ansi": "^6.0.0"
 	},
