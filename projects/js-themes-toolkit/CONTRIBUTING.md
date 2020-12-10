@@ -14,7 +14,7 @@ TBD
 
 -   All pull requests should be sent to the `master` branch.
 -   The `stable` branch always reflects the most recent release.
--   Aim to create one Pull Request per bug fix or feature, if possible, as this helps to generate a high-quality CHANGELOG.md file. We use [liferay-changelog-generator](https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-changelog-generator) to produce changelogs automatically; it will base the changelog on the titles of the PRs merged for each release, so bear that in mind when writing PR titles.
+-   Aim to create one Pull Request per bug fix or feature, if possible, as this helps to generate a high-quality CHANGELOG.md file. We use [@liferay/changelog-generator](https://github.com/liferay/liferay-frontend-projects/tree/master/projects/npm-tools/packages/changelog-generator) to produce changelogs automatically; it will base the changelog on the titles of the PRs merged for each release, so bear that in mind when writing PR titles.
 
 ## Tests
 
@@ -33,10 +33,6 @@ All changes need to follow the general formatting guidelines that are enforced i
 ```
 yarn format
 ```
-
-## JS Docs
-
-All methods should be documented, following [Google's format](https://github.com/google/closure-compiler/wiki/Annotating-JavaScript-for-the-Closure-Compiler).
 
 # Releasing
 
@@ -91,7 +87,7 @@ There's no need to commit it because the next step will do it.
 
 ### 5. Do the publish
 
-We are using [liferay-js-publish](https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-js-publish) to perform the publication to npm and manage git tags.
+We are using [@liferay/js-publish](https://github.com/liferay/liferay-frontend-projects/tree/master/projects/npm-tools/packages/liferay-js-publish) to perform the publication to npm and manage Git tags.
 
 To perform the release, run (in the released project's folder):
 
@@ -115,7 +111,7 @@ As long as there is a hyphen in the version number, `liferay-js-publish` will ta
 
 ### 6. Update the release notes
 
-Go to [liferay-js-themes-toolkit/release](https://github.com/liferay/liferay-js-themes-toolkit/releases) and add a copy of the relevant section from the CHANGELOG.md.
+Go to [the release pages](https://github.com/liferay/liferay-frontend-projects/releases) and add a copy of the relevant section from the CHANGELOG.md.
 
 ### 7. Sanity check the package pages on the NPM website:
 
