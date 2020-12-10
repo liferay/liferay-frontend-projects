@@ -58,13 +58,7 @@ function withWebpackConfig(filename, callback) {
 			federation = '{}';
 		}
 		else if (typeof FEDERATION_CONFIG === 'object') {
-			federation = '{\n';
-
-			if (FEDERATION_CONFIG.main) {
-				federation += `main: '${FEDERATION_CONFIG.main}'\n`;
-			}
-
-			federation += '}\n';
+			federation = JSON.stringify(FEDERATION_CONFIG);
 		}
 	}
 
