@@ -62,7 +62,6 @@ function withWebpackConfig(filename, callback) {
 
 			if (FEDERATION_CONFIG.main) {
 				federation += `main: '${FEDERATION_CONFIG.main}'\n`;
-
 			}
 
 			federation += '}\n';

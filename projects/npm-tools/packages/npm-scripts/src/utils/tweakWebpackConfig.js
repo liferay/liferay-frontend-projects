@@ -12,10 +12,7 @@ const createTempFile = require('./createTempFile');
 const getMergedConfig = require('./getMergedConfig');
 const parseBnd = require('./parseBnd');
 
-const CORE_REMOTES = [
-	'frontend-js-react-web',
-	'frontend-taglib-clay'
-];
+const CORE_REMOTES = ['frontend-js-react-web', 'frontend-taglib-clay'];
 const CORE_SHARES = [
 	'@clayui/icon',
 	'classnames',
@@ -24,7 +21,7 @@ const CORE_SHARES = [
 	'react',
 	'react-dnd',
 	'react-dnd-html5-backend',
-	'react-dom'
+	'react-dom',
 ];
 
 const BABEL_CONFIG = getMergedConfig('babel');
