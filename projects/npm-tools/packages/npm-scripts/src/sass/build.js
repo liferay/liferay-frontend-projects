@@ -26,9 +26,7 @@ const SASS_EXCLUDE = [
 
 const CWD = process.cwd();
 
-// Copied from CSSBuilderUtil.java
-
-const CSS_IMPORT_REGEX = /@import\s+url\s*\(\s*['"]?(.+\.css)/g;
+const CSS_IMPORT_REGEX = /@import\s+url\s*\(\s*['"]?(.+?\.css)/g;
 
 function collectSassFiles(baseDir, excludes = []) {
 	const excludeGlobs = [...SASS_EXCLUDE, ...excludes];
