@@ -238,7 +238,7 @@ describe('liferay-theme:app unit tests', () => {
 			expect(prototype.log.callCount).toBe(1);
 
 			['7.1'].forEach((liferayVersion) => {
-				prototype.log.reset();
+				prototype.log.resetHistory();
 				prototype._printWarnings({
 					liferayVersion,
 					templateLanguage: 'vm',
@@ -248,7 +248,7 @@ describe('liferay-theme:app unit tests', () => {
 			});
 
 			['7.0', '7.1'].forEach((liferayVersion) => {
-				prototype.log.reset();
+				prototype.log.resetHistory();
 
 				prototype.templateLanguage = 'ftl';
 				prototype._printWarnings({
