@@ -6,10 +6,6 @@
 const path = require('path');
 
 module.exports = {
-	env: {
-		jest: true,
-		node: true,
-	},
 	rules: {
 		'notice/notice': [
 			'error',
