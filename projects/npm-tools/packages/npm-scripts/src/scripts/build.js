@@ -17,7 +17,7 @@ const spawnSync = require('../utils/spawnSync');
 const validateConfig = require('../utils/validateConfig');
 const webpack = require('./webpack');
 
-const {build: BUILD_CONFIG, federation: FEDERATION_ENABLED} = getMergedConfig(
+const {build: BUILD_CONFIG, federation: FEDERATION_CONFIG} = getMergedConfig(
 	'npmscripts'
 );
 const CWD = process.cwd();
@@ -73,7 +73,7 @@ function runBridge() {
 /**
  * Main script that runs all all specified build tasks synchronously.
  *
- * Babel and liferay-npm-bundler are always run,
+ * Babel and liferay-npm-bundler are run unless the disable flag is set,
  * liferay-npm-bridge-generator and webpack are run if the corresponding
  * ".npmbridgerc" and "webpack.config.js" files, respectively, are
  * present, and soy is run when soy files are detected.
@@ -94,18 +94,31 @@ module.exports = async function (...args) {
 		buildSoy();
 	}
 
-	runBabel(
-		BUILD_CONFIG.input,
-		'--out-dir',
-		BUILD_CONFIG.output,
-		'--source-maps'
-	);
+	const disableOldBuild =
+		FEDERATION_CONFIG && FEDERATION_CONFIG.disableOldBuild;
 
-	if (fs.existsSync('webpack.config.js') || !!FEDERATION_ENABLED) {
+	if (!disableOldBuild) {
+		runBabel(
+			BUILD_CONFIG.input,
+			'--out-dir',
+			BUILD_CONFIG.output,
+			'--source-maps'
+		);
+	}
+
+	if (fs.existsSync('webpack.config.js') || FEDERATION_CONFIG) {
 		webpack(...args);
 	}
 
-	runBundler();
+	if (!disableOldBuild) {
+		runBundler();
+	}
+	else {
+		const {output} = BUILD_CONFIG;
+
+		fs.copyFileSync('package.json', path.join(output, 'package.json'));
+		fs.writeFileSync(path.join(output, 'manifest.json'), '{}');
+	}
 
 	translateSoy(BUILD_CONFIG.output);
 

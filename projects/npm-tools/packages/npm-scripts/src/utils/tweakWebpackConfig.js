@@ -12,8 +12,17 @@ const createTempFile = require('./createTempFile');
 const getMergedConfig = require('./getMergedConfig');
 const parseBnd = require('./parseBnd');
 
-const CORE_REMOTES = ['frontend-js-react-web'];
-const CORE_SHARES = ['react'];
+const CORE_REMOTES = ['frontend-js-react-web', 'frontend-taglib-clay'];
+const CORE_SHARES = [
+	'@clayui/icon',
+	'classnames',
+	'formik',
+	'prop-types',
+	'react',
+	'react-dnd',
+	'react-dnd-html5-backend',
+	'react-dom',
+];
 
 const BABEL_CONFIG = getMergedConfig('babel');
 
@@ -21,7 +30,10 @@ const BABEL_CONFIG = getMergedConfig('babel');
  * Modify an existing webpack config to conform to Liferay standards.
  *
  * @param {object|Array|undefined} webpackConfig
- * @param {boolean} federation set to true to inject federation support
+ * @param {object} federation
+ * Federation configuration, which can contain:
+ *   - main: entry point for federation support (by default the value inside the
+ *         `main` field of the `package.json` file is used).
  *
  * @return {object|Array} the tweaked webpack config
  */
@@ -39,7 +51,7 @@ function tweakWebpackConfig(webpackConfig, {federation} = {}) {
 	}
 
 	if (federation) {
-		arrayConfig.push(createFederationConfig());
+		arrayConfig.push(createFederationConfig(federation));
 	}
 
 	arrayConfig = arrayConfig.map((webpackConfig) =>
@@ -55,15 +67,20 @@ function tweakWebpackConfig(webpackConfig, {federation} = {}) {
  * Note that the default federation configuration exports the "main" entry point
  * as a federation module and makes it available through Liferay DXP.
  *
+ * @param {object} federation
+ * Federation configuration, which can contain:
+ *   - main: entry point for federation support (by default the value inside the
+ *         `main` field of the `package.json` file is used).
+ *
  * @return {object} a webpack configuration
  */
-function createFederationConfig() {
+function createFederationConfig(federation) {
 	// eslint-disable-next-line @liferay/liferay/no-dynamic-require
 	const packageJson = require(path.join(process.cwd(), 'package.json'));
 	const bnd = parseBnd();
 
 	const name = packageJson.name;
-	const main = packageJson.main || 'index.js';
+	const main = federation.main || packageJson.main || 'index.js';
 	const webContextPath = bnd['Web-ContextPath'] || name;
 
 	const {filePath: nullJsFilePath} = createTempFile('null.js', '');
@@ -108,7 +125,7 @@ function createFederationConfig() {
 				},
 				filename: 'container.js',
 				library: {
-					name: `Liferay.Webpack.Container["${name}"]`,
+					name: `window[Symbol.for("__LIFERAY_WEBPACK_CONTAINERS__")]["${name}"]`,
 					type: 'assign',
 				},
 				name,
@@ -116,7 +133,7 @@ function createFederationConfig() {
 				remotes: CORE_REMOTES.reduce((remotes, name) => {
 					remotes[
 						name
-					] = `Liferay.Webpack.Container["${name}"]@/o/${name}/__generated__/container.js`;
+					] = `window[Symbol.for("__LIFERAY_WEBPACK_CONTAINERS__")]["${name}"]@/o/${name}/__generated__/container.js`;
 
 					return remotes;
 				}, {}),
