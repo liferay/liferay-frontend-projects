@@ -1,3 +1,15 @@
+## [npm-scripts/v36.4.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v36.4.0) (2020-12-10)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v36.3.0...npm-scripts/v36.4.0)
+
+### :new: Features
+
+-   feat: extend webpack federation support ([\#284](https://github.com/liferay/liferay-frontend-projects/pull/284))
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): provide (inactive-by-default) tooling for formatting JS in JSP inside build ([\#251](https://github.com/liferay/liferay-frontend-projects/pull/251))
+
 ## [npm-scripts/v36.3.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v36.3.0) (2020-12-02)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v36.2.0...npm-scripts/v36.3.0)
