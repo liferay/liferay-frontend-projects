@@ -8,6 +8,7 @@
 	"keywords": [
 		"yeoman-generator"
 	],
+	"name": "liferay-js-themes-toolkit",
 	"private": true,
 	"scripts": {
 		"build": true,
