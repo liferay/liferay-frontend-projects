@@ -4,8 +4,10 @@
 		"replace-in-file": "^3.4.2"
 	},
 	"devDependencies": {
+		"chai": "4.2.0",
+		"chai-fs": "2.0.0",
 		"jest": "^24.1.0",
-		"sinon": "^4.4.6"
+		"sinon": "9.2.1"
 	},
 	"jest": {
 		"modulePathIgnorePatterns": [
