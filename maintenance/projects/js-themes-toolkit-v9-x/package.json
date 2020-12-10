@@ -4,8 +4,12 @@
 		"replace-in-file": "^3.4.2"
 	},
 	"devDependencies": {
+		"chai": "^4.2.0",
+		"chai-fs": "^2.0.0",
+		"gulp-coveralls": "0.1.4",
 		"jest": "^24.1.0",
-		"sinon": "^4.4.6"
+		"sinon": "^9.2.1",
+		"strip-ansi": "^6.0.0"
 	},
 	"jest": {
 		"modulePathIgnorePatterns": [
