@@ -106,7 +106,7 @@ module.exports = async function (...args) {
 		);
 	}
 
-	if (fs.existsSync('webpack.config.js') || !!FEDERATION_CONFIG) {
+	if (fs.existsSync('webpack.config.js') || FEDERATION_CONFIG) {
 		webpack(...args);
 	}
 
