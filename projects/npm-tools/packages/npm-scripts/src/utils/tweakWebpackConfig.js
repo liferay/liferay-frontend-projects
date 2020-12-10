@@ -33,7 +33,10 @@ const BABEL_CONFIG = getMergedConfig('babel');
  * Modify an existing webpack config to conform to Liferay standards.
  *
  * @param {object|Array|undefined} webpackConfig
- * @param {boolean} federation set to true to inject federation support
+ * @param {object} federation
+ * Federation configuration, which can contain:
+ *   - main: entry point for federation support (by default the value inside the
+ *         `main` field of the `package.json` file is used).
  *
  * @return {object|Array} the tweaked webpack config
  */
@@ -51,9 +54,7 @@ function tweakWebpackConfig(webpackConfig, {federation} = {}) {
 	}
 
 	if (federation) {
-		arrayConfig.push(
-			createFederationConfig(
-				typeof federation === 'string' ? federation : undefined));
+		arrayConfig.push(createFederationConfig(federation));
 	}
 
 	arrayConfig = arrayConfig.map((webpackConfig) =>
@@ -69,9 +70,10 @@ function tweakWebpackConfig(webpackConfig, {federation} = {}) {
  * Note that the default federation configuration exports the "main" entry point
  * as a federation module and makes it available through Liferay DXP.
  *
- * @param {string|undefined} federation
- * If given it points to the explicit federation entry point. Otherwise the
- * value inside the `main` field of the `package.json` file is used.
+ * @param {object} federation
+ * Federation configuration, which can contain:
+ *   - main: entry point for federation support (by default the value inside the
+ *         `main` field of the `package.json` file is used).
  *
  * @return {object} a webpack configuration
  */
@@ -81,7 +83,7 @@ function createFederationConfig(federation) {
 	const bnd = parseBnd();
 
 	const name = packageJson.name;
-	const main = federation || packageJson.main || 'index.js';
+	const main = federation.main || packageJson.main || 'index.js';
 	const webContextPath = bnd['Web-ContextPath'] || name;
 
 	const {filePath: nullJsFilePath} = createTempFile('null.js', '');
