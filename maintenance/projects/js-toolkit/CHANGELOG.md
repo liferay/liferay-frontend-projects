@@ -1,3 +1,19 @@
+## [liferay-js-toolkit/v2.22.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.22.0) (2020-12-11)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.21.0...liferay-js-toolkit/v2.22.0)
+
+### :wrench: Bug fixes
+
+-   fix(js-toolkit): let compression level be configured ([\#258](https://github.com/liferay/liferay-frontend-projects/pull/258))
+
+### :nail_care: Style
+
+-   style(js-toolkit): fix formatting ([\#278](https://github.com/liferay/liferay-frontend-projects/pull/278))
+
+### :eyeglasses: Tests
+
+-   test(monorepo): adjust CI coverage ([\#289](https://github.com/liferay/liferay-frontend-projects/pull/289))
+
 ## [liferay-js-toolkit/v2.21.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.21.0) (2020-12-09)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.20.0...liferay-js-toolkit/v2.21.0)
