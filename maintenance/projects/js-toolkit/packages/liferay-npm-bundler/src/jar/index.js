@@ -29,12 +29,9 @@ export default function createJar() {
 	addSystemConfigurationFiles(zip);
 	addPortletInstanceConfigurationFile(zip);
 
-	const {compression, compressionOptions} = getCompressionConfiguration();
-
 	return zip
 		.generateAsync({
-			compression,
-			compressionOptions,
+			...getCompressionConfiguration(),
 			type: 'nodebuffer',
 		})
 		.then((buffer) => {
