@@ -1,3 +1,29 @@
+## [js-themes-toolkit-v8-x/v8.2.3](https://github.com/liferay/liferay-frontend-projects/tree/js-themes-toolkit-v8-x/v8.2.3) (2020-12-11)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-themes-toolkit/v8.2.2...js-themes-toolkit-v8-x/v8.2.3)
+
+### :wrench: Bug fixes
+
+-   fix(js-themes-toolkit): make adjustments to make CI pass on GitHub ([\#260](https://github.com/liferay/liferay-frontend-projects/pull/260))
+
+### :book: Documentation
+
+-   docs(js-themes-toolkit): update links to point at new repo ([\#283](https://github.com/liferay/liferay-frontend-projects/pull/283))
+
+### :house: Chores
+
+-   chore(js-themes-toolkit): hoist v8 devDependencies to workspace root ([\#285](https://github.com/liferay/liferay-frontend-projects/pull/285))
+-   chore(js-themes-tookit): clean up irrelevant .github directories ([\#279](https://github.com/liferay/liferay-frontend-projects/pull/279))
+-   chore(monorepo): clean up orphaned Travis config files ([\#276](https://github.com/liferay/liferay-frontend-projects/pull/276))
+
+### :woman_juggling: Refactoring
+
+-   refactor(js-themes-toolikt): hoist lint and formatting config to repo root ([\#281](https://github.com/liferay/liferay-frontend-projects/pull/281))
+
+### :eyeglasses: Tests
+
+-   test(monorepo): adjust CI coverage ([\#289](https://github.com/liferay/liferay-frontend-projects/pull/289))
+
 ## [v8.2.2](https://github.com/liferay/liferay-js-themes-toolkit/tree/v8.2.2) (2020-08-03)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v8.2.1...v8.2.2)
