@@ -1,3 +1,30 @@
+## [js-themes-toolkit-v9-x/v9.5.3](https://github.com/liferay/liferay-frontend-projects/tree/js-themes-toolkit-v9-x/v9.5.3) (2020-12-14)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-themes-toolkit/v9.5.2...js-themes-toolkit-v9-x/v9.5.3)
+
+### :wrench: Bug fixes
+
+-   fix(js-themes-toolkit): make adjustments to make CI pass on GitHub ([\#260](https://github.com/liferay/liferay-frontend-projects/pull/260))
+
+### :book: Documentation
+
+-   docs(js-themes-toolkit): update links to point at new repo ([\#283](https://github.com/liferay/liferay-frontend-projects/pull/283))
+
+### :house: Chores
+
+-   chore(js-themes-toolkit): make final tweaks for monorepo releases ([\#292](https://github.com/liferay/liferay-frontend-projects/pull/292))
+-   chore(js-themes-toolkit): hoist v9 devDependencies to workspace root ([\#286](https://github.com/liferay/liferay-frontend-projects/pull/286))
+-   chore(js-themes-tookit): clean up irrelevant .github directories ([\#279](https://github.com/liferay/liferay-frontend-projects/pull/279))
+-   chore(monorepo): clean up orphaned Travis config files ([\#276](https://github.com/liferay/liferay-frontend-projects/pull/276))
+
+### :woman_juggling: Refactoring
+
+-   refactor(js-themes-toolikt): hoist lint and formatting config to repo root ([\#281](https://github.com/liferay/liferay-frontend-projects/pull/281))
+
+### :eyeglasses: Tests
+
+-   test(monorepo): adjust CI coverage ([\#289](https://github.com/liferay/liferay-frontend-projects/pull/289))
+
 ## [v9.5.2](https://github.com/liferay/liferay-js-themes-toolkit/tree/v9.5.2) (2020-05-07)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/v9.5.1...v9.5.2)
