@@ -28,8 +28,8 @@
 		"ansi-colors": "3.2.4"
 	},
 	"scripts": {
-		"changelog": "npx liferay-changelog-generator",
-		"changelog:regenerate": "npx liferay-changelog-generator --regenerate",
+		"changelog": "node ../../../projects/npm-tools/packages/changelog-generator/bin/liferay-changelog-generator.js",
+		"changelog:regenerate": "node ../../../projects/npm-tools/packages/changelog-generator/bin/liferay-changelog-generator.js --regenerate",
 		"ci": "yarn format:check && yarn lint && yarn test",
 		"format": "cd ../../.. && yarn format",
 		"format:check": "cd ../../.. && yarn format:check",
