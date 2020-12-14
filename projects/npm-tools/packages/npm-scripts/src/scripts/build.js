@@ -131,7 +131,10 @@ module.exports = async function (...args) {
 
 	if (!BUILD_CONFIG.disableSass) {
 		buildSass(path.join(CWD, BUILD_CONFIG.input), {
-			imports: getClayPaths(),
+			imports: [
+				...getClayPaths(),
+				path.dirname(require.resolve('bourbon')),
+			],
 			outputDir: BUILD_CONFIG.output,
 		});
 	}
