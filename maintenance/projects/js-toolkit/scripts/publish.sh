@@ -9,20 +9,31 @@
 # use and passes `--git-remote` accordingly.
 #
 
+set -e
+
 REMOTE=$(git remote -v | grep 'github.com[:/]liferay/' | grep '(push)' | sort -k2 | head -1 | cut -f1)
 
-if [ -n "$REMOTE" ]; then
-	yarn run lerna publish "$@" --git-remote="$REMOTE"
-else
+if [ -z "$REMOTE" ]; then
 	echo 'warning: could not locate a "liferay" remote'
 
 	read -p 'Proceed using "origin" remote? ' -n 1 -r
 	echo
 
 	if [[ $REPLY =~ ^[Yy]$ ]]; then
-		yarn run lerna publish "$@"
+		REMOTE=origin
 	else
 		echo Aborted.
 		exit 1
 	fi
+fi
+
+yarn run lerna publish "$@" --git-remote="$REMOTE"
+
+# Revert Lerna's mangled formatting in order to appease Prettier.
+
+(cd ../../.. && yarn run prettier --write maintenance/projects/js-toolkit/lerna.json)
+
+if ! git diff --quiet lerna.json; then
+	git commit -m 'style(js-toolkit): fix formatting' -- lerna.json
+	git push "$REMOTE" HEAD:master
 fi
