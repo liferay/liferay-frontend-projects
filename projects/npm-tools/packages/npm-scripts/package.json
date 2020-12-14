@@ -27,6 +27,7 @@
 		"babel-jest": "^25.1.0",
 		"babel-loader": "^8.1.0",
 		"babel-plugin-transform-react-remove-prop-types": "0.4.24",
+		"bourbon": "4.2.3",
 		"cosmiconfig": "^7.0.0",
 		"cross-env": "^7.0.0",
 		"cross-spawn": "^7.0.3",
