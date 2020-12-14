@@ -1,3 +1,15 @@
+## [generator-liferay-theme/v10.0.2](https://github.com/liferay/liferay-frontend-projects/tree/generator-liferay-theme/v10.0.2) (2020-12-14)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/generator-liferay-theme/v10.0.1...generator-liferay-theme/v10.0.2)
+
+### :wrench: Bug fixes
+
+-   fix(js-themes-toolkit): make adjustments to make CI pass on GitHub ([\#260](https://github.com/liferay/liferay-frontend-projects/pull/260))
+
+### :house: Chores
+
+-   chore(js-themes-toolkit): hoist v10 devDependencies to workspace root ([\#287](https://github.com/liferay/liferay-frontend-projects/pull/287))
+
 ## [generator-liferay-theme/v10.0.1](https://github.com/liferay/liferay-js-themes-toolkit/tree/generator-liferay-theme/v10.0.1) (2020-09-28)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/generator-liferay-theme/v10.0.0...generator-liferay-theme/v10.0.1)
