@@ -1,3 +1,15 @@
+## [liferay-theme-tasks/v10.0.3](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v10.0.3) (2020-12-14)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v10.0.3-pre.0...liferay-theme-tasks/v10.0.3)
+
+### :wrench: Bug fixes
+
+-   fix(js-themes-toolkit): make adjustments to make CI pass on GitHub ([\#260](https://github.com/liferay/liferay-frontend-projects/pull/260))
+
+### :house: Chores
+
+-   chore(js-themes-toolkit): hoist v10 devDependencies to workspace root ([\#287](https://github.com/liferay/liferay-frontend-projects/pull/287))
+
 ## [liferay-theme-tasks/v10.0.3-pre.0](https://github.com/liferay/liferay-js-themes-toolkit/tree/liferay-theme-tasks/v10.0.3-pre.0) (2020-06-29)
 
 [Full changelog](https://github.com/liferay/liferay-js-themes-toolkit/compare/liferay-theme-tasks/v10.0.2...liferay-theme-tasks/v10.0.3-pre.0)
