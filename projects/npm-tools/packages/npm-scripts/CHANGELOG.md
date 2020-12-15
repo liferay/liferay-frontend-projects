@@ -1,3 +1,7 @@
+## [npm-scripts/v36.6.0-pre.2](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v36.6.0-pre.2) (2020-12-15)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v36.6.0-pre.1...npm-scripts/v36.6.0-pre.2)
+
 ## [npm-scripts/v36.5.2-pre.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v36.5.2-pre.0) (2020-12-15)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v36.5.1...npm-scripts/v36.5.2-pre.0)
