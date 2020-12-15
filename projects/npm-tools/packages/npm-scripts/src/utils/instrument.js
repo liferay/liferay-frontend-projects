@@ -54,7 +54,7 @@ function instrument(callbacks) {
 
 					metrics[label] = metrics[label] || [];
 
-					metrics[label].push({start, end});
+					metrics[label].push({end, start});
 				}
 
 				return result;
@@ -74,7 +74,7 @@ function instrument(callbacks) {
 
 					metrics[label] = metrics[label] || [];
 
-					metrics[label].push({start, end});
+					metrics[label].push({end, start});
 				}
 
 				return result;
@@ -107,9 +107,9 @@ function instrument(callbacks) {
 			const events = [];
 
 			for (const [label, timestamps] of Object.entries(metrics)) {
-				for (const {start, end} of timestamps) {
+				for (const {end, start} of timestamps) {
 					const delta = end - start;
-					events.push({label, start, end, delta});
+					events.push({delta, end, label, start});
 				}
 			}
 
@@ -119,7 +119,7 @@ function instrument(callbacks) {
 
 			fs.writeSync(handle, `${HEADER}\n`, undefined, 'utf8');
 
-			for (const {label, start, end, delta} of events) {
+			for (const {delta, end, label, start} of events) {
 				fs.writeSync(handle, `${label},${start},${end},${delta}\n`);
 			}
 		});

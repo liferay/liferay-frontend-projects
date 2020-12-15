@@ -6,7 +6,6 @@
  */
 
 const fs = require('fs');
-const path = require('path');
 
 const expandGlobs = require('../src/utils/expandGlobs');
 const {HEADER} = require('../src/utils/instrument');
@@ -64,12 +63,13 @@ function main() {
 			const label = fields[0];
 			const delta = fields[3];
 
-			const ms = parseInt(delta);
+			const ms = parseInt(delta, 10);
 
-			(labels[label] = (labels[label] || 0) + ms),
-				(modules[file] = modules[file] || {
-					'~total': 0,
-				});
+			labels[label] = (labels[label] || 0) + ms;
+
+			modules[file] = modules[file] || {
+				'~total': 0,
+			};
 
 			modules[file]['~total'] += ms;
 
