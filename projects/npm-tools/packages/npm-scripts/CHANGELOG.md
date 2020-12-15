@@ -1,3 +1,11 @@
+## [npm-scripts/v36.5.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v36.5.1) (2020-12-15)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v36.5.0...npm-scripts/v36.5.1)
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): support scoped packages correctly ([\#298](https://github.com/liferay/liferay-frontend-projects/pull/298))
+
 ## [npm-scripts/v36.5.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v36.5.0) (2020-12-15)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v36.4.0...npm-scripts/v36.5.0)
