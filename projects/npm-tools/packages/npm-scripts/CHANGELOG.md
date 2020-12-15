@@ -1,3 +1,11 @@
+## [npm-scripts/v36.5.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v36.5.0) (2020-12-15)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v36.4.0...npm-scripts/v36.5.0)
+
+### :new: Features
+
+-   feat: support generation of bridges from AMD to webpack ([\#296](https://github.com/liferay/liferay-frontend-projects/pull/296))
+
 ## [npm-scripts/v36.4.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v36.4.0) (2020-12-10)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v36.3.0...npm-scripts/v36.4.0)
