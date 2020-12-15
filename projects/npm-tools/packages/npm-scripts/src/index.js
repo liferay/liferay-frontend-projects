@@ -6,6 +6,7 @@
 const minimist = require('minimist');
 
 const ProcessExitError = require('./utils/ProcessExitError');
+const instrument = require('./utils/instrument');
 
 module.exports = async function () {
 	const ARGS_ARRAY = process.argv.slice(2);
@@ -87,10 +88,10 @@ module.exports = async function () {
 		},
 	};
 
-	const COMMANDS = {
+	const COMMANDS = instrument({
 		...PUBLIC_COMMANDS,
 		...PRIVATE_COMMANDS,
-	};
+	});
 
 	if (COMMANDS[type]) {
 		try {
