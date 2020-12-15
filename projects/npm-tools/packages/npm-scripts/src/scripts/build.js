@@ -7,6 +7,7 @@ const fs = require('fs');
 const path = require('path');
 
 const buildSass = require('../sass/build');
+const expandGlobs = require('../utils/expandGlobs');
 const getMergedConfig = require('../utils/getMergedConfig');
 const instrument = require('../utils/instrument');
 let minify = require('../utils/minify');
@@ -59,7 +60,8 @@ if (!BUILD_CONFIG) {
 const getClayPaths = () => {
 	try {
 		return require('@clayui/css').includePaths;
-	} catch (e) {
+	}
+	catch (e) {
 		return [];
 	}
 };
@@ -82,6 +84,13 @@ module.exports = async function (...args) {
 		'liferay-npm-scripts: `build`'
 	);
 
+	const hasJS =
+		fs.existsSync(BUILD_CONFIG.input) &&
+		!!expandGlobs(
+			['*.js', '*.jsx', '*.ts', '*.tsx'],
+			['build', 'classes', 'node_modules']
+		).length;
+
 	const useSoy = soyExists();
 
 	if (useSoy) {
@@ -91,7 +100,7 @@ module.exports = async function (...args) {
 	const disableOldBuild =
 		FEDERATION_CONFIG && FEDERATION_CONFIG.disableOldBuild;
 
-	if (!disableOldBuild) {
+	if (hasJS && !disableOldBuild) {
 		runBabel(
 			BUILD_CONFIG.input,
 			'--out-dir',
@@ -104,9 +113,10 @@ module.exports = async function (...args) {
 		webpack(...args);
 	}
 
-	if (!disableOldBuild) {
+	if (hasJS && !disableOldBuild) {
 		runBundler();
-	} else {
+	}
+	else {
 		const {output} = BUILD_CONFIG;
 
 		fs.copyFileSync('package.json', path.join(output, 'package.json'));
