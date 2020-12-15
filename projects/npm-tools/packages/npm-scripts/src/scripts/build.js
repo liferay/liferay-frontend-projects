@@ -53,19 +53,6 @@ if (!BUILD_CONFIG) {
 	throw new Error('npmscripts.config.js is missing required "build" key');
 }
 
-// Utility for getting paths to @clayui/css variables
-// This shouldn't ever fail, but is necessary so that we don't require
-// '@clayui/css' as a dependency in this package.
-
-const getClayPaths = () => {
-	try {
-		return require('@clayui/css').includePaths;
-	}
-	catch (e) {
-		return [];
-	}
-};
-
 /**
  * Main script that runs all all specified build tasks synchronously.
  *
@@ -141,10 +128,7 @@ module.exports = async function (...args) {
 
 	if (!BUILD_CONFIG.disableSass) {
 		buildSass(path.join(CWD, BUILD_CONFIG.input), {
-			imports: [
-				...getClayPaths(),
-				path.dirname(require.resolve('bourbon')),
-			],
+			imports: BUILD_CONFIG.sassIncludePaths,
 			outputDir: BUILD_CONFIG.output,
 		});
 	}

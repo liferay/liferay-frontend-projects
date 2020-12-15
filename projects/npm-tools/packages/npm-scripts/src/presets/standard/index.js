@@ -6,6 +6,8 @@
 const clay = require('./dependencies/clay');
 const liferay = require('./dependencies/liferay');
 const metal = require('./dependencies/metal');
+const findRoot = require('./findRoot');
+const path = require('./path');
 
 const CHECK_AND_FIX_GLOBS = [
 	'/*.{js,json,ts}',
@@ -13,9 +15,23 @@ const CHECK_AND_FIX_GLOBS = [
 	'/src/**/*.{jsp,jspf}',
 ];
 
+const modules = findRoot();
+
+// Utility for getting paths to @clayui/css variables
+// This shouldn't ever fail, but is necessary so that we don't require
+// '@clayui/css' as a dependency in this package.
+
+const getClayPaths = () => {
+	try {
+		return require('@clayui/css').includePaths;
+	} catch (e) {
+		return [];
+	}
+};
+
 module.exports = {
 	build: {
-
+		
 		// Passed to:
 		// - `metalsoy` executable (via `generateSoyDependencies()`).
 
@@ -41,6 +57,17 @@ module.exports = {
 		// - `minify()`.
 
 		output: 'build/node/packageRunBuild/resources',
+
+		// These are the paths that are used when resolving sass imports
+
+		sassIncludePaths: [
+			path.dirname(require.resolve('bourbon')),
+			path.join(
+				modules,
+				'apps/frontend-css/frontend-css-common/src/main/resources/META-INF/resources'
+			),
+			...getClayPaths(),
+		],
 
 		// Used in various places to keep intermediate artefacts out of Gradle's
 		// way (see `buildSoy()`, `withTempFile()`, etc).
