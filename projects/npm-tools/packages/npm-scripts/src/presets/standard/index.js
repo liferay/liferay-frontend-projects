@@ -3,11 +3,12 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+const path = require('path');
+
+const findRoot = require('../../utils/findRoot');
 const clay = require('./dependencies/clay');
 const liferay = require('./dependencies/liferay');
 const metal = require('./dependencies/metal');
-const findRoot = require('./findRoot');
-const path = require('./path');
 
 const CHECK_AND_FIX_GLOBS = [
 	'/*.{js,json,ts}',
@@ -24,24 +25,19 @@ const modules = findRoot();
 const getClayPaths = () => {
 	try {
 		return require('@clayui/css').includePaths;
-	} catch (e) {
+	}
+	catch (e) {
 		return [];
 	}
 };
 
 module.exports = {
 	build: {
-		
+
 		// Passed to:
 		// - `metalsoy` executable (via `generateSoyDependencies()`).
 
 		dependencies: [...clay, ...liferay, ...metal],
-
-		// Used to determine if the build process should also build scss files.
-		// This flag should only be used as we migrate liferay-portal from
-		// away from build css with java.
-
-		disableSass: false,
 
 		// Passed to:
 		// - `babel` executable (via `runBabel()`).
@@ -62,10 +58,12 @@ module.exports = {
 
 		sassIncludePaths: [
 			path.dirname(require.resolve('bourbon')),
-			path.join(
-				modules,
-				'apps/frontend-css/frontend-css-common/src/main/resources/META-INF/resources'
-			),
+			modules
+				? path.join(
+						modules,
+						'apps/frontend-css/frontend-css-common/src/main/resources/META-INF/resources'
+				  )
+				: null,
 			...getClayPaths(),
 		],
 

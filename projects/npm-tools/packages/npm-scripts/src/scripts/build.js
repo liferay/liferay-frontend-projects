@@ -126,12 +126,10 @@ module.exports = async function (...args) {
 		cleanSoy();
 	}
 
-	if (!BUILD_CONFIG.disableSass) {
-		buildSass(path.join(CWD, BUILD_CONFIG.input), {
-			imports: BUILD_CONFIG.sassIncludePaths,
-			outputDir: BUILD_CONFIG.output,
-		});
-	}
+	buildSass(path.join(CWD, BUILD_CONFIG.input), {
+		imports: BUILD_CONFIG.sassIncludePaths,
+		outputDir: BUILD_CONFIG.output,
+	});
 
 	if (process.env.NODE_ENV !== 'development') {
 		await minify();
