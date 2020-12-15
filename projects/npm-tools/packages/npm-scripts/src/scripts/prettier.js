@@ -9,6 +9,7 @@ const prettier = require('prettier');
 const formatJSP = require('../jsp/formatJSP');
 const isJSP = require('../jsp/isJSP');
 const {format} = require('../prettier');
+const ProcessExitError = require('../utils/ProcessExitError');
 const getMergedConfig = require('../utils/getMergedConfig');
 const getPaths = require('../utils/getPaths');
 
@@ -228,7 +229,7 @@ async function main(...args) {
 	}
 
 	if (options.listDifferent && status) {
-		process.exit(status);
+		throw new ProcessExitError(status);
 	}
 }
 

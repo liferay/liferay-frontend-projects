@@ -5,70 +5,50 @@
 
 const fs = require('fs');
 const path = require('path');
-const rimraf = require('rimraf');
 
 const getMergedConfig = require('../utils/getMergedConfig');
-const minify = require('../utils/minify');
-const runBabel = require('../utils/runBabel');
-const runBundler = require('../utils/runBundler');
+const instrument = require('../utils/instrument');
+let minify = require('../utils/minify');
+let runBabel = require('../utils/runBabel');
+let runBridge = require('../utils/runBridge');
+let runBundler = require('../utils/runBundler');
 const setEnv = require('../utils/setEnv');
-const {buildSoy, cleanSoy, soyExists, translateSoy} = require('../utils/soy');
-const spawnSync = require('../utils/spawnSync');
+let {buildSoy, cleanSoy, soyExists, translateSoy} = require('../utils/soy');
 const validateConfig = require('../utils/validateConfig');
-const createBridges = require('./createBridges');
-const webpack = require('./webpack');
+let createBridges = require('./createBridges');
+let webpack = require('./webpack');
 
 const {build: BUILD_CONFIG, federation: FEDERATION_CONFIG} = getMergedConfig(
 	'npmscripts'
 );
 const CWD = process.cwd();
 
+({
+	buildSoy,
+	cleanSoy,
+	createBridges,
+	minify,
+	runBabel,
+	runBridge,
+	runBundler,
+	soyExists,
+	translateSoy,
+	webpack,
+} = instrument({
+	buildSoy,
+	cleanSoy,
+	createBridges,
+	minify,
+	runBabel,
+	runBridge,
+	runBundler,
+	soyExists,
+	translateSoy,
+	webpack,
+}));
+
 if (!BUILD_CONFIG) {
 	throw new Error('npmscripts.config.js is missing required "build" key');
-}
-
-///
-// Runs the `liferay-npm-bridge-generator` executable and removes sourcemaps to
-// ensure `liferay-npm-scripts build` is idempotent.
-//
-// In our common workflow right now, runBundler and runBridge can interact to
-// create some kind of circular dependency where files keep being re-processed
-// over and over or are only processed after the first pass.
-//
-// Given a typical config, where the bundler is configured to write output to
-// "build/..." and the bridge generator is configured to read from "build/..."
-// and write to "build/.../bridge":
-//
-// 1st pass
-// - runBundler: operates on output folder (eg. "build/...")
-// - runBridge: will expand output with an additional `bridge` folder (eg. "build/.../bridge")
-//
-// 2nd pass
-// - runBundler: will now see `bridge` folder to process, generating sourcemaps
-// - runBridge: depending on the configuration it can re-process previous `bridge`
-// 				folders, so it's advised to always add `!**/bridge` inside the
-//				`.npmbridgerc` `file-globs` configuration.
-//
-// To ensure output is the same after 1st and 2nd pass, we need to cleanup rogue
-// sourcemaps in the bridge-generator output folder.
-//
-// See https://github.com/petershin/liferay-portal/pull/724 for more details.
-//
-
-function runBridge() {
-	spawnSync('liferay-npm-bridge-generator');
-
-	// Retrieves the `.npmbridgerc` configuration which we already know exists
-
-	const bridgeConfig = JSON.parse(fs.readFileSync('.npmbridgerc', 'utf8'));
-
-	Object.keys(bridgeConfig).forEach((moduleKey) => {
-		const output = bridgeConfig[moduleKey].output;
-
-		if (output) {
-			rimraf.sync(`${output}/**/*.map`);
-		}
-	});
 }
 
 /**
