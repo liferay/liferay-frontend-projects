@@ -28,7 +28,7 @@ module.exports = function (bridges, dir) {
 		const packageDir = path.join(
 			dir,
 			'node_modules',
-			namespacedVersionedPackageName
+			namespacedVersionedPackageName.replace('/', '%2F')
 		);
 
 		fs.mkdirSync(packageDir, {recursive: true});
