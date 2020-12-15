@@ -9,14 +9,14 @@ const path = require('path');
 
 module.exports = function (bridges, dir) {
 	const projectPackageJson = JSON.parse(
-		fs.readFileSync('package.json', 'utf-8')
+		fs.readFileSync('package.json', 'utf8')
 	);
 
-	Object.entries(bridges).forEach(([packageName, exportName]) => {
+	for (const [packageName, exportName] of Object.entries(bridges)) {
 		const packageJson = JSON.parse(
 			fs.readFileSync(
 				require.resolve(`${packageName}/package.json`),
-				'utf-8'
+				'utf8'
 			)
 		);
 
@@ -69,7 +69,7 @@ module.exports = function (bridges, dir) {
 	getModule('${projectPackageJson.name}').then(
 		function({${exportName}}) {
 			Liferay.Loader.define(
-				"${namespacedVersionedPackageName}/${moduleName}", ['module'],
+				'${namespacedVersionedPackageName}/${moduleName}', ['module'],
 				function (module) {
 					module.exports = ${exportName};
 				}
@@ -79,5 +79,5 @@ module.exports = function (bridges, dir) {
 })();
 `
 		);
-	});
+	}
 };
