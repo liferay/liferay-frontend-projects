@@ -1,3 +1,19 @@
+## [liferay-js-toolkit/v2.22.1](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.22.1) (2020-12-15)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.22.0...liferay-js-toolkit/v2.22.1)
+
+### :new: Features
+
+-   feat(js-toolkit): teach publish.sh to revert unwanted formatting changes ([\#295](https://github.com/liferay/liferay-frontend-projects/pull/295))
+
+### :wrench: Bug fixes
+
+-   fix(js-toolkit): unable to deploy to 7.1 due to InvalidSyntaxException ([\#300](https://github.com/liferay/liferay-frontend-projects/pull/300))
+
+### :nail_care: Style
+
+-   style(js-toolkit): fix formatting ([\#294](https://github.com/liferay/liferay-frontend-projects/pull/294))
+
 ## [liferay-js-toolkit/v2.22.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.22.0) (2020-12-11)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.21.0...liferay-js-toolkit/v2.22.0)
