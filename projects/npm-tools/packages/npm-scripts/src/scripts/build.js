@@ -15,6 +15,7 @@ const setEnv = require('../utils/setEnv');
 const {buildSoy, cleanSoy, soyExists, translateSoy} = require('../utils/soy');
 const spawnSync = require('../utils/spawnSync');
 const validateConfig = require('../utils/validateConfig');
+const createBridges = require('./createBridges');
 const webpack = require('./webpack');
 
 const {build: BUILD_CONFIG, federation: FEDERATION_CONFIG} = getMergedConfig(
@@ -118,6 +119,12 @@ module.exports = async function (...args) {
 
 		fs.copyFileSync('package.json', path.join(output, 'package.json'));
 		fs.writeFileSync(path.join(output, 'manifest.json'), '{}');
+	}
+
+	const {bridges} = FEDERATION_CONFIG;
+
+	if (bridges) {
+		createBridges(bridges, BUILD_CONFIG.output);
 	}
 
 	translateSoy(BUILD_CONFIG.output);

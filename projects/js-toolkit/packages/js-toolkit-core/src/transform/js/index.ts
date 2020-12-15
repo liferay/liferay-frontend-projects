@@ -121,8 +121,10 @@ async function mergeMaps(
 
 	const mergedMapGenerator = new SourceMapGenerator();
 
+	/* eslint-disable @typescript-eslint/await-thenable */
 	const oldMapConsumer = await new SourceMapConsumer(oldMap);
 	const newMapConsumer = await new SourceMapConsumer(newMap);
+	/* eslint-enable @typescript-eslint/await-thenable */
 
 	newMapConsumer.eachMapping((mapping) => {
 
