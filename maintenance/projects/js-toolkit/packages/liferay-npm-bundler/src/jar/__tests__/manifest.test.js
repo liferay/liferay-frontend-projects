@@ -123,7 +123,7 @@ it('includes Require-Capability when provided', () => {
 	expect(manifest.content).toEqual(
 		`Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Require-Capability: my-capability;filter:=capability-value
+Require-Capability: my-capability;filter:="capability-value"
 Tool: liferay-npm-bundler-${version}
 `
 	);

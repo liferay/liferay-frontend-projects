@@ -64,7 +64,7 @@ export default class Manifest {
 			throw new Error(`RequireCapability[${key}] can only be set once`);
 		}
 
-		this._requireCapabilities[key] = `filter:=${filter}`;
+		this._requireCapabilities[key] = `filter:="${filter}"`;
 	}
 
 	addCustomHeader(key: string, value: string): void {
