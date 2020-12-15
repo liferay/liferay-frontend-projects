@@ -5,6 +5,8 @@
 
 const minimist = require('minimist');
 
+const ProcessExitError = require('./utils/ProcessExitError');
+
 module.exports = async function () {
 	const ARGS_ARRAY = process.argv.slice(2);
 
@@ -91,7 +93,17 @@ module.exports = async function () {
 	};
 
 	if (COMMANDS[type]) {
-		await COMMANDS[type]();
+		try {
+			await COMMANDS[type]();
+		}
+		catch (error) {
+			if (error instanceof ProcessExitError) {
+				process.exit(error.status);
+			}
+			else {
+				throw error;
+			}
+		}
 	}
 	else {
 		const commands = Object.keys(PUBLIC_COMMANDS).join(', ');
