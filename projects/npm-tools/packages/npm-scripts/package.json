@@ -44,7 +44,7 @@
 		"liferay-lang-key-dev-loader": "^1.0.3",
 		"liferay-npm-bridge-generator": "2.19.4",
 		"liferay-npm-bundler": "2.19.4",
-		"liferay-theme-tasks": "10.0.2",
+		"liferay-theme-tasks": "10.1.0",
 		"metal-tools-soy": "4.3.2",
 		"mini-css-extract-plugin": "0.11.2",
 		"minimist": "^1.2.0",
