@@ -1,5 +1,5 @@
 /**
- * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
+ * SPDX-FileCopyrightText: © 2012 Dustin Diaz
  * SPDX-License-Identifier: MIT
  */
 
