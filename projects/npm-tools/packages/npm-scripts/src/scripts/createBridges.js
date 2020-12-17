@@ -9,6 +9,18 @@ const path = require('path');
 
 const getBridgeExportName = require('../utils/getBridgeExportName');
 
+/**
+ * Create bundler modules that re-export webpack ones.
+ *
+ * @param {string[]} bridges
+ * An array containing the names of the packages that must be re-exported
+ * through the AMD loader.
+ *
+ * @param {string} dir
+ * The path to the directory where bridge files should be written.
+ *
+ * @return {void}
+ */
 module.exports = function (bridges, dir) {
 	const projectPackageJson = JSON.parse(
 		fs.readFileSync('package.json', 'utf8')
@@ -53,6 +65,17 @@ module.exports = function (bridges, dir) {
 	}
 };
 
+/**
+ * Get the file name of the `main` module of a `package.json` object.
+ *
+ * @param {object} packageJson a parsed `package.json` file
+ *
+ * @return {string}
+ * The normalized path (no leading `./` and containing trailing file extension
+ * `.js`) to the main module.
+ *
+ * If there's no `main` entry in the `package.json` file, `index.js` is assumed.
+ */
 function getMainModuleFileName(packageJson) {
 	let {main: moduleFileName} = packageJson;
 
@@ -66,11 +89,20 @@ function getMainModuleFileName(packageJson) {
 	return moduleFileName;
 }
 
+/**
+ * Get the namespaced and versioned package name of a project's dependency as it
+ * would be exported by the bundler.
+ *
+ * @param {object} projectPackageJson the parsed `package.json` of the project
+ * @param {object} packageJson the parsed `package.json` file of the dependency
+ *
+ * @return {string}
+ * A string like `frontend-js-webd$react@16.12.0`
+ */
 function getNamespacedVersionedPackageName(projectPackageJson, packageJson) {
 	if (projectPackageJson.name === packageJson.name) {
 		return `${packageJson.name}@${packageJson.version}`;
-	}
-	else {
+	} else {
 		return addNamespace(
 			`${packageJson.name}@${packageJson.version}`,
 			projectPackageJson
@@ -78,10 +110,19 @@ function getNamespacedVersionedPackageName(projectPackageJson, packageJson) {
 	}
 }
 
-function writeBridge(packageDir, projectPackageJson, packageJson) {
+/**
+ * Write a bridge file for a given project dependency package.
+ *
+ * @param {string} dir the output directory
+ * @param {object} projectPackageJson the parsed `package.json` of the project
+ * @param {object} packageJson the parsed `package.json` file of the dependency
+ *
+ * @return {void}
+ */
+function writeBridge(dir, projectPackageJson, packageJson) {
 	const moduleFileName = getMainModuleFileName(packageJson);
 
-	fs.mkdirSync(path.join(packageDir, path.dirname(moduleFileName)), {
+	fs.mkdirSync(path.join(dir, path.dirname(moduleFileName)), {
 		recursive: true,
 	});
 

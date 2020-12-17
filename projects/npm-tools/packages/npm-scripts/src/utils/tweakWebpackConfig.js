@@ -31,9 +31,10 @@ const CORE_SHARES = [
 /**
  * Modify an existing webpack config to conform to Liferay standards.
  *
- * @param {string} webpackConfigPath
+ * @param {string} webpackConfigPath path to a `wepack.config.js` file
  *
- * @return {object|Array} the tweaked webpack config
+ * @return {Promise<object|object[]>}
+ * A promise to be resolved with the tweaked webpack config.
  */
 async function tweakWebpackConfig(webpackConfigPath) {
 	/* eslint-disable @liferay/liferay/no-dynamic-require */
@@ -46,11 +47,9 @@ async function tweakWebpackConfig(webpackConfigPath) {
 
 	if (!webpackConfig) {
 		arrayConfig = [];
-	}
-	else if (Array.isArray(webpackConfig)) {
+	} else if (Array.isArray(webpackConfig)) {
 		arrayConfig = webpackConfig;
-	}
-	else {
+	} else {
 		arrayConfig = [webpackConfig];
 	}
 
@@ -73,7 +72,8 @@ async function tweakWebpackConfig(webpackConfigPath) {
  * Note that the default federation configuration exports the "main" entry point
  * as a federation module and makes it available through Liferay DXP.
  *
- * @return {object} a webpack configuration
+ * @return {Promise<object>}
+ * A Promise to be resolved with a webpack configuration object.
  */
 async function createFederationConfig() {
 	/* eslint-disable-next-line @liferay/liferay/no-dynamic-require */
@@ -154,7 +154,7 @@ async function createFederationConfig() {
  * Modify all babel-loader options so that they include our defaults.
  *
  * @param {object} webpackConfig
- * the object which has been exported from the webpack.config.js file
+ * The object which has been exported from the webpack.config.js file.
  */
 function mergeBabelLoaderOptions(webpackConfig) {
 	if (!webpackConfig.module) {
@@ -184,8 +184,7 @@ function mergeBabelLoaderOptions(webpackConfig) {
 							loader: useEntry,
 							options: {...babelConfig},
 						};
-					}
-					else if (useEntry.loader === 'babel-loader') {
+					} else if (useEntry.loader === 'babel-loader') {
 						return {
 							...useEntry,
 							options: {...babelConfig, ...useEntry.options},
@@ -206,15 +205,24 @@ function mergeBabelLoaderOptions(webpackConfig) {
 	};
 }
 
+/**
+ * Create a webpack main entry point containing the standard entry points
+ * contents plus a re-export of all the bridged packages.
+ *
+ * @param {string} filePath the path to the output file
+ *
+ * @return {Promise<void>}
+ */
 async function writeIndexFederationContents(filePath) {
 	const buildConfig = getMergedConfig('npmscripts', 'build');
 	/* eslint-disable-next-line @liferay/liferay/no-dynamic-require */
 	const packageJson = require(path.resolve('package.json'));
 	const main = packageJson.main || 'index.js';
 
-	// TODO: handle win32 paths
-
-	const mainFilePath = path.join(buildConfig.input, main);
+	const mainFilePath = path.join(
+		buildConfig.input,
+		path.sep === '\\' ? main.replace(/\//g, '\\') : main
+	);
 
 	const previousDirRelPath = path.relative(
 		path.dirname(filePath),
