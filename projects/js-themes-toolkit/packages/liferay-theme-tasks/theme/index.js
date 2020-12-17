@@ -9,6 +9,7 @@ const _ = require('lodash');
 
 const checkNodeVersion = require('../lib/checkNodeVersion');
 const project = require('../lib/project');
+const r2 = require('../lib/r2/liferay-r2');
 const {getArgv} = require('../lib/util');
 const plugin = require('../plugin');
 const registerTaskBuild = require('./tasks/build');
@@ -80,5 +81,6 @@ function register() {
 }
 
 module.exports = {
+	r2,
 	registerTasks,
 };
