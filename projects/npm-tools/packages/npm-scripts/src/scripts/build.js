@@ -75,10 +75,10 @@ module.exports = async function (...args) {
 		buildSoy();
 	}
 
-	const disableOldBuild =
-		FEDERATION_CONFIG && FEDERATION_CONFIG.disableOldBuild;
+	const runLegacyBuild =
+		!FEDERATION_CONFIG || FEDERATION_CONFIG.runLegacyBuild !== false;
 
-	if (!disableOldBuild) {
+	if (runLegacyBuild) {
 		runBabel(
 			BUILD_CONFIG.input,
 			'--out-dir',
@@ -91,10 +91,9 @@ module.exports = async function (...args) {
 		webpack(...args);
 	}
 
-	if (!disableOldBuild) {
+	if (runLegacyBuild) {
 		runBundler();
-	}
-	else {
+	} else {
 		const {output} = BUILD_CONFIG;
 
 		fs.copyFileSync('package.json', path.join(output, 'package.json'));
