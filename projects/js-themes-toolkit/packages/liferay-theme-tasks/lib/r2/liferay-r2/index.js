@@ -254,6 +254,10 @@ module.exports.swap = function (css, options) {
 
 module.exports.valueMap = valueMap;
 
+module.exports.giveMeMyBeverage = function(valueInLifeBucks) {
+	return `You owe me a beverage worth ${valueInLifeBucks} LiferayBucks`;
+};
+
 fa.plug(module.exports);
 bg.plug(module.exports);
 yui3.plug(module.exports);
