@@ -3,11 +3,15 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+const {transformJsSource} = require('@liferay/js-toolkit-core');
+const fs = require('fs');
 const path = require('path');
 const {
 	container: {ModuleFederationPlugin},
 } = require('webpack');
 
+const relocateImports = require('../transform/js/relocateImports');
+const getBridgeExportName = require('../utils/getBridgeExportName');
 const createTempFile = require('./createTempFile');
 const getMergedConfig = require('./getMergedConfig');
 const parseBnd = require('./parseBnd');
@@ -24,20 +28,20 @@ const CORE_SHARES = [
 	'react-dom',
 ];
 
-const BABEL_CONFIG = getMergedConfig('babel');
-
 /**
  * Modify an existing webpack config to conform to Liferay standards.
  *
- * @param {object|Array|undefined} webpackConfig
- * @param {object} federation
- * Federation configuration, which can contain:
- *   - main: entry point for federation support (by default the value inside the
- *         `main` field of the `package.json` file is used).
+ * @param {string} webpackConfigPath
  *
  * @return {object|Array} the tweaked webpack config
  */
-function tweakWebpackConfig(webpackConfig, {federation} = {}) {
+async function tweakWebpackConfig(webpackConfigPath) {
+	/* eslint-disable @liferay/liferay/no-dynamic-require */
+	const webpackConfig = fs.existsSync(webpackConfigPath)
+		? require(webpackConfigPath)
+		: undefined;
+	/* eslint-enable @liferay/liferay/no-dynamic-require */
+
 	let arrayConfig;
 
 	if (!webpackConfig) {
@@ -50,8 +54,10 @@ function tweakWebpackConfig(webpackConfig, {federation} = {}) {
 		arrayConfig = [webpackConfig];
 	}
 
+	const {federation} = getMergedConfig('npmscripts');
+
 	if (federation) {
-		arrayConfig.push(createFederationConfig(federation));
+		arrayConfig.push(await createFederationConfig());
 	}
 
 	arrayConfig = arrayConfig.map((webpackConfig) =>
@@ -67,23 +73,20 @@ function tweakWebpackConfig(webpackConfig, {federation} = {}) {
  * Note that the default federation configuration exports the "main" entry point
  * as a federation module and makes it available through Liferay DXP.
  *
- * @param {object} federation
- * Federation configuration, which can contain:
- *   - main: entry point for federation support (by default the value inside the
- *         `main` field of the `package.json` file is used).
- *
  * @return {object} a webpack configuration
  */
-function createFederationConfig(federation) {
-	// eslint-disable-next-line @liferay/liferay/no-dynamic-require
-	const packageJson = require(path.join(process.cwd(), 'package.json'));
+async function createFederationConfig() {
+	/* eslint-disable-next-line @liferay/liferay/no-dynamic-require */
+	const packageJson = require(path.resolve('package.json'));
 	const bnd = parseBnd();
 
 	const name = packageJson.name;
-	const main = federation.main || packageJson.main || 'index.js';
 	const webContextPath = bnd['Web-ContextPath'] || name;
 
 	const {filePath: nullJsFilePath} = createTempFile('null.js', '');
+	const {filePath: mainFilePath} = createTempFile('index.federation.js', '');
+
+	await writeIndexFederationContents(mainFilePath);
 
 	return {
 		context: process.cwd(),
@@ -121,7 +124,7 @@ function createFederationConfig(federation) {
 		plugins: [
 			new ModuleFederationPlugin({
 				exposes: {
-					'.': `./src/main/resources/META-INF/resources/${main}`,
+					'.': mainFilePath,
 				},
 				filename: 'container.js',
 				library: {
@@ -162,6 +165,8 @@ function mergeBabelLoaderOptions(webpackConfig) {
 		return webpackConfig;
 	}
 
+	const babelConfig = getMergedConfig('babel');
+
 	return {
 		...webpackConfig,
 		module: {
@@ -177,13 +182,13 @@ function mergeBabelLoaderOptions(webpackConfig) {
 					if (useEntry === 'babel-loader') {
 						return {
 							loader: useEntry,
-							options: {...BABEL_CONFIG},
+							options: {...babelConfig},
 						};
 					}
 					else if (useEntry.loader === 'babel-loader') {
 						return {
 							...useEntry,
-							options: {...BABEL_CONFIG, ...useEntry.options},
+							options: {...babelConfig, ...useEntry.options},
 						};
 					}
 
@@ -199,6 +204,47 @@ function mergeBabelLoaderOptions(webpackConfig) {
 			}),
 		},
 	};
+}
+
+async function writeIndexFederationContents(filePath) {
+	const buildConfig = getMergedConfig('npmscripts', 'build');
+	/* eslint-disable-next-line @liferay/liferay/no-dynamic-require */
+	const packageJson = require(path.resolve('package.json'));
+	const main = packageJson.main || 'index.js';
+
+	// TODO: handle win32 paths
+
+	const mainFilePath = path.join(buildConfig.input, main);
+
+	const previousDirRelPath = path.relative(
+		path.dirname(filePath),
+		path.dirname(mainFilePath)
+	);
+
+	let {code} = await transformJsSource(
+		{code: fs.readFileSync(mainFilePath, 'utf8')},
+		relocateImports(previousDirRelPath)
+	);
+
+	code += '\n';
+
+	// Export project's main module for bridges
+
+	const mainFileName = path.basename(mainFilePath);
+
+	code += `export * from './${previousDirRelPath}/${mainFileName}'\n`;
+
+	// Export internal dependencies for bridges
+
+	const {bridges} = getMergedConfig('npmscripts', 'federation');
+
+	for (const packageName of bridges || []) {
+		const exportName = getBridgeExportName(packageName);
+
+		code += `export * as ${exportName} from '${packageName}';\n`;
+	}
+
+	fs.writeFileSync(filePath, code);
 }
 
 module.exports = tweakWebpackConfig;

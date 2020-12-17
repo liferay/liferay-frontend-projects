@@ -6,11 +6,9 @@
 const fs = require('fs');
 const path = require('path');
 
-const getMergedConfig = require('../utils/getMergedConfig');
 const spawnSync = require('../utils/spawnSync');
 const withTempFile = require('../utils/withTempFile');
 
-const FEDERATION_CONFIG = getMergedConfig('npmscripts', 'federation');
 const TWEAK_WEBPACK_CONFIG_PATH = require.resolve(
 	'../utils/tweakWebpackConfig'
 );
@@ -51,37 +49,14 @@ function escapeLiteralString(str) {
 function withWebpackConfig(filename, callback) {
 	const webpackConfigPath = path.resolve(filename);
 
-	let federation;
-
-	if (FEDERATION_CONFIG) {
-		if (typeof FEDERATION_CONFIG === 'boolean') {
-			federation = '{}';
-		}
-		else if (typeof FEDERATION_CONFIG === 'object') {
-			federation = JSON.stringify(FEDERATION_CONFIG);
-		}
-	}
-
 	const webpackConfig = `
-		const fs = require('fs');
 		const tweakWebpackConfig = require('${escapeLiteralString(
 			TWEAK_WEBPACK_CONFIG_PATH
 		)}');
 
-		const webpackConfigPath = '${escapeLiteralString(webpackConfigPath)}';
-
-		let webpackConfig;
-
-		if (fs.existsSync(webpackConfigPath)) {
-			webpackConfig = require(webpackConfigPath);
-		}
-
-		module.exports = tweakWebpackConfig(
-			webpackConfig,
-			{
-				federation: ${federation}
-			}
-		);
+		module.exports = tweakWebpackConfig('${escapeLiteralString(
+			webpackConfigPath
+		)}');
 	`;
 
 	withTempFile(filename, webpackConfig, callback);

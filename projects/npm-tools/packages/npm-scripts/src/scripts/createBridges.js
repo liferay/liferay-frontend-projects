@@ -7,12 +7,16 @@ const {addNamespace} = require('@liferay/js-toolkit-core');
 const fs = require('fs');
 const path = require('path');
 
+const getBridgeExportName = require('../utils/getBridgeExportName');
+
 module.exports = function (bridges, dir) {
 	const projectPackageJson = JSON.parse(
 		fs.readFileSync('package.json', 'utf8')
 	);
 
-	for (const [packageName, exportName] of Object.entries(bridges)) {
+	writeBridge(dir, projectPackageJson, projectPackageJson);
+
+	for (const packageName of bridges) {
 		const packageJson = JSON.parse(
 			fs.readFileSync(
 				require.resolve(`${packageName}/package.json`),
@@ -20,9 +24,9 @@ module.exports = function (bridges, dir) {
 			)
 		);
 
-		const namespacedVersionedPackageName = addNamespace(
-			`${packageJson.name}@${packageJson.version}`,
-			projectPackageJson
+		const namespacedVersionedPackageName = getNamespacedVersionedPackageName(
+			projectPackageJson,
+			packageJson
 		);
 
 		const packageDir = path.join(
@@ -45,29 +49,61 @@ module.exports = function (bridges, dir) {
 			)
 		);
 
-		let {main: moduleFileName} = packageJson;
+		writeBridge(packageDir, projectPackageJson, packageJson);
+	}
+};
 
-		moduleFileName = moduleFileName || 'index.js';
-		moduleFileName = moduleFileName.replace(/^\.\//, '');
+function getMainModuleFileName(packageJson) {
+	let {main: moduleFileName} = packageJson;
 
-		if (!moduleFileName.toLowerCase().endsWith('.js')) {
-			moduleFileName += '.js';
-		}
+	moduleFileName = moduleFileName || 'index.js';
+	moduleFileName = moduleFileName.replace(/^\.\//, '');
 
-		fs.mkdirSync(path.join(packageDir, path.dirname(moduleFileName)), {
-			recursive: true,
-		});
+	if (!moduleFileName.toLowerCase().endsWith('.js')) {
+		moduleFileName += '.js';
+	}
 
-		const moduleName = moduleFileName.replace(/\.js$/i, '');
+	return moduleFileName;
+}
 
-		fs.writeFileSync(
-			path.join(packageDir, moduleFileName),
-			`
+function getNamespacedVersionedPackageName(projectPackageJson, packageJson) {
+	if (projectPackageJson.name === packageJson.name) {
+		return `${packageJson.name}@${packageJson.version}`;
+	}
+	else {
+		return addNamespace(
+			`${packageJson.name}@${packageJson.version}`,
+			projectPackageJson
+		);
+	}
+}
+
+function writeBridge(packageDir, projectPackageJson, packageJson) {
+	const moduleFileName = getMainModuleFileName(packageJson);
+
+	fs.mkdirSync(path.join(packageDir, path.dirname(moduleFileName)), {
+		recursive: true,
+	});
+
+	const exportName = getBridgeExportName(packageJson.name);
+	const exportExpression =
+		projectPackageJson.name === packageJson.name
+			? exportName
+			: `{${exportName}}`;
+	const moduleName = moduleFileName.replace(/\.js$/i, '');
+	const namespacedVersionedPackageName = getNamespacedVersionedPackageName(
+		projectPackageJson,
+		packageJson
+	);
+
+	fs.writeFileSync(
+		path.join(packageDir, moduleFileName),
+		`
 (function() {
 	const getModule = window[Symbol.for('__LIFERAY_WEBPACK_GET_MODULE__')];
 
 	getModule('${projectPackageJson.name}').then(
-		function({${exportName}}) {
+		function(${exportExpression}) {
 			Liferay.Loader.define(
 				'${namespacedVersionedPackageName}/${moduleName}', ['module'],
 				function (module) {
@@ -78,6 +114,5 @@ module.exports = function (bridges, dir) {
 	);
 })();
 `
-		);
-	}
-};
+	);
+}
