@@ -1,3 +1,11 @@
+## [js-themes-toolkit-v9-x/v9.5.4](https://github.com/liferay/liferay-frontend-projects/tree/js-themes-toolkit-v9-x/v9.5.4) (2020-12-17)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-themes-toolkit-v9-x/v9.5.3...js-themes-toolkit-v9-x/v9.5.4)
+
+### :house: Chores
+
+-   chore(js-themes-toolkit): restore missing license information ([\#302](https://github.com/liferay/liferay-frontend-projects/pull/302))
+
 ## [js-themes-toolkit-v9-x/v9.5.3](https://github.com/liferay/liferay-frontend-projects/tree/js-themes-toolkit-v9-x/v9.5.3) (2020-12-14)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-themes-toolkit/v9.5.2...js-themes-toolkit-v9-x/v9.5.3)
