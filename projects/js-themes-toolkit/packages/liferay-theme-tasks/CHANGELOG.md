@@ -1,3 +1,15 @@
+## [liferay-theme-tasks/v10.1.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v10.1.0) (2020-12-17)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v10.0.3...liferay-theme-tasks/v10.1.0)
+
+### :new: Features
+
+-   feat(js-themes-toolkit): expose r2 API ([\#301](https://github.com/liferay/liferay-frontend-projects/pull/301))
+
+### :house: Chores
+
+-   chore(js-themes-toolkit): restore missing license information ([\#302](https://github.com/liferay/liferay-frontend-projects/pull/302))
+
 ## [liferay-theme-tasks/v10.0.3](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v10.0.3) (2020-12-14)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v10.0.3-pre.0...liferay-theme-tasks/v10.0.3)
