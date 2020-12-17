@@ -47,9 +47,11 @@ async function tweakWebpackConfig(webpackConfigPath) {
 
 	if (!webpackConfig) {
 		arrayConfig = [];
-	} else if (Array.isArray(webpackConfig)) {
+	}
+	else if (Array.isArray(webpackConfig)) {
 		arrayConfig = webpackConfig;
-	} else {
+	}
+	else {
 		arrayConfig = [webpackConfig];
 	}
 
@@ -184,7 +186,8 @@ function mergeBabelLoaderOptions(webpackConfig) {
 							loader: useEntry,
 							options: {...babelConfig},
 						};
-					} else if (useEntry.loader === 'babel-loader') {
+					}
+					else if (useEntry.loader === 'babel-loader') {
 						return {
 							...useEntry,
 							options: {...babelConfig, ...useEntry.options},

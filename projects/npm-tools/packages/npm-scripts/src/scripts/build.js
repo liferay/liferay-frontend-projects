@@ -93,7 +93,8 @@ module.exports = async function (...args) {
 
 	if (runLegacyBuild) {
 		runBundler();
-	} else {
+	}
+	else {
 		const {output} = BUILD_CONFIG;
 
 		fs.copyFileSync('package.json', path.join(output, 'package.json'));

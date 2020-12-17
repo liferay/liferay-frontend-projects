@@ -102,7 +102,8 @@ function getMainModuleFileName(packageJson) {
 function getNamespacedVersionedPackageName(projectPackageJson, packageJson) {
 	if (projectPackageJson.name === packageJson.name) {
 		return `${packageJson.name}@${packageJson.version}`;
-	} else {
+	}
+	else {
 		return addNamespace(
 			`${packageJson.name}@${packageJson.version}`,
 			projectPackageJson
