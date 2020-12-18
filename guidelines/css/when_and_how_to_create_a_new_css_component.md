@@ -75,6 +75,6 @@ When we need a slight design difference from the original component, for example
     -   Prefer `.component-bg-color over .component-background-color.`
     -   Prefer `.component-sm-color over .component-small-color.`
 
-3. Use the [structure suggested in this documentation](https://github.com/liferay/liferay-frontend-guidelines/tree/master/css)
+3. Use the [structure suggested in this documentation](https://github.com/liferay/liferay-frontend-projects/tree/master/guidelines/css)
 4. Order
     - If your component or part of it floats in position: absolute, fixed or sticky, please, obey the common z-index scale

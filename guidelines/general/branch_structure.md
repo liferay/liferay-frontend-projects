@@ -18,7 +18,7 @@ Pull requests target master and are merged in after review. We periodically cut 
 
 ### Examples
 
--   [liferay-frontend-guidelines](https://github.com/liferay/liferay-frontend-guidelines) (this repo)
+-   [liferay-frontend-projects](https://github.com/liferay/liferay-frontend-projects) (this repo)
 
 ## 2. "master" + "stable" branch projects
 
@@ -37,10 +37,7 @@ The [liferay-js-publish](https://github.com/liferay/liferay-npm-tools/tree/maste
 
 ### Examples
 
--   [eslint-config-liferay](https://github.com/liferay/eslint-config-liferay/)
--   [liferay-npm-tools](https://github.com/liferay/liferay-npm-tools/)
-
-"liferay-npm-tools" is actually an interesting example of a repo that is probably simple enough to warrant being a "one-branch" project. It's only consumed inside [liferay-portal](https://github.com/liferay/eslint-config-liferay/), and typically advances only in service of what is needed on liferay-portal's "master" branch.
+-   n/a
 
 ## 3. "master" + "stable" + maintenance branch projects
 
@@ -60,7 +57,6 @@ Additionally, changes can be backported (via cherry-picking, or otherwise hand-c
 ### Examples
 
 -   [alloy-editor](https://github.com/liferay/alloy-editor): the "2.x" series is the latest and is developed on "master" (with "stable" updating on each release); we also cut "1.x" series releases when needed, and those are developed on the "1.x" branch (with "1.x-stable" updated on each release).
--   [liferay-js-themes-toolkit](https://github.com/liferay/liferay-js-themes-toolkit): the "9.x" series is the latest, developed on "master" (with "stable" following); we also cut "8.x" series releases, developed on "8.x" (with "8.x-stable" following).
 
 [Clay](https://github.com/liferay/clay) is an example of a repo where we should consider moving to the same structure; we're currently working on both the existing 2.x series and a new 3.x series.
 
@@ -68,4 +64,4 @@ Additionally, changes can be backported (via cherry-picking, or otherwise hand-c
 
 -   We tag our releases with an annotated tag of the form "v1.2.3" (Annotated tags are tags that include a message; in our case, we make the message the same as the tag name.)
 -   In a monorepo like [Clay](https://github.com/liferay/clay), all packages are released together and share the same version number and a single tag.
--   In a monorepo like [liferay-npm-tools](https://github.com/liferay/liferay-npm-tools), the packages are released independently, so the tags have the format "package/v1.2.3" (eg. "liferay-npm-scripts/v2.2.0"). We automate this with `.yarnrc` files like [this one](https://github.com/liferay/liferay-npm-tools/blob/25733d82dbab8b1278743d653799a2682c832359/packages/liferay-jest-junit-reporter/.yarnrc) that ensure that `yarn version` produces tags of the desired format.
+-   In a monorepo like [liferay-frontend-projects](https://github.com/liferay/liferay-frontend-projects), the packages are released independently, so the tags have the format "package/v1.2.3" (eg. "npm-scripts/v2.2.0"). We automate this with `.yarnrc` files like [this one](https://github.com/liferay/liferay-npm-tools/blob/25733d82dbab8b1278743d653799a2682c832359/packages/liferay-jest-junit-reporter/.yarnrc) that ensure that `yarn version` produces tags of the desired format.

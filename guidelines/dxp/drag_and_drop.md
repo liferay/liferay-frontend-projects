@@ -4,7 +4,7 @@
 
 We are currently using the [react-dnd](https://www.npmjs.com/package/react-dnd) package in [liferay-portal](https://github.com/liferay/liferay-portal), and we provide a shared copy as part of the [frontend-js-react-web](https://github.com/liferay/liferay-portal/blob/master/modules/apps/frontend-js/frontend-js-react-web/package.json) package.
 
-We chose it because it powerful, flexible, and sufficiently low-level that it can be adapted to address all the use cases we've encountered so far. If you find a scenario in which it is lacking, please [open an issue](https://github.com/liferay/liferay-frontend-guidelines/issues/new/choose) in the [liferay-frontend-guidelines](https://github.com/liferay/liferay-frontend-guidelines) repo so that we can evaluate how to best meet that use case.
+We chose it because it powerful, flexible, and sufficiently low-level that it can be adapted to address all the use cases we've encountered so far. If you find a scenario in which it is lacking, please [open an issue](https://github.com/liferay/liferay-frontend-projects/issues/new/choose) in the [liferay-frontend-projects](https://github.com/liferay/liferay-frontend-projects) repo so that we can evaluate how to best meet that use case.
 
 ### See also
 

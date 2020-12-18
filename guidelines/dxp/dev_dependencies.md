@@ -23,7 +23,7 @@ Some of the reasons to "veto" arbitrary developer dependencies are:
 
 The best way to get a developer dependency approved for Liferay DXP is to prove its worth to your fellow frontends. To that end, please:
 
--   [Create a new issue](https://github.com/liferay/liferay-frontend-guidelines/issues/new/choose) of type "devDependency".
+-   [Create a new issue](https://github.com/liferay/liferay-frontend-projects/issues/new/choose) of type "devDependency".
 -   Present your case, explaining why this new or updated dependency is useful to you and probably to others
 -   Work with the team to present a proposal or find suitable alternatives
 
