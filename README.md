@@ -6,6 +6,21 @@ Welcome to the monorepo of the Liferay Frontend Infrastructure team.
 
 This is an experimental exploration of the ideas proposed in [liferay-frontend-guidelines#88](https://github.com/liferay/liferay-frontend-guidelines/issues/88), "Explore consolidation of projects to reduce overhead".
 
+## Guidelines
+
+These are the documents that used to live in the [liferay-frontend-guidelines](https://github.com/liferay/liferay-frontend-guidelines) repository and now live under:
+
+-   [`guidelines/`](guidelines): High-level introduction to the guidelines.
+-   [`guidelines/general/`](guidelines/general): General guidance about working in any Liferay codebase.
+-   [`guidelines/dxp/`](guidelines/dxp): Guidance specific to working on Liferay DXP.
+-   [`guidelines/css/`](guidelines/css): Guidance about CSS.
+
+| Issues                                                                                                                               | Actions                                                                                                                      |
+| ------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
+| [label: `dev-dependency`](https://github.com/liferay/liferay-frontend-projects/issues?q=is%3Aissue+is%3Aopen+label%3Adev-dependency) | [New issue](https://github.com/liferay/liferay-frontend-projects/issues/new?labels=dev-dependency&template=devDependency.md) |
+| [label: `proposal`](https://github.com/liferay/liferay-frontend-projects/issues?q=is%3Aissue+is%3Aopen+label%3Arfc)                  | [New issue](https://github.com/liferay/liferay-frontend-projects/issues/new?labels=rfc&template=Proposal.md)                 |
+| [label: `question`](https://github.com/liferay/liferay-frontend-projects/issues?q=is%3Aissue+is%3Aopen+label%3Aquestion)             | [New issue](https://github.com/liferay/liferay-frontend-projects/issues/new?labels=question&template=Question.md)            |
+
 ## Projects
 
 ### `amd-loader`
