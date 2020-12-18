@@ -11,6 +11,9 @@ on:
         branches: [master]
         paths:
             - 'guidelines/**'
+env:
+    yarn-cache-name: yarn-cache-2
+    yarn-cache-path: .yarn
 
 jobs:
     build:
