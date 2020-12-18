@@ -5,10 +5,12 @@ name: Guidelines
 on:
     push:
         branches: [master]
+        paths:
+            - 'guidelines/**'
     pull_request:
         branches: [master]
-    paths:
-        - 'guidelines/**'
+        paths:
+            - 'guidelines/**'
 
 jobs:
     build:
