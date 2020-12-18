@@ -31,9 +31,17 @@ changelog-generator:
     - projects/npm-tools/packages/changelog-generator/*
     - projects/npm-tools/packages/changelog-generator/**/*
 
+docs:
+    - '*.md'
+    - '**/*.md'
+
 eslint-config:
     - projects/eslint-config/*
     - projects/eslint-config/**/*
+
+guidelines:
+    - guidelines/*
+    - guidelines/**/*
 
 jest-junit-reporter:
     - projects/npm-tools/packages/jest-junit-reporter/*
