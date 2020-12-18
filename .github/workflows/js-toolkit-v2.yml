@@ -1,0 +1,69 @@
+# Based on: https://github.com/actions/starter-workflows/blob/master/ci/node.js.yml
+
+name: js-toolkit-v2
+
+on:
+    push:
+        branches: [master]
+        paths:
+            - 'maintenance/projects/js-toolkit/**'
+    pull_request:
+        branches: [master]
+        paths:
+            - 'maintenance/projects/js-toolkit/**'
+
+env:
+    CI: true
+    yarn-cache-name: yarn-cache-2
+    yarn-cache-path: .yarn
+
+jobs:
+    check-lockfile:
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+            - name: Use or update Yarn cache
+              uses: actions/cache@v2
+              with:
+                  path: ${{ env.yarn-cache-path }}
+                  key: ${{ runner.os }}-${{ env.yarn-cache-name }}-${{ hashFiles('**/yarn.lock') }}
+            - run: yarn --cache-folder=${{ env.yarn-cache-path }}
+              working-directory: maintenance/projects/js-toolkit
+            - run: git diff --quiet -- yarn.lock
+              working-directory: maintenance/projects/js-toolkit
+
+    test:
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                node-version: [12.x]
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+            - name: Use or update Yarn cache
+              uses: actions/cache@v2
+              with:
+                  path: ${{ env.yarn-cache-path }}
+                  key: ${{ runner.os }}-${{ env.yarn-cache-name }}-${{ hashFiles('**/yarn.lock') }}-js-toolkit
+            - run: yarn --cache-folder=../../../${{ env.yarn-cache-path }} --frozen-lockfile
+              working-directory: maintenance/projects/js-toolkit
+            - run: yarn --cache-folder=../../../${{ env.yarn-cache-path }} check-deps
+              working-directory: maintenance/projects/js-toolkit
+            - run: yarn --cache-folder=../../../${{ env.yarn-cache-path }} build
+              working-directory: maintenance/projects/js-toolkit
+            - run: yarn --cache-folder=../../../${{ env.yarn-cache-path }} test
+              working-directory: maintenance/projects/js-toolkit
