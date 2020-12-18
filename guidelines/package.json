@@ -1,8 +1,13 @@
 {
+	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"description": "Liferay Frontend Guidelines",
 	"name": "liferay-frontend-guidelines",
 	"private": true,
-	"repository": "https://github.com/liferay/liferay-frontend-guidelines.git",
+	"repository": {
+		"directory": "guidelines",
+		"type": "git",
+		"url": "https://github.com/liferay/liferay-frontend-projects.git"
+	},
 	"scripts": {
 		"ci": "yarn format:check && yarn lint && yarn test",
 		"format": "prettier --write \"**/{.,}*.js{,on}\" \"**/*.md\"",
