@@ -179,7 +179,7 @@ $alert-close: (
 	hover-bg: rgba(255, 255, 255, 0.07),
 	hover-color: inherit,
 	focus-bg: rgba(255, 255, 255, 0.205),
-	active-bg: rgba(255, 255, 255, 0.372)
+	active-bg: rgba(255, 255, 255, 0.372),
 );
 
 $alert-dismissible-padding-right: 3.25rem !default;
@@ -254,7 +254,7 @@ $alert-close: (
 	hover-bg: rgba(255, 255, 255, 0.07),
 	hover-color: inherit,
 	focus-bg: rgba(255, 255, 255, 0.205),
-	active-bg: rgba(255, 255, 255, 0.372)
+	active-bg: rgba(255, 255, 255, 0.372),
 );
 
 $alert-dismissible-padding-right: 3.25rem !default;

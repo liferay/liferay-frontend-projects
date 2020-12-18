@@ -30,12 +30,13 @@ const HEADERS = {
 	'Accept-Language': 'en-US,en;q=0.8,es-ES;q=0.5,es;q=0.3',
 	DNT: '1',
 	'User-Agent':
-		'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:74.0) Gecko/20100101 Firefox/74.0'
+		'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:74.0) Gecko/20100101 Firefox/74.0',
 };
 
 const IGNORE_DIR = /^(?:.git|node_modules)$/;
 
 const IGNORE_HOSTS = new Set([
+
 	// localhost and variants:
 
 	'0.0.0.0',
@@ -46,7 +47,7 @@ const IGNORE_HOSTS = new Set([
 	// As of https://github.com/liferay/liferay-frontend-guidelines/pull/161
 	// Cloudflare is 503-ing all "bot-like" codepen.io requests.
 
-	'codepen.io'
+	'codepen.io',
 ]);
 
 // Adapted from: https://stackoverflow.com/a/163684/2103996
@@ -58,9 +59,11 @@ let errorCount = 0;
 async function check(link, files) {
 	if (URL_PATTERN.test(link)) {
 		await checkRemote(link, files);
-	} else if (/^#/.test(link)) {
+	}
+	else if (/^#/.test(link)) {
 		await checkInternal(link, files);
-	} else {
+	}
+	else {
 		await checkLocal(link, files);
 	}
 }
@@ -72,6 +75,7 @@ async function checkInternal(link, files) {
 		const targets = new Set();
 
 		contents.replace(/^#+\s+(.+?)\s*$/gm, (match, heading) => {
+
 			// To make a target anchor, GitHub:
 			// - Extracts link text from Markdown links.
 			// - Turns spaces, hyphens, commas into hyphens.
@@ -122,10 +126,13 @@ async function checkLocal(link, files) {
 		let target;
 
 		if (path.isAbsolute(base)) {
+
 			// Resolve relative to repo root.
 
 			target = path.join(__dirname, '..', base);
-		} else {
+		}
+		else {
+
 			// Resolve relative to current file's directory.
 
 			target = path.join(path.dirname(file), base);
@@ -133,7 +140,8 @@ async function checkLocal(link, files) {
 
 		try {
 			await accessAsync(target);
-		} catch (error) {
+		}
+		catch (error) {
 			report(file, `No file/directory found for local target: ${target}`);
 		}
 
@@ -163,18 +171,20 @@ function checkRemote(link, files) {
 				headers: HEADERS,
 				host: hostname,
 				path: `${pathname}${search}`,
-				port
+				port,
 			},
 			({statusCode}) => {
 				if (statusCode >= 200 && statusCode < 400) {
 					resolve();
-				} else {
+				}
+				else {
 					bail(`Status code ${statusCode} for remote link: ${link}`);
 				}
 			}
 		);
 
 		request.on('error', (error) => {
+
 			// Trim stack trace.
 
 			const text = error.toString().split(/\n/)[0];
@@ -348,7 +358,8 @@ async function* walk(directory) {
 			for await (const nested of walk(entry)) {
 				yield nested;
 			}
-		} else {
+		}
+		else {
 			yield entry;
 		}
 	}

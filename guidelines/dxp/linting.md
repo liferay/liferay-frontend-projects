@@ -37,7 +37,7 @@ The `format` script not only reports problems but attempts to apply automatic fi
 // .eslintrc.js
 
 module.exports = {
-	extends: ['liferay']
+	extends: ['liferay'],
 };
 ```
 
@@ -47,7 +47,7 @@ In order to activate React-specific rules in a project, you can create an `.esli
 // .eslintrc.js
 
 module.exports = {
-	extends: ['liferay/react']
+	extends: ['liferay/react'],
 };
 ```
 

@@ -32,7 +32,7 @@ it will be turned on:
 
 ```js
 Liferay.fire('myGlobalEvent', {
-	payload: 'myPayload'
+	payload: 'myPayload',
 });
 ```
 

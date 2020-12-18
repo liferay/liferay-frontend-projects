@@ -872,7 +872,7 @@ _html_
 	</div>
 	<script type="text/javascript">
 		CKEDITOR.ADDITIONAL_RESOURCE_PARAMS = {
-			languageId: themeDisplay.getLanguageId()
+			languageId: themeDisplay.getLanguageId(),
 		};
 
 		CKEDITOR.disableAutoInline = true;
@@ -1307,7 +1307,7 @@ _html_
 			</div>
 			<script type="text/javascript">
 				CKEDITOR.ADDITIONAL_RESOURCE_PARAMS = {
-					languageId: themeDisplay.getLanguageId()
+					languageId: themeDisplay.getLanguageId(),
 				};
 
 				CKEDITOR.disableAutoInline = true;

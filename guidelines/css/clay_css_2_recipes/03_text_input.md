@@ -91,7 +91,7 @@ _/src/css/\_clay_variables.scss_
 $input-letter-spacing: 0.009375em;
 
 $input: (
-	border-radius: $input-border-radius $input-border-radius 0 0
+	border-radius: $input-border-radius $input-border-radius 0 0,
 );
 ```
 
@@ -140,7 +140,7 @@ _/src/css/\_clay_variables.scss_
 $input: (
 	border-radius: $input-border-radius $input-border-radius 0 0,
 	hover-bg: $gray-200,
-	hover-border-color: rgba($black, 0.87)
+	hover-border-color: rgba($black, 0.87),
 );
 ```
 
@@ -190,7 +190,7 @@ $input: (
 	hover-border-color: rgba($black, 0.87),
 	focus-bg: $input-focus-bg,
 	focus-bg-image: linear-gradient($primary-a700 100%, transparent 0%),
-	focus-border-color: $input-focus-border-color
+	focus-border-color: $input-focus-border-color,
 );
 ```
 
@@ -249,7 +249,7 @@ $input: (
 	focus-border-color: $input-focus-border-color,
 	disabled-bg: $input-disabled-bg,
 	disabled-border-color: $input-disabled-border-color,
-	disabled-color: $input-disabled-color
+	disabled-color: $input-disabled-color,
 );
 ```
 
@@ -296,7 +296,7 @@ $input-readonly: (
 	border-color: $input-border-color,
 	hover-bg: $input-bg,
 	hover-border-color: $input-border-color,
-	focus-bg: $input-bg
+	focus-bg: $input-bg,
 );
 ```
 
@@ -437,7 +437,7 @@ $mdc-input-outline: (
 	focus-box-shadow: inset 0 0 0 1px $primary-a700,
 	disabled-bg: $white,
 	disabled-border-color: $input-disabled-border-color,
-	disabled-color: $input-disabled-color
+	disabled-color: $input-disabled-color,
 );
 ```
 
@@ -496,7 +496,7 @@ $input: (
 	focus-border-color: $input-focus-border-color,
 	disabled-bg: $input-disabled-bg,
 	disabled-border-color: $input-disabled-border-color,
-	disabled-color: $input-disabled-color
+	disabled-color: $input-disabled-color,
 );
 
 $input-readonly: (
@@ -504,7 +504,7 @@ $input-readonly: (
 	border-color: $input-border-color,
 	hover-bg: $input-bg,
 	hover-border-color: $input-border-color,
-	focus-bg: $input-bg
+	focus-bg: $input-bg,
 );
 
 $input-border-radius-sm: 0.25rem 0.25rem 0 0;
@@ -539,7 +539,7 @@ $mdc-input-outline: (
 	focus-box-shadow: inset 0 0 0 1px $primary-a700,
 	disabled-bg: $white,
 	disabled-border-color: $input-disabled-border-color,
-	disabled-color: $input-disabled-color
+	disabled-color: $input-disabled-color,
 );
 ```
 

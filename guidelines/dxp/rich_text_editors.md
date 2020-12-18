@@ -63,7 +63,7 @@ const newEditor = AlloyEditor.editable(wrapperRef.current, {
 	...editorConfig,
 	enterMode: 1,
 	startupFocus: autoFocus,
-	title: false
+	title: false,
 });
 ```
 
@@ -84,7 +84,7 @@ Please, read through our [General Guidelines](#General-Guidelines) to pick the n
 ```javascript
 <Editor
 	autoFocus={autoFocus}
-	configurationName='comment'
+	configurationName="comment"
 	id={id}
 	initialValue={textareaContent}
 	onChange={onTextareaChange}

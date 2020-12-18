@@ -90,7 +90,7 @@ $input-group-inset-item-btn: map-merge(
 		margin-left: 0.125rem,
 		margin-right: 0.125rem,
 		padding-left: 0.25rem,
-		padding-right: 0.25rem
+		padding-right: 0.25rem,
 	),
 	$input-group-inset-item-btn
 );
@@ -210,7 +210,7 @@ $input-group-inset-item-btn: map-merge(
 		margin-left: 0.125rem,
 		margin-right: 0.125rem,
 		padding-left: 0.25rem,
-		padding-right: 0.25rem
+		padding-right: 0.25rem,
 	),
 	$input-group-inset-item-btn
 );

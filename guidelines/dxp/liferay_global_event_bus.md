@@ -123,7 +123,7 @@ If the custom event object hasn't been created, then the event hasn't been publi
 
 ```js
 Liferay.fire('someEvent', {
-	myCustomProperty: 'myValue'
+	myCustomProperty: 'myValue',
 });
 ```
 
@@ -137,7 +137,7 @@ Wrong:
 
 ```js
 Liferay.fire('CLOSE_MODAL', {
-	id: 'myId'
+	id: 'myId',
 });
 ```
 
@@ -148,12 +148,12 @@ Correct:
 import {ns} from 'frontend-js-web';
 
 Liferay.fire(ns(portletNamespace, 'CLOSE_MODAL'), {
-	id: 'myId'
+	id: 'myId',
 });
 
 // When portletNamespace not available:
 
 Liferay.fire('commerce:CLOSE_MODAL', {
-	id: 'myId'
+	id: 'myId',
 });
 ```

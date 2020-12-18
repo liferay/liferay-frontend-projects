@@ -163,7 +163,7 @@ $clay-range-input: (
 	disabled-thumb-bg: $gray-500,
 	disabled-thumb-box-shadow: none,
 	disabled-track-bg: $gray-400,
-	disabled-progress-bg: $gray-500
+	disabled-progress-bg: $gray-500,
 );
 ```
 
