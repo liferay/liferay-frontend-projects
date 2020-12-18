@@ -1,7 +1,7 @@
 ---
 name: 📦 devDependency
 about: Issues about adding new devDependencies
-labels: dev-dependency
+labels: dependencies
 ---
 
 <!--
