@@ -1,0 +1,21 @@
+{
+	"description": "Liferay Frontend Guidelines",
+	"devDependencies": {
+		"eslint": "7.9.0",
+		"eslint-config-liferay": "21.1.0",
+		"prettier": "^2.0.3"
+	},
+	"name": "liferay-frontend-guidelines",
+	"private": true,
+	"repository": "https://github.com/liferay/liferay-frontend-guidelines.git",
+	"scripts": {
+		"ci": "yarn format:check && yarn lint && yarn test",
+		"format": "prettier --write \"**/{.,}*.js{,on}\" \"**/*.md\"",
+		"format:changed": "git ls-files -mz -- \"*.js\" \"*.json\" \"*.md\" | xargs -0 prettier --write --",
+		"format:check": "prettier --list-different \"**/{.,}*.js{,on}\" \"**/*.md\"",
+		"lint": "eslint \"**/*.js\"",
+		"lint:fix": "eslint --fix \"**/*.js\"",
+		"test": "node support/checkLinks.js"
+	},
+	"version": "0.0.1"
+}
