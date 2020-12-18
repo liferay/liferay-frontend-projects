@@ -15,11 +15,11 @@ These are the documents that used to live in the [liferay-frontend-guidelines](h
 -   [`guidelines/dxp/`](guidelines/dxp): Guidance specific to working on Liferay DXP.
 -   [`guidelines/css/`](guidelines/css): Guidance about CSS.
 
-| Issues                                                                                                                               | Actions                                                                                                                      |
-| ------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
-| [label: `dependencies`](https://github.com/liferay/liferay-frontend-projects/issues?q=is%3Aissue+is%3Aopen+label%3Adependencies)     | [New issue](https://github.com/liferay/liferay-frontend-projects/issues/new?labels=dependencies&template=devDependency.md)   |
-| [label: `proposal`](https://github.com/liferay/liferay-frontend-projects/issues?q=is%3Aissue+is%3Aopen+label%3Arfc)                  | [New issue](https://github.com/liferay/liferay-frontend-projects/issues/new?labels=rfc&template=Proposal.md)                 |
-| [label: `question`](https://github.com/liferay/liferay-frontend-projects/issues?q=is%3Aissue+is%3Aopen+label%3Aquestion)             | [New issue](https://github.com/liferay/liferay-frontend-projects/issues/new?labels=question&template=Question.md)            |
+| Issues                                                                                                                           | Actions                                                                                                                    |
+| -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| [label: `dependencies`](https://github.com/liferay/liferay-frontend-projects/issues?q=is%3Aissue+is%3Aopen+label%3Adependencies) | [New issue](https://github.com/liferay/liferay-frontend-projects/issues/new?labels=dependencies&template=devDependency.md) |
+| [label: `proposal`](https://github.com/liferay/liferay-frontend-projects/issues?q=is%3Aissue+is%3Aopen+label%3Arfc)              | [New issue](https://github.com/liferay/liferay-frontend-projects/issues/new?labels=rfc&template=Proposal.md)               |
+| [label: `question`](https://github.com/liferay/liferay-frontend-projects/issues?q=is%3Aissue+is%3Aopen+label%3Aquestion)         | [New issue](https://github.com/liferay/liferay-frontend-projects/issues/new?labels=question&template=Question.md)          |
 
 ## Projects
 
