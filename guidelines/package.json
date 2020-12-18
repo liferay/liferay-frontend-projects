@@ -10,6 +10,7 @@
 	},
 	"scripts": {
 		"build": "true",
+		"check:links": "node support/checkLinks.js",
 		"ci": "liferay-workspace-scripts ci",
 		"format": "liferay-workspace-scripts format",
 		"format:changed": "git ls-files -mz -- \"*.js\" \"*.json\" \"*.md\" | xargs -0 prettier --write --",

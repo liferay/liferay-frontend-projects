@@ -1,12 +1,14 @@
 # Based on: https://github.com/actions/starter-workflows/blob/master/ci/node.js.yml
 
-name: ci
+name: Guidelines
 
 on:
     push:
         branches: [master]
     pull_request:
         branches: [master]
+    paths:
+        - 'guidelines/**'
 
 jobs:
     build:
@@ -22,7 +24,11 @@ jobs:
               uses: actions/setup-node@v1
               with:
                   node-version: ${{ matrix.node-version }}
-            - run: yarn --frozen-lockfile
-            - run: yarn ci
-              env:
-                  CI: true
+            - name: Use or update Yarn cache
+              uses: actions/cache@v2
+              with:
+                  path: ${{ env.yarn-cache-path }}
+                  key: ${{ runner.os }}-${{ env.yarn-cache-name }}-${{ hashFiles('**/yarn.lock') }}
+            - run: yarn --cache-folder=${{ env.yarn-cache-path }} --frozen-lockfile
+            - run: yarn --cache-folder=${{ env.yarn-cache-path }} check:links
+              working-directory: guidelines
