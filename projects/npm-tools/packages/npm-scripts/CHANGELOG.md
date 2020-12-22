@@ -1,3 +1,19 @@
+## [npm-scripts/v36.6.0-pre.4](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v36.6.0-pre.4) (2020-12-22)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v36.5.1...npm-scripts/v36.6.0-pre.4)
+
+### :new: Features
+
+-   feat: support for ephemereal bridge generation ([\#307](https://github.com/liferay/liferay-frontend-projects/pull/307))
+
+### :racing_car: Peformance
+
+-   perf(npm-scripts): add instrumentation for build (etc) performance ([\#299](https://github.com/liferay/liferay-frontend-projects/pull/299))
+
+### :house: Chores
+
+-   chore(npm-scripts): depend on latest version of liferay-theme-tasks ([\#303](https://github.com/liferay/liferay-frontend-projects/pull/303))
+
 ## [npm-scripts/v36.5.2-pre.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v36.5.2-pre.0) (2020-11-19)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v36.5.1...npm-scripts/v36.5.2-pre.0)
