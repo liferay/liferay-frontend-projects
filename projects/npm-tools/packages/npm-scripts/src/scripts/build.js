@@ -6,9 +6,8 @@
 const fs = require('fs');
 const path = require('path');
 
-let createBridges = require('../utils/createBridges');
 let buildSass = require('../sass/build');
-const expandGlobs = require('../utils/expandGlobs');
+let createBridges = require('../utils/createBridges');
 const getMergedConfig = require('../utils/getMergedConfig');
 const instrument = require('../utils/instrument');
 let minify = require('../utils/minify');
@@ -98,16 +97,9 @@ module.exports = async function (...args) {
 	}
 
 	if (runLegacyBuild) {
-		const hasJS =
-			inputPathExists &&
-			!!expandGlobs([
-				path.join(BUILD_CONFIG.input, '**/*.{js,jsx,ts,tsx}'),
-			]).length;
-
-		if (hasJS) {
-			runBundler();
-		}
-	} else {
+		runBundler();
+	}
+	else {
 		const {output} = BUILD_CONFIG;
 
 		fs.copyFileSync('package.json', path.join(output, 'package.json'));
