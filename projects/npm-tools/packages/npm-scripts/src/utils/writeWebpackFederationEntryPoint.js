@@ -39,14 +39,6 @@ module.exports = async function (filePath) {
 
 	code += '\n';
 
-	// Export project's main module for bridges (if it is present)
-
-	if (fs.existsSync(projectMainModuleFilePath)) {
-		const fileName = path.basename(projectMainModuleFilePath);
-
-		code += `export * from './${previousDirRelPath}/${fileName}'\n`;
-	}
-
 	// Export internal dependencies for bridges
 
 	let {bridges} = getMergedConfig('npmscripts', 'federation');

@@ -12,7 +12,12 @@ const createTempFile = require('./createTempFile');
 const parseBnd = require('./parseBnd');
 const writeWebpackFederationEntryPoint = require('./writeWebpackFederationEntryPoint');
 
-const CORE_REMOTES = ['frontend-js-react-web', 'frontend-taglib-clay'];
+const CORE_REMOTES = [
+	'frontend-js-react-web',
+	'frontend-js-web',
+	'frontend-taglib-clay',
+	'portal-template-react-renderer-impl',
+];
 const CORE_SHARES = [
 	'@clayui/icon',
 	'classnames',
