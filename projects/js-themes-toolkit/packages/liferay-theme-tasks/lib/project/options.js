@@ -74,6 +74,10 @@ class Options {
 		return this._options['sassOptions'];
 	}
 
+	get terser() {
+		return this._options['terser'];
+	}
+
 	_normalizeFilePath(optionName) {
 		const {_options} = this;
 
@@ -87,7 +91,7 @@ class Options {
 				Option ${optionName} contains '\\' characters.
 
 				This can be due to using Windows paths in a config file, which is not
-				supported, or because its use is legitimate in POSIX paths. 
+				supported, or because its use is legitimate in POSIX paths.
 
 				In the first case, you should edit your 'gulpfile.js' and change any
 				paths to be in POSIX format.
