@@ -6,6 +6,7 @@
 const fs = require('fs');
 const path = require('path');
 
+let createBridges = require('../utils/createBridges');
 const getMergedConfig = require('../utils/getMergedConfig');
 const instrument = require('../utils/instrument');
 let minify = require('../utils/minify');
@@ -15,7 +16,6 @@ let runBundler = require('../utils/runBundler');
 const setEnv = require('../utils/setEnv');
 let {buildSoy, cleanSoy, soyExists, translateSoy} = require('../utils/soy');
 const validateConfig = require('../utils/validateConfig');
-let createBridges = require('./createBridges');
 let webpack = require('./webpack');
 
 const {build: BUILD_CONFIG, federation: FEDERATION_CONFIG} = getMergedConfig(
@@ -75,10 +75,10 @@ module.exports = async function (...args) {
 		buildSoy();
 	}
 
-	const disableOldBuild =
-		FEDERATION_CONFIG && FEDERATION_CONFIG.disableOldBuild;
+	const runLegacyBuild =
+		!FEDERATION_CONFIG || FEDERATION_CONFIG.runLegacyBuild !== false;
 
-	if (!disableOldBuild) {
+	if (runLegacyBuild) {
 		runBabel(
 			BUILD_CONFIG.input,
 			'--out-dir',
@@ -91,7 +91,7 @@ module.exports = async function (...args) {
 		webpack(...args);
 	}
 
-	if (!disableOldBuild) {
+	if (runLegacyBuild) {
 		runBundler();
 	}
 	else {
@@ -101,10 +101,8 @@ module.exports = async function (...args) {
 		fs.writeFileSync(path.join(output, 'manifest.json'), '{}');
 	}
 
-	const {bridges} = FEDERATION_CONFIG;
-
-	if (bridges) {
-		createBridges(bridges, BUILD_CONFIG.output);
+	if (FEDERATION_CONFIG) {
+		createBridges(FEDERATION_CONFIG.bridges, BUILD_CONFIG.output);
 	}
 
 	translateSoy(BUILD_CONFIG.output);
