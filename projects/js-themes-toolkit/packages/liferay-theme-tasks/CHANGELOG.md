@@ -1,3 +1,11 @@
+## [liferay-theme-tasks/v10.2.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v10.2.0) (2020-12-23)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v10.1.0...liferay-theme-tasks/v10.2.0)
+
+### :new: Features
+
+-   feat(js-themes-toolkit): adds js minification step (Fixes #364) ([\#365](https://github.com/liferay/liferay-frontend-projects/pull/365))
+
 ## [liferay-theme-tasks/v10.1.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v10.1.0) (2020-12-17)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v10.0.3...liferay-theme-tasks/v10.1.0)
