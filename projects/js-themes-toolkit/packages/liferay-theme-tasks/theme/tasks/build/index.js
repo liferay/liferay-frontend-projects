@@ -7,8 +7,11 @@
 
 const chalk = require('chalk');
 const fs = require('fs-extra');
+const gulpIf = require('gulp-if');
 const rename = require('gulp-rename');
 const replace = require('gulp-replace-task');
+const sourcemaps = require('gulp-sourcemaps');
+const terser = require('gulp-terser');
 const _ = require('lodash');
 const path = require('path');
 const PluginError = require('plugin-error');
@@ -91,6 +94,7 @@ module.exports = function () {
 			'build:fix-at-directives',
 			'build:r2',
 			'build:copy:fontAwesome',
+			'build:minify:js',
 			'build:war',
 			cb
 		);
@@ -311,6 +315,17 @@ module.exports = function () {
 			pathBuild.join('font').asNative,
 			done
 		);
+	});
+
+	gulp.task('build:minify:js', () => {
+		const production = process.env.NODE_ENV === 'production';
+
+		return gulp
+			.src(pathBuild.join('**', '*.js').asPosix)
+			.pipe(gulpIf(production, sourcemaps.init()))
+			.pipe(gulpIf(production, terser(options.terser || {})))
+			.pipe(gulpIf(production, sourcemaps.write('.')))
+			.pipe(gulp.dest(pathBuild));
 	});
 
 	gulp.task('build:war', (done) => {
