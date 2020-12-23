@@ -36,7 +36,7 @@
 		"liferay-theme-tasks": "^9.5.0",
 		"compass-mixins": "0.12.10",
 		"liferay-frontend-common-css": "^1.0.4",
-		"liferay-frontend-theme-styled": "^4.0.0-alpha.1552930087997",
-		"liferay-frontend-theme-unstyled": "^4.0.0-alpha.1552930030671"
+		"liferay-frontend-theme-styled": "^6.0.1-test.1c962d5e12be",
+		"liferay-frontend-theme-unstyled": "^6.0.1-test.1c962d5e12be"
 	}
 }

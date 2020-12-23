@@ -1,4 +1,8 @@
 /**
+ * @jest-environment node
+ */
+
+/**
  * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: MIT
  */
@@ -94,7 +98,11 @@ describe('using lib_sass', () => {
 	let sassOptionsCalled;
 	let tempTheme;
 
-	beforeEach(() => {
+	afterEach(() => {
+		cleanTempTheme(tempTheme);
+	});
+
+	it('build task should correctly compile theme', (done) => {
 		sassOptionsCalled = false;
 
 		tempTheme = setupTempTheme({
@@ -121,15 +129,34 @@ describe('using lib_sass', () => {
 			tempTheme.tempPath,
 			project.options.pathBuild.asNative
 		);
+
+		project.gulp.runSequence('build', () => {
+			assertTruthy(sassOptionsCalled);
+
+			done();
+		});
 	});
 
-	afterEach(() => {
-		assertTruthy(sassOptionsCalled);
+	it('build task should correctly compile theme with dart-sass', (done) => {
+		tempTheme = setupTempTheme({
+			init: () =>
+				registerTasks({
+					distName: 'base-theme',
+					gulp: new Gulp(),
+					hookFn: buildHookFn,
+					sassOptions: {dartSass: true},
+				}),
+			namespace: 'dart_sass_build_task',
+			themeConfig: {},
+			themeName: 'base-theme-7-2',
+			version: '7.2',
+		});
 
-		cleanTempTheme(tempTheme);
-	});
+		buildPath = path.join(
+			tempTheme.tempPath,
+			project.options.pathBuild.asNative
+		);
 
-	it('build task should correctly compile theme', (done) => {
 		project.gulp.runSequence('build', done);
 	});
 

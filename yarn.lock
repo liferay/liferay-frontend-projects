@@ -974,6 +974,11 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
+"@clayui/css@3.23.0":
+  version "3.23.0"
+  resolved "https://registry.yarnpkg.com/@clayui/css/-/css-3.23.0.tgz#174c01a76ccd354a0c667a531feac2e47e5a3432"
+  integrity sha512-gkLrgBTFfcjn7LyYDZyPHncdxLHRwG/hYqE5if+KtJskaQaGj+5DmyDXiwCEeY7ispDeS6Vceoaum8rIACVrxA==
+
 "@clayui/css@^3.x":
   version "3.21.0"
   resolved "https://registry.yarnpkg.com/@clayui/css/-/css-3.21.0.tgz#0997d58f4d3dc8c3d04b423bd8d74d7d3f6285ee"
@@ -3831,11 +3836,6 @@ class-utils@^0.3.5:
     define-property "^0.2.5"
     isobject "^3.0.0"
     static-extend "^0.1.1"
-
-clay-css@2.19.0:
-  version "2.19.0"
-  resolved "https://registry.yarnpkg.com/clay-css/-/clay-css-2.19.0.tgz#fbe8b603aa6e396d54c397544ece4ff40cfa7f1b"
-  integrity sha512-byWj/V4I1CIr4au5KPOSI1ezKqZdR7uIMMsa7RMyD8joSquD2qMQpty8YpL9bRK3KgRR2hCUKZIiR/8iRetgHQ==
 
 clean-css@^4.2.1, clean-css@^4.2.3:
   version "4.2.3"
@@ -9714,17 +9714,17 @@ liferay-frontend-common-css@^1.0.4:
   resolved "https://registry.yarnpkg.com/liferay-frontend-common-css/-/liferay-frontend-common-css-1.0.4.tgz#e4d73e406020d907c909bcacb2700a52fa1c7f16"
   integrity sha1-5Nc+QGAg2QfJCbyssnAKUvocfxY=
 
-liferay-frontend-theme-styled@5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/liferay-frontend-theme-styled/-/liferay-frontend-theme-styled-5.0.0.tgz#829d759db7b376894528cad0d04d7c456175fbb9"
-  integrity sha512-ZOa5MhnOqn7klGztEP6d5p8I1LOB6Ic6WHPG5OY+g/9IzedQffDLtXRZ/vxP7qj41arMLSrFAAMjDFr8cTFjfg==
+liferay-frontend-theme-styled@6.0.1-test.1c962d5e12be:
+  version "6.0.1-test.1c962d5e12be"
+  resolved "https://registry.yarnpkg.com/liferay-frontend-theme-styled/-/liferay-frontend-theme-styled-6.0.1-test.1c962d5e12be.tgz#9e688a7aee04df75f39651940c3712679b5447f9"
+  integrity sha512-AIIDz/ddxSuBrUofUNNjqdo814NgkoXwdDgTrYfvja9kzrT+W2FN9WA8EvCCF3FIpZHoiwU0EIoZApYTsSAR3w==
 
-liferay-frontend-theme-unstyled@5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/liferay-frontend-theme-unstyled/-/liferay-frontend-theme-unstyled-5.0.0.tgz#55b1d0c42fc1a257acbf706abe53a6f8563f8ef8"
-  integrity sha512-iC3inBxZjGwC7PDFxZbn+h0+UbLK33QmDTTGwwxhzC7dA9Nx3ttmcrYwfHV4oAgPC8NwLjl5b82HqlHsXLaicw==
+liferay-frontend-theme-unstyled@6.0.1-test.1c962d5e12be:
+  version "6.0.1-test.1c962d5e12be"
+  resolved "https://registry.yarnpkg.com/liferay-frontend-theme-unstyled/-/liferay-frontend-theme-unstyled-6.0.1-test.1c962d5e12be.tgz#256ec9517ce6878cd2526ef7007e4a0decb1d47b"
+  integrity sha512-bSfkcbX9Vu2WsFcaQoXjsLrzsXD391sL9WILV/DZ//dHz/p8+RZubcJ+Q+b6eXLVrMjQMRhCmT0O20NVDVcaIA==
   dependencies:
-    clay-css "2.19.0"
+    "@clayui/css" "3.23.0"
 
 liferay-lang-key-dev-loader@^1.0.3:
   version "1.0.3"
@@ -10828,10 +10828,15 @@ mute-stream@0.0.8:
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.8.tgz#1630c42b2251ff81e2a283de96a5497ea92e5e0d"
   integrity sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==
 
-nan@^2.12.1, nan@^2.13.2:
+nan@^2.12.1:
   version "2.14.1"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.14.1.tgz#d7be34dfa3105b91494c3147089315eff8874b01"
   integrity sha512-isWHgVjnFjh2x2yuJ/tj3JbwoHu3UC2dX5G/88Cm24yB6YopVgxvBObDY7n5xW6ExmFhJpSEQqFPvq9zaXc8Jw==
+
+nan@^2.13.2:
+  version "2.14.2"
+  resolved "https://registry.yarnpkg.com/nan/-/nan-2.14.2.tgz#f5376400695168f4cc694ac9393d0c9585eeea19"
+  integrity sha512-M2ufzIiINKCuDfBSAUr1vWQ+vuVcA9kqx8JJUsbQi6yf1uGRyb7HfpdfUr5qLXf3B/t8dPvcjhKMmlfnP47EzQ==
 
 nanomatch@^1.2.9:
   version "1.2.13"
@@ -13302,6 +13307,13 @@ sass@^1.29.0:
   version "1.29.0"
   resolved "https://registry.yarnpkg.com/sass/-/sass-1.29.0.tgz#ec4e1842c146d8ea9258c28c141b8c2b7c6ab7f1"
   integrity sha512-ZpwAUFgnvAUCdkjwPREny+17BpUj8nh5Yr6zKPGtLNTLrmtoRYIjm7njP24COhjJldjwW1dcv52Lpf4tNZVVRA==
+  dependencies:
+    chokidar ">=2.0.0 <4.0.0"
+
+sass@^1.30.0:
+  version "1.30.0"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.30.0.tgz#60bbbbaf76ba10117e61c6c24f00161c3d60610e"
+  integrity sha512-26EUhOXRLaUY7+mWuRFqGeGGNmhB1vblpTENO1Z7mAzzIZeVxZr9EZoaY1kyGLFWdSOZxRMAufiN2mkbO6dAlw==
   dependencies:
     chokidar ">=2.0.0 <4.0.0"
 
