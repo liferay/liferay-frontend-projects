@@ -1,6 +1,6 @@
 # liferay-js-toolkit
 
-![CI status](https://github.com/liferay/liferay-frontend-projects/workflows/ci/badge.svg)
+![global](https://github.com/liferay/liferay-frontend-projects/workflows/global/badge.svg)
 
 ## Setup
 

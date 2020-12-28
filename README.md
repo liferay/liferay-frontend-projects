@@ -1,6 +1,6 @@
 # liferay-frontend-projects monorepo
 
-![CI status](https://github.com/liferay/liferay-frontend-projects/workflows/ci/badge.svg)
+![global](https://github.com/liferay/liferay-frontend-projects/workflows/global/badge.svg)
 
 Welcome to the monorepo of the Liferay Frontend Infrastructure team.
 
