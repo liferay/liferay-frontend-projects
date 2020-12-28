@@ -16,7 +16,7 @@ env:
     yarn-cache-path: .yarn
 
 jobs:
-    build:
+    check-links:
         runs-on: ubuntu-latest
 
         strategy:
