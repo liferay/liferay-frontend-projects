@@ -1,6 +1,6 @@
 # AMD Module Loader
 
-![CI status](https://github.com/liferay/liferay-frontend-projects/workflows/ci/badge.svg)
+![global](https://github.com/liferay/liferay-frontend-projects/workflows/global/badge.svg)
 
 This repository holds the AMD Loader packed with Liferay DXP.
 
