@@ -177,6 +177,13 @@ function checkRemote(link, files) {
 				if (statusCode >= 200 && statusCode < 400) {
 					resolve();
 				}
+				else if (statusCode === 429) {
+					warn(
+						files,
+						`Cannot verify ${link} due to rate-limiting (HTTP 429 Too Many Requests)`
+					);
+					resolve();
+				}
 				else {
 					bail(`Status code ${statusCode} for remote link: ${link}`);
 				}
@@ -333,6 +340,9 @@ async function run(pending) {
 	}
 }
 
+/**
+ * Report a bad file (or files) and increment the total error count.
+ */
 function report(bad, message) {
 	const files = typeof bad === 'string' ? [bad] : [...bad];
 
@@ -363,6 +373,17 @@ async function* walk(directory) {
 			yield entry;
 		}
 	}
+}
+
+/**
+ * Warn about problems in `files`; this does not increment the total error count
+ * and does not affect the exit status of the process.
+ */
+function warn(files, message) {
+	files.forEach((file) => {
+		// eslint-disable-next-line no-console
+		console.log(`${file}: ${message}`);
+	});
 }
 
 main()
