@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+const path = require('path');
+
 const clay = require('./dependencies/clay');
 const liferay = require('./dependencies/liferay');
 const metal = require('./dependencies/metal');
@@ -12,6 +14,19 @@ const CHECK_AND_FIX_GLOBS = [
 	'/{src,test}/**/*.{js,scss,ts,tsx}',
 	'/src/**/*.{jsp,jspf}',
 ];
+
+// Utility for getting paths to @clayui/css variables
+// This shouldn't ever fail, but is necessary so that we don't require
+// '@clayui/css' as a dependency in this package.
+
+const getClayPaths = () => {
+	try {
+		return require('@clayui/css').includePaths;
+	}
+	catch {
+		return [];
+	}
+};
 
 module.exports = {
 	build: {
@@ -35,6 +50,14 @@ module.exports = {
 		// - `minify()`.
 
 		output: 'build/node/packageRunBuild/resources',
+
+		// These are the paths that are used when resolving sass imports
+
+		sassIncludePaths: [
+			path.dirname(require.resolve('bourbon')),
+			...getClayPaths(),
+			path.dirname(require.resolve('liferay-frontend-common-css')),
+		],
 
 		// Used in various places to keep intermediate artefacts out of Gradle's
 		// way (see `buildSoy()`, `withTempFile()`, etc).
