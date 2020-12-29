@@ -12,22 +12,19 @@ const createTempFile = require('./createTempFile');
 const parseBnd = require('./parseBnd');
 const writeWebpackFederationEntryPoint = require('./writeWebpackFederationEntryPoint');
 
-const CORE_REMOTES = [
-	'frontend-js-react-web',
-	'frontend-js-web',
-	'frontend-taglib-clay',
-	'portal-template-react-renderer-impl',
-];
-const CORE_SHARES = [
-	'@clayui/icon',
-	'classnames',
-	'formik',
-	'prop-types',
-	'react',
-	'react-dnd',
-	'react-dnd-html5-backend',
-	'react-dom',
-];
+/**
+ * This object must represent the current configuration status of the portal's
+ * project if we don't want to break the build. It contains, for each
+ * federation-enabled project, the packages that are federated.
+ *
+ * Note that there's no real need to define federated packages per project as
+ * the relation is not used for anything. However, it is better to do it this
+ * way, because if we mix all together we end up with a very entangled
+ * configuration.
+ */
+const FEDERATED_PACKAGES = {
+	'frontend-js-react-web': ['react'],
+};
 
 /**
  * Create a webpack configuration to inject federation support to the build.
@@ -96,18 +93,23 @@ module.exports = async function () {
 				},
 				name,
 				remoteType: 'script',
-				remotes: CORE_REMOTES.reduce((remotes, name) => {
-					remotes[
-						name
-					] = `window[Symbol.for("__LIFERAY_WEBPACK_CONTAINERS__")]["${name}"]@/o/${name}/__generated__/container.js`;
+				remotes: Object.keys(FEDERATED_PACKAGES).reduce(
+					(remotes, name) => {
+						remotes[
+							name
+						] = `window[Symbol.for("__LIFERAY_WEBPACK_CONTAINERS__")]["${name}"]@/o/${name}/__generated__/container.js`;
 
-					return remotes;
-				}, {}),
-				shared: CORE_SHARES.reduce((shared, name) => {
-					shared[name] = {singleton: true};
+						return remotes;
+					},
+					{}
+				),
+				shared: []
+					.concat(...Object.values(FEDERATED_PACKAGES))
+					.reduce((shared, name) => {
+						shared[name] = {singleton: true};
 
-					return shared;
-				}, {}),
+						return shared;
+					}, {}),
 			}),
 		],
 	};
