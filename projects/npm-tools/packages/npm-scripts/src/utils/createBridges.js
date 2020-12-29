@@ -24,12 +24,15 @@ const writeBridge = require('./writeBridge');
  * @return {void}
  */
 module.exports = function (bridges, dir) {
+
 	// If bridges is undefined or false, do nothing
+
 	if (!bridges) {
 		return;
 	}
 
 	// If bridges is true, generate the `main` entry bridge only
+
 	if (bridges === true) {
 		bridges = [];
 	}
