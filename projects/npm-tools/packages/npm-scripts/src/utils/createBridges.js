@@ -24,6 +24,19 @@ const writeBridge = require('./writeBridge');
  * @return {void}
  */
 module.exports = function (bridges, dir) {
+
+	// If bridges is undefined or false, do nothing
+
+	if (!bridges) {
+		return;
+	}
+
+	// If bridges is true, generate the `main` entry bridge only
+
+	if (bridges === true) {
+		bridges = [];
+	}
+
 	/* eslint-disable-next-line @liferay/liferay/no-dynamic-require */
 	const projectPackageJson = require(path.resolve('package.json'));
 
@@ -35,9 +48,7 @@ module.exports = function (bridges, dir) {
 		writeBridge(dir, projectPackageJson);
 	}
 
-	// Write bridges for exported dependencies (if configured)
-
-	bridges = bridges || [];
+	// Write bridges for exported dependencies
 
 	for (const packageName of bridges) {
 		const packageJson = JSON.parse(
