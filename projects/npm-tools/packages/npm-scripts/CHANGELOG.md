@@ -1,3 +1,15 @@
+## [npm-scripts/v36.7.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v36.7.0) (2020-12-29)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v36.6.0...npm-scripts/v36.7.0)
+
+### :wrench: Bug fixes
+
+-   fix: stabilize liferay-portal build until a new webpack release arrives ([\#375](https://github.com/liferay/liferay-frontend-projects/pull/375))
+
+### :house: Chores
+
+-   chore(npm-scripts): update liferay-theme-tasks dependency to v10.2.0 ([\#371](https://github.com/liferay/liferay-frontend-projects/pull/371))
+
 ## [npm-scripts/v36.6.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v36.6.0) (2020-12-22)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v36.5.1...npm-scripts/v36.6.0)
