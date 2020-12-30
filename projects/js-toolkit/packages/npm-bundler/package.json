@@ -16,7 +16,7 @@
 		"pretty-time": "^1.1.0",
 		"read-json-sync": "^2.0.1",
 		"source-map": "^0.7.3",
-		"webpack": "^5.4.0",
+		"webpack": "^5.11.1",
 		"xml-js": "^1.6.8",
 		"yargs": "^14.0.0"
 	},
