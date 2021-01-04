@@ -84,3 +84,7 @@ npm-scripts:
 npm-tools:
     - projects/npm-tools/*
     - projects/npm-tools/**/*
+
+senna:
+    - maintenance/projects/senna/*
+    - maintenance/projects/senna/**/*
