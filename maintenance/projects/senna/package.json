@@ -24,6 +24,8 @@
   "scripts": {
     "build": "gulp build build:amd",
     "compile": "BABEL_ENV=compile babel -d lib/ src/",
+    "format": "cd ../../.. && yarn format",
+    "format:check": "cd ../../.. && yarn format:check",
     "prepublish": "gulp && npm run compile"
   },
   "keywords": [

@@ -10,6 +10,8 @@
 /maintenance/projects/js-toolkit/**/lib
 /maintenance/projects/js-toolkit/packages/liferay-npm-build-tools-common/src/__tests__/__fixtures__/alias/invalid.json
 
+/maintenance/projects/senna/build
+
 /projects/amd-loader/build
 
 /projects/js-themes-toolkit/packages/generator-liferay-theme/generators/app/templates/_package.json
