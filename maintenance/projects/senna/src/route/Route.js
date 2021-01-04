@@ -1,3 +1,8 @@
+/**
+ * SPDX-FileCopyrightText: © 2021 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 'use strict';
 
 import {isDefAndNotNull, isFunction, isString} from 'metal';
@@ -49,6 +54,7 @@ class Route {
 				tokens,
 			};
 		}
+
 		return this.parsedData_;
 	}
 
@@ -62,6 +68,7 @@ class Route {
 		if (isString(this.path)) {
 			return extractData(this.buildParsedData_().tokens, path);
 		}
+
 		return {};
 	}
 

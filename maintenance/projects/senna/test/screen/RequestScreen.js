@@ -1,8 +1,14 @@
+/**
+ * SPDX-FileCopyrightText: © 2021 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 'use strict';
+
+import UA from 'metal-useragent';
 
 import globals from '../../src/globals/globals';
 import RequestScreen from '../../src/screen/RequestScreen';
-import UA from 'metal-useragent';
 
 describe('RequestScreen', function () {
 	beforeEach(() => {
@@ -68,7 +74,7 @@ describe('RequestScreen', function () {
 		sinon.stub(screen, 'getRequest', () => {
 			return {
 				requestPath: '/path',
-				getResponseHeader: function () {
+				getResponseHeader () {
 					return null;
 				},
 			};

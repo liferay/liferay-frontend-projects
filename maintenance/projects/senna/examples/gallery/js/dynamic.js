@@ -1,6 +1,11 @@
+/**
+ * SPDX-FileCopyrightText: © 2021 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 'use strict';
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
 
 	/* ==========================================================================
      Creates a new Senna app
@@ -21,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	var nextImage;
 
-	app.on('startNavigate', function (event) {
+	app.on('startNavigate', (event) => {
 		nextImage = event.path;
 	});
 
@@ -54,6 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				}
 			}
 		};
+
 		return screenInstance;
 	}
 

@@ -1,11 +1,17 @@
+/**
+ * SPDX-FileCopyrightText: © 2021 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 'use strict';
 
 import {Disposable, getUid, isDefAndNotNull, isElement, object} from 'metal';
-import dataAttributes from './dataAttributes';
+
 import globals from '../globals/globals';
-import App from './App';
-import HtmlScreen from '../screen/HtmlScreen';
 import Route from '../route/Route';
+import HtmlScreen from '../screen/HtmlScreen';
+import App from './App';
+import dataAttributes from './dataAttributes';
 
 class AppDataAttributeHandler extends Disposable {
 
@@ -51,6 +57,7 @@ class AppDataAttributeHandler extends Disposable {
 					'In order to enable its usage from data attributes try setting ' +
 					'in the base element, e.g. `<body data-senna>`.'
 			);
+
 			return;
 		}
 
@@ -156,6 +163,7 @@ class AppDataAttributeHandler extends Disposable {
 		if (isDefAndNotNull(handler)) {
 			handler = object.getObjectByName(handler);
 		}
+
 		return handler;
 	}
 
@@ -171,6 +179,7 @@ class AppDataAttributeHandler extends Disposable {
 				path = new RegExp(path.substring(6));
 			}
 		}
+
 		return path;
 	}
 

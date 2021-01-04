@@ -1,8 +1,14 @@
+/**
+ * SPDX-FileCopyrightText: © 2021 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 'use strict';
 
 import {exitDocument} from 'metal-dom';
-import globals from '../globals/globals';
 import Uri from 'metal-uri';
+
+import globals from '../globals/globals';
 
 /**
  * A collection of static utility functions.
@@ -58,6 +64,7 @@ class utils {
 			offsetTop += node.offsetTop;
 			node = node.offsetParent;
 		} while (node);
+
 		return {
 			offsetLeft,
 			offsetTop,
@@ -71,6 +78,7 @@ class utils {
 	 */
 	static getUrlPath(url) {
 		var uri = new Uri(url);
+
 		return uri.getPathname() + uri.getSearch() + uri.getHash();
 	}
 
@@ -81,6 +89,7 @@ class utils {
 	 */
 	static getUrlPathWithoutHash(url) {
 		var uri = new Uri(url);
+
 		return uri.getPathname() + uri.getSearch();
 	}
 
@@ -91,6 +100,7 @@ class utils {
 	 */
 	static getUrlPathWithoutHashAndSearch(url) {
 		var uri = new Uri(url);
+
 		return uri.getPathname();
 	}
 
@@ -112,6 +122,7 @@ class utils {
 				this.getUrlPath(currentBrowserPath)
 			);
 		}
+
 		return false;
 	}
 
@@ -136,6 +147,7 @@ class utils {
 		}
 		catch (err) {
 			console.error(`${err.message} ${url}`);
+
 			return false;
 		}
 	}
@@ -169,6 +181,7 @@ class utils {
 		if (length > 1 && path[length - 1] === '/') {
 			path = path.substr(0, length - 1);
 		}
+
 		return path;
 	}
 
@@ -179,6 +192,7 @@ class utils {
 	 */
 	static setElementWithRandomHref(element) {
 		element.href = element.href + '?q=' + Math.random();
+
 		return element;
 	}
 
@@ -190,7 +204,7 @@ class utils {
 	static setReferrer(referrer) {
 		Object.defineProperty(globals.document, 'referrer', {
 			configurable: true,
-			get: function () {
+			get () {
 				return referrer;
 			},
 		});

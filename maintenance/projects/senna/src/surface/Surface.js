@@ -1,9 +1,15 @@
+/**
+ * SPDX-FileCopyrightText: © 2021 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 'use strict';
 
-import globals from '../globals/globals';
 import {Disposable, isDefAndNotNull} from 'metal';
-import {append, removeChildren, exitDocument} from 'metal-dom';
+import {append, exitDocument, removeChildren} from 'metal-dom';
 import CancellablePromise from 'metal-promise';
+
+import globals from '../globals/globals';
 
 class Surface extends Disposable {
 
@@ -110,6 +116,7 @@ class Surface extends Disposable {
 	createChild(screenId) {
 		var child = globals.document.createElement('div');
 		child.setAttribute('id', this.makeId_(screenId));
+
 		return child;
 	}
 
@@ -133,6 +140,7 @@ class Surface extends Disposable {
 			return this.element;
 		}
 		this.element = globals.document.getElementById(this.id);
+
 		return this.element;
 	}
 
@@ -210,6 +218,7 @@ class Surface extends Disposable {
 			to = this.defaultChild;
 		}
 		this.activeChild = to;
+
 		return this.transition(from, to).thenAlways(() => {
 			if (from && from !== to) {
 				exitDocument(from);
@@ -244,6 +253,7 @@ class Surface extends Disposable {
 	 */
 	transition(from, to) {
 		var transitionFn = this.transitionFn || Surface.defaultTransition;
+
 		return CancellablePromise.resolve(transitionFn.call(this, from, to));
 	}
 }

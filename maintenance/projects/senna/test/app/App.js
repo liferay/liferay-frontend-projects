@@ -1,15 +1,21 @@
+/**
+ * SPDX-FileCopyrightText: © 2021 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 'use strict';
 
 import {dom, exitDocument} from 'metal-dom';
 import {EventEmitter} from 'metal-events';
 import CancellablePromise from 'metal-promise';
-import globals from '../../src/globals/globals';
-import utils from '../../src/utils/utils';
+
 import App from '../../src/app/App';
+import globals from '../../src/globals/globals';
 import Route from '../../src/route/Route';
-import Screen from '../../src/screen/Screen';
 import HtmlScreen from '../../src/screen/HtmlScreen';
+import Screen from '../../src/screen/Screen';
 import Surface from '../../src/surface/Surface';
+import utils from '../../src/utils/utils';
 
 class StubScreen extends Screen {}
 StubScreen.prototype.activate = sinon.spy();
@@ -883,6 +889,7 @@ describe('App', function () {
 	it('should store scroll position on page scroll', (done) => {
 		if (!canScrollIFrame_) {
 			done();
+
 			return;
 		}
 
@@ -914,6 +921,7 @@ describe('App', function () {
 	it('should update scroll position on navigate', (done) => {
 		if (!canScrollIFrame_) {
 			done();
+
 			return;
 		}
 
@@ -937,6 +945,7 @@ describe('App', function () {
 	it('should not update scroll position on navigate if updateScrollPosition is disabled', (done) => {
 		if (!canScrollIFrame_) {
 			done();
+
 			return;
 		}
 
@@ -961,6 +970,7 @@ describe('App', function () {
 	it('should restore scroll position on navigate back', (done) => {
 		if (!canScrollIFrame_) {
 			done();
+
 			return;
 		}
 
@@ -1138,7 +1148,7 @@ describe('App', function () {
 	it('should not navigate when clicking on target blank links', () => {
 		this.app = new App();
 		this.app.addRoutes(new Route('/path', Screen));
-		let link = enterDocumentLinkElement('/path');
+		const link = enterDocumentLinkElement('/path');
 		link.setAttribute('target', '_blank');
 		link.addEventListener('click', (event) => event.preventDefault());
 		dom.triggerEvent(link, 'click');
@@ -1333,7 +1343,7 @@ describe('App', function () {
 		window.onbeforeunload = beforeunload;
 		this.app = new App();
 		this.app.addRoutes(new Route('/path', Screen));
-		let link = enterDocumentLinkElement('/path');
+		const link = enterDocumentLinkElement('/path');
 		dom.triggerEvent(link, 'click');
 		exitDocumentLinkElement();
 		assert.strictEqual(1, beforeunload.callCount);
@@ -1361,6 +1371,7 @@ describe('App', function () {
 	it('should resposition scroll to hashed anchors on hash popstate', (done) => {
 		if (!canScrollIFrame_) {
 			done();
+
 			return;
 		}
 
@@ -1397,6 +1408,7 @@ describe('App', function () {
 		const form = enterDocumentFormElement('/path', 'post');
 		dom.triggerEvent(form, 'submit');
 		assert.ok(this.app.pendingNavigate);
+
 		return this.app.on('endNavigate', () => {
 			exitDocument(form);
 		});
@@ -1406,6 +1418,7 @@ describe('App', function () {
 		this.app = new App();
 		this.app.addRoutes(new Route('/path', Screen));
 		var form = enterDocumentFormElement('/path', 'post');
+
 		return new CancellablePromise((resolve, reject) => {
 			dom.once(form, 'submit', (event) => {
 				event.preventDefault();
@@ -1422,6 +1435,7 @@ describe('App', function () {
 		this.app = new App();
 		this.app.addRoutes(new Route('/path', Screen));
 		var form = enterDocumentFormElement('/path', 'post');
+
 		return new CancellablePromise((resolve, reject) => {
 			dom.once(form, 'submit', (event) => {
 				event.preventDefault();
@@ -1635,6 +1649,7 @@ describe('App', function () {
 		this.app = new App();
 		this.app.addRoutes(new Route('/path1', StubScreen));
 		this.app.addRoutes(new Route('/path2', StubScreen2));
+
 		return this.app.navigate('/path1').then(() => {
 			this.app.navigate('/path2').then(() => {
 				var lifecycleOrder = [
@@ -1867,11 +1882,13 @@ describe('App', function () {
 			evaluateStyles(surfaces) {
 				dom.triggerEvent(enterDocumentLinkElement('/path2'), 'click');
 				exitDocumentLinkElement();
+
 				return super.evaluateStyles(surfaces);
 			}
 
 			evaluateScripts(surfaces) {
 				assert.ok(app.scheduledNavigationEvent);
+
 				return super.evaluateScripts(surfaces);
 			}
 		}
@@ -1880,11 +1897,13 @@ describe('App', function () {
 			evaluateStyles(surfaces) {
 				dom.triggerEvent(enterDocumentLinkElement('/path3'), 'click');
 				exitDocumentLinkElement();
+
 				return super.evaluateStyles(surfaces);
 			}
 
 			evaluateScripts(surfaces) {
 				assert.ok(app.scheduledNavigationEvent);
+
 				return super.evaluateScripts(surfaces);
 			}
 		}
@@ -1911,6 +1930,7 @@ describe('App', function () {
 			load(path) {
 				dom.triggerEvent(enterDocumentLinkElement('/path2'), 'click');
 				exitDocumentLinkElement();
+
 				return super.load(path);
 			}
 		}
@@ -1919,6 +1939,7 @@ describe('App', function () {
 			load(path) {
 				dom.triggerEvent(enterDocumentLinkElement('/path3'), 'click');
 				exitDocumentLinkElement();
+
 				return super.load(path);
 			}
 		}
@@ -2039,6 +2060,7 @@ describe('App', function () {
 	it('should scroll to anchor element on navigate', (done) => {
 		if (!canScrollIFrame_) {
 			done();
+
 			return;
 		}
 
@@ -2082,6 +2104,7 @@ describe('App', function () {
 					utils.getUrlPathWithoutHash(globals.document.referrer),
 					'/path1'
 				);
+
 				return this.app.navigate('/path3');
 			})
 			.then(() => {
@@ -2111,8 +2134,10 @@ describe('App', function () {
 		this.app.reloadPage = sinon.stub();
 		this.app.addRoutes(new Route('/path1', Screen));
 		this.app.addRoutes(new Route('/path2', Screen));
+
 		return this.app.navigate('/path1').then(() => {
 			window.history.replaceState(null, null, null);
+
 			return this.app.navigate('/path2').then(() => {
 				return new CancellablePromise((resolve, reject) => {
 					dom.once(globals.window, 'popstate', () => {
@@ -2148,6 +2173,7 @@ function detectCanScrollIFrame(done) {
 
 function enterDocumentLinkElement(href) {
 	dom.enterDocument('<a id="link" href="' + href + '">link</a>');
+
 	return document.getElementById('link');
 }
 
@@ -2156,6 +2182,7 @@ function enterDocumentFormElement(action, method) {
 	dom.enterDocument(
 		`<form id="form_${random}" action="${action}" method="${method}" enctype="multipart/form-data"></form>`
 	);
+
 	return document.getElementById(`form_${random}`);
 }
 

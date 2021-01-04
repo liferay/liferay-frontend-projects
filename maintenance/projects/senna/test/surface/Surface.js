@@ -1,11 +1,17 @@
+/**
+ * SPDX-FileCopyrightText: © 2021 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 'use strict';
 
 import {core} from 'metal';
 import dom from 'metal-dom';
-import Surface from '../../src/surface/Surface';
 import CancellablePromise from 'metal-promise';
 
-describe('Surface', function () {
+import Surface from '../../src/surface/Surface';
+
+describe('Surface', () => {
 	describe('Constructor', () => {
 		it('should throws error when surface id not specified', () => {
 			assert.throws(() => {
@@ -225,6 +231,7 @@ function enterDocumentSurfaceElement(surfaceId, opt_content) {
 			(opt_content ? opt_content : '') +
 			'</div>'
 	);
+
 	return document.getElementById(surfaceId);
 }
 

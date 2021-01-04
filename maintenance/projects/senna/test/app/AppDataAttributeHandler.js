@@ -1,15 +1,21 @@
+/**
+ * SPDX-FileCopyrightText: © 2021 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 'use strict';
 
 import dom from 'metal-dom';
-import globals from '../../src/globals/globals';
+
 import AppDataAttributeHandler from '../../src/app/AppDataAttributeHandler';
+import globals from '../../src/globals/globals';
 import Screen from '../../src/screen/Screen';
 
-describe('AppDataAttributeHandler', function () {
+describe('AppDataAttributeHandler', () => {
 	before(() => {
 		globals.document.body.setAttribute('data-senna', '');
 		globals.window.senna = {
-			Screen: Screen,
+			Screen,
 		};
 
 		// Prevent log messages from showing up in test output.
@@ -253,6 +259,7 @@ describe('AppDataAttributeHandler', function () {
 		var appDataAttributeHandler = new AppDataAttributeHandler();
 		appDataAttributeHandler.setBaseElement(globals.document.body);
 		appDataAttributeHandler.handle();
+
 		return appDataAttributeHandler.getApp().on('endNavigate', () => {
 			appDataAttributeHandler.dispose();
 			globals.document.body.removeAttribute('data-senna-dispatch');
@@ -266,6 +273,7 @@ function enterDocumentRouteElement(path) {
 			path +
 			'" rel="senna-route" type="senna.Screen"></link>'
 	);
+
 	return document.querySelector('link[href="' + path + '"]');
 }
 
@@ -273,16 +281,19 @@ function enterDocumentRouteElementMissingPath() {
 	dom.enterDocument(
 		'<link id="routeElementMissingPath" rel="senna-route" type="senna.Screen"></link>'
 	);
+
 	return document.getElementById('routeElementMissingPath');
 }
 
 function enterDocumentRouteElementMissingScreenType(path) {
 	dom.enterDocument('<link href="' + path + '" rel="senna-route"></link>');
+
 	return document.querySelector('link[href="' + path + '"]');
 }
 
 function enterDocumentSurfaceElement(surfaceId) {
 	dom.enterDocument('<div id="' + surfaceId + '" data-senna-surface></div>');
+
 	return document.getElementById(surfaceId);
 }
 
@@ -290,6 +301,7 @@ function enterDocumentSurfaceElementMissingId(surfaceId) {
 	dom.enterDocument(
 		'<div data-id="' + surfaceId + '" data-senna-surface></div>'
 	);
+
 	return document.getElementById(surfaceId);
 }
 

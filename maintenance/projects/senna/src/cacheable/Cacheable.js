@@ -1,3 +1,8 @@
+/**
+ * SPDX-FileCopyrightText: © 2021 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 'use strict';
 
 import {Disposable} from 'metal';
@@ -37,6 +42,7 @@ class Cacheable extends Disposable {
 		if (this.cacheable) {
 			this.cache = content;
 		}
+
 		return this;
 	}
 
@@ -46,6 +52,7 @@ class Cacheable extends Disposable {
 	 */
 	clearCache() {
 		this.cache = null;
+
 		return this;
 	}
 

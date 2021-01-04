@@ -1,15 +1,21 @@
+/**
+ * SPDX-FileCopyrightText: © 2021 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 'use strict';
 
-import {addClasses, delegate, match, on, removeClasses} from 'metal-dom';
 import {array, async, isDefAndNotNull, isString, object} from 'metal';
+import debounce from 'metal-debounce';
+import {addClasses, delegate, match, on, removeClasses} from 'metal-dom';
 import {EventEmitter, EventHandler} from 'metal-events';
 import CancellablePromise from 'metal-promise';
-import debounce from 'metal-debounce';
+import Uri from 'metal-uri';
+
 import globals from '../globals/globals';
 import Route from '../route/Route';
 import Screen from '../screen/Screen';
 import Surface from '../surface/Surface';
-import Uri from 'metal-uri';
 import utils from '../utils/utils';
 
 const NavigationStrategy = {
@@ -287,6 +293,7 @@ class App extends EventEmitter {
 			}
 			this.routes.push(route);
 		});
+
 		return this;
 	}
 
@@ -308,6 +315,7 @@ class App extends EventEmitter {
 			}
 			this.surfaces[surface.getId()] = surface;
 		});
+
 		return this;
 	}
 
@@ -327,10 +335,12 @@ class App extends EventEmitter {
 
 		if (!this.isLinkSameOrigin_(uri.getHost())) {
 			console.log('Offsite link clicked');
+
 			return false;
 		}
 		if (!this.isSameBasePath_(path)) {
 			console.log("Link clicked outside app's base path");
+
 			return false;
 		}
 
@@ -341,6 +351,7 @@ class App extends EventEmitter {
 		}
 		if (!this.findRoute(path)) {
 			console.log('No route for ' + path);
+
 			return false;
 		}
 
@@ -375,6 +386,7 @@ class App extends EventEmitter {
 	createScreenInstance(path, route) {
 		if (!this.pendingNavigate && path === this.activePath) {
 			console.log('Already at destination, refresh navigation');
+
 			return this.activeScreen;
 		}
 		/* jshint newcap: false */
@@ -392,6 +404,7 @@ class App extends EventEmitter {
 			}
 			console.log('Create screen for [' + path + '] [' + screen + ']');
 		}
+
 		return screen;
 	}
 
@@ -430,6 +443,7 @@ class App extends EventEmitter {
 			this.pendingNavigate = CancellablePromise.reject(
 				new CancellablePromise.CancellationError('No route for ' + path)
 			);
+
 			return this.pendingNavigate;
 		}
 
@@ -610,12 +624,14 @@ class App extends EventEmitter {
 	getRoutePath(path) {
 		if (this.getIgnoreQueryStringFromRoutePath()) {
 			path = utils.getUrlPathWithoutHashAndSearch(path);
+
 			return utils.getUrlPathWithoutHashAndSearch(
 				path.substr(this.basePath.length)
 			);
 		}
 
 		path = utils.getUrlPathWithoutHash(path);
+
 		return utils.getUrlPathWithoutHash(path.substr(this.basePath.length));
 	}
 
@@ -764,8 +780,10 @@ class App extends EventEmitter {
 					event
 				),
 			];
+
 			return true;
 		}
+
 		return false;
 	}
 
@@ -786,6 +804,7 @@ class App extends EventEmitter {
 
 		if (isNavigationScheduled) {
 			event.preventDefault();
+
 			return;
 		}
 
@@ -848,6 +867,7 @@ class App extends EventEmitter {
 							'Cancelled by next screen'
 						)
 					);
+
 					return this.pendingNavigate;
 				}
 			});
@@ -872,6 +892,7 @@ class App extends EventEmitter {
 							'Cancelled by active screen'
 						)
 					);
+
 					return this.pendingNavigate;
 				}
 			});
@@ -883,7 +904,7 @@ class App extends EventEmitter {
 	maybeRepositionScrollToHashedAnchor() {
 		const hash = globals.window.location.hash;
 		if (hash) {
-			let anchorElement = globals.document.getElementById(
+			const anchorElement = globals.document.getElementById(
 				hash.substring(1)
 			);
 			if (anchorElement) {
@@ -920,6 +941,7 @@ class App extends EventEmitter {
 		if (redirectPath === utils.getUrlPathWithoutHash(path)) {
 			return redirectPath + hash;
 		}
+
 		return redirectPath;
 	}
 
@@ -965,7 +987,7 @@ class App extends EventEmitter {
 
 		this.emit('beforeNavigate', {
 			event: opt_event,
-			path: path,
+			path,
 			replaceHistory: !!opt_replaceHistory,
 		});
 
@@ -997,6 +1019,7 @@ class App extends EventEmitter {
 				this.navigationStrategy === NavigationStrategy.SCHEDULE_LAST
 			) {
 				console.log('Waiting...');
+
 				return;
 			}
 		}
@@ -1040,6 +1063,7 @@ class App extends EventEmitter {
 			console.log(
 				'Navigate aborted, invalid mouse button or modifier key pressed.'
 			);
+
 			return;
 		}
 		this.maybeNavigate_(event.delegateTarget.href, event);
@@ -1055,6 +1079,7 @@ class App extends EventEmitter {
 		var form = event.delegateTarget;
 		if (form.method === 'get') {
 			console.log('GET method not supported');
+
 			return;
 		}
 		event.capturedFormElement = form;
@@ -1110,6 +1135,7 @@ class App extends EventEmitter {
 
 		if (utils.isCurrentBrowserPath(this.browserPathBeforeNavigate)) {
 			this.maybeRepositionScrollToHashedAnchor();
+
 			return;
 		}
 
@@ -1138,6 +1164,7 @@ class App extends EventEmitter {
 			else {
 				this.reloadPage();
 			}
+
 			return;
 		}
 
@@ -1501,7 +1528,7 @@ class App extends EventEmitter {
 
 		utils.setReferrer(referrer);
 
-		let titleNode = globals.document.querySelector('title');
+		const titleNode = globals.document.querySelector('title');
 		if (titleNode) {
 			titleNode.innerHTML = title;
 		}

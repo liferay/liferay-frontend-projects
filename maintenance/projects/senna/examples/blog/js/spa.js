@@ -1,6 +1,11 @@
+/**
+ * SPDX-FileCopyrightText: © 2021 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 'use strict';
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
 
 	/* ==========================================================================
      Creates a new Senna app
@@ -29,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	var isLoading = false;
 	var scrollSensitivity = 0;
 
-	app.on('startNavigate', function (event) {
+	app.on('startNavigate', (event) => {
 		isLoading = true;
 		scrollSensitivity = 0;
 
@@ -38,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		}
 	});
 
-	app.on('endNavigate', function () {
+	app.on('endNavigate', () => {
 		isLoading = false;
 
 		app.setUpdateScrollPosition(true);
@@ -48,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
      Infinite scrolling logic
      ========================================================================== */
 
-	document.addEventListener('scroll', function () {
+	document.addEventListener('scroll', () => {
 		if (window.pageYOffset < 0) {
 			return;
 		}
@@ -85,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	function debounce(fn, delay) {
 		return function debounced() {
 			var args = arguments;
-			debounced.id = setTimeout(function () {
+			debounced.id = setTimeout(() => {
 				fn.apply(null, args);
 			}, delay);
 		};

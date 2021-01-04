@@ -1,14 +1,20 @@
+/**
+ * SPDX-FileCopyrightText: © 2021 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 'use strict';
 
 import {getUid} from 'metal';
 import {buildFragment, globalEval, globalEvalStyles, match} from 'metal-dom';
 import CancellablePromise from 'metal-promise';
-import globals from '../globals/globals';
-import RequestScreen from './RequestScreen';
-import Surface from '../surface/Surface';
-import UA from 'metal-useragent';
 import Uri from 'metal-uri';
+import UA from 'metal-useragent';
+
+import globals from '../globals/globals';
+import Surface from '../surface/Surface';
 import utils from '../utils/utils';
+import RequestScreen from './RequestScreen';
 
 class HtmlScreen extends RequestScreen {
 
@@ -85,6 +91,7 @@ class HtmlScreen extends RequestScreen {
 					newStyle,
 					styleInDoc.nextSibling
 				);
+
 				return;
 			}
 		}
@@ -310,6 +317,7 @@ class HtmlScreen extends RequestScreen {
 			if (defaultChild) {
 				return defaultChild.innerHTML;
 			}
+
 			return surface.innerHTML; // If default content not found, use surface content
 		}
 	}
@@ -334,6 +342,7 @@ class HtmlScreen extends RequestScreen {
 			if (UA.isIe) {
 				this.makeTemporaryStylesHrefsUnique_();
 			}
+
 			return content;
 		});
 	}

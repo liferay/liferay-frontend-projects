@@ -1,16 +1,22 @@
+/**
+ * SPDX-FileCopyrightText: © 2021 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 'use strict';
 
-var buildRollup = require('metal-tools-build-rollup');
-var connect = require('gulp-connect');
 var gulp = require('gulp');
+var connect = require('gulp-connect');
 var header = require('gulp-header');
 var jsdoc = require('gulp-jsdoc3');
 var metal = require('gulp-metal');
-var pkg = require('./package.json');
 var rename = require('gulp-rename');
-var runSequence = require('run-sequence');
 var stripDebug = require('gulp-strip-debug');
 var template = require('gulp-template');
+var buildRollup = require('metal-tools-build-rollup');
+var runSequence = require('run-sequence');
+
+var pkg = require('./package.json');
 
 // Metal -----------------------------------------------------------------------
 
@@ -102,7 +108,7 @@ metal.registerTasks(options);
 
 // Helpers ---------------------------------------------------------------------
 
-gulp.task('banner', function () {
+gulp.task('banner', () => {
 	var stamp = [
 		'/**',
 		' * Senna.js - <%= description %>',
@@ -120,34 +126,34 @@ gulp.task('banner', function () {
 		.pipe(gulp.dest('build/globals'));
 });
 
-gulp.task('build:globals:js', function (done) {
-	return buildRollup(options, function () {
+gulp.task('build:globals:js', (done) => {
+	return buildRollup(options, () => {
 		done();
 	});
 });
 
-gulp.task('clean:debug', function () {
+gulp.task('clean:debug', () => {
 	return gulp
 		.src('build/globals/senna.js')
 		.pipe(rename('senna-debug.js'))
 		.pipe(gulp.dest('build/globals'));
 });
 
-gulp.task('clean:debug:globals', function () {
+gulp.task('clean:debug:globals', () => {
 	return gulp
 		.src('build/globals/senna.js')
 		.pipe(stripDebug())
 		.pipe(gulp.dest('build/globals'));
 });
 
-gulp.task('clean:debug:amd', function () {
+gulp.task('clean:debug:amd', () => {
 	return gulp
 		.src('build/amd/senna/**/*.js')
 		.pipe(stripDebug())
 		.pipe(gulp.dest('build/amd/senna'));
 });
 
-gulp.task('docs', function () {
+gulp.task('docs', () => {
 	return gulp.src(['src/**/*.js', 'README.md']).pipe(
 		jsdoc({
 			opts: {
@@ -157,7 +163,7 @@ gulp.task('docs', function () {
 	);
 });
 
-gulp.task('version', function () {
+gulp.task('version', () => {
 	return gulp
 		.src('build/**/*.js')
 		.pipe(
@@ -170,7 +176,7 @@ gulp.task('version', function () {
 
 // Runner ----------------------------------------------------------------------
 
-gulp.task('default', function (done) {
+gulp.task('default', (done) => {
 	runSequence(
 		'clean',
 		'css',
@@ -186,7 +192,7 @@ gulp.task('default', function (done) {
 	);
 });
 
-gulp.task('server', ['default'], function () {
+gulp.task('server', ['default'], () => {
 	connect.server({
 		port: 8888,
 	});

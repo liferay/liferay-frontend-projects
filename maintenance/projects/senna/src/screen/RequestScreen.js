@@ -1,15 +1,21 @@
+/**
+ * SPDX-FileCopyrightText: © 2021 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 'use strict';
 
 import {isDefAndNotNull} from 'metal';
 import Ajax from 'metal-ajax';
-import {MultiMap} from 'metal-structs';
 import CancellablePromise from 'metal-promise';
-import errors from '../errors/errors';
-import utils from '../utils/utils';
-import globals from '../globals/globals';
-import Screen from './Screen';
+import {MultiMap} from 'metal-structs';
 import Uri from 'metal-uri';
 import UA from 'metal-useragent';
+
+import errors from '../errors/errors';
+import globals from '../globals/globals';
+import utils from '../utils/utils';
+import Screen from './Screen';
 
 class RequestScreen extends Screen {
 
@@ -89,6 +95,7 @@ class RequestScreen extends Screen {
 		if (redirectPath && redirectPath !== path) {
 			return redirectPath;
 		}
+
 		return path;
 	}
 
@@ -104,6 +111,7 @@ class RequestScreen extends Screen {
 		if (state.senna && state.form && state.redirectPath === state.path) {
 			return null;
 		}
+
 		return state;
 	}
 
@@ -161,8 +169,10 @@ class RequestScreen extends Screen {
 			if (UA.isIeOrEdge && this.httpMethod === RequestScreen.GET) {
 				requestPath = new Uri(requestPath).removeUnique().toString();
 			}
+
 			return utils.getUrlPath(requestPath);
 		}
+
 		return null;
 	}
 
@@ -199,8 +209,9 @@ class RequestScreen extends Screen {
 	 * @return {!FormData}
 	 */
 	getFormData(formElement, submittedButtonElement) {
-		let formData = new FormData(formElement);
+		const formData = new FormData(formElement);
 		this.maybeAppendSubmitButtonValue_(formData, submittedButtonElement);
+
 		return formData;
 	}
 
@@ -230,6 +241,7 @@ class RequestScreen extends Screen {
 			}
 		}
 		const requestPath = this.formatLoadPath(path);
+
 		return Ajax.request(
 			requestPath,
 			httpMethod,
@@ -246,6 +258,7 @@ class RequestScreen extends Screen {
 					this.addCache(xhr.responseText);
 				}
 				xhr.requestPath = requestPath;
+
 				return xhr.responseText;
 			})
 			.catch((reason) => {
@@ -298,6 +311,7 @@ class RequestScreen extends Screen {
 		if (responseUrl) {
 			return responseUrl;
 		}
+
 		return request.getResponseHeader(RequestScreen.X_REQUEST_URL_HEADER);
 	}
 
@@ -311,11 +325,11 @@ class RequestScreen extends Screen {
 	 */
 	addSafariXHRPolyfill() {
 		if (globals.capturedFormElement && UA.isSafari) {
-			let inputs = globals.capturedFormElement.querySelectorAll(
+			const inputs = globals.capturedFormElement.querySelectorAll(
 				'input[type="file"]:not([disabled])'
 			);
 			for (let index = 0; index < inputs.length; index++) {
-				let input = inputs[index];
+				const input = inputs[index];
 				if (input.files.length > 0) {
 					return;
 				}
@@ -334,7 +348,7 @@ class RequestScreen extends Screen {
 	 */
 	removeSafariXHRPolyfill() {
 		if (globals.capturedFormElement && UA.isSafari) {
-			let inputs = globals.capturedFormElement.querySelectorAll(
+			const inputs = globals.capturedFormElement.querySelectorAll(
 				'input[type="file"][data-safari-temp-disabled]'
 			);
 			for (let index = 0; index < inputs.length; index++) {

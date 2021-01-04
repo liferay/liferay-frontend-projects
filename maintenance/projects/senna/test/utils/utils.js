@@ -1,10 +1,16 @@
+/**
+ * SPDX-FileCopyrightText: © 2021 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 'use strict';
 
-import utils from '../../src/utils/utils';
-import globals from '../../src/globals/globals';
 import Uri from 'metal-uri';
 
-describe('utils', function () {
+import globals from '../../src/globals/globals';
+import utils from '../../src/utils/utils';
+
+describe('utils', () => {
 	before(() => {
 		globals.window = {
 			location: {

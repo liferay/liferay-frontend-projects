@@ -1,11 +1,17 @@
+/**
+ * SPDX-FileCopyrightText: © 2021 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 'use strict';
 
 import dom from 'metal-dom';
+import Uri from 'metal-uri';
+import UA from 'metal-useragent';
+
 import globals from '../../src/globals/globals';
 import HtmlScreen from '../../src/screen/HtmlScreen';
 import Surface from '../../src/surface/Surface';
-import UA from 'metal-useragent';
-import Uri from 'metal-uri';
 
 describe('HtmlScreen', function () {
 	beforeEach(() => {
@@ -524,6 +530,7 @@ function enterDocumentSurfaceElement(surfaceId, opt_content) {
 			(opt_content ? opt_content : '') +
 			'</div>'
 	);
+
 	return document.getElementById(surfaceId);
 }
 

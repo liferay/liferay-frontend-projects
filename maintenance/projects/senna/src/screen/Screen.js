@@ -1,9 +1,15 @@
+/**
+ * SPDX-FileCopyrightText: © 2021 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 'use strict';
 
 import {getUid} from 'metal';
 import {globalEval} from 'metal-dom';
-import Cacheable from '../cacheable/Cacheable';
 import CancellablePromise from 'metal-promise';
+
+import Cacheable from '../cacheable/Cacheable';
 
 class Screen extends Cacheable {
 
@@ -121,6 +127,7 @@ class Screen extends Cacheable {
 				globalEval.runScriptsInElement(surfaces[sId].activeChild);
 			}
 		});
+
 		return CancellablePromise.resolve();
 	}
 
@@ -205,6 +212,7 @@ class Screen extends Cacheable {
 	 */
 	load() {
 		console.log('Screen [' + this + '] load');
+
 		return CancellablePromise.resolve();
 	}
 

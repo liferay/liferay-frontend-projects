@@ -1,11 +1,17 @@
+/**
+ * SPDX-FileCopyrightText: © 2021 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 'use strict';
 
 import dom from 'metal-dom';
-import Screen from '../../src/screen/Screen';
-import Surface from '../../src/surface/Surface';
 import CancellablePromise from 'metal-promise';
 
-describe('Screen', function () {
+import Screen from '../../src/screen/Screen';
+import Surface from '../../src/surface/Surface';
+
+describe('Screen', () => {
 	before(() => {
 
 		// Prevent log messages from showing up in test output.
@@ -74,10 +80,12 @@ describe('Screen', function () {
 		var stub2 = sinon.stub();
 		surfaces.surface1.show = () => {
 			stub1();
+
 			return CancellablePromise.resolve();
 		};
 		surfaces.surface2.show = () => {
 			stub2();
+
 			return CancellablePromise.resolve();
 		};
 		new Screen().flip(surfaces).then(() => {
@@ -152,6 +160,7 @@ function enterDocumentSurfaceElement(surfaceId, opt_content) {
 			(opt_content ? opt_content : '') +
 			'</div>'
 	);
+
 	return document.getElementById(surfaceId);
 }
 
