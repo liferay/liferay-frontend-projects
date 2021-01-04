@@ -1,39 +1,5 @@
 {
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
-	"name": "senna",
-	"version": "2.7.9",
-	"description": "A blazing-fast Single Page Application engine",
-	"license": "BSD-3-Clause",
-	"repository": {
-		"directory": "maintenance/projects/senna",
-		"type": "git",
-		"url": "https://github.com/liferay/liferay-frontend-projects.git"
-	},
-	"engines": {
-		"node": ">=0.12.0",
-		"npm": ">=3.0.0"
-	},
-	"jsnext:main": "src/senna.js",
-	"main": "lib/senna.js",
-	"files": [
-		"build",
-		"lib",
-		"src/**/*.js",
-		"test/**/*.js"
-	],
-	"scripts": {
-		"build": "gulp build build:amd",
-		"compile": "BABEL_ENV=compile babel -d lib/ src/",
-		"format": "cd ../../.. && yarn format",
-		"format:check": "cd ../../.. && yarn format:check",
-		"prepublish": "gulp && npm run compile"
-	},
-	"keywords": [
-		"spa",
-		"single",
-		"page",
-		"apps"
-	],
 	"dependencies": {
 		"bootstrap": "^3.3.6",
 		"metal": "^2.16.5",
@@ -47,6 +13,7 @@
 		"metal-uri": "^2.2.6",
 		"metal-useragent": "^3.0.0"
 	},
+	"description": "A blazing-fast Single Page Application engine",
 	"devDependencies": {
 		"babel-cli": "^6.4.5",
 		"babel-plugin-search-and-replace": "0.3.0",
@@ -64,5 +31,38 @@
 		"metal-tools-build-rollup": "^2.0.6",
 		"run-sequence": "^1.1.5",
 		"sinon": "1.17.7"
-	}
+	},
+	"engines": {
+		"node": ">=0.12.0",
+		"npm": ">=3.0.0"
+	},
+	"files": [
+		"build",
+		"lib",
+		"src/**/*.js",
+		"test/**/*.js"
+	],
+	"jsnext:main": "src/senna.js",
+	"keywords": [
+		"spa",
+		"single",
+		"page",
+		"apps"
+	],
+	"license": "BSD-3-Clause",
+	"main": "lib/senna.js",
+	"name": "senna",
+	"repository": {
+		"directory": "maintenance/projects/senna",
+		"type": "git",
+		"url": "https://github.com/liferay/liferay-frontend-projects.git"
+	},
+	"scripts": {
+		"build": "gulp build build:amd",
+		"compile": "BABEL_ENV=compile babel -d lib/ src/",
+		"format": "cd ../../.. && yarn format",
+		"format:check": "cd ../../.. && yarn format:check",
+		"prepublish": "gulp && npm run compile"
+	},
+	"version": "2.7.9"
 }
