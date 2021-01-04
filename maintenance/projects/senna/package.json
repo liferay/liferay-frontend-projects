@@ -3,7 +3,11 @@
   "version": "2.7.9",
   "description": "A blazing-fast Single Page Application engine",
   "license": "BSD-3-Clause",
-  "repository": "liferay/senna.js",
+  "repository": {
+    "directory": "maintenance/projects/senna",
+    "type": "git",
+    "url": "https://github.com/liferay/liferay-frontend-projects.git"
+  },
   "engines": {
     "node": ">=0.12.0",
     "npm": ">=3.0.0"
