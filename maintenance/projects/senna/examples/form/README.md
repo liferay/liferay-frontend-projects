@@ -8,14 +8,14 @@ Basic example of routing forms using Senna.js.
 
 2. Install global dependencies:
 
-  ```
-  npm install
-  ```
+```
+npm install
+```
 
 3. Run the server:
 
-  ```
-  node server.js
-  ```
+```
+node server.js
+```
 
 4. Open `http://localhost:3000/examples/form/` on the browser.

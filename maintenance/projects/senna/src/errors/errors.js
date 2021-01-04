@@ -4,8 +4,7 @@
  * Holds value error messages.
  * @const
  */
-class errors {
-}
+class errors {}
 
 /**
  * Invalid status error message.

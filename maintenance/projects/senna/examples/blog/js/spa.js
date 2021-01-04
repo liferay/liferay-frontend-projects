@@ -1,91 +1,93 @@
 'use strict';
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
 
-  /* ==========================================================================
+	/* ==========================================================================
      Creates a new Senna app
      ========================================================================== */
 
-  console.log('Senna version:', senna.version);
+	console.log('Senna version:', senna.version);
 
-  var app = new senna.App();
-  app.setBasePath('/examples/blog');
-  app.addSurfaces('posts');
-  app.addRoutes(new senna.Route(/\w+\.html/, senna.HtmlScreen));
+	var app = new senna.App();
+	app.setBasePath('/examples/blog');
+	app.addSurfaces('posts');
+	app.addRoutes(new senna.Route(/\w+\.html/, senna.HtmlScreen));
 
-  /* ==========================================================================
+	/* ==========================================================================
      Creates loading feedback HTML element
      ========================================================================== */
 
-  var loadingFeedback = document.createElement('div');
+	var loadingFeedback = document.createElement('div');
 
-  loadingFeedback.innerHTML = 'Loading more posts...';
-  loadingFeedback.classList.add('loading');
+	loadingFeedback.innerHTML = 'Loading more posts...';
+	loadingFeedback.classList.add('loading');
 
-  /* ==========================================================================
+	/* ==========================================================================
      Locks scroll position during navigation
      ========================================================================== */
 
-  var isLoading = false;
-  var scrollSensitivity = 0;
+	var isLoading = false;
+	var scrollSensitivity = 0;
 
-  app.on('startNavigate', function(event) {
-    isLoading = true;
-    scrollSensitivity = 0;
+	app.on('startNavigate', function (event) {
+		isLoading = true;
+		scrollSensitivity = 0;
 
-    if (!event.replaceHistory) {
-      app.setUpdateScrollPosition(false);
-    }
-  });
+		if (!event.replaceHistory) {
+			app.setUpdateScrollPosition(false);
+		}
+	});
 
-  app.on('endNavigate', function() {
-    isLoading = false;
+	app.on('endNavigate', function () {
+		isLoading = false;
 
-    app.setUpdateScrollPosition(true);
-  });
+		app.setUpdateScrollPosition(true);
+	});
 
-  /* ==========================================================================
+	/* ==========================================================================
      Infinite scrolling logic
      ========================================================================== */
 
-  document.addEventListener('scroll', function() {
-    if (window.pageYOffset < 0) {
-      return;
-    }
+	document.addEventListener('scroll', function () {
+		if (window.pageYOffset < 0) {
+			return;
+		}
 
-    scrollSensitivity++;
+		scrollSensitivity++;
 
-    if (isLoading || scrollSensitivity < 5) {
-      return;
-    }
+		if (isLoading || scrollSensitivity < 5) {
+			return;
+		}
 
-    if (window.innerHeight * 0.4 > getScrollDistanceToBottom()) {
-      debouncedNextPageLoader();
-    }
-  });
+		if (window.innerHeight * 0.4 > getScrollDistanceToBottom()) {
+			debouncedNextPageLoader();
+		}
+	});
 
-  var debouncedNextPageLoader = debounce(loadNextPage, 100);
+	var debouncedNextPageLoader = debounce(loadNextPage, 100);
 
-  function loadNextPage() {
-    if (!app.pendingNavigate && window.nextPage) {
-      document.querySelector('#posts').appendChild(loadingFeedback);
+	function loadNextPage() {
+		if (!app.pendingNavigate && window.nextPage) {
+			document.querySelector('#posts').appendChild(loadingFeedback);
 
-      // Goes to the next page using senna.App
-      app.navigate(window.nextPage);
-    }
-  }
+			// Goes to the next page using senna.App
 
-  function getScrollDistanceToBottom() {
-    return document.body.offsetHeight - window.pageYOffset - window.innerHeight;
-  }
+			app.navigate(window.nextPage);
+		}
+	}
 
-  function debounce(fn, delay) {
-    return function debounced() {
-      var args = arguments;
-      debounced.id = setTimeout(function() {
-        fn.apply(null, args);
-      }, delay);
-    };
-  }
+	function getScrollDistanceToBottom() {
+		return (
+			document.body.offsetHeight - window.pageYOffset - window.innerHeight
+		);
+	}
 
+	function debounce(fn, delay) {
+		return function debounced() {
+			var args = arguments;
+			debounced.id = setTimeout(function () {
+				fn.apply(null, args);
+			}, delay);
+		};
+	}
 });

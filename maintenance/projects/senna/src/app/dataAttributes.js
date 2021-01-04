@@ -7,5 +7,5 @@ export default {
 	senna: 'data-senna',
 	dispatch: 'data-senna-dispatch',
 	surface: 'data-senna-surface',
-	updateScrollPosition: 'data-senna-update-scroll-position'
+	updateScrollPosition: 'data-senna-update-scroll-position',
 };

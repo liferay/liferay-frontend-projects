@@ -1,68 +1,68 @@
 {
-  "author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
-  "name": "senna",
-  "version": "2.7.9",
-  "description": "A blazing-fast Single Page Application engine",
-  "license": "BSD-3-Clause",
-  "repository": {
-    "directory": "maintenance/projects/senna",
-    "type": "git",
-    "url": "https://github.com/liferay/liferay-frontend-projects.git"
-  },
-  "engines": {
-    "node": ">=0.12.0",
-    "npm": ">=3.0.0"
-  },
-  "jsnext:main": "src/senna.js",
-  "main": "lib/senna.js",
-  "files": [
-    "build",
-    "lib",
-    "src/**/*.js",
-    "test/**/*.js"
-  ],
-  "scripts": {
-    "build": "gulp build build:amd",
-    "compile": "BABEL_ENV=compile babel -d lib/ src/",
-    "format": "cd ../../.. && yarn format",
-    "format:check": "cd ../../.. && yarn format:check",
-    "prepublish": "gulp && npm run compile"
-  },
-  "keywords": [
-    "spa",
-    "single",
-    "page",
-    "apps"
-  ],
-  "dependencies": {
-    "bootstrap": "^3.3.6",
-    "metal": "^2.16.5",
-    "metal-ajax": "^2.1.1",
-    "metal-debounce": "^2.0.0",
-    "metal-dom": "^2.16.8",
-    "metal-events": "^2.16.5",
-    "metal-path-parser": "^1.0.3",
-    "metal-promise": "^2.0.1",
-    "metal-structs": "^1.0.0",
-    "metal-uri": "^2.2.6",
-    "metal-useragent": "^3.0.0"
-  },
-  "devDependencies": {
-    "babel-cli": "^6.4.5",
-    "babel-plugin-search-and-replace": "0.3.0",
-    "babel-plugin-transform-remove-console": "^6.9.4",
-    "babel-preset-metal": "^4.0.0",
-    "gulp": "^3.8.11",
-    "gulp-connect": "^5.0.0",
-    "gulp-header": "^1.7.1",
-    "gulp-jsdoc3": "^1.0.1",
-    "gulp-metal": "2.2.2",
-    "gulp-rename": "^1.2.2",
-    "gulp-strip-debug": "^1.1.0",
-    "gulp-template": "^4.0.0",
-    "metal-karma-config": "^2.3.1",
-    "metal-tools-build-rollup": "^2.0.6",
-    "run-sequence": "^1.1.5",
-    "sinon": "1.17.7"
-  }
+	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
+	"name": "senna",
+	"version": "2.7.9",
+	"description": "A blazing-fast Single Page Application engine",
+	"license": "BSD-3-Clause",
+	"repository": {
+		"directory": "maintenance/projects/senna",
+		"type": "git",
+		"url": "https://github.com/liferay/liferay-frontend-projects.git"
+	},
+	"engines": {
+		"node": ">=0.12.0",
+		"npm": ">=3.0.0"
+	},
+	"jsnext:main": "src/senna.js",
+	"main": "lib/senna.js",
+	"files": [
+		"build",
+		"lib",
+		"src/**/*.js",
+		"test/**/*.js"
+	],
+	"scripts": {
+		"build": "gulp build build:amd",
+		"compile": "BABEL_ENV=compile babel -d lib/ src/",
+		"format": "cd ../../.. && yarn format",
+		"format:check": "cd ../../.. && yarn format:check",
+		"prepublish": "gulp && npm run compile"
+	},
+	"keywords": [
+		"spa",
+		"single",
+		"page",
+		"apps"
+	],
+	"dependencies": {
+		"bootstrap": "^3.3.6",
+		"metal": "^2.16.5",
+		"metal-ajax": "^2.1.1",
+		"metal-debounce": "^2.0.0",
+		"metal-dom": "^2.16.8",
+		"metal-events": "^2.16.5",
+		"metal-path-parser": "^1.0.3",
+		"metal-promise": "^2.0.1",
+		"metal-structs": "^1.0.0",
+		"metal-uri": "^2.2.6",
+		"metal-useragent": "^3.0.0"
+	},
+	"devDependencies": {
+		"babel-cli": "^6.4.5",
+		"babel-plugin-search-and-replace": "0.3.0",
+		"babel-plugin-transform-remove-console": "^6.9.4",
+		"babel-preset-metal": "^4.0.0",
+		"gulp": "^3.8.11",
+		"gulp-connect": "^5.0.0",
+		"gulp-header": "^1.7.1",
+		"gulp-jsdoc3": "^1.0.1",
+		"gulp-metal": "2.2.2",
+		"gulp-rename": "^1.2.2",
+		"gulp-strip-debug": "^1.1.0",
+		"gulp-template": "^4.0.0",
+		"metal-karma-config": "^2.3.1",
+		"metal-tools-build-rollup": "^2.0.6",
+		"run-sequence": "^1.1.5",
+		"sinon": "1.17.7"
+	}
 }

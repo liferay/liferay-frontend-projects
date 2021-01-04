@@ -2,8 +2,7 @@
 
 import Cacheable from '../../src/cacheable/Cacheable';
 
-describe('Cacheable', function() {
-
+describe('Cacheable', function () {
 	it('should not be cacheable by default', () => {
 		assert.ok(!new Cacheable().isCacheable());
 	});
@@ -30,5 +29,4 @@ describe('Cacheable', function() {
 		cacheable.dispose();
 		assert.strictEqual(null, cacheable.getCache());
 	});
-
 });

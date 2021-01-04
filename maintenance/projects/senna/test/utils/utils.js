@@ -4,19 +4,18 @@ import utils from '../../src/utils/utils';
 import globals from '../../src/globals/globals';
 import Uri from 'metal-uri';
 
-describe('utils', function() {
-
+describe('utils', function () {
 	before(() => {
 		globals.window = {
 			location: {
 				hostname: 'hostname',
 				pathname: '/path',
 				search: '?a=1',
-				hash: '#hash'
+				hash: '#hash',
 			},
 			history: {
-				pushState: 1
-			}
+				pushState: 1,
+			},
 		};
 	});
 
@@ -52,22 +51,35 @@ describe('utils', function() {
 	});
 
 	it('should get path from url', () => {
-		assert.strictEqual('/path?a=1#hash', utils.getUrlPath('http://hostname/path?a=1#hash'));
+		assert.strictEqual(
+			'/path?a=1#hash',
+			utils.getUrlPath('http://hostname/path?a=1#hash')
+		);
 	});
 
 	it('should get path from url excluding hashbang', () => {
-		assert.strictEqual('/path?a=1', utils.getUrlPathWithoutHash('http://hostname/path?a=1#hash'));
+		assert.strictEqual(
+			'/path?a=1',
+			utils.getUrlPathWithoutHash('http://hostname/path?a=1#hash')
+		);
 	});
 
 	it('should get path from url excluding hashbang and search', () => {
-		assert.strictEqual('/path', utils.getUrlPathWithoutHashAndSearch('http://hostname/path?a=1#hash'));
+		assert.strictEqual(
+			'/path',
+			utils.getUrlPathWithoutHashAndSearch(
+				'http://hostname/path?a=1#hash'
+			)
+		);
 	});
 
 	it('should test if path is current browser path', () => {
 		assert.ok(utils.isCurrentBrowserPath('http://hostname/path?a=1'));
 		assert.ok(utils.isCurrentBrowserPath('http://hostname/path?a=1#hash'));
 		assert.ok(!utils.isCurrentBrowserPath('http://hostname/path1?a=1'));
-		assert.ok(!utils.isCurrentBrowserPath('http://hostname/path1?a=1#hash'));
+		assert.ok(
+			!utils.isCurrentBrowserPath('http://hostname/path1?a=1#hash')
+		);
 		assert.ok(!utils.isCurrentBrowserPath());
 	});
 
@@ -76,7 +88,10 @@ describe('utils', function() {
 	});
 
 	it('should get current browser path excluding hashbang', () => {
-		assert.strictEqual('/path?a=1', utils.getCurrentBrowserPathWithoutHash());
+		assert.strictEqual(
+			'/path?a=1',
+			utils.getCurrentBrowserPathWithoutHash()
+		);
 	});
 
 	it('should test if Html5 history is supported', () => {
@@ -86,8 +101,10 @@ describe('utils', function() {
 	});
 
 	it('should test if a given url is a valid web (http/https) uri', () => {
-		assert.ok(!utils.isWebUri('tel:+999999999'), 'tel:+999999999 is not a valid url');
+		assert.ok(
+			!utils.isWebUri('tel:+999999999'),
+			'tel:+999999999 is not a valid url'
+		);
 		assert.instanceOf(utils.isWebUri('http://localhost:12345'), Uri);
 	});
-
 });

@@ -10,4 +10,13 @@ import Screen from './screen/Screen';
 import version from './app/version';
 
 export default App;
-export { dataAttributeHandler, utils, App, HtmlScreen, Route, RequestScreen, Screen, version };
+export {
+	dataAttributeHandler,
+	utils,
+	App,
+	HtmlScreen,
+	Route,
+	RequestScreen,
+	Screen,
+	version,
+};

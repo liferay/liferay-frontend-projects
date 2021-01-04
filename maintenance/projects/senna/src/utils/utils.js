@@ -1,6 +1,6 @@
 'use strict';
 
-import { exitDocument } from 'metal-dom';
+import {exitDocument} from 'metal-dom';
 import globals from '../globals/globals';
 import Uri from 'metal-uri';
 
@@ -16,7 +16,11 @@ class utils {
 	 * @static
 	 */
 	static copyNodeAttributes(source, target) {
-		Array.prototype.slice.call(source.attributes).forEach((attribute) => target.setAttribute(attribute.name, attribute.value));
+		Array.prototype.slice
+			.call(source.attributes)
+			.forEach((attribute) =>
+				target.setAttribute(attribute.name, attribute.value)
+			);
 	}
 
 	/**
@@ -25,7 +29,10 @@ class utils {
 	 * @static
 	 */
 	static getCurrentBrowserPath() {
-		return this.getCurrentBrowserPathWithoutHash() + globals.window.location.hash;
+		return (
+			this.getCurrentBrowserPathWithoutHash() +
+			globals.window.location.hash
+		);
 	}
 
 	/**
@@ -34,7 +41,9 @@ class utils {
 	 * @static
 	 */
 	static getCurrentBrowserPathWithoutHash() {
-		return globals.window.location.pathname + globals.window.location.search;
+		return (
+			globals.window.location.pathname + globals.window.location.search
+		);
 	}
 
 	/**
@@ -51,7 +60,7 @@ class utils {
 		} while (node);
 		return {
 			offsetLeft,
-			offsetTop
+			offsetTop,
 		};
 	}
 
@@ -94,9 +103,14 @@ class utils {
 	static isCurrentBrowserPath(url) {
 		if (url) {
 			const currentBrowserPath = this.getCurrentBrowserPathWithoutHash();
+
 			// the getUrlPath will create a Uri and will normalize the path and
 			// remove the trailling '/' for properly comparing paths.
-			return utils.getUrlPathWithoutHash(url) === this.getUrlPath(currentBrowserPath);
+
+			return (
+				utils.getUrlPathWithoutHash(url) ===
+				this.getUrlPath(currentBrowserPath)
+			);
 		}
 		return false;
 	}
@@ -119,7 +133,8 @@ class utils {
 	static isWebUri(url) {
 		try {
 			return new Uri(url);
-		} catch (err) {
+		}
+		catch (err) {
 			console.error(`${err.message} ${url}`);
 			return false;
 		}
@@ -131,7 +146,9 @@ class utils {
 	 * @static
 	 */
 	static clearNodeAttributes(node) {
-		Array.prototype.slice.call(node.attributes).forEach((attribute) => node.removeAttribute(attribute.name));
+		Array.prototype.slice
+			.call(node.attributes)
+			.forEach((attribute) => node.removeAttribute(attribute.name));
 	}
 
 	/**
@@ -143,10 +160,10 @@ class utils {
 	}
 
 	/**
-	* Removes trailing slash in path.
-	* @param {!string}
-	* @return {string}
-	*/
+	 * Removes trailing slash in path.
+	 * @param {!string}
+	 * @return {string}
+	 */
 	static removePathTrailingSlash(path) {
 		var length = path ? path.length : 0;
 		if (length > 1 && path[length - 1] === '/') {
@@ -173,9 +190,9 @@ class utils {
 	static setReferrer(referrer) {
 		Object.defineProperty(globals.document, 'referrer', {
 			configurable: true,
-			get: function() {
+			get: function () {
 				return referrer;
-			}
+			},
 		});
 	}
 }

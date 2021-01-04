@@ -8,18 +8,18 @@
 [![Dependencies Status](http://img.shields.io/david/liferay/senna.js.svg?style=flat)](https://david-dm.org/liferay/senna.js#info=dependencies)
 [![DevDependencies Status](http://img.shields.io/david/dev/liferay/senna.js.svg?style=flat)](https://david-dm.org/liferay/senna.js#info=devDependencies)
 
-*Senna.js* is a blazing-fast single page application engine that provides several low-level APIs that allows you to build modern web-based applications with only ~15 KB of JavaScript without any dependency.
+_Senna.js_ is a blazing-fast single page application engine that provides several low-level APIs that allows you to build modern web-based applications with only ~15 KB of JavaScript without any dependency.
 
-* [Official website](http://sennajs.com)
-* [Website repository](https://github.com/liferay/sennajs.com)
-* [Documentation](http://sennajs.com/docs/)
-* [API Docs](http://sennajs.com/api/)
+-   [Official website](http://sennajs.com)
+-   [Website repository](https://github.com/liferay/sennajs.com)
+-   [Documentation](http://sennajs.com/docs/)
+-   [API Docs](http://sennajs.com/api/)
 
 ## Support and Project status
 
 Senna.js is widely used and well maintained internally at Liferay but
-does not currently have staffing to support the open source release.  As such
-this project is mostly _internal_ and support is _minimal_.  For certain
+does not currently have staffing to support the open source release. As such
+this project is mostly _internal_ and support is _minimal_. For certain
 issues, like build integration we are in an especially bad position to offer
 support.
 
@@ -42,9 +42,9 @@ npm install senna
 
 ## Examples
 
-* **[Email Example](http://sennajs.com/examples/email):** *Enable Single Page Apps using only HTML5 data-attributes;*
-* **[Gallery Example](http://sennajs.com/examples/gallery):** *Carousel app with history support and cacheable screens;*
-* **[Blog Example](http://sennajs.com/examples/blog):** *Infinite scrolling pages done right with history support;*
+-   **[Email Example](http://sennajs.com/examples/email):** _Enable Single Page Apps using only HTML5 data-attributes;_
+-   **[Gallery Example](http://sennajs.com/examples/gallery):** _Carousel app with history support and cacheable screens;_
+-   **[Blog Example](http://sennajs.com/examples/blog):** _Infinite scrolling pages done right with history support;_
 
 ## Setup
 
@@ -52,36 +52,36 @@ npm install senna
 
 2. Install global dependencies:
 
-  ```
-  [sudo] npm install -g gulp
-  ```
+```
+[sudo] npm install -g gulp
+```
 
 3. Install local dependencies:
 
-  ```
-  npm install
-  bower install
-  ```
+```
+npm install
+bower install
+```
 
 4. Build the code:
 
-  ```
-  gulp
-  ```
+```
+gulp
+```
 
-  ```
-  gulp server
-  ```
+```
+gulp server
+```
 
 5. Test the code:
 
-  ```
-  gulp test
-  ```
+```
+gulp test
+```
 
-  ```
-  gulp test:coverage
-  ```
+```
+gulp test:coverage
+```
 
 ## Contributing
 
@@ -93,18 +93,18 @@ For detailed changelog, check [Releases](https://github.com/liferay/senna.js/rel
 
 ## Credits
 
-* Inspired by Daniel Pupius' [Surface project](https://github.com/dpup/surface)
-* Demo layouts by [Pure CSS](http://purecss.io/)
-* Icon made by [Freepik](http://www.freepik.com)
+-   Inspired by Daniel Pupius' [Surface project](https://github.com/dpup/surface)
+-   Demo layouts by [Pure CSS](http://purecss.io/)
+-   Icon made by [Freepik](http://www.freepik.com)
 
 ## Team
 
-*Senna.js* was made with love by these people and a bunch of [awesome contributors](https://github.com/liferay/senna.js/graphs/contributors).
+_Senna.js_ was made with love by these people and a bunch of [awesome contributors](https://github.com/liferay/senna.js/graphs/contributors).
 
-| Author | Maintainer |
-|:-:|:-:|
+|                                                     Author                                                      |                                              Maintainer                                               |
+| :-------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------: |
 | [![Eduardo Lundgren](https://avatars3.githubusercontent.com/u/113087?s=70)](https://github.com/eduardolundgren) | [![Bruno Basto](https://avatars1.githubusercontent.com/u/156388?s=70)](https://github.com/brunobasto) |
-| [Eduardo Lundgren](https://github.com/eduardolundgren) | [Bruno Basto](https://github.com/brunobasto) |
+|                             [Eduardo Lundgren](https://github.com/eduardolundgren)                              |                             [Bruno Basto](https://github.com/brunobasto)                              |
 
 ## Browser Support
 

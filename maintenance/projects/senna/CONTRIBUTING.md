@@ -10,41 +10,41 @@ organized, as well as contribution requirements.
 
 2. Install global dependencies:
 
-  ```
-  [sudo] npm install -g gulp
-  ```
+```
+[sudo] npm install -g gulp
+```
 
 3. Install local dependencies:
 
-  ```
-  npm install
-  bower install
-  ```
+```
+npm install
+bower install
+```
 
 4. Build the code:
 
-  ```
-  gulp
-  ```
+```
+gulp
+```
 
-  ```
-  gulp server
-  ```
+```
+gulp server
+```
 
 5. Test the code:
 
-  ```
-  gulp test
-  ```
+```
+gulp test
+```
 
-  ```
-  gulp test:coverage
-  ```
+```
+gulp test:coverage
+```
 
 ## Pull requests & Github issues
 
-* A Github issue should also be created for any bug fix or feature, this helps
-when generating the CHANGELOG.md file.
+-   A Github issue should also be created for any bug fix or feature, this helps
+    when generating the CHANGELOG.md file.
 
 ## Tests
 
@@ -78,5 +78,5 @@ All methods should be documented, following [google's format](https://github.com
 
 ## Branch structure
 
-- `master`: corresponds to the 2.x series of releases.
-- `3.x`: corresponds to the 3.x series of prereleases.
+-   `master`: corresponds to the 2.x series of releases.
+-   `3.x`: corresponds to the 3.x series of prereleases.

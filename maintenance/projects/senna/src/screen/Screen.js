@@ -1,7 +1,7 @@
 'use strict';
 
-import { getUid } from 'metal';
-import { globalEval } from 'metal-dom';
+import {getUid} from 'metal';
+import {globalEval} from 'metal-dom';
 import Cacheable from '../cacheable/Cacheable';
 import CancellablePromise from 'metal-promise';
 
@@ -116,7 +116,7 @@ class Screen extends Cacheable {
 	 *     pause the navigation until it is resolved.
 	 */
 	evaluateScripts(surfaces) {
-		Object.keys(surfaces).forEach(sId => {
+		Object.keys(surfaces).forEach((sId) => {
 			if (surfaces[sId].activeChild) {
 				globalEval.runScriptsInElement(surfaces[sId].activeChild);
 			}
@@ -147,7 +147,7 @@ class Screen extends Cacheable {
 
 		var transitions = [];
 
-		Object.keys(surfaces).forEach(sId => {
+		Object.keys(surfaces).forEach((sId) => {
 			var surface = surfaces[sId];
 			var deferred = surface.show(this.id);
 			transitions.push(deferred);
@@ -248,7 +248,6 @@ class Screen extends Cacheable {
 	toString() {
 		return this.id;
 	}
-
 }
 
 /**
@@ -256,7 +255,7 @@ class Screen extends Cacheable {
  * @return {boolean} Whether a given instance implements
  * <code>Screen</code>.
  */
-Screen.isImplementedBy = function(object) {
+Screen.isImplementedBy = function (object) {
 	return object instanceof Screen;
 };
 

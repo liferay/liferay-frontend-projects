@@ -1,8 +1,8 @@
 'use strict';
 
-import { isDefAndNotNull } from 'metal';
+import {isDefAndNotNull} from 'metal';
 import Ajax from 'metal-ajax';
-import { MultiMap } from 'metal-structs';
+import {MultiMap} from 'metal-structs';
 import CancellablePromise from 'metal-promise';
 import errors from '../errors/errors';
 import utils from '../utils/utils';
@@ -39,7 +39,7 @@ class RequestScreen extends Screen {
 		 */
 		this.httpHeaders = {
 			'X-PJAX': 'true',
-			'X-Requested-With': 'XMLHttpRequest'
+			'X-Requested-With': 'XMLHttpRequest',
 		};
 
 		/**
@@ -96,9 +96,11 @@ class RequestScreen extends Screen {
 	 * @inheritDoc
 	 */
 	beforeUpdateHistoryState(state) {
+
 		// If state is ours and navigate to post-without-redirect-get set
 		// history state to null, that way Senna will reload the page on
 		// popstate since it cannot predict post data.
+
 		if (state.senna && state.form && state.redirectPath === state.path) {
 			return null;
 		}
@@ -189,18 +191,18 @@ class RequestScreen extends Screen {
 		return statusCode >= 200 && statusCode <= 399;
 	}
 
-  /**
-   * Returns the form data
-   * This method can be extended in order to have a custom implementation of the form params
-   * @param {!Element} formElement
-   * @param {!Element} submittedButtonElement
-   * @return {!FormData}
-   */
+	/**
+	 * Returns the form data
+	 * This method can be extended in order to have a custom implementation of the form params
+	 * @param {!Element} formElement
+	 * @param {!Element} submittedButtonElement
+	 * @return {!FormData}
+	 */
 	getFormData(formElement, submittedButtonElement) {
-    let formData = new FormData(formElement);
-    this.maybeAppendSubmitButtonValue_(formData, submittedButtonElement);
-    return formData;
-  }
+		let formData = new FormData(formElement);
+		this.maybeAppendSubmitButtonValue_(formData, submittedButtonElement);
+		return formData;
+	}
 
 	/**
 	 * @inheritDoc
@@ -213,19 +215,30 @@ class RequestScreen extends Screen {
 		let body = null;
 		let httpMethod = this.httpMethod;
 		const headers = new MultiMap();
-		Object.keys(this.httpHeaders).forEach(header => headers.add(header, this.httpHeaders[header]));
+		Object.keys(this.httpHeaders).forEach((header) =>
+			headers.add(header, this.httpHeaders[header])
+		);
 		if (globals.capturedFormElement) {
 			this.addSafariXHRPolyfill();
-			body = this.getFormData(globals.capturedFormElement, globals.capturedFormButtonElement);
+			body = this.getFormData(
+				globals.capturedFormElement,
+				globals.capturedFormButtonElement
+			);
 			httpMethod = RequestScreen.POST;
 			if (UA.isIeOrEdge) {
 				headers.add('If-None-Match', '"0"');
 			}
 		}
 		const requestPath = this.formatLoadPath(path);
-		return Ajax
-			.request(requestPath, httpMethod, body, headers, null, this.timeout)
-			.then(xhr => {
+		return Ajax.request(
+			requestPath,
+			httpMethod,
+			body,
+			headers,
+			null,
+			this.timeout
+		)
+			.then((xhr) => {
 				this.removeSafariXHRPolyfill();
 				this.setRequest(xhr);
 				this.assertValidResponseStatusCode(xhr.status);
@@ -257,12 +270,15 @@ class RequestScreen extends Screen {
 	 * Adds aditional data to the body of the request in case a submit button
 	 * is captured during form submission.
 	 * @param {!FormData} body The FormData containing the request body.
-   * @param {!Element} submittedButtonElement
-   * @protected
+	 * @param {!Element} submittedButtonElement
+	 * @protected
 	 */
 	maybeAppendSubmitButtonValue_(formData, submittedButtonElement) {
 		if (submittedButtonElement && submittedButtonElement.name) {
-      formData.append(submittedButtonElement.name, submittedButtonElement.value);
+			formData.append(
+				submittedButtonElement.name,
+				submittedButtonElement.value
+			);
 		}
 	}
 
@@ -286,16 +302,18 @@ class RequestScreen extends Screen {
 	}
 
 	/**
-	 * This function set attribute data-safari-temp-disabled to 
+	 * This function set attribute data-safari-temp-disabled to
 	 * true and set disable attribute of an input type="file" tag
-	 * is used as a polyfill for iOS 11.3 Safari / macOS Safari 11.1 
+	 * is used as a polyfill for iOS 11.3 Safari / macOS Safari 11.1
 	 * empty <input type="file"> XHR bug.
 	 * https://github.com/rails/rails/issues/32440
 	 * https://bugs.webkit.org/show_bug.cgi?id=184490
 	 */
 	addSafariXHRPolyfill() {
 		if (globals.capturedFormElement && UA.isSafari) {
-			let inputs = globals.capturedFormElement.querySelectorAll('input[type="file"]:not([disabled])');
+			let inputs = globals.capturedFormElement.querySelectorAll(
+				'input[type="file"]:not([disabled])'
+			);
 			for (let index = 0; index < inputs.length; index++) {
 				let input = inputs[index];
 				if (input.files.length > 0) {
@@ -316,7 +334,9 @@ class RequestScreen extends Screen {
 	 */
 	removeSafariXHRPolyfill() {
 		if (globals.capturedFormElement && UA.isSafari) {
-			let inputs = globals.capturedFormElement.querySelectorAll('input[type="file"][data-safari-temp-disabled]');
+			let inputs = globals.capturedFormElement.querySelectorAll(
+				'input[type="file"][data-safari-temp-disabled]'
+			);
 			for (let index = 0; index < inputs.length; index++) {
 				const input = inputs[index];
 				input.removeAttribute('data-safari-temp-disabled');
@@ -356,7 +376,6 @@ class RequestScreen extends Screen {
 	setTimeout(timeout) {
 		this.timeout = timeout;
 	}
-
 }
 
 /**

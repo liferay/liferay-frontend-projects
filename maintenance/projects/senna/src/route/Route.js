@@ -1,7 +1,7 @@
 'use strict';
 
-import { isDefAndNotNull, isFunction, isString } from 'metal';
-import { extractData, parse, toRegex } from 'metal-path-parser';
+import {isDefAndNotNull, isFunction, isString} from 'metal';
+import {extractData, parse, toRegex} from 'metal-path-parser';
 
 class Route {
 
@@ -36,17 +36,17 @@ class Route {
 	}
 
 	/**
-	* Builds parsed data (regex and tokens) for this route.
-	* @return {!Object}
-	* @protected
-	*/
+	 * Builds parsed data (regex and tokens) for this route.
+	 * @return {!Object}
+	 * @protected
+	 */
 	buildParsedData_() {
 		if (!this.parsedData_) {
 			var tokens = parse(this.path);
 			var regex = toRegex(tokens);
 			this.parsedData_ = {
 				regex,
-				tokens
+				tokens,
 			};
 		}
 		return this.parsedData_;
@@ -82,8 +82,8 @@ class Route {
 	}
 
 	/**
- 	 * Matches if the router can handle the tested path.
- 	 * @param {!string} value Path to test (may contain the querystring part).
+	 * Matches if the router can handle the tested path.
+	 * @param {!string} value Path to test (may contain the querystring part).
 	 * @return {boolean} Returns true if matches any route.
 	 */
 	matchesPath(value) {
@@ -101,7 +101,6 @@ class Route {
 
 		return false;
 	}
-
 }
 
 export default Route;

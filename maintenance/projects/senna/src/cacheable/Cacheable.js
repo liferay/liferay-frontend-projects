@@ -1,6 +1,6 @@
 'use strict';
 
-import { Disposable } from 'metal';
+import {Disposable} from 'metal';
 
 class Cacheable extends Disposable {
 
@@ -84,7 +84,6 @@ class Cacheable extends Disposable {
 		}
 		this.cacheable = cacheable;
 	}
-
 }
 
 export default Cacheable;
