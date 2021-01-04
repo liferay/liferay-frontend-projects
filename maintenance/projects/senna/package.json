@@ -1,4 +1,5 @@
 {
+  "author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
   "name": "senna",
   "version": "2.7.9",
   "description": "A blazing-fast Single Page Application engine",
