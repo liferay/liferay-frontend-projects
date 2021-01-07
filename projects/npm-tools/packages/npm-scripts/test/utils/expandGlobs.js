@@ -220,4 +220,24 @@ describe('expandGlobs()', () => {
 			/Redundant ignore patterns/
 		);
 	});
+
+	it('can match files in a different directory', () => {
+		const randomTempDir = fs.mkdtempSync(
+			path.join(os.tmpdir(), 'scripts-basedir-')
+		);
+
+		// Note that globs are always expressed in (and expanded to) POSIX form.
+
+		const tempFilePath = path.posix.join(randomTempDir, 'test.js');
+
+		fs.writeFileSync(tempFilePath, '');
+
+		let files = expand(['*']);
+
+		expect(files).not.toEqual([tempFilePath]);
+
+		files = expand(['*'], [], {baseDir: randomTempDir});
+
+		expect(files).toEqual([tempFilePath]);
+	});
 });
