@@ -1,3 +1,15 @@
+## [npm-scripts/v36.8.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v36.8.0) (2021-01-07)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v36.7.0...npm-scripts/v36.8.0)
+
+### :new: Features
+
+-   feat(npm-scripts): add script for building sass ([\#282](https://github.com/liferay/liferay-frontend-projects/pull/282))
+
+### :house: Chores
+
+-   chore(npm-scripts): add missing dependency ([\#367](https://github.com/liferay/liferay-frontend-projects/pull/367))
+
 ## [npm-scripts/v36.7.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v36.7.0) (2020-12-29)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v36.6.0...npm-scripts/v36.7.0)
