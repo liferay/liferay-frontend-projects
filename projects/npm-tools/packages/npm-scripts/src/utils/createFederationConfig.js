@@ -21,9 +21,24 @@ const writeWebpackFederationEntryPoint = require('./writeWebpackFederationEntryP
  * the relation is not used for anything. However, it is better to do it this
  * way, because if we mix all together we end up with a very entangled
  * configuration.
+ *
+ * Note also that when you want to include a project in the federated build to
+ * consume other packages (even if it doesn't publish any package) you must
+ * declare it here.
  */
 const FEDERATED_PACKAGES = {
-	'frontend-js-react-web': ['react'],
+	'frontend-js-react-web': [
+		'classnames',
+		'formik',
+		'prop-types',
+		'react',
+		'react-dnd',
+		'react-dnd-html5-backend',
+		'react-dom',
+	],
+	'frontend-js-web': [],
+	'frontend-taglib-clay': ['@clayui/icon'],
+	'portal-template-react-renderer-impl': [],
 };
 
 /**
