@@ -8,9 +8,7 @@
 		"resolveJsonModule": true,
 		"sourceMap": false,
 		"target": "ES2018",
-		"types": [
-			"jest"
-		]
+		"types": ["jest"]
 	},
 	"exclude": ["node_modules", "**/__tests__/**"]
 }
