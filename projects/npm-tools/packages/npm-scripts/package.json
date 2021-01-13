@@ -51,6 +51,7 @@
 		"metal-tools-soy": "4.3.2",
 		"mini-css-extract-plugin": "0.11.2",
 		"minimist": "^1.2.0",
+		"path-browserify": "^1.0.1",
 		"prettier": "^2.1.2",
 		"react": "*",
 		"react-dom": "*",
