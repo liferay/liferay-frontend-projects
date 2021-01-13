@@ -50,6 +50,7 @@ module.exports = function (previousDirRelPath) {
 
 				if (
 					NODE_TYPES.has(node.type) &&
+					source &&
 					source.value.startsWith('./')
 				) {
 					source.value = source.value.replace(/^\./, dotReplacement);
