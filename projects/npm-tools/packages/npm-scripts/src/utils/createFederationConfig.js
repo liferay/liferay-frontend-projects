@@ -9,37 +9,153 @@ const {
 } = require('webpack');
 
 const createTempFile = require('./createTempFile');
+const getMergedConfig = require('./getMergedConfig');
 const parseBnd = require('./parseBnd');
 const writeWebpackFederationEntryPoint = require('./writeWebpackFederationEntryPoint');
 
 /**
- * This object must represent the current configuration status of the portal's
- * project if we don't want to break the build. It contains, for each
- * federation-enabled project, the packages that are federated.
+ * The following two arrays are roughly equivalent to the old default preset
+ * imports for bundler 2.
  *
- * Note that there's no real need to define federated packages per project as
- * the relation is not used for anything. However, it is better to do it this
- * way, because if we mix all together we end up with a very entangled
- * configuration.
+ * In the case of `DEFAULT_REMOTES` it serves the same purpose as the `"/"`
+ * imports.
  *
- * Note also that when you want to include a project in the federated build to
- * consume other packages (even if it doesn't publish any package) you must
- * declare it here.
+ * The `DEFAULT_SHARED` array contains the list of external dependencies that
+ * must be shared across all projects.
  */
-const FEDERATED_PACKAGES = {
-	'frontend-js-react-web': [
-		'classnames',
-		'formik',
-		'prop-types',
-		'react',
-		'react-dnd',
-		'react-dnd-html5-backend',
-		'react-dom',
-	],
-	'frontend-js-web': [],
-	'frontend-taglib-clay': ['@clayui/icon'],
-	'portal-template-react-renderer-impl': [],
-};
+const DEFAULT_REMOTES = [
+	'frontend-js-components-web',
+	'frontend-js-metal-web',
+	'frontend-js-react-web',
+	'frontend-js-spa-web',
+	'frontend-js-web',
+	'frontend-taglib',
+	'frontend-taglib-chart',
+	'frontend-taglib-clay',
+];
+const DEFAULT_SHARED = [
+	'@clayui/alert',
+	'@clayui/autocomplete',
+	'@clayui/badge',
+	'@clayui/breadcrumb',
+	'@clayui/button',
+	'@clayui/card',
+	'@clayui/charts',
+	'@clayui/color-picker',
+	'@clayui/css',
+	'@clayui/data-provider',
+	'@clayui/date-picker',
+	'@clayui/drop-down',
+	'@clayui/empty-state',
+	'@clayui/form',
+	'@clayui/icon',
+	'@clayui/label',
+	'@clayui/layout',
+	'@clayui/link',
+	'@clayui/list',
+	'@clayui/loading-indicator',
+	'@clayui/management-toolbar',
+	'@clayui/modal',
+	'@clayui/multi-select',
+	'@clayui/multi-step-nav',
+	'@clayui/nav',
+	'@clayui/navigation-bar',
+	'@clayui/pagination',
+	'@clayui/pagination-bar',
+	'@clayui/panel',
+	'@clayui/popover',
+	'@clayui/progress-bar',
+	'@clayui/shared',
+	'@clayui/slider',
+	'@clayui/sticker',
+	'@clayui/table',
+	'@clayui/tabs',
+	'@clayui/time-picker',
+	'@clayui/tooltip',
+	'@clayui/upper-toolbar',
+	'classnames',
+	'clay',
+	'clay-alert',
+	'clay-autocomplete',
+	'clay-badge',
+	'clay-button',
+	'clay-card',
+	'clay-card-grid',
+	'clay-checkbox',
+	'clay-collapse',
+	'clay-component',
+	'clay-data-provider',
+	'clay-dataset-display',
+	'clay-dropdown',
+	'clay-icon',
+	'clay-label',
+	'clay-link',
+	'clay-list',
+	'clay-loading-indicator',
+	'clay-management-toolbar',
+	'clay-modal',
+	'clay-multi-select',
+	'clay-navigation-bar',
+	'clay-pagination',
+	'clay-pagination-bar',
+	'clay-portal',
+	'clay-progress-bar',
+	'clay-radio',
+	'clay-select',
+	'clay-sticker',
+	'clay-table',
+	'clay-tooltip',
+	'formik',
+	'incremental-dom',
+	'incremental-dom-string',
+	'lodash.escape',
+	'lodash.groupby',
+	'lodash.isequal',
+	'lodash.memoize',
+	'lodash.unescape',
+	'metal',
+	'metal-affix',
+	'metal-ajax',
+	'metal-anim',
+	'metal-aop',
+	'metal-assertions',
+	'metal-clipboard',
+	'metal-component',
+	'metal-debounce',
+	'metal-dom',
+	'metal-drag-drop',
+	'metal-events',
+	'metal-incremental-dom',
+	'metal-jsx',
+	'metal-key',
+	'metal-keyboard-focus',
+	'metal-multimap',
+	'metal-pagination',
+	'metal-path-parser',
+	'metal-position',
+	'metal-promise',
+	'metal-router',
+	'metal-scrollspy',
+	'metal-soy',
+	'metal-soy-bundle',
+	'metal-state',
+	'metal-storage',
+	'metal-structs',
+	'metal-throttle',
+	'metal-toggler',
+	'metal-uri',
+	'metal-useragent',
+	'metal-web-component',
+	'prop-types',
+	'querystring',
+	'react',
+	'react-dnd',
+	'react-dnd-html5-backend',
+	'react-dom',
+	'svg4everybody',
+	'uuid',
+	'xss-filters',
+];
 
 /**
  * Create a webpack configuration to inject federation support to the build.
@@ -62,6 +178,11 @@ module.exports = async function () {
 	const {filePath: mainFilePath} = createTempFile('index.federation.js', '');
 
 	await writeWebpackFederationEntryPoint(mainFilePath);
+
+	let {remotes, shared} = getMergedConfig('npmscripts', 'federation');
+
+	remotes = remotes || [];
+	shared = shared || [];
 
 	return {
 		context: process.cwd(),
@@ -108,7 +229,7 @@ module.exports = async function () {
 				},
 				name,
 				remoteType: 'script',
-				remotes: Object.keys(FEDERATED_PACKAGES).reduce(
+				remotes: [...DEFAULT_REMOTES, ...remotes].reduce(
 					(remotes, name) => {
 						remotes[
 							name
@@ -118,13 +239,14 @@ module.exports = async function () {
 					},
 					{}
 				),
-				shared: []
-					.concat(...Object.values(FEDERATED_PACKAGES))
-					.reduce((shared, name) => {
+				shared: [...DEFAULT_SHARED, ...shared].reduce(
+					(shared, name) => {
 						shared[name] = {singleton: true};
 
 						return shared;
-					}, {}),
+					},
+					{}
+				),
 			}),
 		],
 		resolve: {
