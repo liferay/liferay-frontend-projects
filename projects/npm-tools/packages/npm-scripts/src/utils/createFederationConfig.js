@@ -179,8 +179,13 @@ module.exports = async function () {
 
 	await writeWebpackFederationEntryPoint(mainFilePath);
 
-	let {remotes, shared} = getMergedConfig('npmscripts', 'federation');
+	const config = getMergedConfig('npmscripts');
 
+	const {build, federation} = config;
+
+	let {exposes, remotes, shared} = federation;
+
+	exposes = exposes || [];
 	remotes = remotes || [];
 	shared = shared || [];
 
@@ -220,6 +225,7 @@ module.exports = async function () {
 		plugins: [
 			new ModuleFederationPlugin({
 				exposes: {
+					...prefixExposesPaths(exposes, `./${build.input}/`),
 					'.': mainFilePath,
 				},
 				filename: 'container.js',
@@ -256,3 +262,15 @@ module.exports = async function () {
 		},
 	};
 };
+
+function prefixExposesPaths(exposes, prefix) {
+	return exposes.reduce((exposes, filePath) => {
+		const exposeName = path.posix
+			.relative('.', filePath)
+			.replace(/\.js$/i, '');
+
+		exposes[exposeName] = `${prefix}${filePath}`;
+
+		return exposes;
+	}, {});
+}
