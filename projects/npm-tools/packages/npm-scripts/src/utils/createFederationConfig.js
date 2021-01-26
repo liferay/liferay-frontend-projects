@@ -225,7 +225,7 @@ module.exports = async function () {
 		plugins: [
 			new ModuleFederationPlugin({
 				exposes: {
-					...prefixExposesPaths(exposes, `./${build.input}/`),
+					...transformExposes(exposes, build.input),
 					'.': mainFilePath,
 				},
 				filename: 'container.js',
@@ -263,13 +263,13 @@ module.exports = async function () {
 	};
 };
 
-function prefixExposesPaths(exposes, prefix) {
+function transformExposes(exposes, inputDirectory) {
 	return exposes.reduce((exposes, filePath) => {
 		const exposeName = path.posix
 			.relative('.', filePath)
 			.replace(/\.js$/i, '');
 
-		exposes[exposeName] = `${prefix}${filePath}`;
+		exposes[exposeName] = `./${inputDirectory}/${filePath}`;
 
 		return exposes;
 	}, {});
