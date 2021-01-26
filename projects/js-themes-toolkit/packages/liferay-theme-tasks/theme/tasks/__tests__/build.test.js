@@ -16,6 +16,65 @@ const {
 } = require('../../../lib/test/util');
 const {registerTasks} = require('../../index');
 
+function assertEqual(actual, expected) {
+	if (Array.isArray(expected) && Array.isArray(actual)) {
+		if (
+			expected.length === actual.length &&
+			expected.every((item, index) => {
+				return (item = actual[index]);
+			})
+		) {
+			return;
+		}
+	}
+	if (expected !== actual) {
+		fail(
+			`Expected\n\n${description(expected)}\n\nto equal\n\n${description(
+				actual
+			)}`
+		);
+	}
+}
+
+function assertExists(file) {
+	if (!fs.existsSync(file)) {
+		fail(`Expected file does not exist at: ${file}`);
+	}
+}
+
+assertExists.not = (file) => {
+	if (fs.existsSync(file)) {
+		fail(`Expected file to not exist at: ${file}`);
+	}
+};
+
+function assertMatches(string, regExp) {
+	if (!regExp.test(string)) {
+		fail(`Expected string to match ${regExp}\n\n${string}`);
+	}
+}
+
+function assertTruthy(condition) {
+	if (!condition) {
+		fail(`Expected truthy condition but got ${condition}`);
+	}
+}
+
+function description(value) {
+	try {
+		return JSON.stringify(value);
+	}
+	catch {
+		return `[unstringifiable value: ${value}]`;
+	}
+}
+
+function fail(message) {
+	console.error(message);
+
+	throw new Error(message);
+}
+
 beforeAll(() => {
 	process.env.LIFERAY_THEME_STYLED_PATH = path.dirname(
 		require.resolve('liferay-frontend-theme-styled/package.json')
@@ -47,7 +106,7 @@ describe('using lib_sass', () => {
 					sassOptions: (defaults) => {
 						sassOptionsCalled = true;
 
-						expect(defaults.includePaths).toBeTruthy();
+						assertTruthy(defaults.includePaths);
 
 						return defaults;
 					},
@@ -65,7 +124,7 @@ describe('using lib_sass', () => {
 	});
 
 	afterEach(() => {
-		expect(sassOptionsCalled).toBe(true);
+		assertTruthy(sassOptionsCalled);
 
 		cleanTempTheme(tempTheme);
 	});
@@ -91,7 +150,7 @@ describe('using lib_sass', () => {
 	}
 
 	function _assertBase(cb) {
-		expect(fs.existsSync(buildPath)).toBe(true);
+		assertExists(buildPath);
 
 		cb();
 	}
@@ -100,15 +159,15 @@ describe('using lib_sass', () => {
 		const distPath = path.join(tempTheme.tempPath, 'dist');
 		const customSrcPath = path.join(tempTheme.tempPath, 'src');
 
-		expect(fs.existsSync(customSrcPath)).toBe(true);
-		expect(() => fs.statSync(buildPath)).toThrow();
-		expect(() => fs.statSync(distPath)).toThrow();
+		assertExists(customSrcPath);
+		assertExists.not(buildPath);
+		assertExists.not(distPath);
 
 		cb();
 	}
 
 	function _assertClean(cb) {
-		expect(fs.existsSync(buildPath)).not.toBe(true);
+		assertExists.not(buildPath);
 
 		cb();
 	}
@@ -120,7 +179,7 @@ describe('using lib_sass', () => {
 	function _assertHook(cb) {
 		const hookPath = path.join(buildPath, 'WEB-INF', 'liferay-hook.xml');
 
-		expect(fs.existsSync(hookPath)).toBe(true);
+		assertExists(hookPath);
 
 		const liferayHookXML = fs.readFileSync(hookPath, {
 			encoding: 'utf8',
@@ -131,7 +190,7 @@ describe('using lib_sass', () => {
 				throw err;
 			}
 
-			expect(result.hook['language-properties']).toEqual([
+			assertEqual(result.hook['language-properties'], [
 				'content/Language_en.properties',
 				'content/Language_es.properties',
 			]);
@@ -144,8 +203,9 @@ describe('using lib_sass', () => {
 		const cssPath = path.join(buildPath, 'css');
 		const mainCssPath = path.join(cssPath, 'main.css');
 
-		expect(fs.existsSync(cssPath)).toBe(true);
-		expect(fs.readFileSync(mainCssPath).toString()).toMatch(
+		assertExists(cssPath);
+		assertMatches(
+			fs.readFileSync(mainCssPath, 'utf8'),
 			/@import\surl\(file\.css\?t=[0-9]+\);/
 		);
 
@@ -155,7 +215,7 @@ describe('using lib_sass', () => {
 	function _assertMoveCompiledCss(cb) {
 		const cssPath = path.join(buildPath, 'css');
 
-		expect(fs.existsSync(cssPath)).toBe(true);
+		assertExists(cssPath);
 
 		cb();
 	}
@@ -163,7 +223,7 @@ describe('using lib_sass', () => {
 	function _assertRemoveOldCssDir(cb) {
 		const cssPath = path.join(buildPath, '_css');
 
-		expect(fs.existsSync(cssPath)).not.toBe(true);
+		assertExists.not(cssPath);
 
 		cb();
 	}
@@ -171,7 +231,7 @@ describe('using lib_sass', () => {
 	function _assertRenameCssDir(cb) {
 		const _cssPath = path.join(buildPath, '_css');
 
-		expect(fs.existsSync(_cssPath)).toBe(true);
+		assertExists(_cssPath);
 
 		cb();
 	}
@@ -183,11 +243,11 @@ describe('using lib_sass', () => {
 		const imagesPath = path.join(buildPath, 'images');
 		const webInfPath = path.join(buildPath, 'WEB-INF');
 
-		expect(fs.existsSync(cssPath)).toBe(true);
-		expect(fs.existsSync(jsPath)).toBe(true);
-		expect(fs.existsSync(imagesPath)).toBe(true);
-		expect(fs.existsSync(webInfPath)).toBe(true);
-		expect(fs.existsSync(templatesPath)).toBe(true);
+		assertExists(cssPath);
+		assertExists(jsPath);
+		assertExists(imagesPath);
+		assertExists(webInfPath);
+		assertExists(templatesPath);
 
 		const customCSSFileName = '_custom.scss';
 		const customCSSPath = path.join(cssPath, customCSSFileName);
@@ -198,23 +258,24 @@ describe('using lib_sass', () => {
 			})
 		);
 
-		expect(
+		assertTruthy(
 			fileContent.indexOf(
 				'/* inject:imports *//* endinject *//* ' +
 					customCSSFileName +
 					' */'
 			) > -1
-		).toBe(true);
+		);
 
 		const mainJsPath = path.join(jsPath, 'main.js');
 
-		expect(fs.readFileSync(mainJsPath).toString()).toMatch(
+		assertMatches(
+			fs.readFileSync(mainJsPath, 'utf8'),
 			/console\.log\('main\.js'\)/
 		);
 
 		const baseTextScssPath = path.join(cssPath, 'base', '_text.scss');
 
-		expect(fs.existsSync(baseTextScssPath)).toBe(true);
+		assertExists(baseTextScssPath);
 
 		const templateLanguage = project.themeConfig.config.templateLanguage;
 
@@ -240,16 +301,14 @@ describe('using lib_sass', () => {
 			'portlet.' + templateLanguage
 		);
 
-		expect(fs.existsSync(initPath)).toBe(true);
-		expect(fs.existsSync(initCustomPath)).toBe(true);
-		expect(fs.existsSync(navigationPath)).toBe(true);
-		expect(fs.existsSync(portalNormalPath)).toBe(true);
-		expect(fs.existsSync(portalPopUpPath)).toBe(true);
-		expect(fs.existsSync(portletPath)).toBe(true);
+		assertExists(initPath);
+		assertExists(initCustomPath);
+		assertExists(navigationPath);
+		assertExists(portalNormalPath);
+		assertExists(portalPopUpPath);
+		assertExists(portletPath);
 
-		expect(fs.readFileSync(portalNormalPath).toString()).toMatch(
-			/BASE_THEME/
-		);
+		assertMatches(fs.readFileSync(portalNormalPath, 'utf8'), /BASE_THEME/);
 
 		cb();
 	}
@@ -291,16 +350,17 @@ describe('using lib_sass', () => {
 			'velocity.vm'
 		);
 
-		expect(fs.existsSync(customScssPath)).toBe(true);
-		expect(fs.existsSync(iconPngPath)).toBe(true);
-		expect(fs.existsSync(mainJsPath)).toBe(true);
-		expect(fs.existsSync(freemarkerPath)).toBe(true);
-		expect(fs.existsSync(velocityPath)).toBe(true);
+		assertExists(customScssPath);
+		assertExists(iconPngPath);
+		assertExists(mainJsPath);
+		assertExists(freemarkerPath);
+		assertExists(velocityPath);
 
 		const customCSSFileName = '_custom.scss';
 		const customCSSPath = path.join(buildPath, 'css', customCSSFileName);
 
-		expect(fs.readFileSync(customCSSPath).toString()).toMatch(
+		assertMatches(
+			fs.readFileSync(customCSSPath, 'utf8'),
 			/@import "\.\.\/themelets\/test-themelet\/css\/_custom\.scss";/
 		);
 
@@ -312,7 +372,8 @@ describe('using lib_sass', () => {
 			'portal_normal.ftl'
 		);
 
-		expect(fs.readFileSync(portalNormalPath).toString()).toMatch(
+		assertMatches(
+			fs.readFileSync(portalNormalPath, 'utf8'),
 			/<script src="\${theme_display\.getPathThemeRoot\(\)}\/themelets\/test-themelet\/js\/main\.js"><\/script>/
 		);
 
@@ -322,7 +383,7 @@ describe('using lib_sass', () => {
 	function _assertWar(cb) {
 		const warPath = path.join(tempTheme.tempPath, 'dist', 'base-theme.war');
 
-		expect(fs.existsSync(warPath)).toBe(true);
+		assertExists(warPath);
 
 		cb();
 	}
@@ -334,8 +395,8 @@ describe('using lib_sass', () => {
 			'liferay-plugin-package.properties'
 		);
 
-		expect(fs.existsSync(webInfPath)).toBe(true);
-		expect(fs.existsSync(pluginPackagePath)).toBe(true);
+		assertExists(webInfPath);
+		assertExists(pluginPackagePath);
 
 		cb();
 	}
