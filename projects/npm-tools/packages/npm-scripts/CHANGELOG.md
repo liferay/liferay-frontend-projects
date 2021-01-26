@@ -1,3 +1,11 @@
+## [npm-scripts/v36.11.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v36.11.0) (2021-01-26)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v36.10.0...npm-scripts/v36.11.0)
+
+### :new: Features
+
+-   feat: allow extension of webpack `exposes` ([\#387](https://github.com/liferay/liferay-frontend-projects/pull/387))
+
 ## [npm-scripts/v36.10.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v36.10.0) (2021-01-14)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v36.9.0...npm-scripts/v36.10.0)
