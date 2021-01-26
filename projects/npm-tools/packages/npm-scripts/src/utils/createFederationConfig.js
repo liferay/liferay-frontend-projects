@@ -263,13 +263,19 @@ module.exports = async function () {
 	};
 };
 
-function transformExposes(exposes, inputDirectory) {
+function transformExposes(exposes, inputDir) {
 	return exposes.reduce((exposes, filePath) => {
-		const exposeName = path.posix
-			.relative('.', filePath)
-			.replace(/\.js$/i, '');
+		if (!filePath.startsWith('<inputDir>/')) {
+			throw new Error(
+				"Only paths relative to '<inputDir>/' are accepted as 'exposes'"
+			);
+		}
 
-		exposes[exposeName] = `./${inputDirectory}/${filePath}`;
+		filePath = filePath.replace(/^<inputDir>\//, '');
+
+		const exposeName = filePath.replace(/\.js$/i, '');
+
+		exposes[exposeName] = `./${inputDir}/${filePath}`;
 
 		return exposes;
 	}, {});
