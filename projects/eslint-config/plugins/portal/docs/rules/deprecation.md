@@ -39,6 +39,7 @@ In short, all notices should contain one of the following version descriptors:
 -   Judson (7.1.x)
 -   Mueller (7.2.x)
 -   Athanasius (7.3.x)
+-   Cavanaugh (7.4.x)
 
 And replacement information of the form:
 
