@@ -25,6 +25,7 @@ const VERSIONS = new Map([
 	['7.1', 'Judson (7.1.x)'],
 	['7.2', 'Mueller (7.2.x)'],
 	['7.3', 'Athanasius (7.3.x)'],
+	['7.4', 'Cavanaugh (7.4.x)'],
 ]);
 
 /**

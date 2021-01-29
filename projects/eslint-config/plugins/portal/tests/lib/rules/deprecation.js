@@ -480,6 +480,27 @@ ruleTester.run('deprecation', rule, {
 		{
 			code: `
 				/**
+				 * @deprecated As of Cavanaugh (7.4.x)
+				 */
+			`,
+		},
+		{
+			code: `
+				/**
+				 * @deprecated As of Cavanaugh (7.4.x), with no direct replacement
+				 */
+			`,
+		},
+		{
+			code: `
+				/**
+				 * @deprecated As of Cavanaugh (7.4.x), replaced by Liferay.Qux
+				 */
+			`,
+		},
+		{
+			code: `
+				/**
 				 * Note: It doesn't make any sense to have more than one
 				 * deprecation notice in a single comment, but this example is
 				 * just to show that we process these annotations line-by-line
