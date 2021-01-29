@@ -25,7 +25,9 @@ function assertEqual(actual, expected) {
 		if (
 			expected.length === actual.length &&
 			expected.every((item, index) => {
-				return (item = actual[index]);
+				item = actual[index];
+
+				return item;
 			})
 		) {
 			return;
@@ -67,8 +69,7 @@ function assertTruthy(condition) {
 function description(value) {
 	try {
 		return JSON.stringify(value);
-	}
-	catch {
+	} catch {
 		return `[unstringifiable value: ${value}]`;
 	}
 }
