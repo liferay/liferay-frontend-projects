@@ -13,7 +13,7 @@
 		"@types/estraverse": "5.1.0",
 		"@types/estree": "0.0.45",
 		"@types/fs-extra": "9.0.1",
-		"@types/jest": "^26.0.14",
+		"@types/jest": "^26.0.20",
 		"@types/yeoman-generator": "4.11.2",
 		"@typescript-eslint/parser": "4.3.0",
 		"babel-eslint": "10.1.0",
