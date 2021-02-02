@@ -69,7 +69,8 @@ function assertTruthy(condition) {
 function description(value) {
 	try {
 		return JSON.stringify(value);
-	} catch {
+	}
+	catch {
 		return `[unstringifiable value: ${value}]`;
 	}
 }

@@ -75,8 +75,6 @@ module.exports = (options) =>
 			error.message = message;
 			error.relativePath = relativePath;
 
-			console.log(message);
-
 			return cb(new PluginError(PLUGIN_NAME, error));
 		}
 	});
