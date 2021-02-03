@@ -1,5 +1,11 @@
 # Contributing
 
+## General guidelines
+
+These apply to any work at Liferay, including in this monorepo:
+
+-   [Guidelines](guidelines) (in particular, see the [`guidelines/general`](guidelines/general) directory).
+
 ## Project-specific contribution guidelines
 
 -   [`eslint-config`](projects/eslint-config/CONTRIBUTING.md)
