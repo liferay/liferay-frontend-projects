@@ -136,6 +136,7 @@ module.exports = async function () {
 			fallback: {
 				path: require.resolve('path-browserify'),
 			},
+			plugins: [createWebpackSoyResolver()],
 		},
 	};
 };
