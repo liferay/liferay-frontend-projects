@@ -32,6 +32,10 @@ module.exports = async function () {
 			await require('./scripts/prettier')(...ARGS_ARRAY.slice(1));
 		},
 
+		async scanExposes() {
+			await require('./scripts/scanExposes')(...ARGS_ARRAY.slice(1));
+		},
+
 		storybook() {
 
 			// Storybook is temporarily disabled until it supports webpack 5
