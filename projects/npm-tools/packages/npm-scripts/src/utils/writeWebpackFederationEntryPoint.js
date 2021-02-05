@@ -3,11 +3,9 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const {transformJsSource} = require('@liferay/js-toolkit-core');
 const fs = require('fs');
 const path = require('path');
 
-const relocateImports = require('../transform/js/relocateImports');
 const getBridgeExportName = require('./getBridgeExportName');
 const getMergedConfig = require('./getMergedConfig');
 const getProjectMainModuleFilePath = require('./getProjectMainModuleFilePath');
@@ -18,28 +16,26 @@ const getProjectMainModuleFilePath = require('./getProjectMainModuleFilePath');
  *
  * @param {string} filePath the path to the output file
  *
- * @return {Promise<void>}
  */
-module.exports = async function (filePath) {
+module.exports = function (filePath) {
+	let code = '';
+
+	// Re-export everything from original entry point
+
 	const projectMainModuleFilePath = getProjectMainModuleFilePath();
 
-	const mainModuleContents = fs.existsSync(projectMainModuleFilePath)
-		? fs.readFileSync(projectMainModuleFilePath, 'utf8')
-		: '';
+	if (fs.existsSync(projectMainModuleFilePath)) {
+		const projectMainModuleRelPath = path.relative(
+			path.dirname(filePath),
+			projectMainModuleFilePath
+		);
 
-	const previousDirRelPath = path.relative(
-		path.dirname(filePath),
-		path.dirname(projectMainModuleFilePath)
-	);
+		code += `
+export {default} from './${projectMainModuleRelPath}';
+export * from './${projectMainModuleRelPath}';
 
-	let {code} = await transformJsSource(
-		{code: mainModuleContents},
-		relocateImports(previousDirRelPath)
-	);
-
-	code += '\n';
-
-	// Export internal dependencies for bridges
+`;
+	}
 
 	const {bridges} = getMergedConfig('npmscripts', 'federation');
 

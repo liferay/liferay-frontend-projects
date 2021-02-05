@@ -10,6 +10,7 @@ const {
 
 const {makeNamespace} = require('./bundlerNamespace');
 const createTempFile = require('./createTempFile');
+const createWebpackSoyResolver = require('./createWebpackSoyResolver');
 const getMergedConfig = require('./getMergedConfig');
 const parseBnd = require('./parseBnd');
 const writeWebpackFederationEntryPoint = require('./writeWebpackFederationEntryPoint');
@@ -34,7 +35,7 @@ module.exports = async function () {
 	const {filePath: nullJsFilePath} = createTempFile('null.js', '');
 	const {filePath: mainFilePath} = createTempFile('index.federation.js', '');
 
-	await writeWebpackFederationEntryPoint(mainFilePath);
+	writeWebpackFederationEntryPoint(mainFilePath);
 
 	const config = getMergedConfig('npmscripts');
 
