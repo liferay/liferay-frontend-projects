@@ -76,7 +76,7 @@ As such, overrides need be applied using in-file comments of the form:
 Key points to note:
 
 -   If a suppression is temporary, prefer downgrading it from an error to a warning rather than turning it off completely. In this way, it will continue to be visible but it won't cause CI runs to fail.
--   If a suppression is permanent and the code cannot (or should not) be rewritten to avoid it, prefer narrowly scoped suppressions (eg. `eslint-disable-next-line` over `eslint-disable`).
+-   If a suppression is permanent and the code cannot (or should not) be rewritten to avoid it, prefer narrowly scoped suppressions. In other words, prefer more targeted suppressions like `eslint-disable-next-line` over `eslint-disable`, and make sure you always provide a specific rule name as opposed to a blanket suppression (eg. `eslint-disable-next-line no-console` over `eslint-disable-next-line`). Broader suppressions run the risk of masking more problems than the suppression originally intended.
 
 **NOTE:** Comments written with a leading `//` will not work:
 
