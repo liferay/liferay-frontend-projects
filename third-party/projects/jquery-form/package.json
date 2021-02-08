@@ -7,7 +7,7 @@
     "upload",
     "ajax"
   ],
-  "version": "3.51.0",
+  "version": "3.51.0-liferay.1",
   "author": {
     "name": "M. Alsup",
     "url": "http://jquery.malsup.com"
@@ -36,11 +36,11 @@
     }
   },
   "devDependencies": {
-    "gulp-util": "~2.2.14",
     "gulp": "~3.5.2",
-    "gulp-uglify": "~0.2.1",
     "gulp-concat": "~2.1.7",
-    "gulp-jshint": "~1.4.2"
+    "gulp-jshint": "~1.4.2",
+    "gulp-uglify": "~0.2.1",
+    "gulp-util": "~2.2.14"
   },
   "repository": {
     "directory": "third-party/projects/jquery-form",
