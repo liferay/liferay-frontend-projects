@@ -27,6 +27,7 @@ These apply to any work at Liferay, including in this monorepo:
 It is helpful to include [an optional scope in your commit messages](guidelines/general/commit_messages.md) so that people can see, at a glance, which commits affect which projects. Valid scopes correspond to project names such as:
 
 -   `eslint-config`
+-   `jquery-form`
 -   `js-themes-toolkit`
 -   `js-toolkit`
 -   `npm-tools`
