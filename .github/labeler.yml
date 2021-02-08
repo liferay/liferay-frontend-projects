@@ -47,6 +47,10 @@ jest-junit-reporter:
     - projects/npm-tools/packages/jest-junit-reporter/*
     - projects/npm-tools/packages/jest-junit-reporter/**/*
 
+jquery-form:
+    - third-party/projects/jquery-form/*
+    - third-party/projects/jquery-form/**/*
+
 js-insights:
     - projects/npm-tools/packages/js-insights/*
     - projects/npm-tools/packages/js-insights/**/*
