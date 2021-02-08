@@ -1,5 +1,5 @@
 {
-  "name": "jquery-form",
+  "name": "@liferay/jquery-form",
   "title": "jQuery Form Plugin",
   "description": "A simple way to AJAX-ify any form on your page; with file upload and progress support.",
   "keywords": [
