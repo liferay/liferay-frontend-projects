@@ -41,5 +41,10 @@
     "gulp-uglify": "~0.2.1",
     "gulp-concat": "~2.1.7",
     "gulp-jshint": "~1.4.2"
+  },
+  "repository": {
+    "directory": "third-party/projects/jquery-form",
+    "type": "git",
+    "url": "https://github.com/liferay/liferay-frontend-projects.git"
   }
 }
