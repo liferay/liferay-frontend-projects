@@ -24,3 +24,9 @@
 /copyright.js
 /maintenance/projects/**/copyright.js
 /projects/**/copyright.js
+
+#
+# Third-party.
+#
+
+/third-party/projects

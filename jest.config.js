@@ -40,6 +40,10 @@ module.exports = {
 		'<rootDir>/projects/js-toolkit',
 		'<rootDir>/projects/npm-tools/packages/npm-scripts',
 
+		// Third-party.
+
+		'<rootDir>/third-party/projects',
+
 		// Standard ignores.
 
 		'/node_modules/',

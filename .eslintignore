@@ -26,4 +26,5 @@
 # Third-party code
 #
 
+/third-party/projects
 node_modules
