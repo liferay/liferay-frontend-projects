@@ -188,9 +188,7 @@ $.fn.ajaxSubmit = function(options) {
             // `data` is passed to `html()`, as suggested in
             // https://github.com/jquery-form/form/issues/464
 
-            data = options.replaceTarget
-                ? data
-                : $.parseHTML($('<div>').text(data).html());
+            data = options.replaceTarget ? data : $.parseHTML($('<div>').text(data).html());
 
             $(options.target)[fn](data).each(oldSuccess, arguments);
         });

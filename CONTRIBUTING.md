@@ -9,6 +9,7 @@ These apply to any work at Liferay, including in this monorepo:
 ## Project-specific contribution guidelines
 
 -   [`eslint-config`](projects/eslint-config/CONTRIBUTING.md)
+-   [`jquery-form`](third-party/projects/jquery-form/CONTRIBUTING.md)
 -   [`js-themes-toolkit` v10](projects/js-themes-toolkit/CONTRIBUTING.md)
 -   [`js-themes-toolkit` v9](maintenance/projects/js-themes-toolkit-v9-x/CONTRIBUTING.md)
 -   [`js-themes-toolkit` v8](maintenance/projects/js-themes-toolkit-v8-x/CONTRIBUTING.md)
