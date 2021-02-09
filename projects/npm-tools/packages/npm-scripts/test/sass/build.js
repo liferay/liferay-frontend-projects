@@ -183,29 +183,52 @@ describe('sass', () => {
 		);
 	});
 
-	xit('builds with rtl support', () => {
+	it('builds with rtl support', () => {
 		buildSass(path.join(FIXTURES, 'rtl'), {
 			outputDir: tempDir,
 			rtl: true,
 		});
 
-		expect(fs.existsSync(path.join(tempSassDir, 'rtl.css'))).toBe(true);
-		expect(fs.existsSync(path.join(tempSassDir, 'rtl_rtl.css'))).toBe(true);
-
-		expect(fs.readFileSync(path.join(tempSassDir, 'rtl.css'), 'utf-8'))
-			.toMatchInlineSnapshot(`
-		".swap-for-rtl {
-		  float: left;
-		  margin-right: 2px;
-		  padding: 1px 2px 3px 4px;
-		  left: 5px;
-		}
-
-		/*# sourceMappingURL=rtl.css.map */"
-	`);
+		expect(fs.existsSync(path.join(tempSassDir, 'main.css'))).toBe(true);
+		expect(fs.existsSync(path.join(tempSassDir, 'main_rtl.css'))).toBe(
+			true
+		);
 
 		expect(
-			fs.readFileSync(path.join(tempSassDir, 'rtl_rtl.css'), 'utf-8')
+			fs.readFileSync(path.join(tempSassDir, 'main.css'), 'utf-8')
+		).toMatchSnapshot();
+
+		expect(
+			fs.readFileSync(path.join(tempSassDir, 'main_rtl.css'), 'utf-8')
+		).toMatchInlineSnapshot(
+			`".imported-rtl{float:right;}.swap-for-rtl{float:right;margin-left:2px;padding:1px 4px 3px 2px;right:5px;}"`
+		);
+	});
+
+	it('builds with rtl support for nested files', () => {
+		buildSass(path.join(FIXTURES, 'rtl'), {
+			outputDir: tempDir,
+			rtl: true,
+		});
+		expect(
+			fs.existsSync(path.join(tempSassDir, 'nested', 'nested.css'))
+		).toBe(true);
+		expect(
+			fs.existsSync(path.join(tempSassDir, 'nested', 'nested_rtl.css'))
+		).toBe(true);
+
+		expect(
+			fs.readFileSync(
+				path.join(tempSassDir, 'nested', 'nested.css'),
+				'utf-8'
+			)
+		).toMatchSnapshot();
+
+		expect(
+			fs.readFileSync(
+				path.join(tempSassDir, 'nested', 'nested_rtl.css'),
+				'utf-8'
+			)
 		).toMatchInlineSnapshot(
 			`".swap-for-rtl{float:right;margin-left:2px;padding:1px 4px 3px 2px;right:5px;}"`
 		);

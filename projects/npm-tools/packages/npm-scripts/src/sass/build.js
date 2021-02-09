@@ -4,6 +4,7 @@
  */
 
 const fs = require('fs');
+const {r2} = require('liferay-theme-tasks');
 const path = require('path');
 const sass = require('sass');
 
@@ -36,8 +37,7 @@ function collectSassFiles(baseDir, excludes = []) {
 		(acc, file) => {
 			if (path.basename(file).match(/^_.+\.scss$/)) {
 				acc.partials.push(file);
-			}
-			else {
+			} else {
 				acc.entryFiles.push(file);
 			}
 
@@ -115,7 +115,7 @@ function appendTimestamps(contentBuffer, timestamp) {
 
 function main(
 	baseDir,
-	{appendImportTimestamps = true, excludes, imports = [], outputDir = ''}
+	{appendImportTimestamps = true, excludes, imports = [], rtl, outputDir = ''}
 ) {
 	const {entryFiles, partials} = collectSassFiles(baseDir, excludes);
 
@@ -164,6 +164,16 @@ function main(
 
 		if (appendImportTimestamps) {
 			cssContent = Buffer.from(appendTimestamps(css, timestamp));
+		}
+
+		if (rtl) {
+			const rtlCss = r2.swap(cssContent.toString());
+
+			const rtlCssFileName = `${path
+				.basename(file)
+				.replace(/\.scss$/, '')}_rtl.css`;
+
+			fs.writeFileSync(path.join(sassOutputDir, rtlCssFileName), rtlCss);
 		}
 
 		fs.writeFileSync(outputFile, cssContent);
