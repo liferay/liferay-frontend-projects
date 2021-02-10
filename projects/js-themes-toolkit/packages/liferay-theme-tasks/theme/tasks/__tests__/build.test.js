@@ -82,6 +82,8 @@ function fail(message) {
 }
 
 beforeAll(() => {
+	jest.setTimeout(50000);
+
 	process.env.LIFERAY_THEME_STYLED_PATH = path.dirname(
 		require.resolve('liferay-frontend-theme-styled/package.json')
 	);
@@ -91,21 +93,27 @@ beforeAll(() => {
 });
 
 afterAll(() => {
+	jest.setTimeout(30000);
+
 	delete process.env.LIFERAY_THEME_STYLED_PATH;
 	delete process.env.LIFERAY_THEME_UNSTYLED_PATH;
 });
 
 describe('using lib_sass', () => {
 	let buildPath;
-	let sassOptionsCalled;
 	let tempTheme;
 
 	afterEach(() => {
 		cleanTempTheme(tempTheme);
 	});
 
+	beforeEach(() => {
+		buildPath = undefined;
+		tempTheme = undefined;
+	});
+
 	it('build task should correctly compile theme', (done) => {
-		sassOptionsCalled = false;
+		let sassOptionsCalled = false;
 
 		tempTheme = setupTempTheme({
 			init: () =>
