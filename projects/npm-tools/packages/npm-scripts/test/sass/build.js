@@ -29,6 +29,34 @@ describe('sass', () => {
 		log.mockReset();
 	});
 
+	it('copies css files', () => {
+		buildSass(path.join(FIXTURES, 'css'), {
+			outputDir: tempDir,
+		});
+
+		expect(fs.existsSync(path.join(tempDir, '/main.css'))).toBe(true);
+		expect(fs.existsSync(path.join(tempDir, '/nested/nested.css'))).toBe(
+			true
+		);
+	});
+
+	it('copies css files with rtl files', () => {
+		buildSass(path.join(FIXTURES, 'css'), {
+			outputDir: tempDir,
+			rtl: true,
+		});
+
+		expect(fs.existsSync(path.join(tempDir, '/main.css'))).toBe(true);
+		expect(fs.existsSync(path.join(tempDir, '/nested/nested.css'))).toBe(
+			true
+		);
+
+		expect(fs.existsSync(path.join(tempDir, '/main_rtl.css'))).toBe(true);
+		expect(
+			fs.existsSync(path.join(tempDir, '/nested/nested_rtl.css'))
+		).toBe(true);
+	});
+
 	it('builds, copies, and and generates sourcemap for scss files', () => {
 		buildSass(path.join(FIXTURES, 'main'), {
 			outputDir: tempDir,
@@ -146,7 +174,7 @@ describe('sass', () => {
 
 		expect(log).toBeCalledTimes(1);
 
-		expect(log).toBeCalledWith('BUILD CSS: No files found.');
+		expect(log).toBeCalledWith('BUILD SASS: No scss files found.');
 	});
 
 	it('builds css with partials', () => {
@@ -232,6 +260,28 @@ describe('sass', () => {
 		).toMatchInlineSnapshot(
 			`".swap-for-rtl{float:right;margin-left:2px;padding:1px 4px 3px 2px;right:5px;}"`
 		);
+	});
+
+	it('builds with rtl support for both .css and .scss files', () => {
+		buildSass(path.join(FIXTURES, 'mixed-files'), {
+			outputDir: tempDir,
+			rtl: true,
+		});
+
+		expect(fs.existsSync(path.join(tempSassDir, 'main.css'))).toBe(true);
+		expect(fs.existsSync(path.join(tempSassDir, 'main_rtl.css'))).toBe(
+			true
+		);
+
+		expect(fs.existsSync(path.join(tempDir, 'app.css'))).toBe(true);
+		expect(fs.existsSync(path.join(tempDir, 'app_rtl.css'))).toBe(true);
+
+		expect(
+			fs.readFileSync(path.join(tempDir, 'app.css'), 'utf-8')
+		).toMatchSnapshot();
+		expect(
+			fs.readFileSync(path.join(tempDir, 'app_rtl.css'), 'utf-8')
+		).toMatchSnapshot();
 	});
 
 	it('allows for importing variables from other files', () => {
