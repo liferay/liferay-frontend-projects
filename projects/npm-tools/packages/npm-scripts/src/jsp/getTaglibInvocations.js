@@ -97,7 +97,7 @@ module.exports = function (jsp, ...tags) {
 
 				const i = contents.indexOf('=');
 				const name = contents.substring(0, i);
-				const value = contents.substring(i + 2, contents.length - 1);
+				const value = contents.substring(i + 2, contents.length - 1); // 2 accounts for `="`
 
 				attributes[name] = value;
 			}
