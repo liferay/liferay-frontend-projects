@@ -12,16 +12,18 @@ const linter = new Linter();
 
 const {major, minor} = getDXPVersion() || {};
 
-const ecmaVersion =
-	major === undefined || major > 7 || (major === 7 && minor > 3) ? 6 : 5;
+const modern = major === undefined || major > 7 || (major === 7 && minor > 3);
 
 const config = {
 	parserOptions: {
-		ecmaVersion,
+		ecmaVersion: modern ? 6 : 5,
 	},
 	rules: {
 		'no-debugger': 'error',
 		'no-extra-boolean-cast': 'error',
+		'prefer-arrow-callback': modern
+			? ['error', {allowNamedFunctions: true}]
+			: 'off',
 	},
 };
 
