@@ -27,7 +27,7 @@ function lex(source, options = {}) {
 			CUSTOM_ACTION,
 			CUSTOM_ACTION_START,
 			SPACE,
-		} = require('./jspDSL')(api);
+		} = require('./getJSPTokenMatchers')(api);
 
 		return () => {
 			if (peek(sequence(CUSTOM_ACTION_START, CUSTOM_ACTION))) {

@@ -60,7 +60,7 @@ function lex(source, options = {}) {
 			PORTLET_NAMESPACE,
 			SPACE,
 			TEMPLATE_TEXT,
-		} = require('./jspDSL')(api);
+		} = require('./getJSPTokenMatchers')(api);
 
 		return () => {
 			if (peek(JSP_COMMENT_START)) {
