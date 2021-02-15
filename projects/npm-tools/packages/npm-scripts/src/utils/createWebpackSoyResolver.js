@@ -12,7 +12,8 @@
  *
  * We cannot use standard Soy loaders because:
  *
- * 1) There's only from Atlassian currently maintained
+ * 1) There's only one currently available. It is maintained by Atlassian, but
+ *    only seems to cover their specific use cases.
  * 2) Because of the release policy of Soy it's very difficult to make sure we
  *    are using the version we want with the settings we want.
  *

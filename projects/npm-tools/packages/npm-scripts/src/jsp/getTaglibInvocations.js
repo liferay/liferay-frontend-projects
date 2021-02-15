@@ -66,15 +66,20 @@ module.exports = function (jsp, ...tags) {
 		while ((from = jsp.indexOf(`<${tag}`, from)) != -1) {
 			let to = jsp.indexOf(`</${tag}>`, from + 1 + tag.length);
 
-			if (to === -1) {
+			if (to > 0) {
+				to += 3 + tag.length; // 3 accounts for '</' plus '>'
+			}
+			else {
 				to = jsp.indexOf('/>', from + 1 + tag.length);
 
 				if (to === -1) {
+
+					// tag did not close, so stop searching
+
 					break;
 				}
-			}
-			else {
-				to += 3 + tag.length;
+
+				to += 2; // 2 accounts for '/>'
 			}
 
 			const jspFragment = jsp.substring(from, to);
