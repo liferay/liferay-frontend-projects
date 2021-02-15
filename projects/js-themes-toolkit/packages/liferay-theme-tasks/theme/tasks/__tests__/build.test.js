@@ -25,9 +25,7 @@ function assertEqual(actual, expected) {
 		if (
 			expected.length === actual.length &&
 			expected.every((item, index) => {
-				item = actual[index];
-
-				return item;
+				return item === actual[index];
 			})
 		) {
 			return;
