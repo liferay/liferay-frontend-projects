@@ -6,6 +6,7 @@
 const {Linter} = require('eslint');
 
 const getDXPVersion = require('../utils/getDXPVersion');
+const checkExposesConfiguration = require('./checkExposesConfiguration');
 const processJSP = require('./processJSP');
 
 const linter = new Linter();
@@ -46,9 +47,14 @@ const SEVERITY = {
 async function lintJSP(source, onReport, options = {}) {
 	const {fix, quiet} = options;
 
-	return await processJSP(source, {
+	let messages = [];
+	let errorCount = 0;
+	let fixableErrorCount = 0;
+	let fixableWarningCount = 0;
+	let warningCount = 0;
+
+	source = await processJSP(source, {
 		onLint: (input) => {
-			let messages;
 			let output;
 
 			if (fix) {
@@ -58,11 +64,6 @@ async function lintJSP(source, onReport, options = {}) {
 				messages = linter.verify(input, config);
 				output = input;
 			}
-
-			let errorCount = 0;
-			let fixableErrorCount = 0;
-			let fixableWarningCount = 0;
-			let warningCount = 0;
 
 			messages = messages.filter((message) => {
 				if (message.severity === SEVERITY.ERROR) {
@@ -93,20 +94,24 @@ async function lintJSP(source, onReport, options = {}) {
 
 			source = output.endsWith('\n') ? output : `${output}\n`;
 
-			if (messages.length) {
-				onReport({
-					errorCount,
-					fixableErrorCount,
-					fixableWarningCount,
-					messages,
-					source,
-					warningCount,
-				});
-			}
-
 			return source;
 		},
 	});
+
+	messages.push(...checkExposesConfiguration(source));
+
+	if (messages.length) {
+		onReport({
+			errorCount,
+			fixableErrorCount,
+			fixableWarningCount,
+			messages,
+			source,
+			warningCount,
+		});
+	}
+
+	return source;
 }
 
 module.exports = lintJSP;
