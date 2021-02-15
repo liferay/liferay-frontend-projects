@@ -46,15 +46,15 @@ module.exports = function (source) {
 		const {attributes} = invocation;
 
 		for (const validAttribute of validAttributes) {
-			const require = attributes[validAttribute];
+			const attribute = attributes[validAttribute];
 
-			if (!require) {
+			if (!attribute) {
 				continue;
 			}
 
-			require
+			attribute
 				.split(',')
-				.map((part) => part.split(' as ')[0])
+				.map((part) => part.split(/\s+as\s+/)[0])
 				.forEach((moduleName) => moduleNames.add(moduleName));
 		}
 	}
