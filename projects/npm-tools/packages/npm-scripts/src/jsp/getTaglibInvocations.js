@@ -63,7 +63,7 @@ module.exports = function (jsp, ...tags) {
 	for (const tag of tags) {
 		let from = 0;
 
-		while ((from = jsp.indexOf(`<${tag}`, from)) != -1) {
+		while ((from = jsp.indexOf(`<${tag}`, from)) !== -1) {
 			let to = jsp.indexOf(`</${tag}>`, from + 1 + tag.length);
 
 			if (to > 0) {
