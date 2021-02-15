@@ -974,15 +974,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@clayui/css@3.23.0":
+"@clayui/css@3.23.0", "@clayui/css@^3.x":
   version "3.23.0"
   resolved "https://registry.yarnpkg.com/@clayui/css/-/css-3.23.0.tgz#174c01a76ccd354a0c667a531feac2e47e5a3432"
   integrity sha512-gkLrgBTFfcjn7LyYDZyPHncdxLHRwG/hYqE5if+KtJskaQaGj+5DmyDXiwCEeY7ispDeS6Vceoaum8rIACVrxA==
-
-"@clayui/css@^3.x":
-  version "3.21.0"
-  resolved "https://registry.yarnpkg.com/@clayui/css/-/css-3.21.0.tgz#0997d58f4d3dc8c3d04b423bd8d74d7d3f6285ee"
-  integrity sha512-lpBxxakwuyAax8lLoaHW1njIeWv1UhrdvO9dVklhP2Pw+X19K9LyIFRNxWAgtZw5OM2ecF5BQ+EddAlntaW7rA==
 
 "@cnakazawa/watch@^1.0.3", "@cnakazawa/watch@^1.0.4":
   version "1.0.4"
@@ -10828,12 +10823,7 @@ mute-stream@0.0.8:
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.8.tgz#1630c42b2251ff81e2a283de96a5497ea92e5e0d"
   integrity sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==
 
-nan@^2.12.1:
-  version "2.14.1"
-  resolved "https://registry.yarnpkg.com/nan/-/nan-2.14.1.tgz#d7be34dfa3105b91494c3147089315eff8874b01"
-  integrity sha512-isWHgVjnFjh2x2yuJ/tj3JbwoHu3UC2dX5G/88Cm24yB6YopVgxvBObDY7n5xW6ExmFhJpSEQqFPvq9zaXc8Jw==
-
-nan@^2.13.2:
+nan@^2.12.1, nan@^2.13.2:
   version "2.14.2"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.14.2.tgz#f5376400695168f4cc694ac9393d0c9585eeea19"
   integrity sha512-M2ufzIiINKCuDfBSAUr1vWQ+vuVcA9kqx8JJUsbQi6yf1uGRyb7HfpdfUr5qLXf3B/t8dPvcjhKMmlfnP47EzQ==
@@ -13303,14 +13293,7 @@ sass-loader@^8.0.2:
     schema-utils "^2.6.1"
     semver "^6.3.0"
 
-sass@^1.29.0:
-  version "1.29.0"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.29.0.tgz#ec4e1842c146d8ea9258c28c141b8c2b7c6ab7f1"
-  integrity sha512-ZpwAUFgnvAUCdkjwPREny+17BpUj8nh5Yr6zKPGtLNTLrmtoRYIjm7njP24COhjJldjwW1dcv52Lpf4tNZVVRA==
-  dependencies:
-    chokidar ">=2.0.0 <4.0.0"
-
-sass@^1.30.0:
+sass@^1.29.0, sass@^1.30.0:
   version "1.30.0"
   resolved "https://registry.yarnpkg.com/sass/-/sass-1.30.0.tgz#60bbbbaf76ba10117e61c6c24f00161c3d60610e"
   integrity sha512-26EUhOXRLaUY7+mWuRFqGeGGNmhB1vblpTENO1Z7mAzzIZeVxZr9EZoaY1kyGLFWdSOZxRMAufiN2mkbO6dAlw==
@@ -14565,7 +14548,7 @@ terser-webpack-plugin@^5.0.3:
     source-map "^0.6.1"
     terser "^5.3.8"
 
-terser@5.3.8, terser@^5.3.8:
+terser@5.3.8:
   version "5.3.8"
   resolved "https://registry.yarnpkg.com/terser/-/terser-5.3.8.tgz#991ae8ba21a3d990579b54aa9af11586197a75dd"
   integrity sha512-zVotuHoIfnYjtlurOouTazciEfL7V38QMAOhGqpXDEg6yT13cF4+fEP9b0rrCEQTn+tT46uxgFsTZzhygk+CzQ==
@@ -14574,7 +14557,7 @@ terser@5.3.8, terser@^5.3.8:
     source-map "~0.7.2"
     source-map-support "~0.5.19"
 
-terser@5.4.0:
+terser@5.4.0, terser@^5.3.8:
   version "5.4.0"
   resolved "https://registry.yarnpkg.com/terser/-/terser-5.4.0.tgz#9815c0839072d5c894e22c6fc508fbe9f5e7d7e8"
   integrity sha512-3dZunFLbCJis9TAF2VnX+VrQLctRUmt1p3W2kCsJuZE4ZgWqh//+1MZ62EanewrqKoUf4zIaDGZAvml4UDc0OQ==
