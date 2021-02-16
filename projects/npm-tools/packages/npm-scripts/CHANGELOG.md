@@ -1,3 +1,19 @@
+## [npm-scripts/v37.0.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v37.0.0) (2021-02-16)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v36.11.0...npm-scripts/v37.0.0)
+
+### :boom: Breaking changes
+
+-   feat(npm-scripts)!: prefer arrow callbacks in JSP too ([\#406](https://github.com/liferay/liferay-frontend-projects/pull/406))
+
+### :new: Features
+
+-   feat(npm-scripts)!: prefer arrow callbacks in JSP too ([\#406](https://github.com/liferay/liferay-frontend-projects/pull/406))
+
+### :house: Chores
+
+-   chore(npm-scripts): update to latest @liferay/eslint-config ([\#407](https://github.com/liferay/liferay-frontend-projects/pull/407))
+
 ## [npm-scripts/v36.11.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v36.11.0) (2021-01-26)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v36.10.0...npm-scripts/v36.11.0)
