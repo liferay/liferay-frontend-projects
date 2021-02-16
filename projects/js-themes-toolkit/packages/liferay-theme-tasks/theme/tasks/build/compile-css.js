@@ -18,7 +18,6 @@ const {createBourbonFile} = require('../../lib/bourbon_dependencies');
 
 module.exports = function () {
 	const {gulp, options} = project;
-	const {runSequence} = gulp;
 	const {pathBuild} = options;
 
 	const handleScssError = (err) => {
@@ -33,24 +32,19 @@ module.exports = function () {
 	};
 
 	gulp.task('build:compile-css', (cb) => {
-
-		// For backwards compatibility we keep this task around, but all it does
-		// is call through to the one that does the actual work:
-
-		runSequence('build:compile-lib-sass', cb);
-	});
-
-	gulp.task('build:compile-lib-sass', (cb) => {
 		const {options} = project;
 
-		const gulpIf = require('gulp-if');
-		const gulpSass = require('gulp-sass');
-		const gulpSourceMaps = require('gulp-sourcemaps');
-
 		const sassOptions = getSassOptions(options.sassOptions, {
+			dartSass: false,
 			includePaths: getSassIncludePaths(),
 			sourceMap: true,
 		});
+
+		const gulpIf = require('gulp-if');
+		const gulpSass = sassOptions.dartSass
+			? require('./sass')
+			: require('gulp-sass');
+		const gulpSourceMaps = require('gulp-sourcemaps');
 
 		const postCSSOptions = getPostCSSOptions(options.postcss);
 
