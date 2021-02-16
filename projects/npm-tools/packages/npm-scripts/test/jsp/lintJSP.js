@@ -284,6 +284,76 @@ describe('lintJSP()', () => {
 
 			expect(onReport).not.toBeCalled();
 		});
+
+		it('prefers arrow functions', async () => {
+			const source = dedent(3)`
+				<script>
+					Liferay.on('foo', function (data) {
+						alert('We got the data!');
+					});
+				</script>
+			`;
+
+			let result = await lintJSP(source, onReport);
+
+			// No autofix.
+
+			expect(result).toBe(dedent(3)`
+				<script>
+					Liferay.on('foo', function (data) {
+						alert('We got the data!');
+					});
+				</script>
+			`);
+
+			expect(onReport).toBeCalledWith({
+				errorCount: 1,
+				fixableErrorCount: 1,
+				fixableWarningCount: 0,
+				messages: [
+					expect.objectContaining({
+						line: 3,
+						message: 'Unexpected function expression.',
+						messageId: 'preferArrowCallback',
+						nodeType: 'FunctionExpression',
+						ruleId: 'prefer-arrow-callback',
+						severity: 2,
+					}),
+				],
+				source: expect.stringContaining('function (data)'),
+				warningCount: 0,
+			});
+
+			// With autofix.
+
+			result = await lintJSP(source, onReport, {fix: true});
+
+			expect(result).toBe(dedent(3)`
+				<script>
+					Liferay.on('foo', (data) => {
+						alert('We got the data!');
+					});
+				</script>
+			`);
+
+			expect(onReport).toBeCalledWith({
+				errorCount: 1,
+				fixableErrorCount: 1,
+				fixableWarningCount: 0,
+				messages: [
+					expect.objectContaining({
+						line: 3,
+						message: 'Unexpected function expression.',
+						messageId: 'preferArrowCallback',
+						nodeType: 'FunctionExpression',
+						ruleId: 'prefer-arrow-callback',
+						severity: 2,
+					}),
+				],
+				source: expect.stringContaining('void'),
+				warningCount: 0,
+			});
+		});
 	});
 
 	describe('`fix` option', () => {
