@@ -1,3 +1,30 @@
+## [eslint-config/v21.3.0](https://github.com/liferay/liferay-frontend-projects/tree/eslint-config/v21.3.0) (2021-02-16)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-config/v21.2.1...eslint-config/v21.3.0)
+
+### :new: Features
+
+-   feat(eslint-config): add Cavanaugh 7.4.x to list of possible deprecations ([\#389](https://github.com/liferay/liferay-frontend-projects/pull/389))
+-   feat(monorepo): add liferay-workspace-scripts ([\#211](https://github.com/liferay/liferay-frontend-projects/pull/211))
+-   feat(monorepo): use liferay-npm-scripts for formatting ([\#146](https://github.com/liferay/liferay-frontend-projects/pull/146))
+
+### :wrench: Bug fixes
+
+-   fix(eslint-config): special case import of "." ([\#137](https://github.com/liferay/liferay-frontend-projects/pull/137))
+
+### :book: Documentation
+
+-   docs(monorepo): make CONTRIBUTING.md docs more consistent ([\#205](https://github.com/liferay/liferay-frontend-projects/pull/205))
+-   docs: encourage people to dog-food local packages ([\#118](https://github.com/liferay/liferay-frontend-projects/pull/118))
+
+### :woman_juggling: Refactoring
+
+-   refactor(js-toolkit): make tests work in monorepo ([\#133](https://github.com/liferay/liferay-frontend-projects/pull/133))
+
+### :eyeglasses: Tests
+
+-   test(monorepo): consistently run local tests scoped to project/package ([\#210](https://github.com/liferay/liferay-frontend-projects/pull/210))
+
 ## [eslint-config/v21.2.1](https://github.com/liferay/liferay-frontend-projects/tree/eslint-config/v21.2.1) (2020-10-05)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-config/v21.2.0...eslint-config/v21.2.1)
