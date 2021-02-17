@@ -4,6 +4,7 @@
  */
 
 const fs = require('fs');
+const {r2} = require('liferay-theme-tasks');
 const path = require('path');
 const sass = require('sass');
 
@@ -62,16 +63,22 @@ function buildSass(file, outputDir, includePaths) {
 	return {...result, outputFile};
 }
 
-function copyCss(filePath, newDirectory) {
-	const newfilePath = path.join(newDirectory, path.basename(filePath));
+function copyFile(filePath, baseDir, outputDir) {
+	const subDirectory = path.dirname(path.relative(baseDir, filePath));
 
-	fs.mkdirSync(newDirectory, {recursive: true});
+	const buildDir = path.join(outputDir, subDirectory);
+
+	const newfilePath = path.join(buildDir, path.basename(filePath));
+
+	fs.mkdirSync(buildDir, {recursive: true});
 
 	fs.copyFileSync(filePath, newfilePath);
 
 	const fileStats = fs.statSync(filePath);
 
 	fs.utimesSync(newfilePath, fileStats.atime, fileStats.mtime);
+
+	return {buildDir, subDirectory};
 }
 
 const SASS_DIR = '.sass-cache';
@@ -113,48 +120,70 @@ function appendTimestamps(contentBuffer, timestamp) {
 	return contentString;
 }
 
+function convertAndWriteRTL(cssContent, filePath, outputDir) {
+	const rtlCss = r2.swap(cssContent);
+
+	const rtlCssFileName = `${path.parse(filePath).name}_rtl.css`;
+
+	fs.writeFileSync(path.join(outputDir, rtlCssFileName), rtlCss);
+}
+
 function main(
 	baseDir,
-	{appendImportTimestamps = true, excludes, imports = [], outputDir = ''}
+	{appendImportTimestamps = true, excludes, imports = [], rtl, outputDir = ''}
 ) {
 	const {entryFiles, partials} = collectSassFiles(baseDir, excludes);
-
-	if (!entryFiles.length) {
-		log(`BUILD CSS: No files found.`);
-
-		return;
-	}
-
-	if (!isModified([...entryFiles, ...partials], outputDir, baseDir)) {
-		log(`BUILD CSS: Skipped, no changes detected.`);
-
-		return;
-	}
+	const cssFiles = expandGlobs(['**/*.css'], excludes, {baseDir});
 
 	const baseBuildDirectory = path.join(
 		path.isAbsolute(outputDir) ? '' : CWD,
 		outputDir
 	);
 
+	if (cssFiles.length) {
+		for (const cssFile of cssFiles) {
+			const {buildDir} = copyFile(cssFile, baseDir, baseBuildDirectory);
+
+			if (rtl) {
+				convertAndWriteRTL(
+					fs.readFileSync(cssFile, 'utf8'),
+					cssFile,
+					buildDir
+				);
+			}
+		}
+
+		log(
+			`CSS: Copied ${cssFiles.length} files${
+				rtl ? ' and their RTL conversions' : ''
+			}.`
+		);
+	}
+
+	if (!entryFiles.length) {
+		log(`BUILD SASS: No scss files found.`);
+
+		return;
+	}
+
+	if (!isModified([...entryFiles, ...partials], outputDir, baseDir)) {
+		log(`BUILD SASS: Skipped, no changes detected.`);
+
+		return;
+	}
+
 	const sassBuildDirectory = path.join(baseBuildDirectory, SASS_DIR);
 
 	for (const partial of partials) {
-		const subDirectory = path.dirname(path.relative(baseDir, partial));
-
-		const baseOutputDir = path.join(baseBuildDirectory, subDirectory);
-
-		copyCss(partial, baseOutputDir);
+		copyFile(partial, baseDir, baseBuildDirectory);
 	}
 
 	const timestamp = Date.now();
 
 	for (const file of entryFiles) {
-		const subDirectory = path.dirname(path.relative(baseDir, file));
+		const {subDirectory} = copyFile(file, baseDir, baseBuildDirectory);
 
-		const baseOutputDir = path.join(baseBuildDirectory, subDirectory);
 		const sassOutputDir = path.join(sassBuildDirectory, subDirectory);
-
-		copyCss(file, baseOutputDir);
 
 		const {css, map, outputFile} = buildSass(file, sassOutputDir, imports);
 
@@ -166,9 +195,13 @@ function main(
 			cssContent = Buffer.from(appendTimestamps(css, timestamp));
 		}
 
+		if (rtl) {
+			convertAndWriteRTL(cssContent.toString(), file, sassOutputDir);
+		}
+
 		fs.writeFileSync(outputFile, cssContent);
 
-		log(`Sass: Built ${path.relative(CWD, outputFile)}`);
+		log(`BUILD SASS: Built ${path.relative(CWD, outputFile)}`);
 
 		fs.writeFileSync(outputFile + '.map', map);
 	}

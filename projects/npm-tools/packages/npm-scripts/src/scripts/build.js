@@ -124,6 +124,7 @@ module.exports = async function (...args) {
 		buildSass(path.join(CWD, BUILD_CONFIG.input), {
 			imports: BUILD_CONFIG.sassIncludePaths,
 			outputDir: BUILD_CONFIG.output,
+			rtl: true,
 		});
 	}
 
