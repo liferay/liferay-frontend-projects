@@ -263,7 +263,7 @@ export default function ({types: t}) {
 /**
  * Add namespace to a module's dependency
  * @param {String} moduleName dependency module name
- * @param {String} namespacePkg package name to use as namespace
+ * @param {Object} namespacePkg package to use as namespace name
  * @param {Object} unrolledImports unrolled imports section of .npmbundlerrc file
  * @return {String} the namespaced module
  */
