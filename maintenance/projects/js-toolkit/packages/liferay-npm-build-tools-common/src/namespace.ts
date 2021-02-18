@@ -109,5 +109,9 @@ export function getNamespace(moduleName: string): string {
  * @return the namespace for modules
  */
 export function makeNamespace({name}: {name: string}): string {
+	if (name.startsWith('@')) {
+		name = name.substr(1).replace('/', '!');
+	}
+
 	return name + '$';
 }
