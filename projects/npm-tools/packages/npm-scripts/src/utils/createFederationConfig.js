@@ -217,14 +217,15 @@ module.exports = async function () {
 
 			if (typeof remote === 'string') {
 				webContextPath = remote;
-			} else {
+			}
+			else {
 				webContextPath = remote.webContextPath;
 				remote = remote.name;
 			}
 
 			// Prevent webpack from choking on scopes
 
-			const libraryName = makeNamespace(name);
+			const libraryName = makeNamespace(remote);
 
 			remotes[remote] =
 				`window[Symbol.for("__LIFERAY_WEBPACK_CONTAINERS__")]` +
