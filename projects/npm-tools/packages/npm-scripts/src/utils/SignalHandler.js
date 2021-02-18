@@ -16,6 +16,7 @@ const SIGNALS = {
 	SIGINT: 2,
 	SIGQUIT: 3,
 	SIGTERM: 15,
+	exit: -1,
 };
 
 const SignalHandler = {
@@ -60,7 +61,9 @@ function handleSignal(signal) {
 		}
 	}
 
-	process.exit(128 + SIGNALS[signal]);
+	if (signal !== -1) {
+		process.exit(128 + SIGNALS[signal]);
+	}
 }
 
 module.exports = SignalHandler;

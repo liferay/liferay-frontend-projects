@@ -21,7 +21,11 @@ const BUILD_CONFIG = getMergedConfig('npmscripts', 'build');
  * An object with the `dispose` function (in case the caller wants to invoke it
  * before the end of the process) and the `filePath`.
  */
-function createTempFile(filename, content) {
+function createTempFile(filename, content, options) {
+	options = options || {
+		autoDelete: true,
+	};
+
 	const tempDirPath = path.join(BUILD_CONFIG.temp, 'tmp');
 
 	fs.ensureDirSync(tempDirPath);
@@ -30,9 +34,15 @@ function createTempFile(filename, content) {
 
 	fs.writeFileSync(tempFilePath, content);
 
-	const {dispose} = SignalHandler.onExit(() => {
+	const deleteTempFile = () => {
 		fs.unlinkSync(tempFilePath);
-	});
+	};
+
+	let dispose = deleteTempFile;
+
+	if (options.autoDelete) {
+		dispose = SignalHandler.onExit(deleteTempFile).dispose;
+	}
 
 	return {
 		dispose,
