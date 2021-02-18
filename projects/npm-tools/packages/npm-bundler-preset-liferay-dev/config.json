@@ -81,7 +81,7 @@
 				"util": ">=0.10.3",
 				"vm-browserify": ">=0.0.4"
 			},
-			"frontend-js-react-web": {
+			"@liferay/frontend-js-react-web": {
 				"/": ">=1.0.0",
 				"classnames": ">=2.2.6",
 				"formik": ">=1.4.3",
@@ -105,7 +105,7 @@
 				"svg4everybody": ">=2.1.9",
 				"uuid": ">=3.3.2"
 			},
-			"frontend-taglib": {
+			"@liferay/frontend-taglib": {
 				"/": ">=1.0.0"
 			},
 			"frontend-taglib-chart": {

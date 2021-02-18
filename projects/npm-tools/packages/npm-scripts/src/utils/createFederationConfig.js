@@ -27,10 +27,16 @@ const writeWebpackFederationEntryPoint = require('./writeWebpackFederationEntryP
 const DEFAULT_REMOTES = [
 	'frontend-js-components-web',
 	'frontend-js-metal-web',
-	'frontend-js-react-web',
+	{
+		name: '@liferay/frontend-js-react-web',
+		webContextPath: 'frontend-js-react-web',
+	},
 	'frontend-js-spa-web',
 	'frontend-js-web',
-	'frontend-taglib',
+	{
+		name: '@liferay/frontend-taglib',
+		webContextPath: 'frontend-taglib',
+	},
 	'frontend-taglib-chart',
 	'frontend-taglib-clay',
 ];
