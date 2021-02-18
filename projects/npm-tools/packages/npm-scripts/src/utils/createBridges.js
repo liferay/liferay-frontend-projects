@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const {addNamespace} = require('@liferay/js-toolkit-core');
 const fs = require('fs');
 const path = require('path');
 
+const {addNamespace} = require('./bundlerNamespace');
 const getNamespacedVersionedPackageName = require('./getNamespacedVersionedPackageName');
 const getProjectMainModuleFilePath = require('./getProjectMainModuleFilePath');
 const writeBridge = require('./writeBridge');
@@ -76,7 +76,10 @@ module.exports = function (bridges, dir) {
 			JSON.stringify(
 				{
 					...packageJson,
-					name: addNamespace(packageJson.name, projectPackageJson),
+					name: addNamespace(
+						packageJson.name,
+						projectPackageJson.name
+					),
 				},
 				null,
 				'\t'
