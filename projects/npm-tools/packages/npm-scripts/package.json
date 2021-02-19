@@ -17,7 +17,7 @@
 		"@liferay/eslint-config": "21.3.0",
 		"@liferay/jest-junit-reporter": "1.2.0",
 		"@liferay/js-toolkit-core": "3.0.1-pre.1",
-		"@liferay/npm-bundler-preset-liferay-dev": "4.6.5",
+		"@liferay/npm-bundler-preset-liferay-dev": "4.7.0",
 		"@testing-library/dom": "^5.6.1",
 		"@testing-library/jest-dom": "^4.2.4",
 		"@testing-library/react": "^8.0.9",
@@ -97,5 +97,5 @@
 		"preversion": "liferay-workspace-scripts ci",
 		"test": "liferay-workspace-scripts test"
 	},
-	"version": "37.0.0"
+	"version": "37.1.0"
 }

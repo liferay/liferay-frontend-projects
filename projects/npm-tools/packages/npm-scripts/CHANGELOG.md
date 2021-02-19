@@ -1,3 +1,12 @@
+## [npm-scripts/v37.1.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v37.1.0) (2021-02-19)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v37.0.0...npm-scripts/v37.1.0)
+
+### :new: Features
+
+-   feat: support scoped npm packages ([\#408](https://github.com/liferay/liferay-frontend-projects/pull/408))
+-   feat(npm-scripts): add support for copying css filed and RTL conversion ([\#400](https://github.com/liferay/liferay-frontend-projects/pull/400))
+
 ## [npm-scripts/v37.0.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v37.0.0) (2021-02-16)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v36.11.0...npm-scripts/v37.0.0)
