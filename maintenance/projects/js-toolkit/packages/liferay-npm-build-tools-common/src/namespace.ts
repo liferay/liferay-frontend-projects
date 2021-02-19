@@ -109,5 +109,20 @@ export function getNamespace(moduleName: string): string {
  * @return the namespace for modules
  */
 export function makeNamespace({name}: {name: string}): string {
+
+	// Convert `@liferay/frontend-js-web` to `liferay!frontend-js-web`.
+	//
+	// `/` would confuse the legacy AMD code and would break backward
+	// compatibility, so we need to pick a substitute that is legal in URLs and
+	// filesystems, but not allowed in npm package names (to avoid collisions
+	// with valid non-scoped package names).
+	//
+	// We use ! for scopes in the namespacing package, and $ for scopes in the
+	// namespaced package so that it is easier to understand and parse.
+
+	if (name.startsWith('@')) {
+		name = name.substr(1).replace('/', '!');
+	}
+
 	return name + '$';
 }

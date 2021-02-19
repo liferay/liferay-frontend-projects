@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const {addNamespace} = require('@liferay/js-toolkit-core');
+const {addNamespace} = require('./bundlerNamespace');
 
 /**
  * Get the namespaced and versioned package name of a project's dependency as it
@@ -19,10 +19,12 @@ const {addNamespace} = require('@liferay/js-toolkit-core');
  */
 module.exports = function (projectPackageJson, packageJson) {
 	if (packageJson) {
-		return addNamespace(
-			`${packageJson.name}@${packageJson.version}`,
-			projectPackageJson
+		const namespacedName = addNamespace(
+			packageJson.name,
+			projectPackageJson.name
 		);
+
+		return `${namespacedName}@${packageJson.version}`;
 	}
 	else {
 		return `${projectPackageJson.name}@${projectPackageJson.version}`;

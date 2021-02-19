@@ -8,6 +8,7 @@ const {
 	container: {ModuleFederationPlugin},
 } = require('webpack');
 
+const {makeNamespace} = require('./bundlerNamespace');
 const createTempFile = require('./createTempFile');
 const getMergedConfig = require('./getMergedConfig');
 const parseBnd = require('./parseBnd');
@@ -26,10 +27,16 @@ const writeWebpackFederationEntryPoint = require('./writeWebpackFederationEntryP
 const DEFAULT_REMOTES = [
 	'frontend-js-components-web',
 	'frontend-js-metal-web',
-	'frontend-js-react-web',
+	{
+		name: '@liferay/frontend-js-react-web',
+		webContextPath: 'frontend-js-react-web',
+	},
 	'frontend-js-spa-web',
 	'frontend-js-web',
-	'frontend-taglib',
+	{
+		name: '@liferay/frontend-taglib',
+		webContextPath: 'frontend-taglib',
+	},
 	'frontend-taglib-chart',
 	'frontend-taglib-clay',
 ];
@@ -189,6 +196,57 @@ module.exports = async function () {
 	remotes = remotes || [];
 	shared = shared || [];
 
+	// Prevent webpack from choking on scopes
+
+	const libraryName = makeNamespace(name);
+
+	const federationPluginConfig = {
+		exposes: {
+			...transformExposes(exposes, build.input),
+			'.': mainFilePath,
+		},
+		filename: 'container.js',
+		library: {
+			name: `window[Symbol.for("__LIFERAY_WEBPACK_CONTAINERS__")]["${libraryName}"]`,
+			type: 'assign',
+		},
+		name,
+		remoteType: 'script',
+		remotes: [...DEFAULT_REMOTES, ...remotes].reduce((remotes, remote) => {
+			let webContextPath;
+
+			if (typeof remote === 'string') {
+				webContextPath = remote;
+			}
+			else {
+				webContextPath = remote.webContextPath;
+				remote = remote.name;
+			}
+
+			// Prevent webpack from choking on scopes
+
+			const libraryName = makeNamespace(remote);
+
+			remotes[remote] =
+				`window[Symbol.for("__LIFERAY_WEBPACK_CONTAINERS__")]` +
+				`["${libraryName}"]` +
+				`@/o/${webContextPath}/__generated__/container.js`;
+
+			return remotes;
+		}, {}),
+		shared: [...DEFAULT_SHARED, ...shared].reduce((shared, name) => {
+			shared[name] = {singleton: true};
+
+			return shared;
+		}, {}),
+	};
+
+	createTempFile(
+		'federation.plugin.config.json',
+		JSON.stringify(federationPluginConfig, null, 2),
+		{autoDelete: false}
+	);
+
 	return {
 		context: process.cwd(),
 		devtool: 'source-map',
@@ -222,39 +280,7 @@ module.exports = async function () {
 			),
 			publicPath: `/o${webContextPath}/__generated__/`,
 		},
-		plugins: [
-			new ModuleFederationPlugin({
-				exposes: {
-					...transformExposes(exposes, build.input),
-					'.': mainFilePath,
-				},
-				filename: 'container.js',
-				library: {
-					name: `window[Symbol.for("__LIFERAY_WEBPACK_CONTAINERS__")]["${name}"]`,
-					type: 'assign',
-				},
-				name,
-				remoteType: 'script',
-				remotes: [...DEFAULT_REMOTES, ...remotes].reduce(
-					(remotes, name) => {
-						remotes[
-							name
-						] = `window[Symbol.for("__LIFERAY_WEBPACK_CONTAINERS__")]["${name}"]@/o/${name}/__generated__/container.js`;
-
-						return remotes;
-					},
-					{}
-				),
-				shared: [...DEFAULT_SHARED, ...shared].reduce(
-					(shared, name) => {
-						shared[name] = {singleton: true};
-
-						return shared;
-					},
-					{}
-				),
-			}),
-		],
+		plugins: [new ModuleFederationPlugin(federationPluginConfig)],
 		resolve: {
 			fallback: {
 				path: require.resolve('path-browserify'),
