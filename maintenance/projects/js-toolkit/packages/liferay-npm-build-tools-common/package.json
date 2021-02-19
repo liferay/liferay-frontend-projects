@@ -4,7 +4,7 @@
 		"chalk": "^2.4.2",
 		"dot-prop": "^5.0.1",
 		"escape-string-regexp": "^2.0.0",
-		"liferay-npm-bundler-preset-standard": "2.22.1",
+		"liferay-npm-bundler-preset-standard": "2.23.0",
 		"merge": "^1.2.1",
 		"properties": "^1.2.1",
 		"read-json-sync": "^2.0.1",
@@ -22,5 +22,5 @@
 		"copyfiles": "node ../../scripts/copyfiles.js",
 		"prepublish": "yarn build"
 	},
-	"version": "2.22.1"
+	"version": "2.23.0"
 }

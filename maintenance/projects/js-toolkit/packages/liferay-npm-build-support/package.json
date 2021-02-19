@@ -17,7 +17,7 @@
 		"ejs": "^2.6.1",
 		"fs-extra": "^8.1.0",
 		"globby": "^10.0.1",
-		"liferay-npm-build-tools-common": "2.22.1",
+		"liferay-npm-build-tools-common": "2.23.0",
 		"properties": "^1.2.1",
 		"read-json-sync": "^2.0.1",
 		"request": "^2.88.0",
@@ -36,5 +36,5 @@
 		"copyfiles": "node ../../scripts/copyfiles.js",
 		"prepublish": "yarn build"
 	},
-	"version": "2.22.1"
+	"version": "2.23.0"
 }
