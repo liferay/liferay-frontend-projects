@@ -1,3 +1,16 @@
+## [npm-bundler-preset-liferay-dev/v4.7.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-bundler-preset-liferay-dev/v4.7.0) (2021-02-19)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-bundler-preset-liferay-dev/v4.6.5...npm-bundler-preset-liferay-dev/v4.7.0)
+
+### :new: Features
+
+-   feat: support scoped npm packages ([\#408](https://github.com/liferay/liferay-frontend-projects/pull/408))
+-   feat(monorepo): add liferay-workspace-scripts ([\#211](https://github.com/liferay/liferay-frontend-projects/pull/211))
+
+### :eyeglasses: Tests
+
+-   test(monorepo): fill in test gaps ([\#213](https://github.com/liferay/liferay-frontend-projects/pull/213))
+
 ## [npm-bundler-preset-liferay-dev/v4.6.5](https://github.com/liferay/liferay-frontend-projects/tree/npm-bundler-preset-liferay-dev/v4.6.5) (2020-10-20)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-bundler-preset-liferay-dev/v4.6.4...npm-bundler-preset-liferay-dev/v4.6.5)
