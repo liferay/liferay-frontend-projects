@@ -1,3 +1,11 @@
+## [npm-scripts/v37.1.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v37.1.1) (2021-02-19)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v37.1.0...npm-scripts/v37.1.1)
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): fix incorrect versions in package.json ([\#411](https://github.com/liferay/liferay-frontend-projects/pull/411))
+
 ## [npm-scripts/v37.1.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v37.1.0) (2021-02-19)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v37.0.0...npm-scripts/v37.1.0)
