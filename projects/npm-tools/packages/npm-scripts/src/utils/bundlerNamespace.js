@@ -7,7 +7,7 @@ function addNamespace(packageName, namespacingPackageName) {
 	const namespace = makeNamespace(namespacingPackageName);
 
 	if (packageName.indexOf('@') === 0) {
-		return `@${namespace}$${packageName.substr(1)}`;
+		return `@${namespace}$${packageName.substring(1)}`;
 	}
 	else {
 		return `${namespace}$${packageName}`;
@@ -17,7 +17,7 @@ function addNamespace(packageName, namespacingPackageName) {
 function makeNamespace(namespacingPackageName) {
 	let namespace = namespacingPackageName;
 
-	if (namespace.indexOf('@') === 0) {
+	if (namespace.startsWith('@')) {
 		namespace = namespace.substring(1).replace('/', '!');
 	}
 
