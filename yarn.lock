@@ -974,7 +974,7 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@clayui/css@3.23.0", "@clayui/css@^3.x":
+"@clayui/css@3.23.0":
   version "3.23.0"
   resolved "https://registry.yarnpkg.com/@clayui/css/-/css-3.23.0.tgz#174c01a76ccd354a0c667a531feac2e47e5a3432"
   integrity sha512-gkLrgBTFfcjn7LyYDZyPHncdxLHRwG/hYqE5if+KtJskaQaGj+5DmyDXiwCEeY7ispDeS6Vceoaum8rIACVrxA==
