@@ -73,7 +73,7 @@ function getJestModuleNameMapper() {
 				const packageJson = path.join(project, 'package.json');
 
 				if (fs.existsSync(packageJson)) {
-					const {main} = JSON.parse(
+					const {main, name} = JSON.parse(
 						fs.readFileSync(packageJson, 'utf8')
 					);
 
@@ -81,19 +81,18 @@ function getJestModuleNameMapper() {
 						const entry = path.join(project, ...SRC_PATH, main);
 
 						if (fs.existsSync(entry)) {
-							const basename = path.basename(project);
-
 							const resources = path.relative(
 								cwd,
 								path.join(project, ...SRC_PATH)
 							);
 
-							mappings[
-								`^${basename}$`
-							] = `<rootDir>${path.relative(cwd, entry)}`;
+							mappings[`^${name}$`] = `<rootDir>${path.relative(
+								cwd,
+								entry
+							)}`;
 
 							mappings[
-								`^${basename}/(.*)`
+								`^${name}/(.*)`
 							] = `<rootDir>${resources}/$1`;
 						}
 					}
