@@ -1,3 +1,11 @@
+## [npm-scripts/v37.1.2](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v37.1.2) (2021-02-22)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v37.1.1...npm-scripts/v37.1.2)
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): support scoped package names in jest ([\#416](https://github.com/liferay/liferay-frontend-projects/pull/416))
+
 ## [npm-scripts/v37.1.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v37.1.1) (2021-02-19)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v37.1.0...npm-scripts/v37.1.1)
