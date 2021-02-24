@@ -1,3 +1,11 @@
+## [liferay-theme-tasks/v10.3.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v10.3.0) (2021-02-22)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v10.2.0...liferay-theme-tasks/v10.3.0)
+
+### :new: Features
+
+-   feat(js-themes-toolkit): add build option for using dart-sass instead of lib-sass ([\#368](https://github.com/liferay/liferay-frontend-projects/pull/368))
+
 ## [liferay-theme-tasks/v10.2.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v10.2.0) (2020-12-23)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v10.1.0...liferay-theme-tasks/v10.2.0)
