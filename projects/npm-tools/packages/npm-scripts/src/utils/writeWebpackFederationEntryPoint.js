@@ -43,6 +43,10 @@ module.exports = async function (filePath) {
 
 	let {bridges} = getMergedConfig('npmscripts', 'federation');
 
+	if (bridges === true) {
+		bridges = [];
+	}
+
 	bridges = bridges || [];
 
 	for (const packageName of bridges) {
