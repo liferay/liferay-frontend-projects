@@ -3,7 +3,10 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+const path = require('path');
+
 const deepMerge = require('./deepMerge');
+const findRoot = require('./findRoot');
 const getDXPVersion = require('./getDXPVersion');
 const getUserConfig = require('./getUserConfig');
 
@@ -44,8 +47,7 @@ function isObject(maybeObject) {
 function filter(object, property, callback) {
 	if (Array.isArray(object)) {
 		return object.map((item) => filter(item, property, callback));
-	}
-	else if (isObject(object)) {
+	} else if (isObject(object)) {
 		return Object.entries(object).reduce((acc, [key, value]) => {
 			return {
 				...acc,
@@ -55,8 +57,7 @@ function filter(object, property, callback) {
 						: filter(value, property, callback),
 			};
 		}, {});
-	}
-	else {
+	} else {
 		return object;
 	}
 }
@@ -78,8 +79,7 @@ function hackilySupportIncrementalDOM(config) {
 		return filter(acc, property, (value) => {
 			if (Array.isArray(value)) {
 				return value.filter((v) => !values.includes(v));
-			}
-			else {
+			} else {
 				return value;
 			}
 		});
@@ -153,17 +153,31 @@ function getMergedConfig(type, property) {
 			break;
 
 		case 'npmscripts': {
-			let presetConfig = {};
+			const rootDir = findRoot();
 
-			let userConfig = getUserConfig('npmscripts');
+			let rootDefaults;
 
-			// Use default config if no user config exists
+			try {
+				rootDefaults = require(path.join(
+					rootDir,
+					'npmscripts.config.js'
+				)).defaults;
+			} catch (err) {
+				if (err.code !== 'MODULE_NOT_FOUND') {
+					throw err;
+				}
 
-			if (Object.keys(userConfig).length === 0) {
-				userConfig = require('../config/npmscripts.config');
+				rootDefaults = {};
 			}
 
+			let userConfig = deepMerge([
+				require('../config/npmscripts.config.js'),
+				rootDefaults,
+				getUserConfig('npmscripts'),
+			]);
+
 			// Check for preset before creating config
+			let presetConfig = {};
 
 			if (userConfig.preset) {
 				// eslint-disable-next-line @liferay/liferay/no-dynamic-require

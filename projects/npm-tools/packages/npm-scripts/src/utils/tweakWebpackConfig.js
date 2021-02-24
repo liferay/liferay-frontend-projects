@@ -27,17 +27,15 @@ async function tweakWebpackConfig(webpackConfigPath) {
 
 	if (!webpackConfig) {
 		arrayConfig = [];
-	}
-	else if (Array.isArray(webpackConfig)) {
+	} else if (Array.isArray(webpackConfig)) {
 		arrayConfig = webpackConfig;
-	}
-	else {
+	} else {
 		arrayConfig = [webpackConfig];
 	}
 
 	const {federation} = getMergedConfig('npmscripts');
 
-	if (federation) {
+	if (federation && federation.mode !== 'disabled') {
 		arrayConfig.push(await createFederationConfig());
 	}
 
@@ -82,8 +80,7 @@ function mergeBabelLoaderOptions(webpackConfig) {
 							loader: useEntry,
 							options: {...babelConfig},
 						};
-					}
-					else if (useEntry.loader === 'babel-loader') {
+					} else if (useEntry.loader === 'babel-loader') {
 						return {
 							...useEntry,
 							options: {...babelConfig, ...useEntry.options},

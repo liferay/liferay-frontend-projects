@@ -22,15 +22,13 @@ const CHECK_AND_FIX_GLOBS = [
 const getClayPaths = () => {
 	try {
 		return require('@clayui/css').includePaths;
-	}
-	catch {
+	} catch {
 		return [];
 	}
 };
 
 module.exports = {
 	build: {
-
 		// Passed to:
 		// - `metalsoy` executable (via `generateSoyDependencies()`).
 
@@ -65,7 +63,6 @@ module.exports = {
 		temp: 'build/npmscripts',
 	},
 	check: CHECK_AND_FIX_GLOBS,
-	federation: false,
 	fix: CHECK_AND_FIX_GLOBS,
 	rules: {
 		'blacklisted-dependency-patterns': [

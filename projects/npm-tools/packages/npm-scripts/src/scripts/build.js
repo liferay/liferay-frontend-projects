@@ -4,6 +4,7 @@
  */
 
 const fs = require('fs');
+const {run} = require('jest');
 const path = require('path');
 
 let buildSass = require('../sass/build');
@@ -19,9 +20,6 @@ let {buildSoy, cleanSoy, soyExists, translateSoy} = require('../utils/soy');
 const validateConfig = require('../utils/validateConfig');
 let webpack = require('./webpack');
 
-const {build: BUILD_CONFIG, federation: FEDERATION_CONFIG} = getMergedConfig(
-	'npmscripts'
-);
 const CWD = process.cwd();
 
 ({
@@ -50,10 +48,6 @@ const CWD = process.cwd();
 	webpack,
 }));
 
-if (!BUILD_CONFIG) {
-	throw new Error('npmscripts.config.js is missing required "build" key');
-}
-
 /**
  * Main script that runs all all specified build tasks synchronously.
  *
@@ -64,6 +58,12 @@ if (!BUILD_CONFIG) {
  * `minify()` is run unless `NODE_ENV` is `development`.
  */
 module.exports = async function (...args) {
+	const {build: BUILD_CONFIG, federation} = getMergedConfig('npmscripts');
+
+	if (!BUILD_CONFIG) {
+		throw new Error('npmscripts.config.js is missing required "build" key');
+	}
+
 	setEnv('production');
 
 	validateConfig(
@@ -81,7 +81,7 @@ module.exports = async function (...args) {
 	}
 
 	const runLegacyBuild =
-		!FEDERATION_CONFIG || FEDERATION_CONFIG.runLegacyBuild !== false;
+		!federation || ['compatible', 'disabled'].includes(federation.mode);
 
 	if (inputPathExists && runLegacyBuild) {
 		runBabel(
@@ -92,22 +92,23 @@ module.exports = async function (...args) {
 		);
 	}
 
-	if (fs.existsSync('webpack.config.js') || FEDERATION_CONFIG) {
+	const runFederationBuild = federation && federation.mode !== 'disabled';
+
+	if (fs.existsSync('webpack.config.js') || runFederationBuild) {
 		webpack(...args);
 	}
 
 	if (runLegacyBuild) {
 		runBundler();
-	}
-	else {
+	} else {
 		const {output} = BUILD_CONFIG;
 
 		fs.copyFileSync('package.json', path.join(output, 'package.json'));
 		fs.writeFileSync(path.join(output, 'manifest.json'), '{}');
 	}
 
-	if (FEDERATION_CONFIG) {
-		createBridges(FEDERATION_CONFIG.bridges, BUILD_CONFIG.output);
+	if (runFederationBuild) {
+		createBridges(federation.bridges, BUILD_CONFIG.output);
 	}
 
 	translateSoy(BUILD_CONFIG.output);
