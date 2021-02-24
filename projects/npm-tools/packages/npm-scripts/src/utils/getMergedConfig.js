@@ -123,12 +123,19 @@ function getMergedConfig(type, property) {
 			}
 			break;
 
-		case 'bundler':
-			mergedConfig = deepMerge([
-				require('../config/npm-bundler'),
-				getUserConfig('npmbundler'),
-			]);
+		case 'bundler': {
+			const userConfig = getUserConfig('npmbundler');
+
+			if (userConfig.preset !== undefined) {
+				mergedConfig = userConfig;
+			} else {
+				mergedConfig = deepMerge([
+					require('../config/npm-bundler'),
+					userConfig,
+				]);
+			}
 			break;
+		}
 
 		case 'eslint':
 			mergedConfig = deepMerge([
