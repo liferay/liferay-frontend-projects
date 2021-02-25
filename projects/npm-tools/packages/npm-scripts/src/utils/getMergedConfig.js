@@ -162,7 +162,7 @@ function getMergedConfig(type, property) {
 		case 'npmscripts': {
 			const rootDir = findRoot();
 
-			let rootDefaults;
+			let rootDefaults = {};
 
 			try {
 				rootDefaults = require(path.join(
@@ -173,29 +173,13 @@ function getMergedConfig(type, property) {
 				if (err.code !== 'MODULE_NOT_FOUND') {
 					throw err;
 				}
-
-				rootDefaults = {};
 			}
 
-			let userConfig = deepMerge([
+			mergedConfig = deepMerge([
 				require('../config/npmscripts.config.js'),
 				rootDefaults,
 				getUserConfig('npmscripts'),
 			]);
-
-			// Check for preset before creating config
-			let presetConfig = {};
-
-			if (userConfig.preset) {
-				// eslint-disable-next-line @liferay/liferay/no-dynamic-require
-				presetConfig = require(userConfig.preset);
-			}
-
-			mergedConfig = deepMerge(
-				[presetConfig, userConfig],
-				deepMerge.MODE.OVERWRITE_ARRAYS
-			);
-
 			break;
 		}
 
