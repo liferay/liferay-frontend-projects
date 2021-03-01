@@ -16,6 +16,7 @@ let runBridge = require('../utils/runBridge');
 let runBundler = require('../utils/runBundler');
 const setEnv = require('../utils/setEnv');
 let {buildSoy, cleanSoy, soyExists, translateSoy} = require('../utils/soy');
+const spawnSync = require('../utils/spawnSync');
 const validateConfig = require('../utils/validateConfig');
 let webpack = require('./webpack');
 
@@ -84,6 +85,10 @@ module.exports = async function (...args) {
 		!FEDERATION_CONFIG || FEDERATION_CONFIG.runLegacyBuild !== false;
 
 	if (inputPathExists && runLegacyBuild) {
+		if (fs.existsSync('tsconfig.json')) {
+			spawnSync('tsc', ['--noEmit']);
+		}
+
 		runBabel(
 			BUILD_CONFIG.input,
 			'--out-dir',
