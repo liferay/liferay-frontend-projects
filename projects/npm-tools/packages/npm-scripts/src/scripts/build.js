@@ -93,7 +93,9 @@ module.exports = async function (...args) {
 			BUILD_CONFIG.input,
 			'--out-dir',
 			BUILD_CONFIG.output,
-			'--source-maps'
+			'--source-maps',
+			'--extensions',
+			'.cjs,.es,.es6,.js,.jsx,.mjs,.ts,.tsx'
 		);
 	}
 
