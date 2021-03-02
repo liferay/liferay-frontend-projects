@@ -18,8 +18,7 @@ const CHECK_AND_FIX_GLOBS = [
 const getClayPaths = () => {
 	try {
 		return require('@clayui/css').includePaths;
-	}
-	catch {
+	} catch {
 		return [];
 	}
 };
@@ -27,26 +26,26 @@ const getClayPaths = () => {
 module.exports = {
 	build: {
 		bundler: {
-			'/': {
-				plugins: ['resolve-linked-dependencies'],
+			'*': {
 				'.babelrc': {
 					presets: ['liferay-standard'],
 				},
-				'post-plugins': [
-					'namespace-packages',
-					'inject-imports-dependencies',
-				],
-			},
-			'*': {
 				'copy-plugins': ['exclude-imports'],
 				plugins: ['replace-browser-modules'],
-				'.babelrc': {
-					presets: ['liferay-standard'],
-				},
 				'post-plugins': [
 					'namespace-packages',
 					'inject-imports-dependencies',
 					'inject-peer-dependencies',
+				],
+			},
+			'/': {
+				'.babelrc': {
+					presets: ['liferay-standard'],
+				},
+				plugins: ['resolve-linked-dependencies'],
+				'post-plugins': [
+					'namespace-packages',
+					'inject-imports-dependencies',
 				],
 			},
 			ignore: ['__generated__/**/*'],
@@ -57,8 +56,8 @@ module.exports = {
 					use: ['css-loader'],
 				},
 				{
-					test: '\\.scss$',
 					exclude: 'node_modules',
+					test: '\\.scss$',
 					use: [
 						{
 							loader: 'css-loader',
