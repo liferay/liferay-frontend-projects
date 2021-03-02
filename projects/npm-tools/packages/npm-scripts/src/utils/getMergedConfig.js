@@ -106,6 +106,8 @@ function normalizeNpmscriptsConfig(config) {
 			throw new Error('Invalid federation mode: ' + federation.mode);
 		}
 	}
+
+	return config;
 }
 
 /**
