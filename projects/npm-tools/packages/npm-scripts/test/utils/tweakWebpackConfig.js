@@ -142,7 +142,7 @@ module.exports = {
 	build: {
 		input: '${directory}'
 	},
-	federation: true
+	federation: {}
 }
 		`
 		);
