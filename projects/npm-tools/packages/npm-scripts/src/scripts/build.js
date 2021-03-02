@@ -86,7 +86,7 @@ module.exports = async function (...args) {
 		buildSoy();
 	}
 
-	const runLegacyBuild = !federation || federation.mode != 'default';
+	const runLegacyBuild = !federation || federation.mode !== 'default';
 
 	if (inputPathExists && runLegacyBuild) {
 		runBabel(
