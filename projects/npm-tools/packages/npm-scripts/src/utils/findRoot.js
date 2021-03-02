@@ -17,6 +17,8 @@ const path = require('path');
  * and we keep going until we hit the former, because that is where our
  * global configuration files (like .eslintignore and .prettierignore)
  * should reside.
+ *
+ * @return undefined or the absolute path to the root directory
  */
 function findRoot() {
 	let directory = process.cwd();
@@ -31,12 +33,10 @@ function findRoot() {
 		}
 
 		if (path.dirname(directory) === directory) {
-
 			// Can't go any higher.
 
 			directory = null;
-		}
-		else {
+		} else {
 			directory = path.dirname(directory);
 		}
 	}

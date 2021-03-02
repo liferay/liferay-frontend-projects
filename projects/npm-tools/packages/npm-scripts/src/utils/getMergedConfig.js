@@ -185,24 +185,33 @@ function getMergedConfig(type, property) {
 		case 'npmscripts': {
 			const rootDir = findRoot();
 
-			let rootDefaults = {};
+			let rootConfig = {};
 
-			try {
-				rootDefaults = require(path.join(
-					rootDir,
-					'npmscripts.config.js'
-				)).defaults;
-			} catch (err) {
-				if (err.code !== 'MODULE_NOT_FOUND') {
-					throw err;
+			if (rootDir) {
+				try {
+					rootConfig = require(path.join(
+						rootDir,
+						'npmscripts.config.js'
+					));
+				} catch (err) {
+					if (err.code !== 'MODULE_NOT_FOUND') {
+						throw err;
+					}
 				}
 			}
 
-			mergedConfig = deepMerge([
-				require('../config/npmscripts.config.js'),
-				rootDefaults,
-				getUserConfig('npmscripts'),
-			]);
+			if (process.cwd() === rootDir) {
+				mergedConfig = deepMerge([
+					require('../config/npmscripts.config.js'),
+					rootConfig.global || {},
+				]);
+			} else {
+				mergedConfig = deepMerge([
+					require('../config/npmscripts.config.js'),
+					rootConfig,
+					getUserConfig('npmscripts'),
+				]);
+			}
 
 			mergedConfig = normalizeNpmscriptsConfig(mergedConfig);
 			break;
