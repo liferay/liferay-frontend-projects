@@ -124,15 +124,16 @@ function getMergedConfig(type, property) {
 			break;
 
 		case 'bundler': {
+			const {bundler: bundlerDefaults} = getMergedConfig(
+				'npmscripts',
+				'build'
+			);
 			const userConfig = getUserConfig('npmbundler');
 
 			if (userConfig.preset !== undefined) {
 				mergedConfig = userConfig;
 			} else {
-				mergedConfig = deepMerge([
-					require('../config/npm-bundler'),
-					userConfig,
-				]);
+				mergedConfig = deepMerge([bundlerDefaults, userConfig]);
 			}
 			break;
 		}

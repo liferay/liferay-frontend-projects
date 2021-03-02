@@ -25,6 +25,52 @@ const getClayPaths = () => {
 
 module.exports = {
 	build: {
+		bundler: {
+			'/': {
+				plugins: ['resolve-linked-dependencies'],
+				'.babelrc': {
+					presets: ['liferay-standard'],
+				},
+				'post-plugins': [
+					'namespace-packages',
+					'inject-imports-dependencies',
+				],
+			},
+			'*': {
+				'copy-plugins': ['exclude-imports'],
+				plugins: ['replace-browser-modules'],
+				'.babelrc': {
+					presets: ['liferay-standard'],
+				},
+				'post-plugins': [
+					'namespace-packages',
+					'inject-imports-dependencies',
+					'inject-peer-dependencies',
+				],
+			},
+			ignore: ['__generated__/**/*'],
+			output: 'build/node/packageRunBuild/resources',
+			rules: [
+				{
+					test: '\\.css$',
+					use: ['css-loader'],
+				},
+				{
+					test: '\\.scss$',
+					exclude: 'node_modules',
+					use: [
+						{
+							loader: 'css-loader',
+							options: {
+								extension: '.css',
+							},
+						},
+					],
+				},
+			],
+			sources: ['src/main/resources/META-INF/resources'],
+		},
+
 		// Passed to:
 		// - `metalsoy` executable (via `generateSoyDependencies()`).
 
