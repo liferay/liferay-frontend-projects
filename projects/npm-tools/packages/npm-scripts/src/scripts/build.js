@@ -86,8 +86,7 @@ module.exports = async function (...args) {
 		buildSoy();
 	}
 
-	const runLegacyBuild =
-		!federation || ['compatible', 'disabled'].includes(federation.mode);
+	const runLegacyBuild = !federation || federation.mode != 'default';
 
 	if (inputPathExists && runLegacyBuild) {
 		runBabel(

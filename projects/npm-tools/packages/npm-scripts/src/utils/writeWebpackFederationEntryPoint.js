@@ -41,18 +41,14 @@ module.exports = async function (filePath) {
 
 	// Export internal dependencies for bridges
 
-	let {bridges} = getMergedConfig('npmscripts', 'federation');
+	const {bridges} = getMergedConfig('npmscripts', 'federation');
 
-	if (bridges === true) {
-		bridges = [];
-	}
+	if (bridges) {
+		for (const packageName of bridges) {
+			const exportName = getBridgeExportName(packageName);
 
-	bridges = bridges || [];
-
-	for (const packageName of bridges) {
-		const exportName = getBridgeExportName(packageName);
-
-		code += `export * as ${exportName} from '${packageName}';\n`;
+			code += `export * as ${exportName} from '${packageName}';\n`;
+		}
 	}
 
 	// Finally, write the file
