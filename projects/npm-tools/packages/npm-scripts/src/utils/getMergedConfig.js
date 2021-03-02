@@ -151,10 +151,14 @@ function getMergedConfig(type, property) {
 			break;
 
 		case 'bundler': {
-			const {bundler: bundlerDefaults} = getMergedConfig(
-				'npmscripts',
-				'build'
-			);
+			const {build} = getMergedConfig('npmscripts');
+
+			let bundlerDefaults = {};
+
+			if (build && build.bundler) {
+				bundlerDefaults = build.bundler;
+			}
+
 			const userConfig = getUserConfig('npmbundler');
 
 			if (userConfig.preset !== undefined) {
