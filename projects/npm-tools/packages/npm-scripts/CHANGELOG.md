@@ -1,3 +1,12 @@
+## [npm-scripts/v38.0.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v38.0.0) (2021-03-02)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v37.1.2...npm-scripts/v38.0.0)
+
+### :new: Features
+
+-   feat: externalize liferay-portal's specific configuration for webpack / bundler ([\#420](https://github.com/liferay/liferay-frontend-projects/pull/420))
+-   feat(npm-scripts): bump liferay-theme-tasks dependency to 10.3.0 ([\#418](https://github.com/liferay/liferay-frontend-projects/pull/418))
+
 ## [npm-scripts/v37.1.2](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v37.1.2) (2021-02-22)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v37.1.1...npm-scripts/v37.1.2)
