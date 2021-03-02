@@ -4,7 +4,6 @@
  */
 
 const fs = require('fs');
-const {run} = require('jest');
 const path = require('path');
 
 let buildSass = require('../sass/build');
