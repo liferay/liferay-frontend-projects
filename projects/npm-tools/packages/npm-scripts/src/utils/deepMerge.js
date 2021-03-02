@@ -217,9 +217,55 @@ function babelMerge(key) {
 	}
 }
 
+/**
+ * Custom merge that overwrites `check` and `fix` arrays but merge the others.
+ */
+function npmscriptsMerge(key) {
+	const overwriteArrayKeys = new Set(['check', 'fix']);
+
+	if (overwriteArrayKeys.has(key)) {
+		return function (target, source, options) {
+			if (Array.isArray(target) && Array.isArray(source)) {
+				return overwriteMerge(target, source, options);
+			}
+			else {
+				throw new Error(
+					'npmscriptsMerge(): ' +
+						'Cannot merge key ' +
+						key +
+						' because it is not an ' +
+						'array: please check that the npmscripts.config.js ' +
+						'file is well-formed'
+				);
+			}
+		};
+	}
+	else {
+		return function (target, source, options) {
+			if (Array.isArray(target) && Array.isArray(source)) {
+				return combineMerge(target, source, options);
+			}
+			else if (
+				options.isMergeableObject(target) &&
+				options.isMergeableObject(source)
+			) {
+				return merge(target, source, options);
+			}
+			else {
+				throw new Error(
+					'npmscriptsMerge(): ' +
+						'Cannot merge without two mergeable objects: ' +
+						'please check that the npmscripts.config.js file is ' +
+						'well-formed'
+				);
+			}
+		};
+	}
+}
 const MODE = Object.freeze({
 	BABEL: 2,
 	DEFAULT: 0,
+	NPMSCRIPTS: 3,
 	OVERWRITE_ARRAYS: 1,
 });
 
@@ -244,6 +290,11 @@ function deepMerge(items, mode = MODE.DEFAULT) {
 		case MODE.BABEL:
 			return merge.all(items, {
 				customMerge: babelMerge,
+			});
+
+		case MODE.NPMSCRIPTS:
+			return merge.all(items, {
+				customMerge: npmscriptsMerge,
 			});
 
 		default:

@@ -208,17 +208,23 @@ function getMergedConfig(type, property) {
 			}
 
 			if (process.cwd() === rootDir) {
-				mergedConfig = deepMerge([
-					require('../config/npmscripts.config.js'),
-					rootConfig.global || {},
-				]);
+				mergedConfig = deepMerge(
+					[
+						require('../config/npmscripts.config.js'),
+						rootConfig.global || {},
+					],
+					deepMerge.MODE.NPMSCRIPTS
+				);
 			}
 			else {
-				mergedConfig = deepMerge([
-					require('../config/npmscripts.config.js'),
-					rootConfig,
-					getUserConfig('npmscripts'),
-				]);
+				mergedConfig = deepMerge(
+					[
+						require('../config/npmscripts.config.js'),
+						rootConfig,
+						getUserConfig('npmscripts'),
+					],
+					deepMerge.MODE.NPMSCRIPTS
+				);
 			}
 
 			mergedConfig = normalizeNpmscriptsConfig(mergedConfig);
