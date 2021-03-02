@@ -47,7 +47,8 @@ function isObject(maybeObject) {
 function filter(object, property, callback) {
 	if (Array.isArray(object)) {
 		return object.map((item) => filter(item, property, callback));
-	} else if (isObject(object)) {
+	}
+	else if (isObject(object)) {
 		return Object.entries(object).reduce((acc, [key, value]) => {
 			return {
 				...acc,
@@ -57,7 +58,8 @@ function filter(object, property, callback) {
 						: filter(value, property, callback),
 			};
 		}, {});
-	} else {
+	}
+	else {
 		return object;
 	}
 }
@@ -79,7 +81,8 @@ function hackilySupportIncrementalDOM(config) {
 		return filter(acc, property, (value) => {
 			if (Array.isArray(value)) {
 				return value.filter((v) => !values.includes(v));
-			} else {
+			}
+			else {
 				return value;
 			}
 		});
@@ -156,7 +159,8 @@ function getMergedConfig(type, property) {
 
 			if (userConfig.preset !== undefined) {
 				mergedConfig = userConfig;
-			} else {
+			}
+			else {
 				mergedConfig = deepMerge([bundlerDefaults, userConfig]);
 			}
 			break;
@@ -195,7 +199,8 @@ function getMergedConfig(type, property) {
 						rootDir,
 						'npmscripts.config.js'
 					));
-				} catch (err) {
+				}
+				catch (err) {
 					if (err.code !== 'MODULE_NOT_FOUND') {
 						throw err;
 					}
@@ -207,7 +212,8 @@ function getMergedConfig(type, property) {
 					require('../config/npmscripts.config.js'),
 					rootConfig.global || {},
 				]);
-			} else {
+			}
+			else {
 				mergedConfig = deepMerge([
 					require('../config/npmscripts.config.js'),
 					rootConfig,

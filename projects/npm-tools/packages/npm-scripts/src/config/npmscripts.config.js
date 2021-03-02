@@ -18,7 +18,8 @@ const CHECK_AND_FIX_GLOBS = [
 const getClayPaths = () => {
 	try {
 		return require('@clayui/css').includePaths;
-	} catch {
+	}
+	catch {
 		return [];
 	}
 };

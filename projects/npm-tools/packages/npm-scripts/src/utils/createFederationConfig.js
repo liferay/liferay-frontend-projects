@@ -67,7 +67,8 @@ module.exports = async function () {
 
 			if (typeof remote === 'string') {
 				webContextPath = remote;
-			} else {
+			}
+			else {
 				webContextPath = remote.webContextPath;
 				remote = remote.name;
 			}
