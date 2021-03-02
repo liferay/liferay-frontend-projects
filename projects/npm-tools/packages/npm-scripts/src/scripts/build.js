@@ -9,6 +9,7 @@ const path = require('path');
 
 let buildSass = require('../sass/build');
 let createBridges = require('../utils/createBridges');
+const createTempFile = require('../utils/createTempFile');
 const getMergedConfig = require('../utils/getMergedConfig');
 const instrument = require('../utils/instrument');
 let minify = require('../utils/minify');
@@ -58,7 +59,13 @@ const CWD = process.cwd();
  * `minify()` is run unless `NODE_ENV` is `development`.
  */
 module.exports = async function (...args) {
-	const {build: BUILD_CONFIG, federation} = getMergedConfig('npmscripts');
+	const config = getMergedConfig('npmscripts');
+
+	createTempFile('npmscripts.config.json', JSON.stringify(config, null, 2), {
+		autoDelete: false,
+	});
+
+	const {build: BUILD_CONFIG, federation} = config;
 
 	if (!BUILD_CONFIG) {
 		throw new Error('npmscripts.config.js is missing required "build" key');
