@@ -1,4 +1,0 @@
-{
-	"preset": "@liferay/npm-bundler-preset-liferay-dev",
-	"ignore": ["__generated__/**/*"]
-}

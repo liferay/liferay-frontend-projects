@@ -31,12 +31,6 @@ module.exports = function (bridges, dir) {
 		return;
 	}
 
-	// If bridges is true, generate the `main` entry bridge only
-
-	if (bridges === true) {
-		bridges = [];
-	}
-
 	/* eslint-disable-next-line @liferay/liferay/no-dynamic-require */
 	const projectPackageJson = require(path.resolve('package.json'));
 

@@ -37,7 +37,7 @@ async function tweakWebpackConfig(webpackConfigPath) {
 
 	const {federation} = getMergedConfig('npmscripts');
 
-	if (federation) {
+	if (federation && federation.mode !== 'disabled') {
 		arrayConfig.push(await createFederationConfig());
 	}
 

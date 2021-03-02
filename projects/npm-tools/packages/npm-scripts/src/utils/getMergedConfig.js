@@ -3,7 +3,10 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+const path = require('path');
+
 const deepMerge = require('./deepMerge');
+const findRoot = require('./findRoot');
 const getDXPVersion = require('./getDXPVersion');
 const getUserConfig = require('./getUserConfig');
 
@@ -87,6 +90,30 @@ function hackilySupportIncrementalDOM(config) {
 }
 
 /**
+ * Normalize npmscripts configuration so that the fields only contain canonical
+ * values.
+ */
+function normalizeNpmscriptsConfig(config) {
+	const {federation} = config;
+
+	if (federation) {
+		if (federation.bridges === true) {
+			federation.bridges = [];
+		}
+
+		if (federation.mode === undefined) {
+			federation.mode = 'default';
+		}
+
+		if (!['default', 'compatible', 'disabled'].includes(federation.mode)) {
+			throw new Error('Invalid federation mode: ' + federation.mode);
+		}
+	}
+
+	return config;
+}
+
+/**
  * Helper to get JSON configs
  * @param {string} type Name of configuration ("babel", "bundler", "jest" etc)
  * @param {string=} property Specific configuration property to extract. If not
@@ -123,12 +150,25 @@ function getMergedConfig(type, property) {
 			}
 			break;
 
-		case 'bundler':
-			mergedConfig = deepMerge([
-				require('../config/npm-bundler'),
-				getUserConfig('npmbundler'),
-			]);
+		case 'bundler': {
+			const {build} = getMergedConfig('npmscripts');
+
+			let bundlerDefaults = {};
+
+			if (build && build.bundler) {
+				bundlerDefaults = build.bundler;
+			}
+
+			const userConfig = getUserConfig('npmbundler');
+
+			if (userConfig.preset !== undefined) {
+				mergedConfig = userConfig;
+			}
+			else {
+				mergedConfig = deepMerge([bundlerDefaults, userConfig]);
+			}
 			break;
+		}
 
 		case 'eslint':
 			mergedConfig = deepMerge([
@@ -153,28 +193,46 @@ function getMergedConfig(type, property) {
 			break;
 
 		case 'npmscripts': {
-			let presetConfig = {};
+			const rootDir = findRoot();
 
-			let userConfig = getUserConfig('npmscripts');
+			let rootConfig = {};
 
-			// Use default config if no user config exists
-
-			if (Object.keys(userConfig).length === 0) {
-				userConfig = require('../config/npmscripts.config');
+			if (rootDir) {
+				try {
+					/* eslint-disable-next-line @liferay/liferay/no-dynamic-require */
+					rootConfig = require(path.join(
+						rootDir,
+						'npmscripts.config'
+					));
+				}
+				catch (err) {
+					if (err.code !== 'MODULE_NOT_FOUND') {
+						throw err;
+					}
+				}
 			}
 
-			// Check for preset before creating config
-
-			if (userConfig.preset) {
-				// eslint-disable-next-line @liferay/liferay/no-dynamic-require
-				presetConfig = require(userConfig.preset);
+			if (process.cwd() === rootDir) {
+				mergedConfig = deepMerge(
+					[
+						require('../config/npmscripts.config'),
+						rootConfig.global || {},
+					],
+					deepMerge.MODE.NPMSCRIPTS
+				);
+			}
+			else {
+				mergedConfig = deepMerge(
+					[
+						require('../config/npmscripts.config'),
+						rootConfig,
+						getUserConfig('npmscripts'),
+					],
+					deepMerge.MODE.NPMSCRIPTS
+				);
 			}
 
-			mergedConfig = deepMerge(
-				[presetConfig, userConfig],
-				deepMerge.MODE.OVERWRITE_ARRAYS
-			);
-
+			mergedConfig = normalizeNpmscriptsConfig(mergedConfig);
 			break;
 		}
 

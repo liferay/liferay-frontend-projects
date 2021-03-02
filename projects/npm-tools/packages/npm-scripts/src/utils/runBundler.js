@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+const createTempFile = require('./createTempFile');
 const getMergedConfig = require('./getMergedConfig');
 const spawnSync = require('./spawnSync');
 const withTempFile = require('./withTempFile');
@@ -12,6 +13,10 @@ const withTempFile = require('./withTempFile');
  */
 function runBundler(...args) {
 	const config = getMergedConfig('bundler');
+
+	createTempFile('npmbundlerrc.json', JSON.stringify(config, null, 2), {
+		autoDelete: false,
+	});
 
 	withTempFile(
 		'.npmbundlerrc',
