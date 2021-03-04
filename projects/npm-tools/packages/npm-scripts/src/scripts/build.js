@@ -64,7 +64,7 @@ module.exports = async function (...args) {
 		autoDelete: false,
 	});
 
-	const {build: BUILD_CONFIG, federation} = config;
+	const {build: BUILD_CONFIG, bundling, federation} = config;
 
 	if (!BUILD_CONFIG) {
 		throw new Error('npmscripts.config.js is missing required "build" key');
@@ -103,10 +103,10 @@ module.exports = async function (...args) {
 		webpack(...args);
 	}
 
-	if (runLegacyBuild) {
+	if (runLegacyBuild && bundling !== false) {
 		runBundler();
 	}
-	else {
+	else if (federation.mode !== 'disabled') {
 		const {output} = BUILD_CONFIG;
 
 		fs.copyFileSync('package.json', path.join(output, 'package.json'));
