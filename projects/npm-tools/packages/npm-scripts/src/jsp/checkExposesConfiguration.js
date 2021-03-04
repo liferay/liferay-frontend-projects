@@ -35,56 +35,76 @@ module.exports = function (source) {
 		return [];
 	}
 
-	const invocations = getTaglibInvocations(source, ...Object.keys(TAGLIBS));
-
-	const moduleNames = new Set();
-
-	for (const invocation of invocations) {
-		const {attributes: validAttributes} = TAGLIBS[invocation.tag];
-		const {attributes} = invocation;
-
-		for (const validAttribute of validAttributes) {
-			const attribute = attributes[validAttribute];
-
-			if (!attribute) {
-				continue;
-			}
-
-			attribute
-				.split(',')
-				.map((part) => part.split(/\s+as\s+/)[0])
-				.forEach((moduleName) => moduleNames.add(moduleName));
-		}
+	if (!config.federation || config.federation.mode === 'disabled') {
+		return [];
 	}
 
 	const messages = [];
 
-	const federation =
-		typeof config.federation === 'object' ? config.federation : {};
-	const exposes = federation.exposes || [];
+	try {
+		const invocations = getTaglibInvocations(
+			source,
+			...Object.keys(TAGLIBS)
+		);
 
-	for (const moduleName of moduleNames) {
-		if (moduleName.includes('<%=')) {
-			continue;
+		const moduleNames = new Set();
+
+		for (const invocation of invocations) {
+			const {attributes: validAttributes} = TAGLIBS[invocation.tag];
+			const {attributes} = invocation;
+
+			for (const validAttribute of validAttributes) {
+				const attribute = attributes[validAttribute];
+
+				if (!attribute) {
+					continue;
+				}
+
+				attribute
+					.split(',')
+					.map((part) => part.split(/\s+as\s+/)[0])
+					.forEach((moduleName) =>
+						moduleNames.add({moduleName, line: invocation.line})
+					);
+			}
 		}
 
-		const modulePath = `${moduleName}.js`;
+		const federation =
+			typeof config.federation === 'object' ? config.federation : {};
+		const exposes = federation.exposes || [];
 
-		if (!fs.existsSync(path.join(config.build.input, modulePath))) {
-			continue;
-		}
+		for (const {moduleName, line} of moduleNames) {
+			if (moduleName.includes('<%=')) {
+				continue;
+			}
 
-		if (!exposes.includes(`<inputDir>/${modulePath}`)) {
-			messages.push({
-				column: 0,
-				line: 0,
-				message:
-					`Module '${modulePath}' is not configured in the ` +
-					`'exposes' section of 'npmscripts.config.js'`,
-				ruleId: 'check-exposes',
-				severity: 1, // warning
-			});
+			const modulePath = `${moduleName}.js`;
+
+			if (!fs.existsSync(path.join(config.build.input, modulePath))) {
+				continue;
+			}
+
+			if (!exposes.includes(`<inputDir>/${modulePath}`)) {
+				messages.push({
+					column: 1,
+					line,
+					message:
+						`Module '${modulePath}' is not configured in the ` +
+						`'exposes' section of 'npmscripts.config.js'`,
+					ruleId: 'check-exposes',
+					severity: 2, // error
+				});
+			}
 		}
+	}
+	catch (err) {
+		messages.push({
+			column: 0,
+			line: 0,
+			message: `${err} (while parsing JSP file)`,
+			ruleId: 'check-exposes',
+			severity: 1, // warning
+		});
 	}
 
 	return messages;

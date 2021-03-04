@@ -67,8 +67,30 @@ function lex(source, options = {}) {
 	return [...lexer.lex(source)];
 }
 
+function getLineNumber(offset, lineOffsets) {
+	for (let i = 0; i < lineOffsets.length; i++) {
+		if (offset < lineOffsets[i]) {
+			return i;
+		}
+	}
+
+	throw new Error(
+		`Invalid offset ${offset} (last offset is ${
+			lineOffsets[lineOffsets.length - 1]
+		}`
+	);
+}
+
 module.exports = function (jsp, ...tags) {
 	const invocations = [];
+
+	const lineOffsets = jsp.split('\n').reduce(
+		(offsets, line) => {
+			offsets.push(offsets[offsets.length - 1] + line.length + 1);
+			return offsets;
+		},
+		[0]
+	);
 
 	for (const tag of tags) {
 		let from = 0;
@@ -114,6 +136,7 @@ module.exports = function (jsp, ...tags) {
 
 			invocations.push({
 				attributes,
+				line: getLineNumber(from, lineOffsets),
 				tag,
 			});
 
