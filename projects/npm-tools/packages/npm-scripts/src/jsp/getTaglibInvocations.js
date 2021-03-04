@@ -16,7 +16,17 @@ function lex(source, options = {}) {
 	};
 
 	const lexer = new Lexer((api) => {
-		const {consume, fail, match, meta, peek, repeat, sequence, token} = api;
+		const {
+			consume,
+			fail,
+			match,
+			meta,
+			oneOf,
+			peek,
+			repeat,
+			sequence,
+			token,
+		} = api;
 
 		meta.set('ELEnabled', !!ELEnabled);
 		meta.commit();
@@ -43,7 +53,7 @@ function lex(source, options = {}) {
 			else if (peek(ATTRIBUTE)) {
 				return token('ATTRIBUTE', consume());
 			}
-			else if (peek(match('>'))) {
+			else if (peek(oneOf(match('>'), match('/>')))) {
 				consume(repeat(CHAR));
 
 				return token('REST', '·');
