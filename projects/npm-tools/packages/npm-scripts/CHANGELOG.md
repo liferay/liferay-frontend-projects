@@ -1,3 +1,11 @@
+## [npm-scripts/v38.2.0-pre.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v38.2.0-pre.0) (2021-03-05)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v38.1.0...npm-scripts/v38.2.0-pre.0)
+
+### :new: Features
+
+-   feat(npm-scripts): add some basic support for building with TypeScript ([\#425](https://github.com/liferay/liferay-frontend-projects/pull/425))
+
 ## [npm-scripts/v38.1.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v38.1.0) (2021-03-05)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v38.0.0...npm-scripts/v38.1.0)
