@@ -1,3 +1,11 @@
+## [npm-scripts/v38.1.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v38.1.0) (2021-03-05)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v38.0.0...npm-scripts/v38.1.0)
+
+### :new: Features
+
+-   feat: add a resolver for soy templates to webpack federation ([\#426](https://github.com/liferay/liferay-frontend-projects/pull/426))
+
 ## [npm-scripts/v38.0.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v38.0.0) (2021-03-02)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v37.1.2...npm-scripts/v38.0.0)
