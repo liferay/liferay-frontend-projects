@@ -91,6 +91,7 @@ describe('getMergedConfig()', () => {
 							targets: expect.stringContaining('Chrome version'),
 						},
 					],
+					'@babel/preset-typescript',
 				]);
 
 				expect(config.overrides[0].presets).toMatchObject([
