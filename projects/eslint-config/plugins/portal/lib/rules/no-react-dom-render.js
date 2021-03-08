@@ -3,8 +3,6 @@
  * SPDX-License-Identifier: MIT
  */
 
-/* eslint-disable no-for-of-loops/no-for-of-loops */
-
 const DESCRIPTION =
 	'Direct use of ReactDOM.render is discouraged; instead, use ' +
 	'the <react:component /> JSP taglib, or do: ' +

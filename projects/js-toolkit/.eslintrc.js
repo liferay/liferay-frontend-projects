@@ -97,7 +97,6 @@ module.exports = {
 		},
 	],
 	rules: {
-		'no-for-of-loops/no-for-of-loops': 'off',
 		'no-return-assign': ['error', 'except-parens'],
 		'notice/notice': [
 			'error',
