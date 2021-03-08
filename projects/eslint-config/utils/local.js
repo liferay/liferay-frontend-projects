@@ -31,6 +31,12 @@ let originalResolve;
  * longer uses `require` since:
  *
  * https://github.com/eslint/eslint/commit/6ae21a4bfe5a
+ *
+ * For ESLint 7.8.0+, the config file handling began to be refactored into a
+ * separate package, so we actually patch both just in case...
+ *
+ * https://github.com/eslint/eslint/commit/2bee6d256ae0
+ * https://github.com/eslint/eslintrc/commit/9fb9c5da9b95
  */
 function patch() {
 	const eslint = require.resolve('eslint/package.json', {
@@ -42,22 +48,41 @@ function patch() {
 
 	if (majorVersion > 5) {
 		if (!originalResolve) {
-			// eslint-disable-next-line @liferay/liferay/no-dynamic-require
-			const resolver = require(require.resolve(
-				'eslint/lib/shared/relative-module-resolver',
-				{paths: [process.cwd()]}
-			));
+			const getResolver = (location) => {
+				try {
+					// eslint-disable-next-line @liferay/liferay/no-dynamic-require
+					const resolver = require(require.resolve(location, {
+						paths: [process.cwd()],
+					}));
 
-			originalResolve = resolver.resolve;
-
-			resolver.resolve = function (id, ...rest) {
-				if (localPlugins.has(id)) {
-					return localPlugins.get(id);
+					return resolver;
 				}
-				else {
-					return originalResolve.call(resolver, id, ...rest);
+				catch {
+
+					// Nothing to do.
+
 				}
 			};
+
+			const resolvers = [
+				getResolver(
+					'@eslint/eslintrc/lib/shared/relative-module-resolver'
+				),
+				getResolver('eslint/lib/shared/relative-module-resolver'),
+			].filter(Boolean);
+
+			originalResolve = resolvers.length && resolvers[0].resolve;
+
+			resolvers.forEach((resolver) => {
+				resolver.resolve = function (id, ...rest) {
+					if (localPlugins.has(id)) {
+						return localPlugins.get(id);
+					}
+					else {
+						return originalResolve.call(resolver, id, ...rest);
+					}
+				};
+			});
 		}
 	}
 	else {
