@@ -32,6 +32,25 @@ ruleTester.run('no-duplicate-imports', rule, {
 				},
 			],
 		},
+		{
+			code: `
+				import type {g, z} from 'two';
+				import x from './x';
+				import type {a} from 'two';
+			`,
+			errors: [
+				{
+					message:
+						'modules must be imported only once ' +
+						'(duplicate import: "two")',
+					type: 'ImportDeclaration',
+				},
+			],
+
+			// espree doesn't know how to parse TypeScript imports.
+
+			skip: ['espree'],
+		},
 	],
 
 	valid: [
@@ -40,6 +59,17 @@ ruleTester.run('no-duplicate-imports', rule, {
 				import {a, g, z} from 'one';
 				import x from './x';
 			`,
+		},
+		{
+			code: `
+				// A non-type + a type import aren't considered duplicates.
+				import thing from 'thing';
+				import type {Example} from 'thing';
+			`,
+
+			// espree doesn't know how to parse TypeScript imports.
+
+			skip: ['espree'],
 		},
 	],
 });
