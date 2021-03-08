@@ -89,7 +89,7 @@ const config = {
 		'no-console': ['error', {allow: ['warn', 'error']}],
 		'no-constant-condition': ['error', {checkLoops: false}],
 		'no-control-regex': 'off',
-		'no-for-of-loops/no-for-of-loops': 'error',
+		'no-for-of-loops/no-for-of-loops': 'off',
 		'no-only-tests/no-only-tests': 'error',
 		'no-return-assign': ['error', 'always'],
 		'no-unused-expressions': 'error',
