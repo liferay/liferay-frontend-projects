@@ -3,8 +3,6 @@
  * SPDX-License-Identifier: MIT
  */
 
-/* eslint-disable no-for-of-loops/no-for-of-loops */
-
 const DESCRIPTION =
 	'consecutive test blocks should be separated by a blank line';
 

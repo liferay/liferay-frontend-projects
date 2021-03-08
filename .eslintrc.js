@@ -26,7 +26,6 @@ module.exports = {
 		},
 	],
 	rules: {
-		'no-for-of-loops/no-for-of-loops': 'off',
 		'notice/notice': [
 			'error',
 			{
