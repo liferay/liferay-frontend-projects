@@ -13,6 +13,7 @@ const createTempFile = require('./createTempFile');
 const createWebpackSoyResolver = require('./createWebpackSoyResolver');
 const getMergedConfig = require('./getMergedConfig');
 const parseBnd = require('./parseBnd');
+const writeLibInitEntryPoint = require('./writeLibInitEntryPoint');
 const writeWebpackFederationEntryPoint = require('./writeWebpackFederationEntryPoint');
 
 /**
@@ -32,9 +33,14 @@ module.exports = async function () {
 	const name = packageJson.name;
 	const webContextPath = bnd['Web-ContextPath'] || name;
 
-	const {filePath: nullJsFilePath} = createTempFile('null.js', '');
-	const {filePath: mainFilePath} = createTempFile('index.federation.js', '');
+	const {filePath: libInitJsFilePath} = createTempFile('libInit.js', '', {
+		autoDelete: false,
+	});
+	const {filePath: mainFilePath} = createTempFile('index.federation.js', '', {
+		autoDelete: false,
+	});
 
+	writeLibInitEntryPoint(libInitJsFilePath);
 	writeWebpackFederationEntryPoint(mainFilePath);
 
 	const config = getMergedConfig('npmscripts');
@@ -92,16 +98,12 @@ module.exports = async function () {
 		}, {}),
 	};
 
-	createTempFile(
-		'federation.plugin.config.json',
-		JSON.stringify(federationPluginConfig, null, 2),
-		{autoDelete: false}
-	);
-
 	return {
 		context: process.cwd(),
 		devtool: 'source-map',
-		entry: nullJsFilePath,
+		entry: {
+			[name]: libInitJsFilePath,
+		},
 		module: {
 			rules: [
 				{
