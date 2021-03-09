@@ -7,7 +7,7 @@ const path = require('path');
 
 const {isLocal} = require('../common/imports');
 
-const BAD_EXTENSIONS = new Set(['.js']);
+const BAD_EXTENSIONS = new Set(['.js', '.ts', '.tsx']);
 
 function stripExtension(value) {
 	if (isLocal(value)) {

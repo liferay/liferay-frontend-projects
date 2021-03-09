@@ -48,12 +48,41 @@ ruleTester.run('import-extensions', rule, {
 			output: `import * as Billboard from './billboard';`,
 		},
 		{
+			code: `
+				import type {T} from './Helpers.ts';
+				import List from './List.tsx';
+				import type {ListItemT} from './ListItem.tsx';
+				import other from './other.ts';
+			`,
+			errors: [badImport, badImport, badImport, badImport],
+			output: `
+				import type {T} from './Helpers';
+				import List from './List';
+				import type {ListItemT} from './ListItem';
+				import other from './other';
+			`,
+
+			// espree doesn't know how to parse TypeScript imports.
+
+			skip: ['espree'],
+		},
+		{
 			code: `export * from './Other.es.js';`,
 			errors: [badExport],
 			output: `export * from './Other.es';`,
 		},
 		{
 			code: `export * from './Other.js';`,
+			errors: [badExport],
+			output: `export * from './Other';`,
+		},
+		{
+			code: `export * from './Other.ts';`,
+			errors: [badExport],
+			output: `export * from './Other';`,
+		},
+		{
+			code: `export * from './Other.tsx';`,
 			errors: [badExport],
 			output: `export * from './Other';`,
 		},
