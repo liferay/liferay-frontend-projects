@@ -18,3 +18,10 @@ Examples of **correct** code for this rule:
 import {a, g, z} from 'one';
 import x from './x';
 ```
+
+Note the one exception to this rule, that in TypeScript files it is permitted (and sometimes necessary) to have two imports from a module, one that imports _values_ and another that imports _types_:
+
+```ts
+import foo from 'foo';
+import type {bar} from 'foo';
+```

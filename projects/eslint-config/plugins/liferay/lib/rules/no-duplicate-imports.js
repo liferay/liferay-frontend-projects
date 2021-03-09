@@ -10,12 +10,18 @@ const DESCRIPTION = 'modules must be imported only once';
 module.exports = {
 	create(context) {
 		const imports = new Set();
+		const typeImports = new Set();
 
 		return {
 			ImportDeclaration(node) {
+				const isType = node.importKind === 'type';
+
 				const source = getSource(node);
 
-				if (imports.has(source)) {
+				if (
+					(typeImports.has(source) && isType) ||
+					(imports.has(source) && !isType)
+				) {
 					context.report({
 						message: `${DESCRIPTION} (duplicate import: ${JSON.stringify(
 							source
@@ -24,7 +30,12 @@ module.exports = {
 					});
 				}
 				else {
-					imports.add(source);
+					if (isType) {
+						typeImports.add(source);
+					}
+					else {
+						imports.add(source);
+					}
 				}
 			},
 		};
