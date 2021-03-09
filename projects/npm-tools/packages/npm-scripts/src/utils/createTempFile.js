@@ -9,8 +9,6 @@ const path = require('path');
 const SignalHandler = require('../utils/SignalHandler');
 const getMergedConfig = require('./getMergedConfig');
 
-const BUILD_CONFIG = getMergedConfig('npmscripts', 'build');
-
 /**
  * Write a temporary file that will be deleted when the tool finishes execution.
  *
@@ -26,7 +24,8 @@ const BUILD_CONFIG = getMergedConfig('npmscripts', 'build');
  * before the end of the process) and the `filePath`.
  */
 function createTempFile(filename, content, {autoDelete = true} = {}) {
-	const tempDirPath = path.join(BUILD_CONFIG.temp, 'tmp');
+	const build = getMergedConfig('npmscripts', 'build');
+	const tempDirPath = path.join(build.temp, 'tmp');
 
 	fs.ensureDirSync(tempDirPath);
 
