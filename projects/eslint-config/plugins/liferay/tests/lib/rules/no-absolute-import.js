@@ -38,6 +38,19 @@ ruleTester.run('no-absolute-import', rule, {
 				},
 			],
 		},
+		{
+			code: `import type {MapT} from '/usr/share/types/Map';`,
+			errors: [
+				{
+					message: 'import sources should not use absolute paths',
+					type: 'Literal',
+				},
+			],
+
+			// espree doesn't know how to parse TypeScript imports.
+
+			skip: ['espree'],
+		},
 	],
 
 	valid: [
@@ -47,6 +60,13 @@ ruleTester.run('no-absolute-import', rule, {
 				const other = require('other');
 				import {x} from 'x';
 			`,
+		},
+		{
+			code: `import type {MapT} from './Map';`,
+
+			// espree doesn't know how to parse TypeScript imports.
+
+			skip: ['espree'],
 		},
 	],
 });
