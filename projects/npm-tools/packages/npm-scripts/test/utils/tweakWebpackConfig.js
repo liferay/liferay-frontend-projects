@@ -15,6 +15,17 @@ const tweakWebpackConfig = require('../../src/utils/tweakWebpackConfig');
 const getFixturePath = require('../../support/getFixturePath');
 
 const BABEL_CONFIG = getMergedConfig('babel');
+const savedCwd = process.cwd();
+
+beforeEach(() => {
+	process.chdir(
+		path.join(__dirname, '../../__fixtures__/utils/tweakWebpackConfig')
+	);
+});
+
+afterEach(() => {
+	process.chdir(savedCwd);
+});
 
 describe('tweakWebpackConfig() without federation', () => {
 	it('returns unchanged config when it doesn\'t include a "module" field', async () => {
@@ -187,9 +198,13 @@ module.exports = {
 			},
 		});
 
-		const entryContent = fs.readFileSync(config.entry).toString();
+		const entry = config.entry['frontend-js-web'];
 
-		expect(entryContent).toBe('');
+		expect(entry).not.toBeUndefined();
+
+		const filename = path.basename(entry);
+
+		expect(filename).toBe('libInit.js');
 	});
 
 	it('correctly configures federation build rules', async () => {
