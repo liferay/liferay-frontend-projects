@@ -8,6 +8,7 @@ Imports appear in the following order:
 
 1. "External" imports (ie. NodeJS built-in modules and dependencies specified in "package.json"; these do not start with "." or "..").
 2. "Internal" imports (ie. local to the projects, starting with "." or "..");
+3. "Type-only" imports (ie. `import type {A} from 'thing';`).
 
 Within each group, we sort lexicographically (and case-sensitively) by the module source (ie. the thing on the right-hand side).
 
@@ -29,7 +30,7 @@ imports 'thing';
 require('other');
 ```
 
-Any time this rule encounters such an import, it considers it a boundary and will not reorder any imports across that boundary.
+Any time this rule encounters such an import, it considers it a boundary and, generally, will not reorder any imports across that boundary. (Type-only imports are a special case, because they are independent of evaluation order and can always be safely moved to the end.)
 
 ## Examples
 

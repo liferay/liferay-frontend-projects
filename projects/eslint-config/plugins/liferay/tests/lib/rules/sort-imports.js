@@ -140,13 +140,7 @@ ruleTester.run('sort-imports', rule, {
 				{
 					message:
 						'imports must be sorted by module name ' +
-						'(expected: "other" << "./x")',
-					type: 'ImportDeclaration',
-				},
-				{
-					message:
-						'imports must be sorted by module name ' +
-						'(expected: "one" << "../s")',
+						'(expected: "other" << "./x" << "a-side-effectful-import" << "one" << "../s")',
 					type: 'ImportDeclaration',
 				},
 			],
@@ -189,17 +183,25 @@ ruleTester.run('sort-imports', rule, {
 
 			code: `
 				import type {U} from './Records';
+				import ReactDOM from 'react-dom';
 				import type {T} from './Frisbee';
+				import React from 'react';
+				import Record from './Records';
+				import 'side-effects';
 			`,
 			errors: [
 				{
 					message:
 						'imports must be sorted by module name ' +
-						'(expected: "./Frisbee" << "./Records")',
+						'(expected: "react" << "react-dom" << "./Records" << "side-effects" << (type) "./Frisbee" << (type) "./Records")',
 					type: 'ImportDeclaration',
 				},
 			],
 			output: `
+				import React from 'react';
+				import ReactDOM from 'react-dom';
+				import Record from './Records';
+				import 'side-effects';
 				import type {T} from './Frisbee';
 				import type {U} from './Records';
 			`,
