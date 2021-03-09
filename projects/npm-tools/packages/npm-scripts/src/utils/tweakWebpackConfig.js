@@ -6,6 +6,7 @@
 const fs = require('fs');
 
 const createFederationConfig = require('./createFederationConfig');
+const createTempFile = require('./createTempFile');
 const getMergedConfig = require('./getMergedConfig');
 
 /**
@@ -43,6 +44,12 @@ async function tweakWebpackConfig(webpackConfigPath) {
 
 	arrayConfig = arrayConfig.map((webpackConfig) =>
 		mergeBabelLoaderOptions(webpackConfig)
+	);
+
+	createTempFile(
+		'webpack.config.json',
+		JSON.stringify(arrayConfig, null, '\t'),
+		{autoDelete: false}
 	);
 
 	return arrayConfig.length === 1 ? arrayConfig[0] : arrayConfig;
