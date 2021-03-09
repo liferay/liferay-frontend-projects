@@ -92,6 +92,19 @@ ruleTester.run('sort-import-destructures', rule, {
 				} from 'file';
 			`,
 		},
+		{
+
+			// Works with type-only imports too.
+
+			code: `import type {C, B, A} from 'thing';`,
+			errors: [
+				{
+					message: 'destructured names in imports must be sorted',
+				},
+			],
+			output: `import type {A, B, C} from 'thing';`,
+			skip: ['espree'],
+		},
 	],
 
 	valid: [

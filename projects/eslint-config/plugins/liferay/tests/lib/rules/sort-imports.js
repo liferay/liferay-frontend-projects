@@ -185,6 +185,31 @@ ruleTester.run('sort-imports', rule, {
 		},
 		{
 
+			// Example with type-only imports.
+
+			code: `
+				import type {U} from './Records';
+				import type {T} from './Frisbee';
+			`,
+			errors: [
+				{
+					message:
+						'imports must be sorted by module name ' +
+						'(expected: "./Frisbee" << "./Records")',
+					type: 'ImportDeclaration',
+				},
+			],
+			output: `
+				import type {T} from './Frisbee';
+				import type {U} from './Records';
+			`,
+
+			// espree doesn't know how to parse TypeScript imports.
+
+			skip: ['espree'],
+		},
+		{
+
 			// Regression test: two imports from the same module were causing
 			// duplication.
 

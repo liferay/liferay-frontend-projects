@@ -48,6 +48,24 @@ ruleTester.run('imports-first', rule, {
 			],
 		},
 		{
+			code: `
+				const NAME: Thing = {};
+
+				import type {Thing} from './Thing';
+			`,
+			errors: [
+				{
+					message:
+						'import of "./Thing" must come before other statements',
+					type: 'ImportDeclaration',
+				},
+			],
+
+			// espree doesn't know how to parse TypeScript imports.
+
+			skip: ['espree'],
+		},
+		{
 
 			// Regression test: the second require here wasn't being flagged
 			// because we were choking (silently) on the directive:
@@ -104,6 +122,17 @@ ruleTester.run('imports-first', rule, {
 					require('other')();
 				}
 			`,
+		},
+		{
+			code: `
+				import type {Thing} from './Thing';
+
+				const NAME: Thing = {};
+			`,
+
+			// espree doesn't know how to parse TypeScript imports.
+
+			skip: ['espree'],
 		},
 		{
 
