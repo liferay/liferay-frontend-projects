@@ -10,7 +10,7 @@ const spawnSync = require('../utils/spawnSync');
 const withTempFile = require('../utils/withTempFile');
 
 const TWEAK_WEBPACK_CONFIG_PATH = require.resolve(
-	'../utils/tweakWebpackConfig'
+	'../webpack/tweakWebpackConfig'
 );
 const WEBPACK_CONFIG_FILE = 'webpack.config.js';
 const WEBPACK_DEV_CONFIG_FILE = 'webpack.config.dev.js';

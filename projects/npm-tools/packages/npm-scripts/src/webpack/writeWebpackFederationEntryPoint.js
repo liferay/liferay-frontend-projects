@@ -6,9 +6,9 @@
 const fs = require('fs');
 const path = require('path');
 
+const getMergedConfig = require('../utils/getMergedConfig');
+const getProjectMainModuleFilePath = require('../utils/getProjectMainModuleFilePath');
 const getBridgeExportName = require('./getBridgeExportName');
-const getMergedConfig = require('./getMergedConfig');
-const getProjectMainModuleFilePath = require('./getProjectMainModuleFilePath');
 
 /**
  * Create a webpack main entry point containing the standard entry points

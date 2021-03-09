@@ -8,11 +8,11 @@ const {
 	container: {ModuleFederationPlugin},
 } = require('webpack');
 
+const createTempFile = require('../utils/createTempFile');
+const getMergedConfig = require('../utils/getMergedConfig');
+const parseBnd = require('../utils/parseBnd');
 const {makeNamespace} = require('./bundlerNamespace');
-const createTempFile = require('./createTempFile');
 const createWebpackSoyResolver = require('./createWebpackSoyResolver');
-const getMergedConfig = require('./getMergedConfig');
-const parseBnd = require('./parseBnd');
 const writeLibInitEntryPoint = require('./writeLibInitEntryPoint');
 const writeWebpackFederationEntryPoint = require('./writeWebpackFederationEntryPoint');
 

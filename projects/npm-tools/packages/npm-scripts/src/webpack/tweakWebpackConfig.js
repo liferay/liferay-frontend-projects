@@ -5,9 +5,9 @@
 
 const fs = require('fs');
 
+const createTempFile = require('../utils/createTempFile');
+const getMergedConfig = require('../utils/getMergedConfig');
 const createFederationConfig = require('./createFederationConfig');
-const createTempFile = require('./createTempFile');
-const getMergedConfig = require('./getMergedConfig');
 
 /**
  * Modify an existing webpack config to conform to Liferay standards.

@@ -7,7 +7,6 @@ const fs = require('fs');
 const path = require('path');
 
 let buildSass = require('../sass/build');
-let createBridges = require('../utils/createBridges');
 const createTempFile = require('../utils/createTempFile');
 const getMergedConfig = require('../utils/getMergedConfig');
 const instrument = require('../utils/instrument');
@@ -19,6 +18,7 @@ const setEnv = require('../utils/setEnv');
 let {buildSoy, cleanSoy, soyExists, translateSoy} = require('../utils/soy');
 const spawnSync = require('../utils/spawnSync');
 const validateConfig = require('../utils/validateConfig');
+let createBridges = require('../webpack/createBridges');
 let webpack = require('./webpack');
 
 const CWD = process.cwd();

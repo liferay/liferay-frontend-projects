@@ -20,7 +20,7 @@
 
 const path = require('path');
 
-const getMergedConfig = require('./getMergedConfig');
+const getMergedConfig = require('../utils/getMergedConfig');
 
 module.exports = () => ({apply});
 
