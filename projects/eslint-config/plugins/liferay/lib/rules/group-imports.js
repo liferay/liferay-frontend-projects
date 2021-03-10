@@ -9,6 +9,7 @@ const {
 	getSource,
 	hasSideEffects,
 	isLocal,
+	isTypeImport,
 	withScope,
 } = require('../common/imports');
 
@@ -167,7 +168,8 @@ module.exports = {
 					const previousSource = getSource(previous);
 
 					const changed =
-						isLocal(currentSource) ^ isLocal(previousSource);
+						isLocal(currentSource) ^ isLocal(previousSource) ||
+						isTypeImport(current) ^ isTypeImport(previous);
 
 					if (changed) {
 						expectBlankLines(current);

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-const {getSource} = require('../common/imports');
+const {getSource, isTypeImport} = require('../common/imports');
 
 const DESCRIPTION = 'modules must be imported only once';
 
@@ -14,7 +14,7 @@ module.exports = {
 
 		return {
 			ImportDeclaration(node) {
-				const isType = node.importKind === 'type';
+				const isType = isTypeImport(node);
 
 				const source = getSource(node);
 

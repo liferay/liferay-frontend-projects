@@ -77,6 +77,113 @@ ruleTester.run('group-imports', rule, {
 				import x from './x';
 			`,
 		},
+		{
+			code: `
+				import abc from 'abc';
+				import type {U} from 'other';
+				import {g, z} from 'one'; // Correct.
+
+				import {a} from 'other'; // 1 excess blank line before.
+
+
+				import w from 'w'; // 2 excess blank lines before.
+				import type {X, Z} from 'zzz';
+				// Comment describing the next import.
+				import stuff from 'stuff';
+				import 'side-effect';
+				import type {T} from 'one';
+				import type {V} from './local';
+				import x from './x';
+			`,
+			errors: [
+				{
+					message:
+						'imports must be grouped ' +
+						'(expected blank line before: "other")',
+					type: 'ImportDeclaration',
+				},
+				{
+					message:
+						'imports must be grouped ' +
+						'(expected blank line before: "one")',
+					type: 'ImportDeclaration',
+				},
+				{
+					message:
+						'imports must be grouped ' +
+						'(unexpected blank line before: "other")',
+					type: 'ImportDeclaration',
+				},
+				{
+					message:
+						'imports must be grouped ' +
+						'(unexpected blank line before: "w")',
+					type: 'ImportDeclaration',
+				},
+				{
+					message:
+						'imports must be grouped ' +
+						'(expected blank line before: "zzz")',
+					type: 'ImportDeclaration',
+				},
+				{
+					message:
+						'imports must be grouped ' +
+						'(expected blank line before: "stuff")',
+					type: 'ImportDeclaration',
+				},
+				{
+					message:
+						'imports must be grouped ' +
+						'(expected blank line before: "side-effect")',
+					type: 'ImportDeclaration',
+				},
+				{
+					message:
+						'imports must be grouped ' +
+						'(expected blank line before: "one")',
+					type: 'ImportDeclaration',
+				},
+				{
+					message:
+						'imports must be grouped ' +
+						'(expected blank line before: "./local")',
+					type: 'ImportDeclaration',
+				},
+				{
+					message:
+						'imports must be grouped ' +
+						'(expected blank line before: "./x")',
+					type: 'ImportDeclaration',
+				},
+			],
+			output: `
+				import abc from 'abc';
+
+				import type {U} from 'other';
+
+				import {g, z} from 'one'; // Correct.
+				import {a} from 'other'; // 1 excess blank line before.
+				import w from 'w'; // 2 excess blank lines before.
+
+				import type {X, Z} from 'zzz';
+
+				// Comment describing the next import.
+				import stuff from 'stuff';
+
+				import 'side-effect';
+
+				import type {T} from 'one';
+
+				import type {V} from './local';
+
+				import x from './x';
+			`,
+
+			// espree doesn't know how to parse TypeScript imports.
+
+			skip: ['espree'],
+		},
 	],
 
 	valid: [
@@ -92,6 +199,31 @@ ruleTester.run('group-imports', rule, {
 
 				import x from './x';
 			`,
+
+			// espree doesn't know how to parse TypeScript imports.
+
+			skip: ['espree'],
+		},
+		{
+			code: `
+				import {g, z} from 'one';
+				import {a} from 'other';
+
+				// Comment describing the next import.
+				import stuff from 'stuff';
+
+				import 'side-effect';
+
+				import x from './x';
+
+				import type {T} from 'one';
+				import type {U} from 'other';
+				import type {X, Z} from 'zzz';
+			`,
+
+			// espree doesn't know how to parse TypeScript imports.
+
+			skip: ['espree'],
 		},
 		{
 

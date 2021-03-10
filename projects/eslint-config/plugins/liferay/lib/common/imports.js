@@ -203,6 +203,14 @@ function isRequireStatement(node) {
 	);
 }
 
+/**
+ * Returns true if `node` corresponds to a type-only import (ie. `import type
+ * {x} from 'source'`).
+ */
+function isTypeImport(node) {
+	return node.type === 'ImportDeclaration' && node.importKind === 'type';
+}
+
 function withScope() {
 	const scope = [];
 
@@ -241,5 +249,6 @@ module.exports = {
 	isLocal,
 	isRelative,
 	isRequireStatement,
+	isTypeImport,
 	withScope,
 };

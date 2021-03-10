@@ -11,6 +11,7 @@ const {
 	hasSideEffects,
 	isAbsolute,
 	isRelative,
+	isTypeImport,
 	withScope,
 } = require('../common/imports');
 
@@ -21,8 +22,8 @@ const DESCRIPTION = 'imports must be sorted';
  * their relative ordering.
  */
 function compare(aKey, bKey) {
-	const [aName, aTieBreaker] = aKey.split(':');
-	const [bName, bTieBreaker] = bKey.split(':');
+	const [aPrefix, aName, aTieBreaker] = aKey.split(':');
+	const [bPrefix, bName, bTieBreaker] = bKey.split(':');
 
 	const cmp = (a, b) => {
 		return a < b ? -1 : a > b ? 1 : 0;
@@ -31,6 +32,7 @@ function compare(aKey, bKey) {
 	//
 
 	return (
+		cmp(aPrefix, bPrefix) ||
 		cmp(ranking(aName), ranking(bName)) ||
 		cmp(aName, bName) ||
 		cmp(aTieBreaker, bTieBreaker)
@@ -38,13 +40,25 @@ function compare(aKey, bKey) {
 }
 
 /**
- * Ideally we'd just sort by source, but in case there is a pathological case
- * where we import from the same module twice, we need to include information
- * about the import specifiers in the sort key.
+ * Ideally we'd just sort by source, but we need to handle two "edge" cases:
+ *
+ * - When we have type-only imports, those always come last.
+ * - When we import from the same module twice (not always an error; can
+ *   legitimately happen if we have both a type-only and a value-only import
+ *   from the same module).
+ *
+ * So, the sort key must include information about both the import kind
+ * (this serves as a prefix in the sort key) and any import specifiers
+ * that may be present (these serve to construct a trailing "tiebreaker"
+ * suffix in the sort key).
  */
 function getSortKey(node) {
 	const source = getSource(node);
 	let tieBreaker;
+
+	// Type-only imports always go last.
+
+	const prefix = isTypeImport(node) ? 'type-import' : 'normal-import';
 
 	if (node.type === 'ImportDeclaration') {
 		const specifiers = node.specifiers.map((specifier) => {
@@ -102,7 +116,7 @@ function getSortKey(node) {
 		tieBreaker = '';
 	}
 
-	return `${source}:${tieBreaker}`;
+	return `${prefix}:${source}:${tieBreaker}`;
 }
 
 /**
@@ -128,7 +142,11 @@ module.exports = {
 		/**
 		 * An array of groups of imports. Any import that is made just
 		 * for its side-effects will start (and end) a new group, and
-		 * forms a boundary across which we must not re-order.
+		 * forms a boundary across which we, generally, must not re-order.
+		 *
+		 * Type-only imports are an exception because they are independent of
+		 * evaluation order. That is, they can be safely moved to the end, even
+		 * moving across "boundaries" created by side-effectful imports.
 		 */
 		const imports = [group];
 
@@ -179,100 +197,120 @@ module.exports = {
 			},
 
 			['Program:exit'](_node) {
-				const problems = imports.map((group) => {
-					const desired = [...group].sort((a, b) =>
-						compare(getSortKey(a), getSortKey(b))
-					);
 
-					// Try to make error messages (somewhat) minimal
-					// by only reporting from the first to the last
-					// mismatch (ie. not a full Myers diff algorithm).
+				// Get global list of all imports across groups in source-order.
 
-					const [firstMismatch, lastMismatch] = group.reduce(
-						([first, last], node, i) => {
-							if (getSortKey(node) !== getSortKey(desired[i])) {
-								if (first === -1) {
-									first = i;
+				const actual = imports.reduce((accumulator, group) => {
+					accumulator.push(...group);
+
+					return accumulator;
+				}, []);
+
+				// Compute desired global ordering across all groups.
+
+				const typeImports = [];
+
+				const desired = imports
+					.reduce((accumulator, group) => {
+						const sorted = group
+							.filter((node) => {
+								if (isTypeImport(node)) {
+									typeImports.push(node);
+
+									return false;
 								}
-								last = i;
-							}
+								else {
+									return true;
+								}
+							})
+							.sort((a, b) =>
+								compare(getSortKey(a), getSortKey(b))
+							);
 
-							return [first, last];
-						},
-						[-1, -1]
+						return accumulator.concat(sorted);
+					}, [])
+					.concat(
+						typeImports.sort((a, b) =>
+							compare(getSortKey(a), getSortKey(b))
+						)
 					);
 
-					if (firstMismatch !== -1) {
-						return {
-							description: desired
-								.slice(firstMismatch, lastMismatch + 1)
-								.map((node) => JSON.stringify(getSource(node)))
-								.join(' << '),
-							desired,
-							firstMismatch,
-							lastMismatch,
-						};
+				// Try to make error messages (somewhat) minimal by only
+				// reporting from the first to the last mismatch (ie.
+				// not a full Myers diff algorithm).
+
+				let firstMismatch = -1;
+				let lastMismatch = -1;
+
+				for (let i = 0; i < actual.length; i++) {
+					if (actual[i] !== desired[i]) {
+						firstMismatch = i;
+						break;
 					}
+				}
 
-					return null;
-				});
-
-				problems.forEach((problem, i) => {
-					if (!problem) {
-						return;
+				for (let i = actual.length - 1; i >= 0; i--) {
+					if (actual[i] !== desired[i]) {
+						lastMismatch = i;
+						break;
 					}
+				}
 
-					const group = imports[i];
+				if (firstMismatch === -1) {
+					return;
+				}
 
-					const {
-						description,
-						desired,
-						firstMismatch,
-						lastMismatch,
-					} = problem;
+				const description = desired
+					.slice(firstMismatch, lastMismatch + 1)
+					.map((node) => {
+						const source = JSON.stringify(getSource(node));
 
-					const message =
-						'imports must be sorted by module name ' +
-						`(expected: ${description})`;
+						if (isTypeImport(node)) {
+							return `(type) ${source}`;
+						}
+						else {
+							return source;
+						}
+					})
+					.join(' << ');
 
-					context.report({
-						fix: (fixer) => {
-							const fixings = [];
+				const message =
+					'imports must be sorted by module name ' +
+					`(expected: ${description})`;
 
-							const code = context.getSourceCode();
+				context.report({
+					fix: (fixer) => {
+						const fixings = [];
 
-							const sources = new Map();
+						const code = context.getSourceCode();
 
-							for (
-								let i = firstMismatch;
-								i <= lastMismatch;
-								i++
-							) {
-								const node = group[i];
-								const range = getRangeForNode(node);
-								const text = code.getText().slice(...range);
+						const sources = new Map();
 
-								sources.set(getSortKey(group[i]), {text});
-							}
+						// Pass 1: Extract copy of text.
 
-							for (
-								let i = firstMismatch;
-								i <= lastMismatch;
-								i++
-							) {
-								fixings.push(
-									fixer.replaceTextRange(
-										getRangeForNode(group[i]),
-										sources.get(getSortKey(desired[i])).text
-									)
-								);
-							}
+						for (let i = firstMismatch; i <= lastMismatch; i++) {
+							const node = actual[i];
+							const range = getRangeForNode(node);
+							const text = code.getText().slice(...range);
 
-							return fixings;
-						},
-						message,
-						node: group[0],
-					});
+							sources.set(actual[i], {text});
+						}
+
+						// Pass 2: Write text into expected positions.
+
+						for (let i = firstMismatch; i <= lastMismatch; i++) {
+							fixings.push(
+								fixer.replaceTextRange(
+									getRangeForNode(actual[i]),
+									sources.get(desired[i]).text
+								)
+							);
+						}
+
+						return fixings;
+					},
+					message,
+					node: actual[firstMismatch],
 				});
 			},
 		};
