@@ -105,5 +105,5 @@
 		"preversion": "liferay-workspace-scripts ci",
 		"test": "liferay-workspace-scripts test"
 	},
-	"version": "38.2.0"
+	"version": "39.0.0"
 }

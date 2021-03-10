@@ -1,3 +1,16 @@
+## [npm-scripts/v39.0.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v39.0.0) (2021-03-10)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v38.2.0...npm-scripts/v39.0.0)
+
+### :boom: Breaking changes
+
+-   chore(npm-scripts)!: update bundled @liferay/eslint-config to v22.0.0 ([\#441](https://github.com/liferay/liferay-frontend-projects/pull/441))
+
+### :house: Chores
+
+-   chore: update ESLint version from 7.10.0 to 7.21.0 ([\#442](https://github.com/liferay/liferay-frontend-projects/pull/442))
+-   chore(npm-scripts)!: update bundled @liferay/eslint-config to v22.0.0 ([\#441](https://github.com/liferay/liferay-frontend-projects/pull/441))
+
 ## [npm-scripts/v38.2.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v38.2.0) (2021-03-10)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v38.1.0...npm-scripts/v38.2.0)
