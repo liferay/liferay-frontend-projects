@@ -1,3 +1,34 @@
+## [eslint-config/v22.0.0](https://github.com/liferay/liferay-frontend-projects/tree/eslint-config/v22.0.0) (2021-03-10)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-config/v21.3.0...eslint-config/v22.0.0)
+
+### :boom: Breaking changes
+
+-   feat(eslint-config)!: teach class-names rules about "customClassName" attributes ([\#440](https://github.com/liferay/liferay-frontend-projects/pull/440))
+-   feat(eslint-config)!: disallow unnecessary string interpolation in JSX ([\#439](https://github.com/liferay/liferay-frontend-projects/pull/439))
+-   feat(eslint-config)!: activate no-eval rule ([\#438](https://github.com/liferay/liferay-frontend-projects/pull/438))
+-   feat(eslint-config)!: teach sort-imports, group-imports to separate type-only inputs ([\#435](https://github.com/liferay/liferay-frontend-projects/pull/435))
+-   feat(eslint-config)!: teach import-extensions rule about .ts, .tsx ([\#433](https://github.com/liferay/liferay-frontend-projects/pull/433))
+-   feat(eslint-config)!: turn off no-for-of-loops rule by default ([\#429](https://github.com/liferay/liferay-frontend-projects/pull/429))
+
+### :new: Features
+
+-   feat(eslint-config)!: teach class-names rules about "customClassName" attributes ([\#440](https://github.com/liferay/liferay-frontend-projects/pull/440))
+-   feat(eslint-config)!: disallow unnecessary string interpolation in JSX ([\#439](https://github.com/liferay/liferay-frontend-projects/pull/439))
+-   feat(eslint-config)!: activate no-eval rule ([\#438](https://github.com/liferay/liferay-frontend-projects/pull/438))
+-   feat(eslint-config)!: teach sort-imports, group-imports to separate type-only inputs ([\#435](https://github.com/liferay/liferay-frontend-projects/pull/435))
+-   feat(eslint-config)!: teach import-extensions rule about .ts, .tsx ([\#433](https://github.com/liferay/liferay-frontend-projects/pull/433))
+-   feat(eslint-config): teach no-duplicate-imports rule about type imports ([\#431](https://github.com/liferay/liferay-frontend-projects/pull/431))
+-   feat(eslint-config)!: turn off no-for-of-loops rule by default ([\#429](https://github.com/liferay/liferay-frontend-projects/pull/429))
+
+### :wrench: Bug fixes
+
+-   fix(eslint-config): update monkey patching to work with newer ESLint ([\#430](https://github.com/liferay/liferay-frontend-projects/pull/430))
+
+### :eyeglasses: Tests
+
+-   test(eslint-config): show that various rules already support TS ([\#434](https://github.com/liferay/liferay-frontend-projects/pull/434))
+
 ## [eslint-config/v21.3.0](https://github.com/liferay/liferay-frontend-projects/tree/eslint-config/v21.3.0) (2021-02-16)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-config/v21.2.1...eslint-config/v21.3.0)
