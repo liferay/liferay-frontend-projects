@@ -1,6 +1,6 @@
 # Class names inside the "className" JSX attribute must be unique (no-duplicate-class-names)
 
-This rule enforces (and autofixes) that the class names inside the "className" attribute of a JSX element are unique.
+This rule enforces (and autofixes) that the class names inside the "className" attribute of a JSX element are unique. This rule also works with any attribute that looks "className-ish" (that is, attributes of the form "someClassName" containing string values).
 
 ## Rule Details
 
@@ -8,12 +8,14 @@ Examples of **incorrect** code for this rule:
 
 ```js
 <div className="one one two"></div>
+<CustomPopover triggerClassName="a a b" />
 ```
 
 Examples of **correct** code for this rule:
 
 ```js
 <div className="one two"></div>
+<CustomPopover triggerClassName="a b" />
 ```
 
 ### Limitations

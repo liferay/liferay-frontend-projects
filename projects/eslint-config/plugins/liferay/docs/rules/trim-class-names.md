@@ -1,6 +1,6 @@
 # Trim whitespace inside the "className" JSX attribute (trim-class-names)
 
-This rule enforces (and autofixes) that the class names inside the "className" attribute of a JSX element are not preceded or followed by whitespace.
+This rule enforces (and autofixes) that the class names inside the "className" attribute of a JSX element are not preceded or followed by whitespace. This rule also works with any attribute that looks "className-ish" (that is, attributes of the form "someClassName" containing string values).
 
 ## Rule Details
 
@@ -10,6 +10,7 @@ Examples of **incorrect** code for this rule:
 <div className="   foo bar"></div>
 <div className="foo bar"></div>
 <div className={'    foo bar    '}></div>
+<CustomPopover triggerClassName="   foo bar  " />
 ```
 
 Examples of **correct** code for this rule:
@@ -18,6 +19,7 @@ Examples of **correct** code for this rule:
 <div className="foo bar"></div>
 <div className="foo bar"></div>
 <div className={'foo bar'}></div>
+<CustomPopover triggerClassName="foo bar" />
 ```
 
 ### Limitations

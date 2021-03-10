@@ -112,8 +112,18 @@ describe('@liferay/eslint-config/liferay', () => {
 		// - trim-class-names (trims whitespace)
 
 		expect(plugin).toAutofix({
-			code: `<div className="   one two one three  "></div>`,
-			output: `<div className="one three two"></div>`,
+			code: `
+				<div>
+					<div className="   one two one three  "></div>
+					<CustomPopover triggerClassName="   foo foo bar  " />
+				</div>
+			`,
+			output: `
+				<div>
+					<div className="one three two"></div>
+					<CustomPopover triggerClassName="bar foo" />
+				</div>
+			`,
 		});
 	});
 });
