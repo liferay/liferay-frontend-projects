@@ -80,6 +80,19 @@ ruleTester.run('trim-class-names', rule, {
 				<div className={\`foo \${bar} baz\`}></div>
 			`,
 		},
+		{
+
+			// Classname-ish.
+
+			code: '<CustomPopover triggerClassName=" popover " />',
+			errors: [
+				{
+					message,
+					type: 'Literal',
+				},
+			],
+			output: '<CustomPopover triggerClassName="popover" />',
+		},
 	],
 
 	valid: [
@@ -89,5 +102,10 @@ ruleTester.run('trim-class-names', rule, {
 		{code: "<div className={'foo bar'}></div>"},
 		{code: '<div className={`foo bar`}></div>'},
 		{code: '<div className={`foo ${bar} baz`}></div>'},
+
+		// Note that we don't check "classname-ish" attributes that
+		// don't contain strings.
+
+		{code: '<CustomPopover triggerClassName={   1   } />'},
 	],
 });

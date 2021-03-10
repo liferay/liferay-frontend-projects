@@ -100,6 +100,19 @@ ruleTester.run('sort-class-names', rule, {
 			],
 			output: '<div className=" a b c  "></div>',
 		},
+		{
+
+			// Classname-ish.
+
+			code: '<CustomPopover triggerClassName="z y x" />',
+			errors: [
+				{
+					message,
+					type: 'Literal',
+				},
+			],
+			output: '<CustomPopover triggerClassName="x y z" />',
+		},
 	],
 
 	valid: [
@@ -112,5 +125,10 @@ ruleTester.run('sort-class-names', rule, {
 		// Note that we don't check template literals containing expressions.
 
 		{code: '<div className={`a c ${b} d`}></div>'},
+
+		// And we don't check "classname-ish" attributes that don't contain
+		// strings.
+
+		{code: '<CustomPopover triggerClassName={1} />'},
 	],
 });

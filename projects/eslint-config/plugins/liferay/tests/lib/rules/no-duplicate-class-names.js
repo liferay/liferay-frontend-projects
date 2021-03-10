@@ -42,6 +42,16 @@ ruleTester.run('no-duplicate-class-names', rule, {
 			],
 			output: '<div className="one two"></div>',
 		},
+		{
+			code: '<CustomPopover triggerClassName="a b b" />',
+			errors: [
+				{
+					message,
+					type: 'Literal',
+				},
+			],
+			output: '<CustomPopover triggerClassName="a b" />',
+		},
 	],
 
 	valid: [
@@ -50,5 +60,10 @@ ruleTester.run('no-duplicate-class-names', rule, {
 		// Note that we don't check template literals containing expressions.
 
 		{code: '<div className={`one one ${two}`}></div>'},
+
+		// And we don't check "classname-ish" attributes that don't contain
+		// strings.
+
+		{code: '<CustomPopover triggerClassName={(1, 1)} />'},
 	],
 });

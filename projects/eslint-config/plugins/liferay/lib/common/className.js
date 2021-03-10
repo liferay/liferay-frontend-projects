@@ -3,13 +3,15 @@
  * SPDX-License-Identifier: MIT
  */
 
+const CLASS_NAME_REGEX = /(?:\bc|[a-z]C)lassName$/;
+
 /**
  * A visitor function that calls `callback` for any "className" `JSXAttribute`.
  */
 function checkJSXAttribute(node, callback, context = null, options = {}) {
 	const {allowTemplateLiteralExpressions} = options;
 
-	if (node.name.name !== 'className' || !node.value) {
+	if (!CLASS_NAME_REGEX.test(node.name.name) || !node.value) {
 		return;
 	}
 
