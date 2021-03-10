@@ -41,6 +41,8 @@ it('correctly generates JS module', () => {
 	expect(result).toBeUndefined();
 
 	expect(Object.keys(context.extraArtifacts)).toEqual(['file.css.js']);
+
+	/* eslint-disable-next-line no-eval */
 	expect(eval(context.extraArtifacts['file.css.js']).outerHTML).toEqual(
 		`<style type="text/css">${TEST_CSS}</style>`
 	);

@@ -48,6 +48,7 @@ describe('Loader', () => {
 
 				setTimeout(() => {
 					try {
+						/* eslint-disable-next-line no-eval */
 						eval(
 							fs
 								.readFileSync(

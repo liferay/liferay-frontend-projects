@@ -55,6 +55,8 @@ it('correctly generates JS module', () => {
 	expect(result).toBeUndefined();
 
 	expect(Object.keys(context.extraArtifacts)).toEqual(['package.json.js']);
+
+	/* eslint-disable-next-line no-eval */
 	expect(eval(context.extraArtifacts['package.json.js'])).toMatchSnapshot();
 });
 
@@ -72,6 +74,7 @@ it('fails define when JSON is invalid', () => {
 
 	expect(Object.keys(context.extraArtifacts)).toEqual(['package.json.js']);
 	expect(() =>
+		/* eslint-disable-next-line no-eval */
 		eval(context.extraArtifacts['package.json.js'])
 	).toThrowErrorMatchingSnapshot();
 });
