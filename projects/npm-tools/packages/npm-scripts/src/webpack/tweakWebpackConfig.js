@@ -5,8 +5,9 @@
 
 const fs = require('fs');
 
+const createTempFile = require('../utils/createTempFile');
+const getMergedConfig = require('../utils/getMergedConfig');
 const createFederationConfig = require('./createFederationConfig');
-const getMergedConfig = require('./getMergedConfig');
 
 /**
  * Modify an existing webpack config to conform to Liferay standards.
@@ -43,6 +44,12 @@ async function tweakWebpackConfig(webpackConfigPath) {
 
 	arrayConfig = arrayConfig.map((webpackConfig) =>
 		mergeBabelLoaderOptions(webpackConfig)
+	);
+
+	createTempFile(
+		'webpack.config.json',
+		JSON.stringify(arrayConfig, null, '\t'),
+		{autoDelete: false}
 	);
 
 	return arrayConfig.length === 1 ? arrayConfig[0] : arrayConfig;

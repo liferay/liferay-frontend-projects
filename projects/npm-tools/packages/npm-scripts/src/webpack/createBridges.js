@@ -6,9 +6,9 @@
 const fs = require('fs');
 const path = require('path');
 
+const getProjectMainModuleFilePath = require('../utils/getProjectMainModuleFilePath');
 const {addNamespace} = require('./bundlerNamespace');
 const getNamespacedVersionedPackageName = require('./getNamespacedVersionedPackageName');
-const getProjectMainModuleFilePath = require('./getProjectMainModuleFilePath');
 const writeBridge = require('./writeBridge');
 
 /**

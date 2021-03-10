@@ -11,15 +11,26 @@ const {
 } = require('webpack');
 
 const getMergedConfig = require('../../src/utils/getMergedConfig');
-const tweakWebpackConfig = require('../../src/utils/tweakWebpackConfig');
+const tweakWebpackConfig = require('../../src/webpack/tweakWebpackConfig');
 const getFixturePath = require('../../support/getFixturePath');
 
 const BABEL_CONFIG = getMergedConfig('babel');
+const savedCwd = process.cwd();
+
+beforeEach(() => {
+	process.chdir(
+		path.join(__dirname, '../../__fixtures__/webpack/tweakWebpackConfig')
+	);
+});
+
+afterEach(() => {
+	process.chdir(savedCwd);
+});
 
 describe('tweakWebpackConfig() without federation', () => {
 	it('returns unchanged config when it doesn\'t include a "module" field', async () => {
 		const webpackConfigPath = getFixturePath(
-			'utils',
+			'webpack',
 			'tweakWebpackConfig',
 			'empty.webpack.config.js'
 		);
@@ -29,7 +40,7 @@ describe('tweakWebpackConfig() without federation', () => {
 
 	it("returns unchanged config when module configs don't include rules", async () => {
 		const webpackConfigPath = getFixturePath(
-			'utils',
+			'webpack',
 			'tweakWebpackConfig',
 			'empty.module.webpack.config.js'
 		);
@@ -41,7 +52,7 @@ describe('tweakWebpackConfig() without federation', () => {
 
 	it('returns unchanged rules when they don\'t include a "use" field', async () => {
 		const webpackConfigPath = getFixturePath(
-			'utils',
+			'webpack',
 			'tweakWebpackConfig',
 			'rules.without.use.webpack.config.js'
 		);
@@ -60,7 +71,7 @@ describe('tweakWebpackConfig() without federation', () => {
 
 	it('returns unchanged rules when the loader is not the babel-loader', async () => {
 		const webpackConfigPath = getFixturePath(
-			'utils',
+			'webpack',
 			'tweakWebpackConfig',
 			'rules.without.babel.loader.webpack.config.js'
 		);
@@ -83,7 +94,7 @@ describe('tweakWebpackConfig() without federation', () => {
 
 	it('merges babel options when the loader is the babel-loader', async () => {
 		const webpackConfigPath = getFixturePath(
-			'utils',
+			'webpack',
 			'tweakWebpackConfig',
 			'rules.with.babel.loader.webpack.config.js'
 		);
@@ -130,7 +141,7 @@ describe('tweakWebpackConfig() with federation', () => {
 
 		['bnd.bnd', 'index.js', 'package.json'].forEach((file) => {
 			fs.copyFileSync(
-				getFixturePath('utils', 'tweakWebpackConfig', file),
+				getFixturePath('webpack', 'tweakWebpackConfig', file),
 				file
 			);
 		});
@@ -154,7 +165,7 @@ module.exports = {
 
 	it('adds the federation configuration', async () => {
 		const webpackConfigPath = getFixturePath(
-			'utils',
+			'webpack',
 			'tweakWebpackConfig',
 			'empty.webpack.config.js'
 		);
@@ -167,7 +178,7 @@ module.exports = {
 
 	it('correctly configures federation build input and output', async () => {
 		const webpackConfigPath = getFixturePath(
-			'utils',
+			'webpack',
 			'tweakWebpackConfig',
 			'empty.webpack.config.js'
 		);
@@ -187,14 +198,18 @@ module.exports = {
 			},
 		});
 
-		const entryContent = fs.readFileSync(config.entry).toString();
+		const entry = config.entry['frontend-js-web'];
 
-		expect(entryContent).toBe('');
+		expect(entry).not.toBeUndefined();
+
+		const filename = path.basename(entry);
+
+		expect(filename).toBe('libInit.js');
 	});
 
 	it('correctly configures federation build rules', async () => {
 		const webpackConfigPath = getFixturePath(
-			'utils',
+			'webpack',
 			'tweakWebpackConfig',
 			'empty.webpack.config.js'
 		);
@@ -224,7 +239,7 @@ module.exports = {
 
 	it('correctly configures federation plugin', async () => {
 		const webpackConfigPath = getFixturePath(
-			'utils',
+			'webpack',
 			'tweakWebpackConfig',
 			'empty.webpack.config.js'
 		);
