@@ -183,6 +183,7 @@ ruleTester.run('sort-imports', rule, {
 
 			code: `
 				import type {U} from './Records';
+				import type {V} from 'very-external';
 				import ReactDOM from 'react-dom';
 				import type {T} from './Frisbee';
 				import React from 'react';
@@ -193,7 +194,7 @@ ruleTester.run('sort-imports', rule, {
 				{
 					message:
 						'imports must be sorted by module name ' +
-						'(expected: "react" << "react-dom" << "./Records" << "side-effects" << (type) "./Frisbee" << (type) "./Records")',
+						'(expected: "react" << "react-dom" << "./Records" << "side-effects" << (type) "very-external" << (type) "./Frisbee" << (type) "./Records")',
 					type: 'ImportDeclaration',
 				},
 			],
@@ -202,6 +203,7 @@ ruleTester.run('sort-imports', rule, {
 				import ReactDOM from 'react-dom';
 				import Record from './Records';
 				import 'side-effects';
+				import type {V} from 'very-external';
 				import type {T} from './Frisbee';
 				import type {U} from './Records';
 			`,

@@ -28,11 +28,13 @@ describe('@liferay/eslint-config/liferay', () => {
 			code: `
 				import b from 'b';
 				import type {B} from 'b';
+				import type {T} from './local';
 				import type {D, C} from 'x';
 				import a from 'a';
 				import {d, c} from 'c';
 				import thing from './thing.js';
 				import another from './another';
+				import type {U} from './first';
 				import 'for-side-effects';
 				import type {A} from 'a';
 			`,
@@ -49,6 +51,9 @@ describe('@liferay/eslint-config/liferay', () => {
 				import type {A} from 'a';
 				import type {B} from 'b';
 				import type {C, D} from 'x';
+
+				import type {U} from './first';
+				import type {T} from './local';
 			`,
 		});
 	});

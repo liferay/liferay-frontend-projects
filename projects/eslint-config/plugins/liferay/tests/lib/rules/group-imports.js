@@ -92,6 +92,7 @@ ruleTester.run('group-imports', rule, {
 				import stuff from 'stuff';
 				import 'side-effect';
 				import type {T} from 'one';
+				import type {V} from './local';
 				import x from './x';
 			`,
 			errors: [
@@ -146,6 +147,12 @@ ruleTester.run('group-imports', rule, {
 				{
 					message:
 						'imports must be grouped ' +
+						'(expected blank line before: "./local")',
+					type: 'ImportDeclaration',
+				},
+				{
+					message:
+						'imports must be grouped ' +
 						'(expected blank line before: "./x")',
 					type: 'ImportDeclaration',
 				},
@@ -167,6 +174,8 @@ ruleTester.run('group-imports', rule, {
 				import 'side-effect';
 
 				import type {T} from 'one';
+
+				import type {V} from './local';
 
 				import x from './x';
 			`,
