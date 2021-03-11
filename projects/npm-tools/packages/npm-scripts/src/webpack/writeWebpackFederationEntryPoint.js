@@ -25,14 +25,13 @@ module.exports = function (filePath) {
 	const projectMainModuleFilePath = getProjectMainModuleFilePath();
 
 	if (fs.existsSync(projectMainModuleFilePath)) {
-		const projectMainModuleRelPath = path.relative(
-			path.dirname(filePath),
-			projectMainModuleFilePath
-		);
+		const projectMainModuleRelName = path
+			.relative(path.dirname(filePath), projectMainModuleFilePath)
+			.replace(/\\/g, '/');
 
 		code += `
-export {default} from './${projectMainModuleRelPath}';
-export * from './${projectMainModuleRelPath}';
+export {default} from './${projectMainModuleRelName}';
+export * from './${projectMainModuleRelName}';
 
 `;
 	}
