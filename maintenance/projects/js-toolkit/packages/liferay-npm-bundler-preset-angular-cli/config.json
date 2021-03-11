@@ -31,7 +31,7 @@
 		},
 		{
 			"description": "Transform webpack JavaScript bundles",
-			"test": "^dist/[^/]+/.*-es5.*\\.js$",
+			"test": "^dist/[^/]+/.*\\.js$",
 			"use": [
 				{
 					"loader": "liferay-npm-build-support/lib/loader/wrap-webpack-bundle",
@@ -57,16 +57,19 @@
 				{
 					"loader": "liferay-npm-build-support/lib/loader/namespace-webpack",
 					"options": {}
+				},
+				{
+					"loader": "liferay-npm-build-support/lib/loader/remove-webpack-hash"
+				},
+				{
+					"loader": "liferay-npm-build-support/lib/loader/normalize-angular-output"
 				}
 			]
 		},
 		{
 			"description": "Remove content hash from webpack bundles and CSS",
 			"test": "",
-			"include": [
-				"^dist/[^/]+/.*-es5.*\\.js$",
-				"^dist/[^/]+/styles.*\\.css$"
-			],
+			"include": ["^dist/[^/]+/styles.*\\.css$"],
 			"use": ["liferay-npm-build-support/lib/loader/remove-webpack-hash"]
 		},
 		{
