@@ -1,4 +1,4 @@
-# Security
+# Security implications of dependencies
 
 ## Dependabot
 
