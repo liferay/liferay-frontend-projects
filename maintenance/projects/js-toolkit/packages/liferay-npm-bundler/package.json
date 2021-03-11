@@ -12,8 +12,8 @@
 		"globby": "^10.0.1",
 		"insight": "0.10.3",
 		"jszip": "^3.1.5",
-		"liferay-npm-build-tools-common": "2.23.0",
-		"liferay-npm-bundler-preset-standard": "2.23.0",
+		"liferay-npm-build-tools-common": "2.24.0",
+		"liferay-npm-bundler-preset-standard": "2.24.0",
 		"merge": "^1.2.1",
 		"pretty-time": "^1.1.0",
 		"read-json-sync": "^2.0.1",
@@ -39,5 +39,5 @@
 		"copyfiles": "node ../../scripts/copyfiles.js",
 		"prepublish": "yarn build"
 	},
-	"version": "2.23.0"
+	"version": "2.24.0"
 }

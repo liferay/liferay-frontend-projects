@@ -2,7 +2,7 @@
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"dependencies": {
 		"babel-template": "^6.26.0",
-		"liferay-npm-build-tools-common": "2.23.0",
+		"liferay-npm-build-tools-common": "2.24.0",
 		"read-json-sync": "^2.0.1"
 	},
 	"description": "A Babel plugin to wrap package modules inside AMD define() calls.",
@@ -18,5 +18,5 @@
 		"copyfiles": "node ../../scripts/copyfiles.js",
 		"prepublish": "yarn build"
 	},
-	"version": "2.23.0"
+	"version": "2.24.0"
 }
