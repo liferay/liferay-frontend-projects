@@ -1,3 +1,11 @@
+## [npm-scripts/v39.0.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v39.0.1) (2021-03-11)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v39.0.0...npm-scripts/v39.0.1)
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): use correct paths for Windows ([\#445](https://github.com/liferay/liferay-frontend-projects/pull/445))
+
 ## [npm-scripts/v39.0.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v39.0.0) (2021-03-10)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v38.2.0...npm-scripts/v39.0.0)
