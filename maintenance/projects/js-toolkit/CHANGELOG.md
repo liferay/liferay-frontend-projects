@@ -1,3 +1,11 @@
+## [liferay-js-toolkit/v2.24.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.24.0) (2021-03-11)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.23.0...liferay-js-toolkit/v2.24.0)
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): change Angular adaptation to make it work with Angular 10/11 ([\#443](https://github.com/liferay/liferay-frontend-projects/pull/443))
+
 ## [liferay-js-toolkit/v2.22.1](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.22.1) (2020-12-15)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.22.0...liferay-js-toolkit/v2.22.1)
