@@ -1,3 +1,16 @@
+## [js-toolkit-core/v3.0.1](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v3.0.1) (2021-03-16)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v3.0.1-pre.1...js-toolkit-core/v3.0.1)
+
+### :new: Features
+
+-   feat: upgrade webpack and add more portal projects to federated build ([\#376](https://github.com/liferay/liferay-frontend-projects/pull/376))
+-   feat: support generation of bridges from AMD to webpack ([\#296](https://github.com/liferay/liferay-frontend-projects/pull/296))
+
+### :wrench: Bug fixes
+
+-   fix(js-toolkit): support namespaces originated from scoped packages ([\#452](https://github.com/liferay/liferay-frontend-projects/pull/452))
+
 ## [js-toolkit-core/v3.0.1-pre.1](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v3.0.1-pre.1) (2020-11-16)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v3.0.1-pre.0...js-toolkit-core/v3.0.1-pre.1)
