@@ -1,3 +1,11 @@
+## [npm-bundler/v3.1.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-bundler/v3.1.0) (2021-03-16)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-bundler/v3.1.0-pre.0...npm-bundler/v3.1.0)
+
+### :wrench: Bug fixes
+
+-   fix(js-toolkit): use new js-toolkit-core version to fix scoped namespaces ([\#453](https://github.com/liferay/liferay-frontend-projects/pull/453))
+
 ## [npm-bundler/v3.1.0-pre.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-bundler/v3.1.0-pre.0) (2020-11-16)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-bundler/v3.0.1...npm-bundler/v3.1.0-pre.0)
