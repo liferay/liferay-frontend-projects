@@ -5,7 +5,7 @@
 	},
 	"dependencies": {
 		"@babel/core": "^7.0.0",
-		"@liferay/js-toolkit-core": "3.0.1-pre.1",
+		"@liferay/js-toolkit-core": "3.0.1",
 		"babel-template": "^6.26.0",
 		"cpr": "^3.0.1",
 		"cross-spawn": "^7.0.0",

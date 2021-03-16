@@ -1,7 +1,7 @@
 {
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"dependencies": {
-		"@liferay/js-toolkit-core": "3.0.1-pre.1",
+		"@liferay/js-toolkit-core": "3.0.1",
 		"dot-prop": "^5.0.1",
 		"fs-extra": "^8.1.0",
 		"read-json-sync": "^2.0.1",
