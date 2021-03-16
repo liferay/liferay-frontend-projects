@@ -110,5 +110,11 @@ export function getNamespace(moduleName: string): string {
  * @return the namespace for modules
  */
 export function makeNamespace(pkgJson: {name: string}): string {
-	return pkgJson.name + '$';
+	let namespace = pkgJson.name;
+
+	if (namespace.startsWith('@')) {
+		namespace = namespace.substring(1).replace('/', '!');
+	}
+
+	return namespace + '$';
 }

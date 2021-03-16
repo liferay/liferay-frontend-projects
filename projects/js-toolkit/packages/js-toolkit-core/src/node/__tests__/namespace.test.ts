@@ -8,8 +8,12 @@ import * as ns from '../namespace';
 const pkg = {
 	name: 'a-package',
 };
+const scopedPkg = {
+	name: '@scoped/a-package',
+};
 
 it('makeNamespace works', () => {
+	expect(ns.makeNamespace(scopedPkg)).toBe('scoped!a-package$');
 	expect(ns.makeNamespace(pkg)).toBe('a-package$');
 });
 
@@ -26,6 +30,10 @@ describe('when using regular packages', () => {
 		expect(ns.isNamespaced('a-package$b-package/a-module')).toBe(true);
 		expect(ns.isNamespaced('b-package/a-module')).toBe(false);
 		expect(ns.isNamespaced('b-package/a-module/$.a-function')).toBe(false);
+
+		// Scoped namespace
+
+		expect(ns.isNamespaced('scoped!a-package$b-package')).toBe(true);
 	});
 
 	it('getNamespace works', () => {
@@ -42,6 +50,12 @@ describe('when using regular packages', () => {
 		);
 		expect(ns.getNamespace('b-package/a-module')).toBeNull();
 		expect(ns.getNamespace('b-package/a-module/$.a-function')).toBeNull();
+
+		// Scoped namespace
+
+		expect(ns.getNamespace('scoped!a-package$b-package')).toBe(
+			'scoped!a-package$'
+		);
 	});
 
 	it('addNamespace works', () => {
@@ -60,6 +74,12 @@ describe('when using regular packages', () => {
 		);
 		expect(ns.addNamespace('b-package/a-module', pkg)).toBe(
 			'a-package$b-package/a-module'
+		);
+
+		// Scoped namespace
+
+		expect(ns.addNamespace('b-package', scopedPkg)).toBe(
+			'scoped!a-package$b-package'
 		);
 	});
 
@@ -127,6 +147,12 @@ describe('when using regular packages', () => {
 		expect(ns.removeNamespace('b-package/a-module/$.a-function')).toBe(
 			'b-package/a-module/$.a-function'
 		);
+
+		// Scoped namespace
+
+		expect(ns.removeNamespace('scoped!a-package$b-package')).toBe(
+			'b-package'
+		);
 	});
 });
 
@@ -152,6 +178,10 @@ describe('when using scoped packages', () => {
 		expect(ns.isNamespaced('@scope/b-package/a-module/$.a-function')).toBe(
 			false
 		);
+
+		// Scoped namespace
+
+		expect(ns.isNamespaced('@scoped!a-package$scope')).toBe(true);
 	});
 
 	it('getNamespace works', () => {
@@ -172,6 +202,12 @@ describe('when using scoped packages', () => {
 		expect(
 			ns.getNamespace('@scope/b-package/a-module/$.a-function')
 		).toBeNull();
+
+		// Scoped namespace
+
+		expect(ns.getNamespace('@scoped!a-package$scope/b-package')).toBe(
+			'scoped!a-package$'
+		);
 	});
 
 	it('addNamespace works', () => {
@@ -199,6 +235,12 @@ describe('when using scoped packages', () => {
 		).toBe('@a-package$scope/b-package/a-module');
 		expect(ns.addNamespace('@scope/b-package/a-module', pkg)).toBe(
 			'@a-package$scope/b-package/a-module'
+		);
+
+		// Scoped namespace
+
+		expect(ns.addNamespace('@scope', scopedPkg)).toBe(
+			'@scoped!a-package$scope'
 		);
 	});
 
@@ -277,5 +319,9 @@ describe('when using scoped packages', () => {
 		expect(
 			ns.removeNamespace('@scope/b-package/a-module/$.a-function')
 		).toBe('@scope/b-package/a-module/$.a-function');
+
+		// Scoped namespace
+
+		expect(ns.removeNamespace('@scoped!a-package$scope')).toBe('@scope');
 	});
 });
