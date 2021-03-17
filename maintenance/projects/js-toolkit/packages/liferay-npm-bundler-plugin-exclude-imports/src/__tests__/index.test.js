@@ -25,6 +25,9 @@ it('empties files when package is listed in imports', () => {
 			},
 			config: {},
 			log: new PluginLogger(),
+			rootPkgJson: {
+				name: 'root',
+			},
 		},
 		{
 			files,
@@ -53,6 +56,40 @@ it('leaves files untouched when package is missing from imports', () => {
 			},
 			config: {},
 			log: new PluginLogger(),
+			rootPkgJson: {
+				name: 'root',
+			},
+		},
+		{
+			files,
+		}
+	);
+
+	expect(files).toEqual(originalFiles);
+});
+
+it('leaves files untouched when package is self-imported from project', () => {
+	const originalFiles = ['1.js', '2.js', '3.js'];
+	const files = originalFiles.slice();
+
+	plugin(
+		{
+			pkg: {
+				name: 'pkg-a',
+				version: '1.0.0',
+			},
+			globalConfig: {
+				imports: {
+					root: {
+						'pkg-a': '^1.0.0',
+					},
+				},
+			},
+			config: {},
+			log: new PluginLogger(),
+			rootPkgJson: {
+				name: 'root',
+			},
 		},
 		{
 			files,
