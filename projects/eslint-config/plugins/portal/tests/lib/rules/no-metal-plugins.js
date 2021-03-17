@@ -18,6 +18,15 @@ const ruleTester = new MultiTester(parserOptions);
 ruleTester.run('no-metal-plugins', rule, {
 	invalid: [
 		{
+			code: "import {Affix} from 'metal-affix';",
+			errors: [
+				{
+					messageId: 'no-metal-affix',
+					type: 'ImportDeclaration',
+				},
+			],
+		},
+		{
 			code: "import Ajax from 'metal-ajax';",
 			errors: [
 				{
@@ -27,10 +36,28 @@ ruleTester.run('no-metal-plugins', rule, {
 			],
 		},
 		{
+			code: "import {Anim} from 'metal-anim';",
+			errors: [
+				{
+					messageId: 'no-metal-anim',
+					type: 'ImportDeclaration',
+				},
+			],
+		},
+		{
 			code: "import {AOP} from 'metal-aop';",
 			errors: [
 				{
 					messageId: 'no-metal-aop',
+					type: 'ImportDeclaration',
+				},
+			],
+		},
+		{
+			code: "import {assertBoolean} from 'metal-assertions';",
+			errors: [
+				{
+					messageId: 'no-metal-assertions',
 					type: 'ImportDeclaration',
 				},
 			],
@@ -54,6 +81,15 @@ ruleTester.run('no-metal-plugins', rule, {
 			],
 		},
 		{
+			code: "import {on} from 'metal-dom';",
+			errors: [
+				{
+					messageId: 'no-metal-dom',
+					type: 'ImportDeclaration',
+				},
+			],
+		},
+		{
 			code: "import KeyboardFocusManager from 'metal-keyboard-focus';",
 			errors: [
 				{
@@ -63,10 +99,37 @@ ruleTester.run('no-metal-plugins', rule, {
 			],
 		},
 		{
+			code: "import {MultiMap} from 'metal-multimap';",
+			errors: [
+				{
+					messageId: 'no-metal-multimap',
+					type: 'ImportDeclaration',
+				},
+			],
+		},
+		{
+			code: "import {Align} from 'metal-position';",
+			errors: [
+				{
+					messageId: 'no-metal-position',
+					type: 'ImportDeclaration',
+				},
+			],
+		},
+		{
 			code: "import {CancellablePromise} from 'metal-promise';",
 			errors: [
 				{
 					messageId: 'no-metal-promise',
+					type: 'ImportDeclaration',
+				},
+			],
+		},
+		{
+			code: "import {Scrollspy} from 'metal-scrollspy';",
+			errors: [
+				{
+					messageId: 'no-metal-scrollspy',
 					type: 'ImportDeclaration',
 				},
 			],
@@ -86,6 +149,15 @@ ruleTester.run('no-metal-plugins', rule, {
 			errors: [
 				{
 					messageId: 'no-metal-structs',
+					type: 'ImportDeclaration',
+				},
+			],
+		},
+		{
+			code: "import {throttle} from 'metal-throttle';",
+			errors: [
+				{
+					messageId: 'no-metal-throttle',
 					type: 'ImportDeclaration',
 				},
 			],
