@@ -1,3 +1,11 @@
+## [npm-scripts/v39.1.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v39.1.0) (2021-03-17)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v39.0.1...npm-scripts/v39.1.0)
+
+### :house: Chores
+
+-   chore(npm-scripts): use js-toolkit 2.24.1 ([\#455](https://github.com/liferay/liferay-frontend-projects/pull/455))
+
 ## [npm-scripts/v39.0.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v39.0.1) (2021-03-11)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v39.0.0...npm-scripts/v39.0.1)
