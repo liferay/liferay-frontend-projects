@@ -1,3 +1,11 @@
+## [liferay-js-toolkit/v2.24.1](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.24.1) (2021-03-17)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.24.0...liferay-js-toolkit/v2.24.1)
+
+### :wrench: Bug fixes
+
+-   fix: don't treat ourselves as a valid import ([\#454](https://github.com/liferay/liferay-frontend-projects/pull/454))
+
 ## [liferay-js-toolkit/v2.24.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.24.0) (2021-03-11)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.23.0...liferay-js-toolkit/v2.24.0)

@@ -1,13 +1,13 @@
 {
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"dependencies": {
-		"babel-preset-liferay-standard": "2.24.0",
-		"liferay-npm-bundler-plugin-exclude-imports": "2.24.0",
-		"liferay-npm-bundler-plugin-inject-imports-dependencies": "2.24.0",
-		"liferay-npm-bundler-plugin-inject-peer-dependencies": "2.24.0",
-		"liferay-npm-bundler-plugin-namespace-packages": "2.24.0",
-		"liferay-npm-bundler-plugin-replace-browser-modules": "2.24.0",
-		"liferay-npm-bundler-plugin-resolve-linked-dependencies": "2.24.0"
+		"babel-preset-liferay-standard": "2.24.1",
+		"liferay-npm-bundler-plugin-exclude-imports": "2.24.1",
+		"liferay-npm-bundler-plugin-inject-imports-dependencies": "2.24.1",
+		"liferay-npm-bundler-plugin-inject-peer-dependencies": "2.24.1",
+		"liferay-npm-bundler-plugin-namespace-packages": "2.24.1",
+		"liferay-npm-bundler-plugin-replace-browser-modules": "2.24.1",
+		"liferay-npm-bundler-plugin-resolve-linked-dependencies": "2.24.1"
 	},
 	"description": "Standard configuration for liferay-npm-bundler.",
 	"main": "config.json",
@@ -17,5 +17,5 @@
 		"type": "git",
 		"url": "https://github.com/liferay/liferay-frontend-projects.git"
 	},
-	"version": "2.24.0"
+	"version": "2.24.1"
 }
