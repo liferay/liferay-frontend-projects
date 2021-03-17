@@ -8,12 +8,17 @@ import {unrollImportsConfig} from 'liferay-npm-build-tools-common/lib/imports';
 /**
  * @return {void}
  */
-export default function ({config, globalConfig, log, pkg}, {files}) {
+export default function (
+	{config, globalConfig, log, pkg, rootPkgJson},
+	{files}
+) {
 	let imports = config.imports || globalConfig.imports || {};
 
 	imports = unrollImportsConfig(imports);
 
-	if (imports[pkg.name]) {
+	// Exclude third party deps when imported, but not if coming from us
+
+	if (imports[pkg.name] && imports[pkg.name].name !== rootPkgJson.name) {
 		files.length = 0;
 
 		log.info(

@@ -17,7 +17,21 @@ export default function ({config, globalConfig, log, rootPkgJson}, {pkgJson}) {
 	pkgJson.dependencies = pkgJson.dependencies || {};
 
 	Object.keys(imports).forEach((namespace) => {
+
+		// Don't import third party deps from ourselves
+
+		if (namespace === rootPkgJson.name) {
+			return;
+		}
+
 		Object.keys(imports[namespace]).forEach((pkgName) => {
+
+			// Don't import ourselves
+
+			if (namespace === '' && pkgName === rootPkgJson.name) {
+				return;
+			}
+
 			const localName = ns.addNamespace(pkgName, rootPkgJson);
 
 			const importVersion = imports[namespace][pkgName];
