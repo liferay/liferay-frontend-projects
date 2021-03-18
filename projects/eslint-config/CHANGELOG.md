@@ -1,3 +1,15 @@
+## [eslint-config/v23.0.0](https://github.com/liferay/liferay-frontend-projects/tree/eslint-config/v23.0.0) (2021-03-18)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-config/v22.0.0...eslint-config/v23.0.0)
+
+### :boom: Breaking changes
+
+-   feat(eslint-config)!: add several packages to the no-metal-plugin eslint rule ([\#456](https://github.com/liferay/liferay-frontend-projects/pull/456))
+
+### :new: Features
+
+-   feat(eslint-config)!: add several packages to the no-metal-plugin eslint rule ([\#456](https://github.com/liferay/liferay-frontend-projects/pull/456))
+
 ## [eslint-config/v22.0.0](https://github.com/liferay/liferay-frontend-projects/tree/eslint-config/v22.0.0) (2021-03-10)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-config/v21.3.0...eslint-config/v22.0.0)
