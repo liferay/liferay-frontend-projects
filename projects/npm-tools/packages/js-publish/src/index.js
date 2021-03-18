@@ -202,10 +202,21 @@ async function runYarnPublish(pkg) {
 
 	const args = ['--non-interactive'];
 
-	const otp = await confirm('Please enter an OTP token or press ENTER:', '');
+	const otp = await confirm(
+		'Please enter an OTP token (https://git.io/JmaXU) or press ENTER:',
+		''
+	);
 
 	if (otp) {
 		args.push('--otp', otp);
+	}
+	else {
+		printBanner(
+			'Proceeding without 2FA (Two-Factor Autentication) ☠️ ',
+			'2FA is strongly recommended, to keep our packages secure.',
+			'Please consider activating it.',
+			'See https://git.io/JmaXU to learn more'
+		);
 	}
 
 	if (isPrereleaseVersion(pkg)) {
