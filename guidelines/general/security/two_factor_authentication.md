@@ -1,0 +1,11 @@
+# Two-factor authentication (2FA)
+
+> :skull_and_crossbones: We should all have 2FA enabled on our npm accounts. Our packages collectively get downloaded thousands of times a week. Having 2FA reduces the likelihood that any of them get hijacked for nefarious purposes.
+
+npm has [docs on how to set it up](https://docs.npmjs.com/configuring-two-factor-authentication) and [this is the list of actions](https://docs.npmjs.com/about-two-factor-authentication) that get protected with 2FA enabled.
+
+You can use an app like [Authy](https://authy.com/), [1Password](https://1password.com/), or [Google Authenticator](https://support.google.com/accounts/answer/1066447?hl=en&ref_topic=2954345) as your second factor, so doing a protected action like publishing an npm module ends up being pretty simple. Tools like [Yarn](https://classic.yarnpkg.com/) and `npm` will prompt for an OTP (One-Time Password) automatically when required, or at least provide an error message prompting you to try again with a suitable `--otp` flag. Since [lerna#2084](https://github.com/lerna/lerna/pull/2084) ([included in Lerna v3.14.0](https://github.com/lerna/lerna/blob/main/CHANGELOG.md#3140-2019-05-14), released in May 2019), [Lerna](https://github.com/lerna/lerna) has been able to prompt for an OTP during publishing. Our [own `@liferay/js-publish` package](../../../projects/npm-tools/packages/js-publish) prompts for an OTP as well.
+
+## See also
+
+-   [Original Loop post](https://loop.liferay.com/home/-/loop/feed/15705091) from January 2019 advocating the adoption of 2FA.
