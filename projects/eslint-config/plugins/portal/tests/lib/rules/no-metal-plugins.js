@@ -18,7 +18,7 @@ const ruleTester = new MultiTester(parserOptions);
 ruleTester.run('no-metal-plugins', rule, {
 	invalid: [
 		{
-			code: "import {Affix} from 'metal-affix';",
+			code: "import Affix from 'metal-affix';",
 			errors: [
 				{
 					messageId: 'no-metal-affix',
@@ -36,7 +36,7 @@ ruleTester.run('no-metal-plugins', rule, {
 			],
 		},
 		{
-			code: "import {Anim} from 'metal-anim';",
+			code: "import Anim from 'metal-anim';",
 			errors: [
 				{
 					messageId: 'no-metal-anim',
@@ -45,7 +45,7 @@ ruleTester.run('no-metal-plugins', rule, {
 			],
 		},
 		{
-			code: "import {AOP} from 'metal-aop';",
+			code: "import AOP from 'metal-aop';",
 			errors: [
 				{
 					messageId: 'no-metal-aop',
@@ -54,7 +54,7 @@ ruleTester.run('no-metal-plugins', rule, {
 			],
 		},
 		{
-			code: "import {assertBoolean} from 'metal-assertions';",
+			code: "import assertBoolean from 'metal-assertions';",
 			errors: [
 				{
 					messageId: 'no-metal-assertions',
@@ -72,7 +72,7 @@ ruleTester.run('no-metal-plugins', rule, {
 			],
 		},
 		{
-			code: "import {debounce} from 'metal-debounce';",
+			code: "import debounce from 'metal-debounce';",
 			errors: [
 				{
 					messageId: 'no-metal-debounce',
@@ -81,10 +81,19 @@ ruleTester.run('no-metal-plugins', rule, {
 			],
 		},
 		{
-			code: "import {on} from 'metal-dom';",
+			code: "import on from 'metal-dom';",
 			errors: [
 				{
 					messageId: 'no-metal-dom',
+					type: 'ImportDeclaration',
+				},
+			],
+		},
+		{
+			code: "import 'metal-isomorphic';",
+			errors: [
+				{
+					messageId: 'no-metal-isomorphic',
 					type: 'ImportDeclaration',
 				},
 			],
@@ -99,7 +108,7 @@ ruleTester.run('no-metal-plugins', rule, {
 			],
 		},
 		{
-			code: "import {MultiMap} from 'metal-multimap';",
+			code: "import MultiMap from 'metal-multimap';",
 			errors: [
 				{
 					messageId: 'no-metal-multimap',
@@ -108,7 +117,16 @@ ruleTester.run('no-metal-plugins', rule, {
 			],
 		},
 		{
-			code: "import {Align} from 'metal-position';",
+			code: "import Pagination from 'metal-pagination';",
+			errors: [
+				{
+					messageId: 'no-metal-pagination',
+					type: 'ImportDeclaration',
+				},
+			],
+		},
+		{
+			code: "import Align from 'metal-position';",
 			errors: [
 				{
 					messageId: 'no-metal-position',
@@ -117,7 +135,7 @@ ruleTester.run('no-metal-plugins', rule, {
 			],
 		},
 		{
-			code: "import {CancellablePromise} from 'metal-promise';",
+			code: "import CancellablePromise from 'metal-promise';",
 			errors: [
 				{
 					messageId: 'no-metal-promise',
@@ -126,7 +144,16 @@ ruleTester.run('no-metal-plugins', rule, {
 			],
 		},
 		{
-			code: "import {Scrollspy} from 'metal-scrollspy';",
+			code: "import Router from 'metal-router';",
+			errors: [
+				{
+					messageId: 'no-metal-router',
+					type: 'ImportDeclaration',
+				},
+			],
+		},
+		{
+			code: "import Scrollspy from 'metal-scrollspy';",
 			errors: [
 				{
 					messageId: 'no-metal-scrollspy',
@@ -145,7 +172,7 @@ ruleTester.run('no-metal-plugins', rule, {
 			],
 		},
 		{
-			code: "import {MultiMap} from 'metal-structs';",
+			code: "import MultiMap from 'metal-structs';",
 			errors: [
 				{
 					messageId: 'no-metal-structs',
@@ -154,10 +181,19 @@ ruleTester.run('no-metal-plugins', rule, {
 			],
 		},
 		{
-			code: "import {throttle} from 'metal-throttle';",
+			code: "import throttle from 'metal-throttle';",
 			errors: [
 				{
 					messageId: 'no-metal-throttle',
+					type: 'ImportDeclaration',
+				},
+			],
+		},
+		{
+			code: "import Toggler from 'metal-toggler';",
+			errors: [
+				{
+					messageId: 'no-metal-toggler',
 					type: 'ImportDeclaration',
 				},
 			],
@@ -176,6 +212,15 @@ ruleTester.run('no-metal-plugins', rule, {
 			errors: [
 				{
 					messageId: 'no-metal-useragent',
+					type: 'ImportDeclaration',
+				},
+			],
+		},
+		{
+			code: "import defineWebComponent from 'metal-web-component';",
+			errors: [
+				{
+					messageId: 'no-metal-web-component',
 					type: 'ImportDeclaration',
 				},
 			],
