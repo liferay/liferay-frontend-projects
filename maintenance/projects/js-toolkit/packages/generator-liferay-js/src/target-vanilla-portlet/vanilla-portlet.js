@@ -55,8 +55,9 @@ export default class extends Generator {
 		// Configure build
 
 		if (useBabel) {
-			pkgJson.addDevDependency('babel-cli', '6.26.0');
-			pkgJson.addDevDependency('babel-preset-env', '1.7.0');
+			pkgJson.addDevDependency('@babel/cli', '^7.7.5');
+			pkgJson.addDevDependency('@babel/core', '^7.7.5');
+			pkgJson.addDevDependency('@babel/preset-env', '^7.7.6');
 			pkgJson.addBuildStep('babel --source-maps -d build src');
 			cp.copyFile('.babelrc');
 		}
@@ -68,7 +69,6 @@ export default class extends Generator {
 		// Configure webpack
 
 		if (useBabel) {
-			pkgJson.addDevDependency('babel-loader', '7.1.5');
 			npmbuildrc.addWebpackRule(/src\/.*\.js$/, 'babel-loader');
 		}
 
