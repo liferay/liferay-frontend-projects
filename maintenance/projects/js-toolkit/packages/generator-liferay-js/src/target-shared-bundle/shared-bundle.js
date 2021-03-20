@@ -55,8 +55,9 @@ export default class extends Generator {
 
 		// Configure build
 
-		pkgJson.addDevDependency('babel-cli', '6.26.0');
-		pkgJson.addDevDependency('babel-preset-env', '1.7.0');
+		pkgJson.addDevDependency('@babel/cli', '^7.7.5');
+		pkgJson.addDevDependency('@babel/core', '^7.7.5');
+		pkgJson.addDevDependency('@babel/preset-env', '^7.7.6');
 		pkgJson.addBuildStep('babel --source-maps -d build src');
 		cp.copyFile('.babelrc');
 
