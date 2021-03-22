@@ -9,8 +9,10 @@
 		}
 	},
 	"npmClient": "yarn",
-	"packages": ["packages/*"],
+	"packages": [
+		"packages/*"
+	],
 	"tagVersionPrefix": "liferay-js-toolkit/v",
 	"useWorkspaces": true,
-	"version": "2.24.1"
+	"version": "2.24.2-alpha.0"
 }

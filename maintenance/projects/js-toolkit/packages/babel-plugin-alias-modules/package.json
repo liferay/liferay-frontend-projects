@@ -1,7 +1,7 @@
 {
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"dependencies": {
-		"liferay-npm-build-tools-common": "2.24.1"
+		"liferay-npm-build-tools-common": "2.24.2-alpha.0"
 	},
 	"description": "A Babel plugin to rewrite aliased require() calls.",
 	"main": "lib/index.js",
@@ -16,5 +16,5 @@
 		"copyfiles": "node ../../scripts/copyfiles.js",
 		"prepublish": "yarn build"
 	},
-	"version": "2.24.1"
+	"version": "2.24.2-alpha.0"
 }
