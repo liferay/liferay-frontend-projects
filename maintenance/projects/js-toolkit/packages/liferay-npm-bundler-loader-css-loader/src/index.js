@@ -5,6 +5,7 @@
 
 import fs from 'fs';
 import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
+import * as ns from 'liferay-npm-build-tools-common/lib/namespace';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
@@ -87,25 +88,40 @@ function getHref(filePath, extension, pathModule, namespaceDependencies) {
 
 		const projectNameIndex = lastIndexOf(pathParts, 'node_modules') + 1;
 
+		let projectName = pathParts[projectNameIndex];
+		let projectFilePathParts = pathParts.slice(projectNameIndex + 1);
+
+		if (projectName.startsWith('@')) {
+			projectName = path.join(
+				projectName,
+				pathParts[projectNameIndex + 1]
+			);
+			projectFilePathParts = projectFilePathParts.slice(1);
+		}
+
 		const {version} = readJsonSync(
 			path.join(
 				...pathParts.slice(0, projectNameIndex),
-				pathParts[projectNameIndex],
+				projectName,
 				'package.json'
 			)
 		);
 
+		let namespacedProjectName = projectName;
+
 		if (namespaceDependencies) {
-			pathParts[
-				projectNameIndex
-			] = `${project.pkgJson.name}$${pathParts[projectNameIndex]}`;
+			namespacedProjectName = ns.addNamespace(
+				projectName,
+				project.pkgJson
+			);
 		}
 
-		pathParts[projectNameIndex] += `@${version}`;
+		namespacedProjectName += `@${version}`;
 
 		filePath = path.join(
 			'node_modules',
-			...pathParts.slice(projectNameIndex)
+			namespacedProjectName,
+			...projectFilePathParts
 		);
 	}
 	else {
