@@ -33,6 +33,14 @@ function escape(string) {
 		.replace(/>/g, '&gt;');
 }
 
+function formatDate(date) {
+	const year = date.getFullYear();
+	const month = (date.getMonth() + 1).toString().padStart(2, '0');
+	const day = date.getDate().toString().padStart(2, '0');
+
+	return `${year}-${month}-${day}`;
+}
+
 /**
  * Conventional commit types, and equivalent human-readable labels, in the order
  * that we wish them to appear in the changelog.
@@ -64,45 +72,7 @@ const TYPES = {
 	/* eslint-enable sort-keys */
 };
 
-/**
- * Aliases mapping common mistakes to legit Conventional Commits types.
- */
-const ALIASES = {
-	bug: 'fix',
-	doc: 'docs',
-	feature: 'feat',
-};
-
-const TYPE_REGEXP = /^\s*(\w+)(\([^)]+\))?(!)?:\s+.+/;
-
-const BREAKING_TRAILER_REGEXP = /^BREAKING[ -]CHANGE:/m;
-
-async function formatChanges(changes, remote) {
-	const sections = new Map(Object.keys(TYPES).map((type) => [type, []]));
-
-	changes.forEach(({description, number}) => {
-		const match = description.match(TYPE_REGEXP);
-
-		const type = ALIASES[match && match[1]] || (match && match[1]);
-
-		const section = sections.get(type) || sections.get('misc');
-
-		const link = linkToPullRequest(number, remote);
-
-		const entry = link
-			? `-   ${escape(description)} (${link})`
-			: `-   ${escape(description)}`;
-
-		section.push(entry);
-
-		const breaking =
-			(match && match[3]) || BREAKING_TRAILER_REGEXP.test(description);
-
-		if (breaking) {
-			sections.get('breaking').push(entry);
-		}
-	});
-
+function formatSections(sections) {
 	return Array.from(sections.entries())
 		.map(([type, entries]) => {
 			if (entries.length) {
@@ -113,14 +83,6 @@ async function formatChanges(changes, remote) {
 		.join('\n\n');
 }
 
-function formatDate(date) {
-	const year = date.getFullYear();
-	const month = (date.getMonth() + 1).toString().padStart(2, '0');
-	const day = date.getDate().toString().padStart(2, '0');
-
-	return `${year}-${month}-${day}`;
-}
-
 async function generate({date, from, remote, to, version}) {
 	const changes = await getChanges(from, to);
 
@@ -128,11 +90,17 @@ async function generate({date, from, remote, to, version}) {
 
 	const comparisonLink = linkToComparison(from, version, remote);
 
-	const changeList = await formatChanges(changes, remote);
+	const sections = parseChanges(changes, remote);
 
-	return (
-		[header, comparisonLink, changeList].filter(Boolean).join('\n\n') + '\n'
-	);
+	const changeList = formatSections(sections);
+
+	const contents =
+		[header, comparisonLink, changeList].filter(Boolean).join('\n\n') +
+		'\n';
+
+	const breaking = sections.get('breaking').length > 0;
+
+	return [contents, breaking];
 }
 
 async function getChanges(from, to) {
@@ -437,7 +405,9 @@ async function go(options) {
 	const remote = await getRemote(options);
 	let from = await getPreviousReleasedVersion(to, tagPattern);
 	const date = await getDate(to);
-	let contents = await generate({
+
+	/* eslint-disable-next-line prefer-const */
+	let [contents, breaking] = await generate({
 		date,
 		from,
 		remote,
@@ -464,7 +434,7 @@ async function go(options) {
 			}
 
 			const date = await getDate(from);
-			const chunk = await generate({
+			const [chunk] = await generate({
 				date,
 				from: previousVersion,
 				remote,
@@ -518,6 +488,12 @@ async function go(options) {
 
 	if (options.interactive && options.version.endsWith(PLACEHOLDER_VERSION)) {
 		info(`[--interactive] Would write ${outfile} ${written} bytes ✨`);
+
+		if (breaking) {
+			warn(
+				'Breaking changes detected; "major" or "premajor" version recommended.'
+			);
+		}
 
 		const answer = await prompt(
 			'Please choose a version from the list, or provide one in full (or enter to abort):',
@@ -830,6 +806,48 @@ async function parseArgs(args) {
 	}
 
 	return options;
+}
+
+/**
+ * Aliases mapping common mistakes to legit Conventional Commits types.
+ */
+const ALIASES = {
+	bug: 'fix',
+	doc: 'docs',
+	feature: 'feat',
+};
+
+const TYPE_REGEXP = /^\s*(\w+)(\([^)]+\))?(!)?:\s+.+/;
+
+const BREAKING_TRAILER_REGEXP = /^BREAKING[ -]CHANGE:/m;
+
+function parseChanges(changes, remote) {
+	const sections = new Map(Object.keys(TYPES).map((type) => [type, []]));
+
+	changes.forEach(({description, number}) => {
+		const match = description.match(TYPE_REGEXP);
+
+		const type = ALIASES[match && match[1]] || (match && match[1]);
+
+		const section = sections.get(type) || sections.get('misc');
+
+		const link = linkToPullRequest(number, remote);
+
+		const entry = link
+			? `-   ${escape(description)} (${link})`
+			: `-   ${escape(description)}`;
+
+		section.push(entry);
+
+		const breaking =
+			(match && match[3]) || BREAKING_TRAILER_REGEXP.test(description);
+
+		if (breaking) {
+			sections.get('breaking').push(entry);
+		}
+	});
+
+	return sections;
 }
 
 function printUsage() {
