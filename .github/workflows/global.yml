@@ -10,7 +10,7 @@ on:
 
 env:
     CI: true
-    yarn-cache-name: yarn-cache-2
+    yarn-cache-name: yarn-cache-3
     yarn-cache-path: .yarn
 
 jobs:
