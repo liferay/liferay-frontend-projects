@@ -80,20 +80,42 @@ function getJestModuleNameMapper() {
 					if (main) {
 						const entry = path.join(project, ...SRC_PATH, main);
 
-						if (fs.existsSync(entry)) {
-							const resources = path.relative(
-								cwd,
-								path.join(project, ...SRC_PATH)
-							);
+						// Handle typical formats for "main":
+						//
+						// - index        -> index.js
+						// - index.es     -> index.es.js
+						// - index.es.js  -> index.es.js
+						// - index.js     -> index.js
+						// - index.js     -> index.ts
 
-							mappings[`^${name}$`] = `<rootDir>${path.relative(
-								cwd,
-								entry
-							)}`;
+						const candidates = [entry];
 
-							mappings[
-								`^${name}/(.*)`
-							] = `<rootDir>${resources}/$1`;
+						if (entry.endsWith('.js')) {
+							candidates.push(entry.replace(/\.js$/, '.ts'));
+						}
+						else {
+							candidates.push(entry + '.js');
+						}
+
+						for (let i = 0; i < candidates.length; i++) {
+							const candidate = candidates[i];
+
+							if (fs.existsSync(candidate)) {
+								const resources = path.relative(
+									cwd,
+									path.join(project, ...SRC_PATH)
+								);
+
+								mappings[
+									`^${name}$`
+								] = `<rootDir>${path.relative(cwd, candidate)}`;
+
+								mappings[
+									`^${name}/(.*)`
+								] = `<rootDir>${resources}/$1`;
+
+								break;
+							}
 						}
 					}
 				}
