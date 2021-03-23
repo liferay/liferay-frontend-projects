@@ -141,3 +141,44 @@ If you need to test local versions of the packages, you can install [Verdaccio](
 4. To stop using the local repository edit your `~/.npmrc` and `~/.yarnrc` files and remove the local repo.
 
 Publishing to the local Verdaccio repository won't update [https://npmjs.com](https://npmjs.com) so you can publish as many local versions as you want without worrying about polluting the public npm repository. Then, when you are finished testing, just remove the local versions from your local Verdaccio, point `npm` and `yarn` to the public npm repo, and publish the ultimate valid release.
+
+## Testing modifications in liferay-portal
+
+Testing in `liferay-portal` is a bit more difficult, because it doesn't use the JS Toolkit directly, but through `npm-scripts`. Because of that, if you want to test any modified piece of code in this repo within `liferay-portal`'s build you would need to first release a version of the JS Toolkit (which implies delivering new artifacts for every package), then update `npm-scripts`, then releasing a new version of them, then update the portal and test.
+
+Because this is quite inefficient, a more direct way is recommended using `yarn` resolutions and a local npm server (like [Verdaccio](https://verdaccio.org/)).
+
+The way to set this up is "easy". Simply install Verdaccio first, and point your local npm registry to it (`npm set registry http://localhost:4873`). Then release a version of just the modified package with a newer version number that you will use then in `liferay-portal`.
+
+You don't need to use all the release machinery to release a single package, simply run `npm publish` in the package's folder (making sure you are not publishing to the real npm registry). To be even safer, use a `-alpha.x` version number (something like `2.1.0-alpha.0`) so that if you make a mistake and publish to the public npm registry it can be fixed.
+
+Once you have released the local version, go to `liferay-portal/modules`, edit the `package.json` file and add a resolution to override the modified package version. For example, if you have just released `liferay-npm-bundler-loader-css-loader` version `2.24.2-alpha.0`, add this to your portal's `package.json`:
+
+```json
+{
+
+	...
+
+	"resolutions": {
+		"liferay-npm-bundler-loader-css-loader": "2.24.2-alpha.0"
+	},
+
+	...
+
+}
+```
+
+Then make sure to be running Node version 10 and execute `yarn` in `liferay-portal/modules` to update the `node_modules` directory. If you want to make sure you only have one copy of `liferay-npm-bundler-loader-css-loader` you can run `yarn why liferay-npm-bundler-loader-css-loader`.
+
+After these steps you have a `liferay-portal` that will use your new version of css-loader even if doing `ant all`. Go ahead, test your changes and, when you are done simply set the npm registry back to the normal, remove the `resolutions` field, and proceed as usual.
+
+### What to do if you need to make more changes
+
+If you make more changes after testing, you have several options to update your `liferay-portal` project, but probably the easiest one is to release a new local version (say `2.24.2-alpha.1`, `...-alpha.2`, and so on) update the portal, and run `yarn` again. This is because:
+
+1. Verdaccio doesn't allow republishing an existing version unless you unpublish it first
+2. The portal has a local npm cache at `liferay-portal/modules/node_modules_cache` and it will complain if you try to use a modified package with the same version number
+3. Yarn has its own cache than needs to be cleaned too if you want to reuse version numbers
+4. The `yarn.lock` file saves package checksums and the portal's build complains if you try to reuse a version number
+
+All these things may be circumvented (in fact I have scripts to do so) but I don't think it makes any sense documenting such a hacky and error-prone process here, since it is much simpler to change the version number and let things flow normally.
