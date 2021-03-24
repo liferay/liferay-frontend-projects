@@ -1,3 +1,15 @@
+## [npm-scripts/v40.0.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v40.0.0) (2021-03-24)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v39.1.0...npm-scripts/v40.0.0)
+
+### :new: Features
+
+-   feat(npm-scripts): teach getJestModuleNameMapper about TS manifests ([\#468](https://github.com/liferay/liferay-frontend-projects/pull/468))
+
+### :house: Chores
+
+-   chore(npm-scripts): bump @liferay/eslint-config version from v22.0 to v23.0 ([\#464](https://github.com/liferay/liferay-frontend-projects/pull/464))
+
 ## [npm-scripts/v39.1.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v39.1.0) (2021-03-17)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v39.0.1...npm-scripts/v39.1.0)
