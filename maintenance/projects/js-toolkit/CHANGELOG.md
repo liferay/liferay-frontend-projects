@@ -1,3 +1,15 @@
+## [liferay-js-toolkit/v2.24.2](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.24.2) (2021-03-25)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.24.1...liferay-js-toolkit/v2.24.2)
+
+### :wrench: Bug fixes
+
+-   fix(js-toolkit): don't fail in css-loader for scoped dependencies ([\#465](https://github.com/liferay/liferay-frontend-projects/pull/465))
+
+### :book: Documentation
+
+-   docs(js-toolkit): add documentation on how to test JS Toolkit locally in liferay-portal ([\#467](https://github.com/liferay/liferay-frontend-projects/pull/467))
+
 ## [liferay-js-toolkit/v2.24.1](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.24.1) (2021-03-17)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.24.0...liferay-js-toolkit/v2.24.1)
