@@ -12,7 +12,7 @@ module.exports = {
 	setupFiles: [require.resolve('../jest/setup.js')],
 	setupFilesAfterEnv: [require.resolve('../jest/setupAfterEnv.js')],
 	testEnvironment: 'jest-environment-jsdom-thirteen',
-	testMatch: ['**/test/**/*.js'],
+	testMatch: ['<rootDir>/test/**/*.{js,ts,tsx}'],
 	testPathIgnorePatterns: ['/node_modules/', '<rootDir>/test/stories/'],
 	testResultsProcessor: '@liferay/jest-junit-reporter',
 	testURL: 'http://localhost',
