@@ -24,6 +24,10 @@ const config = {
 						varsIgnorePattern: '^_',
 					},
 				],
+				'@typescript-eslint/no-use-before-define': [
+					'error',
+					{functions: false},
+				],
 
 				// These rules can be turned off because the corresponding
 				// errors are caught by the TypeScript compiler itself.
@@ -32,6 +36,7 @@ const config = {
 				'no-undef': 'off',
 				'no-unused-expressions': 'off',
 				'no-unused-vars': 'off',
+				'no-use-before-define': 'off',
 			},
 		},
 		{

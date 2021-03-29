@@ -21,24 +21,6 @@ const absPrjDirPath = project.dir.asNative;
 const absBuildDirPath = project.dir.join(project.buildDir).asNative;
 let t;
 
-/**
- * @return {object} a babel visitor
- */
-export default function ({types}) {
-	t = types;
-
-	return {
-		visitor: {
-			CallExpression(bpath, state) {
-				state.visitor.CallExpression(bpath);
-			},
-			Program(bpath, state) {
-				new Visitor(state);
-			},
-		},
-	};
-}
-
 export class Visitor {
 	constructor(state) {
 		const babelIpcObject: BabelIpcObject = babelIpc.get(state, {});
@@ -298,4 +280,22 @@ export class Visitor {
 	private readonly _aliasFields: string[];
 	private readonly _absFile: FilePath;
 	private readonly _log: PluginLogger;
+}
+
+/**
+ * @return {object} a babel visitor
+ */
+export default function ({types}) {
+	t = types;
+
+	return {
+		visitor: {
+			CallExpression(bpath, state) {
+				state.visitor.CallExpression(bpath);
+			},
+			Program(bpath, state) {
+				new Visitor(state);
+			},
+		},
+	};
 }
