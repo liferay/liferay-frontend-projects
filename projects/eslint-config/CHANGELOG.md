@@ -1,3 +1,19 @@
+## [eslint-config/v24.0.0](https://github.com/liferay/liferay-frontend-projects/tree/eslint-config/v24.0.0) (2021-03-29)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-config/v23.0.0...eslint-config/v24.0.0)
+
+### :boom: Breaking changes
+
+-   feat(eslint-config)!: adapt no-use-before-define set-up for TypeScript ([\#471](https://github.com/liferay/liferay-frontend-projects/pull/471))
+
+### :new: Features
+
+-   feat(eslint-config)!: adapt no-use-before-define set-up for TypeScript ([\#471](https://github.com/liferay/liferay-frontend-projects/pull/471))
+
+### :house: Chores
+
+-   chore: update lint-related dependencies ([\#476](https://github.com/liferay/liferay-frontend-projects/pull/476))
+
 ## [eslint-config/v23.0.0](https://github.com/liferay/liferay-frontend-projects/tree/eslint-config/v23.0.0) (2021-03-18)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-config/v22.0.0...eslint-config/v23.0.0)
