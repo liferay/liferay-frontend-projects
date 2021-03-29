@@ -1,3 +1,22 @@
+## [npm-scripts/v41.0.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v41.0.0) (2021-03-29)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v40.0.1...npm-scripts/v41.0.0)
+
+### :boom: Breaking changes
+
+-   chore(npm-scripts)!: bump eslint-config to v24.0.0 ([\#477](https://github.com/liferay/liferay-frontend-projects/pull/477))
+
+### :new: Features
+
+-   feat(npm-scripts): automatically run TS tests ([\#473](https://github.com/liferay/liferay-frontend-projects/pull/473))
+-   feat(npm-scripts): add @types/react-dom dependency ([\#472](https://github.com/liferay/liferay-frontend-projects/pull/472))
+
+### :house: Chores
+
+-   chore(npm-scripts)!: bump eslint-config to v24.0.0 ([\#477](https://github.com/liferay/liferay-frontend-projects/pull/477))
+-   chore: update lint-related dependencies ([\#476](https://github.com/liferay/liferay-frontend-projects/pull/476))
+-   chore(npm-scripts): update to typescript@4.2.3 ([\#474](https://github.com/liferay/liferay-frontend-projects/pull/474))
+
 ## [npm-scripts/v40.0.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v40.0.1) (2021-03-25)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v40.0.0...npm-scripts/v40.0.1)
