@@ -22,7 +22,7 @@
 		"combohandler": "^0.4.0",
 		"copyfiles": "^2.4.0",
 		"eslint": "7.21.0",
-		"execa": "^4.0.3",
+		"execa": "^5.0.0",
 		"fs-extra": "^9.0.1",
 		"globby": "^11.0.1",
 		"gulp-coveralls": "0.1.4",
