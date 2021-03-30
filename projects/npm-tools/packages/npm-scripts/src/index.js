@@ -7,6 +7,7 @@ const minimist = require('minimist');
 
 const ProcessExitError = require('./utils/ProcessExitError');
 const instrument = require('./utils/instrument');
+const log = require('./utils/log');
 
 module.exports = async function () {
 	const ARGS_ARRAY = process.argv.slice(2);
@@ -37,17 +38,15 @@ module.exports = async function () {
 			// Storybook is temporarily disabled until it supports webpack 5
 			// require('./scripts/storybook')();
 
-			/* eslint-disable-next-line no-console */
-			console.log(`
-			
-	WARNING:
-
-	Storybook has been temporarily disabled because it does not support 
-	webpack 5.
-
-	See https://bit.ly/35zFX4E for more information.
-
-`);
+			log(
+				'',
+				'WARNING:',
+				'',
+				'Storybook has been temporarily disabled because it does not',
+				'support webpack 5.',
+				'',
+				'See https://bit.ly/35zFX4E for more information.'
+			);
 		},
 
 		test() {
