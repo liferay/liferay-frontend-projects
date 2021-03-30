@@ -32,6 +32,8 @@ function types() {
 
 	const projects = getTypeScriptBuildOrder(graph);
 
+	let upToDateCount = 0;
+
 	for (let i = 0; i < projects.length; i++) {
 		const {directory, name} = projects[i];
 
@@ -40,11 +42,25 @@ function types() {
 		try {
 			process.chdir(directory);
 
-			runTSC();
+			if (runTSC()) {
+				upToDateCount++;
+			}
 		}
 		finally {
 			process.chdir(cwd);
 		}
+	}
+
+	const staleCount = projects.length - upToDateCount;
+
+	if (staleCount) {
+		const description =
+			staleCount === 1 ? '1 project was' : `${staleCount} projects were`;
+
+		throw new Error(
+			`Type generation was successful but ${description} out of date. ` +
+				'Please commit updated versions of the artifacts in the projects listed above.'
+		);
 	}
 }
 

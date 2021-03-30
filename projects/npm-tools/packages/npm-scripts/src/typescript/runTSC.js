@@ -17,6 +17,10 @@ const spawnSync = require('../utils/spawnSync');
  * Currently in liferay-portal we use either webpack or Babel to do
  * code-generation; `tsc` is only doing type-checking and emitting type
  * definitions.
+ *
+ * Returns `true` on success, `false` if type-checking completed
+ * successfully but the definitions were stale. In all other cases
+ * throws an error.
  */
 function runTSC() {
 	spawnSync('tsc', ['--emitDeclarationOnly']);
@@ -45,7 +49,11 @@ function runTSC() {
 			output,
 			color.RESET
 		);
+
+		return false;
 	}
+
+	return true;
 }
 
 module.exports = runTSC;
