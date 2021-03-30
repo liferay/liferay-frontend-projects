@@ -57,6 +57,10 @@ module.exports = async function () {
 			require('./scripts/theme').run(...ARGS_ARRAY.slice(1));
 		},
 
+		types() {
+			require('./scripts/types')();
+		},
+
 		webpack() {
 			require('./scripts/webpack')(...ARGS_ARRAY.slice(1));
 		},
