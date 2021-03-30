@@ -6,10 +6,13 @@
 const fs = require('fs');
 const path = require('path');
 
+const getTypeScriptDependencyGraph = require('../../typescript/getTypeScriptDependencyGraph');
 const getMergedConfig = require('../../utils/getMergedConfig');
 const getPaths = require('../../utils/getPaths');
+const git = require('../../utils/git');
 const log = require('../../utils/log');
 const {SpawnError} = require('../../utils/spawnSync');
+const types = require('../types');
 
 const BABEL_CONFIG_FILE_NAME = '.babelrc.js';
 
@@ -65,7 +68,11 @@ const DISALLOWED_CONFIG_FILE_NAMES = {
 const IGNORE_FILE = '.eslintignore';
 
 function preflight() {
-	const errors = [...checkConfigFileNames(), ...checkPackageJSONFiles()];
+	const errors = [
+		...checkConfigFileNames(),
+		...checkPackageJSONFiles(),
+		...checkTypeScriptTypeArtifacts(),
+	];
 
 	if (errors.length) {
 		log('Preflight check failed:');
@@ -138,6 +145,54 @@ function checkPackageJSONFiles() {
 				);
 			}
 		});
+	}
+
+	return errors;
+}
+
+/**
+ * Delegates to the "types" subcommand to confirm that all TypeScript build
+ * artifacts are up-to-date, but only when changes exist on the current branch
+ * that could warrant such a check, and only in the context of CI (ie. when
+ * LIFERAY_NPM_SCRIPTS_WORKING_BRANCH_NAME is set).
+ */
+function checkTypeScriptTypeArtifacts() {
+	const upstream = process.env.LIFERAY_NPM_SCRIPTS_WORKING_BRANCH_NAME;
+
+	const errors = [];
+
+	if (upstream) {
+		const graph = getTypeScriptDependencyGraph();
+
+		const directories = Object.values(graph).map(
+			({directory}) => directory
+		);
+
+		if (directories) {
+			const mergeBase = git('merge-base', 'HEAD', upstream);
+
+			try {
+				git('diff', mergeBase, '--quiet', '--', ...directories);
+			}
+			catch (error) {
+				if (error.toString().includes('exited with status 1.')) {
+
+					// Changes were detected in the directories we care about.
+
+					try {
+						types();
+					}
+					catch (error) {
+						errors.push(
+							`checkTypeScriptTypeArtifacts() failed: ${error}`
+						);
+					}
+				}
+				else {
+					throw error;
+				}
+			}
+		}
 	}
 
 	return errors;
