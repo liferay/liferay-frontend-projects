@@ -4,6 +4,7 @@
  */
 
 module.exports = {
+	modulePathIgnorePatterns: ['<rootDir>/__fixtures__'],
 	setupFilesAfterEnv: ['<rootDir>/support/jest/matchers.js'],
 	testEnvironment: 'node',
 	testMatch: ['**/test/**/*.js'],

@@ -1,0 +1,8 @@
+{
+	"dependencies": {
+		"@liferay/frontend-js-react-web": "*",
+		"@liferay/frontend-js-state-web": "*"
+	},
+	"main": "js/App.es",
+	"name": "frontend-js-clay-sample-web"
+}
