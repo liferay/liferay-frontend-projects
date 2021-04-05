@@ -10,6 +10,8 @@ const findRoot = require('../utils/findRoot');
 const git = require('../utils/git');
 const log = require('../utils/log');
 const spawnSync = require('../utils/spawnSync');
+const configureTypeScript = require('./configureTypeScript');
+const getTypeScriptDependencyGraph = require('./getTypeScriptDependencyGraph');
 
 /**
  * Runs the TypeScript compiler, `tsc`, in the current working directory.
@@ -23,6 +25,10 @@ const spawnSync = require('../utils/spawnSync');
  * throws an error.
  */
 function runTSC() {
+	const graph = getTypeScriptDependencyGraph();
+
+	configureTypeScript(graph);
+
 	spawnSync('tsc', ['--emitDeclarationOnly']);
 
 	// Check for stale (uncommitted) type artifacts.
