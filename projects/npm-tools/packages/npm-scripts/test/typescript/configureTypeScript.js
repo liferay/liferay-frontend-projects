@@ -22,6 +22,7 @@ expandGlobs(['**/*-web', '**/*-*-js'], [], {
 	type: 'directory',
 }).forEach((project) => {
 	MOCK_PROJECT_PATHS[path.basename(project)] = project;
+	fs.writeFileSync(path.join(project, 'tsconfig.json'), '');
 });
 
 describe('configureTypeScript()', () => {
