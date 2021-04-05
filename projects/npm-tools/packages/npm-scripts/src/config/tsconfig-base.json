@@ -15,6 +15,7 @@
 		"sourceMap": false,
 		"strict": true,
 		"target": "es6",
+		"tsBuildInfoFile": "tmp/tsconfig.tsbuildinfo",
 		"typeRoots": []
 	},
 	"include": ["src/**/*", "test/**/*"],
