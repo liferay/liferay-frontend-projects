@@ -15,6 +15,11 @@ jest.mock('../../src/utils/log');
 const FIXTURES = path.resolve(__dirname, '../../__fixtures__/sass');
 const OUTPUT_SASS_DIR = '.sass-cache';
 
+const pause = (ms) =>
+	new Promise((resolve) => {
+		setTimeout(resolve, ms);
+	});
+
 describe('sass', () => {
 	let tempDir;
 	let tempSassDir;
@@ -99,7 +104,7 @@ describe('sass', () => {
 	`);
 	});
 
-	it('rebuilds sass if any file has been modified', () => {
+	it('rebuilds sass if any file has been modified', async () => {
 		const mainScssFilePath = path.join(tempDir, 'modified.scss');
 
 		expect(fs.existsSync(mainScssFilePath)).toBe(false);
@@ -110,29 +115,33 @@ describe('sass', () => {
 
 		expect(fs.existsSync(mainScssFilePath)).toBe(true);
 
-		const fileCreationTime1 = fs.statSync(mainScssFilePath).ctime.getTime();
+		const fileCreationTime1 = fs.statSync(mainScssFilePath).ctimeMs;
+
+		await pause(100);
 
 		buildSass(path.join(FIXTURES, 'modified'), {
 			outputDir: tempDir,
 		});
 
-		const fileCreationTime2 = fs.statSync(mainScssFilePath).ctime.getTime();
+		const fileCreationTime2 = fs.statSync(mainScssFilePath).ctimeMs;
 
 		expect(fileCreationTime2).toBe(fileCreationTime1);
 
 		fs.unlinkSync(mainScssFilePath);
 
+		await pause(100);
+
 		buildSass(path.join(FIXTURES, 'modified'), {
 			outputDir: tempDir,
 		});
 
-		const fileCreationTime3 = fs.statSync(mainScssFilePath).ctime.getTime();
+		const fileCreationTime3 = fs.statSync(mainScssFilePath).ctimeMs;
 
 		expect(fileCreationTime3).toBeGreaterThan(fileCreationTime1);
 		expect(fileCreationTime3).toBeGreaterThan(fileCreationTime2);
 	});
 
-	it('rebuilds sass if partial has been modified', () => {
+	it('rebuilds sass if partial has been modified', async () => {
 		const mainScssFilePath = path.join(tempDir, 'partial.scss');
 
 		expect(fs.existsSync(mainScssFilePath)).toBe(false);
@@ -143,23 +152,27 @@ describe('sass', () => {
 
 		expect(fs.existsSync(mainScssFilePath)).toBe(true);
 
-		const fileCreationTime1 = fs.statSync(mainScssFilePath).ctime.getTime();
+		const fileCreationTime1 = fs.statSync(mainScssFilePath).ctimeMs;
+
+		await pause(100);
 
 		buildSass(path.join(FIXTURES, 'partial'), {
 			outputDir: tempDir,
 		});
 
-		const fileCreationTime2 = fs.statSync(mainScssFilePath).ctime.getTime();
+		const fileCreationTime2 = fs.statSync(mainScssFilePath).ctimeMs;
 
 		expect(fileCreationTime2).toBe(fileCreationTime1);
 
 		fs.unlinkSync(path.join(tempDir, '_some-partial.scss'));
 
+		await pause(100);
+
 		buildSass(path.join(FIXTURES, 'partial'), {
 			outputDir: tempDir,
 		});
 
-		const fileCreationTime3 = fs.statSync(mainScssFilePath).ctime.getTime();
+		const fileCreationTime3 = fs.statSync(mainScssFilePath).ctimeMs;
 
 		expect(fileCreationTime3).toBeGreaterThan(fileCreationTime1);
 		expect(fileCreationTime3).toBeGreaterThan(fileCreationTime2);
