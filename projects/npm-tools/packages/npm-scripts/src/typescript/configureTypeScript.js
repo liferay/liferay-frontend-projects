@@ -74,21 +74,25 @@ function configureTypeScript(graph) {
 			// TODO: don't hard-code "src/main/resources/META-INF/resources"
 			// (we currently also hard-coded in `getJestModuleNameMapper()`)
 
-			path.posix.relative(
-				'',
-				path.posix.join(
-					dependency.directory,
-					'src',
-					'main',
-					'resources',
-					'META-INF',
-					'resources',
-					main
+			toPosix(
+				path.relative(
+					'',
+					path.join(
+						dependency.directory,
+						'src',
+						'main',
+						'resources',
+						'META-INF',
+						'resources',
+						main
+					)
 				)
 			),
 		];
 
-		references.push({path: path.posix.relative('', dependency.directory)});
+		references.push({
+			path: toPosix(path.relative('', dependency.directory)),
+		});
 	}
 
 	const updatedConfig = deepMerge([
@@ -102,9 +106,11 @@ function configureTypeScript(graph) {
 				},
 				typeRoots: [
 					root &&
-						path.posix.relative(
-							'',
-							path.posix.join(root, 'node_modules', '@types')
+						toPosix(
+							path.relative(
+								'',
+								path.join(root, 'node_modules', '@types')
+							)
 						),
 					'./node_modules/@types',
 				].filter(Boolean),
@@ -146,6 +152,10 @@ function hash(config) {
 	);
 
 	return shasum.digest('hex');
+}
+
+function toPosix(name) {
+	return name.split(path.sep).join(path.posix.sep);
 }
 
 module.exports = configureTypeScript;
