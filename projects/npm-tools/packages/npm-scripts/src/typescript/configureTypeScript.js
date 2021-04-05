@@ -95,9 +95,12 @@ function configureTypeScript(graph) {
 		});
 	}
 
+	const overrides = previousConfig[OVERRIDES] || {};
+
 	const updatedConfig = deepMerge([
 		{
 			...BASE_CONFIG,
+			[OVERRIDES]: overrides,
 			compilerOptions: {
 				...BASE_CONFIG.compilerOptions,
 				paths: {
@@ -117,7 +120,7 @@ function configureTypeScript(graph) {
 			},
 			references: [...BASE_CONFIG.references, ...references],
 		},
-		previousConfig[OVERRIDES] || {},
+		overrides,
 	]);
 
 	updatedConfig[GENERATED] = hash(updatedConfig);

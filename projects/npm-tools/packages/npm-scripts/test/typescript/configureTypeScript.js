@@ -210,7 +210,7 @@ describe('configureTypeScript()', () => {
 		});
 
 		it('merges @overrides into the generated fields', () => {
-			resetConfig();
+			resetConfig(project);
 
 			configure(project, graph);
 
@@ -219,18 +219,20 @@ describe('configureTypeScript()', () => {
 			// Examples of the kind of overrides we have to do in
 			// remote-app-client-js:
 
+			const overrides = {
+				compilerOptions: {
+					outDir: './build/node/packageRunBuild/dist/',
+					target: 'es5',
+					typeRoots: [
+						'./src/main/resources/META-INF/resources/js/types',
+					],
+				},
+			};
+
 			writeConfig(
 				project,
 				JSON.stringify({
-					'@overrides': {
-						compilerOptions: {
-							outDir: './build/node/packageRunBuild/dist/',
-							target: 'es5',
-							typeRoots: [
-								'./src/main/resources/META-INF/resources/js/types',
-							],
-						},
-					},
+					'@overrides': overrides,
 				})
 			);
 
@@ -242,6 +244,7 @@ describe('configureTypeScript()', () => {
 
 			expect(config).toEqual({
 				...BASE_CONFIG,
+				'@overrides': overrides,
 				compilerOptions: {
 					...BASE_CONFIG.compilerOptions,
 					outDir: './build/node/packageRunBuild/dist/',
@@ -279,7 +282,11 @@ describe('configureTypeScript()', () => {
 
 			const graph = getDependencyGraph(...projects);
 
-			projects.forEach((project) => configure(project, graph));
+			projects.forEach((project) => {
+				resetConfig(project);
+
+				configure(project, graph);
+			});
 		});
 
 		it('sets up "references" and "paths" in a project with one dependency', () => {
