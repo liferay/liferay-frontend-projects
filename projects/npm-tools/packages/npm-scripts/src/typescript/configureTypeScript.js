@@ -10,6 +10,7 @@ const path = require('path');
 const BASE_CONFIG = require('../config/tsconfig-base.json');
 const deepMerge = require('../utils/deepMerge');
 const findRoot = require('../utils/findRoot');
+const stringify = require('../utils/stringify');
 
 const GENERATED = '@generated';
 const OVERRIDES = '@overrides';
@@ -129,19 +130,12 @@ function configureTypeScript(graph) {
 		updatedConfig[GENERATED] !== previousConfig[GENERATED] ||
 		updatedConfig[GENERATED] !== hash(previousConfig)
 	) {
-		fs.writeFileSync(TSCONFIG_JSON, format(updatedConfig), 'utf8');
+		fs.writeFileSync(TSCONFIG_JSON, stringify(updatedConfig), 'utf8');
 
 		return false;
 	}
 
 	return true;
-}
-
-/**
- * Stringifies config as JSON in a manner pleasing to the Java SourceFormatter.
- */
-function format(config) {
-	return JSON.stringify(config, null, '\t');
 }
 
 function hash(config) {
