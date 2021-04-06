@@ -1,3 +1,11 @@
+## [npm-scripts/v42.0.0-pre.3](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v42.0.0-pre.3) (2021-04-06)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v42.0.0-pre.2...npm-scripts/v42.0.0-pre.3)
+
+### :new: Features
+
+-   feat(npm-scripts): manage TS type artifacts: ([\#478](https://github.com/liferay/liferay-frontend-projects/pull/478))
+
 ## [npm-scripts/v41.0.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v41.0.0) (2021-03-29)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v40.0.1...npm-scripts/v41.0.0)
