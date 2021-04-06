@@ -1,1 +1,1 @@
-node_modules
+/__fixtures__/typescript/**/tsconfig.json

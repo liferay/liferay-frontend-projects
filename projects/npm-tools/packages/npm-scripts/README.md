@@ -165,6 +165,14 @@ liferay-npm-scripts theme build
 
 Runs the "build" task, providing it with the configuration it needs to find core dependencies such as the [`liferay-frontend-theme-styled` base theme files](https://github.com/liferay/liferay-portal/tree/master/modules/apps/frontend-theme/frontend-theme-styled/src/main/resources/META-INF/resources/_styled).
 
+### types
+
+```sh
+liferay-npm-scripts types
+```
+
+Freshens all TypeScript type definition files in a `liferay-portal` checkout. Normally, these artifacts (`.d.ts` and `tsconfig.tsbuildinfo` files) would be committed along with changes to the corresponding module, but this command exists as a convenience for doing a global refresh across the entire repo (which would otherwise be tedious to do by hand because the projects must be built in dependency order).
+
 ## Config
 
 > Note: as of v2.x the config file was renamed from `.liferaynpmscriptsrc` to `npmscripts.config.js`

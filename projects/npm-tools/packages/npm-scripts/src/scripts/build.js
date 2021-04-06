@@ -7,6 +7,7 @@ const fs = require('fs');
 const path = require('path');
 
 let buildSass = require('../sass/build');
+let runTSC = require('../typescript/runTSC');
 const createTempFile = require('../utils/createTempFile');
 const getMergedConfig = require('../utils/getMergedConfig');
 const instrument = require('../utils/instrument');
@@ -16,7 +17,6 @@ let runBridge = require('../utils/runBridge');
 let runBundler = require('../utils/runBundler');
 const setEnv = require('../utils/setEnv');
 let {buildSoy, cleanSoy, soyExists, translateSoy} = require('../utils/soy');
-const spawnSync = require('../utils/spawnSync');
 const validateConfig = require('../utils/validateConfig');
 let createBridges = require('../webpack/createBridges');
 let webpack = require('./webpack');
@@ -32,6 +32,7 @@ const CWD = process.cwd();
 	runBabel,
 	runBridge,
 	runBundler,
+	runTSC,
 	soyExists,
 	translateSoy,
 	webpack,
@@ -44,6 +45,7 @@ const CWD = process.cwd();
 	runBabel,
 	runBridge,
 	runBundler,
+	runTSC,
 	soyExists,
 	translateSoy,
 	webpack,
@@ -90,8 +92,10 @@ module.exports = async function (...args) {
 	const runLegacyBuild = !federation || federation.mode !== 'default';
 
 	if (inputPathExists && runLegacyBuild) {
-		if (fs.existsSync('tsconfig.json')) {
-			spawnSync('tsc', ['--noEmit']);
+		const isTypeScript = fs.existsSync('tsconfig.json');
+
+		if (isTypeScript) {
+			runTSC();
 		}
 
 		runBabel(
