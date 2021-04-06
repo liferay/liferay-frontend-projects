@@ -12,6 +12,7 @@ const lintJSP = require('../jsp/lintJSP');
 const color = require('../utils/color');
 const getMergedConfig = require('../utils/getMergedConfig');
 const getPaths = require('../utils/getPaths');
+const inCurrentWorkingDirectory = require('../utils/inCurrentWorkingDirectory');
 const log = require('../utils/log');
 const {SpawnError} = require('../utils/spawnSync');
 const isSCSS = require('./lint/stylelint/isSCSS');
@@ -41,127 +42,129 @@ const IGNORE_FILE = '.eslintignore';
  * ESLint (etc) wrapper.
  */
 async function lint(options = {}) {
-	const {fix, quiet} = {
-		...DEFAULT_OPTIONS,
-		...options,
-	};
+	await inCurrentWorkingDirectory(async () => {
+		const {fix, quiet} = {
+			...DEFAULT_OPTIONS,
+			...options,
+		};
 
-	const globs = fix
-		? getMergedConfig('npmscripts', 'fix')
-		: getMergedConfig('npmscripts', 'check');
+		const globs = fix
+			? getMergedConfig('npmscripts', 'fix')
+			: getMergedConfig('npmscripts', 'check');
 
-	const extensions = [].concat(...Object.values(EXTENSIONS));
+		const extensions = [].concat(...Object.values(EXTENSIONS));
 
-	const paths = getPaths(globs, extensions, IGNORE_FILE);
+		const paths = getPaths(globs, extensions, IGNORE_FILE);
 
-	if (!paths.length) {
-		return;
-	}
-
-	const config = getMergedConfig('eslint');
-
-	const CLIEngine = eslint.CLIEngine;
-
-	const cli = new CLIEngine({
-		baseConfig: config,
-
-		// Note that "fix: true" here does not actually write to the filesystem
-		// (that happens below).
-		//
-		// - "fix: true": means fixes are not reported in the list of problems;
-		//   results with possible fixes have an "output" property.
-		// - "fix: false": means that they are reported; results with possible
-		//   fixes do not have an "output" property, but
-		//   `report.fixableErrorCount` and `report.fixableWarningCount` will be
-		//   set.
-
-		fix,
-
-		// Avoid spurious warnings of the form, "File ignored by
-		// default. Use a negated ignore pattern ... to override"
-
-		ignorePattern: '!*',
-	});
-
-	const {default: jsPaths, jspPaths, scssPaths} = partitionArray(paths, {
-		jspPaths: isJSP,
-		scssPaths: isSCSS,
-	});
-
-	let report;
-
-	if (jsPaths.length) {
-		report = cli.executeOnFiles(jsPaths);
-
-		if (fix && jsPaths.length) {
-
-			// This is what actually writes to the file-system.
-
-			CLIEngine.outputFixes(report);
+		if (!paths.length) {
+			return;
 		}
-	}
-	else {
-		report = {results: []};
-	}
 
-	for (const [paths, linter] of [
-		[jspPaths, lintJSP],
-		[scssPaths, lintSCSS],
-	]) {
-		for (const filePath of paths) {
+		const config = getMergedConfig('eslint');
 
-			// TODO: non-sync version to make use of I/O concurrency
+		const CLIEngine = eslint.CLIEngine;
 
-			const contents = fs.readFileSync(filePath, 'utf8');
+		const cli = new CLIEngine({
+			baseConfig: config,
 
-			try {
-				const updated = await linter(
-					contents,
-					(result) => {
-						report.results.push({
-							...result,
-							filePath: path.resolve(filePath),
-						});
-					},
-					{filePath, fix, quiet}
-				);
+			// Note that "fix: true" here does not actually write to the filesystem
+			// (that happens below).
+			//
+			// - "fix: true": means fixes are not reported in the list of problems;
+			//   results with possible fixes have an "output" property.
+			// - "fix: false": means that they are reported; results with possible
+			//   fixes do not have an "output" property, but
+			//   `report.fixableErrorCount` and `report.fixableWarningCount` will be
+			//   set.
 
-				if (fix && updated !== contents) {
-					fs.writeFileSync(filePath, updated);
+			fix,
+
+			// Avoid spurious warnings of the form, "File ignored by
+			// default. Use a negated ignore pattern ... to override"
+
+			ignorePattern: '!*',
+		});
+
+		const {default: jsPaths, jspPaths, scssPaths} = partitionArray(paths, {
+			jspPaths: isJSP,
+			scssPaths: isSCSS,
+		});
+
+		let report;
+
+		if (jsPaths.length) {
+			report = cli.executeOnFiles(jsPaths);
+
+			if (fix && jsPaths.length) {
+
+				// This is what actually writes to the file-system.
+
+				CLIEngine.outputFixes(report);
+			}
+		}
+		else {
+			report = {results: []};
+		}
+
+		for (const [paths, linter] of [
+			[jspPaths, lintJSP],
+			[scssPaths, lintSCSS],
+		]) {
+			for (const filePath of paths) {
+
+				// TODO: non-sync version to make use of I/O concurrency
+
+				const contents = fs.readFileSync(filePath, 'utf8');
+
+				try {
+					const updated = await linter(
+						contents,
+						(result) => {
+							report.results.push({
+								...result,
+								filePath: path.resolve(filePath),
+							});
+						},
+						{filePath, fix, quiet}
+					);
+
+					if (fix && updated !== contents) {
+						fs.writeFileSync(filePath, updated);
+					}
+				}
+				catch (error) {
+					log(error);
 				}
 			}
-			catch (error) {
-				log(error);
-			}
 		}
-	}
 
-	// In `quiet` mode, keep only errors.
-	// Otherwise keep both errors and warnings.
-	// Filter out everything else.
+		// In `quiet` mode, keep only errors.
+		// Otherwise keep both errors and warnings.
+		// Filter out everything else.
 
-	const results = (report.results || [])
-		.map((result) => {
-			const messages = result.messages.filter((message) => {
-				return quiet ? message.severity === 2 : true;
-			});
+		const results = (report.results || [])
+			.map((result) => {
+				const messages = result.messages.filter((message) => {
+					return quiet ? message.severity === 2 : true;
+				});
 
-			if (result.messages.length === 0) {
-				return null;
-			}
+				if (result.messages.length === 0) {
+					return null;
+				}
 
-			return {
-				...result,
-				messages,
-			};
-		})
-		.filter(Boolean);
+				return {
+					...result,
+					messages,
+				};
+			})
+			.filter(Boolean);
 
-	log(formatter(results));
+		log(formatter(results));
 
-	if (results.length) {
-		throw new SpawnError();
-	}
+		if (results.length) {
+			throw new SpawnError();
+		}
+	});
 }
 
 /**
