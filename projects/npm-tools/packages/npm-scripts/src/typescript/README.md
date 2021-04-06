@@ -6,7 +6,7 @@ If you're reading this page you may have arrived from a link inside a `tsconfig.
 
 We use [TypeScript's](https://www.typescriptlang.org/) [project references feature](https://www.typescriptlang.org/docs/handbook/project-references.html) because it allows us to share type information between projects (corresponding to OSGi modules) without having to perform a global build of all TypeScript in DXP for every change.
 
-Each project writes out a set of `.d.ts` files and a `tsconfig.tsbuildinfo` file in a `types` directory that sits alongside `src` and should be committed to the repo. Any project which wishes to depend on another can use the previously committed type information, thus relying on the other project without needing to build it first. This will enable us to preserve fast "local" development inside each project even as the overall amount of TypeScript across the repo grows.
+Each project writes out a set of `.d.ts` files in a `types` directory that sits alongside `src` and should be committed to the repo. Any project which wishes to depend on another can use the previously committed type information, thus relying on the other project without needing to build it first. This will enable us to preserve fast "local" development inside each project even as the overall amount of TypeScript across the repo grows.
 
 Note that we use `tsc` (the TypeScript compiler) _only_ for type-checking. The actual work of transforming code from `src/` for deployment is done via Babel (which just strips out the TypeScript type annotations without performing any type-checking of its own) or webpack.
 
@@ -36,6 +36,8 @@ has not been built from source file '../some/path/to/something/like/index.ts'.
 ```
 
 If such a situation arises (although it shouldn't, due to the `ci:test:sf` measures already mentioned), you can either build the dependent project by hand (eg. `cd ../path/to/other/project && yarn build`) or you can run the provided `types` subcommand to refresh _all_ of the types in the repo at once, in dependency order (eg. `yarn run liferay-npm-scripts types`).
+
+In addition to the `.d.ts` artifacts written to the `types` directory, the TypeScript compiler creates a `tsconfig.tsbuildinfo` file under `tmp`. This is an transitory artifact that exists only to speed up subsequent builds, and can be safely deleted at any time. As it contains machine-specific information such as absolute paths, and may be affected by filesystem case-insensitivity (often the case on machines running macOS), it should not be committed to the repo.
 
 ## How checking works
 
