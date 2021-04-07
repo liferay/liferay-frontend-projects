@@ -24,8 +24,7 @@ const TSCONFIG_JSON = 'tsconfig.json';
  * the fly during the build, this file must be committed to the repo in
  * order for editors and IDEs to benefit from LSP integration.
  *
- * Returns `true` if the `tsconfig.json` file was already up-to-date, and
- * `false` otherwise.
+ * As a convenience, returns the generated configuration object.
  *
  * Note that up-to-date-ness is determined in a structural equality
  * sense (ie. are the values in the file the same) without regard
@@ -131,11 +130,9 @@ function configureTypeScript(graph) {
 		updatedConfig[GENERATED] !== hash(previousConfig)
 	) {
 		fs.writeFileSync(TSCONFIG_JSON, stringify(updatedConfig), 'utf8');
-
-		return false;
 	}
 
-	return true;
+	return updatedConfig;
 }
 
 function hash(config) {

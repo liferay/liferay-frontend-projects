@@ -11,7 +11,7 @@ const runTSC = require('../typescript/runTSC');
 const findRoot = require('../utils/findRoot');
 const log = require('../utils/log');
 
-function types() {
+async function types() {
 	const cwd = process.cwd();
 	const root = findRoot();
 
@@ -42,7 +42,7 @@ function types() {
 		try {
 			process.chdir(directory);
 
-			if (runTSC()) {
+			if (await runTSC()) {
 				upToDateCount++;
 			}
 		}

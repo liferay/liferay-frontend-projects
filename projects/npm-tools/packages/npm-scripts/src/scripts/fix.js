@@ -9,11 +9,7 @@ const format = require('./format');
 const lint = require('./lint');
 
 async function fix() {
-	await spawnMultiple(
-		() => preflight(),
-		() => lint({fix: true}),
-		() => format()
-	);
+	await spawnMultiple(preflight, () => lint({fix: true}), format);
 }
 
 module.exports = fix;

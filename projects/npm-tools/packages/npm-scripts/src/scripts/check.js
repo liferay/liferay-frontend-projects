@@ -9,11 +9,7 @@ const format = require('./format');
 const lint = require('./lint');
 
 async function check() {
-	await spawnMultiple(
-		() => preflight(),
-		() => format({check: true}),
-		() => lint()
-	);
+	await spawnMultiple(preflight, () => format({check: true}), lint);
 }
 
 module.exports = check;
