@@ -1,3 +1,20 @@
+## [npm-scripts/v42.1.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v42.1.0) (2021-04-07)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v42.0.0...npm-scripts/v42.1.0)
+
+### :new: Features
+
+-   feat(npm-scripts): format generated `.d.ts` files ([\#487](https://github.com/liferay/liferay-frontend-projects/pull/487))
+-   feat(npm-scripts): allow format/lint to run without package.json ([\#484](https://github.com/liferay/liferay-frontend-projects/pull/484))
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): deal with symlinks in `inCurrentWorkingDirectory()` ([\#486](https://github.com/liferay/liferay-frontend-projects/pull/486))
+
+### :book: Documentation
+
+-   docs(npm-scripts): update explanation of `tsconfig.tsbuildinfo` ([\#482](https://github.com/liferay/liferay-frontend-projects/pull/482))
+
 ## [npm-scripts/v42.0.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v42.0.0) (2021-04-06)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v41.0.0...npm-scripts/v42.0.0)
