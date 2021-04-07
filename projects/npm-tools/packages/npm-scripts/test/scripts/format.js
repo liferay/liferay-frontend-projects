@@ -16,6 +16,7 @@ jest.mock('../../src/jsp/formatJSP');
 jest.mock('../../src/utils/log');
 
 describe('scripts/format.js', () => {
+	let INIT_CWD;
 	let cwd;
 	let temp;
 
@@ -25,6 +26,8 @@ describe('scripts/format.js', () => {
 	};
 
 	beforeEach(() => {
+		INIT_CWD = process.env.INIT_CWD;
+
 		cwd = process.cwd();
 
 		jest.resetAllMocks();
@@ -33,6 +36,8 @@ describe('scripts/format.js', () => {
 		jest.spyOn(prettier, 'format');
 
 		temp = fs.mkdtempSync(path.join(os.tmpdir(), 'format-'));
+
+		process.env.INIT_CWD = temp;
 
 		process.chdir(temp);
 
@@ -44,6 +49,8 @@ describe('scripts/format.js', () => {
 
 	afterEach(() => {
 		process.chdir(cwd);
+
+		process.env.INIT_CWD = INIT_CWD;
 	});
 
 	it('invokes check() on our prettier.check() wrapper', async () => {
