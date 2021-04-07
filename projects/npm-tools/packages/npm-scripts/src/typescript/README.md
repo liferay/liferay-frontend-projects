@@ -6,17 +6,17 @@ If you're reading this page you may have arrived from a link inside a `tsconfig.
 
 We use [TypeScript's](https://www.typescriptlang.org/) [project references feature](https://www.typescriptlang.org/docs/handbook/project-references.html) because it allows us to share type information between projects (corresponding to OSGi modules) without having to perform a global build of all TypeScript in DXP for every change.
 
-Each project writes out a set of `.d.ts` files and a `tsconfig.tsbuildinfo` file in a `types` directory that sits alongside `src` and should be committed to the repo. Any project which wishes to depend on another can use the previously committed type information, thus relying on the other project without needing to build it first. This will enable us to preserve fast "local" development inside each project even as the overall amount of TypeScript across the repo grows.
+Each project writes out a set of `.d.ts` files in a `types` directory that sits alongside `src` and should be committed to the repo. Any project which wishes to depend on another can use the previously committed type information, thus relying on the other project without needing to build it first. This will enable us to preserve fast "local" development inside each project even as the overall amount of TypeScript across the repo grows.
 
 Note that we use `tsc` (the TypeScript compiler) _only_ for type-checking. The actual work of transforming code from `src/` for deployment is done via Babel (which just strips out the TypeScript type annotations without performing any type-checking of its own) or webpack.
 
 ## How configuration works
 
-Each project must have a `tsconfig.json` file at its root, alongside the `package.json`. To start using TypeScript in a project, a `touch tsconfig.json` is sufficient. When running `yarn build` (either directly, or indirectly, via `gradle deploy` or similar), `npm-scripts` will update the configuration file based on three inputs:
+Each project must have a `tsconfig.json` file ([example](https://github.com/liferay/liferay-portal/blob/9c07f7bca2bbde25a8cbcf2c84b6b311fb60e0f7/modules/apps/frontend-js/frontend-js-react-web/tsconfig.json)) at its root, alongside the `package.json`. To start using TypeScript in a project, a `touch tsconfig.json` is sufficient. When running `yarn build` (either directly, or indirectly, via `gradle deploy` or similar), `npm-scripts` will update the configuration file based on three inputs:
 
 1. **[The base config](../config/tsconfig-base.json) that is bundled inside `npm-scripts` and is common across all projects.**
 2. **An optional `@overrides` field that the project can use to overwrite the default settings.** For the most part, this should not be used; please [open an issue](https://github.com/liferay/liferay-frontend-projects/issues/new/choose) if you discover a use case that is not met by the default configuration.
-3. **Information about the TypeScript dependency graph that is derived from the `dependencies` declared in the `package.json` files in `liferay-portal`.** That is, for a project like `@liferay/frontend-js-react-web` to depend on `@liferay/frontend-js-state-web`, it must declare that dependency in the `package.json` file. Note that adding something to `dependencies` makes the dependency visible to our TypeScript build process _but it has nothing to do with how modules are loaded at runtime_; be aware that you may need a `liferay-npm-bundler` `imports` configuration as well ([defaults can be seen here](https://github.com/liferay/liferay-portal/blob/5523f3a3b89cd25deb367a6fdea3d8bcbe420b04/modules/npmscripts.config.js#L31-L194)) in order for one project to load JS from another project at runtime.
+3. **Information about the TypeScript dependency graph that is derived from the `dependencies` declared in the `package.json` files in `liferay-portal`.** That is, for a project like `@liferay/frontend-js-react-web` to depend on `@liferay/frontend-js-state-web`, it must [declare that dependency](https://github.com/liferay/liferay-portal/blob/9c07f7bca2bbde25a8cbcf2c84b6b311fb60e0f7/modules/apps/frontend-js/frontend-js-react-web/package.json#L5) in the `package.json` file. Note that adding something to `dependencies` makes the dependency visible to our TypeScript build process _but it has nothing to do with how modules are loaded at runtime_; be aware that you may need a `liferay-npm-bundler` `imports` configuration as well ([defaults can be seen here](https://github.com/liferay/liferay-portal/blob/5523f3a3b89cd25deb367a6fdea3d8bcbe420b04/modules/npmscripts.config.js#L31-L194)) in order for one project to load JS from another project at runtime.
 
 Any time the contents of this file are out of date, the `build` subcommand will print a large warning reminding you to include the changes in a commit.
 
@@ -36,6 +36,8 @@ has not been built from source file '../some/path/to/something/like/index.ts'.
 ```
 
 If such a situation arises (although it shouldn't, due to the `ci:test:sf` measures already mentioned), you can either build the dependent project by hand (eg. `cd ../path/to/other/project && yarn build`) or you can run the provided `types` subcommand to refresh _all_ of the types in the repo at once, in dependency order (eg. `yarn run liferay-npm-scripts types`).
+
+In addition to the `.d.ts` artifacts written to the `types` directory, the TypeScript compiler creates a `tsconfig.tsbuildinfo` file under `tmp`. This is an transitory artifact that exists only to speed up subsequent builds, and can be safely deleted at any time. As it contains machine-specific information such as absolute paths, and may be affected by filesystem case-insensitivity (often the case on machines running macOS), it should not be committed to the repo.
 
 ## How checking works
 
