@@ -25,9 +25,9 @@ const path = require('path');
  * entire repo.
  */
 async function inCurrentWorkingDirectory(callback) {
-	const cwd = process.cwd();
+	const cwd = realpath(process.cwd());
 
-	const INIT_CWD = process.env.INIT_CWD || cwd;
+	const INIT_CWD = realpath(process.env.INIT_CWD || cwd);
 
 	let directory = INIT_CWD;
 
@@ -61,6 +61,29 @@ async function inCurrentWorkingDirectory(callback) {
 	}
 	finally {
 		process.chdir(cwd);
+	}
+}
+
+/**
+ * Normalize a path to account for macOS oddities such as the fact that a
+ * path like:
+ *
+ *      /private/var/folders/yc/1x2y2qld1g95tvtjpd89hdrm0000gp/T/format-1HaaBt
+ *
+ * May be reported as-is by `process.cwd()` but come in like this via the
+ * `INIT_CWD` environment variable:
+ *
+ *      /var/folders/yc/1x2y2qld1g95tvtjpd89hdrm0000gp/T/format-1HaaBt
+ */
+function realpath(directory) {
+	try {
+		return fs.realpathSync(directory);
+	}
+	catch {
+
+		// Most likely "ENOENT: no such file or directory".
+
+		return '';
 	}
 }
 
