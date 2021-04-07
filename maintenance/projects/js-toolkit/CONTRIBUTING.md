@@ -43,6 +43,12 @@ All commits must follow [our commit message guidelines](https://github.com/lifer
 Any change (be it an improvement, a new feature or a bug fix) needs to include a test, and all tests from the repo need to be passing. To run the tests:
 
 ```shell
+$ yarn build ⏎
+
+	.
+	.
+	.
+
 $ yarn test ⏎
 ```
 
@@ -58,7 +64,7 @@ $ yarn format ⏎
 
 ## QA
 
-We manual QA tests that can be run with the following command:
+We have a suite of manual QA tests that can be run with the following command:
 
 ```shell
 $ yarn qa ⏎
@@ -69,6 +75,87 @@ By default, the resulting JAR file will be placed in `/opt/bundles/deploy` so ma
 This command will download all the dependencies needed by the QA projects contained in the `qa/samples/packages` folder, and will point all JS Toolkit packages to the local project (as opposed to downloading them from npmjs.com). This is necessary since we want to use our local copy of the JS Toolkit and since we have not yet released any 3.x version, so it's impossible to download it from npmjs.com.
 
 Note that the `link-js-toolkit` will move all JS Toolkit dependencies in the QA projects to a `link-js-toolkit` section in the `package.json`. This is to prevent Yarn from trying to download these packages from npmjs.com.
+
+### Testing your local version of JS Toolkit
+
+The normal way to use the JS Toolkit in your projects is by letting `npm` download it from npmjs.com.
+
+However, for that to happen, a version must be released and there are times when you simply want to test what you have modified locally in a clone of this repo. In that case, the setup is a bit more difficult because you need to tell `yarn` to use the local versions of the JS Toolkit packages.
+
+But... we have `link-js-toolkit` for that.
+
+The procedure to setup a `yarn` workspace that uses your local copy of the JS Toolkit is as follows:
+
+1. Create a directory (f.e: `toolkit-workspace`) and run `yarn init -y` to create a `package.json` file on it.
+2. Edit the `package.json` file to add the following:
+
+```json
+{
+	"private": true,
+	"workspaces": {
+		"packages": ["packages/*"]
+	}
+}
+```
+
+This is to create a yarn workspace.
+
+3. Create the `packages` directory inside `toolkit-worspace`.
+4. Run `yarn` to create the `yarn.lock` file.
+5. Go to `liferay-frontend-projects/maintenance/projects/js-toolkit/resources/devtools/link-js-toolkit` folder and run `yarn link` inside. That will make `link-js-toolkit` available as a command in your machine.
+6. Run `link-js-toolkit -p`. This will run `yarn link` inside each process of the JS Toolkit, registering your local project folders with `yarn` so that it then knows where to find them. You can see all projects registered with `yarn link` in your `~/.config/yarn/link` folder (it contains symlinks to your local projects). If you want to unlink a project simply follow the link in that folder to get to your local project folder and run `yarn unlink` there. Refer to [yarn link's documentation](https://classic.yarnpkg.com/en/docs/cli/link/) for more details.
+7. After the previous step, each one of the JS Toolkit project folders should be pointed by one of the links inside your `~/.config/yarn/link` folder.
+8. Now go back to `toolkit-worspace` and run `link-js-toolkit -w` there. That will link all the JS Toolkit projects in your workspace's `node_modules` folder, like this:
+
+```sh
+~/toolkit-workspace $ ls -l node_modules/
+total 0
+lrwxrwxrwx 1 ivan ivan 69 abr  7 15:52 babel-plugin-add-module-metadata -> ../../../home/ivan/.config/yarn/link/babel-plugin-add-module-metadata
+lrwxrwxrwx 1 ivan ivan 63 abr  7 15:52 babel-plugin-alias-modules -> ../../../home/ivan/.config/yarn/link/babel-plugin-alias-modules
+				.
+				.
+				.
+lrwxrwxrwx 1 ivan ivan 71 abr  7 15:52 liferay-npm-bundler-preset-vue-cli -> ../../../home/ivan/.config/yarn/link/liferay-npm-bundler-preset-vue-cli
+lrwxrwxrwx 1 ivan ivan 64 abr  7 15:52 liferay-npm-imports-checker -> ../../../home/ivan/.config/yarn/link/liferay-npm-imports-checker
+```
+
+9. Now you can run, for example, the generator in `toolkit-worspace/packages` to create a new project, using `yo liferay-js` and it will use your local copy of the generator. If you want to double check, run the generator with the `--which` parameter like this:
+
+```sh
+~/toolkit-workspace/packages $ yo liferay-js --which
+/home/ivan/liferay-frontend-projects/maintenance/projects/js-toolkit/packages/generator-liferay-js/generators/app/index.js
+```
+
+You should get the full path to your local generator as reply. If you get a local path inside the workspace's `node_modules` folder it may be a sign that you need to run `link-js-toolkit -w` again. This is because, every time you run `yarn` to install dependencies it may remove the links to the local projects, downloading the packages from npmjs.com again. So, it's a good habit to run `link-js-toolkit -w` after each `yarn install` operation.
+
+In any case, if you are not sure what version you are using (if the one from npmjs.com or your local one), simply use `ls -l node_modules` and in step 8 and run `link-js-toolkit -w` if needed.
+
+10. After generating a new project you need to run `link-js-toolkit -w` again because the generator invokes `yarn install` upon successful completion of its tasks and that may destroy the links and, in addition, place local copies of the JS Toolkit inside the new project's `node_modules` folder, which is something bad). Remember that we want the projects to use the packages from JS Toolkit that are linked in `toolkit-workspace/node_modules`, not the ones from the `node_modules` folders inside the projects.
+11. Once you have generated the project and run `link-js-toolkit -w` again, you can go to the new project folder and run `yarn deploy` as usual and you will be using your local copy of the JS Toolkit. So, for example, if you change anything in your JS Toolkit project, build it, and run `yarn deploy` in `toolkit-workspace` again, you will see your changes take effect.
+
+Note two things:
+
+1. You need to run `yarn build` in the Toolkit projects every time you make some change so that the TypeScript code is transpiled. It's a common source of errors to modify something, forget to build the project and get crazy because you don't see your changes take effect.
+
+2. Every time you run `link-js-toolkit -w` in the workspace, it will modify the `package.json` files of your projects adding something like this:
+
+```json
+{
+	"link-js-toolkit": {
+		"deleted": {
+			"dependencies": {},
+			"devDependencies": {
+				"liferay-npm-build-support": "^2.24.2",
+				"liferay-npm-bundler": "^2.24.2"
+			}
+		}
+	}
+}
+```
+
+This is because the tool moves any dependencies or dev dependencies from their proper section to `link-js-toolkit.deleted` so that `yarn` cannot see them and doesn't install them locally in the project even if you do `yarn install`.
+
+You must take this into account if you then want to copy this project to somewhere else where `link-js-toolkit` is not going to be used.
 
 ## Releasing new versions
 
