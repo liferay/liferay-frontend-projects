@@ -95,7 +95,7 @@ module.exports = async function (...args) {
 		const isTypeScript = fs.existsSync('tsconfig.json');
 
 		if (isTypeScript) {
-			runTSC();
+			await runTSC();
 		}
 
 		runBabel(

@@ -162,25 +162,37 @@ describe('configureTypeScript()', () => {
 			/* eslint-enable sort-keys */
 		});
 
-		it('returns true if the config is already up-to-date', () => {
+		it('returns the config', () => {
+			const config = {
+				...BASE_CONFIG,
+				'@generated': 'bcba4b119d3cf7bdcb52b5d3d5a71d24f5290ca2',
+				compilerOptions: {
+					...BASE_CONFIG.compilerOptions,
+					typeRoots: [
+						'../../../node_modules/@types',
+						'./node_modules/@types',
+					],
+				},
+			};
+
+			// Returns a valid config object when the config isn't set up yet.
+
 			resetConfig(project);
 
-			// Returns false when the config isn't set up yet.
+			expect(configure(project, graph)).toEqual(config);
 
-			expect(configure(project, graph)).toBe(false);
+			// Returns the same config when it already is up-to-date.
 
-			// Returns true when it already is up-to-date.
-
-			expect(configure(project, graph)).toBe(true);
+			expect(configure(project, graph)).toEqual(config);
 
 			// Note that up-to-date-ness only cares about structural equality,
 			// not whitespace.
 
 			writeConfig(project, `\t\t${readConfig(project)}\n\n`);
 
-			expect(configure(project, graph)).toBe(true);
+			expect(configure(project, graph)).toEqual(config);
 
-			// As soon as we mutate a value, returns false again.
+			// And if we mutate a value, returns the same config again.
 
 			writeConfig(
 				project,
@@ -190,7 +202,7 @@ describe('configureTypeScript()', () => {
 				})
 			);
 
-			expect(configure(project, graph)).toBe(false);
+			expect(configure(project, graph)).toEqual(config);
 
 			// Breaking the hash also forces an update.
 
@@ -206,7 +218,7 @@ describe('configureTypeScript()', () => {
 				})
 			);
 
-			expect(configure(project, graph)).toBe(false);
+			expect(configure(project, graph)).toEqual(config);
 		});
 
 		it('merges @overrides into the generated fields', () => {

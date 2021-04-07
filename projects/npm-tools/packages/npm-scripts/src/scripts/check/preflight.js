@@ -67,11 +67,11 @@ const DISALLOWED_CONFIG_FILE_NAMES = {
 
 const IGNORE_FILE = '.eslintignore';
 
-function preflight() {
+async function preflight() {
 	const errors = [
 		...checkConfigFileNames(),
 		...checkPackageJSONFiles(),
-		...checkTypeScriptTypeArtifacts(),
+		...(await checkTypeScriptTypeArtifacts()),
 	];
 
 	if (errors.length) {
@@ -156,7 +156,7 @@ function checkPackageJSONFiles() {
  * that could warrant such a check, and only in the context of CI (ie. when
  * LIFERAY_NPM_SCRIPTS_WORKING_BRANCH_NAME is set).
  */
-function checkTypeScriptTypeArtifacts() {
+async function checkTypeScriptTypeArtifacts() {
 	const upstream = process.env.LIFERAY_NPM_SCRIPTS_WORKING_BRANCH_NAME;
 
 	const errors = [];
@@ -180,7 +180,7 @@ function checkTypeScriptTypeArtifacts() {
 					// Changes were detected in the directories we care about.
 
 					try {
-						types();
+						await types();
 					}
 					catch (error) {
 						errors.push(
