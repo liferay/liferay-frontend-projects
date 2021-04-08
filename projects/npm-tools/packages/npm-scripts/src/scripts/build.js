@@ -18,7 +18,6 @@ let runBundler = require('../utils/runBundler');
 const setEnv = require('../utils/setEnv');
 let {buildSoy, cleanSoy, soyExists, translateSoy} = require('../utils/soy');
 const validateConfig = require('../utils/validateConfig');
-let createBridges = require('../webpack/createBridges');
 let webpack = require('./webpack');
 
 const CWD = process.cwd();
@@ -27,7 +26,6 @@ const CWD = process.cwd();
 	buildSass,
 	buildSoy,
 	cleanSoy,
-	createBridges,
 	minify,
 	runBabel,
 	runBridge,
@@ -40,7 +38,6 @@ const CWD = process.cwd();
 	buildSass,
 	buildSoy,
 	cleanSoy,
-	createBridges,
 	minify,
 	runBabel,
 	runBridge,
@@ -67,7 +64,7 @@ module.exports = async function (...args) {
 		autoDelete: false,
 	});
 
-	const {build: BUILD_CONFIG, bundling, federation} = config;
+	const {build: BUILD_CONFIG} = config;
 
 	if (!BUILD_CONFIG) {
 		throw new Error('npmscripts.config.js is missing required "build" key');
@@ -89,9 +86,7 @@ module.exports = async function (...args) {
 		buildSoy();
 	}
 
-	const runLegacyBuild = !federation || federation.mode !== 'default';
-
-	if (inputPathExists && runLegacyBuild) {
+	if (inputPathExists) {
 		const isTypeScript = fs.existsSync('tsconfig.json');
 
 		if (isTypeScript) {
@@ -108,24 +103,12 @@ module.exports = async function (...args) {
 		);
 	}
 
-	const runFederationBuild = federation && federation.mode !== 'disabled';
-
-	if (fs.existsSync('webpack.config.js') || runFederationBuild) {
+	if (fs.existsSync('webpack.config.js')) {
 		webpack(...args);
 	}
 
-	if (runLegacyBuild && bundling !== false) {
+	if (BUILD_CONFIG.bundler) {
 		runBundler();
-	}
-	else if (federation.mode !== 'disabled') {
-		const {output} = BUILD_CONFIG;
-
-		fs.copyFileSync('package.json', path.join(output, 'package.json'));
-		fs.writeFileSync(path.join(output, 'manifest.json'), '{}');
-	}
-
-	if (runFederationBuild) {
-		createBridges(federation.bridges, BUILD_CONFIG.output);
 	}
 
 	translateSoy(BUILD_CONFIG.output);

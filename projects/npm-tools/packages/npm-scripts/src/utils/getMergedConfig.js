@@ -90,30 +90,6 @@ function hackilySupportIncrementalDOM(config) {
 }
 
 /**
- * Normalize npmscripts configuration so that the fields only contain canonical
- * values.
- */
-function normalizeNpmscriptsConfig(config) {
-	const {federation} = config;
-
-	if (federation) {
-		if (federation.bridges === true) {
-			federation.bridges = [];
-		}
-
-		if (federation.mode === undefined) {
-			federation.mode = 'default';
-		}
-
-		if (!['default', 'compatible', 'disabled'].includes(federation.mode)) {
-			throw new Error('Invalid federation mode: ' + federation.mode);
-		}
-	}
-
-	return config;
-}
-
-/**
  * Helper to get JSON configs
  * @param {string} type Name of configuration ("babel", "bundler", "jest" etc)
  * @param {string=} property Specific configuration property to extract. If not
@@ -231,8 +207,6 @@ function getMergedConfig(type, property) {
 					deepMerge.MODE.NPMSCRIPTS
 				);
 			}
-
-			mergedConfig = normalizeNpmscriptsConfig(mergedConfig);
 			break;
 		}
 
