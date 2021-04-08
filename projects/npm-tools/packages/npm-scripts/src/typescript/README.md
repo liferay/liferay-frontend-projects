@@ -58,6 +58,7 @@ At the time of writing, we still rely quite heavily on the `Liferay` global obje
 ## See also
 
 -   [Original PR implementing build support](https://github.com/liferay/liferay-frontend-projects/pull/478).
+-   [Guidelines and learning resources for TypeScript](../../../../../../guidelines/general/typescript.md).
 
 ---
 
