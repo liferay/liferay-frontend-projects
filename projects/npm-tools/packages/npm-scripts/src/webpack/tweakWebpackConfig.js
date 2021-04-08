@@ -7,7 +7,6 @@ const fs = require('fs');
 
 const createTempFile = require('../utils/createTempFile');
 const getMergedConfig = require('../utils/getMergedConfig');
-const createFederationConfig = require('./createFederationConfig');
 
 /**
  * Modify an existing webpack config to conform to Liferay standards.
@@ -34,12 +33,6 @@ async function tweakWebpackConfig(webpackConfigPath) {
 	}
 	else {
 		arrayConfig = [webpackConfig];
-	}
-
-	const {federation} = getMergedConfig('npmscripts');
-
-	if (federation && federation.mode !== 'disabled') {
-		arrayConfig.push(await createFederationConfig());
 	}
 
 	arrayConfig = arrayConfig.map((webpackConfig) =>
