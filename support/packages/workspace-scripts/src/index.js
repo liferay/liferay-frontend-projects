@@ -236,6 +236,10 @@ function test(...args) {
 
 	const root = getRoot();
 
+	if (process.env.CI && !args.includes('--runInBand')) {
+		args.push('--runInBand');
+	}
+
 	if (local !== root) {
 		yarn('--cwd', getRoot(), 'run', 'jest', path.basename(local), ...args);
 	}
