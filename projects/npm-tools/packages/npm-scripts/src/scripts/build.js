@@ -64,7 +64,7 @@ module.exports = async function (...args) {
 		autoDelete: false,
 	});
 
-	const {build: BUILD_CONFIG, bundling} = config;
+	const {build: BUILD_CONFIG} = config;
 
 	if (!BUILD_CONFIG) {
 		throw new Error('npmscripts.config.js is missing required "build" key');
@@ -107,7 +107,7 @@ module.exports = async function (...args) {
 		webpack(...args);
 	}
 
-	if (bundling !== false) {
+	if (BUILD_CONFIG.bundler) {
 		runBundler();
 	}
 
