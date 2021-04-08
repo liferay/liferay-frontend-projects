@@ -74,8 +74,18 @@ describe('scripts/lint.js', () => {
 	});
 
 	describe('when running from the top-level "modules/"  directory', () => {
+		let INIT_CWD;
+
 		beforeEach(() => {
+			INIT_CWD = process.env.INIT_CWD;
+
+			process.env.INIT_CWD = MODULES;
+
 			process.chdir(MODULES);
+		});
+
+		afterEach(() => {
+			process.env.INIT_CWD = INIT_CWD;
 		});
 
 		it("calls ESLint's `executeOnFiles()` function", async () => {
