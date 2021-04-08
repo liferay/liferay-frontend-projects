@@ -41,6 +41,7 @@ module.exports = function () {
 	console.log('\n--- Removing all JS Toolkit dependencies from projects\n');
 	fs.readdirSync(pkgsDir)
 		.filter((prj) => fs.statSync(path.join(pkgsDir, prj)).isDirectory())
+		.filter((prj) => fs.existsSync(path.join(pkgsDir, prj, 'package.json')))
 		.forEach((prj) => {
 			modifyPackageJson(
 				path.join(pkgsDir, prj, 'package.json'),
