@@ -1,3 +1,19 @@
+## [npm-scripts/v43.0.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v43.0.0) (2021-04-08)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v42.1.0...npm-scripts/v43.0.0)
+
+### :boom: Breaking changes
+
+-   feat(npm-scripts)!: remove webpack federation support ([\#490](https://github.com/liferay/liferay-frontend-projects/pull/490))
+
+### :book: Documentation
+
+-   docs(guidelines): document some additional TS resources ([\#488](https://github.com/liferay/liferay-frontend-projects/pull/488))
+
+### :eyeglasses: Tests
+
+-   test(npm-scripts): avoid unhandled promise rejection in tests ([\#489](https://github.com/liferay/liferay-frontend-projects/pull/489))
+
 ## [npm-scripts/v42.1.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v42.1.0) (2021-04-07)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v42.0.0...npm-scripts/v42.1.0)
