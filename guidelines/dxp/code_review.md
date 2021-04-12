@@ -17,7 +17,7 @@ These are guidelines that the Frontend Infrastructure Team follows when developi
 8.  **Ensure quality by analyzing test results.** At the time of writing, even a pull with a green CI result and "no unique failures" should be carefully inspected before running `ci:forward`, and specifically, "failures in common with upstream" should be examined to make sure that the pull does not introduce _additional_ failure that happens to overlap with existing failure in the upstream. If in doubt, ask QA for help, either in the `#d-quality-assurance` Slack channel, or directly mentioning our QA on GitHub or in the team Slack channel.
 9.  **Allow edits from maintainers.** When you create your pull, please be sure check the "Allow edits and access to secrets by maintainers" box at the bottom of the pull request form. This allows other collaborators on the repo to push to the pull's corresponding branch on your fork, thus updating the pull. This can save wasteful round trips, which can be expensive due to time-zone delays.
 
-    ![Allow edits from maintainers checkbox](/images/github-allow-edits-from-maintainers.png)
+    ![Allow edits from maintainers checkbox](../images/github-allow-edits-from-maintainers.png)
 
     Note that if you create PRs with [the `gh` command-line tool](https://www.npmjs.com/package/gh) you obviously can't see or check a checkbox. In that case, you may wish to add the people who most frequently review your code as [collaborators to your repo](https://help.github.com/en/github/setting-up-and-managing-your-github-user-account/inviting-collaborators-to-a-personal-repository), as well as the team members who tend to be generally involved in code review:
 
@@ -38,7 +38,7 @@ These are guidelines that the Frontend Infrastructure Team follows when developi
     -   `is:pr is:open no:assignee`: Open PRs with no assignee.
 12. **Watch the repo so that you can be notified when new PRs arrive.** Even when you are not an explicit reviewer or assignee of a change, you can learn useful knowledge and information by being aware of what is going on in the repo. See the following section for information about filtering notifications.
 
-    ![GitHub Watch menu](/images/github-watch.png)
+    ![GitHub Watch menu](..//images/github-watch.png)
 
 ## Filtering and notifications
 

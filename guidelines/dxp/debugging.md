@@ -18,7 +18,7 @@ So, this leads us to our overall philosophy:
 
 [The loader](https://github.com/liferay/liferay-amd-loader) in [Liferay DXP](https://github.com/liferay/liferay-amd-loader) is a great example of how useful information can can "grow into a flood", but fortunately, you have full control over how much information it outputs. By default and in normal operation, it won't log anything, but if you ever need to troubleshoot a loading issue you can turn on "Explain Module Resolutions" in the DXP Control Panel, as well as set the log level ("Warn" is a reasonable starting point). To do this, visit the Control Panel &raquo; Configuration &raquo; System Settings &raquo; Infrastructure &raquo; JavaScript Loader:
 
-![JavaScript Loader settings](/images/dxp-javascript-loader-settings.png)
+![JavaScript Loader settings](../images/dxp-javascript-loader-settings.png)
 
 ## Use of `NODE_ENV=development`
 
