@@ -1,16 +1,22 @@
 # Based on: https://github.com/actions/starter-workflows/blob/master/ci/node.js.yml
 
-name: js-themes-toolkit-v8-x
+name: projects
 
 on:
     push:
         branches: [master]
-        paths:
+        paths-ignore:
+            - 'guidelines/**'
             - 'maintenance/projects/js-themes-toolkit-v8-x/**'
+            - 'maintenance/projects/js-themes-toolkit-v9-x/**'
+            - 'maintenance/projects/js-toolkit/**'
     pull_request:
         branches: [master]
-        paths:
+        paths-ignore:
+            - 'guidelines/**'
             - 'maintenance/projects/js-themes-toolkit-v8-x/**'
+            - 'maintenance/projects/js-themes-toolkit-v9-x/**'
+            - 'maintenance/projects/js-toolkit/**'
 
 env:
     CI: true
@@ -18,7 +24,7 @@ env:
     yarn-cache-path: .yarn
 
 jobs:
-    check-lockfile:
+    test:
         runs-on: ubuntu-latest
 
         strategy:
@@ -36,17 +42,16 @@ jobs:
               with:
                   path: ${{ env.yarn-cache-path }}
                   key: ${{ runner.os }}-${{ env.yarn-cache-name }}-${{ hashFiles('**/yarn.lock') }}
-            - run: yarn --cache-folder=${{ env.yarn-cache-path }}
-              working-directory: maintenance/projects/js-themes-toolkit-v8-x
-            - run: git diff --quiet -- yarn.lock
-              working-directory: maintenance/projects/js-themes-toolkit-v8-x
+            - run: yarn --cache-folder=${{ env.yarn-cache-path }} --frozen-lockfile
+            - run: yarn --cache-folder=${{ env.yarn-cache-path }} build
+            - run: yarn --cache-folder=${{ env.yarn-cache-path }} test
 
-    test:
-        runs-on: ubuntu-latest
+    test-windows:
+        runs-on: windows-latest
 
         strategy:
             matrix:
-                node-version: [10.x]
+                node-version: [12.x]
 
         steps:
             - uses: actions/checkout@v2
@@ -58,8 +63,7 @@ jobs:
               uses: actions/cache@v2
               with:
                   path: ${{ env.yarn-cache-path }}
-                  key: ${{ runner.os }}-${{ env.yarn-cache-name }}-${{ hashFiles('**/yarn.lock') }}-js-themes-toolkit-v8
-            - run: yarn --cache-folder=../../../${{ env.yarn-cache-path }} --frozen-lockfile
-              working-directory: maintenance/projects/js-themes-toolkit-v8-x
-            - run: yarn --cache-folder=../../../${{ env.yarn-cache-path }} test
-              working-directory: maintenance/projects/js-themes-toolkit-v8-x
+                  key: ${{ runner.os }}-${{ env.yarn-cache-name }}-${{ hashFiles('**/yarn.lock') }}
+            - run: yarn --cache-folder=${{ env.yarn-cache-path }} --frozen-lockfile
+            - run: yarn --cache-folder=${{ env.yarn-cache-path }} build
+            - run: yarn --cache-folder=${{ env.yarn-cache-path }} test
