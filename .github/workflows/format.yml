@@ -1,22 +1,20 @@
 # Based on: https://github.com/actions/starter-workflows/blob/master/ci/node.js.yml
 
-name: guidelines
+name: format
 
 on:
     push:
         branches: [master]
-        paths:
-            - 'guidelines/**'
     pull_request:
         branches: [master]
-        paths:
-            - 'guidelines/**'
+
 env:
+    CI: true
     yarn-cache-name: yarn-cache-3
     yarn-cache-path: .yarn
 
 jobs:
-    check-links:
+    check:
         runs-on: ubuntu-latest
 
         strategy:
@@ -35,5 +33,4 @@ jobs:
                   path: ${{ env.yarn-cache-path }}
                   key: ${{ runner.os }}-${{ env.yarn-cache-name }}-${{ hashFiles('**/yarn.lock') }}
             - run: yarn --cache-folder=${{ env.yarn-cache-path }} --frozen-lockfile
-            - run: yarn --cache-folder=${{ env.yarn-cache-path }} check:links
-              working-directory: guidelines
+            - run: yarn --cache-folder=${{ env.yarn-cache-path }} format:check
