@@ -71,6 +71,10 @@ async function runTSC() {
 }
 
 async function postProcess({compilerOptions: {outDir: baseDir}}) {
+	if (!fs.existsSync(baseDir)) {
+		return;
+	}
+
 	const paths = expandGlobs(['**/*.d.ts'], [], {baseDir});
 
 	if (!paths.length) {
