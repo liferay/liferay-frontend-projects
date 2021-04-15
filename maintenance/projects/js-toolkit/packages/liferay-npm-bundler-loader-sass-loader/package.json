@@ -17,5 +17,5 @@
 		"copyfiles": "node ../../scripts/copyfiles.js",
 		"prepublish": "yarn build"
 	},
-	"version": "2.24.2"
+	"version": "2.24.3"
 }
