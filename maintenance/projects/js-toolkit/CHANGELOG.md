@@ -1,3 +1,19 @@
+## [liferay-js-toolkit/v2.24.3](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.24.3) (2021-03-19)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.24.2...liferay-js-toolkit/v2.24.3)
+
+### :new: Features
+
+-   feat(js-toolkit)!: update to Babel 7 for JS Generator ([\#450](https://github.com/liferay/liferay-frontend-projects/pull/466))
+
+### :new: Features
+
+-   feat(eslint-config)!: adapt no-use-before-define set-up for TypeScript ([\#471](https://github.com/liferay/liferay-frontend-projects/pull/471))
+
+### :house: Chores
+
+-   chore: document and enhance link-js-toolkit tool ([\#485](https://github.com/liferay/liferay-frontend-projects/pull/485))
+
 ## [liferay-js-toolkit/v2.24.2](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.24.2) (2021-03-25)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.24.1...liferay-js-toolkit/v2.24.2)
