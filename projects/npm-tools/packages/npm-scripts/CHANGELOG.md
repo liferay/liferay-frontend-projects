@@ -1,3 +1,19 @@
+## [npm-scripts/v44.0.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v44.0.0) (2021-04-19)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v43.0.0...npm-scripts/v44.0.0)
+
+### :boom: Breaking changes
+
+-   feat(npm-scripts)!: enforce use of `@liferay/` named scope ([\#500](https://github.com/liferay/liferay-frontend-projects/pull/500))
+
+### :new: Features
+
+-   feat(npm-scripts)!: enforce use of `@liferay/` named scope ([\#500](https://github.com/liferay/liferay-frontend-projects/pull/500))
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): don't post-process TypeScript if there is no TS ([\#496](https://github.com/liferay/liferay-frontend-projects/pull/496))
+
 ## [npm-scripts/v43.0.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v43.0.0) (2021-04-08)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v42.1.0...npm-scripts/v43.0.0)
