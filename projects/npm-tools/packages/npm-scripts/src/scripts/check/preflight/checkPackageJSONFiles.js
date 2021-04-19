@@ -10,10 +10,14 @@ const getPaths = require('../../../utils/getPaths');
 
 const IGNORE_FILE = '.eslintignore';
 
+const ALLOWED_NAMED_SCOPE_EXCEPTIONS = 'allowed-named-scope-exceptions';
 const BANNED_DEPENDENCY_PATTERNS = 'blacklisted-dependency-patterns';
 
 /**
- * Runs checks against package.json files.
+ * Runs checks against package.json files; detects:
+ *
+ * - Bad package names (ie. packages without named scopes).
+ * - Banned dependencies.
  *
  * Returns a (possibly empty) array of error messages.
  */
@@ -24,36 +28,56 @@ function checkPackageJSONFiles() {
 
 	const errors = [];
 
-	if (rules[BANNED_DEPENDENCY_PATTERNS]) {
-		const blacklist = rules[BANNED_DEPENDENCY_PATTERNS].map(
-			(pattern) => {
-				return new RegExp(pattern);
-			}
-		);
+	const allowedNamedScopeExceptions = new Set(
+		rules[ALLOWED_NAMED_SCOPE_EXCEPTIONS] || []
+	);
 
-		packages.forEach((pkg) => {
-			try {
-				const {dependencies} = JSON.parse(fs.readFileSync(pkg), 'utf8');
+	const bannedDependenies = (rules[BANNED_DEPENDENCY_PATTERNS] || []).map(
+		(pattern) => {
+			return new RegExp(pattern);
+		}
+	);
 
-				const names = dependencies ? Object.keys(dependencies) : [];
+	packages.forEach((pkg) => {
+		const bad = (message) => errors.push(`${pkg}: BAD - ${message}`);
 
-				names.forEach((name) => {
-					blacklist.forEach((pattern) => {
-						if (pattern.test(name)) {
-							errors.push(
-								`${pkg}: BAD - contains blacklisted dependency: ${name}`
-							);
-						}
-					});
-				});
-			}
-			catch (error) {
-				errors.push(
-					`${pkg}: BAD - error thrown during checks: ${error}`
+		try {
+			const {dependencies, name} = JSON.parse(
+				fs.readFileSync(pkg),
+				'utf8'
+			);
+
+			// Check for bad package names.
+
+			if (
+				!name.startsWith('@liferay/') &&
+				!allowedNamedScopeExceptions.has(name)
+			) {
+				bad(
+					`package name ${name} should be under @liferay/ named scope - https://git.io/JOgy7`
 				);
 			}
-		});
-	}
+
+			// Check for banned dependencies.
+
+			const dependencyNames = dependencies
+				? Object.keys(dependencies)
+				: [];
+
+			dependencyNames.forEach((name) => {
+				bannedDependenies.forEach((pattern) => {
+					if (pattern.test(name)) {
+						bad(
+							`contains blacklisted dependency: ${name} - https://git.io/JOgyj`
+						);
+					}
+				});
+			});
+		}
+		catch (error) {
+			bad(`error thrown during checks: ${error}`);
+		}
+	});
 
 	return errors;
 }
