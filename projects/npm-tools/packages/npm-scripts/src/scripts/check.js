@@ -8,6 +8,13 @@ const preflight = require('./check/preflight');
 const format = require('./format');
 const lint = require('./lint');
 
+/**
+ * Runs:
+ *
+ * 1. "Preflight" (custom) checks.
+ * 2. Formatting (Prettier) checks.
+ * 3. Linting (ESLint) checks.
+ */
 async function check() {
 	await spawnMultiple(preflight, () => format({check: true}), lint);
 }
