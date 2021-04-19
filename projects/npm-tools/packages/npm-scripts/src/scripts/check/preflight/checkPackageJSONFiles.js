@@ -10,7 +10,7 @@ const getPaths = require('../../../utils/getPaths');
 
 const IGNORE_FILE = '.eslintignore';
 
-const BLACKLISTED_DEPENDENCY_PATTERNS = 'blacklisted-dependency-patterns';
+const BANNED_DEPENDENCY_PATTERNS = 'blacklisted-dependency-patterns';
 
 /**
  * Runs checks against package.json files.
@@ -24,8 +24,8 @@ function checkPackageJSONFiles() {
 
 	const errors = [];
 
-	if (rules[BLACKLISTED_DEPENDENCY_PATTERNS]) {
-		const blacklist = rules[BLACKLISTED_DEPENDENCY_PATTERNS].map(
+	if (rules[BANNED_DEPENDENCY_PATTERNS]) {
+		const blacklist = rules[BANNED_DEPENDENCY_PATTERNS].map(
 			(pattern) => {
 				return new RegExp(pattern);
 			}
