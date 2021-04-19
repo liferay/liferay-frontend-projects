@@ -50,6 +50,7 @@ function checkPackageJSONFiles() {
 			// Check for bad package names.
 
 			if (
+				name &&
 				!name.startsWith('@liferay/') &&
 				!allowedNamedScopeExceptions.has(name)
 			) {
