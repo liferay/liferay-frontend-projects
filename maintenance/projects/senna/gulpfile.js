@@ -6,9 +6,7 @@
 'use strict';
 
 var gulp = require('gulp');
-var connect = require('gulp-connect');
 var header = require('gulp-header');
-var jsdoc = require('gulp-jsdoc3');
 var metal = require('gulp-metal');
 var rename = require('gulp-rename');
 var stripDebug = require('gulp-strip-debug');
@@ -153,16 +151,6 @@ gulp.task('clean:debug:amd', () => {
 		.pipe(gulp.dest('build/amd/senna'));
 });
 
-gulp.task('docs', () => {
-	return gulp.src(['src/**/*.js', 'README.md']).pipe(
-		jsdoc({
-			opts: {
-				destination: 'docs',
-			},
-		})
-	);
-});
-
 gulp.task('version', () => {
 	return gulp
 		.src('build/**/*.js')
@@ -190,10 +178,4 @@ gulp.task('default', (done) => {
 		'version',
 		done
 	);
-});
-
-gulp.task('server', ['default'], () => {
-	connect.server({
-		port: 8888,
-	});
 });

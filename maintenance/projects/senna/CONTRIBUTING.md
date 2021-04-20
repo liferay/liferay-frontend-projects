@@ -27,10 +27,6 @@ bower install
 gulp
 ```
 
-```
-gulp server
-```
-
 5. Test the code:
 
 ```
