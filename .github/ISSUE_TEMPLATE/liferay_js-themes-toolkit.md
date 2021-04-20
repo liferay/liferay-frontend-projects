@@ -1,6 +1,6 @@
 ---
-name: 'liferay-js-themes-toolkit'
-about: Issues related to the liferay-js-themes-toolkit project
+name: '📦 Liferay Themes Toolkit'
+about: Issues related to the Liferay Themes Toolkit
 labels: js-themes-toolkit
 ---
 
@@ -10,6 +10,12 @@ labels: js-themes-toolkit
 -   [ ] :bug: Bug report
 -   [ ] :gift: Feature request
 -   [ ] :woman_shrugging: Other
+
+### Version (mark with `x`)
+
+-   [ ] :eight: v8.x
+-   [ ] :nine: v9.x
+-   [ ] :keycap_ten: v10.x or higher
 
 ### Description
 

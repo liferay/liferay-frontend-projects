@@ -1,7 +1,7 @@
 ---
-name: '@liferay/js-insights'
-about: Issues related to the @liferay/js-insights package
-labels: npm-tools, js-insights
+name: '⚙ @liferay/npm-scripts'
+about: Issues related to the @liferay/npm-scripts package
+labels: npm-tools, npm-scripts
 ---
 
 ### Issue type (mark with `x`)

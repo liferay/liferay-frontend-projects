@@ -1,7 +1,7 @@
 ---
-name: 'liferay-js-toolkit'
-about: Issues related to the liferay-js-toolkit project
-labels: js-toolkit
+name: '⚙ @liferay/js-publish'
+about: Issues related to the @liferay/js-publish package
+labels: npm-tools, js-publish
 ---
 
 ### Issue type (mark with `x`)

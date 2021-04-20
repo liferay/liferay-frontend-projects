@@ -1,8 +1,10 @@
 ---
-name: '@liferay/amd-loader'
+name: '📦 Liferay AMD Loader'
 about: Issues related to the @liferay/amd-loader project
 labels: amd-loader
 ---
+
+> 👀 Please check the [troubleshooting guide](https://github.com/liferay/liferay-frontend-projects/blob/master/maintenance/projects/js-toolkit/docs/How-to-troubleshoot-your-setups.md) before reporting anything. It contains important information on how to fix or diagnose errors.
 
 ### Issue type (mark with `x`)
 

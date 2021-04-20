@@ -1,7 +1,7 @@
 ---
-name: '@liferay/jest-junit-reporter'
-about: Issues related to the @liferay/jest-junit-reporter package
-labels: npm-tools, jest-junit-reporter
+name: 👮 Guidelines eslint-config
+about: Issues related to the @liferay/eslint-config project
+labels: eslint-config
 ---
 
 ### Issue type (mark with `x`)

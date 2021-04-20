@@ -1,7 +1,7 @@
 ---
-name: 📦 devDependency
-about: Issues about adding new devDependencies
-labels: dependencies
+name: 📦 Guidelines dependencies
+about: Issues about adding new development dependencies
+labels: guidelines,dependencies
 ---
 
 <!--
