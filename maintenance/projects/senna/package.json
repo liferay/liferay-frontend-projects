@@ -21,7 +21,7 @@
 		"babel-preset-metal": "^4.0.0",
 		"gulp": "^3.8.11",
 		"gulp-header": "^1.7.1",
-		"gulp-metal": "2.2.2",
+		"gulp-metal": "2.2.3",
 		"gulp-rename": "^1.2.2",
 		"gulp-strip-debug": "^1.1.0",
 		"gulp-template": "^4.0.0",
