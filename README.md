@@ -12,9 +12,9 @@ You can [file issues](https://github.com/liferay/liferay-frontend-projects/issue
 
 Every project has its own `CONTRIBUTING.md` file explaining how to contribute to the project or how to setup the local development environment but, as a general rule, before starting to work in any new feature by yourself, [file a question issue](https://github.com/liferay/liferay-frontend-projects/issues/new/choose) to discuss it and see if it fits in the backlog.
 
-For bugs, simply comment in the bug issue that you are working on a fix to avoid double work.
+For bugs, simply comment in the bug issue that you are working on a fix to avoid duplicating work.
 
-We follow some guidelines to format [commits](https://github.com/liferay/liferay-frontend-projects/blob/master/guidelines/general/commit_messages.md) and [pull requests](https://github.com/liferay/liferay-frontend-projects/blob/master/guidelines/general/pull_requests.md) so that our `CHANGELOG` files and git history are correctly maintained.
+We follow some guidelines to format [commits](https://github.com/liferay/liferay-frontend-projects/blob/master/guidelines/general/commit_messages.md) and [pull requests](https://github.com/liferay/liferay-frontend-projects/blob/master/guidelines/general/pull_requests.md) so that our `CHANGELOG` files and Git history are correctly maintained.
 
 You can also check the change logs of the project releases in the [releases page](https://github.com/liferay/liferay-frontend-projects/releases).
 
@@ -36,11 +36,11 @@ These are the documents that used to live in the [liferay-frontend-guidelines](h
     -   [label: `guidelines`, `rfc`](https://github.com/liferay/liferay-frontend-projects/issues?q=is%3Aissue+is%3Aopen+label%3Aguidelines+label%3Arfc): Proposals for changes to guidelines
     -   [label: `guidelines`, `question`](https://github.com/liferay/liferay-frontend-projects/issues?q=is%3Aissue+is%3Aopen+label%3Aguidelines+label%3Aquestion): Question about Liferay's frontend practices
 -   Pull requests
-    -   [label: `quidelines`](https://github.com/liferay/liferay-frontend-projects/pulls?q=is%3Apr+label%3Aguidelines+is%3Aopen)
+    -   [label: `guidelines`](https://github.com/liferay/liferay-frontend-projects/pulls?q=is%3Apr+label%3Aguidelines+is%3Aopen)
 
 ### Package `eslint-config`
 
-This is an ESLint [shareable config](http://eslint.org/docs/developer-guide/shareable-configs.html) that helps enforce the [Liferay Frontend Guidelines](https://github.com/liferay/liferay-frontend-guidelines).
+This is an ESLint [shareable config](http://eslint.org/docs/developer-guide/shareable-configs.html) that helps enforce the [Liferay Frontend Guidelines](guidelines).
 
 -   Project
     -   [`projects/eslint-config/`](./projects/eslint-config)
@@ -60,7 +60,7 @@ These include the toolkits to deal with themes, JavaScript projects, and the AMD
 #### Liferay Themes Toolkit
 
 -   Projects
-    -   [Themes Toolkit v10.x +](./projects/js-themes-toolkit): Develop themes for DXP versions 7.2 and above (uses Gulp 4)
+    -   [Themes Toolkit v10.x+](./projects/js-themes-toolkit): Develop themes for DXP versions 7.2 and above (uses Gulp 4)
     -   [Themes Toolkit v9.x](./maintenance/projects/js-themes-toolkit-v9-x): Develop themes for DXP versions 7.2 and 7.3 (uses Gulp 3)
     -   [Themes Toolkit v8.x](./maintenance/projects/js-themes-toolkit-v8-x): Develop themes for DXP versions 7.0 and 7.1
 -   Issues
@@ -98,7 +98,7 @@ These include the toolkits to deal with themes, JavaScript projects, and the AMD
 #### Liferay AMD Loader
 
 -   Projects
-    -   [amd-loader](./projects/amd-loader): The AMD Loader packed with Liferay DXP
+    -   [amd-loader](./projects/amd-loader): The AMD Loader included with Liferay DXP
 -   Issues
     -   [label: `amd-loader`](https://github.com/liferay/liferay-frontend-projects/issues?q=is%3Aissue+is%3Aopen+label%3Aamd-loader)
 -   Pull requests
