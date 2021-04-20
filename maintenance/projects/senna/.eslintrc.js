@@ -11,11 +11,23 @@ module.exports = {
 	},
 	rules: {
 		'@liferay/liferay/no-it-should': 'warn',
+		curly: 'warn',
+		'default-case': 'warn',
+		'no-console': 'warn',
+		'no-empty': 'warn',
+		'no-prototype-builtins': 'warn',
+		'no-return-assign': 'warn',
+		'no-undef': 'warn',
+		'no-unused-expressions': 'warn',
+		'no-unused-vars': 'warn',
+		'no-useless-escape': 'warn',
 		'notice/notice': [
 			'error',
 			{
 				templateFile: path.join(__dirname, 'copyright.js'),
 			},
 		],
+		'prefer-arrow-callback': 'off',
+		'sort-keys': 'off',
 	},
 };
