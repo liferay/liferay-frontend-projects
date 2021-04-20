@@ -62,7 +62,7 @@
 		"format:check": "cd ../../.. && yarn format:check",
 		"lint": "cd ../../.. && yarn lint",
 		"lint:fix": "cd ../../.. && yarn lint:fix",
-		"prepublish": "gulp && npm run compile"
+		"prepublishOnly": "gulp && npm run compile"
 	},
 	"version": "2.7.9"
 }
