@@ -1,7 +1,7 @@
 ---
-name: 🤔 Question
+name: 🤔 Guidelines Question
 about: Issues for asking questions about our frontend practices
-labels: question
+labels: guidelines,question
 ---
 
 <!--

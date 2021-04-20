@@ -1,7 +1,7 @@
 ---
-name: 💍 Proposal
+name: 💍 Guidelines Proposal
 about: Issues for proposing a change to our frontend practices
-labels: rfc
+labels: guidelines,rfc
 ---
 
 <!--

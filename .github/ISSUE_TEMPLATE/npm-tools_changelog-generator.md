@@ -1,7 +1,7 @@
 ---
-name: '@liferay/eslint-config'
-about: Issues related to the @liferay/eslint-config project
-labels: eslint-config
+name: '⚙ @liferay/changelog-generator'
+about: Issues related to the @liferay/changelog-generator package
+labels: npm-tools, changelog-generator
 ---
 
 ### Issue type (mark with `x`)

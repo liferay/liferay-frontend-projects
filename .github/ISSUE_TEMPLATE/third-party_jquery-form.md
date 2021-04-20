@@ -1,7 +1,7 @@
 ---
-name: '@liferay/npm-scripts'
-about: Issues related to the @liferay/npm-scripts package
-labels: npm-tools, npm-scripts
+name: '@liferay/jquery-form'
+about: Issues related to the @liferay/jquery-form project
+labels: jquery-form
 ---
 
 ### Issue type (mark with `x`)
