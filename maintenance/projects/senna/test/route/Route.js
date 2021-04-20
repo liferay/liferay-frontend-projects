@@ -74,9 +74,9 @@ describe('Route', () => {
 		});
 
 		it('should match route by function path', () => {
-			var route = new Route(((path) => {
+			var route = new Route((path) => {
 				return path === '/path';
-			}), core.nullFunction);
+			}, core.nullFunction);
 			assert.ok(route.matchesPath('/path'));
 		});
 
