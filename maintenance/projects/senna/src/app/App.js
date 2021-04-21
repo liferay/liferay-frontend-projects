@@ -346,7 +346,10 @@ class App extends EventEmitter {
 
 		// Prevents navigation if it's a hash change on the same url.
 
-		if (uri.getHash() && utils.isCurrentBrowserPath(path)) {
+		if (
+			(uri.getHash() || url.endsWith('#')) &&
+			utils.isCurrentBrowserPath(path)
+		) {
 			return false;
 		}
 		if (!this.findRoute(path)) {
