@@ -55,24 +55,9 @@ gulp test
 This will run the complete test suite on Chrome. For a full test pass, you can
 add local browsers to the root `karma.js` file and re-run the command.
 
-Additionally, you can also run the test suite via Saucelabs with the following
-npm script:
+## Releasing
 
 ```
-gulp test:saucelabs
+npx @liferay/changelog-generator --interactive
+yarn version --patch # or --minor, --preminor etc
 ```
-
-This last command is the one used by our CI integration.
-
-## Formatting
-
-TBD
-
-## JS Docs
-
-All methods should be documented, following [google's format](https://github.com/google/closure-compiler/wiki/Annotating-JavaScript-for-the-Closure-Compiler).
-
-## Branch structure
-
--   `master`: corresponds to the 2.x series of releases.
--   `3.x`: corresponds to the 3.x series of prereleases.
