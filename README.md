@@ -138,6 +138,19 @@ This is a collection of utilities to deal with building [liferay-portal](https:/
     -   [jest-junit-reporter](https://www.npmjs.com/package/@liferay/jest-junit-reporter)
     -   [js-insights](https://www.npmjs.com/package/@liferay/js-insights)
 
+## Maintenance
+
+These are projects that are not under active development but which may receive bug fixes.
+
+-   Projects
+    -   [Senna.js](./maintenance/projects/senna): Single Page Application engine.
+-   Issues
+    -   [label: `npm-tools`, `js-insights`](https://github.com/liferay/liferay-frontend-projects/issues?q=is%3Aissue+is%3Aopen+label%3Anpm-tools+label%3Asenna)
+-   Pull requests
+    -   [label: `senna`](https://github.com/liferay/liferay-frontend-projects/pulls?q=is%3Apr+is%3Aopen+label%3Asenna)
+-   npm packages
+    -   [senna](https://www.npmjs.com/package/senna)
+
 ## Third-party
 
 In addition to our own projects listed above, we sometimes have the need to apply small patches on top of third-party code.
