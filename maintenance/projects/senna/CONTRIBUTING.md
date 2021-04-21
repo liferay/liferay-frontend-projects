@@ -59,5 +59,6 @@ add local browsers to the root `karma.js` file and re-run the command.
 
 ```
 npx @liferay/changelog-generator --interactive
+git add -p
 yarn version --patch # or --minor, --preminor etc
 ```

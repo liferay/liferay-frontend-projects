@@ -70,6 +70,6 @@
 		"preversion": "yarn test",
 		"test": "gulp test"
 	},
-	"version": "2.7.9",
+	"version": "2.7.10",
 	"workspaces": []
 }

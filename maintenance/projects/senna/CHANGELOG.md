@@ -1,4 +1,27 @@
-# Change Log
+## [senna/v2.7.10](https://github.com/liferay/liferay-frontend-projects/tree/senna/v2.7.10) (2021-04-21)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/senna/v2.7.9...senna/v2.7.10)
+
+### :wrench: Bug fixes
+
+-   fix(senna): don't try to navigate to `href="#"` links ([\#508](https://github.com/liferay/liferay-frontend-projects/pull/508))
+
+### :book: Documentation
+
+-   docs(senna): remove broken badges from README ([\#510](https://github.com/liferay/liferay-frontend-projects/pull/510))
+-   docs(senna): update deprecation notice to reflect new location ([\#502](https://github.com/liferay/liferay-frontend-projects/pull/502))
+
+### :house: Chores
+
+-   chore(senna): adjust release process ([\#509](https://github.com/liferay/liferay-frontend-projects/pull/509))
+
+### :eyeglasses: Tests
+
+-   test(monorepo): update GitHub actions config to account for Senna ([\#507](https://github.com/liferay/liferay-frontend-projects/pull/507))
+
+---
+
+# Prior releases
 
 ## [Unreleased](https://github.com/liferay/senna.js/tree/HEAD)
 
