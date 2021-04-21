@@ -35,7 +35,6 @@
 		"npm": ">=3.0.0"
 	},
 	"files": [
-		"build",
 		"lib",
 		"src/**/*.js",
 		"test/**/*.js"
@@ -66,7 +65,9 @@
 		"format:check": "cd ../../.. && yarn format:check",
 		"lint": "cd ../../.. && yarn lint",
 		"lint:fix": "cd ../../.. && yarn lint:fix",
+		"postversion": "npx @liferay/js-publish",
 		"prepublishOnly": "gulp && npm run compile",
+		"preversion": "yarn test",
 		"test": "gulp test"
 	},
 	"version": "2.7.9",
