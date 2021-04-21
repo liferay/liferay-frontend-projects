@@ -1,5 +1,5 @@
 ---
-name: senna
+name: '🍃 Senna'
 about: Issues related to the senna package
 labels: senna
 ---
