@@ -36,6 +36,8 @@ Note that we've effectively grafted the other project's history into the monorep
 
 ## Examples
 
+### Example 1. A simple, single-branch project
+
 Here are the steps taken in [df7bbfe32836963c1](https://github.com/liferay/liferay-frontend-projects/commit/df7bbfe32836963c16f58f2cbe4ce702da21316f) to import the history from [liferay-npm-tools](https://github.com/liferay/liferay-npm-tools):
 
 ```sh
@@ -59,7 +61,9 @@ git log --oneline --decorate --graph --all
 git commit --amend
 ```
 
-And as an example of an import that required tag rewriting, here are the steps taken in [811c2790a5f68c0d8e617](https://github.com/liferay/liferay-frontend-projects/commit/811c2790a5f68c0d8e617823a60c37d701665f02) to import [the eslint-config-liferay repo](https://github.com/liferay/eslint-config-liferay):
+### Example 2. A project that required tag rewriting
+
+As an example of an import that required tag rewriting, here are the steps taken in [811c2790a5f68c0d8e617](https://github.com/liferay/liferay-frontend-projects/commit/811c2790a5f68c0d8e617823a60c37d701665f02) to import [the eslint-config-liferay repo](https://github.com/liferay/eslint-config-liferay):
 
 ```sh
 # 1. Fetch it.
@@ -89,7 +93,9 @@ git commit --amend
 
 For a more complicated example of tag rewriting, see [eb97ca90f0](https://github.com/liferay/liferay-frontend-projects/commit/eb97ca90f0a40aa433ce6cb89cc4d0867e0db72e), which required us to fix some bit rot (inconsistent tag names, unreachable tags, and unannotated tags) in the old [liferay-amd-loader repo](https://github.com/liferay/liferay-amd-loader).
 
-Finally, here is an example of a three-step import where we brought in two branches and a wiki. The [js-toolkit](https://github.com/liferay/liferay-js-toolkit) had two active branches:
+### Example 3. A multi-step import involving multiple branches and a wiki
+
+Here is an example of a three-step import where we brought in two branches and a wiki. The [js-toolkit](https://github.com/liferay/liferay-js-toolkit) had two active branches:
 
 -   The 3.x series, which is a ground-up rewrite and really a totally different product. This is the future of the toolkit, and was being developed on [the `3.x-WIP` branch](https://github.com/liferay/liferay-js-toolkit/tree/3.x-WIP).
 -   The 2.x series, which is still widely used, but effectively in maintenance mode. It was maintained on [the `master` branch](https://github.com/liferay/liferay-js-toolkit).
@@ -198,6 +204,83 @@ git remote remove liferay-js-toolkit-wiki
 # 7. Amend the commit (the one you're reading now) to contain this info.
 git commit --amend
 ```
+
+### Example 4. A project whose import had to be "rebased" (redone)
+
+In this example, we [prepared an import](https://github.com/liferay/liferay-frontend-projects/pull/379) but couldn't merge it due to various blocking issues. About three months later, we tried again, which meant updating the import and adding some additional changes on top. You can't technically "rebase" a merge commit (which is what a subtree history import is); you have to redo it.
+
+[d50bc5356734c273922c](https://github.com/liferay/liferay-frontend-projects/commit/d50bc5356734c273922ca42e9309a3979af98a71) shows how we were able to re-use the history we had previously imported (which included us fixing tags in various ways) from [the Senna.js repo](https://github.com/liferay/senna.js).
+
+Here are the steps from the initial import:
+
+```sh
+# 1. Fetch history.
+git remote add senna -f https://github.com/liferay/senna.js
+
+# 2. Inspect tags to decide how to rewrite.
+git tag -l
+
+# 3. Rewrite the common/easy case (reachable, annotated tags with
+#    "v" prefix).
+support/filter-tags.sh senna/master 'sed "s#^v#senna/v#"'
+
+# 4. Overwrite unannotated tags with annotated ones.
+git tag -f -a -m senna/v2.1.10 2.1.10 2.1.10
+for TAG in \
+v0.1.0 v0.2.0 v0.2.1 v0.3.0 v0.4.0 v0.4.1 v0.4.2 \
+  v1.0.0 v1.0.0-alpha v1.0.0-alpha.1 v1.0.0-alpha.2 v1.0.0-alpha.3 v1.0.0-alpha.4 v1.0.0-alpha.5 v1.0.0-alpha.6 \
+  v1.0.1 v1.0.2 v1.0.3 v1.0.4 v1.1.0 v1.1.2 v1.2.0 v1.3.0 v1.4.0 v1.5.0 v1.5.1 v1.5.2 v1.5.3 \
+  v2.0.5 v2.1.0 v2.1.1 v2.1.2 v2.1.3 v2.5.0 v2.7.4 v2.7.6 v2.7.7 v2.7.8 v2.7.9; do
+  git tag -f -a -m senna/$TAG $TAG $TAG
+done
+
+# 5. Do tag rewriting again.
+support/filter-tags.sh senna/master 'sed "s#^v#senna/v#"'
+
+# 6. Handle tag which didn't have "v" prefix.
+support/filter-tags.sh senna/master 'sed "s#^2.1.10#senna/v2.1.10#"'
+
+# 7. Grab unreachable tags (v0.3.1, v2.7.3).
+git fetch --all -t
+
+# 8. Delete tags we don't want which came back with previous
+#    command.
+git tag -d 2.1.10 3.0.0-milestone.6
+git tag -l | egrep -v 'v2.7.3|v0.3.1' | grep -e '^v' | xargs -n 1 git tag -d
+
+# 9. Overwrite unannotated v0.3.1 tag with annotated equivalent.
+git tag -f -a -m senna/v0.3.1 v0.3.1 v0.3.1
+
+# 10. Rewrite last two pending tags.
+support/filter-tags.sh v0.3.1 'sed "s#^v#senna/v#"'
+support/filter-tags.sh v2.7.3 'sed "s#^v#senna/v#"'
+
+# 11. Sanity check that everything looks good.
+git show senna/v0.3.1
+git show senna/v2.7.3
+git tag -l
+
+# 12. Do the actual subtree merge.
+git merge -s ours --no-commit --allow-unrelated-histories senna/master
+git read-tree --prefix=maintenance/projects/senna -u senna/master
+git commit -m 'chore: merge senna.js history into maintenance/projects/senna/'
+
+# 13. Inspect result.
+git log --oneline --decorate --graph --all
+
+# 14. Amend this commit message (you're reading it) to show steps.
+git commit --amend
+```
+
+And here are the steps to re-use that work by redoing the just the subtree merge:
+
+```sh
+git merge -s ours --no-commit --allow-unrelated-histories 07070d019
+git read-tree --prefix=maintenance/projects/senna -u 07070d019
+git commit -m 'chore: merge senna.js history into maintenance/projects/senna/'
+```
+
+where [`07070d0199ece9694f44`](https://github.com/liferay/liferay-frontend-projects/commit/07070d0199ece9694f442f86338913cd74dd2f4d) is the last commit in the imported Senna history. From there, we just `git commit --amend` to copy in the details from the original commit message and append the notes about the changes made to "rebase" it. After that, the other changes from the PR (after the subtree merge) were easily applied with `git cherry-pick`.
 
 ## After importing
 
