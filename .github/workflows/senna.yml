@@ -1,23 +1,15 @@
 # Based on: https://github.com/actions/starter-workflows/blob/master/ci/node.js.yml
 
-name: projects
+name: senna
 
 on:
     push:
         branches: [master]
-        paths-ignore:
-            - 'guidelines/**'
-            - 'maintenance/projects/js-themes-toolkit-v8-x/**'
-            - 'maintenance/projects/js-themes-toolkit-v9-x/**'
-            - 'maintenance/projects/js-toolkit/**'
+        paths:
             - 'maintenance/projects/senna/**'
     pull_request:
         branches: [master]
-        paths-ignore:
-            - 'guidelines/**'
-            - 'maintenance/projects/js-themes-toolkit-v8-x/**'
-            - 'maintenance/projects/js-themes-toolkit-v9-x/**'
-            - 'maintenance/projects/js-toolkit/**'
+        paths:
             - 'maintenance/projects/senna/**'
 
 env:
@@ -26,7 +18,7 @@ env:
     yarn-cache-path: .yarn
 
 jobs:
-    test:
+    check-lockfile:
         runs-on: ubuntu-latest
 
         strategy:
@@ -44,12 +36,13 @@ jobs:
               with:
                   path: ${{ env.yarn-cache-path }}
                   key: ${{ runner.os }}-${{ env.yarn-cache-name }}-${{ hashFiles('**/yarn.lock') }}
-            - run: yarn --cache-folder=${{ env.yarn-cache-path }} --frozen-lockfile
-            - run: yarn --cache-folder=${{ env.yarn-cache-path }} build
-            - run: yarn --cache-folder=${{ env.yarn-cache-path }} test
+            - run: yarn --cache-folder=${{ env.yarn-cache-path }}
+              working-directory: maintenance/projects/senna
+            - run: git diff --quiet -- yarn.lock
+              working-directory: maintenance/projects/senna
 
-    test-windows:
-        runs-on: windows-latest
+    test:
+        runs-on: ubuntu-latest
 
         strategy:
             matrix:
@@ -65,7 +58,8 @@ jobs:
               uses: actions/cache@v2
               with:
                   path: ${{ env.yarn-cache-path }}
-                  key: ${{ runner.os }}-${{ env.yarn-cache-name }}-${{ hashFiles('**/yarn.lock') }}
-            - run: yarn --cache-folder=${{ env.yarn-cache-path }} --frozen-lockfile
-            - run: yarn --cache-folder=${{ env.yarn-cache-path }} build
-            - run: yarn --cache-folder=${{ env.yarn-cache-path }} test
+                  key: ${{ runner.os }}-${{ env.yarn-cache-name }}-${{ hashFiles('**/yarn.lock') }}-senna
+            - run: yarn --cache-folder=../../../${{ env.yarn-cache-path }} --frozen-lockfile
+              working-directory: maintenance/projects/senna
+            - run: yarn --cache-folder=../../../${{ env.yarn-cache-path }} build
+              working-directory: maintenance/projects/senna
