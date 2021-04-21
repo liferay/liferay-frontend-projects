@@ -511,7 +511,7 @@ describe('App', function () {
 			location: {
 				host: 'localhost',
 				hostname: 'localhost',
-				pathname: '/path',
+				pathname: '/base/path',
 				search: '',
 			},
 		};
@@ -523,6 +523,8 @@ describe('App', function () {
 		assert.ok(this.app.canNavigate('http://localhost/base/'));
 		assert.ok(this.app.canNavigate('http://localhost/base'));
 		assert.ok(this.app.canNavigate('http://localhost/base/path'));
+		assert.ok(!this.app.canNavigate('http://localhost/base/path#'));
+		assert.ok(!this.app.canNavigate('http://localhost/base/path#foo'));
 		assert.ok(!this.app.canNavigate('http://localhost/base/path1'));
 		assert.ok(!this.app.canNavigate('http://localhost/path'));
 		assert.ok(!this.app.canNavigate('http://external/path'));
