@@ -14,6 +14,30 @@ const {default: diff} = require('jest-diff');
 describe('@liferay/eslint-config/liferay', () => {
 	const plugin = '@liferay/eslint-config/liferay';
 
+	it('formats comments with lines-around-comment', () => {
+		expect(plugin).toAutofix({
+			code: `
+				function add() {
+					const x = arguments[0];
+					const y = arguments[1];
+
+					// Actually do the math.
+					return x + y;
+				}
+			`,
+			output: `
+				function add() {
+					const x = arguments[0];
+					const y = arguments[1];
+
+					// Actually do the math.
+
+					return x + y;
+				}
+			`,
+		});
+	});
+
 	it('formats imports', () => {
 
 		// This shows how these rules work together to format imports:
@@ -160,18 +184,6 @@ expect.extend({
 		const linter =
 			linters[plugin] ||
 			(function () {
-				let rules;
-
-				if (plugin === '@liferay/eslint-config/liferay') {
-					({rules} = require('../plugins/liferay'));
-				}
-				else if (plugin === '@liferay/eslint-config/portal') {
-					({rules} = require('../plugins/portal'));
-				}
-				else {
-					throw new Error(`Unknown plugin: ${plugin}`);
-				}
-
 				const linter = new Linter();
 
 				linter.defineParser('@typescript-eslint/parser', parser);
@@ -186,10 +198,73 @@ expect.extend({
 					rules: {},
 				};
 
-				Object.entries(rules).forEach(([name, rule]) => {
+				const baseRules = linter.getRules();
+
+				const baseConfig = require('../index');
+
+				// Selectively add some rules from the base set of core ESLint
+				// rules to make the examples more realistic.
+
+				addRule('lines-around-comment');
+
+				function addRule(name) {
+					let rule;
+
+					const configs = [baseConfig];
+
+					const baseName = name.replace(/^@liferay\/\w+\//, '');
+
+					if (name.startsWith('@liferay/liferay/')) {
+						rule = require('../plugins/liferay').rules[baseName];
+					}
+					else if (name.startsWith('@liferay/portal/')) {
+						rule = require('../plugins/portal').rules[baseName];
+
+						configs.unshift(require('../react'));
+					}
+					else {
+						rule = baseRules.get(name);
+					}
+
 					linter.defineRule(name, rule);
-					config.rules[name] = 'error';
-				});
+
+					const found = configs.some(({rules}) => {
+						if (rules[name]) {
+							config.rules[name] = rules[name];
+
+							return true;
+						}
+					});
+
+					if (!found) {
+						config.rules[name] = 'error';
+					}
+				}
+
+				if (plugin === '@liferay/eslint-config/liferay') {
+					[
+						...Object.keys(require('../index').rules),
+						...Object.keys(require('../plugins/liferay').rules).map(
+							(name) => {
+								return `@liferay/liferay/${name}`;
+							}
+						),
+					].forEach(addRule);
+				}
+				else if (plugin === '@liferay/eslint-config/portal') {
+					[
+						...Object.keys(require('../index').rules),
+						...Object.keys(require('../portal').rules),
+						...Object.keys(require('../plugins/portal').rules).map(
+							(name) => {
+								return `@liferay/portal/${name}`;
+							}
+						),
+					].forEach(addRule);
+				}
+				else {
+					throw new Error(`Unknown plugin: ${plugin}`);
+				}
 
 				linters[plugin] = {
 					verifyAndFix(code) {
