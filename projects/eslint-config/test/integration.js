@@ -82,6 +82,48 @@ describe('@liferay/eslint-config/liferay', () => {
 		});
 	});
 
+	it('handles comments in between imports', () => {
+
+		// Regression test for issue reported here:
+		//
+		// https://github.com/liferay-frontend/liferay-portal/pull/992#issuecomment-827803097
+
+		expect(plugin).toAutofix({
+			code: `
+				import ClayTooltip from '@clayui/tooltip';
+				import {render, useTimeout} from '@liferay/frontend-js-react-web';
+
+				// Hack to get around frontend-js-web not being in TS
+				// @ts-ignore
+
+				import {ALIGN_POSITIONS as POSITIONS, align, delegate} from 'frontend-js-web';
+				import React, {
+					useEffect,
+					useLayoutEffect,
+					useReducer,
+					useRef,
+					useState,
+				} from 'react';
+			`,
+			output: `
+				import ClayTooltip from '@clayui/tooltip';
+				import {render, useTimeout} from '@liferay/frontend-js-react-web';
+
+				// Hack to get around frontend-js-web not being in TS
+				// @ts-ignore
+
+				import {ALIGN_POSITIONS as POSITIONS, align, delegate} from 'frontend-js-web';
+				import React, {
+					useEffect,
+					useLayoutEffect,
+					useReducer,
+					useRef,
+					useState,
+				} from 'react';
+			`,
+		});
+	});
+
 	it('formats require statements', () => {
 
 		// This shows how these rules work together to format require
