@@ -1,3 +1,11 @@
+## [js-themes-toolkit-v9-x/v9.5.5](https://github.com/liferay/liferay-frontend-projects/tree/js-themes-toolkit-v9-x/v9.5.5) (2021-04-27)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-themes-toolkit-v9-x/v9.5.4...js-themes-toolkit-v9-x/v9.5.5)
+
+### :wrench: Bug fixes
+
+-   fix(js-themes-toolkit): npm package for liferay-frontend-theme-\* needs to be updated due to InvalidReferenceException error for undefined variable reference ([\#513](https://github.com/liferay/liferay-frontend-projects/pull/514))
+
 ## [js-themes-toolkit-v9-x/v9.5.4](https://github.com/liferay/liferay-frontend-projects/tree/js-themes-toolkit-v9-x/v9.5.4) (2020-12-17)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-themes-toolkit-v9-x/v9.5.3...js-themes-toolkit-v9-x/v9.5.4)
