@@ -244,11 +244,6 @@ expect.extend({
 
 				const baseConfig = require('../index');
 
-				// Selectively add some rules from the base set of core ESLint
-				// rules to make the examples more realistic.
-
-				addRule('lines-around-comment');
-
 				function addRule(name) {
 					let rule;
 
