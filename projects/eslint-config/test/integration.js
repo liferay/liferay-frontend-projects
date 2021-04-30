@@ -95,7 +95,6 @@ describe('@liferay/eslint-config/liferay', () => {
 
 				// Hack to get around frontend-js-web not being in TS
 				// @ts-ignore
-
 				import {ALIGN_POSITIONS as POSITIONS, align, delegate} from 'frontend-js-web';
 				import React, {
 					useEffect,

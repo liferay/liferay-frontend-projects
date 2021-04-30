@@ -19,12 +19,29 @@ function getLeadingComments(node, context) {
 			break;
 		}
 
+		// To be considered preceding, must be the last (closest)
+		// comment, or immediately adjacent to the comments that follow
+		// (no blank lines in between).
+		//
+		//      // I'm not considered a leading comment.
+		//
+		//      // But I am.
+		//
+		//      something();
+
 		const precedes =
+			i === comments.length - 1 ||
 			comment.loc.end.line === successor.loc.start.line - 1 ||
 			comment.loc.end.line === successor.loc.start.line;
 
+		if (!precedes) {
+			break;
+		}
+
 		// In order to be considered "leading", comments must not be "trailing"
-		// anything else.
+		// anything else; eg.
+		//
+		//      something(); // I'm a trailing comment.
 
 		const tokenBefore = context.getTokenBefore(comment, {
 			includeComments: true,
@@ -33,7 +50,7 @@ function getLeadingComments(node, context) {
 		const trailing =
 			tokenBefore && tokenBefore.loc.end.line === comment.loc.start.line;
 
-		if (precedes && !trailing) {
+		if (!trailing) {
 			leadingComments.unshift(comment);
 
 			successor = comment;
