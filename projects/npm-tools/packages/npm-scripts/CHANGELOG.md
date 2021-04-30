@@ -1,3 +1,11 @@
+## [npm-scripts/v44.0.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v44.0.1) (2021-04-30)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v44.0.0...npm-scripts/v44.0.1)
+
+### :house: Chores
+
+-   chore(npm-scripts): update eslint-config to v24.0.1 ([\#522](https://github.com/liferay/liferay-frontend-projects/pull/522))
+
 ## [npm-scripts/v44.0.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v44.0.0) (2021-04-19)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v43.0.0...npm-scripts/v44.0.0)
