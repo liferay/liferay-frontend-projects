@@ -1,3 +1,11 @@
+## [eslint-config/v24.0.1](https://github.com/liferay/liferay-frontend-projects/tree/eslint-config/v24.0.1) (2021-04-30)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-config/v24.0.0...eslint-config/v24.0.1)
+
+### :wrench: Bug fixes
+
+-   fix(eslint-config): fix group-imports edge case ([\#517](https://github.com/liferay/liferay-frontend-projects/pull/517))
+
 ## [eslint-config/v24.0.0](https://github.com/liferay/liferay-frontend-projects/tree/eslint-config/v24.0.0) (2021-03-29)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-config/v23.0.0...eslint-config/v24.0.0)
