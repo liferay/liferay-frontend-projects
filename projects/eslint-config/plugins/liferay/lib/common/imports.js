@@ -6,30 +6,61 @@
 function getLeadingComments(node, context) {
 	const code = context.getSourceCode();
 
-	const comments = code.getCommentsBefore(node).filter((comment) => {
+	const comments = code.getCommentsBefore(node);
+
+	const leadingComments = [];
+
+	let successor = node;
+
+	for (let i = comments.length - 1; i >= 0; i--) {
+		const comment = comments[i];
+
+		if (isHeaderComment(comment)) {
+			break;
+		}
+
+		// To be considered preceding, must be the last (closest)
+		// comment, or immediately adjacent to the comments that follow
+		// (no blank lines in between).
+		//
+		//      // I'm not considered a leading comment.
+		//
+		//      // But I am.
+		//
+		//      something();
+
 		const precedes =
-			comment.loc.end.line === node.loc.start.line - 1 ||
-			comment.loc.end.line === node.loc.start.line;
+			i === comments.length - 1 ||
+			comment.loc.end.line === successor.loc.start.line - 1 ||
+			comment.loc.end.line === successor.loc.start.line;
 
-		return precedes && !isHeaderComment(comment);
-	});
+		if (!precedes) {
+			break;
+		}
 
-	// In order to be considered "leading", comments must not be
-	// "trailing" anything else.
+		// In order to be considered "leading", comments must not be "trailing"
+		// anything else; eg.
+		//
+		//      something(); // I'm a trailing comment.
 
-	if (comments.length) {
-		const {column, line} = comments[0].loc.start;
-		const prefix = code.text.slice(
-			code.getIndexFromLoc({column: 0, line}),
-			code.getIndexFromLoc({column, line})
-		);
+		const tokenBefore = context.getTokenBefore(comment, {
+			includeComments: true,
+		});
 
-		if (/^\s*$/.test(prefix)) {
-			return comments;
+		const trailing =
+			tokenBefore && tokenBefore.loc.end.line === comment.loc.start.line;
+
+		if (!trailing) {
+			leadingComments.unshift(comment);
+
+			successor = comment;
+		}
+		else {
+			break;
 		}
 	}
 
-	return [];
+	return leadingComments;
 }
 
 /**
