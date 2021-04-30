@@ -22,6 +22,7 @@ These are guidelines that the Frontend Infrastructure Team follows when developi
     Note that if you create PRs with [the `gh` command-line tool](https://www.npmjs.com/package/gh) you obviously can't see or check a checkbox. In that case, you may wish to add the people who most frequently review your code as [collaborators to your repo](https://help.github.com/en/github/setting-up-and-managing-your-github-user-account/inviting-collaborators-to-a-personal-repository), as well as the team members who tend to be generally involved in code review:
 
     -   [bryceosterhaus](https://github.com/bryceosterhaus)
+    -   [javierdearcos](https://github.com/javierdearcos)
     -   [markocikos](https://github.com/markocikos)
     -   [matuzalemsteles](https://github.com/matuzalemsteles)
 
