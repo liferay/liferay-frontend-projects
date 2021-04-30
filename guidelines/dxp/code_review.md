@@ -22,10 +22,8 @@ These are guidelines that the Frontend Infrastructure Team follows when developi
     Note that if you create PRs with [the `gh` command-line tool](https://www.npmjs.com/package/gh) you obviously can't see or check a checkbox. In that case, you may wish to add the people who most frequently review your code as [collaborators to your repo](https://help.github.com/en/github/setting-up-and-managing-your-github-user-account/inviting-collaborators-to-a-personal-repository), as well as the team members who tend to be generally involved in code review:
 
     -   [bryceosterhaus](https://github.com/bryceosterhaus)
-    -   [jbalsas](https://github.com/jbalsas)
-    -   [jonmak08](https://github.com/jonmak08)
     -   [markocikos](https://github.com/markocikos)
-    -   [wincent](https://github.com/wincent)
+    -   [matuzalemsteles](https://github.com/matuzalemsteles)
 
 10. **For traceability, prefer updating existing pulls rather than creating new ones.** GitHub's UI isn't great for following conversation threads in long-lived pulls, but keeping the conversation in one place _does_ make it less likely that important information will be overlooked. Adding additional commits to an existing pull is a good way to show incremental change in response to a review. Force pushing makes it harder to see what changed, but may be necessary if you must rebase. Likewise, you may squash commits if necessary to avoid confusing history and intermediate broken states from entering the upstream repo. Finally, if the conversation gets too messy, you can declare bankruptcy and create a new PR (always remember to link back to the prior one so that the history can be traced), or split conversation off [into an issue](https://github.com/liferay-frontend/liferay-portal/issues) (we have issues enabled on the repo for exactly this purpose).
 11. **Use custom searches to focus on relevant pulls.** See [the GitHub docs](https://help.github.com/en/github/searching-for-information-on-github/searching-issues-and-pull-requests) for help on creating bookmarks that show you pulls that are of most interest to you. Examples may include the following, but there are many other possibilities:
