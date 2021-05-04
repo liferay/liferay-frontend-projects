@@ -3,13 +3,12 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import fs from 'fs';
 import childProcess from 'child_process';
+import fs from 'fs';
 import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
 import {
 	error,
 	print,
-	question,
 	success,
 	warn,
 } from 'liferay-npm-build-tools-common/lib/format';
@@ -77,6 +76,7 @@ export default function () {
 
 	if (process.argv[2] === 'eject') {
 		eject();
+
 		return;
 	}
 
@@ -86,6 +86,7 @@ export default function () {
 function eject() {
 	if (cfg.isStartEjected()) {
 		print(msg.alreadyEjected);
+
 		return;
 	}
 
