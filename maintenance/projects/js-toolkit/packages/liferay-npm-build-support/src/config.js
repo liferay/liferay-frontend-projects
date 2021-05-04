@@ -21,6 +21,10 @@ function loadConfig() {
 
 	// Normalize configurations
 
+	normalize(npmbuildrc, 'start', {
+		ejected: false,
+		dir: project.dir.join('.webpack').asPosix,
+	});
 	normalize(npmbuildrc, 'supportedLocales', []);
 	normalize(npmbuildrc, 'webpack.mainModule', 'index.js');
 	normalize(npmbuildrc, 'webpack.rules', []);
@@ -97,6 +101,22 @@ export function getWebpackProxy() {
  */
 export function getSupportedLocales() {
 	return npmbuildrc.supportedLocales;
+}
+
+/**
+ * Get the `npm run start` webpack's directory
+ * @return {string}
+ */
+export function getStartDir() {
+	return npmbuildrc.start.dir;
+}
+
+/**
+ * Check if `npm run start` configuration was ejected
+ * @return {boolean}
+ */
+export function isStartEjected() {
+	return npmbuildrc.start.ejected;
 }
 
 /**

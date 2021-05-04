@@ -3,25 +3,126 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import fs from 'fs';
 import childProcess from 'child_process';
+import FilePath from 'liferay-npm-build-tools-common/lib/file-path';
+import {
+	error,
+	print,
+	question,
+	success,
+	warn,
+} from 'liferay-npm-build-tools-common/lib/format';
 import project from 'liferay-npm-build-tools-common/lib/project';
 import os from 'os';
 import path from 'path';
+import readJsonSync from 'read-json-sync';
 import util from 'util';
 
 import * as cfg from '../config';
 import {Renderer} from '../util';
 
 const templatesDir = path.join(__dirname, '..', 'resources', 'start');
-const webpackDir = project.dir.join('.webpack');
+const webpackDir = new FilePath(cfg.getStartDir(), {posix: true});
 const pkgJson = project.pkgJson;
+
+const msg = {
+	alreadyEjected: [
+		'',
+		error`
+		The {npm run start} configuration has already been ejected !
+		`,
+		`
+		No modifications have been done to any project file.
+		`,
+	],
+
+	ejectFinished: [
+		success`
+		The {npm run start} configuration has been successfully ejected.
+		`,
+	],
+	ejectWarning: [
+		'',
+		warn`
+		You have decided to {eject} the {npm run start} configuration.
+		`,
+		`
+		This will regenerate it for the last time, and leave everything in the
+		{.webpack} directory so that you can manually configure and tweak it
+		later.
+
+		Also, the {.webpack} directory will be removed from {.gitignore} if it
+		exists in the project folder. If the project does not have a
+		{.gitignore} file, don't forget to modify the correct {.gitignore} file
+		yourself.
+
+		It will also note that an {eject} was performed, inside {.npmbuildrc}
+		file, remove {webpack} configuration, out of that file too, and point
+		{npm run start} to the {.webpack} folder.
+
+		After the {eject} you can change the name of the {.webpack} folder
+		(updating the {.npmbuildrc} accordingly) if desired.
+		`,
+	],
+};
 
 /**
  *
  */
 export default function () {
-	copyWebpackResources();
+	if (!cfg.isStartEjected()) {
+		copyWebpackResources();
+	}
+
+	if (process.argv[2] === 'eject') {
+		eject();
+		return;
+	}
+
 	runWebpackDevServer();
+}
+
+function eject() {
+	if (cfg.isStartEjected()) {
+		print(msg.alreadyEjected);
+		return;
+	}
+
+	print(msg.ejectWarning);
+
+	const npmbuildrcPath = project.dir.join('.npmbuildrc').asNative;
+	let npmbuildrc = {};
+
+	if (fs.existsSync(npmbuildrcPath)) {
+		npmbuildrc = readJsonSync(npmbuildrcPath);
+	}
+
+	delete npmbuildrc.webpack;
+	npmbuildrc.start = {
+		dir: '.webpack',
+		ejected: true,
+	};
+
+	fs.writeFileSync(
+		project.dir.join('.npmbuildrc').asNative,
+		JSON.stringify(npmbuildrc, null, '\t'),
+		'utf8'
+	);
+
+	const gitignorePath = project.dir.join('.gitignore').asNative;
+
+	if (fs.existsSync(gitignorePath)) {
+		const gitignore = fs
+			.readFileSync(gitignorePath, 'utf8')
+			.split('\n')
+			.filter((line) => !line.includes('.webpack/'))
+			.join('\n');
+
+		fs.writeFileSync(gitignorePath, gitignore, 'utf8');
+	}
+
+	print(msg.ejectFinished);
 }
 
 /**
