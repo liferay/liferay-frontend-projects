@@ -29,7 +29,7 @@ const msg = {
 	alreadyEjected: [
 		'',
 		error`
-		The {npm run start} configuration has already been ejected !
+		The {npm run start} configuration has already been ejected!
 		`,
 		`
 		No modifications have been done to any project file.
@@ -47,21 +47,20 @@ const msg = {
 		You have decided to {eject} the {npm run start} configuration.
 		`,
 		`
-		This will regenerate it for the last time, and leave everything in the
-		{.webpack} directory so that you can manually configure and tweak it
-		later.
+		This will regenerate your webpack config for the last time, and leave it 
+		in the {.webpack} directory so that you can manually configure and tweak 
+		it.
 
-		Also, the {.webpack} directory will be removed from {.gitignore} if it
-		exists in the project folder. If the project does not have a
-		{.gitignore} file, don't forget to modify the correct {.gitignore} file
-		yourself.
+		The {.webpack} directory will be removed from {.gitignore} if it exists 
+		in the project folder. If the project does not have a {.gitignore} file, 
+		don't forget to modify the correct {.gitignore} file yourself.
 
-		It will also note that an {eject} was performed, inside {.npmbuildrc}
-		file, remove {webpack} configuration, out of that file too, and point
-		{npm run start} to the {.webpack} folder.
+		The {eject} process will also write (in your {.npmbuildrc} file) that an
+		{eject} was performed, remove your {webpack} configuration, and 
+		configure {.webpack} as the work directory of the {npm run start} task.
 
-		After the {eject} you can change the name of the {.webpack} folder
-		(updating the {.npmbuildrc} accordingly) if desired.
+		After that, you can change the name of the {.webpack} folder (updating 
+		the {.npmbuildrc} accordingly) if desired.
 		`,
 	],
 };
