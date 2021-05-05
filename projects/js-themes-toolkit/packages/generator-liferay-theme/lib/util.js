@@ -130,6 +130,18 @@ function sayHello(generator) {
 			> npm install -g generator-liferay-theme@^8.0.0 ↩
 			> yo ${generatorNamespace} ↩
 
+		`,
+		info`
+		For detailed information regarding which version numbers of:
+
+		  · {unstyled}, {styled}, {classic} and {admin} themes 
+		  · {liferay-frontend-css-common} and {@clayui/css} npm packages
+		  · {Bootstrap} framework
+
+		are used by each release of Liferay DXP and Portal CE see the table at:
+
+		https://github.com/liferay/clay/wiki/Liferay-Portal-@clayui-css-Versions
+
 		`
 	);
 }

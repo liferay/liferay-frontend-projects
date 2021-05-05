@@ -156,6 +156,18 @@ function sayHello(generator) {
 
 		https://github.com/liferay/liferay-frontend-projects/tree/master/projects/js-themes-toolkit#compatibility
 
+		`,
+		info`
+		For detailed information regarding which version numbers of:
+
+		  · {unstyled}, {styled}, {classic} and {admin} themes 
+		  · {liferay-frontend-css-common} and {@clayui/css} npm packages
+		  · {Bootstrap} framework
+
+		are used by each release of Liferay DXP and Portal CE see the table at:
+
+		https://github.com/liferay/clay/wiki/Liferay-Portal-@clayui-css-Versions
+
 		`
 	);
 }
