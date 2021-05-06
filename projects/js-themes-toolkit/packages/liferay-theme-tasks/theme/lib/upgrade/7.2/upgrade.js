@@ -5,13 +5,13 @@
 
 'use strict';
 
-const spawn = require('cross-spawn');
-const replace = require('gulp-replace-task');
-
-const project = require('../../../../lib/project');
+const {upgradeDependencies, upgradeConfig} = require('../common');
 const devDependencies = require('../../../../lib/devDependencies')['theme'][
-	'7.3'
+	'7.3.'
 ];
+const project = require('../../../../lib/project');
+
+const TARGET_VERSION = '7.3';
 
 module.exports = function () {
 	const {gulp} = project;
@@ -20,8 +20,6 @@ module.exports = function () {
 	const pkgJson = project.pkgJson;
 
 	gulp.task('upgrade:dependencies', (cb) => {
-		project.setDependencies(devDependencies.default, true);
-
 		if (pkgJson.devDependencies['liferay-font-awesome']) {
 			project.setDependencies(
 				{
@@ -31,47 +29,11 @@ module.exports = function () {
 				true
 			);
 		}
-		const npmInstall = spawn('npm', ['install']);
 
-		npmInstall.stderr.pipe(process.stderr);
-		npmInstall.stdout.pipe(process.stdout);
-
-		npmInstall.on('close', cb);
+		upgradeDependencies(TARGET_VERSION, cb);
 	});
 
-	gulp.task('upgrade:config', () => {
-		project.themeConfig.setConfig({
-			version: '7.3',
-		});
-
-		return gulp
-			.src(
-				'src/WEB-INF/+(liferay-plugin-package.properties|liferay-look-and-feel.xml)'
-			)
-			.pipe(
-				replace({
-					patterns: [
-						{
-							match: /(DTD Look and Feel )\d(?:\.\d+)+(\/\/EN)/g,
-							replacement: '$17.3.0$2',
-						},
-						{
-							match: /(liferay-look-and-feel_)\d(?:_\d+)+(\.dtd)/g,
-							replacement: '$17_3_0$2',
-						},
-						{
-							match: /(<version>).+(<\/version>)/g,
-							replacement: '$17.3.0+$2',
-						},
-						{
-							match: /(liferay-versions=)\d(?:\.\d+)+\+?/g,
-							replacement: '$17.3.0+',
-						},
-					],
-				})
-			)
-			.pipe(gulp.dest('src/WEB-INF'));
-	});
+	gulp.task('upgrade:config', () => upgradeConfig(TARGET_VERSION));
 
 	return function (cb) {
 		const taskArray = ['upgrade:config', 'upgrade:dependencies'];

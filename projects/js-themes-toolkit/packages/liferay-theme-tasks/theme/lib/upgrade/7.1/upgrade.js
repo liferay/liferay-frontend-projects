@@ -5,15 +5,16 @@
 
 'use strict';
 
-const spawn = require('cross-spawn');
 const insert = require('gulp-insert');
-const replace = require('gulp-replace-task');
 const inquirer = require('inquirer');
 
-const project = require('../../../../lib/project');
 const devDependencies = require('../../../../lib/devDependencies')['theme'][
 	'7.2'
 ];
+const project = require('../../../../lib/project');
+const {upgradeDependencies, upgradeConfig} = require('../common');
+
+const TARGET_VERSION = '7.2';
 
 module.exports = function () {
 	const options = {...project.options};
@@ -22,7 +23,6 @@ module.exports = function () {
 
 	gulp.task('upgrade:dependencies', (cb) => {
 		project.removeDependencies(['liferay-theme-deps-7.1']);
-		project.setDependencies(devDependencies.default, true);
 
 		if (options.includeFontAwesome) {
 			project.setDependencies(
@@ -37,47 +37,15 @@ module.exports = function () {
 			project.removeDependencies(['liferay-font-awesome']);
 		}
 
-		const npmInstall = spawn('npm', ['install']);
-
-		npmInstall.stderr.pipe(process.stderr);
-		npmInstall.stdout.pipe(process.stdout);
-
-		npmInstall.on('close', cb);
+		upgradeDependencies(TARGET_VERSION, cb);
 	});
 
 	gulp.task('upgrade:config', () => {
 		themeConfig.setConfig({
 			fontAwesome: options.includeFontAwesome,
-			version: '7.2',
 		});
 
-		return gulp
-			.src(
-				'src/WEB-INF/+(liferay-plugin-package.properties|liferay-look-and-feel.xml)'
-			)
-			.pipe(
-				replace({
-					patterns: [
-						{
-							match: /(DTD Look and Feel )\d(?:\.\d+)+(\/\/EN)/g,
-							replacement: '$17.2.0$2',
-						},
-						{
-							match: /(liferay-look-and-feel_)\d(?:_\d+)+(\.dtd)/g,
-							replacement: '$17_2_0$2',
-						},
-						{
-							match: /(<version>).+(<\/version>)/g,
-							replacement: '$17.2.0+$2',
-						},
-						{
-							match: /(liferay-versions=)\d(?:\.\d+)+\+?/g,
-							replacement: '$17.2.0+',
-						},
-					],
-				})
-			)
-			.pipe(gulp.dest('src/WEB-INF'));
+		return upgradeConfig(TARGET_VERSION);
 	});
 
 	gulp.task('upgrade:fontAwesome', () => {
