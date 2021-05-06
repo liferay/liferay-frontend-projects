@@ -84,7 +84,7 @@ module.exports = function () {
 			throw new PluginError(
 				'gulp-theme-upgrader',
 				colors.red(
-					'Version specific upgrade task must return function.'
+					'No upgrade process from version ' + version + ' available'
 				)
 			);
 		}
