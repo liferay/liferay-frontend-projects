@@ -38,6 +38,12 @@ module.exports = {
 				'liferay-theme-tasks': themeTasksVersion,
 			},
 		},
+		7.4: {
+			default: {
+				gulp: gulpVersion,
+				'liferay-theme-tasks': themeTasksVersion,
+			},
+		},
 	},
 	theme: {
 		7.2: {
@@ -66,6 +72,23 @@ module.exports = {
 				'liferay-font-awesome': strict('3.4.0'),
 			},
 		},
+		7.4: {
+			default: {
+				'compass-mixins': strict('0.12.10'),
+				gulp: gulpVersion,
+				'liferay-frontend-css-common': strict('6.0.0'),
+				'liferay-frontend-theme-styled': strict('6.0.2'),
+				'liferay-frontend-theme-unstyled': strict('6.0.2'),
+				'liferay-theme-tasks': themeTasksVersion,
+			},
+			optional: {
+				'liferay-font-awesome': strict('3.4.0'),
+			},
+		},
+
+		// See https://github.com/liferay/clay/wiki/Liferay-Portal-@clayui-css-Versions
+		// to find out correct version numbers
+
 	},
 };
 /* eslint-enable quote-props */
