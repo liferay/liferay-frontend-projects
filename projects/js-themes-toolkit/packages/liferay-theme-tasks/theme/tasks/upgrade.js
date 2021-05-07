@@ -6,17 +6,19 @@
 'use strict';
 
 const colors = require('ansi-colors');
+const spawn = require('cross-spawn');
 const log = require('fancy-log');
 const fs = require('fs-extra');
+const replace = require('gulp-replace-task');
 const inquirer = require('inquirer');
-const _ = require('lodash');
 const path = require('path');
 const PluginError = require('plugin-error');
 
+const {theme: themeDevDependencies} = require('../../lib/devDependencies');
 const project = require('../../lib/project');
 
 module.exports = function () {
-	const {gulp} = project;
+	const {gulp, pkgJson} = project;
 	const {argv} = project.options;
 
 	const themeConfig = project.themeConfig.config;
@@ -40,47 +42,15 @@ module.exports = function () {
 		'upgrade.js'
 	);
 
-	let versionUpgradeTask;
+	let versionUpgrade;
 
 	if (fs.existsSync(modulePath)) {
 		// eslint-disable-next-line @liferay/liferay/no-dynamic-require
-		versionUpgradeTask = require(modulePath)();
+		versionUpgrade = require(modulePath)();
 	}
 
 	gulp.task('upgrade', (cb) => {
-		if (_.isFunction(versionUpgradeTask)) {
-			inquirer.prompt(
-				[
-					{
-						default: false,
-						message:
-							'We recommend creating a backup of your theme files before proceeding. ' +
-							'Are you sure you wish to start the upgrade process?',
-						name: 'sure',
-						type: 'confirm',
-					},
-				],
-				(answers) => {
-					if (answers.sure) {
-						versionUpgradeTask((err) => {
-							if (err) {
-								log(
-									colors.red('Error:'),
-									'something went wrong during the upgrade task - ' +
-										'leaving the theme files in place for inspection.'
-								);
-								log(err);
-							}
-							cb();
-						});
-					}
-					else {
-						cb();
-					}
-				}
-			);
-		}
-		else {
+		if (!versionUpgrade) {
 			throw new PluginError(
 				'gulp-theme-upgrader',
 				colors.red(
@@ -88,5 +58,119 @@ module.exports = function () {
 				)
 			);
 		}
+
+		inquirer.prompt(
+			[
+				{
+					default: false,
+					message:
+						'We recommend creating a backup of your theme files before proceeding. ' +
+						'Are you sure you wish to start the upgrade process?',
+					name: 'sure',
+					type: 'confirm',
+				},
+			],
+			(answers) => {
+				if (answers.sure) {
+					doVersionUpgrade(gulp, versionUpgrade, cb);
+				}
+				else {
+					cb();
+				}
+			}
+		);
+	});
+
+	gulp.task('upgrade:config', () => {
+		const {targetVersion} = versionUpgrade;
+		const dotTargetVersion = targetVersion + '.0';
+		const underscoreTargetVersion = dotTargetVersion.replace(/\./g, '_');
+
+		project.themeConfig.setConfig({
+			version: targetVersion,
+		});
+
+		return gulp
+			.src(
+				'src/WEB-INF/+(liferay-plugin-package.properties|liferay-look-and-feel.xml)'
+			)
+			.pipe(
+				replace({
+					patterns: [
+						{
+							match: /(DTD Look and Feel )\d(?:\.\d+)+(\/\/EN)/g,
+							replacement: '$1' + dotTargetVersion + '$2',
+						},
+						{
+							match: /(liferay-look-and-feel_)\d(?:_\d+)+(\.dtd)/g,
+							replacement: '$1' + underscoreTargetVersion + '$2',
+						},
+						{
+							match: /(<version>).+(<\/version>)/g,
+							replacement: '$1' + dotTargetVersion + '+$2',
+						},
+						{
+							match: /(liferay-versions=)\d(?:\.\d+)+\+?/g,
+							replacement: '$1' + dotTargetVersion + '+',
+						},
+					],
+				})
+			)
+			.pipe(gulp.dest('src/WEB-INF'));
+	});
+
+	gulp.task('upgrade:dependencies', (cb) => {
+		const devDependencies =
+			themeDevDependencies[versionUpgrade.targetVersion];
+
+		project.setDependencies(devDependencies.default, true);
+
+		Object.entries(devDependencies.optional).forEach(
+			([packageName, version]) => {
+				if (pkgJson.devDependencies[packageName]) {
+					const modification = {};
+
+					modification[packageName] = version;
+
+					project.setDependencies(modification, true);
+				}
+			}
+		);
+
+		const npmInstall = spawn('npm', ['install']);
+
+		npmInstall.stderr.pipe(process.stderr);
+		npmInstall.stdout.pipe(process.stdout);
+
+		npmInstall.on('close', cb);
 	});
 };
+
+function doVersionUpgrade(gulp, versionUpgrade, cb) {
+	const taskArray = [];
+
+	if (versionUpgrade.promptTask) {
+		taskArray.push(versionUpgrade.promptTask);
+	}
+
+	taskArray.push('upgrade:config', 'upgrade:dependencies');
+
+	if (versionUpgrade.customTasks) {
+		taskArray.push(...versionUpgrade.customTasks);
+	}
+
+	taskArray.push((err) => {
+		if (err) {
+			log(
+				colors.red('Error:'),
+				'something went wrong during the upgrade task - ' +
+					'leaving the theme files in place for inspection.'
+			);
+			log(err);
+		}
+
+		cb();
+	});
+
+	gulp.runSequence(...taskArray);
+}

@@ -8,23 +8,33 @@
 const insert = require('gulp-insert');
 const inquirer = require('inquirer');
 
-const devDependencies = require('../../../../lib/devDependencies')['theme'][
-	'7.2'
-];
+const {
+	theme: themeDevDependencies,
+} = require('../../../../lib/devDependencies');
 const project = require('../../../../lib/project');
-const {upgradeDependencies, upgradeConfig} = require('../common');
-
-const TARGET_VERSION = '7.2';
 
 module.exports = function () {
-	const options = {...project.options};
 	const {gulp, themeConfig} = project;
-	const {runSequence} = gulp;
+	const devDependencies = themeDevDependencies['7.2'];
 
-	gulp.task('upgrade:dependencies', (cb) => {
+	let includeFontAwesome;
+
+	gulp.task('upgrade:config:liferay-font-awesome', (cb) => {
+		themeConfig.setConfig({
+			fontAwesome: includeFontAwesome,
+		});
+
+		cb();
+	});
+
+	gulp.task('upgrade:dependencies:liferay-theme-deps-7.1', (cb) => {
 		project.removeDependencies(['liferay-theme-deps-7.1']);
 
-		if (options.includeFontAwesome) {
+		cb();
+	});
+
+	gulp.task('upgrade:dependencies:liferay-font-awesome', (cb) => {
+		if (includeFontAwesome) {
 			project.setDependencies(
 				{
 					'liferay-font-awesome':
@@ -37,30 +47,26 @@ module.exports = function () {
 			project.removeDependencies(['liferay-font-awesome']);
 		}
 
-		upgradeDependencies(TARGET_VERSION, cb);
+		cb();
 	});
 
-	gulp.task('upgrade:config', () => {
-		themeConfig.setConfig({
-			fontAwesome: options.includeFontAwesome,
-		});
-
-		return upgradeConfig(TARGET_VERSION);
-	});
-
-	gulp.task('upgrade:fontAwesome', () => {
-		return gulp
-			.src('src/css/_custom.scss')
-			.pipe(
-				insert.prepend(
-					"@import 'liferay-font-awesome/scss/font-awesome';\n" +
-						"@import 'liferay-font-awesome/scss/glyphicons';\n\n"
+	gulp.task('upgrade:css:liferay-font-awesome', (cb) => {
+		if (includeFontAwesome) {
+			return gulp
+				.src('src/css/_custom.scss')
+				.pipe(
+					insert.prepend(
+						"@import 'liferay-font-awesome/scss/font-awesome';\n" +
+							"@import 'liferay-font-awesome/scss/glyphicons';\n\n"
+					)
 				)
-			)
-			.pipe(gulp.dest('src/css/'));
+				.pipe(gulp.dest('src/css/'));
+		}
+
+		cb();
 	});
 
-	return function (cb) {
+	gulp.task('upgrade:prompt', (cb) => {
 		inquirer.prompt(
 			[
 				{
@@ -72,18 +78,21 @@ module.exports = function () {
 				},
 			],
 			(answers) => {
-				const taskArray = ['upgrade:config', 'upgrade:dependencies'];
+				includeFontAwesome = answers.includeFontAwesome;
 
-				if (answers.includeFontAwesome) {
-					taskArray.push('upgrade:fontAwesome');
-				}
-
-				taskArray.push(cb);
-
-				Object.assign(options, answers);
-
-				runSequence(...taskArray);
+				cb();
 			}
 		);
+	});
+
+	return {
+		customTasks: [
+			'upgrade:config:liferay-font-awesome',
+			'upgrade:dependencies:liferay-theme-deps-7.1',
+			'upgrade:dependencies:liferay-font-awesome',
+			'upgrade:css:liferay-font-awesome',
+		],
+		promptTask: 'upgrade:prompt',
+		targetVersion: '7.2',
 	};
 };
