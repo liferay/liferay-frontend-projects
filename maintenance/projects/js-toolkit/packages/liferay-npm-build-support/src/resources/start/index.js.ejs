@@ -1,3 +1,16 @@
+window.Liferay = {
+	Language: {
+		get: function(key) {
+			return key;
+		}
+	},
+	ThemeDisplay: {
+		getPathContext: function() {
+			return '';
+		}
+	}
+};
+
 var main = require('<%= mainModule %>');
 
 var params = {
@@ -7,14 +20,6 @@ var params = {
 	configuration: {
 		portletPreferences: {},
 		system: {}
-	}
-};
-
-window.Liferay = {
-	Language: {
-		get: function(key) {
-			return key;
-		}
 	}
 };
 
