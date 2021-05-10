@@ -95,7 +95,7 @@ class Project {
 	modifyPkgJson(modifier) {
 		this._pkgJson = modifier(this._pkgJson);
 
-		fs.writeJSONSync(this._pkgJsonPath, this._pkgJson, {spaces: 2});
+		fs.writeJSONSync(this._pkgJsonPath, this._pkgJson, {spaces: '\t'});
 	}
 
 	removeDependencies(dependencies) {

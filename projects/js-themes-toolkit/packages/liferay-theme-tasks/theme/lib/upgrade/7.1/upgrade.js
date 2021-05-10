@@ -5,26 +5,36 @@
 
 'use strict';
 
-const spawn = require('cross-spawn');
 const insert = require('gulp-insert');
-const replace = require('gulp-replace-task');
 const inquirer = require('inquirer');
 
+const {
+	theme: themeDevDependencies,
+} = require('../../../../lib/devDependencies');
 const project = require('../../../../lib/project');
-const devDependencies = require('../../../../lib/devDependencies')['theme'][
-	'7.2'
-];
 
 module.exports = function () {
-	const options = {...project.options};
 	const {gulp, themeConfig} = project;
-	const {runSequence} = gulp;
+	const devDependencies = themeDevDependencies['7.2'];
 
-	gulp.task('upgrade:dependencies', (cb) => {
+	let includeFontAwesome;
+
+	gulp.task('upgrade:config:liferay-font-awesome', (cb) => {
+		themeConfig.setConfig({
+			fontAwesome: includeFontAwesome,
+		});
+
+		cb();
+	});
+
+	gulp.task('upgrade:dependencies:liferay-theme-deps-7.1', (cb) => {
 		project.removeDependencies(['liferay-theme-deps-7.1']);
-		project.setDependencies(devDependencies.default, true);
 
-		if (options.includeFontAwesome) {
+		cb();
+	});
+
+	gulp.task('upgrade:dependencies:liferay-font-awesome', (cb) => {
+		if (includeFontAwesome) {
 			project.setDependencies(
 				{
 					'liferay-font-awesome':
@@ -37,62 +47,26 @@ module.exports = function () {
 			project.removeDependencies(['liferay-font-awesome']);
 		}
 
-		const npmInstall = spawn('npm', ['install']);
-
-		npmInstall.stderr.pipe(process.stderr);
-		npmInstall.stdout.pipe(process.stdout);
-
-		npmInstall.on('close', cb);
+		cb();
 	});
 
-	gulp.task('upgrade:config', () => {
-		themeConfig.setConfig({
-			fontAwesome: options.includeFontAwesome,
-			version: '7.2',
-		});
-
-		return gulp
-			.src(
-				'src/WEB-INF/+(liferay-plugin-package.properties|liferay-look-and-feel.xml)'
-			)
-			.pipe(
-				replace({
-					patterns: [
-						{
-							match: /(DTD Look and Feel )\d(?:\.\d+)+(\/\/EN)/g,
-							replacement: '$17.2.0$2',
-						},
-						{
-							match: /(liferay-look-and-feel_)\d(?:_\d+)+(\.dtd)/g,
-							replacement: '$17_2_0$2',
-						},
-						{
-							match: /(<version>).+(<\/version>)/g,
-							replacement: '$17.2.0+$2',
-						},
-						{
-							match: /(liferay-versions=)\d(?:\.\d+)+\+?/g,
-							replacement: '$17.2.0+',
-						},
-					],
-				})
-			)
-			.pipe(gulp.dest('src/WEB-INF'));
-	});
-
-	gulp.task('upgrade:fontAwesome', () => {
-		return gulp
-			.src('src/css/_custom.scss')
-			.pipe(
-				insert.prepend(
-					"@import 'liferay-font-awesome/scss/font-awesome';\n" +
-						"@import 'liferay-font-awesome/scss/glyphicons';\n\n"
+	gulp.task('upgrade:css:liferay-font-awesome', (cb) => {
+		if (includeFontAwesome) {
+			return gulp
+				.src('src/css/_custom.scss')
+				.pipe(
+					insert.prepend(
+						"@import 'liferay-font-awesome/scss/font-awesome';\n" +
+							"@import 'liferay-font-awesome/scss/glyphicons';\n\n"
+					)
 				)
-			)
-			.pipe(gulp.dest('src/css/'));
+				.pipe(gulp.dest('src/css/'));
+		}
+
+		cb();
 	});
 
-	return function (cb) {
+	gulp.task('upgrade:prompt', (cb) => {
 		inquirer.prompt(
 			[
 				{
@@ -104,18 +78,21 @@ module.exports = function () {
 				},
 			],
 			(answers) => {
-				const taskArray = ['upgrade:config', 'upgrade:dependencies'];
+				includeFontAwesome = answers.includeFontAwesome;
 
-				if (answers.includeFontAwesome) {
-					taskArray.push('upgrade:fontAwesome');
-				}
-
-				taskArray.push(cb);
-
-				Object.assign(options, answers);
-
-				runSequence(...taskArray);
+				cb();
 			}
 		);
+	});
+
+	return {
+		customTasks: [
+			'upgrade:config:liferay-font-awesome',
+			'upgrade:dependencies:liferay-theme-deps-7.1',
+			'upgrade:dependencies:liferay-font-awesome',
+			'upgrade:css:liferay-font-awesome',
+		],
+		promptTask: 'upgrade:prompt',
+		targetVersion: '7.2',
 	};
 };
