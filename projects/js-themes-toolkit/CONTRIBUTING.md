@@ -32,6 +32,8 @@ The normal way to use the Themes Toolkit in your projects is by letting `npm` do
 
 However, for that to happen, a version must be released and there are times when you simply want to test what you have modified locally in a clone of this repo. In that case, the setup is a bit more difficult because you need to tell `yarn` to use the local versions of the Themes Toolkit packages. Fortunately we can use `yarn link` for that.
 
+Note that, for the following procedure to work, you must have run `yarn`, at the root level of this repo's clone, at least once. That is so that the links for `generator-liferay-theme` and `liferay-theme-tasks` are created inside the repo's `node_modules` folder. Otherwise, the generator may find an incorrect version of `liferay-theme-tasks` or fail.
+
 The procedure to setup a Yarn workspace that uses your local copy of the Themes Toolkit is as follows:
 
 1. Create a directory (eg.: `themes-workspace`) and run `yarn init -y` to create a `package.json` file in it.
