@@ -19,8 +19,8 @@ Most of the SCSS files must have the `_` underscore character, the only exceptio
         -   \_blog.scss
     -   main.scss
         ```scss
-        @import blog/_blog.scss;
-        @import text-editor/text_editor.scss;
+        @import 'blog/_blog.scss';
+        @import 'text-editor/text_editor.scss';
         ```
 
 **CSS Output**
@@ -61,8 +61,8 @@ But, If you don't need the second generated CSS, please use the `_` underscore c
         -   \_blog.scss
         -   main.scss
             ```scss
-            @import blog/_blog.scss;
-            @import text-editor/_text_editor.scss;
+            @import 'blog/_blog.scss';
+            @import 'text-editor/_text_editor.scss';
             ```
 
 **CSS Output**
