@@ -31,6 +31,12 @@ On the other hand, you are not running the application in a Liferay instance, so
 
 If you need to access Liferay APIs and still want to use the `start` script, you will have to wrap your access to Liferay resources into some piece of code that can mimick them when running from `start`, and pass on the calls when running inside Liferay. This can be complex to setup, but in the long term it will have more benefits, as it will allow you to test your projects more easily and will decouple your code from the runtime platform.
 
+> 👀 Since version `2.25.0` of `liferay-npm-build-support` there's the possibility to `eject` (in a similar way as [create-react-app does](https://create-react-app.dev/docs/available-scripts/#npm-run-eject)]) the `start` task configuration, so that you are able to tweak it according to your needs.
+
+The `eject` task can be performed by running `npm run start eject` and it will regenerate the webpack configuration for the last time before it is disconnected from the JS Toolkit. You will then be able to rename the `.webpack` folder contanining the webpack configuration for `npm run start`, tweak its contents, etc., since `npm run start` won't overwrite them again.
+
+One more thing: if you rename the `.webpack` directory, remember to update the `.npmbuildrc` too so that `npm run start` knows where to find it.
+
 ## translate
 
 This script lets you translate localization labels with the aid of [Microsoft Translator Text API](https://azure.microsoft.com/en-us/services/cognitive-services/translator-text-api/).
