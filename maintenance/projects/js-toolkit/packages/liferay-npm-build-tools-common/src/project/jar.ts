@@ -125,12 +125,19 @@ export default class Jar {
 		const {npmbundlerrc, pkgJson} = this._project;
 
 		if (this._outputFilename === undefined) {
+			let defaultValue;
+
+			if (this.supported) {
+				defaultValue =
+					pkgJson['name'] + '-' + pkgJson['version'] + '.jar';
+
+				defaultValue = defaultValue.replace(/\//g, '_');
+			}
+
 			this._outputFilename = prop.get(
 				npmbundlerrc,
 				'create-jar.output-filename',
-				this.supported
-					? pkgJson['name'] + '-' + pkgJson['version'] + '.jar'
-					: undefined
+				defaultValue
 			);
 		}
 
