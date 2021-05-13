@@ -18,7 +18,6 @@ module.exports = {
 	testURL: 'http://localhost',
 	transform: {
 		/* eslint-disable sort-keys */
-		'\\.css$': path.join(__dirname, '..', 'jest', 'transformStyles.js'),
 		'\\.scss$': path.join(__dirname, '..', 'jest', 'transformSass.js'),
 		'\\.soy$': path.join(__dirname, '..', 'jest', 'transformSoy.js'),
 		'.+': path.join(__dirname, '..', 'jest', 'transformBabel.js'),
