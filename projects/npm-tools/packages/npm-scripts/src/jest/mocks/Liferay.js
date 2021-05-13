@@ -55,6 +55,17 @@ const Language = {
 };
 
 /**
+ * https://github.com/liferay/liferay-portal/blob/f8ea9617f99238f7f5b6e4824bf71ab2e64fdfdd/portal-web/docroot/html/common/themes/top_js.jspf#L168-L170
+ */
+const PropsValues = {
+	JAVASCRIPT_SINGLE_PAGE_APPLICATION_TIMEOUT: 0,
+
+	NTLM_AUTH_ENABLED: false,
+
+	UPLOAD_SERVLET_REQUEST_IMPL_MAX_SIZE: 104857600,
+};
+
+/**
  * https://github.com/liferay/liferay-portal/blob/a4866af62eb89c69ee00d0e69dbe7ff092b50048/modules/apps/frontend-js/frontend-js-web/src/main/resources/META-INF/resources/liferay/global.es.js#L101-L104
  */
 const Session = {
@@ -152,6 +163,7 @@ const Util = {
 module.exports = {
 	...events,
 	Language,
+	PropsValues,
 	Session,
 	ThemeDisplay,
 	Util,
