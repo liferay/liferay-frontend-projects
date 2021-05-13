@@ -158,6 +158,14 @@ describe('project.jar.outputFilename', () => {
 
 		expect(project.jar.outputFilename).toBe('bool-create-jar-1.0.0.jar');
 	});
+
+	it('returns a correct file name for scoped packages', () => {
+		const project = new Project(
+			path.join(__dirname, '__fixtures__', 'project', 'scoped')
+		);
+
+		expect(project.jar.outputFilename).toBe('@scoped_project-1.0.0.jar');
+	});
 });
 
 describe('project.jar.requireJsExtender', () => {
