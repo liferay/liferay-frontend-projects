@@ -30,6 +30,12 @@ module.exports = function (request, options) {
 		}
 	}
 
+	// Redirect .css files to our empty.css mock file
+
+	if (request.endsWith('.css')) {
+		return require.resolve('./mocks/empty.css');
+	}
+
 	// Fallback to default resolver
 
 	return defaultResolver(request, options);
