@@ -1,3 +1,11 @@
+## [npm-scripts/v44.0.2](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v44.0.2) (2021-05-14)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v44.0.1...npm-scripts/v44.0.2)
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): support importing css files under any node_modules directory ([\#537](https://github.com/liferay/liferay-frontend-projects/pull/537))
+
 ## [npm-scripts/v44.0.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v44.0.1) (2021-04-30)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v44.0.0...npm-scripts/v44.0.1)
