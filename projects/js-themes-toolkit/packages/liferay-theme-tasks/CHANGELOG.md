@@ -1,3 +1,11 @@
+## [liferay-theme-tasks/v10.4.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v10.4.0) (2021-05-14)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v10.3.0...liferay-theme-tasks/v10.4.0)
+
+### :new: Features
+
+-   feat(themes-toolkit): support Liferay 7.4 ([\#529](https://github.com/liferay/liferay-frontend-projects/pull/529))
+
 ## [liferay-theme-tasks/v10.3.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v10.3.0) (2021-02-22)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v10.2.0...liferay-theme-tasks/v10.3.0)
