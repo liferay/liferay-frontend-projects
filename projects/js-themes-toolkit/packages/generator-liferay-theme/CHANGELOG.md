@@ -1,3 +1,12 @@
+## [generator-liferay-theme/v10.1.0](https://github.com/liferay/liferay-frontend-projects/tree/generator-liferay-theme/v10.1.0) (2021-05-17)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/generator-liferay-theme/v10.0.2...generator-liferay-theme/v10.1.0)
+
+### :new: Features
+
+-   feat(themes-toolkit): support Liferay 7.4 ([\#529](https://github.com/liferay/liferay-frontend-projects/pull/529))
+-   feat: show documentation on what to expect about dependency version numbers ([\#527](https://github.com/liferay/liferay-frontend-projects/pull/527))
+
 ## [generator-liferay-theme/v10.0.2](https://github.com/liferay/liferay-frontend-projects/tree/generator-liferay-theme/v10.0.2) (2020-12-14)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/generator-liferay-theme/v10.0.1...generator-liferay-theme/v10.0.2)
