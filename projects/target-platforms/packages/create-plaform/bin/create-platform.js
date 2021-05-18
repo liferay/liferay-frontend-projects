@@ -217,8 +217,9 @@ fs.writeFileSync(
 const assetsDir = path.resolve(__dirname, '..', 'assets');
 
 fs.readdirSync(assetsDir).forEach((file) => {
-	fs.writeFileSync(
-		path.join(output.dir, file),
-		fs.readFileSync(path.join(assetsDir, file))
-	);
+	const sourcePath = path.join(assetsDir, file);
+	const targetPath = path.join(output.dir, file);
+
+	fs.writeFileSync(targetPath, fs.readFileSync(sourcePath));
+	fs.chmodSync(targetPath, fs.statSync(sourcePath).mode);
 });
