@@ -1,4 +1,7 @@
 {
+	"bin": {
+		"liferay-platform-scripts": "./liferay-platform-scripts.js"
+	},
 	"dependencies": {
 		"babel-preset-env": "1.7.0",
 		"babel-preset-liferay-standard": "2.24.3",
