@@ -64,6 +64,8 @@
 		"guidelines",
 		"projects/*",
 		"projects/*/packages/*",
-		"support/packages/*"
+		"support/packages/*",
+		"target-platforms",
+		"target-platforms/packages/create-platform"
 	]
 }

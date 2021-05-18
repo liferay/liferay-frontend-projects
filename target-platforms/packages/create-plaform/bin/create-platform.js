@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 /**
- * SPDX-FileCopyrightText: © 2019 Liferay, Inc. <https://liferay.com>
- * SPDX-License-Identifier: BSD-3-Clause
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: MIT
  */
 
 /* eslint-disable @liferay/liferay/no-dynamic-require */
