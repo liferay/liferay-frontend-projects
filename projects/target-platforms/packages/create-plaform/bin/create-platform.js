@@ -82,6 +82,9 @@ const output = {
 		sources: ['assets', 'src'],
 	},
 	pkgJson: {
+		bin: {
+			'liferay-platform-scripts': './liferay-platform-scripts.js',
+		},
 		dependencies: {
 			'babel-preset-env': '1.7.0',
 			'babel-preset-liferay-standard': '2.24.3',
@@ -206,3 +209,16 @@ fs.writeFileSync(
 	path.join(output.dir, 'config.json'),
 	JSON.stringify(output.configJson, null, '\t')
 );
+
+//
+// Copy static assets
+//
+
+const assetsDir = path.resolve(__dirname, '..', 'assets');
+
+fs.readdirSync(assetsDir).forEach((file) => {
+	fs.writeFileSync(
+		path.join(output.dir, file),
+		fs.readFileSync(path.join(assetsDir, file))
+	);
+});
