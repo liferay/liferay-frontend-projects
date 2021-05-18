@@ -237,10 +237,18 @@ function test(...args) {
 	const root = getRoot();
 
 	if (local !== root) {
-		yarn('--cwd', getRoot(), 'run', 'jest', path.basename(local), ...args);
+		yarn(
+			'--cwd',
+			getRoot(),
+			'run',
+			'jest',
+			'--passWithNoTests',
+			path.basename(local),
+			...args
+		);
 	}
 	else {
-		yarn('--cwd', getRoot(), 'run', 'jest', ...args);
+		yarn('--cwd', getRoot(), 'run', 'jest', '--passWithNoTests', ...args);
 	}
 }
 
