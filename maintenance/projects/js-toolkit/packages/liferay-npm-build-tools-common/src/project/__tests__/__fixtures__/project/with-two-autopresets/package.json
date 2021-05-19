@@ -1,0 +1,8 @@
+{
+	"name": "with-two-autopresets",
+	"version": "1.0.0",
+	"dependencies": {
+		"autopreset": "1.0.0",
+		"autopreset2": "1.0.0"
+	}
+}

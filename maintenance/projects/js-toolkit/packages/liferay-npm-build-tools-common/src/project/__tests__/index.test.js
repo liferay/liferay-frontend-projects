@@ -772,6 +772,43 @@ describe('honors presets', () => {
 	});
 });
 
+describe('handles autopresets', () => {
+	it('loads autopresets', () => {
+		const project = new Project(
+			path.join(__dirname, '__fixtures__', 'project', 'with-autopreset')
+		);
+
+		expect(project.buildDir.asPosix).toBe('./autopreset-build');
+	});
+
+	it('fails on multiple autopresets', () => {
+		expect(
+			() =>
+				new Project(
+					path.join(
+						__dirname,
+						'__fixtures__',
+						'project',
+						'with-two-autopresets'
+					)
+				)
+		).toThrowError(/Multiple autopreset.*autopreset.*autopreset2.*/);
+	});
+
+	it('ignores autopresets on explicitly configured preset', () => {
+		const project = new Project(
+			path.join(
+				__dirname,
+				'__fixtures__',
+				'project',
+				'with-ignored-autopreset'
+			)
+		);
+
+		expect(project.buildDir.asPosix).toBe('./preset-build');
+	});
+});
+
 describe('loads plugins as modules (as opposed to packages)', () => {
 	let project;
 
