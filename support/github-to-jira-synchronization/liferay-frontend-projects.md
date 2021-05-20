@@ -148,9 +148,12 @@ def findUser(replicaUser) {
         ,"marcoscv-work": "marcos.castro"
         ,"matuzalemsteles": "matuzalem.teles"
         ,"pat270": "patrick.yeo"
-        ,"wincent": "greg.hurrell"
         ,"kresimir-coko": "kresimir.coko"
         ,"markocikos": "marko.cikos"
+        ,"nhpatt": "javier.gamarra"
+        ,"javierdearcos": "javier.dearcos"
+        ,"LuismiBarcos": "luismiguel.barco"
+        ,"pablo-agulla": "pablo.agulla"
     ]
     def usernameMapped = usernameMapping[replicaUser.username];
     if (usernameMapped) {
