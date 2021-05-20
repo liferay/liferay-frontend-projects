@@ -150,10 +150,10 @@ def findUser(replicaUser) {
         ,"pat270": "patrick.yeo"
         ,"kresimir-coko": "kresimir.coko"
         ,"markocikos": "marko.cikos"
-		,"nhpatt": "javier.gamarra"
-		,"javierdearcos": "javier.dearcos"
-		,"LuismiBarcos": "luismiguel.barco"
-		,"pablo-agulla": "pablo.agulla"
+        ,"nhpatt": "javier.gamarra"
+        ,"javierdearcos": "javier.dearcos"
+        ,"LuismiBarcos": "luismiguel.barco"
+        ,"pablo-agulla": "pablo.agulla"
     ]
     def usernameMapped = usernameMapping[replicaUser.username];
     if (usernameMapped) {
