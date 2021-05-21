@@ -83,7 +83,7 @@ const output = {
 	},
 	pkgJson: {
 		bin: {
-			'liferay': './liferay.js',
+			liferay: './liferay.js',
 		},
 		dependencies: {
 			'babel-preset-env': '1.7.0',
