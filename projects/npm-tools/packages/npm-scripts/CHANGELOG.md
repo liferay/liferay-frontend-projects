@@ -1,3 +1,16 @@
+## [npm-scripts/v45.0.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v45.0.0) (2021-05-20)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v44.0.2...npm-scripts/v45.0.0)
+
+### :boom: Breaking changes
+
+-   feat(npm-scripts)!: remove json support from our eslint and prettier globs ([\#550](https://github.com/liferay/liferay-frontend-projects/pull/550))
+
+### :new: Features
+
+-   feat(npm-scripts)!: remove json support from our eslint and prettier globs ([\#550](https://github.com/liferay/liferay-frontend-projects/pull/550))
+-   feat(npm-scripts): update liferay-theme-tasks version ([\#540](https://github.com/liferay/liferay-frontend-projects/pull/540))
+
 ## [npm-scripts/v44.0.2](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v44.0.2) (2021-05-14)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v44.0.1...npm-scripts/v44.0.2)
