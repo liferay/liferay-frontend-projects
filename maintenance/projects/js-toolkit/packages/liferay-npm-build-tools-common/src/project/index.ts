@@ -362,6 +362,71 @@ export class Project {
 		}
 	}
 
+	_findAutopresets(): string[] {
+		const {dependencies = {}, devDependencies = {}} = this._pkgJson;
+
+		return Object.keys({
+			...dependencies,
+			...devDependencies,
+		}).reduce((autoPresets, pkgName) => {
+			try {
+				const {dependencies} = this.require(pkgName + '/package.json');
+
+				if (dependencies && dependencies['liferay-npm-bundler']) {
+					autoPresets.push(pkgName);
+				}
+			}
+			catch (err) {
+
+				// ignore
+
+			}
+
+			return autoPresets;
+		}, []);
+	}
+
+	_loadDefaultPreset(): string {
+		let presetFilePath;
+
+		const autoPresets = this._findAutopresets();
+
+		if (autoPresets.length > 1) {
+			throw new Error(
+				'Multiple autopreset dependencies found in project (' +
+					autoPresets +
+					'): please remove the invalid ones or ' +
+					'explicitly define the preset to be used in the ' +
+					'.npmbundlerrc file'
+			);
+		}
+		else if (autoPresets.length) {
+			presetFilePath = this.resolve(autoPresets[0]);
+
+			this._toolsDir = new FilePath(
+				path.dirname(this.resolve(autoPresets[0] + '/package.json'))
+			);
+		}
+		else {
+
+			// If no preset was found, use the default one
+
+			presetFilePath = require.resolve(
+				'liferay-npm-bundler-preset-standard'
+			);
+
+			this._toolsDir = new FilePath(
+				path.dirname(
+					require.resolve(
+						'liferay-npm-bundler-preset-standard/package.json'
+					)
+				)
+			);
+		}
+
+		return presetFilePath;
+	}
+
 	_loadNpmbundlerrc(): void {
 		const npmbundlerrcPath = this._configFile.asNative;
 
@@ -374,17 +439,7 @@ export class Project {
 		let presetFilePath;
 
 		if (config.preset === undefined) {
-			presetFilePath = require.resolve(
-				'liferay-npm-bundler-preset-standard'
-			);
-
-			this._toolsDir = new FilePath(
-				path.dirname(
-					require.resolve(
-						'liferay-npm-bundler-preset-standard/package.json'
-					)
-				)
-			);
+			presetFilePath = this._loadDefaultPreset();
 		}
 		else if (config.preset === '' || config.preset === false) {
 
@@ -437,7 +492,7 @@ export class Project {
 	private _configFile: FilePath;
 
 	private _npmbundlerrc: object;
-	private _pkgJson: object;
+	private _pkgJson: {dependencies: object; devDependencies: object};
 	private _pkgManager: PkgManager;
 
 	/** Absolute path to project directory */

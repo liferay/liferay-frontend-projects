@@ -1,0 +1,7 @@
+{
+	"name": "with-ignored-autopreset",
+	"version": "1.0.0",
+	"dependencies": {
+		"autopreset": "1.0.0"
+	}
+}
