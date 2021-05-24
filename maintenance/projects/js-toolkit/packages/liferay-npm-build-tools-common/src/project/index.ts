@@ -363,11 +363,11 @@ export class Project {
 	}
 
 	_findAutopresets(): string[] {
-		const {dependencies, devDependencies} = this._pkgJson;
+		const {dependencies = {}, devDependencies = {}} = this._pkgJson;
 
 		return Object.keys({
-			...(dependencies || {}),
-			...(devDependencies || {}),
+			...dependencies,
+			...devDependencies,
 		}).reduce((autoPresets, pkgName) => {
 			try {
 				const {dependencies} = this.require(pkgName + '/package.json');
