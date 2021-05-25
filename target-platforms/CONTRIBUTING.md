@@ -37,7 +37,7 @@ $ git fetch upstream --tags ↩
 $ git checkout 7.4.0-ga1 ↩
 
 # Run yarn in modules folder to update packages at node_modules
-$ cd modules && yarn ↩
+$ cd modules && gradle yarnInstall ↩
 
 # Run the create-platform script
 $ create-platform . portal-7.4-ga1 ↩
