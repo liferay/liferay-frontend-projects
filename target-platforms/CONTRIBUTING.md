@@ -51,3 +51,67 @@ them.
 > its location. Because you linked it as specified in
 > [#setting-up-the-create-platform-script] from your local clone of
 > `liferay-frontend-projects` it will create the target platform right there.
+
+## Modifying platforms
+
+Given that platform packages are based on code generation (as opposed to shared
+code through a common artifact) there are two possible scenarios when it comes
+to a platform modification:
+
+1. Cases where only a subset of specific platforms need to be modified
+2. Cases where all platforms need modification
+
+### Case 1
+
+Case 1 could be, for example: something that is only supported for 7.2 and was
+removed in 7.3+ is failing and needs a fix.
+
+In this case, the developer simply needs to fix the issue in the target platform
+for 7.2, commit, pull request, merge and release.
+
+### Case 2
+
+Case 2 arises when something is failing or needs to be implemented for all
+existing platforms.
+
+In this case the recommended way to proceed is:
+
+1. Choose a target platform that can build artifacts for your local installation
+   of `liferay-portal`. If you are using `master` and it is incompatible with
+   the latest released target platform, you may run the `create-platform` script
+   for `master`, to generate a temporary platform to work with.
+2. Do any modifications to the scripts you may need, by hand, until it works.
+3. Once everything is working, run a `git diff` to see what you have changed and
+   propagate it to the
+   [`create-plaform` assets](./packages/create-plaform/assets).
+4. Commit the changes in `create-platform` assets.
+5. Regenerate all platforms, review, and commit them.
+
+### Caveats
+
+The smart reader has probably realized that after applying a case 1 to a
+platform, every time a case 2 appears, the case 1 changes will be overwritten.
+
+For now, the only way to deal with this is by leveraging Git to review the
+changes after a platform regeneration and merging them with those of case 1 as
+needed (by hand).
+
+If, in the future, we have a need for a more intelligent way to do this we may:
+
+1. Use `git` or a similar tools to merge things automatically
+2. Extract common code to a shared artifact
+3. ...
+
+In any case, for now, it seems enough.
+
+## Testing locally modified platforms
+
+By design, platforms are the only dependency needed in a project and are -also-
+self-contained. Because of this, testing a modified platform is as easy as using
+`yarn link` to link to it from a valid development project (i.e.: no need to
+publish anything or use local npm registries).
+
+Sometimes `yarn link` doesn't create the link to the `liferay` script inside the
+`node_modules/.bin` folder of the project. In that case, you may need to create
+it manually or simply invoke the build with `yarn run liferay build` because, as
+it is yarn-linked, it will also be available as an executable from the `PATH`.
