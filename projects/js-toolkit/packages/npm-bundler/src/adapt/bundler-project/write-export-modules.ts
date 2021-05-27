@@ -7,17 +7,16 @@ import {
 	FilePath,
 	PkgDesc,
 	PkgJson,
+	TemplateRenderer,
 	addNamespace,
 	isLocalModule,
 	joinModuleName,
 	splitModuleName,
 } from '@liferay/js-toolkit-core';
 import fs from 'fs-extra';
-import path from 'path';
 
 import {bundlerWebpackDir, manifest, project} from '../../globals';
 import * as log from '../../util/log';
-import Renderer from '../../util/renderer';
 
 /**
  * Generates one AMD module per export. The generated module loads webpack's
@@ -163,7 +162,9 @@ async function writeExportModule(
 	moduleName: string,
 	bundlesLocation: string
 ): Promise<void> {
-	const renderer = new Renderer(path.join(__dirname, '..', 'templates'));
+	const renderer = new TemplateRenderer(
+		new FilePath(__dirname).join('..', 'templates')
+	);
 
 	const dependencies = [
 		`${bundlesLocation}/${id}.bundle`,
