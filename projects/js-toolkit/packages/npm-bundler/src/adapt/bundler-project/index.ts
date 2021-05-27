@@ -4,6 +4,8 @@
  */
 
 import {
+	FilePath,
+	TemplateRenderer,
 	addNamespace,
 	addPkgJsonDependencies,
 	deletePkgJsonDependencies,
@@ -12,11 +14,9 @@ import {
 	wrapModule,
 } from '@liferay/js-toolkit-core';
 import fs from 'fs-extra';
-import path from 'path';
 
 import {bundlerWebpackDir, project} from '../../globals';
 import * as log from '../../util/log';
-import Renderer from '../../util/renderer';
 import replaceWebpackJsonp from './replaceWebpackJsonp';
 import writeExportModules from './write-export-modules';
 
@@ -107,7 +107,9 @@ async function writeManifestModule(): Promise<void> {
 	const {name, version} = project.pkgJson;
 	const moduleName = `${name}@${version}/webpack.manifest`;
 
-	const renderer = new Renderer(path.join(__dirname, '..', 'templates'));
+	const renderer = new TemplateRenderer(
+		new FilePath(__dirname).join('..', 'templates')
+	);
 
 	fs.writeFileSync(
 		project.outputDir.join(`webpack.manifest.js`).asNative,
