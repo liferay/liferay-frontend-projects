@@ -88,6 +88,7 @@ export {default as wrapModule} from './transform/js/operation/wrapModule';
 
 export * from './transform/json';
 export {default as addPkgJsonDependencies} from './transform/json/operation/addPkgJsonDependencies';
+export {default as addPkgJsonScripts} from './transform/json/operation/addPkgJsonScripts';
 export {default as deletePkgJsonDependencies} from './transform/json/operation/deletePkgJsonDependencies';
 export {default as setPkgJsonPortletHeader} from './transform/json/operation/setPkgJsonPortletHeader';
 
