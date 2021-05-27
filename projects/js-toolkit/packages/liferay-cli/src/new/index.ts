@@ -52,7 +52,8 @@ export default async function newProject(
 			  You can now run the following commands to build your project:
 
 			      $ {cd ${name}| ↩|}
-			      $ {yarn build| ↩|} 
+			      $ {npm install| ↩|} 
+			      $ {npm run build| ↩|} 
 
 			  This will create a {${name}.jar} file in your {${path.join(name, 'dist')}}
 			  folder that you can deploy to your local Liferay server.
