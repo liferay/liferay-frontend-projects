@@ -33,6 +33,7 @@ const fmt = {
 	info: opts.noColors ? verbatim : chalk.hex('#888'),
 	question: opts.noColors ? verbatim : chalk.hex('#55F'),
 	success: opts.noColors ? verbatim : chalk.hex('#0A0'),
+	text: opts.noColors ? verbatim : chalk.hex('#CCC'),
 	title: opts.noColors ? verbatim : chalk.bold.hex('#55F'),
 	underline: opts.noDecorations ? verbatim : chalk.underline,
 	warn: opts.noColors ? verbatim : chalk.hex('#CA0'),
@@ -158,6 +159,24 @@ export function success(
 	...values: unknown[]
 ): string {
 	return fmt.success(format('✔️', literals, values));
+}
+
+/**
+ * Tagged template processor for text messages.
+ *
+ * Example of use:
+ *
+ * ```ts
+ * text`
+ *   This is a text message with some ${argument} to show
+ * `
+ * ```
+ */
+export function text(
+	literals: TemplateStringsArray,
+	...values: unknown[]
+): string {
+	return fmt.text(format('', literals, values));
 }
 
 /**
