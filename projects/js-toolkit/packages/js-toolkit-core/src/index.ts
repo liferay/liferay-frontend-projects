@@ -94,3 +94,7 @@ export {default as setPkgJsonPortletHeader} from './transform/json/operation/set
 // Text source transformation
 
 export * from './transform/text';
+
+// Template rendering
+
+export {default as TemplateRenderer} from './template/Renderer';
