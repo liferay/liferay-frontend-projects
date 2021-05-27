@@ -4,9 +4,13 @@
 		"liferay": "./bin/liferay.js"
 	},
 	"dependencies": {
+		"inquirer": "^7.3.1",
 		"yargs": "^14.0.0"
 	},
 	"description": "Liferay JS Toolkit CLI Tool",
+	"devDependencies": {
+		"@types/inquirer": "^7.3.1"
+	},
 	"license": "LGPL-3.0",
 	"name": "@liferay/cli",
 	"repository": {

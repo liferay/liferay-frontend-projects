@@ -6,11 +6,18 @@
  */
 
 const {argv} = require('yargs')
-	.option('version', {
-		alias: 'v',
-		description: 'Show version number and exit',
-		type: 'boolean',
-	})
+	.command(
+		'new <name>',
+		'Create a new project with the given name',
+		(yargs) =>
+			yargs.option('batch', {
+				default: false,
+				describe:
+					'Batch mode (assumes all defaults without user interaction)',
+				type: 'boolean',
+			})
+	)
+	.demandCommand()
 	.help();
 
 require('../lib/index').default(argv);

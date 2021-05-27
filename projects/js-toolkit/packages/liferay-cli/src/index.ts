@@ -3,15 +3,27 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import {format} from '@liferay/js-toolkit-core';
+
+import newProject from './new';
+
+interface Arguments {
+	_: string[];
+	$0: string;
+	batch?: boolean;
+	name?: string;
+}
+
+const {error, print} = format;
+
 /** Default entry point for the @liferay/cli executable. */
-export default async function (argv: {version: boolean}): Promise<void> {
-	if (argv.version) {
-		// eslint-disable-next-line @typescript-eslint/no-var-requires
-		const pkgJson = require('../package.json');
+export default async function (argv: Arguments): Promise<void> {
+	switch (argv._[0]) {
+		case 'new':
+			return await newProject(argv.name, argv.batch);
 
-		// eslint-disable-next-line no-console
-		console.log(pkgJson.version);
-
-		return;
+		default:
+			print(error`Uknown command provided: {${argv._[0]}}`);
+			process.exit(1);
 	}
 }
