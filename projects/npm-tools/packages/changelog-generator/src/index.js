@@ -7,6 +7,7 @@ const fs = require('fs');
 const path = require('path');
 const {promisify} = require('util');
 
+const runCommand = require('./command');
 const {cleanup, error, info, log, prompt, warn} = require('./console');
 const git = require('./git');
 const matchOption = require('./matchOption');
@@ -602,6 +603,8 @@ async function main(_node, _script, ...args) {
 
 	try {
 		await go(options);
+
+		runCommand(`yarn run prettier --write ${options.outfile}`);
 	}
 	finally {
 		cleanup();
