@@ -603,8 +603,6 @@ async function main(_node, _script, ...args) {
 
 	try {
 		await go(options);
-
-		yarn('format');
 	}
 	finally {
 		cleanup();
@@ -905,6 +903,8 @@ async function write(options, preview, contents) {
 	else {
 		await writeFileAsync(options.outfile, contents);
 	}
+
+	yarn('format');
 }
 
 module.exports = {
