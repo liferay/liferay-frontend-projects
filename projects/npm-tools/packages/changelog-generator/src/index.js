@@ -7,12 +7,12 @@ const fs = require('fs');
 const path = require('path');
 const {promisify} = require('util');
 
-const runCommand = require('./command');
 const {cleanup, error, info, log, prompt, warn} = require('./console');
 const git = require('./git');
 const matchOption = require('./matchOption');
 const printBanner = require('./printBanner');
 const readYarnrc = require('./readYarnrc');
+const yarn = require('./yarn');
 
 const readFileAsync = promisify(fs.readFile);
 const writeFileAsync = promisify(fs.writeFile);
@@ -604,7 +604,7 @@ async function main(_node, _script, ...args) {
 	try {
 		await go(options);
 
-		runCommand(`yarn run prettier --write ${options.outfile}`);
+		yarn('format');
 	}
 	finally {
 		cleanup();
