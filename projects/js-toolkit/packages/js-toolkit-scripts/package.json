@@ -28,10 +28,9 @@
 		"url": "https://github.com/liferay/liferay-frontend-projects.git"
 	},
 	"scripts": {
-		"build": "tsc && yarn copyfiles",
+		"build": "node ../../scripts/build.js",
 		"ci": "liferay-workspace-scripts ci",
 		"clean": "node ../../scripts/clean.js",
-		"copyfiles": "node ../../scripts/copyfiles.js",
 		"format": "liferay-workspace-scripts format",
 		"format:check": "liferay-workspace-scripts format:check",
 		"lint": "liferay-workspace-scripts lint",
