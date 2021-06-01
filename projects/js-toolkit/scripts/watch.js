@@ -6,6 +6,7 @@
 /* eslint-disable no-console */
 
 const watch = require('@cnakazawa/watch');
+const fs = require('fs-extra');
 const globby = require('globby');
 const path = require('path');
 
@@ -40,6 +41,12 @@ function filterStaticFiles(filename) {
 		return false;
 	}
 
+	// Ignore JavaScript files
+
+	if (filename.endsWith('.js')) {
+		return false;
+	}
+
 	// Ignore TypeScript files
 
 	if (filename.endsWith('.ts')) {
@@ -57,18 +64,23 @@ function filterStaticFiles(filename) {
 
 // Watch changes to TypeScript files to trigger `tsc`
 
+console.log('watch tsc:', path.basename(process.cwd()));
+
 runNodeBin.pipe(
 	'tsc',
 	'--build',
 	...globby.sync('packages/*/tsconfig.json'),
-	'--watch'
+	'--watch',
+	'--preserveWatchOutput'
 );
 
 // Watch changes to static files to trigger `yarn copyfiles`
 
+console.log('watch static:', path.basename(process.cwd()));
+
 watch.watchTree(
 	'.',
-	{filter: filterStaticFiles, ignoreDotFiles: true, interval: 1},
+	{filter: filterStaticFiles, ignoreDotFiles: false, interval: 1},
 	(filename, curr, prev) => {
 		if (typeof filename == 'object' && prev === null && curr === null) {
 			console.log(
@@ -85,19 +97,13 @@ watch.watchTree(
 		else {
 			const parts = filename.split(path.sep);
 
-			console.log(
-				'File',
-				filename,
-				'changed: triggering `copyfiles` task'
-			);
+			parts[2] = 'lib';
 
-			if (parts.length < 2) {
-				return;
-			}
+			const dest = parts.join(path.sep);
 
-			yarn.pipe('run', 'copyfiles', {
-				cwd: path.join('packages', parts[1]),
-			});
+			console.log('copy:', filename, '➡', dest);
+
+			fs.copySync(filename, dest);
 		}
 	}
 );

@@ -2,7 +2,7 @@
 	"name": "liferay-js-toolkit",
 	"private": true,
 	"scripts": {
-		"build": "node scripts/build.js && node scripts/copyfiles.js --all",
+		"build": "node scripts/build.js --all",
 		"ci": "liferay-workspace-scripts ci",
 		"clean": "node scripts/clean.js --all",
 		"format": "liferay-workspace-scripts format",

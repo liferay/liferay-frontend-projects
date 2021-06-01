@@ -3,51 +3,68 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-const child_process = require('child_process');
+const copyfiles = require('copyfiles');
 const fs = require('fs');
 const path = require('path');
 
-const TSC = path.join(
-	__dirname,
-	'..',
-	'..',
-	'..',
-	'node_modules',
-	'.bin',
-	process.platform === 'win32' ? 'tsc.cmd' : 'tsc'
-);
+const getProjectDirectories = require('./util/getProjectDirectories');
+const {runNodeBin} = require('./util/run');
 
-const packages = fs
-	.readdirSync(path.join(__dirname, '..', 'packages'), {withFileTypes: true})
-	.map((entry) => {
-		if (entry.isDirectory()) {
-			return path.join(
-				__dirname,
-				'..',
-				'packages',
-				entry.name,
-				'tsconfig.json'
-			);
-		}
-	})
-	.filter(Boolean);
+function copyAssets() {
+	return new Promise((resolve) => {
+		console.log('copy:', path.basename(process.cwd()));
 
-const {error, signal, status, stderr, stdout} = child_process.spawnSync(
-	TSC,
-	['--build', ...packages],
-	{stdio: 'inherit'}
-);
+		copyfiles(
+			['src/**/*', 'lib/'],
+			{
+				all: true,
+				exclude: ['**/*.js', '**/*.ts', '**/__tests__/**/*'],
+				up: 1,
+			},
+			(err) => {
+				if (err) {
+					console.error(err);
+					process.exit(1);
+				}
 
-if (status !== 0) {
-	// eslint-disable-next-line no-console
-	console.log(
-		JSON.stringify({
-			error: error ? error.toString() : 'n/a',
-			signal,
-			status,
-			stderr: stderr ? stderr.toString() : 'n/a',
-			stdout: stdout ? stdout.toString() : 'n/a',
-		})
-	);
-	process.exit(1);
+				resolve();
+			}
+		);
+	});
 }
+
+async function main() {
+	if (process.argv.includes('--all')) {
+		const projectDirectories = getProjectDirectories();
+
+		for (const projectDirectory of getProjectDirectories()) {
+			process.chdir(projectDirectory);
+
+			try {
+				await copyAssets();
+			}
+			finally {
+				process.chdir('../..');
+			}
+		}
+
+		console.log('build:', path.basename(process.cwd()));
+
+		runNodeBin.pipe(
+			'tsc',
+			'--build',
+			...projectDirectories.map((projectDirectory) =>
+				path.join(projectDirectory, 'tsconfig.json')
+			)
+		);
+	}
+	else {
+		await copyAssets();
+
+		console.log('build:', path.basename(process.cwd()));
+
+		runNodeBin.pipe('tsc');
+	}
+}
+
+main();

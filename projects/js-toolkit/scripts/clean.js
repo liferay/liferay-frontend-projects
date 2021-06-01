@@ -32,6 +32,8 @@ function hasValidOutDir(json) {
 }
 
 function clean() {
+	console.log('clean:', path.basename(process.cwd()));
+
 	try {
 		const json = fs.readJSONSync('tsconfig.json');
 
