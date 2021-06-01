@@ -902,9 +902,9 @@ async function write(options, preview, contents) {
 	}
 	else {
 		await writeFileAsync(options.outfile, contents);
-	}
 
-	yarn('format');
+		yarn('format');
+	}
 }
 
 module.exports = {
