@@ -12,7 +12,7 @@ const tscFile = path.join(__dirname, '..', 'node_modules', '.bin', 'tsc');
 globby.sync(['packages/*/tsconfig.json']).forEach((tsconfigPath) => {
 	const prjDir = path.dirname(tsconfigPath);
 
-	childProcess.spawn('node', [tscFile, '-w'], {
+	childProcess.spawn('node', [tscFile, '-w', '--preserveWatchOutput'], {
 		stdio: 'inherit',
 		cwd: prjDir,
 		shell: true,
