@@ -55,6 +55,9 @@ const output = {
 		config: {
 			imports: {},
 		},
+		'create-jar': {
+			'output-dir': 'dist',
+		},
 		rules: [
 			{
 				description: 'Copy static assets',
