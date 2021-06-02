@@ -161,6 +161,7 @@ If we were to provide configuration by default, then if `bottom-level/.eslintrc.
 | [react/require-render-return](https://github.com/yannickcr/eslint-plugin-react/blob/HEAD/docs/rules/require-render-return.md)           | @liferay/eslint-config/react                               | [\#42](https://github.com/liferay/eslint-config-liferay/pull/42)                                                                   |
 | [sort-destructure-keys/sort-destructure-keys](https://github.com/mthadley/eslint-plugin-sort-destructure-keys)                          | @liferay                                                   | [\#60](https://github.com/liferay/liferay-frontend-guidelines/issues/60)                                                           |
 | [sort-keys](https://eslint.org/docs/rules/sort-keys)                                                                                    | @liferay                                                   | [\#63](https://github.com/liferay/eslint-config-liferay/pull/63)                                                                   |
+| [spaced-comment](https://eslint.org/docs/rules/spaced-comment)                                                                          | @liferay                                                   | [\#225](https://github.com/liferay/liferay-frontend-projects/issues/225)                                                           |
 
 ### Custom rules
 
