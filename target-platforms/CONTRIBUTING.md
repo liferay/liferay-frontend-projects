@@ -115,3 +115,24 @@ Sometimes `yarn link` doesn't create the link to the `liferay` script inside the
 `node_modules/.bin` folder of the project. In that case, you may need to create
 it manually or simply invoke the build with `yarn run liferay build` because, as
 it is yarn-linked, it will also be available as an executable from the `PATH`.
+
+## Testing platforms using local js-toolkit
+
+Sometimes you want to test a platform using your local JS Toolkit. The
+recommended way to do it is to publish the platform to a local npm repository,
+as
+[explained here](../maintenance/projects/js-toolkit/CONTRIBUTING.md#releasing-local-only-versions)
+and then use the
+[link-js-toolkit script](../maintenance/projects/js-toolkit/CONTRIBUTING.md#testing-your-local-version-of-js-toolkit)
+to link all
+JS Toolkit packages in the project under test to your local projects.
+
+Testing both the target platform and the JS Toolkit with locally yarn-linked
+projects is not possible without a lot of error prone configuration, thus it is
+discouraged.
+
+> This is because, the very moment you link the target platform, the JS Toolkit
+> is taken from the `node_modules` folder of the target platform project. One
+> could think that running `link-js-toolkit` inside that folder would make it
+> work, but it doesn't because then some other dependencies appear a missing for
+> the devtools.
