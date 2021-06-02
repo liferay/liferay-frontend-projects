@@ -98,7 +98,7 @@ expect.extend({
 		}
 
 		return {
-			message,
+			message: () => message,
 			pass,
 		};
 	},

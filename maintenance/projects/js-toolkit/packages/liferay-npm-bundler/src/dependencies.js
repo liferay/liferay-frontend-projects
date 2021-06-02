@@ -57,12 +57,15 @@ export function addPackageDependencies(
 	dependencies = dependencies.concat(extraDependencies);
 
 	const dependencyDirs = dependencies
-		.map((dependency) => {
-			return resolveDependencyDir(basedirPath, packageJson, dependency);
-		})
-		.filter((dependencyDir) => {
-			return dependencyDir != null;
-		});
+		.filter(
+			(dependency) =>
+				!project.presetInfo.isAutopreset ||
+				dependency !== project.presetInfo.name
+		)
+		.map((dependency) =>
+			resolveDependencyDir(basedirPath, packageJson, dependency)
+		)
+		.filter((dependencyDir) => dependencyDir != null);
 
 	dependencyDirs.forEach((dependencyDir) => {
 		addPackageDependencies(collectedDependencies, dependencyDir);
