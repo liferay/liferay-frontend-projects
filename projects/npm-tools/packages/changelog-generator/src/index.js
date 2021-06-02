@@ -12,6 +12,7 @@ const git = require('./git');
 const matchOption = require('./matchOption');
 const printBanner = require('./printBanner');
 const readYarnrc = require('./readYarnrc');
+const yarn = require('./yarn');
 
 const readFileAsync = promisify(fs.readFile);
 const writeFileAsync = promisify(fs.writeFile);
@@ -901,6 +902,8 @@ async function write(options, preview, contents) {
 	}
 	else {
 		await writeFileAsync(options.outfile, contents);
+
+		yarn('format');
 	}
 }
 
