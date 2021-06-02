@@ -25,6 +25,12 @@ import {VersionInfo} from './types';
 /** A package manager */
 export type PkgManager = 'npm' | 'yarn' | null;
 
+/** Information on the preset being used */
+export interface PresetInfo {
+	name: string;
+	isAutopreset: boolean;
+}
+
 /**
  * Describes a standard JS Toolkit project.
  */
@@ -175,6 +181,13 @@ export class Project {
 		}
 
 		return this._pkgManager;
+	}
+
+	/**
+	 * Get information about the preset in use
+	 */
+	get presetInfo(): PresetInfo | undefined {
+		return this._presetInfo;
 	}
 
 	/**
@@ -362,10 +375,10 @@ export class Project {
 		}
 	}
 
-	_findAutopresets(): string[] {
+	_getAutopreset(): string | undefined {
 		const {dependencies = {}, devDependencies = {}} = this._pkgJson;
 
-		return Object.keys({
+		const autopresets = Object.keys({
 			...dependencies,
 			...devDependencies,
 		}).reduce((autoPresets, pkgName) => {
@@ -384,47 +397,18 @@ export class Project {
 
 			return autoPresets;
 		}, []);
-	}
 
-	_loadDefaultPreset(): string {
-		let presetFilePath;
-
-		const autoPresets = this._findAutopresets();
-
-		if (autoPresets.length > 1) {
+		if (autopresets.length > 1) {
 			throw new Error(
 				'Multiple autopreset dependencies found in project (' +
-					autoPresets +
+					autopresets +
 					'): please remove the invalid ones or ' +
 					'explicitly define the preset to be used in the ' +
 					'.npmbundlerrc file'
 			);
 		}
-		else if (autoPresets.length) {
-			presetFilePath = this.resolve(autoPresets[0]);
 
-			this._toolsDir = new FilePath(
-				path.dirname(this.resolve(autoPresets[0] + '/package.json'))
-			);
-		}
-		else {
-
-			// If no preset was found, use the default one
-
-			presetFilePath = require.resolve(
-				'liferay-npm-bundler-preset-standard'
-			);
-
-			this._toolsDir = new FilePath(
-				path.dirname(
-					require.resolve(
-						'liferay-npm-bundler-preset-standard/package.json'
-					)
-				)
-			);
-		}
-
-		return presetFilePath;
+		return autopresets.length ? autopresets[0] : undefined;
 	}
 
 	_loadNpmbundlerrc(): void {
@@ -438,32 +422,73 @@ export class Project {
 
 		let presetFilePath;
 
-		if (config.preset === undefined) {
-			presetFilePath = this._loadDefaultPreset();
+		const autopreset = this._getAutopreset();
+
+		if (config.preset === undefined && autopreset) {
+
+			// If an autopreset is found and none is configured, use it
+
+			this._presetInfo = {
+				isAutopreset: true,
+				name: autopreset,
+			};
+
+			this._toolsDir = new FilePath(
+				path.dirname(this.resolve(`${autopreset}/package.json`))
+			);
+
+			presetFilePath = this.resolve(autopreset);
+		}
+		else if (config.preset === undefined) {
+
+			// If no preset was found, use the default one
+
+			this._presetInfo = {
+				isAutopreset: false,
+				name: 'liferay-npm-bundler-preset-standard',
+			};
+
+			this._toolsDir = new FilePath(
+				path.dirname(
+					require.resolve(
+						'liferay-npm-bundler-preset-standard/package.json'
+					)
+				)
+			);
+
+			presetFilePath = require.resolve(
+				'liferay-npm-bundler-preset-standard'
+			);
 		}
 		else if (config.preset === '' || config.preset === false) {
 
 			// don't load preset
 
+			this._presetInfo = undefined;
 		}
 		else {
-			presetFilePath = resolveModule.sync(config.preset, {
-				basedir: this.dir.asNative,
-			});
+
+			// If a preset is configured, use it
+
+			this._presetInfo = {
+				isAutopreset: false,
+				name: config.preset,
+			};
 
 			const {pkgName, scope} = splitModuleName(config.preset);
 
-			const presetPkgJsonFilePath = resolveModule.sync(
+			const presetPkgJsonFilePath = this.resolve(
 				scope
 					? `${scope}/${pkgName}/package.json`
-					: `${pkgName}/package.json`,
-				{
-					basedir: this.dir.asNative,
-				}
+					: `${pkgName}/package.json`
 			);
 
 			this._toolsDir = new FilePath(path.dirname(presetPkgJsonFilePath));
+
+			presetFilePath = this.resolve(config.preset);
 		}
+
+		// Load preset configuration
 
 		if (presetFilePath) {
 			const originalConfig = {...config};
@@ -494,6 +519,9 @@ export class Project {
 	private _npmbundlerrc: object;
 	private _pkgJson: {dependencies: object; devDependencies: object};
 	private _pkgManager: PkgManager;
+
+	/** Info about preset in use */
+	private _presetInfo: PresetInfo;
 
 	/** Absolute path to project directory */
 	private _projectDir: FilePath;
