@@ -5,6 +5,7 @@
 
 import {format} from '@liferay/js-toolkit-core';
 
+import build from './build';
 import newProject from './new';
 
 interface Arguments {
@@ -19,6 +20,9 @@ const {error, print} = format;
 /** Default entry point for the @liferay/cli executable. */
 export default async function (argv: Arguments): Promise<void> {
 	switch (argv._[0]) {
+		case 'build':
+			return await build();
+
 		case 'new':
 			return await newProject(argv.name, argv.batch);
 
