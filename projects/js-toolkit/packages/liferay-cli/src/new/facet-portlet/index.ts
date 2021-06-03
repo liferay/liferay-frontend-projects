@@ -41,6 +41,7 @@ export async function render(options: Options): Promise<void> {
 
 	const pkgJsonFile = options.outputPath.join('package.json');
 
+	/* eslint-disable-next-line @typescript-eslint/no-var-requires, @liferay/liferay/no-dynamic-require */
 	const pkgJson = require(pkgJsonFile.asNative);
 	const portletName = getPortletName(pkgJson['name']);
 

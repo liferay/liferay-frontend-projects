@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+/* eslint-disable no-console */
+
 const copyfiles = require('copyfiles');
-const fs = require('fs');
 const path = require('path');
 
 const getProjectDirectories = require('./util/getProjectDirectories');

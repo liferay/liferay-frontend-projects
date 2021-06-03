@@ -12,10 +12,10 @@ import type {Options} from '../index';
 export async function processOptions(options: Options): Promise<Options> {
 	return await prompt(options, [
 		{
-			type: 'confirm',
-			name: 'addLocalizationSupport',
-			message: 'Do you want to add localization support?',
 			default: true,
+			message: 'Do you want to add localization support?',
+			name: 'addLocalizationSupport',
+			type: 'confirm',
 		},
 	]);
 }

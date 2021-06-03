@@ -150,27 +150,27 @@ export async function render(options: Options): Promise<void> {
 			configurationFile,
 			configurationFile,
 			addConfigurationField('system', 'fruit', {
-				name: 'fruit',
-				description: 'fruit-help',
-				required: false,
 				default: 'orange',
+				description: 'fruit-help',
+				name: 'fruit',
 				options: {
+					apple: 'an-apple',
 					orange: 'an-orange',
 					pear: 'a-pear',
-					apple: 'an-apple',
 				},
+				required: false,
 				type: 'string',
 			}),
 			addConfigurationField('portletInstance', 'drink', {
-				name: 'drink',
-				description: 'drink-help',
-				required: false,
 				default: 'water',
+				description: 'drink-help',
+				name: 'drink',
 				options: {
 					coffee: 'coffee',
 					tea: 'tea',
 					water: 'water',
 				},
+				required: false,
 				type: 'string',
 			})
 		);

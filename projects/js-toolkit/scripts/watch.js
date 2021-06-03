@@ -10,11 +10,10 @@ const fs = require('fs-extra');
 const globby = require('globby');
 const path = require('path');
 
-const {runNodeBin, yarn} = require('./util/run');
+const {runNodeBin} = require('./util/run');
 
 /**
- * Filter file/dir paths containing static files so that they can be watched to
- * trigger `yarn copyfiles`
+ * Filter file/dir paths containing static files so that they can be watched
  *
  * @param {string} filename project relative path of file
  * @return true if the file/dir must be watched
