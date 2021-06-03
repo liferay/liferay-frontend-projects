@@ -24,7 +24,7 @@ ruleTester.run('no-abbreviations', rule, {
 			errors: [
 				{
 					message:
-						'Avoid e abbreviation, preferred alternatives are [event,error]',
+						'Avoid "e" abbreviation, preferred alternatives are ["event","error"]',
 					type: 'Identifier',
 				},
 			],
@@ -37,7 +37,7 @@ ruleTester.run('no-abbreviations', rule, {
 			errors: [
 				{
 					message:
-						'Avoid btn abbreviation, preferred alternative is button',
+						'Avoid "btn" abbreviation, preferred alternative is "button"',
 					type: 'Identifier',
 				},
 			],
@@ -52,7 +52,7 @@ ruleTester.run('no-abbreviations', rule, {
 			errors: [
 				{
 					message:
-						'Avoid e abbreviation, preferred alternatives are [event,error]',
+						'Avoid "e" abbreviation, preferred alternatives are ["event","error"]',
 					type: 'Identifier',
 				},
 			],

@@ -26,12 +26,12 @@ const ABBREVIATIONS_REPLACEMENTS = new Map([
 
 const formatMessage = function (abbreviation, replacements) {
 	if (replacements.length > 1) {
-		return `Avoid ${abbreviation} abbreviation, preferred alternatives are [${replacements.join(
-			','
-		)}]`;
+		return `Avoid "${abbreviation}" abbreviation, preferred alternatives are [${replacements
+			.map((replacement) => `"${replacement}"`)
+			.join(',')}]`;
 	}
 	else {
-		return `Avoid ${abbreviation} abbreviation, preferred alternative is ${replacements}`;
+		return `Avoid "${abbreviation}" abbreviation, preferred alternative is "${replacements}"`;
 	}
 };
 
