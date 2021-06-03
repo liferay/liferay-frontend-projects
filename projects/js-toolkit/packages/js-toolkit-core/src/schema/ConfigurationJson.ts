@@ -9,12 +9,12 @@ export default interface ConfigurationJson {
 }
 
 export interface ConfigurationJsonPortletInstance {
-	fields: {[name: string]: ConfigurationJsonField};
+	fields: {[id: string]: ConfigurationJsonField};
 }
 
 export interface ConfigurationJsonSystem {
 	category: string;
-	fields: {[name: string]: ConfigurationJsonField};
+	fields: {[id: string]: ConfigurationJsonField};
 	name: string;
 }
 

@@ -87,6 +87,7 @@ export {default as wrapModule} from './transform/js/operation/wrapModule';
 // JSON source transformation
 
 export * from './transform/json';
+export {default as addConfigurationField} from './transform/json/operation/addConfigurationField';
 export {default as addPkgJsonDependencies} from './transform/json/operation/addPkgJsonDependencies';
 export {default as addPkgJsonScripts} from './transform/json/operation/addPkgJsonScripts';
 export {default as addPortletProperties} from './transform/json/operation/addPortletProperties';
