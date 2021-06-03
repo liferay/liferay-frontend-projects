@@ -13,9 +13,9 @@ import AppComponent from './AppComponent';
  * @return {void}
  */
 <% if (addConfigurationSupport) { 
-%>export default function main(portletNamespace, contextPath, portletElementId, configuration) {
+%>export default function main({portletNamespace, contextPath, portletElementId, configuration}) {
 <% } else { 
-%>export default function main(portletNamespace, contextPath, portletElementId) { 
+%>export default function main({portletNamespace, contextPath, portletElementId}) { 
 <% }
 %>	 ReactDOM.render(
 		<AppComponent 
