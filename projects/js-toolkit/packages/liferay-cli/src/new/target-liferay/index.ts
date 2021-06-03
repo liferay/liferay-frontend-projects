@@ -6,10 +6,14 @@
 import {
 	FilePath,
 	TemplateRenderer,
+	addConfigurationField,
 	addPkgJsonDependencies,
 	addPkgJsonScripts,
+	appendLines,
 	transformJsonFile,
+	transformTextFile,
 } from '@liferay/js-toolkit-core';
+import fs from 'fs';
 
 import * as facetConfiguration from '../facet-configuration';
 import * as facetLocalization from '../facet-localization';
@@ -55,6 +59,8 @@ export async function render(options: Options): Promise<void> {
 	await renderer.render('src/AppComponent.js', options);
 	await renderer.render('src/index.js', options);
 
+	// Add target platform to project dependencies
+
 	const pkgJsonFile = options.outputPath.join('package.json');
 
 	await transformJsonFile(
@@ -67,4 +73,106 @@ export async function render(options: Options): Promise<void> {
 			build: 'liferay build',
 		})
 	);
+
+	// Add language keys
+
+	const languageFile: FilePath = options.outputPath.join(
+		'features/localization/Language.properties'
+	);
+
+	if (fs.existsSync(languageFile.asNative)) {
+		await transformTextFile(
+			languageFile,
+			languageFile,
+
+			// Portlet UI keys
+
+			appendLines(
+				'configuration=Configuration',
+				'context-path=Context Path',
+				'portlet-element-id=Portlet Element ID',
+				'portlet-namespace=Portlet Namespace'
+			),
+
+			// Configuration keys
+
+			appendLines(
+				'fruit=Favorite fruit',
+				'fruit-help=Choose the fruit you like the most',
+				'an-orange=An orange',
+				'a-pear=A pear',
+				'an-apple=An apple',
+				'drink=Favorite drink',
+				'drink-help=Choose the drink you like the most',
+				'coffee=Coffee',
+				'tea=Tea',
+				'water=Water'
+			)
+		);
+	}
+
+	// Add CSS styles
+
+	const stylesFile: FilePath = options.outputPath.join(
+		'assets/css/styles.css'
+	);
+
+	if (fs.existsSync(stylesFile.asNative)) {
+		await transformTextFile(
+			stylesFile,
+			stylesFile,
+			appendLines(
+				'.pre {',
+				'	font-family: monospace;',
+				'	white-space: pre;',
+				'}',
+				'',
+				'.tag {',
+				'	font-weight: bold;',
+				'	margin-right: 1em;',
+				'}',
+				'',
+				'.value {',
+				'	font-family: monospace;',
+				'}'
+			)
+		);
+	}
+
+	// Add configuration fields
+
+	const configurationFile: FilePath = options.outputPath.join(
+		'features/configuration.json'
+	);
+
+	if (fs.existsSync(configurationFile.asNative)) {
+		await transformJsonFile(
+			configurationFile,
+			configurationFile,
+			addConfigurationField('system', 'fruit', {
+				name: 'fruit',
+				description: 'fruit-help',
+				required: false,
+				default: 'orange',
+				options: {
+					orange: 'an-orange',
+					pear: 'a-pear',
+					apple: 'an-apple',
+				},
+				type: 'string',
+			}),
+			addConfigurationField('portletInstance', 'drink', {
+				name: 'drink',
+				description: 'drink-help',
+				required: false,
+				default: 'water',
+				options: {
+					coffee: 'coffee',
+					tea: 'tea',
+					water: 'water',
+				},
+				type: 'string',
+			})
+		);
+	}
 }
