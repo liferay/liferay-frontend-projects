@@ -59,5 +59,9 @@ ruleTester.run('no-abbreviations', rule, {
 		},
 	],
 
-	valid: [],
+	valid: [
+		{
+			code: `(error) => error.toString()`,
+		},
+	],
 });

@@ -3,26 +3,26 @@
  * SPDX-License-Identifier: MIT
  */
 
-const ABBREVIATIONS_REPLACEMENTS = {
-	arr: ['array'],
-	btn: ['button'],
-	cb: ['callback'],
-	desc: ['description'],
-	e: ['event', 'error'],
-	el: ['element'],
-	err: ['error'],
-	evt: ['event'],
-	fm: ['form'],
-	fmt: ['format'],
-	idx: ['index'],
-	img: ['image'],
-	lg: ['large'],
-	md: ['medium'],
-	obj: ['object'],
-	opts: ['options'],
-	prj: ['project'],
-	sm: ['small'],
-};
+const ABBREVIATIONS_REPLACEMENTS = new Map([
+	['arr', ['array']],
+	['btn', ['button']],
+	['cb', ['callback']],
+	['desc', ['description']],
+	['e', ['event', 'error']],
+	['el', ['element']],
+	['err', ['error']],
+	['evt', ['event']],
+	['fm', ['form']],
+	['fmt', ['format']],
+	['idx', ['index']],
+	['img', ['image']],
+	['lg', ['large']],
+	['md', ['medium']],
+	['obj', ['object']],
+	['opts', ['options']],
+	['prj', ['project']],
+	['sm', ['small']],
+]);
 
 const formatMessage = function (abbreviation, replacements) {
 	if (replacements.length > 1) {
@@ -39,11 +39,11 @@ module.exports = {
 	create(context) {
 		return {
 			Identifier(node) {
-				if (ABBREVIATIONS_REPLACEMENTS[node.name]) {
+				if (ABBREVIATIONS_REPLACEMENTS.has(node.name)) {
 					context.report({
 						message: formatMessage(
 							node.name,
-							ABBREVIATIONS_REPLACEMENTS[node.name]
+							ABBREVIATIONS_REPLACEMENTS.get(node.name)
 						),
 						node,
 					});
