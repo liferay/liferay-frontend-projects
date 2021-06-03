@@ -4,6 +4,6 @@
 		"outDir": "./lib",
 		"rootDir": "./src"
 	},
-	"include": ["**/*"],
+	"include": ["src/**/*"],
 	"references": [{"path": "../js-toolkit-core"}]
 }
