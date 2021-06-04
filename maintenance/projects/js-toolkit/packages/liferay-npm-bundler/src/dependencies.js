@@ -59,7 +59,7 @@ export function addPackageDependencies(
 	const dependencyDirs = dependencies
 		.filter(
 			(dependency) =>
-				project.presetInfo.isAutopreset &&
+				!project.presetInfo.isAutopreset ||
 				dependency !== project.presetInfo.name
 		)
 		.map((dependency) =>
