@@ -8,7 +8,7 @@ const rimraf = require('rimraf');
 
 const spawnSync = require('./spawnSync');
 
-///
+//
 // Runs the `liferay-npm-bridge-generator` executable and removes sourcemaps to
 // ensure `liferay-npm-scripts build` is idempotent.
 //
