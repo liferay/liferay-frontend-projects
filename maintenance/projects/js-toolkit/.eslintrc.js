@@ -11,6 +11,7 @@ module.exports = {
 		jest: true,
 	},
 	rules: {
+		'@liferay/liferay/no-abbreviations': 'off',
 		'@liferay/liferay/no-dynamic-require': 'off',
 		'no-console': 'off',
 		'no-return-assign': ['error', 'except-parens'],
