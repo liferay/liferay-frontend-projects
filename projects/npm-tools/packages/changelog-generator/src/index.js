@@ -247,8 +247,12 @@ async function getVersion(options) {
 			));
 		}
 		catch (_error) {
-			currentVersion = '';
+
+			// Ignore
+
 		}
+
+		currentVersion = currentVersion || '';
 
 		let [, major, minor, patch, preid, prerelease] =
 			currentVersion.match(/^(\d+)\.(\d+)\.(\d+)(?:-(\w+)\.(\d+))?$/) ||
