@@ -33,13 +33,13 @@ test('plugin:init should prompt user for appserver information', (done) => {
 
 	let promptCalled = false;
 
-	InitPrompt.prompt = (config, cb) => {
+	InitPrompt.prompt = (config, callback) => {
 		promptCalled = true;
 
 		expect(config.store).toEqual(project.store);
 		expect(_.endsWith(config.appServerPathDefault, 'tomcat')).toBe(true);
 
-		cb();
+		callback();
 	};
 
 	project.gulp.runSequence('plugin:init', () => {

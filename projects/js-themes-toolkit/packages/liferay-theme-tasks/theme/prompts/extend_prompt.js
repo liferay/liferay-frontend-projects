@@ -18,13 +18,13 @@ const promptUtil = require('./util');
 const moduleName = getArgv().name;
 
 class ExtendPrompt {
-	constructor(cb) {
-		this.done = cb;
+	constructor(callback) {
+		this.done = callback;
 
 		if (moduleName) {
-			themeFinder.getLiferayThemeModule(moduleName, (err, pkg) => {
-				if (err) {
-					throw err;
+			themeFinder.getLiferayThemeModule(moduleName, (error, pkg) => {
+				if (error) {
+					throw error;
 				}
 
 				const modules = {};
@@ -255,7 +255,7 @@ class ExtendPrompt {
 		return config.publishConfig && config.publishConfig.tag;
 	}
 
-	_installDependencies(dependencies, cb) {
+	_installDependencies(dependencies, callback) {
 		const modules = this._getDependencyInstallationArray(dependencies);
 
 		const args = ['install', ...modules];
@@ -267,7 +267,7 @@ class ExtendPrompt {
 		const finalize = () => {
 			if (!done) {
 				done = true;
-				cb();
+				callback();
 			}
 		};
 
@@ -405,6 +405,6 @@ class ExtendPrompt {
 	}
 }
 
-ExtendPrompt.prompt = (config, cb) => new ExtendPrompt(config, cb);
+ExtendPrompt.prompt = (config, callback) => new ExtendPrompt(config, callback);
 
 module.exports = ExtendPrompt;

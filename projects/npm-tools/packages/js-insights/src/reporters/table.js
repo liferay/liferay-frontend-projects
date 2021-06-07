@@ -12,7 +12,7 @@ const DEFAULT_CONFIG = {
 /**
  * Traverses an object provided a path to a property and returns its value if found or null if the path can't be reached.
  */
-const idx = (p, o) => p.reduce((xs, x) => (xs && xs[x] ? xs[x] : null), o);
+const index = (p, o) => p.reduce((xs, x) => (xs && xs[x] ? xs[x] : null), o);
 
 /**
  * Prints the modules's insights report as a table in the terminal.
@@ -33,7 +33,7 @@ module.exports = async function (modulesInfo, config) {
 
 	modulesInfo
 		.map((moduleInfo) =>
-			head.map((field) => idx(field.split('.'), moduleInfo) || '')
+			head.map((field) => index(field.split('.'), moduleInfo) || '')
 		)
 		.forEach((moduleInfo) => table.push(moduleInfo));
 

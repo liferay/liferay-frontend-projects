@@ -24,9 +24,9 @@ export default function (): Promise<void> {
 			project.sourceDir.asNative,
 			outputDir.asNative,
 			{confirm: true, overwrite: true},
-			(err) => {
-				if (err) {
-					print(error`${err}`);
+			(error) => {
+				if (error) {
+					print(error`${error}`);
 					process.exit(1);
 				}
 				else {

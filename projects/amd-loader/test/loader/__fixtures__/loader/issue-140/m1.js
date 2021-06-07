@@ -13,22 +13,22 @@ Loader.define(
 			try {
 				result.standard = 'standard:' + require('issue-140/a');
 			}
-			catch (err) {
-				result.standard = err;
+			catch (error) {
+				result.standard = error;
 			}
 
 			try {
 				result.local = 'local:' + require('./a');
 			}
-			catch (err) {
-				result.local = err;
+			catch (error) {
+				result.local = error;
 			}
 
 			try {
 				result.mapped = 'mapped:' + require('mapped-issue-140/a');
 			}
-			catch (err) {
-				result.mapped = err;
+			catch (error) {
+				result.mapped = error;
 			}
 
 			return result;

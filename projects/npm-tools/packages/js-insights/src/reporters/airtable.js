@@ -72,8 +72,8 @@ module.exports = async function (modulesInfo, config) {
 				typecast: true,
 			});
 		}
-		catch (err) {
-			console.error(err);
+		catch (error) {
+			console.error(error);
 		}
 
 		synced += 10;

@@ -114,9 +114,9 @@ class WarDeployer extends EventEmitter {
 			});
 		});
 
-		req.on('error', (err) => {
-			if (err) {
-				throw err;
+		req.on('error', (error) => {
+			if (error) {
+				throw error;
 			}
 		});
 
@@ -131,7 +131,7 @@ class WarDeployer extends EventEmitter {
 				this.deployed = true;
 			}
 		}
-		catch (err) {
+		catch (error) {
 
 			// Swallow.
 

@@ -18,23 +18,25 @@ function replaceExtension(filePath, newExt) {
 }
 
 module.exports = (options) =>
-	through.obj((file, enc, cb) => {
+	through.object((file, enc, callback) => {
 		if (file.isNull()) {
-			return cb(null, file);
+			return callback(null, file);
 		}
 
 		if (file.isStream()) {
-			return cb(new PluginError(PLUGIN_NAME, 'Streaming not supported'));
+			return callback(
+				new PluginError(PLUGIN_NAME, 'Streaming not supported')
+			);
 		}
 
 		if (path.basename(file.path).indexOf('_') === 0) {
-			return cb();
+			return callback();
 		}
 
 		if (!file.contents.length) {
 			file.path = replaceExtension(file.path, '.css');
 
-			return cb(null, file);
+			return callback(null, file);
 		}
 
 		try {
@@ -59,7 +61,7 @@ module.exports = (options) =>
 				file.stat.atime = file.stat.mtime = file.stat.ctime = new Date();
 			}
 
-			cb(null, file);
+			callback(null, file);
 		}
 		catch (error) {
 			const filePath =
@@ -75,6 +77,6 @@ module.exports = (options) =>
 			error.message = message;
 			error.relativePath = relativePath;
 
-			return cb(new PluginError(PLUGIN_NAME, error));
+			return callback(new PluginError(PLUGIN_NAME, error));
 		}
 	});

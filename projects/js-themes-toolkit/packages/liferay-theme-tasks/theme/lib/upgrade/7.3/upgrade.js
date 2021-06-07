@@ -10,11 +10,14 @@ const project = require('../../../../lib/project');
 module.exports = () => {
 	const {gulp} = project;
 
-	gulp.task('upgrade:dependencies:liferay-frontend-common-css', (cb) => {
-		project.removeDependencies(['liferay-frontend-common-css']);
+	gulp.task(
+		'upgrade:dependencies:liferay-frontend-common-css',
+		(callback) => {
+			project.removeDependencies(['liferay-frontend-common-css']);
 
-		cb();
-	});
+			callback();
+		}
+	);
 
 	return {
 		customTasks: ['upgrade:dependencies:liferay-frontend-common-css'],

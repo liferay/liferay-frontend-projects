@@ -202,8 +202,8 @@ function addConfigurationJsonSystemFiles(zip: JSZip): void {
 
 	const fields = Object.entries(systemConfigJson.fields);
 
-	fields.forEach(([id, desc]) => {
-		xml.addMetatypeAttr(metatype, id, desc);
+	fields.forEach(([id, description]) => {
+		xml.addMetatypeAttr(metatype, id, description);
 	});
 
 	zip.folder('OSGI-INF')

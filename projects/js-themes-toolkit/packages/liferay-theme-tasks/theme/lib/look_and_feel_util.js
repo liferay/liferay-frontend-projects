@@ -111,19 +111,19 @@ function getLookAndFeelDoctypeByVersion(version) {
 	);
 }
 
-function getLookAndFeelJSON(themePath, cb) {
+function getLookAndFeelJSON(themePath, callback) {
 	const xmlString = readLookAndFeelXML(themePath);
 
 	if (!xmlString) {
-		return cb();
+		return callback();
 	}
 
-	xml2js.parseString(xmlString, (err, result) => {
-		if (err) {
-			throw err;
+	xml2js.parseString(xmlString, (error, result) => {
+		if (error) {
+			throw error;
 		}
 
-		cb(result);
+		callback(result);
 	});
 }
 
@@ -147,7 +147,7 @@ function getNameFromPluginPackageProperties(themePath) {
 	return match ? match[1] : null;
 }
 
-function mergeLookAndFeelJSON(themePath, lookAndFeelJSON, cb) {
+function mergeLookAndFeelJSON(themePath, lookAndFeelJSON, callback) {
 	getLookAndFeelJSON(themePath, (json) => {
 		if (_.isEmpty(lookAndFeelJSON)) {
 			lookAndFeelJSON = json;
@@ -167,10 +167,10 @@ function mergeLookAndFeelJSON(themePath, lookAndFeelJSON, cb) {
 		if (_.isObject(baseTheme)) {
 			themePath = path.join(themePath, 'node_modules', baseTheme.name);
 
-			mergeLookAndFeelJSON(themePath, lookAndFeelJSON, cb);
+			mergeLookAndFeelJSON(themePath, lookAndFeelJSON, callback);
 		}
 		else {
-			cb(lookAndFeelJSON);
+			callback(lookAndFeelJSON);
 		}
 	});
 }
@@ -201,7 +201,7 @@ function readLookAndFeelXML(themePath) {
 	try {
 		fs.statSync(lookAndFeelPath);
 	}
-	catch (err) {
+	catch (error) {
 		lookAndFeelPath = lookAndFeelDefaultPath;
 	}
 
@@ -210,7 +210,7 @@ function readLookAndFeelXML(themePath) {
 
 		xmlCache[themePath] = xmlString;
 	}
-	catch (err) {
+	catch (error) {
 
 		// Swallow.
 
@@ -232,8 +232,8 @@ module.exports = {
 
 const xmlCache = {};
 
-function extractThemeElement(obj, key) {
-	return obj[STR_LOOK_AND_FEEL].theme[0][key];
+function extractThemeElement(object, key) {
+	return object[STR_LOOK_AND_FEEL].theme[0][key];
 }
 
 function mergeJSON(themeObj, baseThemeObj) {

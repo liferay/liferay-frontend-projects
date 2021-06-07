@@ -11,7 +11,7 @@ const ExtendPrompt = require('../prompts/extend_prompt');
 module.exports = function () {
 	const {gulp} = project;
 
-	gulp.task('extend', (cb) => {
-		ExtendPrompt.prompt(cb);
+	gulp.task('extend', (callback) => {
+		ExtendPrompt.prompt(callback);
 	});
 };

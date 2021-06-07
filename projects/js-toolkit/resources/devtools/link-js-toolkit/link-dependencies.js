@@ -34,7 +34,7 @@ function linkDependencies(extraDependencies = []) {
 	try {
 		fs.mkdirSync('node_modules');
 	}
-	catch (err) {
+	catch (error) {
 
 		// ignore
 

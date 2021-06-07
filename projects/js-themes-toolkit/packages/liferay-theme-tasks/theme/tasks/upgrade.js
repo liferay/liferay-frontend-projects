@@ -49,7 +49,7 @@ module.exports = function () {
 		versionUpgrade = require(modulePath)();
 	}
 
-	gulp.task('upgrade', (cb) => {
+	gulp.task('upgrade', (callback) => {
 		if (!versionUpgrade) {
 			throw new PluginError(
 				'gulp-theme-upgrader',
@@ -72,10 +72,10 @@ module.exports = function () {
 			],
 			(answers) => {
 				if (answers.sure) {
-					doVersionUpgrade(gulp, versionUpgrade, cb);
+					doVersionUpgrade(gulp, versionUpgrade, callback);
 				}
 				else {
-					cb();
+					callback();
 				}
 			}
 		);
@@ -119,7 +119,7 @@ module.exports = function () {
 			.pipe(gulp.dest('src/WEB-INF'));
 	});
 
-	gulp.task('upgrade:dependencies', (cb) => {
+	gulp.task('upgrade:dependencies', (callback) => {
 		const devDependencies =
 			themeDevDependencies[versionUpgrade.targetVersion];
 
@@ -142,11 +142,11 @@ module.exports = function () {
 		npmInstall.stderr.pipe(process.stderr);
 		npmInstall.stdout.pipe(process.stdout);
 
-		npmInstall.on('close', cb);
+		npmInstall.on('close', callback);
 	});
 };
 
-function doVersionUpgrade(gulp, versionUpgrade, cb) {
+function doVersionUpgrade(gulp, versionUpgrade, callback) {
 	const taskArray = [];
 
 	if (versionUpgrade.promptTask) {
@@ -159,17 +159,17 @@ function doVersionUpgrade(gulp, versionUpgrade, cb) {
 		taskArray.push(...versionUpgrade.customTasks);
 	}
 
-	taskArray.push((err) => {
-		if (err) {
+	taskArray.push((error) => {
+		if (error) {
 			log(
 				colors.red('Error:'),
 				'something went wrong during the upgrade task - ' +
 					'leaving the theme files in place for inspection.'
 			);
-			log(err);
+			log(error);
 		}
 
-		cb();
+		callback();
 	});
 
 	gulp.runSequence(...taskArray);

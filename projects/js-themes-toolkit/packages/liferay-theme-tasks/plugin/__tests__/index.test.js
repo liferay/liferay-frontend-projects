@@ -91,22 +91,22 @@ test('registerTasks should register hooks', (done) => {
 	var hookSpy = sinon.spy();
 
 	var hookFn = function (gulp) {
-		gulp.hook('before:plugin:war', (cb) => {
+		gulp.hook('before:plugin:war', (callback) => {
 			hookSpy('before:plugin:war');
 
-			cb();
+			callback();
 		});
 
-		gulp.hook('after:plugin:war', (cb) => {
+		gulp.hook('after:plugin:war', (callback) => {
 			hookSpy('after:plugin:war');
 
-			cb();
+			callback();
 		});
 
-		gulp.hook('after:plugin:deploy', (cb) => {
+		gulp.hook('after:plugin:deploy', (callback) => {
 			hookSpy('after:plugin:deploy');
 
-			cb();
+			callback();
 		});
 	};
 
@@ -134,25 +134,25 @@ test('registerTasks should register hooks for extension tasks', (done) => {
 	var hookSpy = sinon.spy();
 
 	var hookFn = function (gulp) {
-		gulp.hook('before:plugin:war', (cb) => {
+		gulp.hook('before:plugin:war', (callback) => {
 			hookSpy('before:plugin:war');
 
-			cb();
+			callback();
 		});
 
-		gulp.hook('after:my-custom:task', (cb) => {
+		gulp.hook('after:my-custom:task', (callback) => {
 			hookSpy('after:my-custom:task');
 
-			cb();
+			callback();
 		});
 	};
 
 	registerTasks({
 		extensions(options) {
-			options.gulp.task('my-custom:task', (cb) => {
+			options.gulp.task('my-custom:task', (callback) => {
 				hookSpy('my-custom:task');
 
-				cb();
+				callback();
 			});
 		},
 		gulp,
@@ -174,16 +174,16 @@ test('registerTasks should overwrite task', (done) => {
 	var hookSpy = sinon.spy();
 
 	var hookFn = function (gulp) {
-		gulp.hook('before:plugin:war', (cb) => {
+		gulp.hook('before:plugin:war', (callback) => {
 			hookSpy('before:plugin:war');
 
-			cb();
+			callback();
 		});
 
-		gulp.task('plugin:war', (cb) => {
+		gulp.task('plugin:war', (callback) => {
 			hookSpy('plugin:war');
 
-			cb();
+			callback();
 		});
 	};
 

@@ -42,10 +42,12 @@ module.exports = function () {
 
 	console.log('\n--- Removing all JS Toolkit dependencies from projects\n');
 	fs.readdirSync(pkgsDir)
-		.filter((prj) => fs.statSync(path.join(pkgsDir, prj)).isDirectory())
-		.forEach((prj) => {
+		.filter((project) =>
+			fs.statSync(path.join(pkgsDir, project)).isDirectory()
+		)
+		.forEach((project) => {
 			modifyPackageJson(
-				path.join(pkgsDir, prj, 'package.json'),
+				path.join(pkgsDir, project, 'package.json'),
 				(pkgJson) => {
 					const deleted = {
 						dependencies: {},
@@ -57,7 +59,7 @@ module.exports = function () {
 							deleted.dependencies[prjName] =
 								pkgJson.dependencies[prjName];
 
-							console.log(`delete ${prjName} @ ${prj}`);
+							console.log(`delete ${prjName} @ ${project}`);
 							delete pkgJson.dependencies[prjName];
 						}
 
@@ -65,7 +67,7 @@ module.exports = function () {
 							deleted.devDependencies[prjName] =
 								pkgJson.devDependencies[prjName];
 
-							console.log(`delete ${prjName} @ ${prj}`);
+							console.log(`delete ${prjName} @ ${project}`);
 							delete pkgJson.devDependencies[prjName];
 						}
 					});
@@ -99,11 +101,13 @@ module.exports = function () {
 		const binPath = path.join('node_modules', '.bin', bin);
 
 		fs.readdirSync(pkgsDir)
-			.filter((prj) => fs.statSync(path.join(pkgsDir, prj)).isDirectory())
-			.forEach((prj) => {
+			.filter((project) =>
+				fs.statSync(path.join(pkgsDir, project)).isDirectory()
+			)
+			.forEach((project) => {
 				const prjBinPath = path.join(
 					'packages',
-					prj,
+					project,
 					'node_modules',
 					'.bin',
 					bin

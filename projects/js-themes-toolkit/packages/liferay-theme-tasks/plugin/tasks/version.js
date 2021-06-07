@@ -32,9 +32,9 @@ module.exports = function () {
 			{
 				encoding: 'utf8',
 			},
-			(err, result) => {
-				if (err) {
-					throw err;
+			(error, result) => {
+				if (error) {
+					throw error;
 				}
 
 				var moduleVersion = result.match(REGEX_MODULE_VERSION);

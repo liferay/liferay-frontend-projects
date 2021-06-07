@@ -6,13 +6,13 @@
 const execa = require('execa');
 
 async function run(cmd, ...args) {
-	let opts = {};
+	let options = {};
 
 	if (typeof args[args.length - 1] === 'object') {
-		opts = args.pop();
+		options = args.pop();
 	}
 
-	const {stderr, stdout} = await execa(cmd, args, opts);
+	const {stderr, stdout} = await execa(cmd, args, options);
 
 	stdout.stderr = stderr;
 
@@ -20,13 +20,13 @@ async function run(cmd, ...args) {
 }
 
 run.pipe = async (cmd, ...args) => {
-	let opts = {};
+	let options = {};
 
 	if (typeof args[args.length - 1] === 'object') {
-		opts = args.pop();
+		options = args.pop();
 	}
 
-	const promise = execa(cmd, args, opts);
+	const promise = execa(cmd, args, options);
 
 	promise.stdout.pipe(process.stdout);
 

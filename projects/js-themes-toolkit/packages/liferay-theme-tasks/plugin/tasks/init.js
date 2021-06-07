@@ -14,7 +14,7 @@ module.exports = function () {
 	const {gulp, store} = project;
 	const {appServerPath, dockerContainerName} = store;
 
-	gulp.task('plugin:init', (cb) => {
+	gulp.task('plugin:init', (callback) => {
 		InitPrompt.prompt(
 			{
 				appServerPathDefault: appServerPath
@@ -24,7 +24,7 @@ module.exports = function () {
 					dockerContainerName || 'liferay_portal_1',
 				store,
 			},
-			cb
+			callback
 		);
 	});
 

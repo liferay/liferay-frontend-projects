@@ -32,22 +32,28 @@ const DEPLOYMENT_STRATEGIES = {
 	OTHER: 'Other',
 };
 
-function dockerCopy(containerName, sourceFolder, destFolder, sourceFiles, cb) {
+function dockerCopy(
+	containerName,
+	sourceFolder,
+	destFolder,
+	sourceFiles,
+	callback
+) {
 	if (_.isFunction(sourceFiles)) {
-		cb = sourceFiles;
+		callback = sourceFiles;
 		sourceFiles = undefined;
 	}
 
 	const wcb = (error) => {
-		if (!cb) {
+		if (!callback) {
 			return;
 		}
 
 		if (error) {
-			cb(error);
+			callback(error);
 		}
 		else {
-			cb();
+			callback();
 		}
 	};
 
@@ -63,9 +69,9 @@ function dockerCopy(containerName, sourceFolder, destFolder, sourceFiles, cb) {
 	}
 
 	tar.pack(sourceFolder, packConfig).pipe(
-		es.wait((err, body) => {
-			if (err) {
-				throw err;
+		es.wait((error, body) => {
+			if (error) {
+				throw error;
 			}
 
 			const proc = spawn.sync(

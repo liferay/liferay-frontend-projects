@@ -64,7 +64,7 @@ describe('Loader', () => {
 
 						script['onload'].apply(script);
 					}
-					catch (err) {
+					catch (error) {
 						script['onerror'].apply(script);
 					}
 				}, 1);
@@ -122,8 +122,8 @@ describe('Loader', () => {
 	it('fails after a require timeout', (done) => {
 		config._config.waitTimeout = 100;
 
-		loader.require('missing-module', jest.fn(), (err) => {
-			expect(err).toHaveProperty('modules');
+		loader.require('missing-module', jest.fn(), (error) => {
+			expect(error).toHaveProperty('modules');
 			done();
 		});
 	});
@@ -168,8 +168,8 @@ describe('Loader', () => {
 	});
 
 	it('fails when local require is called with an undeclared module', (done) => {
-		loader.require(['local-require/failure'], jest.fn(), (err) => {
-			expect(err).toBeDefined();
+		loader.require(['local-require/failure'], jest.fn(), (error) => {
+			expect(error).toBeDefined();
 			done();
 		});
 	});

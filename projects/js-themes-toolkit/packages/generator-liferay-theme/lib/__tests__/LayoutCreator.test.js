@@ -102,7 +102,7 @@ describe('LayoutCreator', () => {
 
 			inquirer.prompt = sinon.spy();
 
-			var cb = sinon.spy();
+			var callback = sinon.spy();
 
 			prototype.prompt(
 				[
@@ -112,7 +112,7 @@ describe('LayoutCreator', () => {
 						name: 'thing',
 					},
 				],
-				cb
+				callback
 			);
 
 			sinonAssert.calledWith(
@@ -124,7 +124,7 @@ describe('LayoutCreator', () => {
 						name: 'thing',
 					},
 				],
-				cb
+				callback
 			);
 
 			inquirer.prompt = prompt;
@@ -198,12 +198,12 @@ describe('LayoutCreator', () => {
 				columnCount: 3,
 			};
 
-			var cb = sinon.spy();
+			var callback = sinon.spy();
 
-			prototype._afterPromptColumnCount(answers, cb);
+			prototype._afterPromptColumnCount(answers, callback);
 
-			sinonAssert.calledOnce(cb);
-			sinonAssert.calledWith(cb, null, 3);
+			sinonAssert.calledOnce(callback);
+			sinonAssert.calledWith(callback, null, 3);
 		});
 	});
 
@@ -217,11 +217,11 @@ describe('LayoutCreator', () => {
 				1: 6,
 			};
 
-			var cb = sinon.spy();
+			var callback = sinon.spy();
 
-			prototype._afterPromptColumnWidths(answers, cb);
+			prototype._afterPromptColumnWidths(answers, callback);
 
-			sinonAssert.calledWith(cb, null, [1]);
+			sinonAssert.calledWith(callback, null, [1]);
 			sinonAssert.calledWith(prototype._addRow, answers);
 		});
 	});
@@ -303,7 +303,7 @@ describe('LayoutCreator', () => {
 
 	describe('_afterPromptInsertRow', () => {
 		it('sets rowInserIndex based on answers and pass cb to _promptRow', () => {
-			var cb = _.noop;
+			var callback = _.noop;
 
 			prototype._promptRow = sinon.spy();
 
@@ -311,11 +311,11 @@ describe('LayoutCreator', () => {
 				{
 					rowIndex: 2,
 				},
-				cb
+				callback
 			);
 
 			assert.equal(prototype.rowInsertIndex, 2);
-			sinonAssert.calledWith(prototype._promptRow, cb);
+			sinonAssert.calledWith(prototype._promptRow, callback);
 		});
 	});
 
@@ -325,17 +325,17 @@ describe('LayoutCreator', () => {
 			prototype._removeRow = sinon.spy();
 			prototype.rows = [2];
 
-			var cb = _.noop;
+			var callback = _.noop;
 
 			prototype._afterPromptRemoveRow(
 				{
 					rowIndex: 3,
 				},
-				cb
+				callback
 			);
 
 			sinonAssert.calledWith(prototype._removeRow, 3);
-			sinonAssert.calledWith(prototype._promptFinishRow, [2], cb);
+			sinonAssert.calledWith(prototype._promptFinishRow, [2], callback);
 		});
 	});
 
@@ -810,14 +810,14 @@ describe('LayoutCreator', () => {
 			var waterfallSpy = sinon.spy();
 
 			var getWaterfallFunction = function (name) {
-				return function (data, cb) {
-					if (!cb) {
-						cb = data;
+				return function (data, callback) {
+					if (!callback) {
+						callback = data;
 					}
 
 					waterfallSpy(name, data);
 
-					cb(null, name);
+					callback(null, name);
 				};
 			};
 

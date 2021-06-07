@@ -29,26 +29,26 @@ test('_applyHooks should pass', (done) => {
 	// Prepare a function to trace task calls to the tasksTrace array
 
 	const tasksTrace = [];
-	const trace = (name, cb) => {
+	const trace = (name, callback) => {
 		tasksTrace.push(name);
-		cb();
+		callback();
 	};
 
 	// Register tasks
 
-	gulp.task('test2', (cb) => trace('test2', cb));
+	gulp.task('test2', (callback) => trace('test2', callback));
 	gulp.task(
 		'test',
-		gulp.series(['test2'], (cb) => trace('test', cb))
+		gulp.series(['test2'], (callback) => trace('test', callback))
 	);
 
 	// Register hooks
 
 	prototype.hooks = {
-		'after:test2': (cb) => trace('after:test2', cb),
-		'after:test3': (cb) => trace('after:test3', cb),
-		'before:test': (cb) => trace('before:test', cb),
-		'invalid:test': (cb) => trace('invalid:test', cb),
+		'after:test2': (callback) => trace('after:test2', callback),
+		'after:test3': (callback) => trace('after:test3', callback),
+		'before:test': (callback) => trace('before:test', callback),
+		'invalid:test': (callback) => trace('invalid:test', callback),
 	};
 
 	gulp.task = sinon.spy();

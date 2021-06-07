@@ -181,9 +181,9 @@ function getMergedConfig(type, property) {
 						'npmscripts.config'
 					));
 				}
-				catch (err) {
-					if (err.code !== 'MODULE_NOT_FOUND') {
-						throw err;
+				catch (error) {
+					if (error.code !== 'MODULE_NOT_FOUND') {
+						throw error;
 					}
 				}
 			}

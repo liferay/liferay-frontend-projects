@@ -26,8 +26,8 @@ afterEach(() => {
 it('getLiferayThemeModule should retrieve package.json file from npm', (done) => {
 	const pkgName = 'lfr-product-menu-animation-themelet';
 
-	themeFinder.getLiferayThemeModule(pkgName, (err, pkg) => {
-		expect(_.isNull(err)).toBe(true);
+	themeFinder.getLiferayThemeModule(pkgName, (error, pkg) => {
+		expect(_.isNull(error)).toBe(true);
 		expect(_.isObject(pkg.liferayTheme)).toBe(true);
 		expect(pkg.keywords.indexOf('liferay-theme') > -1).toBe(true);
 		expect(pkg.name).toEqual(pkgName);
@@ -37,9 +37,9 @@ it('getLiferayThemeModule should retrieve package.json file from npm', (done) =>
 });
 
 it('getLiferayThemeModule should return error because module does not exist', (done) => {
-	themeFinder.getLiferayThemeModule('fake-themelet-123', (err, pkg) => {
+	themeFinder.getLiferayThemeModule('fake-themelet-123', (error, pkg) => {
 		expect(_.isUndefined(pkg)).toBe(true);
-		expect(err.message).toEqual(
+		expect(error.message).toEqual(
 			"Package `fake-themelet-123` doesn't exist"
 		);
 
@@ -48,14 +48,17 @@ it('getLiferayThemeModule should return error because module does not exist', (d
 });
 
 it('getLiferayThemeModule should return error because module is not a liferay theme module', (done) => {
-	themeFinder.getLiferayThemeModule('generator-liferay-theme', (err, pkg) => {
-		expect(_.isNull(pkg)).toBe(true);
-		expect(err.message).toEqual(
-			'Package is not a Liferay theme or themelet module'
-		);
+	themeFinder.getLiferayThemeModule(
+		'generator-liferay-theme',
+		(error, pkg) => {
+			expect(_.isNull(pkg)).toBe(true);
+			expect(error.message).toEqual(
+				'Package is not a Liferay theme or themelet module'
+			);
 
-		done();
-	});
+			done();
+		}
+	);
 });
 
 it('getLiferayThemeModules should return an object when searching for global modules', (done) => {

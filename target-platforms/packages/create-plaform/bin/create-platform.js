@@ -155,7 +155,7 @@ const dependencies = Object.entries(config.build.bundler.config.imports).reduce(
 
 				dependencies[packageName] = pkgJson.version;
 			}
-			catch (err) {
+			catch (error) {
 				console.log(
 					'WARNING: Dependency',
 					packageName,

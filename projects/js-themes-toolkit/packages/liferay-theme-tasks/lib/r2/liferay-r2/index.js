@@ -137,8 +137,8 @@ var valueMap = {
 	'text-align': rtltr,
 };
 
-function processRule(rule, idx, list) {
-	var prev = list[idx - 1];
+function processRule(rule, index, list) {
+	var prev = list[index - 1];
 	if (prev && prev.type === 'comment' && prev.comment.trim() === '@noflip') {
 		return;
 	}

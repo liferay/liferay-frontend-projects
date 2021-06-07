@@ -18,8 +18,8 @@ class KickstartPrompt {
 		this.init(...args);
 	}
 
-	init(config, cb) {
-		this.done = cb;
+	init(config, callback) {
+		this.done = callback;
 		this.themeConfig = config.themeConfig;
 
 		this._promptThemeSource();
@@ -64,7 +64,7 @@ class KickstartPrompt {
 		}
 	}
 
-	_installTempModule(moduleName, cb) {
+	_installTempModule(moduleName, callback) {
 		const tempNodeModulesPath = path.join(
 			project.dir,
 			'.temp_node_modules'
@@ -79,7 +79,7 @@ class KickstartPrompt {
 		const finalize = () => {
 			if (!done) {
 				done = true;
-				cb();
+				callback();
 			}
 		};
 
@@ -128,6 +128,7 @@ class KickstartPrompt {
 	}
 }
 
-KickstartPrompt.prompt = (config, cb) => new KickstartPrompt(config, cb);
+KickstartPrompt.prompt = (config, callback) =>
+	new KickstartPrompt(config, callback);
 
 module.exports = KickstartPrompt;

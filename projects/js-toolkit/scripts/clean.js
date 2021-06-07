@@ -48,9 +48,9 @@ function clean() {
 
 		fs.removeSync(json.compilerOptions.outDir);
 	}
-	catch (err) {
-		if (err.code !== 'ENOENT') {
-			abort(err.toString());
+	catch (error) {
+		if (error.code !== 'ENOENT') {
+			abort(error.toString());
 		}
 	}
 

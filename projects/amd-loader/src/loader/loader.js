@@ -426,7 +426,7 @@ export default class Loader {
 
 				success(...implementations);
 			})
-			.catch((err) => {
+			.catch((error) => {
 
 				// If reject timeout was hit don't do anything else
 
@@ -438,7 +438,7 @@ export default class Loader {
 					clearTimeout(rejectTimeout);
 				}
 
-				failure(err);
+				failure(error);
 			});
 	}
 
@@ -462,7 +462,7 @@ export default class Loader {
 			try {
 				handler(...args);
 			}
-			catch (err) {
+			catch (error) {
 				this._log.error(
 					'\n',
 					'A require() call',
@@ -479,7 +479,7 @@ export default class Loader {
 					'try/catch to be able to recover from errors better and to',
 					'avoid the appearance of this message.\n',
 					'\n',
-					err
+					error
 				);
 			}
 		};
@@ -721,12 +721,12 @@ export default class Loader {
 
 				module.implement.resolve(module.implementation);
 			}
-			catch (err) {
+			catch (error) {
 				if (!module.implement.fulfilled) {
-					module.implement.reject(err);
+					module.implement.reject(error);
 				}
 
-				throw err;
+				throw error;
 			}
 		});
 	}

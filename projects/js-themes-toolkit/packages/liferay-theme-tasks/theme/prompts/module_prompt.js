@@ -13,8 +13,8 @@ class ModulePrompt {
 		this.init(...args);
 	}
 
-	init(config, cb) {
-		this.done = cb;
+	init(config, callback) {
+		this.done = callback;
 		this.modules = config.modules;
 		this.selectedModules = config.selectedModules;
 		this.themelet = config.themelet;
@@ -77,6 +77,6 @@ class ModulePrompt {
 	}
 }
 
-ModulePrompt.prompt = (config, cb) => new ModulePrompt(config, cb);
+ModulePrompt.prompt = (config, callback) => new ModulePrompt(config, callback);
 
 module.exports = ModulePrompt;

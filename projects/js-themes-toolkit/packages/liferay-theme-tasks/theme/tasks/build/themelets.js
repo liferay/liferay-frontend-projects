@@ -30,15 +30,15 @@ module.exports = function () {
 
 	const themeConfig = project.themeConfig.config;
 
-	gulp.task('build:themelets', (cb) => {
+	gulp.task('build:themelets', (callback) => {
 		runSequence(
 			['build:themelet-src'],
 			['build:themelet-css-inject', 'build:themelet-js-inject'],
-			cb
+			callback
 		);
 	});
 
-	gulp.task('build:themelet-css-inject', (cb) => {
+	gulp.task('build:themelet-css-inject', (callback) => {
 		const themeSrcPaths = pathBuild.join(
 			'themelets',
 			'**',
@@ -54,10 +54,10 @@ module.exports = function () {
 				read: false,
 			})
 			.pipe(
-				vinylPaths((path, cb) => {
+				vinylPaths((path, callback) => {
 					themeletSources = true;
 
-					cb();
+					callback();
 				})
 			);
 
@@ -98,11 +98,11 @@ module.exports = function () {
 					);
 				}
 
-				cb();
+				callback();
 			});
 	});
 
-	gulp.task('build:themelet-js-inject', (cb) => {
+	gulp.task('build:themelet-js-inject', (callback) => {
 		const themeSrcPaths = pathBuild.join(
 			'themelets',
 			'**',
@@ -118,10 +118,10 @@ module.exports = function () {
 				read: false,
 			})
 			.pipe(
-				vinylPaths((path, cb) => {
+				vinylPaths((path, callback) => {
 					themeletSources = true;
 
-					cb();
+					callback();
 				})
 			);
 
@@ -175,11 +175,11 @@ module.exports = function () {
 					);
 				}
 
-				cb();
+				callback();
 			});
 	});
 
-	gulp.task('build:themelet-src', (cb) => {
+	gulp.task('build:themelet-src', (callback) => {
 		runThemeletDependenciesSeries((item, index, done) => {
 			gulp.src(
 				new FilePath(project.dir).join(
@@ -192,10 +192,10 @@ module.exports = function () {
 			)
 				.pipe(gulp.dest(pathBuild.join('themelets', index).asNative))
 				.on('end', done);
-		}, cb);
+		}, callback);
 	});
 
-	function runThemeletDependenciesSeries(asyncTask, cb) {
+	function runThemeletDependenciesSeries(asyncTask, callback) {
 		const themeletStreamMap = _.map(getThemeletDependencies(), function (
 			item,
 			index
@@ -203,7 +203,7 @@ module.exports = function () {
 			return _.bind(asyncTask, this, item, index);
 		});
 
-		async.series(themeletStreamMap, cb);
+		async.series(themeletStreamMap, callback);
 	}
 };
 

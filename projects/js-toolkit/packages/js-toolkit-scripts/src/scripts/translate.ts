@@ -100,11 +100,11 @@ export default function (): void {
 
 			print(success`Finished`);
 		})
-		.catch((err) => {
+		.catch((error) => {
 			print(error`
 				There was an error translating files:
 
-				  ${err}	
+				  ${error}	
 				
 			`);
 			process.exit(1);
@@ -281,9 +281,9 @@ function createMissingSupportedLocalesFiles(): void {
  */
 function parseFile(filePath): Promise<object> {
 	return new Promise((resolve, reject) => {
-		properties.parse(filePath, {path: true}, (err, labels) => {
-			if (err) {
-				reject(err);
+		properties.parse(filePath, {path: true}, (error, labels) => {
+			if (error) {
+				reject(error);
 			}
 			else {
 				resolve(labels);
@@ -341,9 +341,9 @@ function translate(subscriptionKey, locales, texts): Promise<object> {
 						...options,
 						body: chunk.map((item) => ({text: item})),
 					},
-					(err, response, body) => {
-						if (err) {
-							reject(err);
+					(error, response, body) => {
+						if (error) {
+							reject(error);
 						}
 						else if (response.statusCode != 200) {
 							reject({

@@ -84,9 +84,9 @@ function runBabel() {
 				'utf8'
 			);
 		}
-		catch (err) {
+		catch (error) {
 			/* eslint-disable-next-line no-console */
-			console.log(err.toString());
+			console.log(error.toString());
 			print(error`Build failed`);
 			process.exit(1);
 		}

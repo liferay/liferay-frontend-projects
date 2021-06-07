@@ -32,14 +32,14 @@ expect.extend({
 					message = `Folder '${path}' is empty`;
 				}
 			}
-			catch (err) {
+			catch (error) {
 				pass = false;
 
-				if (err.code === 'ENOENT') {
+				if (error.code === 'ENOENT') {
 					message = `Folder '${path}' does not exist`;
 				}
 				else {
-					message = err.toString();
+					message = error.toString();
 				}
 			}
 
@@ -56,14 +56,14 @@ expect.extend({
 					message = `Folder '${path}' is not empty`;
 				}
 			}
-			catch (err) {
+			catch (error) {
 				pass = false;
 
-				if (err.code === 'ENOENT') {
+				if (error.code === 'ENOENT') {
 					message = `Folder '${path}' does not exist`;
 				}
 				else {
-					message = err.toString();
+					message = error.toString();
 				}
 			}
 		}
@@ -84,9 +84,9 @@ expect.extend({
 				message = `Path '${path}' is not a file`;
 			}
 		}
-		catch (err) {
+		catch (error) {
 			pass = false;
-			message = err.toString();
+			message = error.toString();
 		}
 
 		if (this.isNot && pass) {
@@ -114,14 +114,14 @@ expect.extend({
 					message = `File '${path}' matches ${regex}`;
 				}
 			}
-			catch (err) {
+			catch (error) {
 				pass = false;
 
-				if (err.code === 'ENOENT') {
+				if (error.code === 'ENOENT') {
 					message = `File '${path}' does not exist`;
 				}
 				else {
-					message = err.toString();
+					message = error.toString();
 				}
 			}
 
@@ -138,14 +138,14 @@ expect.extend({
 					message = `File '${path}' does not match ${regex}`;
 				}
 			}
-			catch (err) {
+			catch (error) {
 				pass = false;
 
-				if (err.code === 'ENOENT') {
+				if (error.code === 'ENOENT') {
 					message = `File '${path}' does not exist`;
 				}
 				else {
-					message = err.toString();
+					message = error.toString();
 				}
 			}
 		}
@@ -166,9 +166,9 @@ expect.extend({
 				message = `Path '${path}' is not a folder`;
 			}
 		}
-		catch (err) {
+		catch (error) {
 			pass = false;
-			message = err.toString();
+			message = error.toString();
 		}
 
 		if (this.isNot && pass) {

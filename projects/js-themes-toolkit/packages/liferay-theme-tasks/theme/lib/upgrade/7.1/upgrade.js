@@ -19,21 +19,21 @@ module.exports = function () {
 
 	let includeFontAwesome;
 
-	gulp.task('upgrade:config:liferay-font-awesome', (cb) => {
+	gulp.task('upgrade:config:liferay-font-awesome', (callback) => {
 		themeConfig.setConfig({
 			fontAwesome: includeFontAwesome,
 		});
 
-		cb();
+		callback();
 	});
 
-	gulp.task('upgrade:dependencies:liferay-theme-deps-7.1', (cb) => {
+	gulp.task('upgrade:dependencies:liferay-theme-deps-7.1', (callback) => {
 		project.removeDependencies(['liferay-theme-deps-7.1']);
 
-		cb();
+		callback();
 	});
 
-	gulp.task('upgrade:dependencies:liferay-font-awesome', (cb) => {
+	gulp.task('upgrade:dependencies:liferay-font-awesome', (callback) => {
 		if (includeFontAwesome) {
 			project.setDependencies(
 				{
@@ -47,10 +47,10 @@ module.exports = function () {
 			project.removeDependencies(['liferay-font-awesome']);
 		}
 
-		cb();
+		callback();
 	});
 
-	gulp.task('upgrade:css:liferay-font-awesome', (cb) => {
+	gulp.task('upgrade:css:liferay-font-awesome', (callback) => {
 		if (includeFontAwesome) {
 			return gulp
 				.src('src/css/_custom.scss')
@@ -63,10 +63,10 @@ module.exports = function () {
 				.pipe(gulp.dest('src/css/'));
 		}
 
-		cb();
+		callback();
 	});
 
-	gulp.task('upgrade:prompt', (cb) => {
+	gulp.task('upgrade:prompt', (callback) => {
 		inquirer.prompt(
 			[
 				{
@@ -80,7 +80,7 @@ module.exports = function () {
 			(answers) => {
 				includeFontAwesome = answers.includeFontAwesome;
 
-				cb();
+				callback();
 			}
 		);
 	});

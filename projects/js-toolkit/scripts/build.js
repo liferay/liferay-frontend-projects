@@ -22,9 +22,9 @@ function copyAssets() {
 				exclude: ['**/*.js', '**/*.ts', '**/__tests__/**/*'],
 				up: 1,
 			},
-			(err) => {
-				if (err) {
-					console.error(err);
+			(error) => {
+				if (error) {
+					console.error(error);
 					process.exit(1);
 				}
 

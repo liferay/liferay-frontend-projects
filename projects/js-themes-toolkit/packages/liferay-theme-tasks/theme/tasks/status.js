@@ -9,11 +9,11 @@ const status = require('../lib/status');
 function getStatus() {
 	const {gulp} = project;
 
-	gulp.task('status', (cb) => {
+	gulp.task('status', (callback) => {
 		// eslint-disable-next-line
 		console.log(status(project.themeConfig.config));
 
-		cb();
+		callback();
 	});
 }
 

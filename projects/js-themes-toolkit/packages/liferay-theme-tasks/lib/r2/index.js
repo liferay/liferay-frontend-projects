@@ -19,9 +19,9 @@ const PluginError = gutil.PluginError;
 const PLUGIN_NAME = 'gulp-R2-css';
 
 function gulpR2() {
-	const task = through.obj(function (file, enc, cb) {
+	const task = through.object(function (file, enc, callback) {
 		if (file.isNull()) {
-			return cb(null, file);
+			return callback(null, file);
 		}
 
 		if (file.isBuffer()) {
@@ -31,23 +31,23 @@ function gulpR2() {
 					path.relative('.', file.path)
 				);
 			}
-			catch (err) {
+			catch (error) {
 				this.push(file);
 
 				// eslint-disable-next-line no-console
 				console.log(
 					chalk.red.bold('[ERROR]'),
-					chalk.magenta(`.${path.sep}${err.filename}`),
+					chalk.magenta(`.${path.sep}${error.filename}`),
 					chalk.cyan(
-						`(${err.position.end.line}:${err.position.end.column})`
+						`(${error.position.end.line}:${error.position.end.column})`
 					),
-					chalk.red.bold(err.description)
+					chalk.red.bold(error.description)
 				);
 
 				task.hasCssParseErrors = true;
 			}
 
-			cb(null, file);
+			callback(null, file);
 		}
 
 		if (file.isStream()) {
@@ -56,7 +56,7 @@ function gulpR2() {
 				new PluginError(PLUGIN_NAME, 'Streaming not supported')
 			);
 
-			return cb();
+			return callback();
 		}
 	});
 

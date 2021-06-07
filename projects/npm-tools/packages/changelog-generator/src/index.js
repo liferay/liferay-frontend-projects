@@ -437,7 +437,7 @@ async function go(options) {
 					tagPattern
 				);
 			}
-			catch (err) {
+			catch (error) {
 
 				// This will be the last chunk we generate.
 
@@ -606,7 +606,7 @@ async function main(_node, _script, ...args) {
 			info('Fetching remote tags: run with --no-update-tags to skip');
 			await git('remote', 'update');
 		}
-		catch (err) {
+		catch (error) {
 			warn('Failed to update tags: run with --no-update-tags to skip');
 		}
 	}

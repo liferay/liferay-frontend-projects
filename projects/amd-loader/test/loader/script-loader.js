@@ -101,10 +101,10 @@ describe('ScriptLoader', () => {
 
 		document.eventHandler = 'onerror';
 
-		scriptLoader.loadModules(moduleNames).catch((err) => {
-			expect(err.url).toBe('http://localhost/a@1.0.0.js&/b@1.2.0.js');
-			expect(err.modules).toEqual(moduleNames);
-			expect(err.script).toBe(document.scripts[0]);
+		scriptLoader.loadModules(moduleNames).catch((error) => {
+			expect(error.url).toBe('http://localhost/a@1.0.0.js&/b@1.2.0.js');
+			expect(error.modules).toEqual(moduleNames);
+			expect(error.script).toBe(document.scripts[0]);
 
 			done();
 		});

@@ -28,10 +28,10 @@ function isDocker(answers) {
 	);
 }
 
-function InitPrompt(options, cb) {
+function InitPrompt(options, callback) {
 	var instance = this;
 
-	instance.done = cb;
+	instance.done = callback;
 	instance.store = options.store;
 
 	instance._prompt(options);
@@ -69,8 +69,8 @@ InitPrompt.prototype = {
 
 			var done = this.async();
 
-			fs.stat(deployPath, (err, stats) => {
-				var ask = err || !stats.isDirectory();
+			fs.stat(deployPath, (error, stats) => {
+				var ask = error || !stats.isDirectory();
 
 				if (!ask) {
 					answers.deployPath = deployPath;
@@ -207,6 +207,6 @@ InitPrompt.prototype = {
 	},
 };
 
-InitPrompt.prompt = (config, cb) => new InitPrompt(config, cb);
+InitPrompt.prompt = (config, callback) => new InitPrompt(config, callback);
 
 module.exports = InitPrompt;

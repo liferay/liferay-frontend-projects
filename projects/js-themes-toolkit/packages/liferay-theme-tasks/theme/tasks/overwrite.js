@@ -21,8 +21,8 @@ module.exports = function () {
 	const {gulp} = project;
 	const {pathBuild, pathSrc} = project.options;
 
-	gulp.task('overwrite', (cb) => {
-		promptFiles('.', cb);
+	gulp.task('overwrite', (callback) => {
+		promptFiles('.', callback);
 	});
 
 	const blacklistedDirs = ['WEB-INF'];
@@ -104,7 +104,7 @@ module.exports = function () {
 		log(srcFile, 'copied to', destFile);
 	}
 
-	function promptFiles(dirPath, cb) {
+	function promptFiles(dirPath, callback) {
 		const choices = getFileChoices(dirPath);
 
 		if (dirPath === '.' && !validateBuild(choices)) {
@@ -116,7 +116,7 @@ module.exports = function () {
 				)
 			);
 
-			return cb();
+			return callback();
 		}
 
 		inquirer.prompt(
@@ -128,7 +128,7 @@ module.exports = function () {
 			},
 			(answers) => {
 				if (answers.file.dir) {
-					promptFiles(answers.file.path, cb);
+					promptFiles(answers.file.path, callback);
 				}
 				else {
 					logChanges(answers.file.path);
@@ -140,7 +140,7 @@ module.exports = function () {
 						}
 					)
 						.pipe(gulp.dest(pathSrc.asNative))
-						.on('end', cb);
+						.on('end', callback);
 				}
 			}
 		);
@@ -152,7 +152,7 @@ module.exports = function () {
 		try {
 			files = fs.readdirSync(dirPath);
 		}
-		catch (err) {
+		catch (error) {
 
 			// Swallow.
 

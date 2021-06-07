@@ -186,7 +186,7 @@ function readSource(file: FilePath): SourceCode {
 	try {
 		source.map = fs.readJsonSync(`${file.asNative}.map`);
 	}
-	catch (err) {
+	catch (error) {
 
 		// ignore
 

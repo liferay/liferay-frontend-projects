@@ -28,9 +28,9 @@ afterEach(() => {
 });
 
 it('upgrade:config', (done) => {
-	project.gulp.runSequence('upgrade:config', (err) => {
-		if (err) {
-			throw err;
+	project.gulp.runSequence('upgrade:config', (error) => {
+		if (error) {
+			throw error;
 		}
 
 		const themeConfig = project.themeConfig.config;
