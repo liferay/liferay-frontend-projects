@@ -1,3 +1,18 @@
+## [liferay-js-toolkit/v2.25.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.25.0) (2021-06-07)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.24.3...liferay-js-toolkit/v2.25.0)
+
+### :new: Features
+
+-   feat(js-toolkit): support for autopresets ([\#547](https://github.com/liferay/liferay-frontend-projects/pull/547))
+-   feat(js-toolkit): implement `npm run start eject` ([\#526](https://github.com/liferay/liferay-frontend-projects/pull/526))
+
+### :wrench: Bug fixes
+
+-   fix(js-toolkit): support spread operator when bundling modules ([\#569](https://github.com/liferay/liferay-frontend-projects/pull/569))
+-   fix(js-toolkit): support scoped packages when building JAR files ([\#535](https://github.com/liferay/liferay-frontend-projects/pull/535))
+-   fix(js-toolkit): declare Liferay mock before requiring main module when running 'npm run start' ([\#523](https://github.com/liferay/liferay-frontend-projects/pull/523))
+
 ## [liferay-js-toolkit/v2.24.3](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.24.3) (2021-03-19)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.24.2...liferay-js-toolkit/v2.24.3)
