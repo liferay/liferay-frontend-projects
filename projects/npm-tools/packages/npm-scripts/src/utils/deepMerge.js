@@ -14,17 +14,18 @@ const clone = (value, options) => merge(emptyTarget(value), value, options);
 function combineMerge(target, source, options) {
 	const destination = target.slice();
 
-	source.forEach((e, i) => {
+	source.forEach((element, i) => {
 		if (typeof destination[i] === 'undefined') {
 			const cloneRequested = options.clone !== false;
-			const shouldClone = cloneRequested && options.isMergeableObject(e);
-			destination[i] = shouldClone ? clone(e, options) : e;
+			const shouldClone =
+				cloneRequested && options.isMergeableObject(element);
+			destination[i] = shouldClone ? clone(element, options) : element;
 		}
-		else if (options.isMergeableObject(e)) {
-			destination[i] = merge(target[i], e, options);
+		else if (options.isMergeableObject(element)) {
+			destination[i] = merge(target[i], element, options);
 		}
-		else if (target.indexOf(e) === -1) {
-			destination.push(e);
+		else if (target.indexOf(element) === -1) {
+			destination.push(element);
 		}
 	});
 

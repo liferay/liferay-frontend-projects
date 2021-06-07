@@ -6,7 +6,7 @@
 const child_process = require('child_process');
 const fs = require('fs');
 
-const {error, info} = require('./console');
+const {info, log} = require('./console');
 
 const packageJson = JSON.parse(fs.readFileSync('package.json'));
 
@@ -15,7 +15,7 @@ function yarn(command) {
 		info('Running process: yarn ' + command);
 
 		const {
-			err,
+			error,
 			signal,
 			status,
 			stderr,
@@ -24,9 +24,9 @@ function yarn(command) {
 
 		if (status !== 0) {
 			// eslint-disable-next-line no-console
-			error(
+			log(
 				JSON.stringify({
-					error: err ? err.toString() : 'n/a',
+					error: error ? error.toString() : 'n/a',
 					signal,
 					status,
 					stderr: stderr ? stderr.toString() : 'n/a',
