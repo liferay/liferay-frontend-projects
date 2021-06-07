@@ -245,6 +245,12 @@ async function getVersion(options) {
 			({version: currentVersion} = JSON.parse(
 				await readFileAsync('package.json', 'utf8')
 			));
+
+			if (!currentVersion && fs.existsSync('lerna.json')) {
+				({version: currentVersion} = JSON.parse(
+					await readFileAsync('lerna.json', 'utf8')
+				));
+			}
 		}
 		catch (_error) {
 
