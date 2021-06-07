@@ -11,6 +11,7 @@ import babelPluginNamespaceAmdDefine from 'babel-plugin-namespace-amd-define';
 import babelPluginNamespaceModules from 'babel-plugin-namespace-modules';
 import babelPluginNormalizeRequires from 'babel-plugin-normalize-requires';
 import babelPluginTransformNodeEnvInline from 'babel-plugin-transform-node-env-inline';
+import babelPluginTransformObjetRestSpread from 'babel-plugin-transform-object-rest-spread';
 import babelPluginWrapModulesAmd from 'babel-plugin-wrap-modules-amd';
 
 /**
@@ -31,6 +32,7 @@ export default function () {
 					keepFnName: true,
 				},
 			],
+			babelPluginTransformObjetRestSpread,
 			babelPluginWrapModulesAmd,
 			babelPluginNameAmdModules,
 			babelPluginNamespaceModules,

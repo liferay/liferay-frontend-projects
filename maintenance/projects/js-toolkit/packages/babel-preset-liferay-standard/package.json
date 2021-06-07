@@ -9,6 +9,7 @@
 		"babel-plugin-namespace-modules": "2.24.3",
 		"babel-plugin-normalize-requires": "2.24.3",
 		"babel-plugin-transform-node-env-inline": "0.4.3",
+		"babel-plugin-transform-object-rest-spread": "6.26.0",
 		"babel-plugin-wrap-modules-amd": "2.24.3"
 	},
 	"description": "Babel preset for bundling standard Liferay projects.",
