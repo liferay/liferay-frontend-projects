@@ -60,7 +60,7 @@ module.exports = {
 			url:
 				'https://github.com/liferay/liferay-frontend-projects/blob/master/guidelines/general/naming.md#avoid-abbreviations',
 		},
-		fixable: 'code',
+		fixable: null,
 		schema: [],
 		type: 'problem',
 	},
