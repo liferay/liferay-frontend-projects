@@ -1,10 +1,10 @@
 {
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"dependencies": {
-		"babel-preset-liferay-standard": "2.24.3",
-		"liferay-npm-build-support": "2.24.3",
-		"liferay-npm-bundler-loader-babel-loader": "2.24.3",
-		"liferay-npm-bundler-loader-copy-loader": "2.24.3"
+		"babel-preset-liferay-standard": "2.25.0",
+		"liferay-npm-build-support": "2.25.0",
+		"liferay-npm-bundler-loader-babel-loader": "2.25.0",
+		"liferay-npm-bundler-loader-copy-loader": "2.25.0"
 	},
 	"description": "Configuration for liferay-npm-bundler to integrate with Vue CLI projects",
 	"main": "config.json",
@@ -14,5 +14,5 @@
 		"type": "git",
 		"url": "https://github.com/liferay/liferay-frontend-projects.git"
 	},
-	"version": "2.24.3"
+	"version": "2.25.0"
 }
