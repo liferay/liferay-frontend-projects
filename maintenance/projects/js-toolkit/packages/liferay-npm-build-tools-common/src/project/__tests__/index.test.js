@@ -11,8 +11,8 @@ import PkgDesc from '../../pkg-desc';
 import {Project} from '../index';
 
 /**
-* Tests by property
-*/
+ * Tests by property
+ */
 
 describe('project', () => {
 	let project;
