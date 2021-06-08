@@ -238,14 +238,18 @@ async function getVersion(options) {
 		let currentVersion;
 
 		try {
-			({version: currentVersion} = JSON.parse(
-				await readFileAsync('package.json', 'utf8')
-			));
+			const packageJson = JSON.parse(
+				fs.readFileSync('package.json', 'utf8')
+			);
+
+			currentVersion = packageJson.version;
 
 			if (!currentVersion && fs.existsSync('lerna.json')) {
-				({version: currentVersion} = JSON.parse(
-					await readFileAsync('lerna.json', 'utf8')
-				));
+				const lernaJson = JSON.parse(
+					fs.readFileSync('lerna.json', 'utf8')
+				);
+
+				currentVersion = lernaJson.version;
 			}
 		}
 		catch (_error) {
@@ -461,7 +465,7 @@ async function go(options) {
 		let previousContents = '';
 
 		try {
-			previousContents = await readFileAsync(outfile, 'utf8');
+			previousContents = fs.readFileSync(outfile, 'utf8');
 		}
 		catch (error) {
 			warn(`Cannot read previous file ${outfile}; will create anew.`);
@@ -907,7 +911,7 @@ async function write(options, preview, contents) {
 		process.stdout.write(preview + '\n');
 	}
 	else {
-		await writeFileAsync(options.outfile, contents);
+		fs.writeFileSync(options.outfile, contents);
 
 		yarn('format');
 	}
