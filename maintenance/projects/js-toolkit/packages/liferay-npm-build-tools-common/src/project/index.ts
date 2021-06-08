@@ -306,7 +306,7 @@ export class Project {
 	 * `require.resolve()` call).
 	 * @param moduleName
 	 */
-	resolve(moduleName: string): any {
+	resolve(moduleName: string): string {
 		return resolveModule.sync(moduleName, {
 			basedir: this.dir.asNative,
 		});
@@ -364,7 +364,7 @@ export class Project {
 	 * @param moduleName
 	 * @throws if module is not found
 	 */
-	toolResolve(moduleName: string): any {
+	toolResolve(moduleName: string): string {
 		try {
 			return resolveModule.sync(moduleName, {
 				basedir: this._toolsDir.asNative,
@@ -385,9 +385,17 @@ export class Project {
 			try {
 				const {dependencies} = this.require(pkgName + '/package.json');
 
-				if (dependencies && dependencies['liferay-npm-bundler']) {
-					autopresets.push(pkgName);
+				if (!dependencies || !dependencies['liferay-npm-bundler']) {
+					return autopresets;
 				}
+
+				const mainModulePath = this.resolve(pkgName);
+
+				if (!mainModulePath.toLowerCase().endsWith('.json')) {
+					return autopresets;
+				}
+
+				autopresets.push(pkgName);
 			}
 			catch (err) {
 
