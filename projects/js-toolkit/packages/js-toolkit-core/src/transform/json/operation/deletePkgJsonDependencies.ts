@@ -8,7 +8,7 @@ import {JsonTransform} from '..';
 import PkgJson from '../../../schema/PkgJson';
 
 /**
- * Delete packages from the dependencies section of a package.json file
+ * Delete packages from all dependencies sections of a package.json file
  *
  * @param packageNames
  */
@@ -16,12 +16,18 @@ export default function deletePkgJsonDependencies(
 	...packageNames: string[]
 ): JsonTransform<PkgJson> {
 	return (async (pkgJson) => {
-		if (!pkgJson.dependencies) {
-			return pkgJson;
-		}
+		['dependencies', 'devDependencies', 'peerDependencies'].forEach(
+			(section) => {
+				if (pkgJson[section]) {
+					packageNames.forEach(
+						(packageName) => delete pkgJson[section][packageName]
+					);
 
-		packageNames.forEach(
-			(packageName) => delete pkgJson.dependencies[packageName]
+					if (!Object.keys(pkgJson[section]).length) {
+						delete pkgJson[section];
+					}
+				}
+			}
 		);
 
 		return pkgJson;
