@@ -375,7 +375,7 @@ export class Project {
 		}
 	}
 
-	_getAutopreset(): string | undefined {
+	_getAutopreset(): string | null {
 		const {dependencies = {}, devDependencies = {}} = this._pkgJson;
 
 		const autopresets = Object.keys({
@@ -408,7 +408,7 @@ export class Project {
 			);
 		}
 
-		return autopresets.length ? autopresets[0] : undefined;
+		return autopresets.length ? autopresets[0] : null;
 	}
 
 	_loadNpmbundlerrc(): void {
