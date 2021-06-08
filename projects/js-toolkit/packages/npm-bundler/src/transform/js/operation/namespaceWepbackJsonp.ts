@@ -5,11 +5,15 @@
 
 import {
 	JsSourceTransform,
-	replaceInStringLiterals,
+	TRANSFORM_OPERATIONS,
 } from '@liferay/js-toolkit-core';
 import crypto from 'crypto';
 
 import {project} from '../../../globals';
+
+const {
+	JsSource: {replaceInStringLiterals},
+} = TRANSFORM_OPERATIONS;
 
 export default function namespaceWepbackJsonp(): JsSourceTransform {
 	const hash = crypto.createHash('MD5');

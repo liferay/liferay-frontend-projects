@@ -39,6 +39,10 @@ export * from './project/VersionInfo';
 
 export * as format from './format';
 
+// Template rendering
+
+export {default as TemplateRenderer} from './template/Renderer';
+
 // Miscellaneous utilities
 
 export {negate as negateGlobs, prefix as prefixGlobs} from './globs';
@@ -53,6 +57,7 @@ export type {
 	ConfigurationJsonSystem,
 	ConfigurationJsonField,
 } from './schema/ConfigurationJson';
+
 export type {
 	default as ManifestJson,
 	ManifestJsonPackages,
@@ -62,43 +67,68 @@ export type {
 	ManifestJsonModule,
 	ManifestJsonModuleFlags,
 } from './schema/ManifestJson';
+
 export type {default as PkgJson} from './schema/PkgJson';
 
-// JavaScript AST helpers
+// JavaScript source code transformation
 
+export type {
+	SourceCode as JsSource,
+	SourceTransform as JsSourceTransform,
+} from './transform/js';
+export {
+	replace as replaceJsSource,
+	transformSource as transformJsSource,
+	transformSourceFile as transformJsSourceFile,
+} from './transform/js';
 export {getProgramStatements as getAstProgramStatements} from './transform/js/ast';
 export {
 	parse as parseAsAstProgram,
 	parseAsExpressionStatement as parseAsAstExpressionStatement,
 } from './transform/js/parse';
 
-// JavaScript source transformation
+// JSON transformation
 
-export {
-	SourceCode as JsSource,
-	SourceTransform as JsSourceTransform,
-	replace as replaceJsSource,
-	transformSource as transformJsSource,
-	transformSourceFile as transformJsSourceFile,
-} from './transform/js';
-export {default as replaceInStringLiterals} from './transform/js/operation/replaceInStringLiterals';
-export {default as wrapModule} from './transform/js/operation/wrapModule';
+export type {JsonTransform} from './transform/json';
+export {transformJson, transformJsonFile} from './transform/json';
 
-// JSON source transformation
+// Text transformation
 
-export * from './transform/json';
-export {default as addConfigurationField} from './transform/json/operation/addConfigurationField';
-export {default as addPkgJsonDependencies} from './transform/json/operation/addPkgJsonDependencies';
-export {default as addPkgJsonScripts} from './transform/json/operation/addPkgJsonScripts';
-export {default as addPortletProperties} from './transform/json/operation/addPortletProperties';
-export {default as deletePkgJsonDependencies} from './transform/json/operation/deletePkgJsonDependencies';
-export {default as setPkgJsonPortletHeader} from './transform/json/operation/setPkgJsonPortletHeader';
+export type {TextTransform} from './transform/text';
+export {transformText, transformTextFile} from './transform/text';
 
-// Text source transformation
+// Transformation operations per file type
 
-export * from './transform/text';
-export {default as appendLines} from './transform/text/operation/appendLines';
+/* eslint-disable @liferay/liferay/imports-first, @liferay/liferay/group-imports */
+import replaceInStringLiterals from './transform/js/operation/replaceInStringLiterals';
+import wrapModule from './transform/js/operation/wrapModule';
 
-// Template rendering
+import addConfigurationField from './transform/json/operation/addConfigurationField';
+import addPkgJsonDependencies from './transform/json/operation/addPkgJsonDependencies';
+import addPkgJsonScripts from './transform/json/operation/addPkgJsonScripts';
+import addPortletProperties from './transform/json/operation/addPortletProperties';
+import deletePkgJsonDependencies from './transform/json/operation/deletePkgJsonDependencies';
+import setPkgJsonPortletHeader from './transform/json/operation/setPkgJsonPortletHeader';
 
-export {default as TemplateRenderer} from './template/Renderer';
+import appendLines from './transform/text/operation/appendLines';
+/* eslint-enable @liferay/liferay/imports-first, @liferay/liferay/group-imports */
+
+export const TRANSFORM_OPERATIONS = {
+	ConfigurationJson: {
+		addField: addConfigurationField,
+	},
+	JsSource: {
+		replaceInStringLiterals,
+		wrapModule,
+	},
+	PkgJson: {
+		addDependencies: addPkgJsonDependencies,
+		addPortletProperties,
+		addScripts: addPkgJsonScripts,
+		deleteDependencies: deletePkgJsonDependencies,
+		setPortletHeader: setPkgJsonPortletHeader,
+	},
+	Text: {
+		appendLines,
+	},
+};

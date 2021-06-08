@@ -7,13 +7,12 @@ import {
 	FilePath,
 	JsSourceTransform,
 	PkgJson,
+	TRANSFORM_OPERATIONS,
 	TemplateRenderer,
 	escapeStringRegExp,
-	setPkgJsonPortletHeader,
 	transformJsSourceFile,
 	transformJsonFile,
 	transformTextFile,
-	wrapModule,
 } from '@liferay/js-toolkit-core';
 import fs from 'fs-extra';
 import path from 'path';
@@ -24,6 +23,11 @@ import namespaceWepbackJsonp from '../transform/js/operation/namespaceWepbackJso
 import replace from '../transform/text/operation/replace';
 import {copyFiles, findFiles} from '../util/files';
 import * as log from '../util/log';
+
+const {
+	JsSource: {wrapModule},
+	PkgJson: {setPortletHeader},
+} = TRANSFORM_OPERATIONS;
 
 /**
  * Description of framework's webpack build output so that adapted modules can
@@ -218,7 +222,7 @@ export async function processPackageJson(
 	await transformJsonFile<PkgJson>(
 		fromFile,
 		toFile,
-		setPkgJsonPortletHeader(
+		setPortletHeader(
 			'com.liferay.portlet.header-portlet-css',
 			findRealFileName(cssPortletHeader, false)
 		)
