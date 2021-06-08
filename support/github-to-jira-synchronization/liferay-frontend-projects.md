@@ -134,8 +134,7 @@ def findUser(replicaUser) {
         return user
 
     final def usernameMapping = [
-        "ambrinchaudhary": "ambrin.chaudhary"
-        ,"brunofernandezg": "bruno.fernandez"
+        "brunofernandezg": "bruno.fernandez"
         ,"bryceosterhaus": "bryce.osterhaus"
         ,"carloslancha": "carlos.lancha"
         ,"diegonvs": "diego.nascimento"
