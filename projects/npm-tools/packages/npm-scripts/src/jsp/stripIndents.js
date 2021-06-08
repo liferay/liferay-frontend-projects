@@ -6,7 +6,7 @@
 const Lexer = require('./Lexer');
 const {CLOSE_TAG, OPEN_TAG} = require('./tagReplacements');
 
-///
+//
 //
 // Given `source` that has previously been processed by `substituteTags`,
 // this function locates the placeholders that have been inserted to stand in

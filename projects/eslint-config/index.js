@@ -115,6 +115,7 @@ const config = {
 			{caseSensitive: true},
 		],
 		'sort-keys': ['error', 'asc', {caseSensitive: true, natural: true}],
+		'spaced-comment': ['error', 'always'],
 	},
 };
 

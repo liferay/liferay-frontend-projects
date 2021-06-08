@@ -31,7 +31,7 @@ const CLOSE_TAG = isFiller(BLOCK_CLOSE);
 
 const OPEN_TAG = new RegExp(`${isFiller(BLOCK_OPEN).source}|//${BLOCK_OPEN}+`);
 
-///
+//
 // Create a same-length substitution for the text of the opening tag, `tag`.
 //
 // For example:
@@ -106,7 +106,7 @@ function getOpenTagReplacement(tag, last = false) {
 	}
 }
 
-///
+//
 //
 // Create a same-length substitution for the text of the closing tag, `tag`.
 //
@@ -127,7 +127,7 @@ function getCloseTagReplacement(tag) {
 	return toFiller(tag, BLOCK_CLOSE);
 }
 
-///
+//
 //
 // Create a same-length substitution for the text of the self-closing tag,
 // `tag`.
