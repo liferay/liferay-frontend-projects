@@ -381,12 +381,12 @@ export class Project {
 		const autopresets = Object.keys({
 			...dependencies,
 			...devDependencies,
-		}).reduce((autoPresets, pkgName) => {
+		}).reduce((autopresets, pkgName) => {
 			try {
 				const {dependencies} = this.require(pkgName + '/package.json');
 
 				if (dependencies && dependencies['liferay-npm-bundler']) {
-					autoPresets.push(pkgName);
+					autopresets.push(pkgName);
 				}
 			}
 			catch (err) {
@@ -395,14 +395,13 @@ export class Project {
 
 			}
 
-			return autoPresets;
+			return autopresets;
 		}, []);
 
 		if (autopresets.length > 1) {
 			throw new Error(
-				'Multiple autopreset dependencies found in project (' +
-					autopresets +
-					'): please remove the invalid ones or ' +
+				'Multiple autopreset dependencies found in project ' +
+					`(${autopresets}): please remove the invalid ones or ` +
 					'explicitly define the preset to be used in the ' +
 					'.npmbundlerrc file'
 			);
@@ -420,7 +419,7 @@ export class Project {
 
 		// Apply preset if necessary
 
-		let presetFilePath;
+		let presetFilePath: string;
 
 		const autopreset = this._getAutopreset();
 
