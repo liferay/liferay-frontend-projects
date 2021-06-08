@@ -5,7 +5,6 @@
 
 const fs = require('fs');
 const path = require('path');
-const {promisify} = require('util');
 
 const {cleanup, error, info, log, prompt, warn} = require('./console');
 const git = require('./git');
@@ -13,9 +12,6 @@ const matchOption = require('./matchOption');
 const printBanner = require('./printBanner');
 const readYarnrc = require('./readYarnrc');
 const yarn = require('./yarn');
-
-const readFileAsync = promisify(fs.readFile);
-const writeFileAsync = promisify(fs.writeFile);
 
 const PLACEHOLDER_VERSION = '0.0.0-placeholder.0';
 
@@ -242,13 +238,27 @@ async function getVersion(options) {
 		let currentVersion;
 
 		try {
-			({version: currentVersion} = JSON.parse(
-				await readFileAsync('package.json', 'utf8')
-			));
+			const packageJson = JSON.parse(
+				fs.readFileSync('package.json', 'utf8')
+			);
+
+			currentVersion = packageJson.version;
+
+			if (!currentVersion && fs.existsSync('lerna.json')) {
+				const lernaJson = JSON.parse(
+					fs.readFileSync('lerna.json', 'utf8')
+				);
+
+				currentVersion = lernaJson.version;
+			}
 		}
 		catch (_error) {
-			currentVersion = '';
+
+			// Ignore
+
 		}
+
+		currentVersion = currentVersion || '';
 
 		let [, major, minor, patch, preid, prerelease] =
 			currentVersion.match(/^(\d+)\.(\d+)\.(\d+)(?:-(\w+)\.(\d+))?$/) ||
@@ -455,7 +465,7 @@ async function go(options) {
 		let previousContents = '';
 
 		try {
-			previousContents = await readFileAsync(outfile, 'utf8');
+			previousContents = fs.readFileSync(outfile, 'utf8');
 		}
 		catch (error) {
 			warn(`Cannot read previous file ${outfile}; will create anew.`);
@@ -901,7 +911,7 @@ async function write(options, preview, contents) {
 		process.stdout.write(preview + '\n');
 	}
 	else {
-		await writeFileAsync(options.outfile, contents);
+		fs.writeFileSync(options.outfile, contents);
 
 		yarn('format');
 	}
