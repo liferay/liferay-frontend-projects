@@ -5,7 +5,6 @@
 
 const fs = require('fs');
 const path = require('path');
-const {promisify} = require('util');
 
 const {cleanup, error, info, log, prompt, warn} = require('./console');
 const git = require('./git');
@@ -13,9 +12,6 @@ const matchOption = require('./matchOption');
 const printBanner = require('./printBanner');
 const readYarnrc = require('./readYarnrc');
 const yarn = require('./yarn');
-
-const readFileAsync = promisify(fs.readFile);
-const writeFileAsync = promisify(fs.writeFile);
 
 const PLACEHOLDER_VERSION = '0.0.0-placeholder.0';
 
