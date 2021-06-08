@@ -5,19 +5,15 @@
 
 import {JsonTransform} from '..';
 
-import PkgJson from '../../../schema/PkgJson';
-
-interface Properties {
-	[name: string]: boolean | string;
-}
+import PkgJson, {PkgJsonPortletProperties} from '../../../schema/PkgJson';
 
 /**
  * Add one or more npm scripts to a package.json file
  *
  * @param properties
  */
-export default function addPortletProperties(
-	properties: Properties
+export default function addPkgJsonPortletProperties(
+	properties: PkgJsonPortletProperties
 ): JsonTransform<PkgJson> {
 	return (async (pkgJson) => {
 		pkgJson.portlet = {

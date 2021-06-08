@@ -5,7 +5,7 @@
 
 import {JsonTransform} from '..';
 
-import PkgJson from '../../../schema/PkgJson';
+import PkgJson, {PkgJsonDependencies} from '../../../schema/PkgJson';
 
 /**
  * Add a list of dependencies to a package.json file
@@ -13,7 +13,7 @@ import PkgJson from '../../../schema/PkgJson';
  * @param dependencies
  */
 export default function addPkgJsonDependencies(
-	dependencies: object
+	dependencies: PkgJsonDependencies
 ): JsonTransform<PkgJson> {
 	return (async (pkgJson) => {
 		pkgJson.dependencies = {

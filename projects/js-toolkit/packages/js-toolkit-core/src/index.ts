@@ -68,7 +68,12 @@ export type {
 	ManifestJsonModuleFlags,
 } from './schema/ManifestJson';
 
-export type {default as PkgJson} from './schema/PkgJson';
+export type {
+	default as PkgJson,
+	PkgJsonDependencies,
+	PkgJsonPortletProperties,
+	PkgJsonScripts,
+} from './schema/PkgJson';
 
 // JavaScript source code transformation
 
@@ -103,19 +108,18 @@ export {transformText, transformTextFile} from './transform/text';
 import replaceInStringLiterals from './transform/js/operation/replaceInStringLiterals';
 import wrapModule from './transform/js/operation/wrapModule';
 
-import addConfigurationField from './transform/json/operation/addConfigurationField';
+import addConfigurationJsonField from './transform/json/operation/addConfigurationJsonField';
 import addPkgJsonDependencies from './transform/json/operation/addPkgJsonDependencies';
+import addPkgJsonPortletProperties from './transform/json/operation/addPkgJsonPortletProperties';
 import addPkgJsonScripts from './transform/json/operation/addPkgJsonScripts';
-import addPortletProperties from './transform/json/operation/addPortletProperties';
 import deletePkgJsonDependencies from './transform/json/operation/deletePkgJsonDependencies';
-import setPkgJsonPortletHeader from './transform/json/operation/setPkgJsonPortletHeader';
 
 import appendLines from './transform/text/operation/appendLines';
 /* eslint-enable @liferay/liferay/imports-first, @liferay/liferay/group-imports */
 
 export const TRANSFORM_OPERATIONS = {
 	ConfigurationJson: {
-		addField: addConfigurationField,
+		addField: addConfigurationJsonField,
 	},
 	JsSource: {
 		replaceInStringLiterals,
@@ -123,10 +127,9 @@ export const TRANSFORM_OPERATIONS = {
 	},
 	PkgJson: {
 		addDependencies: addPkgJsonDependencies,
-		addPortletProperties,
+		addPortletProperties: addPkgJsonPortletProperties,
 		addScripts: addPkgJsonScripts,
 		deleteDependencies: deletePkgJsonDependencies,
-		setPortletHeader: setPkgJsonPortletHeader,
 	},
 	Text: {
 		appendLines,

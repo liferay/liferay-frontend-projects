@@ -12,7 +12,7 @@ import ConfigurationJson, {
 /**
  * Add a field to a configuration.json file
  */
-export default function addConfigurationField(
+export default function addConfigurationJsonField(
 	section: 'system' | 'portletInstance',
 	id: string,
 	field: ConfigurationJsonField

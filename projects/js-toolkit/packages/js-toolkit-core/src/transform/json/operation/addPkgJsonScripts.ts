@@ -5,11 +5,7 @@
 
 import {JsonTransform} from '..';
 
-import PkgJson from '../../../schema/PkgJson';
-
-interface Scripts {
-	[name: string]: string;
-}
+import PkgJson, {PkgJsonScripts} from '../../../schema/PkgJson';
 
 /**
  * Add one or more npm scripts to a package.json file
@@ -17,7 +13,7 @@ interface Scripts {
  * @param scripts
  */
 export default function addPkgJsonScripts(
-	scripts: Scripts
+	scripts: PkgJsonScripts
 ): JsonTransform<PkgJson> {
 	return (async (pkgJson) => {
 		pkgJson.scripts = {

@@ -26,7 +26,7 @@ import * as log from '../util/log';
 
 const {
 	JsSource: {wrapModule},
-	PkgJson: {setPortletHeader},
+	PkgJson: {addPortletProperties},
 } = TRANSFORM_OPERATIONS;
 
 /**
@@ -222,10 +222,12 @@ export async function processPackageJson(
 	await transformJsonFile<PkgJson>(
 		fromFile,
 		toFile,
-		setPortletHeader(
-			'com.liferay.portlet.header-portlet-css',
-			findRealFileName(cssPortletHeader, false)
-		)
+		addPortletProperties({
+			'com.liferay.portlet.header-portlet-css': findRealFileName(
+				cssPortletHeader,
+				false
+			),
+		})
 	);
 }
 
