@@ -27,23 +27,23 @@ export function getRootPkg() {
  * objects.
  * @param {object} collectedDependencies a hash of objects where key is the
  * 					package id and values are PkgDesc objects
- * @param {string} basedirPath directory where package lives in
+ * @param {string} baseDirPath directory where package lives in
  * @param {Array} extraDependencies an array of package names to add to
  *					dependencies collected from package.json
  * @return {{[pkgId:string]: PkgDesc}} the given collectedDependencies object
  */
 export function addPackageDependencies(
 	collectedDependencies,
-	basedirPath,
+	baseDirPath,
 	extraDependencies = []
 ) {
-	const packageJson = readJsonSync(path.join(basedirPath, '/package.json'));
+	const packageJson = readJsonSync(path.join(baseDirPath, '/package.json'));
 	const pkg = new PkgDesc(
 		packageJson.name,
 		packageJson.version,
-		path.resolve(basedirPath) == path.resolve(project.dir.asNative)
+		path.resolve(baseDirPath) == path.resolve(project.dir.asNative)
 			? null
-			: basedirPath
+			: baseDirPath
 	);
 
 	if (collectedDependencies[pkg.id]) {
@@ -57,12 +57,15 @@ export function addPackageDependencies(
 	dependencies = dependencies.concat(extraDependencies);
 
 	const dependencyDirs = dependencies
-		.map((dependency) => {
-			return resolveDependencyDir(basedirPath, packageJson, dependency);
-		})
-		.filter((dependencyDir) => {
-			return dependencyDir != null;
-		});
+		.filter(
+			(dependency) =>
+				!project.presetInfo.isAutopreset ||
+				dependency !== project.presetInfo.name
+		)
+		.map((dependency) =>
+			resolveDependencyDir(baseDirPath, packageJson, dependency)
+		)
+		.filter((dependencyDir) => dependencyDir != null);
 
 	dependencyDirs.forEach((dependencyDir) => {
 		addPackageDependencies(collectedDependencies, dependencyDir);
