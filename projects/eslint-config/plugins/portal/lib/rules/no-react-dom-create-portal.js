@@ -4,9 +4,9 @@
  */
 
 const DESCRIPTION =
-	'Direct use of ReactDOM.render is discouraged; instead, use ' +
-	'the <react:component /> JSP taglib, or do: ' +
-	`import {render} from 'frontend-js-react-web';`;
+	'Direct use of ReactDOM.createPortal is discouraged; instead, use ' +
+	'the <ReactPortal /> component: ' +
+	`import {ReactPortal} from 'frontend-js-react-web';`;
 
 module.exports = {
 	create(context) {
@@ -47,7 +47,7 @@ module.exports = {
 
 		const report = (node) =>
 			context.report({
-				messageId: 'noReactDOMRender',
+				messageId: 'noReactDOMCreatePortal',
 				node,
 			});
 
@@ -73,10 +73,10 @@ module.exports = {
 						if (
 							node.callee.object.name === namespace.name &&
 							node.callee.property.type === 'Identifier' &&
-							node.callee.property.name === 'render'
+							node.callee.property.name === 'createPortal'
 						) {
 
-							// eg. Foo.render()
+							// eg. Foo.createPortal()
 
 							if (isSame(node.callee.object, namespace)) {
 
@@ -144,7 +144,7 @@ module.exports = {
 									variable.defs[0].node &&
 									variable.defs[0].node.imported &&
 									variable.defs[0].node.imported.name ===
-										'render'
+										'createPortal'
 								);
 							})
 					);
@@ -171,8 +171,8 @@ module.exports = {
 					}
 					else if (node.id.type === 'ObjectPattern') {
 
-						// eg. const {render} = require('react-dom');
-						// eg. const {render: x} = require('react-dom');
+						// eg. const {createPortal} = require('react-dom');
+						// eg. const {createPortal: x} = require('react-dom');
 
 						add(
 							foundBindings,
@@ -187,7 +187,7 @@ module.exports = {
 										variable.references[0].identifier.parent
 											.key &&
 										variable.references[0].identifier.parent
-											.key.name === 'render'
+											.key.name === 'createPortal'
 									);
 								})
 						);
@@ -206,7 +206,7 @@ module.exports = {
 		},
 		fixable: null,
 		messages: {
-			noReactDOMRender: DESCRIPTION,
+			noReactDOMCreatePortal: DESCRIPTION,
 		},
 		schema: [],
 		type: 'problem',
