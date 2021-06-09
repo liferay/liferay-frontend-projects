@@ -19,7 +19,7 @@ const PluginError = gutil.PluginError;
 const PLUGIN_NAME = 'gulp-R2-css';
 
 function gulpR2() {
-	const task = through.object(function (file, enc, callback) {
+	const task = through.obj(function (file, enc, callback) {
 		if (file.isNull()) {
 			return callback(null, file);
 		}

@@ -100,12 +100,12 @@ export default function (): void {
 
 			print(success`Finished`);
 		})
-		.catch((error) => {
+		.catch((translateError) => {
 			print(error`
 				There was an error translating files:
 
-				  ${error}	
-				
+				  ${translateError}
+
 			`);
 			process.exit(1);
 		});

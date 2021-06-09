@@ -34,7 +34,7 @@ function injectJS() {
 		'/liferay-frontend-theme-unstyled/templates/portal_normal\\.(ftl|vm)$'
 	);
 
-	return through.object(function (file, encoding, callback) {
+	return through.obj(function (file, encoding, callback) {
 		if (!file.path.match(targetRegExp) || file.isNull()) {
 
 			// Nothing to do.

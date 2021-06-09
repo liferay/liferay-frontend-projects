@@ -22,27 +22,27 @@ const TYPES = {
 export function addMetatypeAttr(
 	metatype: XmlObject,
 	id: string,
-	description
+	field: ConfigurationJsonField
 ): void {
 	const metadata = findChild(metatype, 'metatype:MetaData');
 	const ocd = findChild(metadata, 'OCD');
 	const ad = addChild(ocd, 'AD');
 
 	addAttr(ad, 'id', id);
-	addAttr(ad, 'type', TYPES[description.type]);
-	addAttr(ad, 'name', description.name || id);
-	if (description.description !== undefined) {
-		addAttr(ad, 'description', description.description);
+	addAttr(ad, 'type', TYPES[field.type]);
+	addAttr(ad, 'name', field.name || id);
+	if (field.description !== undefined) {
+		addAttr(ad, 'description', field.description);
 	}
-	addAttr(ad, 'cardinality', description.repeatable ? -32767 : 0);
-	if (description.required !== undefined) {
-		addAttr(ad, 'required', description.required);
+	addAttr(ad, 'cardinality', field.repeatable ? -32767 : 0);
+	if (field.required !== undefined) {
+		addAttr(ad, 'required', field.required);
 	}
-	if (description.default !== undefined) {
-		addAttr(ad, 'default', description.default);
+	if (field.default !== undefined) {
+		addAttr(ad, 'default', field.default);
 	}
-	if (description.options) {
-		Object.entries(description.options).forEach(([value, label]) => {
+	if (field.options) {
+		Object.entries(field.options).forEach(([value, label]) => {
 			const option = addChild(ad, 'Option');
 
 			addAttr(option, 'label', label);

@@ -107,11 +107,11 @@ async function downloadThemeFiles(project, themeName, themeVersion) {
 
 		fs.unlinkSync(warFile);
 	}
-	catch (error) {
+	catch (downloadError) {
 		print(error`
 			Error downloading and extracting Liferay's ${themeName} theme:
 
-			${error.message}
+			${downloadError.message}
 		`);
 	}
 }
@@ -157,12 +157,12 @@ async function getThemeVersions(themeName) {
 
 		return themeVersions;
 	}
-	catch (error) {
+	catch (themeVersionError) {
 		print(error`
 			Error when querying https://mvnrepository.com for the list of 
 			available versions of Liferay's ${themeName} theme:
 
-			${error.message}
+			${themeVersionError.message}
 		`);
 
 		return undefined;

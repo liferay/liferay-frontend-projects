@@ -18,7 +18,7 @@ function replaceExtension(filePath, newExt) {
 }
 
 module.exports = (options) =>
-	through.object((file, enc, callback) => {
+	through.obj((file, enc, callback) => {
 		if (file.isNull()) {
 			return callback(null, file);
 		}

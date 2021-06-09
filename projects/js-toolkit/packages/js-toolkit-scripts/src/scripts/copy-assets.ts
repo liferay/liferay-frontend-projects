@@ -28,9 +28,9 @@ export default function (): Promise<void> {
 				filter: (path) => !/\/\.placeholder$/.test(path),
 				overwrite: true,
 			},
-			(error) => {
-				if (error && error.message !== 'No files to copy') {
-					print(error`${error}`);
+			(cprError) => {
+				if (cprError && cprError.message !== 'No files to copy') {
+					print(error`${cprError}`);
 					process.exit(1);
 				}
 				else {

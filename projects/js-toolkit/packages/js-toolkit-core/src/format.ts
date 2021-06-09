@@ -26,7 +26,7 @@ const options = {
 const verbatim = (...args): string => args.join(' ');
 
 /** Chalk formats table */
-const format = {
+const formatTable = {
 	bold: options.noDecorations ? verbatim : chalk.bold,
 	debug: options.noColors ? verbatim : chalk.hex('#666'),
 	error: options.noColors ? verbatim : chalk.hex('#F44'),
@@ -37,6 +37,7 @@ const format = {
 	title: options.noColors ? verbatim : chalk.bold.hex('#55F'),
 	underline: options.noDecorations ? verbatim : chalk.underline,
 	warn: options.noColors ? verbatim : chalk.hex('#CA0'),
+};
 
 /**
  * Tagged template processor for information messages.
@@ -56,7 +57,7 @@ export function debug(
 	literals: TemplateStringsArray,
 	...values: unknown[]
 ): string {
-	return format.debug(format('⚙', literals, values));
+	return formatTable.debug(format('⚙', literals, values));
 }
 
 /**
@@ -77,7 +78,7 @@ export function error(
 	literals: TemplateStringsArray,
 	...values: unknown[]
 ): string {
-	return format.error(format('❌', literals, values));
+	return formatTable.error(format('❌', literals, values));
 }
 
 /**
@@ -98,7 +99,7 @@ export function info(
 	literals: TemplateStringsArray,
 	...values: unknown[]
 ): string {
-	return format.info(format('ℹ️', literals, values));
+	return formatTable.info(format('ℹ️', literals, values));
 }
 
 /**
@@ -128,8 +129,11 @@ export function print(lines: string | string[], ...rest: string[]): void {
 	lines = lines.map((line) => {
 		line = removeJsFormatWhitespace(line);
 
-		line = line.replace(/(https?:\/\/[^\s]+)/gm, format.underline('$1'));
-		line = line.replace(/{([^}]*)}/gm, format.bold('$1'));
+		line = line.replace(
+			/(https?:\/\/[^\s]+)/gm,
+			formatTable.underline('$1')
+		);
+		line = line.replace(/{([^}]*)}/gm, formatTable.bold('$1'));
 		line = line.replace(/\|([^|]*)\|/g, options.noDecorations ? '' : '$1');
 
 		return line;
@@ -157,7 +161,7 @@ export function success(
 	literals: TemplateStringsArray,
 	...values: unknown[]
 ): string {
-	return format.success(format('✔️', literals, values));
+	return formatTable.success(format('✔️', literals, values));
 }
 
 /**
@@ -175,7 +179,7 @@ export function text(
 	literals: TemplateStringsArray,
 	...values: unknown[]
 ): string {
-	return fmt.text(format('', literals, values));
+	return formatTable.text(format('', literals, values));
 }
 
 /**
@@ -196,7 +200,7 @@ export function question(
 	literals: TemplateStringsArray,
 	...values: unknown[]
 ): string {
-	return format.question(format('❓', literals, values));
+	return formatTable.question(format('❓', literals, values));
 }
 
 /**
@@ -214,7 +218,7 @@ export function title(
 	literals: TemplateStringsArray,
 	...values: unknown[]
 ): string {
-	return format.title(format('', literals, values));
+	return formatTable.title(format('', literals, values));
 }
 
 /**
@@ -235,7 +239,7 @@ export function warn(
 	literals: TemplateStringsArray,
 	...values: unknown[]
 ): string {
-	return format.warn(format('⚠️', literals, values));
+	return formatTable.warn(format('⚠️', literals, values));
 }
 
 /**
