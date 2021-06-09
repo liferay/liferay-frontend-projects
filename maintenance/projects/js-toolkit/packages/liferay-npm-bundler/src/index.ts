@@ -11,7 +11,6 @@ import readJsonSync from 'read-json-sync';
 import semver from 'semver';
 
 import {addPackageDependencies, getRootPkg} from './dependencies';
-import * as insight from './insight';
 import createJar from './jar';
 import * as log from './log';
 import manifest from './manifest';
@@ -34,15 +33,7 @@ export default function (argv: {version: boolean}): void {
 
 	report.versionsInfo(versionsInfo);
 
-	if (project.misc.noTracking) {
-		run();
-	}
-	else {
-		log.debug(
-			'The tool is sending usage statistics to our remote servers.'
-		);
-		insight.init().then(run);
-	}
+	run();
 }
 
 /** Real tool execution */
@@ -97,10 +88,6 @@ function run(): void {
 				const hrtime = process.hrtime(start);
 				report.executionTime(hrtime);
 				log.info(`Bundling took ${pretty(hrtime)}`);
-
-				// Send report analytics data
-
-				report.sendAnalytics();
 
 				// Write report if requested
 
