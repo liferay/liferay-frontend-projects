@@ -63,5 +63,8 @@ ruleTester.run('no-abbreviations', rule, {
 		{
 			code: `(error) => error.toString()`,
 		},
+		{
+			code: `this.obj = 'this is valid'`,
+		},
 	],
 });

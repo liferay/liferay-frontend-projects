@@ -39,6 +39,10 @@ module.exports = {
 	create(context) {
 		return {
 			Identifier(node) {
+				if (node === node.parent.property) {
+					return;
+				}
+
 				if (ABBREVIATIONS_REPLACEMENTS.has(node.name)) {
 					context.report({
 						message: formatMessage(
