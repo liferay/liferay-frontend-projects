@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+/* eslint-disable no-console */
+
 const fs = require('fs-extra');
 const path = require('path');
 
@@ -32,6 +34,8 @@ function hasValidOutDir(json) {
 }
 
 function clean() {
+	console.log('clean:', path.basename(process.cwd()));
+
 	try {
 		const json = fs.readJSONSync('tsconfig.json');
 

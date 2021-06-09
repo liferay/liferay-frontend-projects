@@ -4,14 +4,15 @@
  */
 
 import {
+	FilePath,
 	JsSourceTransform,
 	PkgJson,
+	TRANSFORM_OPERATIONS,
+	TemplateRenderer,
 	escapeStringRegExp,
-	setPkgJsonPortletHeader,
 	transformJsSourceFile,
 	transformJsonFile,
 	transformTextFile,
-	wrapModule,
 } from '@liferay/js-toolkit-core';
 import fs from 'fs-extra';
 import path from 'path';
@@ -22,7 +23,11 @@ import namespaceWepbackJsonp from '../transform/js/operation/namespaceWepbackJso
 import replace from '../transform/text/operation/replace';
 import {copyFiles, findFiles} from '../util/files';
 import * as log from '../util/log';
-import Renderer from '../util/renderer';
+
+const {
+	JsSource: {wrapModule},
+	PkgJson: {addPortletProperties},
+} = TRANSFORM_OPERATIONS;
 
 /**
  * Description of framework's webpack build output so that adapted modules can
@@ -70,9 +75,11 @@ export async function processAdapterModules(
 	webpackBundles: WebpackBundles,
 	data: object = {}
 ): Promise<void> {
-	const renderer = new Renderer(path.join(__dirname, 'templates'));
-	const frameworkRenderer = new Renderer(
-		path.join(__dirname, project.probe.type, 'templates')
+	const renderer = new TemplateRenderer(
+		new FilePath(__dirname).join('templates')
+	);
+	const frameworkRenderer = new TemplateRenderer(
+		new FilePath(__dirname).join(project.probe.type, 'templates')
 	);
 
 	webpackBundles = compileWebpackBundles(webpackBundles);
@@ -124,7 +131,7 @@ export async function processWebpackBundles(
 }
 
 async function processAdapterModule(
-	renderer: Renderer,
+	renderer: TemplateRenderer,
 	templatePath: string,
 	data: object
 ): Promise<void> {
@@ -215,10 +222,12 @@ export async function processPackageJson(
 	await transformJsonFile<PkgJson>(
 		fromFile,
 		toFile,
-		setPkgJsonPortletHeader(
-			'com.liferay.portlet.header-portlet-css',
-			findRealFileName(cssPortletHeader, false)
-		)
+		addPortletProperties({
+			'com.liferay.portlet.header-portlet-css': findRealFileName(
+				cssPortletHeader,
+				false
+			),
+		})
 	);
 }
 

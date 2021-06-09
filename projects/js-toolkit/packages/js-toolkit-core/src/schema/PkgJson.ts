@@ -9,19 +9,21 @@ export default interface PkgJson {
 	version: string;
 	description?: string;
 	main?: string;
-	portlet?: {
-		[property: string]: string | boolean;
-	};
-	dependencies?: {
-		[pkgName: string]: string;
-	};
-	devDependencies?: {
-		[pkgName: string]: string;
-	};
-	peerDependencies?: {
-		[pkgName: string]: string;
-	};
-	scripts?: {
-		[name: string]: string;
-	};
+	portlet?: PkgJsonPortletProperties;
+	dependencies?: PkgJsonDependencies;
+	devDependencies?: PkgJsonDependencies;
+	peerDependencies?: PkgJsonDependencies;
+	scripts?: PkgJsonScripts;
+}
+
+export interface PkgJsonDependencies {
+	[pkgName: string]: string;
+}
+
+export interface PkgJsonPortletProperties {
+	[property: string]: string | boolean;
+}
+
+export interface PkgJsonScripts {
+	[name: string]: string;
 }

@@ -5,7 +5,7 @@
 
 import fs from 'fs-extra';
 
-import FilePath from '../file/FilePath';
+import FilePath from '../../file/FilePath';
 
 export interface TextTransform {
 	(text: string): Promise<string>;

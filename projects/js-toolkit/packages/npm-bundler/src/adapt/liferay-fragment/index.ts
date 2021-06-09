@@ -5,13 +5,17 @@
 
 import {
 	FilePath,
+	TRANSFORM_OPERATIONS,
 	transformJsSourceFile,
-	wrapModule,
 } from '@liferay/js-toolkit-core';
 import fs from 'fs-extra';
 
 import {bundlerWebpackDir, project} from '../../globals';
 import * as log from '../../util/log';
+
+const {
+	JsSource: {wrapModule},
+} = TRANSFORM_OPERATIONS;
 
 export default async function adapt(): Promise<void> {
 	await transformBundles();

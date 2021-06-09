@@ -4,21 +4,24 @@
  */
 
 import {
+	FilePath,
+	TRANSFORM_OPERATIONS,
+	TemplateRenderer,
 	addNamespace,
-	addPkgJsonDependencies,
-	deletePkgJsonDependencies,
 	transformJsSourceFile,
 	transformJsonFile,
-	wrapModule,
 } from '@liferay/js-toolkit-core';
 import fs from 'fs-extra';
-import path from 'path';
 
 import {bundlerWebpackDir, project} from '../../globals';
 import * as log from '../../util/log';
-import Renderer from '../../util/renderer';
 import replaceWebpackJsonp from './replaceWebpackJsonp';
 import writeExportModules from './write-export-modules';
+
+const {
+	JsSource: {wrapModule},
+	PkgJson: {addDependencies, deleteDependencies},
+} = TRANSFORM_OPERATIONS;
 
 export default async function adapt(): Promise<void> {
 	await writeExportModules();
@@ -39,7 +42,7 @@ async function injectImportsInPkgJson(): Promise<void> {
 	await transformJsonFile(
 		file,
 		file,
-		addPkgJsonDependencies(
+		addDependencies(
 			Object.entries(imports).reduce(
 				(dependencies, [packageName, config]) => {
 					const {provider, version} = config;
@@ -55,7 +58,7 @@ async function injectImportsInPkgJson(): Promise<void> {
 				{}
 			)
 		),
-		deletePkgJsonDependencies(
+		deleteDependencies(
 			...Object.entries(imports).map(([packageName]) => packageName)
 		)
 	);
@@ -107,7 +110,9 @@ async function writeManifestModule(): Promise<void> {
 	const {name, version} = project.pkgJson;
 	const moduleName = `${name}@${version}/webpack.manifest`;
 
-	const renderer = new Renderer(path.join(__dirname, '..', 'templates'));
+	const renderer = new TemplateRenderer(
+		new FilePath(__dirname).join('..', 'templates')
+	);
 
 	fs.writeFileSync(
 		project.outputDir.join(`webpack.manifest.js`).asNative,
