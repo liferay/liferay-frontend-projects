@@ -6,7 +6,7 @@
 import {
 	FilePath,
 	TemplateRenderer,
-	appendLines,
+	TRANSFORM_OPERATIONS,
 	transformTextFile,
 } from '@liferay/js-toolkit-core';
 import fs from 'fs';
@@ -14,6 +14,10 @@ import fs from 'fs';
 import prompt from '../util/prompt';
 
 import type {Options} from '../index';
+
+const {
+	Text: {appendLines},
+} = TRANSFORM_OPERATIONS;
 
 export async function processOptions(options: Options): Promise<Options> {
 	return await prompt(options, [

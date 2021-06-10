@@ -6,10 +6,7 @@
 import {
 	FilePath,
 	TemplateRenderer,
-	addConfigurationField,
-	addPkgJsonDependencies,
-	addPkgJsonScripts,
-	appendLines,
+	TRANSFORM_OPERATIONS,
 	transformJsonFile,
 	transformTextFile,
 } from '@liferay/js-toolkit-core';
@@ -22,6 +19,12 @@ import * as facetProject from '../facet-project';
 import prompt from '../util/prompt';
 
 import type {Options} from '..';
+
+const {
+	ConfigurationJson: {addField},
+	PkgJson: {addDependencies, addScripts},
+	Text: {appendLines},
+} = TRANSFORM_OPERATIONS;
 
 export const name = 'Liferay Platform Project';
 
@@ -66,10 +69,10 @@ export async function render(options: Options): Promise<void> {
 	await transformJsonFile(
 		pkgJsonFile,
 		pkgJsonFile,
-		addPkgJsonDependencies({
+		addDependencies({
 			[`@liferay/${options.platform}`]: '^1.0.0',
 		}),
-		addPkgJsonScripts({
+		addScripts({
 			build: 'liferay build',
 		})
 	);
@@ -149,7 +152,7 @@ export async function render(options: Options): Promise<void> {
 		await transformJsonFile(
 			configurationFile,
 			configurationFile,
-			addConfigurationField('system', 'fruit', {
+			addField('system', 'fruit', {
 				default: 'orange',
 				description: 'fruit-help',
 				name: 'fruit',
@@ -161,7 +164,7 @@ export async function render(options: Options): Promise<void> {
 				required: false,
 				type: 'string',
 			}),
-			addConfigurationField('portletInstance', 'drink', {
+			addField('portletInstance', 'drink', {
 				default: 'water',
 				description: 'drink-help',
 				name: 'drink',
