@@ -18,15 +18,15 @@ import type {Options} from '../index';
 export async function processOptions(options: Options): Promise<Options> {
 	return await prompt(options, [
 		{
-			type: 'confirm',
-			name: 'addConfigurationSupport',
+			default: true,
 			message:
 				'Do you want to add configuration support?\n' +
 				'\n' +
 				'  💡 Needs Liferay DXP/Portal CE 7.1 with JS Portlet Extender 1.1.0 or\n' +
 				'     Liferay DXP/Portal CE 7.2+.\n' +
 				'\n',
-			default: true,
+			name: 'addConfigurationSupport',
+			type: 'confirm',
 		},
 	]);
 }
@@ -42,6 +42,7 @@ export async function render(options: Options): Promise<void> {
 	);
 
 	const pkgJsonFile = options.outputPath.join('package.json');
+	/* eslint-disable-next-line @liferay/liferay/no-dynamic-require, @typescript-eslint/no-var-requires */
 	const pkgJson = require(pkgJsonFile.asNative);
 
 	const context = {
