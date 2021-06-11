@@ -7,7 +7,6 @@ import {FilePath, format} from '@liferay/js-toolkit-core';
 import fs from 'fs';
 import path from 'path';
 
-import targetLiferay from './target-liferay';
 import HumanError from './util/HumanError';
 import prompt from './util/prompt';
 
@@ -73,7 +72,7 @@ export default async function newProject(
 			options = await prompt(batch, options, [
 				{
 					choices: targets.map((target) => target.name),
-					default: targets[0],
+					default: targets[0].name,
 					message: 'What type of project do you want to create?',
 					name: 'target',
 					type: 'list',
@@ -120,5 +119,12 @@ export default async function newProject(
 }
 
 function loadTargets(): Target[] {
-	return [targetLiferay];
+	return (
+		fs
+			.readdirSync(__dirname, {withFileTypes: true})
+			.filter((dirent) => dirent.isDirectory())
+			.filter((dirent) => dirent.name.startsWith('target-'))
+			/* eslint-disable-next-line @liferay/liferay/no-dynamic-require, @typescript-eslint/no-var-requires */
+			.map((dirent) => require(`./${dirent.name}`).default)
+	);
 }
