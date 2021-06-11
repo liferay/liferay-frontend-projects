@@ -1,3 +1,11 @@
+## [liferay-js-toolkit/v2.26.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.26.0) (2021-06-10)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.25.0...liferay-js-toolkit/v2.26.0)
+
+### :new: Features
+
+-   feat(js-toolkit): automatically exclude transitive dependencies from autopresets (target platforms) ([\#576](https://github.com/liferay/liferay-frontend-projects/pull/576))
+
 ## [liferay-js-toolkit/v2.25.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.25.0) (2021-06-07)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.24.3...liferay-js-toolkit/v2.25.0)
