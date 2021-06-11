@@ -3,45 +3,33 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {format} from '@liferay/js-toolkit-core';
 import inquirer from 'inquirer';
 
 import type {OptionValue, Options} from '../index';
 
-interface DefaultFunction {
-	(options: Options): OptionValue;
-}
-
 interface ReduceablePrompt {
-	default: DefaultFunction | OptionValue;
+	default: OptionValue;
 	message: string;
 	name: string;
 }
 
-const {print, question} = format;
-
 export default async function prompt(
+	useDefaults: boolean,
 	options: Options,
 	prompts: inquirer.QuestionCollection
 ): Promise<Options> {
-	if (options.batch) {
+	if (useDefaults) {
 		return (prompts as ReduceablePrompt[]).reduce((options, prompt) => {
-			let answer = prompt.default;
-
-			if (typeof answer === 'function') {
-				answer = answer(options);
-			}
-
-			print(question`${prompt.message} {${answer}}`);
-
-			options[prompt.name] = answer;
+			options[prompt.name] = prompt.default;
 
 			return options;
 		}, options);
 	}
 
+	const answers = await inquirer.prompt(prompts);
+
 	return {
 		...options,
-		...(await inquirer.prompt(prompts)),
+		...answers,
 	};
 }

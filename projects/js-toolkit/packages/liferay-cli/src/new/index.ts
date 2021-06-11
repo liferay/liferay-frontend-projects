@@ -3,27 +3,31 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {format} from '@liferay/js-toolkit-core';
+import {FilePath, format} from '@liferay/js-toolkit-core';
+import fs from 'fs';
 import path from 'path';
 
-import * as targetLiferay from './target-liferay';
+import targetLiferay from './target-liferay';
 import HumanError from './util/HumanError';
+import prompt from './util/prompt';
 
 const {error, info, print, success, text, title} = format;
 
-/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-export type OptionValue = any;
+export type OptionValue = FilePath | boolean | number | string;
 
 export interface Options {
+	name: string;
+	outputPath: FilePath;
+	target?: string;
 	[key: string]: OptionValue;
 }
 
-interface Facet {
-	processOptions(options: Options): Promise<Options>;
+export interface Facet {
+	prompt(useDefaults: boolean, options: Options): Promise<Options>;
 	render(options: Options): Promise<void>;
 }
 
-interface Target extends Facet {
+export interface Target extends Facet {
 	name: string;
 }
 
@@ -31,22 +35,62 @@ export default async function newProject(
 	name: string,
 	batch?: boolean
 ): Promise<void> {
-	/* eslint-disable-next-line @typescript-eslint/no-var-requires */
-	const {version} = require('../../package.json');
-
-	print(title`|👋 |Welcome to Liferay Project Generator v${version}`);
-
-	const target: Target = targetLiferay;
-
 	try {
-		print(info`Gathering info to create new project '${name}'...`);
+		/* eslint-disable-next-line @typescript-eslint/no-var-requires */
+		const {version} = require('../../package.json');
 
-		const options = await target.processOptions({batch, name});
+		print('', title`|👋 |Welcome to Liferay Project Generator v${version}`);
 
-		print(info`Generating new project '${name}'...`);
+		const outputPath = FilePath.coerce(name).resolve();
 
-		await targetLiferay.render(options);
-		print(success`Successfully generated new project '${name}'`);
+		if (fs.existsSync(outputPath.asNative)) {
+			throw new HumanError(
+				`Output directory '${outputPath.basename()}' already exists`
+			);
+		}
+
+		print(
+			'',
+			text`⚙ Gathering information to create project...`,
+			info`Using project name: {${name}}`
+		);
+
+		let options: Options = {
+			name,
+			outputPath,
+		};
+
+		const targets = loadTargets();
+
+		if (targets.length === 1) {
+			const target = targets[0];
+
+			print(info`Using project type: {${target.name}}`);
+
+			options.target = target.name;
+		}
+		else {
+			options = await prompt(batch, options, [
+				{
+					choices: targets.map((target) => target.name),
+					default: targets[0],
+					message: 'What type of project do you want to create?',
+					name: 'target',
+					type: 'list',
+				},
+			]);
+		}
+
+		const target = targets.find((target) => target.name === options.target);
+
+		options = await target.prompt(batch, options);
+
+		print('', text`⚙ Generating project...`);
+
+		await target.render(options);
+
+		print('', success`{Project has been generated successfully!}`);
+
 		print(text`
 
 			  You can now run the following commands to build your project:
@@ -73,4 +117,8 @@ export default async function newProject(
 			print(text`${err.stack}`);
 		}
 	}
+}
+
+function loadTargets(): Target[] {
+	return [targetLiferay];
 }
