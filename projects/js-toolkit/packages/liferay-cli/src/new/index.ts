@@ -7,7 +7,6 @@ import {FilePath, format} from '@liferay/js-toolkit-core';
 import fs from 'fs';
 import path from 'path';
 
-import HumanError from './util/HumanError';
 import prompt from './util/prompt';
 
 const {error, info, print, success, text, title} = format;
@@ -43,9 +42,10 @@ export default async function newProject(
 		const outputPath = FilePath.coerce(name).resolve();
 
 		if (fs.existsSync(outputPath.asNative)) {
-			throw new HumanError(
-				`Output directory '${outputPath.basename()}' already exists`
+			print(
+				error`Output directory '${outputPath.basename()}' already exists`
 			);
+			process.exit(1);
 		}
 
 		print(
@@ -104,17 +104,8 @@ export default async function newProject(
 		`);
 	}
 	catch (err) {
-		if (err instanceof HumanError) {
-			const reason =
-				err.message.substring(0, 1).toLocaleLowerCase() +
-				err.message.substring(1);
-
-			print(error`Could not generate project: {${reason}}`);
-		}
-		else {
-			print(error`Could not generate project due to error:`);
-			print(text`${err.stack}`);
-		}
+		print(error`Could not generate project due to error:`);
+		print(text`${err.stack}`);
 	}
 }
 
