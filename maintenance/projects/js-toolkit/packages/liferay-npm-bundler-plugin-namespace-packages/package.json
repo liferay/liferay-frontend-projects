@@ -1,7 +1,7 @@
 {
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"dependencies": {
-		"liferay-npm-build-tools-common": "2.25.0"
+		"liferay-npm-build-tools-common": "2.26.0"
 	},
 	"description": "A liferay-npm-bundler plugin to namespace package names based on root project's name.",
 	"devDependencies": {
@@ -19,5 +19,5 @@
 		"copyfiles": "node ../../scripts/copyfiles.js",
 		"prepublish": "yarn build"
 	},
-	"version": "2.25.0"
+	"version": "2.26.0"
 }
