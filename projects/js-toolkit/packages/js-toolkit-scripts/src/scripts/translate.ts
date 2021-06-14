@@ -281,9 +281,9 @@ function createMissingSupportedLocalesFiles(): void {
  */
 function parseFile(filePath): Promise<object> {
 	return new Promise((resolve, reject) => {
-		properties.parse(filePath, {path: true}, (error, labels) => {
-			if (error) {
-				reject(error);
+		properties.parse(filePath, {path: true}, (parseError, labels) => {
+			if (parseError) {
+				reject(parseError);
 			}
 			else {
 				resolve(labels);
@@ -341,9 +341,9 @@ function translate(subscriptionKey, locales, texts): Promise<object> {
 						...options,
 						body: chunk.map((item) => ({text: item})),
 					},
-					(error, response, body) => {
-						if (error) {
-							reject(error);
+					(requestError, response, body) => {
+						if (requestError) {
+							reject(requestError);
 						}
 						else if (response.statusCode != 200) {
 							reject({

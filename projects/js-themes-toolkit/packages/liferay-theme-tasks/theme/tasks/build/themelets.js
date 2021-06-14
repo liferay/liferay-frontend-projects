@@ -54,10 +54,10 @@ module.exports = function () {
 				read: false,
 			})
 			.pipe(
-				vinylPaths((path, callback) => {
+				vinylPaths((path, vinylCallback) => {
 					themeletSources = true;
 
-					callback();
+					vinylCallback();
 				})
 			);
 
@@ -118,10 +118,10 @@ module.exports = function () {
 				read: false,
 			})
 			.pipe(
-				vinylPaths((path, callback) => {
+				vinylPaths((path, vinylCallback) => {
 					themeletSources = true;
 
-					callback();
+					vinylCallback();
 				})
 			);
 

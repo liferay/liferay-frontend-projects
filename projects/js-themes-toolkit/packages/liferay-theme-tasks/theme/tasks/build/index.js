@@ -45,13 +45,13 @@ function injectJS() {
 				let output = '';
 
 				return through(
-					function transform(chunk, encoding, callback) {
+					function transform(chunk, encoding, transformCallback) {
 						output += chunk.toString();
-						callback(null);
+						transformCallback(null);
 					},
-					function flush(callback) {
+					function flush(flushCallback) {
 						this.push(normalize(output));
-						callback(null);
+						flushCallback(null);
 					}
 				);
 			});
