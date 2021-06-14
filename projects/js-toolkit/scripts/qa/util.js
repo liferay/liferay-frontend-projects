@@ -23,7 +23,7 @@ function safeUnlink(path) {
 	try {
 		fs.unlinkSync(path);
 	}
-	catch (err) {
+	catch (error) {
 
 		// swallow
 

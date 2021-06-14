@@ -16,21 +16,21 @@ const {URL} = require('url');
 
 const project = require('../../lib/project');
 
-function getLiferayThemeModule(name, cb) {
+function getLiferayThemeModule(name, callback) {
 	getPackageJSON(
 		{
 			name,
 		},
-		(err, pkg) => {
+		(error, pkg) => {
 			if (pkg && !isLiferayTheme(pkg)) {
 				pkg = null;
 
-				err = new Error(
+				error = new Error(
 					'Package is not a Liferay theme or themelet module'
 				);
 			}
 
-			cb(err, pkg);
+			callback(error, pkg);
 		}
 	);
 }
@@ -126,9 +126,9 @@ function getLiferayThemeModuleFromURL(url) {
 	}
 }
 
-function getLiferayThemeModules(config, cb) {
-	if (_.isUndefined(cb)) {
-		cb = config;
+function getLiferayThemeModules(config, callback) {
+	if (_.isUndefined(callback)) {
+		callback = config;
 
 		config = {};
 	}
@@ -166,7 +166,7 @@ function getLiferayThemeModules(config, cb) {
 			'with mismatching themelet flag'
 		);
 
-		cb(moduleResults[LiferayThemeModuleStatus.OK] || []);
+		callback(moduleResults[LiferayThemeModuleStatus.OK] || []);
 	});
 }
 
@@ -182,7 +182,7 @@ module.exports = {
  * Note that `cb()` should be entirely synchronous, because clean-up is
  * performed as soon as it returns.
  */
-function withScratchDirectory(cb) {
+function withScratchDirectory(callback) {
 	const template = path.join(os.tmpdir(), 'theme-finder-');
 	const directory = fs.mkdtempSync(template);
 
@@ -190,7 +190,7 @@ function withScratchDirectory(cb) {
 
 	try {
 		process.chdir(directory);
-		cb();
+		callback();
 	}
 	finally {
 		process.chdir(cwd);
@@ -285,10 +285,10 @@ function getNpmPaths() {
 	return paths.reverse();
 }
 
-function getPackageJSON(theme, cb) {
+function getPackageJSON(theme, callback) {
 	packageJson(theme.name, {fullMetadata: true})
-		.then((pkg) => cb(null, pkg))
-		.catch(cb);
+		.then((pkg) => callback(null, pkg))
+		.catch(callback);
 }
 
 const LiferayThemeModuleStatus = {
@@ -368,7 +368,7 @@ function reduceModuleResults(modules, config) {
 	);
 }
 
-function searchGlobalModules(config, cb) {
+function searchGlobalModules(config, callback) {
 	let modules = findThemeModulesIn(getNpmPaths());
 
 	modules = _.reduce(
@@ -382,7 +382,7 @@ function searchGlobalModules(config, cb) {
 
 				result.push(json);
 			}
-			catch (err) {
+			catch (error) {
 
 				// Swallow.
 
@@ -395,21 +395,21 @@ function searchGlobalModules(config, cb) {
 
 	const moduleResults = reduceModuleResults(modules, config);
 
-	cb(moduleResults);
+	callback(moduleResults);
 }
 
-function searchNpm(config, cb) {
+function searchNpm(config, callback) {
 	npmKeyword(config.keyword).then((packages) => {
-		async.map(packages, getPackageJSON, (err, results) => {
-			if (err) {
-				cb(err);
+		async.map(packages, getPackageJSON, (error, results) => {
+			if (error) {
+				callback(error);
 
 				return;
 			}
 
 			const moduleResults = reduceModuleResults(results, config);
 
-			cb(moduleResults);
+			callback(moduleResults);
 		});
 	});
 }

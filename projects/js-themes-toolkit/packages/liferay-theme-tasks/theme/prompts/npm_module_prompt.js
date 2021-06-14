@@ -16,8 +16,8 @@ class NPMModulePrompt {
 		this.init(...args);
 	}
 
-	init(config, cb) {
-		this.done = cb;
+	init(config, callback) {
+		this.done = callback;
 		this.selectedModules = config.selectedModules;
 		this.themelet = config.themelet;
 
@@ -47,14 +47,14 @@ class NPMModulePrompt {
 		});
 	}
 
-	_getNPMModules(searchTerms, cb) {
+	_getNPMModules(searchTerms, callback) {
 		themeFinder.getLiferayThemeModules(
 			{
 				globalModules: false,
 				searchTerms,
 				themelet: this.themelet,
 			},
-			cb
+			callback
 		);
 	}
 
@@ -75,6 +75,7 @@ class NPMModulePrompt {
 	}
 }
 
-NPMModulePrompt.prompt = (config, cb) => new NPMModulePrompt(config, cb);
+NPMModulePrompt.prompt = (config, callback) =>
+	new NPMModulePrompt(config, callback);
 
 module.exports = NPMModulePrompt;

@@ -51,8 +51,8 @@ export default async function bundle(): Promise<webpack.Stats> {
 function abortWithErrors(stats: webpack.Stats): void {
 	const {errors} = stats.compilation;
 
-	errors.forEach((err) =>
-		log.error(`${new ExplainedError(err).toString()}\n`)
+	errors.forEach((error) =>
+		log.error(`${new ExplainedError(error).toString()}\n`)
 	);
 
 	abort(`Build failed: webpack build finished with errors`);

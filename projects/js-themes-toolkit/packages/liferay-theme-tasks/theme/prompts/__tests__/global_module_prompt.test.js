@@ -58,9 +58,9 @@ it('init should assign callback as done property and invoke prompting', () => {
 		_.noop
 	);
 
-	const cb = prototype._getGlobalModules.getCall(0).args[0];
+	const callback = prototype._getGlobalModules.getCall(0).args[0];
 
-	cb('modules');
+	callback('modules');
 
 	// TODO assert that initSpy is called with correct args
 

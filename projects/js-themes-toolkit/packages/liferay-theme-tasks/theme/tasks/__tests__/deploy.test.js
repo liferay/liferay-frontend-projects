@@ -56,9 +56,9 @@ afterEach(() => {
 });
 
 it('deploys to deploy server', (done) => {
-	project.gulp.runSequence('deploy', (err) => {
-		if (err) {
-			throw err;
+	project.gulp.runSequence('deploy', (error) => {
+		if (error) {
+			throw error;
 		}
 
 		expect(fs.existsSync(path.join(deployPath, 'base-theme.war'))).toBe(

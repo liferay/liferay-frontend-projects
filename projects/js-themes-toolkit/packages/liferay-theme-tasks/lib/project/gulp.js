@@ -20,10 +20,10 @@ class Gulp {
 		}
 
 		this._gulp.runSequence = (...args) => {
-			let cb;
+			let callback;
 
 			if (typeof args[args.length - 1] === 'function') {
-				cb = args.pop();
+				callback = args.pop();
 			}
 
 			this._gulp.series(
@@ -35,7 +35,7 @@ class Gulp {
 						return task;
 					}
 				})
-			)(cb);
+			)(callback);
 		};
 	}
 

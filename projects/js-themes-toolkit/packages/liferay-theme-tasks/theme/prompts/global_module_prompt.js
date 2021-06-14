@@ -15,8 +15,8 @@ class GlobalModulePrompt {
 		this.init(...args);
 	}
 
-	init(config, cb) {
-		this.done = cb;
+	init(config, callback) {
+		this.done = callback;
 		this.selectedModules = config.selectedModules;
 		this.themelet = config.themelet;
 
@@ -52,17 +52,18 @@ class GlobalModulePrompt {
 		this.done(answers);
 	}
 
-	_getGlobalModules(cb) {
+	_getGlobalModules(callback) {
 		themeFinder.getLiferayThemeModules(
 			{
 				globalModules: true,
 				themelet: this.themelet,
 			},
-			cb
+			callback
 		);
 	}
 }
 
-GlobalModulePrompt.prompt = (config, cb) => new GlobalModulePrompt(config, cb);
+GlobalModulePrompt.prompt = (config, callback) =>
+	new GlobalModulePrompt(config, callback);
 
 module.exports = GlobalModulePrompt;

@@ -184,13 +184,13 @@ describe('using lib_sass', () => {
 		gulp.hook('before:build', _assertBeforeBuild);
 	}
 
-	function _assertBase(cb) {
+	function _assertBase(callback) {
 		assertExists(buildPath);
 
-		cb();
+		callback();
 	}
 
-	function _assertBeforeBuild(cb) {
+	function _assertBeforeBuild(callback) {
 		const distPath = path.join(tempTheme.tempPath, 'dist');
 		const customSrcPath = path.join(tempTheme.tempPath, 'src');
 
@@ -198,20 +198,20 @@ describe('using lib_sass', () => {
 		assertExists.not(buildPath);
 		assertExists.not(distPath);
 
-		cb();
+		callback();
 	}
 
-	function _assertClean(cb) {
+	function _assertClean(callback) {
 		assertExists.not(buildPath);
 
-		cb();
+		callback();
 	}
 
-	function _assertCompileCss(cb) {
-		cb();
+	function _assertCompileCss(callback) {
+		callback();
 	}
 
-	function _assertHook(cb) {
+	function _assertHook(callback) {
 		const hookPath = path.join(buildPath, 'WEB-INF', 'liferay-hook.xml');
 
 		assertExists(hookPath);
@@ -220,9 +220,9 @@ describe('using lib_sass', () => {
 			encoding: 'utf8',
 		});
 
-		parseString(liferayHookXML, (err, result) => {
-			if (err) {
-				throw err;
+		parseString(liferayHookXML, (error, result) => {
+			if (error) {
+				throw error;
 			}
 
 			assertEqual(result.hook['language-properties'], [
@@ -230,11 +230,11 @@ describe('using lib_sass', () => {
 				'content/Language_es.properties',
 			]);
 
-			cb();
+			callback();
 		});
 	}
 
-	function _assertFixAtDirectives(cb) {
+	function _assertFixAtDirectives(callback) {
 		const cssPath = path.join(buildPath, 'css');
 		const mainCssPath = path.join(cssPath, 'main.css');
 
@@ -244,34 +244,34 @@ describe('using lib_sass', () => {
 			/@import\surl\(file\.css\?t=[0-9]+\);/
 		);
 
-		cb();
+		callback();
 	}
 
-	function _assertMoveCompiledCss(cb) {
+	function _assertMoveCompiledCss(callback) {
 		const cssPath = path.join(buildPath, 'css');
 
 		assertExists(cssPath);
 
-		cb();
+		callback();
 	}
 
-	function _assertRemoveOldCssDir(cb) {
+	function _assertRemoveOldCssDir(callback) {
 		const cssPath = path.join(buildPath, '_css');
 
 		assertExists.not(cssPath);
 
-		cb();
+		callback();
 	}
 
-	function _assertRenameCssDir(cb) {
+	function _assertRenameCssDir(callback) {
 		const _cssPath = path.join(buildPath, '_css');
 
 		assertExists(_cssPath);
 
-		cb();
+		callback();
 	}
 
-	function _assertSrc(cb) {
+	function _assertSrc(callback) {
 		const cssPath = path.join(buildPath, 'css');
 		const jsPath = path.join(buildPath, 'js');
 		const templatesPath = path.join(buildPath, 'templates');
@@ -345,10 +345,10 @@ describe('using lib_sass', () => {
 
 		assertMatches(fs.readFileSync(portalNormalPath, 'utf8'), /BASE_THEME/);
 
-		cb();
+		callback();
 	}
 
-	function _assertThemelets(cb) {
+	function _assertThemelets(callback) {
 		const customScssPath = path.join(
 			buildPath,
 			'themelets',
@@ -412,18 +412,18 @@ describe('using lib_sass', () => {
 			/<script src="\${theme_display\.getPathThemeRoot\(\)}\/themelets\/test-themelet\/js\/main\.js"><\/script>/
 		);
 
-		cb();
+		callback();
 	}
 
-	function _assertWar(cb) {
+	function _assertWar(callback) {
 		const warPath = path.join(tempTheme.tempPath, 'dist', 'base-theme.war');
 
 		assertExists(warPath);
 
-		cb();
+		callback();
 	}
 
-	function _assertWebInf(cb) {
+	function _assertWebInf(callback) {
 		const webInfPath = path.join(buildPath, 'WEB-INF');
 		const pluginPackagePath = path.join(
 			webInfPath,
@@ -433,6 +433,6 @@ describe('using lib_sass', () => {
 		assertExists(webInfPath);
 		assertExists(pluginPackagePath);
 
-		cb();
+		callback();
 	}
 });

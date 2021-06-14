@@ -32,7 +32,7 @@ function generateSoyDependencies(dependencies) {
 					})
 				);
 			}
-			catch (err) {
+			catch (error) {
 
 				// Swallow.
 

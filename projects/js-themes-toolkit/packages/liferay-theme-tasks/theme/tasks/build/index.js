@@ -45,13 +45,13 @@ function injectJS() {
 				let output = '';
 
 				return through(
-					function transform(chunk, encoding, callback) {
+					function transform(chunk, encoding, transformCallback) {
 						output += chunk.toString();
-						callback(null);
+						transformCallback(null);
 					},
-					function flush(callback) {
+					function flush(flushCallback) {
 						this.push(normalize(output));
-						callback(null);
+						flushCallback(null);
 					}
 				);
 			});
@@ -77,7 +77,7 @@ module.exports = function () {
 	const {runSequence} = gulp;
 	const {pathBuild, pathSrc} = options;
 
-	gulp.task('build', (cb) => {
+	gulp.task('build', (callback) => {
 		runSequence(
 			'build:clean',
 			'build:base',
@@ -96,13 +96,13 @@ module.exports = function () {
 			'build:copy:fontAwesome',
 			'build:minify:js',
 			'build:war',
-			cb
+			callback
 		);
 	});
 
-	gulp.task('build:clean', (cb) => {
+	gulp.task('build:clean', (callback) => {
 		fs.removeSync(pathBuild.resolve().asNative);
-		cb();
+		callback();
 	});
 
 	gulp.task('build:base', () => {
@@ -130,7 +130,7 @@ module.exports = function () {
 			.pipe(gulp.dest(pathBuild.join('WEB-INF', 'classes').asNative));
 	});
 
-	gulp.task('build:liferay-look-and-feel', (cb) => {
+	gulp.task('build:liferay-look-and-feel', (callback) => {
 		const themePath = project.dir;
 
 		lookAndFeelUtil.mergeLookAndFeelJSON(
@@ -138,7 +138,7 @@ module.exports = function () {
 			{},
 			(lookAndFeelJSON) => {
 				if (!lookAndFeelJSON) {
-					return cb();
+					return callback();
 				}
 
 				const themeName = lookAndFeelUtil.getNameFromPluginPackageProperties(
@@ -175,12 +175,12 @@ module.exports = function () {
 						'liferay-look-and-feel.xml'
 					),
 					xml,
-					(err) => {
-						if (err) {
-							throw err;
+					(error) => {
+						if (error) {
+							throw error;
 						}
 
-						cb();
+						callback();
 					}
 				);
 			}
@@ -218,17 +218,17 @@ module.exports = function () {
 			.pipe(gulp.dest(pathBuild.join('WEB-INF').asNative));
 	});
 
-	gulp.task('build:rename-css-dir', (cb) => {
+	gulp.task('build:rename-css-dir', (callback) => {
 		fs.rename(
 			pathBuild.join('css').asNative,
 			pathBuild.join('_css').asNative,
-			cb
+			callback
 		);
 	});
 
 	// Temp fix for libSass compilation issue with empty url() functions
 
-	gulp.task('build:fix-url-functions', (cb) => {
+	gulp.task('build:fix-url-functions', (callback) => {
 		gulp.src(pathBuild.join('_css', '**', '*.css').asPosix)
 			.pipe(
 				replace({
@@ -245,7 +245,7 @@ module.exports = function () {
 					overwrite: true,
 				})
 			)
-			.on('end', cb);
+			.on('end', callback);
 	});
 
 	gulp.task('build:move-compiled-css', () => {
@@ -254,9 +254,9 @@ module.exports = function () {
 			.pipe(gulp.dest(pathBuild.join('css').asNative));
 	});
 
-	gulp.task('build:remove-old-css-dir', (cb) => {
+	gulp.task('build:remove-old-css-dir', (callback) => {
 		fs.removeSync(pathBuild.join('_css').asNative);
-		cb();
+		callback();
 	});
 
 	gulp.task('build:fix-at-directives', () => {

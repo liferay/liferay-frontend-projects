@@ -39,7 +39,7 @@ describe('globally installed theme', () => {
 			version: '7.1',
 		});
 
-		KickstartPrompt.prompt = (config, cb) => {
+		KickstartPrompt.prompt = (config, callback) => {
 			const answers = {
 				module: 'kickstart-theme',
 				modulePath: kickstartThemePath,
@@ -48,7 +48,7 @@ describe('globally installed theme', () => {
 				},
 			};
 
-			cb(answers);
+			callback(answers);
 		};
 	});
 
@@ -100,7 +100,7 @@ describe('npm theme', () => {
 			namespace: 'kickstart_task_npm',
 		});
 
-		KickstartPrompt.prompt = (config, cb) => {
+		KickstartPrompt.prompt = (config, callback) => {
 			const answers = {
 				module: 'some-theme',
 				modules: {
@@ -108,7 +108,7 @@ describe('npm theme', () => {
 				},
 			};
 
-			cb(answers);
+			callback(answers);
 		};
 	});
 

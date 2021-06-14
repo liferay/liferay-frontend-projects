@@ -93,9 +93,9 @@ module.exports = function () {
 
 		// Push final task that deploys the theme and starts live reloads
 
-		taskArray.push((err) => {
-			if (err) {
-				throw err;
+		taskArray.push((error) => {
+			if (error) {
+				throw error;
 			}
 
 			Promise.all([
@@ -115,27 +115,27 @@ module.exports = function () {
 	/**
 	 * Clean the exploded build dir
 	 */
-	gulp.task('watch:clean', (cb) => {
+	gulp.task('watch:clean', (callback) => {
 		fs.removeSync(explodedBuildDir);
-		cb();
+		callback();
 	});
 
 	/**
 	 * Clean the remote exploded build dir in docker
 	 */
-	gulp.task('watch:docker:clean', (cb) => {
+	gulp.task('watch:docker:clean', (callback) => {
 		themeUtil.dockerExec(
 			dockerContainerName,
 			'rm -rf ' + dockerBundleDirPath
 		);
 
-		cb();
+		callback();
 	});
 
 	/**
 	 * Copy the exploded build dir to docker
 	 */
-	gulp.task('watch:docker:copy', (cb) => {
+	gulp.task('watch:docker:copy', (callback) => {
 		themeUtil.dockerExec(
 			dockerContainerName,
 			'mkdir -p ' + dockerBundleDirPath
@@ -145,7 +145,7 @@ module.exports = function () {
 			dockerContainerName,
 			explodedBuildDir,
 			dockerBundleDirPath,
-			cb
+			callback
 		);
 	});
 
@@ -161,19 +161,19 @@ module.exports = function () {
 	/**
 	 * Cleanup watch machinery
 	 */
-	gulp.task('watch:teardown', (cb) => {
+	gulp.task('watch:teardown', (callback) => {
 		store.webBundleDir = undefined;
 
 		const taskArray = getTeardownTaskArray();
 
-		taskArray.push(cb);
+		taskArray.push(callback);
 
 		runSequence(...taskArray);
 	});
 
 	let livereload;
 
-	gulp.task('watch:reload', (cb) => {
+	gulp.task('watch:reload', (callback) => {
 		const {changedFile} = store;
 		const srcPath = path.relative(project.dir, changedFile.path);
 		const dstPath = srcPath.replace(/^src\//, '');
@@ -184,7 +184,7 @@ module.exports = function () {
 				files: [urlPath],
 			},
 		});
-		cb();
+		callback();
 	});
 
 	/**
@@ -202,9 +202,9 @@ module.exports = function () {
 
 		const livereloadTag = `<script src="http://localhost:${tinylrPort}/livereload.js"></script>`;
 		livereload = tinylr();
-		livereload.server.on('error', (err) => {
+		livereload.server.on('error', (error) => {
 			// eslint-disable-next-line no-console
-			console.error(err);
+			console.error(error);
 		});
 		livereload.listen(tinylrPort);
 
@@ -251,9 +251,9 @@ module.exports = function () {
 			});
 		});
 
-		proxy.on('error', (err) => {
+		proxy.on('error', (error) => {
 			// eslint-disable-next-line no-console
-			console.error(err);
+			console.error(error);
 		});
 
 		http.createServer((req, res) => {
@@ -277,9 +277,9 @@ module.exports = function () {
 						}
 
 						fs.createReadStream(filepath)
-							.on('error', (err) => {
+							.on('error', (error) => {
 								// eslint-disable-next-line no-console
-								console.error(err);
+								console.error(error);
 							})
 							.pipe(res);
 					}

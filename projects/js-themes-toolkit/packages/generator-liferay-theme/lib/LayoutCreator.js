@@ -93,43 +93,43 @@ LayoutCreator.prototype = {
 		this.after(templateContent);
 	},
 
-	_afterPromptColumnCount(answers, cb) {
-		cb(null, answers.columnCount);
+	_afterPromptColumnCount(answers, callback) {
+		callback(null, answers.columnCount);
 	},
 
-	_afterPromptColumnWidths(answers, cb) {
+	_afterPromptColumnWidths(answers, callback) {
 		this._addRow(answers);
 
-		cb(null, this.rows);
+		callback(null, this.rows);
 	},
 
-	_afterPromptFinishRow(answers, cb) {
+	_afterPromptFinishRow(answers, callback) {
 		var finish = answers.finish;
 
 		if (finish == 'add') {
-			this._promptRow(cb);
+			this._promptRow(callback);
 		}
 		else if (finish == 'insert') {
-			this._promptInsertRow(cb);
+			this._promptInsertRow(callback);
 		}
 		else if (answers.finish == 'finish') {
-			cb(null);
+			callback(null);
 		}
 		else if (finish == 'remove') {
-			this._promptRemoveRow(cb);
+			this._promptRemoveRow(callback);
 		}
 	},
 
-	_afterPromptInsertRow(answers, cb) {
+	_afterPromptInsertRow(answers, callback) {
 		this.rowInsertIndex = answers.rowIndex;
 
-		this._promptRow(cb);
+		this._promptRow(callback);
 	},
 
-	_afterPromptRemoveRow(answers, cb) {
+	_afterPromptRemoveRow(answers, callback) {
 		this._removeRow(answers.rowIndex);
 
-		this._promptFinishRow(this.rows, cb);
+		this._promptFinishRow(this.rows, callback);
 	},
 
 	_formatInlineChoicePreview(spanValue, takenWidth) {
@@ -455,7 +455,7 @@ LayoutCreator.prototype = {
 		);
 	},
 
-	_promptColumnCount(cb) {
+	_promptColumnCount(callback) {
 		var instance = this;
 
 		this.prompt(
@@ -470,11 +470,11 @@ LayoutCreator.prototype = {
 					validate: instance._validateColumnCount,
 				},
 			],
-			(answers) => this._afterPromptColumnCount(answers, cb)
+			(answers) => this._afterPromptColumnCount(answers, callback)
 		);
 	},
 
-	_promptColumnWidths(columnCount, cb) {
+	_promptColumnWidths(columnCount, callback) {
 		var instance = this;
 
 		var rowNumber = instance._getRowNumber();
@@ -498,11 +498,11 @@ LayoutCreator.prototype = {
 		});
 
 		this.prompt(questions, (answers) =>
-			this._afterPromptColumnWidths(answers, cb)
+			this._afterPromptColumnWidths(answers, callback)
 		);
 	},
 
-	_promptFinishRow(rows, cb) {
+	_promptFinishRow(rows, callback) {
 		this.prompt(
 			[
 				{
@@ -512,11 +512,11 @@ LayoutCreator.prototype = {
 					type: 'list',
 				},
 			],
-			(answers) => this._afterPromptFinishRow(answers, cb)
+			(answers) => this._afterPromptFinishRow(answers, callback)
 		);
 	},
 
-	_promptInsertRow(cb) {
+	_promptInsertRow(callback) {
 		this.prompt(
 			[
 				{
@@ -526,11 +526,11 @@ LayoutCreator.prototype = {
 					type: 'list',
 				},
 			],
-			(answers) => this._afterPromptInsertRow(answers, cb)
+			(answers) => this._afterPromptInsertRow(answers, callback)
 		);
 	},
 
-	_promptRemoveRow(cb) {
+	_promptRemoveRow(callback) {
 		this.prompt(
 			[
 				{
@@ -540,7 +540,7 @@ LayoutCreator.prototype = {
 					type: 'list',
 				},
 			],
-			(answers) => this._afterPromptRemoveRow(answers, cb)
+			(answers) => this._afterPromptRemoveRow(answers, callback)
 		);
 	},
 
@@ -658,8 +658,8 @@ LayoutCreator.prototype = {
 		}
 	},
 
-	prompt(questions, cb) {
-		inquirer.prompt(questions, cb);
+	prompt(questions, callback) {
+		inquirer.prompt(questions, callback);
 	},
 
 	run() {

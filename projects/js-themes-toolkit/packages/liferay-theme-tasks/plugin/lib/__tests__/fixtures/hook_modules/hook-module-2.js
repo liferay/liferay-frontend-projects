@@ -4,7 +4,7 @@
  */
 
 module.exports = function (gulp) {
-	gulp.hook('after:build', (cb) => {
-		cb();
+	gulp.hook('after:build', (callback) => {
+		callback();
 	});
 };

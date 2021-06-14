@@ -40,9 +40,9 @@ export default class Renderer {
 				{
 					escape: (text) => text,
 				},
-				(err, str) => {
-					if (err) {
-						return reject(err);
+				(error, str) => {
+					if (error) {
+						return reject(error);
 					}
 
 					if (this._outputDir) {

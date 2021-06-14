@@ -102,7 +102,7 @@ function findLiferayDir() {
 		);
 		liferayDir = json.answers['*'].liferayDir;
 	}
-	catch (err) {
+	catch (error) {
 
 		// swallow
 

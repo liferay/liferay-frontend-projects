@@ -125,9 +125,9 @@ function safeReadJsonSync(path): object {
 	try {
 		return readJsonSync(path);
 	}
-	catch (err) {
-		if (err.code !== 'ENOENT') {
-			throw err;
+	catch (error) {
+		if (error.code !== 'ENOENT') {
+			throw error;
 		}
 	}
 }

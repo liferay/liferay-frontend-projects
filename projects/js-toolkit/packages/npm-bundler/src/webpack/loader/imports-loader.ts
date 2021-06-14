@@ -33,7 +33,7 @@ export default function (content: string): void {
 
 	asyncTransform(content, this.resourcePath)
 		.then((transformedContent) => callback(null, transformedContent))
-		.catch((err) => callback(err));
+		.catch((error) => callback(error));
 }
 
 async function asyncTransform(
@@ -87,8 +87,8 @@ async function asyncTransform(
 
 		content = code;
 	}
-	catch (err) {
-		log.error(`File could not be parsed`, err);
+	catch (error) {
+		log.error(`File could not be parsed`, error);
 	}
 
 	return content;

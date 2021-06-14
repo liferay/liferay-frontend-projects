@@ -87,8 +87,8 @@ export default async function (argv: {version: boolean}): Promise<void> {
 			log.debug('The build has emitted some warning messages.');
 		}
 	}
-	catch (err) {
-		log.error(`\n\n${err.stack}\n\n`);
+	catch (error) {
+		log.error(`\n\n${error.stack}\n\n`);
 
 		process.exit(1);
 	}

@@ -21,7 +21,7 @@ function registerTasks() {
 	const {gulp} = project;
 	const {pathSrc} = project.options;
 
-	gulp.task('kickstart', (cb) => {
+	gulp.task('kickstart', (callback) => {
 		log(
 			colors.yellow('Warning:'),
 			'the',
@@ -65,17 +65,17 @@ function registerTasks() {
 						.on('end', () => {
 							if (tempNodeModulesPath) {
 								fs.removeSync(tempNodeModulesPath.asNative);
-								cb();
+								callback();
 							}
 							else {
-								cb();
+								callback();
 							}
 						});
 				}
 				else {
 					log(colors.yellow('Theme not selected'));
 
-					cb();
+					callback();
 				}
 			}
 		);

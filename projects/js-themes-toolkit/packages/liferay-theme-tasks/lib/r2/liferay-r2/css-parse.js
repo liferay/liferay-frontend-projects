@@ -79,11 +79,11 @@ module.exports = function (css, options) {
 	 */
 
 	function error(msg, start) {
-		var err = new Error(`${filename} (${lineno}:${column}) ${msg}`);
-		err.position = new Position(start);
-		err.filename = filename;
-		err.description = msg;
-		throw err;
+		var errorThrown = new Error(`${filename} (${lineno}:${column}) ${msg}`);
+		errorThrown.position = new Position(start);
+		errorThrown.filename = filename;
+		errorThrown.description = msg;
+		throw errorThrown;
 	}
 
 	/**

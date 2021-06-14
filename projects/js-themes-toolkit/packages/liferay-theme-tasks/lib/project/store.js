@@ -194,9 +194,9 @@ class Store {
 		try {
 			json = fs.readJSONSync(this._filePath);
 		}
-		catch (err) {
-			if (err.code !== 'ENOENT') {
-				throw err;
+		catch (error) {
+			if (error.code !== 'ENOENT') {
+				throw error;
 			}
 		}
 

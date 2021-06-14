@@ -20,18 +20,18 @@ module.exports = function () {
 	const {gulp, options} = project;
 	const {pathBuild} = options;
 
-	const handleScssError = (err) => {
+	const handleScssError = (error) => {
 		if (project.watching) {
-			log(err);
+			log(error);
 
 			this.emit('end');
 		}
 		else {
-			throw err;
+			throw error;
 		}
 	};
 
-	gulp.task('build:compile-css', (cb) => {
+	gulp.task('build:compile-css', (callback) => {
 		const {options} = project;
 
 		const sassOptions = getSassOptions(options.sassOptions, {
@@ -61,7 +61,7 @@ module.exports = function () {
 			.on('error', handleScssError)
 			.pipe(gulpIf(sassOptions.sourceMap, gulpSourceMaps.write('.')))
 			.pipe(gulp.dest(cssBuild.asNative))
-			.on('end', cb);
+			.on('end', callback);
 	});
 };
 

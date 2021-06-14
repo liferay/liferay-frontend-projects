@@ -21,8 +21,8 @@ function registerTasks() {
 		webBundleDir,
 	} = store;
 
-	gulp.task('deploy', (cb) => {
-		const sequence = ['build', 'deploy:war', cb];
+	gulp.task('deploy', (callback) => {
+		const sequence = ['build', 'deploy:war', callback];
 
 		if (argv.l || argv.live) {
 			sequence.splice(1, 1, 'deploy-live:war');
@@ -34,7 +34,7 @@ function registerTasks() {
 		runSequence(...sequence);
 	});
 
-	gulp.task('deploy:docker', (cb) => {
+	gulp.task('deploy:docker', (callback) => {
 		const themeName = pkgJson.name;
 
 		themeUtil.dockerCopy(
@@ -42,18 +42,18 @@ function registerTasks() {
 			pathDist.asNative,
 			deployPath.asNative,
 			[themeName + '.war'],
-			(err, _data) => {
-				if (err) {
-					throw err;
+			(error, _data) => {
+				if (error) {
+					throw error;
 				}
 
 				store.deployed = true;
-				cb();
+				callback();
 			}
 		);
 	});
 
-	gulp.task('deploy:war', (cb) => {
+	gulp.task('deploy:war', (callback) => {
 		const sequence = [];
 
 		if (deploymentStrategy === DEPLOYMENT_STRATEGIES.DOCKER_CONTAINER) {
@@ -63,11 +63,11 @@ function registerTasks() {
 			sequence.push('plugin:deploy');
 		}
 
-		sequence.push(cb);
+		sequence.push(callback);
 		runSequence(...sequence);
 	});
 
-	gulp.task('deploy-live:war', (cb) => {
+	gulp.task('deploy-live:war', (callback) => {
 		const password = argv.p || argv.password;
 		const url = argv.url || store.url;
 		const username = argv.u || argv.username;
@@ -79,7 +79,7 @@ function registerTasks() {
 			password,
 			url,
 			username,
-		}).on('end', cb);
+		}).on('end', callback);
 
 		warDeployer.deploy();
 	});

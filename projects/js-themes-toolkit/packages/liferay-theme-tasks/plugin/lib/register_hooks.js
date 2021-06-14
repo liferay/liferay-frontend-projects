@@ -132,7 +132,7 @@ RegisterHooks.prototype = {
 				);
 			}
 		}
-		catch (e) {
+		catch (error) {
 			gutil.log('There was an issue registering', moduleName);
 		}
 	},

@@ -18,7 +18,7 @@ import chalk from 'chalk';
 const lrFormatOpts = (process.env['LR_FORMAT_OPTS'] || '').split(',');
 
 /** Unrolled formatting options */
-const opts = {
+const options = {
 	noColors: lrFormatOpts.indexOf('no-colors') != -1,
 	noDecorations: lrFormatOpts.indexOf('no-decorations') != -1,
 };
@@ -26,17 +26,17 @@ const opts = {
 const verbatim = (...args): string => args.join(' ');
 
 /** Chalk formats table */
-const fmt = {
-	bold: opts.noDecorations ? verbatim : chalk.bold,
-	debug: opts.noColors ? verbatim : chalk.hex('#666'),
-	error: opts.noColors ? verbatim : chalk.hex('#F44'),
-	info: opts.noColors ? verbatim : chalk.hex('#888'),
-	question: opts.noColors ? verbatim : chalk.hex('#55F'),
-	success: opts.noColors ? verbatim : chalk.hex('#0A0'),
-	text: opts.noColors ? verbatim : chalk.hex('#CCC'),
-	title: opts.noColors ? verbatim : chalk.bold.hex('#55F'),
-	underline: opts.noDecorations ? verbatim : chalk.underline,
-	warn: opts.noColors ? verbatim : chalk.hex('#CA0'),
+const formatTable = {
+	bold: options.noDecorations ? verbatim : chalk.bold,
+	debug: options.noColors ? verbatim : chalk.hex('#666'),
+	error: options.noColors ? verbatim : chalk.hex('#F44'),
+	info: options.noColors ? verbatim : chalk.hex('#888'),
+	question: options.noColors ? verbatim : chalk.hex('#55F'),
+	success: options.noColors ? verbatim : chalk.hex('#0A0'),
+	text: options.noColors ? verbatim : chalk.hex('#CCC'),
+	title: options.noColors ? verbatim : chalk.bold.hex('#55F'),
+	underline: options.noDecorations ? verbatim : chalk.underline,
+	warn: options.noColors ? verbatim : chalk.hex('#CA0'),
 };
 
 /**
@@ -57,7 +57,7 @@ export function debug(
 	literals: TemplateStringsArray,
 	...values: unknown[]
 ): string {
-	return fmt.debug(format('⚙', literals, values));
+	return formatTable.debug(format('⚙', literals, values));
 }
 
 /**
@@ -78,7 +78,7 @@ export function error(
 	literals: TemplateStringsArray,
 	...values: unknown[]
 ): string {
-	return fmt.error(format('❌', literals, values));
+	return formatTable.error(format('❌', literals, values));
 }
 
 /**
@@ -99,7 +99,7 @@ export function info(
 	literals: TemplateStringsArray,
 	...values: unknown[]
 ): string {
-	return fmt.info(format('ℹ️', literals, values));
+	return formatTable.info(format('ℹ️', literals, values));
 }
 
 /**
@@ -129,9 +129,12 @@ export function print(lines: string | string[], ...rest: string[]): void {
 	lines = lines.map((line) => {
 		line = removeJsFormatWhitespace(line);
 
-		line = line.replace(/(https?:\/\/[^\s]+)/gm, fmt.underline('$1'));
-		line = line.replace(/{([^}]*)}/gm, fmt.bold('$1'));
-		line = line.replace(/\|([^|]*)\|/g, opts.noDecorations ? '' : '$1');
+		line = line.replace(
+			/(https?:\/\/[^\s]+)/gm,
+			formatTable.underline('$1')
+		);
+		line = line.replace(/{([^}]*)}/gm, formatTable.bold('$1'));
+		line = line.replace(/\|([^|]*)\|/g, options.noDecorations ? '' : '$1');
 
 		return line;
 	});
@@ -158,7 +161,7 @@ export function success(
 	literals: TemplateStringsArray,
 	...values: unknown[]
 ): string {
-	return fmt.success(format('✔️', literals, values));
+	return formatTable.success(format('✔️', literals, values));
 }
 
 /**
@@ -176,7 +179,7 @@ export function text(
 	literals: TemplateStringsArray,
 	...values: unknown[]
 ): string {
-	return fmt.text(format('', literals, values));
+	return formatTable.text(format('', literals, values));
 }
 
 /**
@@ -197,7 +200,7 @@ export function question(
 	literals: TemplateStringsArray,
 	...values: unknown[]
 ): string {
-	return fmt.question(format('❓', literals, values));
+	return formatTable.question(format('❓', literals, values));
 }
 
 /**
@@ -215,7 +218,7 @@ export function title(
 	literals: TemplateStringsArray,
 	...values: unknown[]
 ): string {
-	return fmt.title(format('', literals, values));
+	return formatTable.title(format('', literals, values));
 }
 
 /**
@@ -236,7 +239,7 @@ export function warn(
 	literals: TemplateStringsArray,
 	...values: unknown[]
 ): string {
-	return fmt.warn(format('⚠️', literals, values));
+	return formatTable.warn(format('⚠️', literals, values));
 }
 
 /**

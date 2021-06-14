@@ -180,17 +180,17 @@ function localized(project: Project, string: string): LocalizedValue {
 		return {'': string};
 	}
 
-	const obj = {};
+	const object = {};
 
 	let labels = project.l10n.getLabels();
 
-	obj[''] = labels[string];
+	object[''] = labels[string];
 
 	project.l10n.availableLocales.forEach((locale) => {
 		labels = project.l10n.getLabels(locale);
 
-		obj[locale] = labels[string];
+		object[locale] = labels[string];
 	});
 
-	return obj;
+	return object;
 }

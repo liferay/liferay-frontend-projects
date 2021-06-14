@@ -65,6 +65,7 @@ const config = {
 		'@liferay/liferay/group-imports': 'error',
 		'@liferay/liferay/import-extensions': 'error',
 		'@liferay/liferay/imports-first': 'error',
+		'@liferay/liferay/no-abbreviations': 'error',
 		'@liferay/liferay/no-absolute-import': 'error',
 		'@liferay/liferay/no-duplicate-imports': 'error',
 		'@liferay/liferay/no-dynamic-require': 'error',

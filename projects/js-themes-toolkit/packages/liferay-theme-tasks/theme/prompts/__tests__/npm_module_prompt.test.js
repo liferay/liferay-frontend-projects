@@ -106,9 +106,9 @@ it('_afterPromptSearchTerms should either re-prompt search terms or invoke modul
 
 	expect(args[0]).toBe('some keyword');
 
-	const cb = args[1];
+	const callback = args[1];
 
-	cb();
+	callback();
 
 	expect(prototype._promptSearchTerms.calledOnce).toBe(true);
 
@@ -116,7 +116,7 @@ it('_afterPromptSearchTerms should either re-prompt search terms or invoke modul
 		'some-module': {},
 	};
 
-	cb(modules);
+	callback(modules);
 
 	expect(prototype.modules).toEqual(modules);
 

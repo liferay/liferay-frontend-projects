@@ -15,7 +15,7 @@ function yarn(command) {
 		info('Running process: yarn ' + command);
 
 		const {
-			err,
+			error: processError,
 			signal,
 			status,
 			stderr,
@@ -26,7 +26,7 @@ function yarn(command) {
 			// eslint-disable-next-line no-console
 			error(
 				JSON.stringify({
-					error: err ? err.toString() : 'n/a',
+					error: processError ? processError.toString() : 'n/a',
 					signal,
 					status,
 					stderr: stderr ? stderr.toString() : 'n/a',

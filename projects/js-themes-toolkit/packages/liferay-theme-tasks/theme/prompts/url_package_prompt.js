@@ -15,8 +15,8 @@ class URLPackagePrompt {
 		this.init(...args);
 	}
 
-	init(config, cb) {
-		this.done = cb;
+	init(config, callback) {
+		this.done = callback;
 		this.themelet = config.themelet;
 		this.config = config;
 
@@ -136,7 +136,7 @@ class URLPackagePrompt {
 		try {
 			new URL(packageURL);
 		}
-		catch (err) {
+		catch (error) {
 			return `"${packageURL}" is not a valid URL`;
 		}
 
@@ -144,6 +144,7 @@ class URLPackagePrompt {
 	}
 }
 
-URLPackagePrompt.prompt = (config, cb) => new URLPackagePrompt(config, cb);
+URLPackagePrompt.prompt = (config, callback) =>
+	new URLPackagePrompt(config, callback);
 
 module.exports = URLPackagePrompt;
