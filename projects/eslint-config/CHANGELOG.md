@@ -1,3 +1,11 @@
+## [eslint-config/v25.0.1](https://github.com/liferay/liferay-frontend-projects/tree/eslint-config/v25.0.1) (2021-06-14)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-config/v25.0.0...eslint-config/v25.0.1)
+
+### :wrench: Bug fixes
+
+-   fix(eslint-config): forgot to apply rule by default and include docs for the rule ([\#587](https://github.com/liferay/liferay-frontend-projects/pull/587))
+
 ## [eslint-config/v25.0.0](https://github.com/liferay/liferay-frontend-projects/tree/eslint-config/v25.0.0) (2021-06-14)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-config/v24.0.1...eslint-config/v25.0.0)
