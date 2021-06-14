@@ -1,3 +1,13 @@
+## [eslint-config/v25.0.0](https://github.com/liferay/liferay-frontend-projects/tree/eslint-config/v25.0.0) (2021-06-14)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-config/v24.0.1...eslint-config/v25.0.0)
+
+### :new: Features
+
+-   feat(eslint-config): Add lint to catch common abbreviations ([\#564](https://github.com/liferay/liferay-frontend-projects/pull/564))
+-   feat(@liferay/eslint-config): add rule to prevent developers from using createPortal directly from react-dom. ([\#575](https://github.com/liferay/liferay-frontend-projects/pull/575))
+-   feat(eslint-config): Enable spaced-comment rule ([\#567](https://github.com/liferay/liferay-frontend-projects/pull/567))
+
 ## [eslint-config/v24.0.1](https://github.com/liferay/liferay-frontend-projects/tree/eslint-config/v24.0.1) (2021-04-30)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-config/v24.0.0...eslint-config/v24.0.1)
