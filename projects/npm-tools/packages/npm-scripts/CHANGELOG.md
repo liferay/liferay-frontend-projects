@@ -1,3 +1,13 @@
+## [npm-scripts/v46.0.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v46.0.0) (2021-06-14)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v45.0.0...npm-scripts/v46.0.0)
+
+### :new: Features
+
+-   feat(eslint-config): Add lint to catch common abbreviations ([\#564](https://github.com/liferay/liferay-frontend-projects/pull/564))
+-   feat(eslint-config): Enable spaced-comment rule ([\#567](https://github.com/liferay/liferay-frontend-projects/pull/567))
+-   feat(eslint-config): add rule to prevent developers from using createPortal directly from react-dom. ([\#575](https://github.com/liferay/liferay-frontend-projects/pull/575))
+
 ## [npm-scripts/v45.0.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v45.0.0) (2021-05-20)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v44.0.2...npm-scripts/v45.0.0)
