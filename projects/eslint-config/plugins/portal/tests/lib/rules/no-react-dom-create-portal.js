@@ -23,7 +23,7 @@ const errors = [
 	},
 ];
 
-ruleTester.run('no-react-dom-render', rule, {
+ruleTester.run('no-react-dom-create-portal', rule, {
 	invalid: [
 		{
 			code: `
