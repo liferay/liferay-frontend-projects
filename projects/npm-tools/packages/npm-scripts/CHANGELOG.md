@@ -2,10 +2,9 @@
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v45.0.0...npm-scripts/v46.0.1)
 
-### :new: Features
+### :wrench: Bug fixes
 
--   feat(eslint-config): Add lint to catch common abbreviations ([\#564](https://github.com/liferay/liferay-frontend-projects/pull/564))
--   feat(eslint-config): Enable spaced-comment rule ([\#567](https://github.com/liferay/liferay-frontend-projects/pull/567))
+-   fix(eslint-config): forgot to apply rule by default and include docs for the rule ([\#587](https://github.com/liferay/liferay-frontend-projects/pull/587))
 
 ## [npm-scripts/v46.0.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v46.0.0) (2021-06-14)
 
