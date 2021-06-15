@@ -9,7 +9,7 @@ import path from 'path';
 
 import prompt from './util/prompt';
 
-const {error, info, print, success, text, title} = format;
+const {fail, info, print, success, text, title} = format;
 
 export type OptionValue = FilePath | boolean | number | string;
 
@@ -103,9 +103,9 @@ export default async function newProject(
 
 		`);
 	}
-	catch (err) {
-		print(error`Could not generate project due to error:`);
-		print(text`${err.stack}`);
+	catch (error) {
+		print(fail`Could not generate project due to error:`);
+		print(text`${error.stack}`);
 	}
 }
 
