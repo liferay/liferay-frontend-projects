@@ -26,10 +26,10 @@ const options = {
 const verbatim = (...args): string => args.join(' ');
 
 /** Chalk formats table */
-const formatTable = {
+const style = {
 	bold: options.noDecorations ? verbatim : chalk.bold,
 	debug: options.noColors ? verbatim : chalk.hex('#666'),
-	error: options.noColors ? verbatim : chalk.hex('#F44'),
+	fail: options.noColors ? verbatim : chalk.hex('#F44'),
 	info: options.noColors ? verbatim : chalk.hex('#888'),
 	question: options.noColors ? verbatim : chalk.hex('#55F'),
 	success: options.noColors ? verbatim : chalk.hex('#0A0'),
@@ -57,7 +57,7 @@ export function debug(
 	literals: TemplateStringsArray,
 	...values: unknown[]
 ): string {
-	return formatTable.debug(format('⚙', literals, values));
+	return style.debug(format('⚙', literals, values));
 }
 
 /**
@@ -66,7 +66,7 @@ export function debug(
  * Example of use:
  *
  * ```ts
- * error`
+ * fail`
  *   This is an error message with some ${argument} to show
  * `
  * ```
@@ -74,12 +74,17 @@ export function debug(
  * @remarks
  * Error messages are prepended with a '❌' emoji.
  */
-export function error(
+export function fail(
 	literals: TemplateStringsArray,
 	...values: unknown[]
 ): string {
-	return formatTable.error(format('❌', literals, values));
+	return style.fail(format('❌', literals, values));
 }
+
+/**
+ * @deprecated use {fail} instead
+ */
+export const error = fail;
 
 /**
  * Tagged template processor for information messages.
@@ -99,7 +104,7 @@ export function info(
 	literals: TemplateStringsArray,
 	...values: unknown[]
 ): string {
-	return formatTable.info(format('ℹ️', literals, values));
+	return style.info(format('ℹ️', literals, values));
 }
 
 /**
@@ -129,11 +134,8 @@ export function print(lines: string | string[], ...rest: string[]): void {
 	lines = lines.map((line) => {
 		line = removeJsFormatWhitespace(line);
 
-		line = line.replace(
-			/(https?:\/\/[^\s]+)/gm,
-			formatTable.underline('$1')
-		);
-		line = line.replace(/{([^}]*)}/gm, formatTable.bold('$1'));
+		line = line.replace(/(https?:\/\/[^\s]+)/gm, style.underline('$1'));
+		line = line.replace(/{([^}]*)}/gm, style.bold('$1'));
 		line = line.replace(/\|([^|]*)\|/g, options.noDecorations ? '' : '$1');
 
 		return line;
@@ -161,7 +163,7 @@ export function success(
 	literals: TemplateStringsArray,
 	...values: unknown[]
 ): string {
-	return formatTable.success(format('✔️', literals, values));
+	return style.success(format('✔️', literals, values));
 }
 
 /**
@@ -179,7 +181,7 @@ export function text(
 	literals: TemplateStringsArray,
 	...values: unknown[]
 ): string {
-	return formatTable.text(format('', literals, values));
+	return style.text(format('', literals, values));
 }
 
 /**
@@ -200,7 +202,7 @@ export function question(
 	literals: TemplateStringsArray,
 	...values: unknown[]
 ): string {
-	return formatTable.question(format('❓', literals, values));
+	return style.question(format('❓', literals, values));
 }
 
 /**
@@ -218,7 +220,7 @@ export function title(
 	literals: TemplateStringsArray,
 	...values: unknown[]
 ): string {
-	return formatTable.title(format('', literals, values));
+	return style.title(format('', literals, values));
 }
 
 /**
@@ -239,7 +241,7 @@ export function warn(
 	literals: TemplateStringsArray,
 	...values: unknown[]
 ): string {
-	return formatTable.warn(format('⚠️', literals, values));
+	return style.warn(format('⚠️', literals, values));
 }
 
 /**
