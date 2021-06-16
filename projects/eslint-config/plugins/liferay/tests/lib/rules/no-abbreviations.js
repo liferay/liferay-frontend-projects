@@ -66,5 +66,8 @@ ruleTester.run('no-abbreviations', rule, {
 		{
 			code: `this.obj = 'this is valid'`,
 		},
+		{
+			code: `const a = {img: '/foo/bar'};`,
+		},
 	],
 });
