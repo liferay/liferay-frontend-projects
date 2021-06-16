@@ -9,7 +9,7 @@ import path from 'path';
 
 import prompt from './util/prompt';
 
-const {fail, info, print, success, text, title} = format;
+const {error: fail, info, print, success, text, title} = format;
 
 export type OptionValue = FilePath | boolean | number | string;
 
@@ -43,7 +43,7 @@ export default async function newProject(
 
 		if (fs.existsSync(outputPath.asNative)) {
 			print(
-				error`Output directory '${outputPath.basename()}' already exists`
+				fail`Output directory '${outputPath.basename()}' already exists`
 			);
 			process.exit(1);
 		}

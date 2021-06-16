@@ -84,6 +84,7 @@ const target: Target = {
 			}),
 			addScripts({
 				build: 'liferay build',
+				deploy: 'liferay deploy',
 			})
 		);
 
