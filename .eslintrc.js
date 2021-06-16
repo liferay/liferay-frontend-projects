@@ -33,6 +33,7 @@ module.exports = {
 		'/copyright.js',
 		'/maintenance/projects/**/copyright.js',
 		'/projects/**/copyright.js',
+		'/target-platforms/copyright.js',
 
 		// Third-party code
 
