@@ -3,7 +3,7 @@
 	"private": true,
 	"scripts": {
 		"build": true,
-		"ci": "liferay-workspace-scripts ci",
+		"ci": "cd .. && yarn ci",
 		"format": "cd .. && yarn format",
 		"format:check": "cd .. && yarn format:check",
 		"lint": "cd .. && yarn lint",
