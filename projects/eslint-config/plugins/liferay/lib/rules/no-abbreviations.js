@@ -39,7 +39,10 @@ module.exports = {
 	create(context) {
 		return {
 			Identifier(node) {
-				if (node === node.parent.property) {
+				if (
+					node === node.parent.property ||
+					node.parent.type === 'Property'
+				) {
 					return;
 				}
 
