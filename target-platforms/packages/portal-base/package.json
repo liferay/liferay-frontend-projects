@@ -4,6 +4,7 @@
 		"@babel/preset-env": "^7.14.2",
 		"@babel/preset-react": "^7.13.13",
 		"babel-preset-liferay-standard": "^2.26.0",
+		"liferay-npm-bundler": "^2.26.0",
 		"liferay-npm-bundler-loader-copy-loader": "^2.26.0",
 		"liferay-npm-bundler-loader-babel-loader": "^2.26.0",
 		"liferay-npm-bundler-plugin-exclude-imports": "^2.26.0",
@@ -16,8 +17,5 @@
 	"description": "Target Platform Base Code",
 	"main": "./src/index.js",
 	"name": "@liferay/portal-base",
-	"peerDependencies": {
-		"liferay-npm-bundler": "^2.26.0"
-	},
 	"version": "1.0.0"
 }

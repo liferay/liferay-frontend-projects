@@ -3,8 +3,8 @@
 		"liferay": "./liferay.js"
 	},
 	"dependencies": {
-		"liferay-npm-bundler": "^2.26.0",
 		"@liferay/portal-base": "^1.0.0",
+		"liferay-npm-bundler": "*",
 		"@clayui/alert": "3.5.1",
 		"@clayui/autocomplete": "3.25.1",
 		"@clayui/badge": "3.2.0",
