@@ -1,15 +1,13 @@
 /**
- * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
- * SPDX-License-Identifier: MIT
+ * SPDX-FileCopyrightText: © 2021 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: LGPL-3.0-or-later
  */
-
-/* eslint-disable @liferay/liferay/no-dynamic-require */
 
 const babel = require('@babel/core');
 const childProcess = require('child_process');
 const fs = require('fs');
 const {
-	error,
+	error: fail,
 	info,
 	print,
 	success,
@@ -87,7 +85,7 @@ function runBabel() {
 		catch (babelError) {
 			/* eslint-disable-next-line no-console */
 			console.log(babelError.toString());
-			print(error`Build failed`);
+			print(fail`Build failed`);
 			process.exit(1);
 		}
 	});
@@ -98,6 +96,7 @@ function runBundler() {
 		'liferay-npm-bundler/package.json'
 	);
 	const bundlerDir = path.dirname(bundlerPkgJsonPath);
+	/* eslint-disable-next-line @liferay/liferay/no-dynamic-require */
 	const bundlerPkgJson = require(bundlerPkgJsonPath);
 	const bundlerPath = path.resolve(
 		bundlerDir,
