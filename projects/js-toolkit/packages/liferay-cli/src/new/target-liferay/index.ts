@@ -70,6 +70,18 @@ const target: Target = {
 		await renderer.render('src/AppComponent.js', options);
 		await renderer.render('src/index.js', options);
 
+		// Add gitignores
+
+		const gitignoreFile = options.outputPath.join('.gitignore');
+
+		print(info`  Configuring .gitignore file`);
+
+		await transformTextFile(
+			gitignoreFile,
+			gitignoreFile,
+			appendLines('/build', '/dist')
+		);
+
 		// Add target platform to project dependencies
 
 		const pkgJsonFile = options.outputPath.join('package.json');
