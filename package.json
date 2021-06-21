@@ -32,7 +32,7 @@
 		"liferay-frontend-theme-unstyled": "6.0.1-test.1c962d5e12be",
 		"mem-fs": "^1.2.0",
 		"mem-fs-editor": "^7.0.1",
-		"prettier": "2.1.2",
+		"prettier": "2.3.1",
 		"sinon": "^9.2.1",
 		"strip-ansi": "^6.0.0",
 		"terser-webpack-plugin": "^5.0.3",
