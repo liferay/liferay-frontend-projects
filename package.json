@@ -30,7 +30,7 @@
 		"jest": "26.4.2",
 		"liferay-frontend-theme-styled": "6.0.1-test.1c962d5e12be",
 		"liferay-frontend-theme-unstyled": "6.0.1-test.1c962d5e12be",
-		"mem-fs": "^1.2.0",
+		"mem-fs": "^2.2.1",
 		"mem-fs-editor": "^7.0.1",
 		"prettier": "2.1.2",
 		"sinon": "^9.2.1",
