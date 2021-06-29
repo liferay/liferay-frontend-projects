@@ -4,6 +4,7 @@
 
 This repo contains the source for a [set of NPM packages](packages) designed to help create, update, and maintain Liferay Themes. The packages that you are most likely to interact with directly are:
 
+-   [bs3-bs4-compat](packages/bs3-bs4-compat): Bootstrap 3 to 4 Compatibility Layer for Liferay DXP. This layer is added to your theme when you run the "upgrade" task for DXP 7.4.
 -   [generator-liferay-theme](packages/generator-liferay-theme): A [Yeoman](https://yeoman.io/) generator for creating new themes, themelets, and layout templates.
 -   [liferay-theme-tasks](packages/liferay-theme-tasks): A set of [Gulp](https://gulpjs.com/) tasks for building and deploying themes.
 
