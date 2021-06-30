@@ -9,9 +9,9 @@ With the removal of the built-in layer, we speed up all pages by default avoidin
 ## Installation
 
 ```sh
-$ npm install liferay-bs3-to-bs4-compat
+$ npm install @liferay/bs3-to-bs4-compat
 // or
-$ yarn add liferay-bs3-to-bs4-compat
+$ yarn add @liferay/bs3-to-bs4-compat
 ```
 
 ## Use
@@ -40,9 +40,9 @@ You need to import the `.scss` files into your theme. Below is an example of add
 ```diff
 @import 'clay/base';
 
-+ @import 'liferay-bs3-to-bs4-compat/scss/variables';
++ @import '@liferay/bs3-to-bs4-compat/scss/variables';
 
-+ @import 'liferay-bs3-to-bs4-compat/scss/components';
++ @import '@liferay/bs3-to-bs4-compat/scss/components';
 ```
 
 **Classic Theme**
@@ -52,11 +52,11 @@ You need to import the `.scss` files into your theme. Below is an example of add
 ```diff
 @import 'clay/atlas';
 
-+ @import 'liferay-bs3-to-bs4-compat/scss/variables';
++ @import '@liferay/bs3-to-bs4-compat/scss/variables';
 
-+ @import 'liferay-bs3-to-bs4-compat/scss/atlas_variables';
++ @import '@liferay/bs3-to-bs4-compat/scss/atlas_variables';
 
-+ @import 'liferay-bs3-to-bs4-compat/scss/components';
++ @import '@liferay/bs3-to-bs4-compat/scss/components';
 ```
 
 After making this change and deploying to your DXP bundle, you should see the compatibility layer working.
