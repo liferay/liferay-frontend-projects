@@ -148,7 +148,7 @@ module.exports = function () {
 		project.setDependencies(devDependencies.default, true);
 
 		if (addBootstrapCompat) {
-			project.setDependencies({'@liferay/bs3-to-bs4-compat': '*'});
+			project.setDependencies({'@liferay/bs3-bs4-compat': '*'});
 		}
 
 		Object.entries(devDependencies.optional).forEach(
@@ -198,20 +198,20 @@ module.exports = function () {
 								replacement:
 									'$1' +
 									'\n\n' +
-									"@import '@liferay/bs3-to-bs4-compat/scss/variables';" +
+									"@import '@liferay/bs3-bs4-compat/scss/variables';" +
 									'\n\n' +
-									"@import '@liferay/bs3-to-bs4-compat/scss/atlas_variables';" +
+									"@import '@liferay/bs3-bs4-compat/scss/atlas_variables';" +
 									'\n\n' +
-									"@import '@liferay/bs3-to-bs4-compat/scss/components';",
+									"@import '@liferay/bs3-bs4-compat/scss/components';",
 							},
 							{
 								match: /(@import\s'clay\/base';)/g,
 								replacement:
 									'$1' +
 									'\n\n' +
-									"@import '@liferay/bs3-to-bs4-compat/scss/variables';" +
+									"@import '@liferay/bs3-bs4-compat/scss/variables';" +
 									'\n\n' +
-									"@import '@liferay/bs3-to-bs4-compat/scss/components';",
+									"@import '@liferay/bs3-bs4-compat/scss/components';",
 							},
 						],
 					})
