@@ -1,3 +1,16 @@
+## [liferay-theme-tasks/v10.5.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v10.5.0) (2021-06-30)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v10.4.0...liferay-theme-tasks/v10.5.0)
+
+### :new: Features
+
+-   feat(bs3-bs4-compat): add new package for bootstrap 3 to 4 compatibility layer ([\#597](https://github.com/liferay/liferay-frontend-projects/pull/597))
+-   feat(eslint-config): Add lint to catch common abbreviations ([\#564](https://github.com/liferay/liferay-frontend-projects/pull/564))
+
+### :house: Chores
+
+-   chore(bs3-bs4-compat): make sure naming is consistent ([\#602](https://github.com/liferay/liferay-frontend-projects/pull/602))
+
 ## [liferay-theme-tasks/v10.4.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v10.4.0) (2021-05-14)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v10.3.0...liferay-theme-tasks/v10.4.0)
