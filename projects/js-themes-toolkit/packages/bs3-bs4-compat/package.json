@@ -8,7 +8,7 @@
 		"liferay"
 	],
 	"license": "MIT",
-	"name": "@liferay/bs3-to-bs4-compat",
+	"name": "@liferay/bs3-bs4-compat",
 	"repository": {
 		"directory": "projects/js-themes-toolkit/packages/bs3-bs4-compat",
 		"type": "git",
