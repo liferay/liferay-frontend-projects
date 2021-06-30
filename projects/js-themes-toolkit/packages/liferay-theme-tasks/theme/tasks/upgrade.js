@@ -42,6 +42,7 @@ module.exports = function () {
 		'upgrade.js'
 	);
 
+	let addBootstrapCompat;
 	let versionUpgrade;
 
 	if (fs.existsSync(modulePath)) {
@@ -69,8 +70,29 @@ module.exports = function () {
 					name: 'sure',
 					type: 'confirm',
 				},
+				{
+					default: false,
+					message:
+						'Would you like to add the Bootstrap 3 to 4 compatibility layer?',
+					name: 'bootstrapCompat',
+					type: 'confirm',
+					when: () => {
+						return (
+							(themeConfig.baseTheme === 'styled' ||
+								themeConfig.baseTheme === 'classic') &&
+							versionUpgrade.targetVersion === '7.4'
+						);
+					},
+				},
 			],
 			(answers) => {
+				if (
+					answers.bootstrapCompat &&
+					themeConfig.baseTheme === 'styled'
+				) {
+					addBootstrapCompat = true;
+				}
+
 				if (answers.sure) {
 					doVersionUpgrade(gulp, versionUpgrade, callback);
 				}
@@ -125,6 +147,10 @@ module.exports = function () {
 
 		project.setDependencies(devDependencies.default, true);
 
+		if (addBootstrapCompat) {
+			project.setDependencies({'@liferay/bs3-to-bs4-compat': '*'});
+		}
+
 		Object.entries(devDependencies.optional).forEach(
 			([packageName, version]) => {
 				if (pkgJson.devDependencies[packageName]) {
@@ -144,6 +170,55 @@ module.exports = function () {
 
 		npmInstall.on('close', callback);
 	});
+
+	gulp.task('upgrade:css', () => {
+		if (addBootstrapCompat) {
+			if (!fs.existsSync('src/css/clay.scss')) {
+				if (themeConfig.baseTheme === 'styled') {
+					fs.writeFileSync(
+						'src/css/clay.scss',
+						"@import 'clay/base';"
+					);
+				}
+				else if (themeConfig.baseTheme === 'classic') {
+					fs.writeFileSync(
+						'src/css/clay.scss',
+						"@import 'clay/atlas';"
+					);
+				}
+			}
+
+			return gulp
+				.src('src/css/+(clay.scss)')
+				.pipe(
+					replace({
+						patterns: [
+							{
+								match: /(@import\s'clay\/atlas';)/g,
+								replacement:
+									'$1' +
+									'\n\n' +
+									"@import '@liferay/bs3-to-bs4-compat/scss/variables';" +
+									'\n\n' +
+									"@import '@liferay/bs3-to-bs4-compat/scss/atlas_variables';" +
+									'\n\n' +
+									"@import '@liferay/bs3-to-bs4-compat/scss/components';",
+							},
+							{
+								match: /(@import\s'clay\/base';)/g,
+								replacement:
+									'$1' +
+									'\n\n' +
+									"@import '@liferay/bs3-to-bs4-compat/scss/variables';" +
+									'\n\n' +
+									"@import '@liferay/bs3-to-bs4-compat/scss/components';",
+							},
+						],
+					})
+				)
+				.pipe(gulp.dest('src/css'));
+		}
+	});
 };
 
 function doVersionUpgrade(gulp, versionUpgrade, callback) {
@@ -153,7 +228,7 @@ function doVersionUpgrade(gulp, versionUpgrade, callback) {
 		taskArray.push(versionUpgrade.promptTask);
 	}
 
-	taskArray.push('upgrade:config', 'upgrade:dependencies');
+	taskArray.push('upgrade:config', 'upgrade:dependencies', 'upgrade:css');
 
 	if (versionUpgrade.customTasks) {
 		taskArray.push(...versionUpgrade.customTasks);
