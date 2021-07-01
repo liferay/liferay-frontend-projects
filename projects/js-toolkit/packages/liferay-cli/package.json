@@ -6,6 +6,7 @@
 	"dependencies": {
 		"inquirer": "^7.3.1",
 		"resolve": "^1.8.1",
+		"update-check": "^1.5.4",
 		"yargs": "^14.0.0"
 	},
 	"description": "Liferay JS Toolkit CLI Tool",
