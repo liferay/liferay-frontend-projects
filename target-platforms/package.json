@@ -3,13 +3,16 @@
 	"private": true,
 	"scripts": {
 		"build": true,
-		"ci": "liferay-workspace-scripts ci",
-		"format": "liferay-workspace-scripts format",
-		"format:check": "liferay-workspace-scripts format:check",
-		"lint": "liferay-workspace-scripts lint",
-		"lint:fix": "liferay-workspace-scripts lint:fix",
+		"ci": "cd .. && yarn ci",
+		"format": "cd .. && yarn format",
+		"format:check": "cd .. && yarn format:check",
+		"lint": "cd .. && yarn lint",
+		"lint:fix": "cd .. && yarn lint:fix",
 		"preversion": "echo Cannot version private package; false",
-		"test": "liferay-workspace-scripts test"
+		"test": "cd .. && yarn test"
 	},
-	"version": "1.0.0"
+	"version": "1.0.0",
+	"workspaces": [
+		"packages/*"
+	]
 }

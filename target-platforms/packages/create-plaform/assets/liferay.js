@@ -1,17 +1,17 @@
 #!/usr/bin/env node
 
 /**
- * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
- * SPDX-License-Identifier: MIT
+ * SPDX-FileCopyrightText: © 2021 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+const {build, deploy} = require('@liferay/portal-base');
 const {
 	error,
 	print,
 	title,
 } = require('liferay-npm-build-tools-common/lib/format');
 
-const build = require('./build');
 const pkgJson = require('./package.json');
 
 if (process.argv.length < 3) {
@@ -25,6 +25,11 @@ switch (cmd) {
 	case 'build':
 		print(title`Building project for target platform: {${pkgJson.name}}`);
 		build();
+		break;
+
+	case 'deploy':
+		print(title`Deploying project to Liferay local installation`);
+		deploy();
 		break;
 
 	default:

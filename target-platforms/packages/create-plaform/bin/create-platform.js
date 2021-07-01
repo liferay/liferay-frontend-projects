@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 /**
- * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
- * SPDX-License-Identifier: MIT
+ * SPDX-FileCopyrightText: © 2021 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
 /* eslint-disable @liferay/liferay/no-dynamic-require */
@@ -76,19 +76,8 @@ const output = {
 			liferay: './liferay.js',
 		},
 		dependencies: {
-			'@babel/core': '^7.14.3',
-			'@babel/preset-env': '^7.14.2',
-			'@babel/preset-react': '^7.13.13',
-			'babel-preset-liferay-standard': '^2.26.0',
-			'liferay-npm-bundler': '^2.26.0',
-			'liferay-npm-bundler-loader-copy-loader': '^2.26.0',
-			'liferay-npm-bundler-loader-babel-loader': '^2.26.0',
-			'liferay-npm-bundler-plugin-exclude-imports': '^2.26.0',
-			'liferay-npm-bundler-plugin-inject-imports-dependencies': '^2.26.0',
-			'liferay-npm-bundler-plugin-inject-peer-dependencies': '^2.26.0',
-			'liferay-npm-bundler-plugin-namespace-packages': '^2.26.0',
-			'liferay-npm-bundler-plugin-replace-browser-modules': '^2.26.0',
-			'liferay-npm-bundler-plugin-resolve-linked-dependencies': '^2.26.0',
+			'@liferay/portal-base': '^1.0.0',
+			'liferay-npm-bundler': '*',
 		},
 		description: 'Target Platform for liferay-' + platformName,
 		main: 'config.json',

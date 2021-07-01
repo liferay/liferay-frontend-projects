@@ -6,8 +6,8 @@
 import {format} from '@liferay/js-toolkit-core';
 import checkForUpdate from 'update-check';
 
-import build from './build';
 import newProject from './new';
+import runLiferayCli from './runLiferayCli';
 
 interface Arguments {
 	_: string[];
@@ -24,7 +24,10 @@ export default async function (argv: Arguments): Promise<void> {
 
 	switch (argv._[0]) {
 		case 'build':
-			return await build();
+			return await runLiferayCli(...process.argv.slice(2));
+
+		case 'deploy':
+			return await runLiferayCli(...process.argv.slice(2));
 
 		case 'new':
 			return await newProject(argv.name, argv.batch);

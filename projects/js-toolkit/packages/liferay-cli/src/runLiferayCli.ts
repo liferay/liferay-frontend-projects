@@ -7,13 +7,13 @@ import {format} from '@liferay/js-toolkit-core';
 import child_process from 'child_process';
 import resolve from 'resolve';
 
-const {error, print} = format;
+const {error: fail, print} = format;
 
-export default async function build(): Promise<void> {
+export default async function runLiferayCli(...args: string[]): Promise<void> {
 	const pkgJson = projectRequire('./package.json');
 
 	if (!pkgJson.dependencies) {
-		print(error`Project has no dependencies: cannot find target platform`);
+		print(fail`Project has no dependencies: cannot find target platform`);
 
 		return;
 	}
@@ -34,7 +34,7 @@ export default async function build(): Promise<void> {
 	);
 
 	if (!targetPlatformName) {
-		print(error`Project has no target platform dependency`);
+		print(fail`Project has no target platform dependency`);
 
 		return;
 	}
@@ -44,7 +44,7 @@ export default async function build(): Promise<void> {
 
 	if (!liferayBin) {
 		print(
-			error`Target platform ${targetPlatformName} has no 'liferay' binary`
+			fail`Target platform ${targetPlatformName} has no 'liferay' binary`
 		);
 
 		return;
@@ -52,13 +52,9 @@ export default async function build(): Promise<void> {
 
 	const bin = projectResolve(`${targetPlatformName}/${liferayBin}`);
 
-	const {status} = child_process.spawnSync(
-		'node',
-		[bin, ...process.argv.slice(2)],
-		{
-			stdio: 'inherit',
-		}
-	);
+	const {status} = child_process.spawnSync('node', [bin, ...args], {
+		stdio: 'inherit',
+	});
 
 	process.exit(status);
 }
