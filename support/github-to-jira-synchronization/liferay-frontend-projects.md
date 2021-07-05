@@ -143,7 +143,6 @@ def findUser(replicaUser) {
         ,"izaera": "ivan.zaera"
         ,"javierdearcos": "javier.dearcos"
         ,"jbalsas": "jose.balsas"
-        ,"jonmak08": "jonathan.mak"
         ,"julien": "julien.castelain"
         ,"kresimir-coko": "kresimir.coko"
         ,"LuismiBarcos": "luismiguel.barco"
