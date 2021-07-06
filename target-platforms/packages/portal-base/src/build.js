@@ -48,10 +48,13 @@ function abort(error) {
 }
 
 function copyAssets() {
-	const assetFiles = findFiles(
-		srcDir,
-		(dirent) => !dirent.name.toLowerCase().endsWith('.js')
-	);
+	const assetFiles = findFiles(srcDir, (dirent) => {
+		const lowerCaseName = dirent.name.toLowerCase();
+
+		return (
+			!lowerCaseName.endsWith('.js') && !lowerCaseName.endsWith('.scss')
+		);
+	});
 
 	print(info`Copying ${assetFiles.length} {assets}...`);
 
@@ -146,9 +149,13 @@ function runBundler() {
 }
 
 function runSass() {
-	const scssFiles = findFiles(srcDir, (dirent) =>
-		dirent.name.toLowerCase().endsWith('.scss')
-	);
+	const scssFiles = findFiles(srcDir, (dirent) => {
+		const lowerCaseName = dirent.name.toLowerCase();
+
+		return (
+			lowerCaseName.endsWith('.scss') && !lowerCaseName.startsWith('_')
+		);
+	});
 	print(info`Running {sass} on ${scssFiles.length} files...`);
 
 	scssFiles.forEach((scssFile) => {
