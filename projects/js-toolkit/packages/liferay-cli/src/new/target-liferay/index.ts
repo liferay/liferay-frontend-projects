@@ -96,6 +96,7 @@ const target: Target = {
 			}),
 			addScripts({
 				build: 'liferay build',
+				clean: 'liferay clean',
 				deploy: 'liferay deploy',
 			})
 		);
