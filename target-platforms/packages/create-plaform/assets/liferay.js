@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-const {build, deploy} = require('@liferay/portal-base');
+const {build, clean, deploy} = require('@liferay/portal-base');
 const {
 	error,
 	print,
@@ -25,6 +25,11 @@ switch (cmd) {
 	case 'build':
 		print(title`Building project for target platform: {${pkgJson.name}}`);
 		build();
+		break;
+
+	case 'clean':
+		print(title`Cleaning output folders`);
+		clean();
 		break;
 
 	case 'deploy':
