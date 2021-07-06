@@ -42,7 +42,7 @@ const facet: Facet = {
 			options.outputPath
 		);
 
-		await renderer.render('assets/css/styles.css', options);
+		await renderer.render('src/css/styles.scss', options);
 
 		// Add portlet properties
 
