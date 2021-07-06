@@ -16,7 +16,7 @@ const {
 const path = require('path');
 const {createInterface} = require('readline');
 
-const configuration = require('./configuration');
+const configuration = require('./util/configuration');
 
 const {outputDir, outputFilename} = project.jar;
 const outputFile = outputDir.join(outputFilename);
