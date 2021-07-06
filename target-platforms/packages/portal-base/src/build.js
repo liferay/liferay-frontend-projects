@@ -160,7 +160,9 @@ function runSass() {
 
 	scssFiles.forEach((scssFile) => {
 		const srcDirRelScssFile = srcDir.relative(scssFile);
-		const outFile = buildDir.join(srcDirRelScssFile);
+		const outFile = buildDir.join(
+			srcDirRelScssFile.asNative.replace(/\.scss$/, '.css')
+		);
 
 		try {
 			const {css, map} = sass.renderSync({
@@ -174,11 +176,7 @@ function runSass() {
 
 			fs.writeFileSync(outFile.asNative, css, 'utf8');
 
-			fs.writeFileSync(
-				buildDir.join(`${srcDirRelScssFile}.map`).asNative,
-				map,
-				'utf8'
-			);
+			fs.writeFileSync(`${outFile.asNative}.map`, map, 'utf8');
 		}
 		catch (error) {
 			abort(error);
