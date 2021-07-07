@@ -5,5 +5,6 @@
 
 module.exports = {
 	build: require('./build'),
+	clean: require('./clean'),
 	deploy: require('./deploy'),
 };

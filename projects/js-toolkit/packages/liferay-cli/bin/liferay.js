@@ -7,6 +7,7 @@
 
 const {argv} = require('yargs')
 	.command('build', 'Build a project created with @liferay/cli')
+	.command('clean', 'Remove output directories')
 	.command(
 		'new <name>',
 		'Create a new project with the given name',

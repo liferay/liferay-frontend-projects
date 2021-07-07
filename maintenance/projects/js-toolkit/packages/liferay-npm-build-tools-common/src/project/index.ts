@@ -506,6 +506,18 @@ export class Project {
 			);
 		}
 
+		// Resolve symbolic links in toolsDir so that we may test things locally
+
+		while (fs.lstatSync(this._toolsDir.asNative).isSymbolicLink()) {
+			const linkTarget = fs.readlinkSync(this._toolsDir.asNative);
+
+			this._toolsDir = new FilePath(
+				linkTarget.startsWith('/')
+					? linkTarget
+					: this._toolsDir.dirname().join(linkTarget).asNative
+			);
+		}
+
 		this._npmbundlerrc = config;
 	}
 

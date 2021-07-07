@@ -15,7 +15,12 @@ import readJsonSync from 'read-json-sync';
  */
 export default function (
 	context,
-	{extension, namespaceDependencies = true, pathModule = '/o'}
+	{
+		emitCssFile = true,
+		extension,
+		namespaceDependencies = true,
+		pathModule = '/o',
+	}
 ) {
 	const {filePath, log} = context;
 
@@ -52,6 +57,10 @@ document.querySelector("head").appendChild(link);
 	context.extraArtifacts[`${filePath}.js`] = `
 module.exports = link;
 `;
+
+	if (!emitCssFile) {
+		context.content = undefined;
+	}
 
 	log.info('css-loader', `Generated .js module to inject '${href}'`);
 }
