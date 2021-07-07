@@ -3,28 +3,28 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-module.exports = function getBaseConfigJson(platformName) {
+module.exports = function getBaseConfigJson(_platformName) {
 	return {
-		'/': {
-			plugins: ['resolve-linked-dependencies'],
+		'*': {
 			'.babelrc': {
 				presets: ['liferay-standard'],
 			},
-			'post-plugins': [
-				'namespace-packages',
-				'inject-imports-dependencies',
-			],
-		},
-		'*': {
 			'copy-plugins': ['exclude-imports'],
 			plugins: ['replace-browser-modules'],
-			'.babelrc': {
-				presets: ['liferay-standard'],
-			},
 			'post-plugins': [
 				'namespace-packages',
 				'inject-imports-dependencies',
 				'inject-peer-dependencies',
+			],
+		},
+		'/': {
+			'.babelrc': {
+				presets: ['liferay-standard'],
+			},
+			plugins: ['resolve-linked-dependencies'],
+			'post-plugins': [
+				'namespace-packages',
+				'inject-imports-dependencies',
 			],
 		},
 		config: {

@@ -8,7 +8,6 @@
 /* eslint-disable @liferay/liferay/no-dynamic-require */
 /* eslint-disable no-console */
 
-const fs = require('fs');
 const path = require('path');
 
 const getBaseConfigJson = require('../lib/getBaseConfigJson');
