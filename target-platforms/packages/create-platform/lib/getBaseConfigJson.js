@@ -27,9 +27,6 @@ module.exports = function getBaseConfigJson(platformName) {
 				'inject-peer-dependencies',
 			],
 		},
-		config: {
-			imports: {},
-		},
 		'create-jar': {
 			'output-dir': 'dist',
 		},

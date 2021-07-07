@@ -1,6 +1,9 @@
 {
-	"bin": "./bin/create-platform.js",
-	"description": "Liferay Target Plaform Creator",
+	"bin": {
+		"create-platform": "./bin/create-platform.js",
+		"update-platforms": "./bin/update-platforms.js"
+	},
+	"description": "Liferay Target Plaform Creator/Updater",
 	"name": "@liferay/create-platform",
 	"version": "1.0.0"
 }

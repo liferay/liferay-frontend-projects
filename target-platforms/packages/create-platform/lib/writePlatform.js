@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+const fs = require('fs');
 const path = require('path');
 
 const platformsDir = path.resolve(__dirname, '..', '..');

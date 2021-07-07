@@ -8,6 +8,7 @@
 /* eslint-disable @liferay/liferay/no-dynamic-require */
 /* eslint-disable no-console */
 
+const childProcess = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
@@ -33,6 +34,8 @@ const config = require(path.join(portalDir, 'modules', 'npmscripts.config.js'));
 // Initialize output config.json
 
 const configJson = getBaseConfigJson(platformName);
+
+configJson.config = configJson.config || {};
 
 configJson.config.imports = {
 	...configJson.config.imports,
@@ -121,4 +124,15 @@ packageJson.dependencies = {
 
 // Produce output
 
+console.log('\n===> Writing platform');
+
 writePlatform(platformName, packageJson, configJson);
+
+// Format code
+
+console.log('\n===> Formatting sources');
+
+childProcess.spawnSync('yarn', ['format'], {
+	cwd: path.resolve(__dirname, '..', '..', '..'),
+	stdio: 'inherit',
+});
