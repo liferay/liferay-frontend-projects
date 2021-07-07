@@ -171,5 +171,25 @@
 	},
 	"create-jar": {
 		"output-dir": "dist"
-	}
+	},
+	"rules": [
+		{
+			"test": "\\.css$",
+			"use": ["css-loader"]
+		},
+		{
+			"exclude": "node_modules",
+			"test": ".*/[^_][^/]+\\.scss$",
+			"use": [
+				{
+					"loader": "css-loader",
+					"options": {
+						"emitCssFile": false,
+						"extension": ".css"
+					}
+				}
+			]
+		}
+	],
+	"sources": ["src"]
 }

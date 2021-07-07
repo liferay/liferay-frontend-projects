@@ -60,16 +60,24 @@ const output = {
 		},
 		rules: [
 			{
-				description: 'Copy static assets',
-				test: '^assets/.*',
+				test: '\\.css$',
+				use: ['css-loader'],
+			},
+			{
+				exclude: 'node_modules',
+				test: '.*/[^_][^/]+\\.scss$',
 				use: [
 					{
-						loader: 'copy-loader',
+						loader: 'css-loader',
+						options: {
+							emitCssFile: false,
+							extension: '.css',
+						},
 					},
 				],
 			},
 		],
-		sources: ['assets'],
+		sources: ['src'],
 	},
 	pkgJson: {
 		bin: {
