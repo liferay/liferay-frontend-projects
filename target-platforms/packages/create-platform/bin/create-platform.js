@@ -11,6 +11,10 @@
 const fs = require('fs');
 const path = require('path');
 
+const getBaseConfigJson = require('../lib/getBaseConfigJson');
+const getBasePackageJson = require('../lib/getBasePackageJson');
+const writePlatform = require('../lib/writePlatform');
+
 const IGNORED_PROVIDERS = ['frontend-js-node-shims'];
 const IGNORED_PROVIDES = ['/'];
 
@@ -26,81 +30,12 @@ const platformName = process.argv[3];
 
 const config = require(path.join(portalDir, 'modules', 'npmscripts.config.js'));
 
-/* eslint-disable sort-keys */
-const output = {
-	dir: path.resolve(__dirname, '..', '..', platformName),
-	configJson: {
-		'/': {
-			plugins: ['resolve-linked-dependencies'],
-			'.babelrc': {
-				presets: ['liferay-standard'],
-			},
-			'post-plugins': [
-				'namespace-packages',
-				'inject-imports-dependencies',
-			],
-		},
-		'*': {
-			'copy-plugins': ['exclude-imports'],
-			plugins: ['replace-browser-modules'],
-			'.babelrc': {
-				presets: ['liferay-standard'],
-			},
-			'post-plugins': [
-				'namespace-packages',
-				'inject-imports-dependencies',
-				'inject-peer-dependencies',
-			],
-		},
-		config: {
-			imports: {},
-		},
-		'create-jar': {
-			'output-dir': 'dist',
-		},
-		rules: [
-			{
-				test: '\\.css$',
-				use: ['css-loader'],
-			},
-			{
-				exclude: 'node_modules',
-				test: '.*/[^_][^/]+\\.scss$',
-				use: [
-					{
-						loader: 'css-loader',
-						options: {
-							emitCssFile: false,
-							extension: '.css',
-						},
-					},
-				],
-			},
-		],
-		sources: ['src'],
-	},
-	pkgJson: {
-		bin: {
-			liferay: './liferay.js',
-		},
-		dependencies: {
-			'@liferay/portal-base': '^1.0.0',
-			'liferay-npm-bundler': '*',
-		},
-		description: 'Target Platform for liferay-' + platformName,
-		main: 'config.json',
-		name: '@liferay/' + platformName,
-		version: '1.0.0',
-	},
-};
-/* eslint-enable sort-keys */
-
-//
 // Initialize output config.json
-//
 
-output.configJson.config.imports = {
-	...output.configJson.config.imports,
+const configJson = getBaseConfigJson(platformName);
+
+configJson.config.imports = {
+	...configJson.config.imports,
 	...Object.entries(config.build.bundler.config.imports).reduce(
 		(imports, [provider, provides]) => {
 			if (IGNORED_PROVIDERS.includes(provider)) {
@@ -122,9 +57,9 @@ output.configJson.config.imports = {
 	),
 };
 
-//
 // Initialize output package.json
-//
+
+const packageJson = getBasePackageJson(platformName);
 
 const dependencies = Object.entries(config.build.bundler.config.imports).reduce(
 	(dependencies, [provider, provides]) => {
@@ -145,15 +80,15 @@ const dependencies = Object.entries(config.build.bundler.config.imports).reduce(
 			);
 
 			try {
-				const pkgJsonPath = require.resolve(
+				const packageJsonPath = require.resolve(
 					packageName + '/package.json',
 					{
 						paths: [providerDir],
 					}
 				);
-				const pkgJson = require(pkgJsonPath);
+				const packageJson = require(packageJsonPath);
 
-				dependencies[packageName] = pkgJson.version;
+				dependencies[packageName] = packageJson.version;
 			}
 			catch (error) {
 				console.log(
@@ -173,8 +108,8 @@ const dependencies = Object.entries(config.build.bundler.config.imports).reduce(
 
 // Sort dependencies
 
-output.pkgJson.dependencies = {
-	...output.pkgJson.dependencies,
+packageJson.dependencies = {
+	...packageJson.dependencies,
 	...Object.keys(dependencies)
 		.sort()
 		.reduce((sortedDependencies, packageName) => {
@@ -184,30 +119,6 @@ output.pkgJson.dependencies = {
 		}, {}),
 };
 
-//
 // Produce output
-//
 
-fs.mkdirSync(output.dir, {recursive: true});
-fs.writeFileSync(
-	path.join(output.dir, 'package.json'),
-	JSON.stringify(output.pkgJson, null, '\t')
-);
-fs.writeFileSync(
-	path.join(output.dir, 'config.json'),
-	JSON.stringify(output.configJson, null, '\t')
-);
-
-//
-// Copy static assets
-//
-
-const assetsDir = path.resolve(__dirname, '..', 'assets');
-
-fs.readdirSync(assetsDir).forEach((file) => {
-	const sourcePath = path.join(assetsDir, file);
-	const targetPath = path.join(output.dir, file);
-
-	fs.writeFileSync(targetPath, fs.readFileSync(sourcePath));
-	fs.chmodSync(targetPath, fs.statSync(sourcePath).mode);
-});
+writePlatform(platformName, packageJson, configJson);
