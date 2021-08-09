@@ -159,5 +159,8 @@
 	"description": "Target Platform for liferay-portal-master",
 	"main": "config.json",
 	"name": "@liferay/portal-master",
+	"scripts": {
+		"prepublishOnly": "echo 'ERROR: THIS PACKAGE IS NOT INTENDED FOR NPM PUBLICATION !!!'; echo ''; exit 1"
+	},
 	"version": "1.0.0"
 }
