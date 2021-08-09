@@ -974,10 +974,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@clayui/css@3.23.0":
-  version "3.23.0"
-  resolved "https://registry.yarnpkg.com/@clayui/css/-/css-3.23.0.tgz#174c01a76ccd354a0c667a531feac2e47e5a3432"
-  integrity sha512-gkLrgBTFfcjn7LyYDZyPHncdxLHRwG/hYqE5if+KtJskaQaGj+5DmyDXiwCEeY7ispDeS6Vceoaum8rIACVrxA==
+"@clayui/css@3.31.0":
+  version "3.31.0"
+  resolved "https://registry.yarnpkg.com/@clayui/css/-/css-3.31.0.tgz#fd0d47a6b051ec84c7d2fb99cec267930edcd93d"
+  integrity sha512-859NW2+h49OKOmdm9Wh9vfddWH/7I6ULhcXQBwZacifHECWTjnBYOBZKekLFXq2AqKgK5vLvnOtPHxBO4FKYBg==
 
 "@cnakazawa/watch@^1.0.3", "@cnakazawa/watch@^1.0.4":
   version "1.0.4"
@@ -9769,17 +9769,17 @@ liferay-frontend-common-css@^1.0.4:
   resolved "https://registry.yarnpkg.com/liferay-frontend-common-css/-/liferay-frontend-common-css-1.0.4.tgz#e4d73e406020d907c909bcacb2700a52fa1c7f16"
   integrity sha1-5Nc+QGAg2QfJCbyssnAKUvocfxY=
 
-liferay-frontend-theme-styled@6.0.1-test.1c962d5e12be:
-  version "6.0.1-test.1c962d5e12be"
-  resolved "https://registry.yarnpkg.com/liferay-frontend-theme-styled/-/liferay-frontend-theme-styled-6.0.1-test.1c962d5e12be.tgz#9e688a7aee04df75f39651940c3712679b5447f9"
-  integrity sha512-AIIDz/ddxSuBrUofUNNjqdo814NgkoXwdDgTrYfvja9kzrT+W2FN9WA8EvCCF3FIpZHoiwU0EIoZApYTsSAR3w==
+liferay-frontend-theme-styled@6.0.6:
+  version "6.0.6"
+  resolved "https://registry.yarnpkg.com/liferay-frontend-theme-styled/-/liferay-frontend-theme-styled-6.0.6.tgz#bb6fe947be0fd4753a07b89304464b548c2df6d4"
+  integrity sha512-uzIOXiJyelvas0WqTiga4tUL8PZA9kP8iV9nd96QJBy8UrNz5Hz2AV/oEJBeQ87whnNVPWvZXQ7JqEp9Dg6L4w==
 
-liferay-frontend-theme-unstyled@6.0.1-test.1c962d5e12be:
-  version "6.0.1-test.1c962d5e12be"
-  resolved "https://registry.yarnpkg.com/liferay-frontend-theme-unstyled/-/liferay-frontend-theme-unstyled-6.0.1-test.1c962d5e12be.tgz#256ec9517ce6878cd2526ef7007e4a0decb1d47b"
-  integrity sha512-bSfkcbX9Vu2WsFcaQoXjsLrzsXD391sL9WILV/DZ//dHz/p8+RZubcJ+Q+b6eXLVrMjQMRhCmT0O20NVDVcaIA==
+liferay-frontend-theme-unstyled@6.0.6:
+  version "6.0.6"
+  resolved "https://registry.yarnpkg.com/liferay-frontend-theme-unstyled/-/liferay-frontend-theme-unstyled-6.0.6.tgz#a74810439a30c0bbfa43011a481b9850fce6f499"
+  integrity sha512-ancG0DuI+trAsjw6BgsDOu8JAuFOCQIUvOAMFjSO7iiHp8lVKeaUIRHNWC7JUkySoGUaEdb5KIO4Eh7M+cKMfw==
   dependencies:
-    "@clayui/css" "3.23.0"
+    "@clayui/css" "3.31.0"
 
 liferay-lang-key-dev-loader@^1.0.3:
   version "1.0.3"
