@@ -28,8 +28,6 @@
 		"gulp-coveralls": "0.1.4",
 		"http-server": "^0.11.1",
 		"jest": "26.4.2",
-		"liferay-frontend-theme-styled": "6.0.1-test.1c962d5e12be",
-		"liferay-frontend-theme-unstyled": "6.0.1-test.1c962d5e12be",
 		"mem-fs": "^1.2.0",
 		"mem-fs-editor": "^7.0.1",
 		"prettier": "2.1.2",

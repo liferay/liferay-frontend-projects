@@ -44,6 +44,10 @@
 		"xml2js": "^0.4.23"
 	},
 	"description": "A set of tasks for building and deploying Liferay Portal themes.",
+	"devDependencies": {
+		"liferay-frontend-theme-styled": "6.0.6",
+		"liferay-frontend-theme-unstyled": "6.0.6"
+	},
 	"engines": {
 		"node": ">=8.0.0"
 	},
