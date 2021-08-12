@@ -9,6 +9,7 @@
 		"lint": "cd .. && yarn lint",
 		"lint:fix": "cd .. && yarn lint:fix",
 		"preversion": "echo Cannot version private package; false",
+		"qa": "node ./scripts/qa.js",
 		"test": "cd .. && yarn test"
 	},
 	"version": "1.0.0",
