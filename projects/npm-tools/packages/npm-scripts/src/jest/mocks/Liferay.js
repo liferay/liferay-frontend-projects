@@ -8,12 +8,27 @@
 const authToken = 'default-mocked-auth-token';
 
 /**
+ * https://github.com/liferay/liferay-portal/blob/21d88b8a5cbbf6bfcbb752b5312b2be4fb106761/modules/apps/frontend-js/frontend-js-web/src/main/resources/META-INF/resources/liferay/component.es.js#L203
+ */
+const component = jest.fn(() => {});
+
+/**
+ * https://github.com/liferay/liferay-portal/blob/21d88b8a5cbbf6bfcbb752b5312b2be4fb106761/modules/apps/frontend-js/frontend-js-web/src/main/resources/META-INF/resources/liferay/component.es.js#L305
+ */
+const destroyComponent = jest.fn();
+
+/**
  * Event support APIs on the `Liferay` object inherited from `A.Attributes`
  *
  * https://github.com/liferay/liferay-portal/blob/31073fb75fb0d3b309f9e0f921cb7a469aa2703d/modules/apps/frontend-js/frontend-js-web/src/main/resources/META-INF/resources/liferay/events.js#L66
  * https://yuilibrary.com/yui/docs/api/classes/Attribute.html
  */
 const events = {
+
+	/**
+	 * https://clarle.github.io/yui3/yui/docs/api/files/event-custom_js_event-target.js.html#l850
+	 */
+	after: jest.fn(),
 
 	/**
 	 * https://yuilibrary.com/yui/docs/api/files/event-custom_js_event-target.js.html#l372
@@ -49,9 +64,38 @@ const events = {
 const Language = {
 
 	/**
+	 * https://github.com/liferay/liferay-portal/blob/f5bc2504a4f666241363a30975b6de5d57a6f627/portal-web/docroot/html/common/themes/top_js.jspf#L153
+	 */
+	available: {
+		ar_SA: 'Arabic (Saudi Arabia)',
+		ca_ES: 'Catalan (Spain)',
+		de_DE: 'German (Germany)',
+		en_US: 'English (United States)',
+		es_ES: 'Spanish (Spain)',
+		fi_FI: 'Finnish (Finland)',
+		fr_FR: 'French (France)',
+		hu_HU: 'Hungarian (Hungary)',
+		ja_JP: 'Japanese (Japan)',
+		nl_NL: 'Dutch (Netherlands)',
+		pt_BR: 'Portuguese (Brazil)',
+		sv_SE: 'Swedish (Sweden)',
+		zh_CN: 'Chinese (China)',
+	},
+
+	/**
 	 * https://github.com/liferay/liferay-portal/blob/31073fb75fb0d3b309f9e0f921cb7a469aa2703d/modules/apps/frontend-js/frontend-js-aui-web/src/main/resources/META-INF/resources/liferay/language.js#L18
 	 */
 	get: jest.fn((key) => key),
+};
+
+/**
+ * https://github.com/liferay/liferay-portal/blob/f5bc2504a4f666241363a30975b6de5d57a6f627/portal-web/docroot/html/common/themes/top_js.jspf#L161
+ */
+const PortletKeys = {
+	DOCUMENT_LIBRARY: 'DOCUMENT_LIBRARY',
+	DYNAMIC_DATA_MAPPING:
+		'com_liferay_dynamic_data_mapping_web_portlet_DDMPortlet',
+	ITEM_SELECTOR: 'ITEM_SELECTOR',
 };
 
 /**
@@ -96,6 +140,11 @@ const ThemeDisplay = {
 	getBCP47LanguageId: jest.fn(() => 'en-US'),
 
 	/**
+	 * https://github.com/liferay/liferay-portal/blob/a4866af62eb89c69ee00d0e69dbe7ff092b50048/portal-web/docroot/html/common/themes/top_js.jspf#L214
+	 */
+	getDefaultLanguageId: jest.fn(() => 'en-US'),
+
+	/**
 	 * https://github.com/liferay/liferay-portal/blob/31073fb75fb0d3b309f9e0f921cb7a469aa2703d/portal-web/docroot/html/common/themes/top_js.jspf#L217
 	 */
 	getDoAsUserIdEncoded: jest.fn(() => 'default-mocked-do-as-user-id'),
@@ -124,6 +173,11 @@ const ThemeDisplay = {
 	 * https://github.com/liferay/liferay-portal/blob/31073fb75fb0d3b309f9e0f921cb7a469aa2703d/portal-web/docroot/html/common/themes/top_js.jspf#L247
 	 */
 	getPortalURL: jest.fn(() => 'http://localhost:8080'),
+
+	/**
+	 * https://github.com/liferay/liferay-portal/blob/f5bc2504a4f666241363a30975b6de5d57a6f627/portal-web/docroot/html/common/themes/top_js.jspf#L282
+	 */
+	getScopeGroupId: jest.fn(() => '2012'),
 };
 
 /**
@@ -133,6 +187,17 @@ const ThemeDisplay = {
  * - https://github.com/liferay/liferay-portal/blob/31073fb75fb0d3b309f9e0f921cb7a469aa2703d/modules/apps/frontend-js/frontend-js-aui-web/src/main/resources/META-INF/resources/liferay/util.js
  */
 const Util = {
+
+	/**
+	 * https://github.com/lodash/lodash/blob/2da024c3b4f9947a48517639de7560457cd4ec6c/escape.js#L41
+	 * https://github.com/liferay/liferay-portal/blob/5f33f077a3f08ca5c2e9872d6f9d42c234e47a37/modules/apps/frontend-js/frontend-js-web/src/main/resources/META-INF/resources/liferay/global.es.js#L164
+	 */
+	escape: jest.fn((str) => str),
+
+	/**
+	 * https://github.com/liferay/liferay-portal/blob/5f33f077a3f08ca5c2e9872d6f9d42c234e47a37/modules/apps/frontend-js/frontend-js-web/src/main/resources/META-INF/resources/liferay/util/html_util.js#L39
+	 */
+	escapeHTML: jest.fn((str) => str),
 
 	/**
 	 * https://github.com/liferay/liferay-portal/blob/31073fb75fb0d3b309f9e0f921cb7a469aa2703d/modules/apps/frontend-js/frontend-js-aui-web/src/main/resources/META-INF/resources/liferay/util.js#L442
@@ -158,14 +223,22 @@ const Util = {
 	 * https://github.com/liferay/liferay-portal/blob/31073fb75fb0d3b309f9e0f921cb7a469aa2703d/modules/apps/frontend-js/frontend-js-aui-web/src/main/resources/META-INF/resources/liferay/util.js#L999
 	 */
 	sub: jest.fn(),
+
+	/**
+	 * https://github.com/liferay/liferay-portal/blob/5f33f077a3f08ca5c2e9872d6f9d42c234e47a37/modules/apps/frontend-js/frontend-js-web/src/main/resources/META-INF/resources/liferay/util/html_util.js#L46
+	 */
+	unescapeHTML: jest.fn((str) => str),
 };
 
 module.exports = {
 	...events,
 	Language,
+	PortletKeys,
 	PropsValues,
 	Session,
 	ThemeDisplay,
 	Util,
 	authToken,
+	component,
+	destroyComponent,
 };

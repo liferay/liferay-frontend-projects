@@ -9,6 +9,8 @@ global.Headers = require('./mocks/Headers');
 
 global.Liferay = require('./mocks/Liferay');
 
+global.AUI = require('./mocks/AUI');
+
 // Temporary `createRange` mock until we update Jest 26 and jsdom >= 16.
 // See: https://github.com/liferay/liferay-frontend-projects/issues/46
 
