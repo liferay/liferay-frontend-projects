@@ -11,7 +11,7 @@ const EXPECTED_BUILD_DIR = path.resolve(
 const TEST_PROJECT_DIR = path.resolve(__dirname, '../qa/test-project');
 
 function diff(expectedDir, actualDir) {
-	var somethingChanged = false;
+	let somethingChanged = false;
 
 	const expectedItems = fs.readdirSync(expectedDir);
 	const actualItems = fs.readdirSync(actualDir);
