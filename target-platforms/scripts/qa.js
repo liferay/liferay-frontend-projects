@@ -73,11 +73,11 @@ run('yarn', 'clean');
 
 run('yarn', 'build');
 
-console.log('\n>>> diff', EXPECTED_BUILD_DIR, ACTUAL_BUILD_DIR);
+console.log('\n>>> diff', EXPECTED_BUILD_DIR, ACTUAL_BUILD_DIR, '\n');
 if (diff(EXPECTED_BUILD_DIR, ACTUAL_BUILD_DIR)) {
-	console.log('Builds differ :-(');
+	console.log('\n🔴 BUILDS DIFFER :-(\n');
 	process.exit(1);
 }
 else {
-	console.log('Builds are identical \\o/');
+	console.log('\n✅ BUILDS ARE IDENTICAL \\o/\n');
 }
