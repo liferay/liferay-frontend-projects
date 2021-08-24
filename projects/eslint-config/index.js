@@ -62,6 +62,7 @@ const config = {
 	rules: {
 		'@liferay/liferay/array-is-array': 'error',
 		'@liferay/liferay/destructure-requires': 'error',
+		'@liferay/liferay/empty-line-between-elements': 'error',
 		'@liferay/liferay/group-imports': 'error',
 		'@liferay/liferay/import-extensions': 'error',
 		'@liferay/liferay/imports-first': 'error',
