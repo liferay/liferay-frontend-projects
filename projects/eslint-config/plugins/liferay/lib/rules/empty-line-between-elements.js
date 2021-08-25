@@ -11,16 +11,6 @@ module.exports = {
 			JSXElement(node) {
 				let previousNodeEndLocation;
 
-				const printTabs = (amountOfTabs) => {
-					let tabs = '';
-
-					for (let i = 0; i < amountOfTabs; i++) {
-						tabs += '\t';
-					}
-
-					return tabs;
-				};
-
 				node.children.map((childNode) => {
 					if (childNode.type === 'JSXElement') {
 						if (
@@ -29,12 +19,7 @@ module.exports = {
 						) {
 							context.report({
 								fix: (fixer) =>
-									fixer.insertTextBefore(
-										childNode,
-										`\n${printTabs(
-											childNode.loc.start.col
-										)}`
-									),
+									fixer.insertTextBefore(childNode, '\n'),
 								message:
 									'Expected an empty line between sibling elements.',
 								node: childNode,
