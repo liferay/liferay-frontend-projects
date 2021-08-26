@@ -20,30 +20,36 @@ const ruleTester = new MultiTester(parserOptions);
 ruleTester.run('empty-line-between-elements', rule, {
 	invalid: [
 		{
-			code: `<div>
-	<Component1 />
-	<Component2 />
-</div>`,
+			code: `
+			<div>
+				<Invalid1 />
+				<Invalid2 />
+			</div>
+			`,
 			errors: [
 				{
 					message: 'Expected an empty line between sibling elements.',
 					type: 'JSXElement',
 				},
 			],
-			output: `<div>
-	<Component1 />
+			output: `
+			<div>
+				<Invalid1 />
 
-<Component2 />
-</div>`,
+				<Invalid2 />
+			</div>
+			`,
 		},
 	],
 	valid: [
 		{
-			code: `<div>
-	<Component1 />
+			code: `
+			<div>
+				<Valid1 />
 
-<Component2 />
-</div>`,
+				<Valid2 />
+			</div>
+			`,
 		},
 	],
 });
