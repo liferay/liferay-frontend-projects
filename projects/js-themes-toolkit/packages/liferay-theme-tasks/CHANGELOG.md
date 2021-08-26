@@ -1,3 +1,11 @@
+## [liferay-theme-tasks/v10.5.1](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v10.5.1) (2021-08-26)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v10.5.0...liferay-theme-tasks/v10.5.1)
+
+### :house: Chores
+
+-   chore: move devDependency to the project it is used in ([\#614](https://github.com/liferay/liferay-frontend-projects/pull/614))
+
 ## [liferay-theme-tasks/v10.5.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v10.5.0) (2021-06-30)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v10.4.0...liferay-theme-tasks/v10.5.0)
