@@ -80,6 +80,17 @@ function bgPosition(v) {
 	return v;
 }
 
+// Grabs the value of the translate property
+
+const TRANSLATE_REGEX = /(?<=translatex?(?!y)\()\S*(?=,|\))/gim;
+
+function translate(v) {
+
+	// translate(1px) => translate(calc(1px * -1))
+
+	return v.replace(TRANSLATE_REGEX, 'calc($& * -1)');
+}
+
 var propertyMap = {
 	'-moz-border-radius-bottomleft': '-moz-border-radius-bottomright',
 	'-moz-border-radius-bottomright': '-moz-border-radius-bottomleft',
@@ -135,6 +146,7 @@ var valueMap = {
 	margin: quad,
 	padding: quad,
 	'text-align': rtltr,
+	transform: translate,
 };
 
 function processRule(rule, index, list) {
