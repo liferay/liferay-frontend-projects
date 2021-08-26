@@ -8,6 +8,9 @@ const rule = require('../../../lib/rules/empty-line-between-elements');
 
 const parserOptions = {
 	parserOptions: {
+		ecmaFeatures: {
+			jsx: true,
+		},
 		ecmaVersion: 6,
 	},
 };
@@ -17,39 +20,30 @@ const ruleTester = new MultiTester(parserOptions);
 ruleTester.run('empty-line-between-elements', rule, {
 	invalid: [
 		{
-			code:
-				'const reactComponent = () => (' +
-				'<div>' +
-				'<Component1 />' +
-				'<Component2 />' +
-				'</div>' +
-				');',
+			code: `<div>
+	<Component1 />
+	<Component2 />
+</div>`,
 			errors: [
 				{
 					message: 'Expected an empty line between sibling elements.',
 					type: 'JSXElement',
 				},
 			],
-			output:
-				'const reactComponent = () => (' +
-				'<div>' +
-				'<Component1 />' +
-				'\n' +
-				'<Component2 />' +
-				'</div>' +
-				');',
+			output: `<div>
+	<Component1 />
+
+<Component2 />
+</div>`,
 		},
 	],
 	valid: [
 		{
-			code:
-				'const reactComponent = () => (' +
-				'<div>' +
-				'<Component1 />' +
-				'\n' +
-				'<Component2 />' +
-				'</div>' +
-				');',
+			code: `<div>
+	<Component1 />
+
+<Component2 />
+</div>`,
 		},
 	],
 });
