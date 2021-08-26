@@ -565,3 +565,62 @@ describe('noflip', () => {
 		done();
 	});
 });
+
+describe('translate', () => {
+	it('swap for rtl', (done) => {
+		expect(swap('p{transform: translate(10px);}')).toMatchInlineSnapshot(
+			`"p{transform:translate(calc(10px * -1));}"`
+		);
+
+		expect(swap('p{transform: translateY(10px);}')).toMatchInlineSnapshot(
+			`"p{transform:translateY(10px);}"`
+		);
+
+		expect(
+			swap('p{transform: translateX(11px) translateY (10px);}')
+		).toMatchInlineSnapshot(
+			`"p{transform:translateX(calc(11px * -1)) translateY (10px);}"`
+		);
+
+		expect(
+			swap('p{transform: translatex(12px) translatey(10px);}')
+		).toMatchInlineSnapshot(
+			`"p{transform:translatex(calc(12px * -1)) translatey(10px);}"`
+		);
+
+		expect(
+			swap('p{transform: translate(13px, 15px, 20px);}')
+		).toMatchInlineSnapshot(
+			`"p{transform:translate(calc(13px * -1), 15px, 20px);}"`
+		);
+
+		expect(swap('p{transform: TRANSLATE(500%);}')).toMatchInlineSnapshot(
+			`"p{transform:TRANSLATE(calc(500% * -1));}"`
+		);
+
+		expect(swap('p{transform: translate(-11px);}')).toMatchInlineSnapshot(
+			`"p{transform:translate(calc(-11px * -1));}"`
+		);
+
+		expect(
+			swap('p{transform: translateX(-12px) translateY(10px);}')
+		).toMatchInlineSnapshot(
+			`"p{transform:translateX(calc(-12px * -1)) translateY(10px);}"`
+		);
+		expect(
+			swap('p{transform: translatex(-13px) translatey(10px);}')
+		).toMatchInlineSnapshot(
+			`"p{transform:translatex(calc(-13px * -1)) translatey(10px);}"`
+		);
+		expect(
+			swap('p{transform: translate(-14px, 15px, 20px);}')
+		).toMatchInlineSnapshot(
+			`"p{transform:translate(calc(-14px * -1), 15px, 20px);}"`
+		);
+		expect(swap('p{transform: TRANSLATE(-50%);}')).toMatchInlineSnapshot(
+			`"p{transform:TRANSLATE(calc(-50% * -1));}"`
+		);
+
+		done();
+	});
+});
