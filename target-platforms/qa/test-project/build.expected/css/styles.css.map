@@ -1,1 +1,1 @@
-{"version":3,"sourceRoot":"","sources":["file:///home/ivan/Liferay/Javascript/liferay-frontend-projects/target-platforms/qa/test-project/src/css/styles.scss"],"names":[],"mappings":"AAAA;EACC;EACA;;;AAGD;EACC;EACA;;;AAGD;EACC","file":"styles.css"}
+{"version":3,"sourceRoot":"","sources":["file://{{WORKSPACE_DIR}}/target-platforms/qa/test-project/src/css/styles.scss"],"names":[],"mappings":"AAAA;EACC;EACA;;;AAGD;EACC;EACA;;;AAGD;EACC","file":"styles.css"}

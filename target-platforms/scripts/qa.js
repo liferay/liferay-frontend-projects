@@ -16,6 +16,7 @@ const EXPECTED_BUILD_DIR = path.resolve(
 	'../qa/test-project/build.expected'
 );
 const TEST_PROJECT_DIR = path.resolve(__dirname, '../qa/test-project');
+const WORKSPACE_DIR = path.resolve(__dirname, '..', '..');
 
 function diff(expectedDir, actualDir) {
 	let somethingChanged = false;
@@ -43,11 +44,14 @@ function diff(expectedDir, actualDir) {
 			console.log('-', path.join(actualDir, expectedItem));
 		}
 		else {
+			const expectedContent = readExpected(expectedFile);
+			const actualContent = fs.readFileSync(actualFile);
+
 			const expectedHash = createHash('sha256')
-				.update(fs.readFileSync(expectedFile))
+				.update(expectedContent)
 				.digest('hex');
 			const actualHash = createHash('sha256')
-				.update(fs.readFileSync(actualFile))
+				.update(actualContent)
 				.digest('hex');
 
 			if (expectedHash !== actualHash) {
@@ -58,6 +62,16 @@ function diff(expectedDir, actualDir) {
 	}
 
 	return somethingChanged;
+}
+
+function readExpected(file) {
+	let content = fs.readFileSync(file).toString();
+
+	if (file.toLowerCase().endsWith('.css.map')) {
+		content = content.replace(/{{WORKSPACE_DIR}}/g, WORKSPACE_DIR);
+	}
+
+	return content;
 }
 
 function run(cmd, ...args) {
