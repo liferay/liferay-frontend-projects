@@ -1,3 +1,15 @@
+## [npm-scripts/v46.1.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v46.1.0) (2021-08-26)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v46.0.1...npm-scripts/v46.1.0)
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): update liferay-theme-tasks version ([\#626](https://github.com/liferay/liferay-frontend-projects/pull/626))
+
+### :house: Chores
+
+-   chore(npm-scripts): fix CHANGELOG ([\#588](https://github.com/liferay/liferay-frontend-projects/pull/588))
+
 ## [npm-scripts/v46.0.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v46.0.1) (2021-06-14)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v45.0.0...npm-scripts/v46.0.1)
