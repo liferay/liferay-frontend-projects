@@ -19,7 +19,7 @@ module.exports = {
 						) {
 							context.report({
 								fix: (fixer) =>
-									fixer.insertTextBefore(childNode, '\n'),
+									fixer.insertTextBefore(childNode, '\n\n'),
 								message:
 									'Expected an empty line between sibling elements.',
 								node: childNode,
