@@ -80,6 +80,15 @@ function bgPosition(v) {
 	return v;
 }
 
+function translate(v) {
+
+	// translate(1px) => translate(calc(1px * -1))
+
+	v.replace(/(?<=translatex?(?!y)\()\S*(?=,|\))/gim, 'calc($& * -1)');
+
+	return v;
+}
+
 var propertyMap = {
 	'-moz-border-radius-bottomleft': '-moz-border-radius-bottomright',
 	'-moz-border-radius-bottomright': '-moz-border-radius-bottomleft',
@@ -135,6 +144,7 @@ var valueMap = {
 	margin: quad,
 	padding: quad,
 	'text-align': rtltr,
+	transform: translate,
 };
 
 function processRule(rule, index, list) {
