@@ -4,6 +4,7 @@
  */
 
 import {FilePath, TemplateRenderer, format} from '@liferay/js-toolkit-core';
+import fs from 'fs';
 
 import prompt from '../util/prompt';
 
@@ -40,7 +41,8 @@ const facet: Facet = {
 		await renderer.render('.gitignore', options);
 		await renderer.render('README.md', options);
 		await renderer.render('package.json', options);
-		await renderer.render('assets/.placeholder', options);
+
+		fs.mkdirSync(options.outputPath.join('src').asNative);
 	},
 };
 

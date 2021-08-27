@@ -24,8 +24,7 @@ export default async function (argv: Arguments): Promise<void> {
 
 	switch (argv._[0]) {
 		case 'build':
-			return await runLiferayCli(...process.argv.slice(2));
-
+		case 'clean':
 		case 'deploy':
 			return await runLiferayCli(...process.argv.slice(2));
 

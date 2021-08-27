@@ -1,0 +1,30 @@
+{
+  "packages": {
+    "/": {
+      "dest": {
+        "dir": "./build",
+        "id": "/",
+        "name": "test-project",
+        "version": "1.0.0"
+      },
+      "modules": {
+        "AppComponent.js": {
+          "flags": {
+            "esModule": true
+          }
+        },
+        "index.js": {
+          "flags": {
+            "esModule": true
+          }
+        }
+      },
+      "src": {
+        "dir": ".",
+        "id": "/",
+        "name": "test-project",
+        "version": "1.0.0"
+      }
+    }
+  }
+}
