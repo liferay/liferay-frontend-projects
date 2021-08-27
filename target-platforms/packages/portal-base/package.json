@@ -6,6 +6,7 @@
 		"babel-preset-liferay-standard": "^2.26.0",
 		"liferay-npm-bundler": "^2.26.0",
 		"liferay-npm-bundler-loader-babel-loader": "^2.26.0",
+		"liferay-npm-bundler-loader-css-loader": "^2.26.0",
 		"liferay-npm-bundler-plugin-exclude-imports": "^2.26.0",
 		"liferay-npm-bundler-plugin-inject-imports-dependencies": "^2.26.0",
 		"liferay-npm-bundler-plugin-inject-peer-dependencies": "^2.26.0",

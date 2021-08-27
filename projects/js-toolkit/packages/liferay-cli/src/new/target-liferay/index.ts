@@ -143,7 +143,7 @@ const target: Target = {
 		// Add CSS styles
 
 		const stylesFile: FilePath = options.outputPath.join(
-			'assets/css/styles.css'
+			'src/css/styles.scss'
 		);
 
 		if (fs.existsSync(stylesFile.asNative)) {
