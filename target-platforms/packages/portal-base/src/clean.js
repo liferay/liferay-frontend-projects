@@ -13,8 +13,13 @@ const buildDir = project.buildDir;
 const distDir = project.jar.outputDir;
 
 module.exports = function clean() {
-	fs.rmdirSync(buildDir.asNative, {recursive: true});
-	fs.rmdirSync(distDir.asNative, {recursive: true});
+	if (fs.existsSync(buildDir.asNative)) {
+		fs.rmdirSync(buildDir.asNative, {recursive: true});
+	}
+
+	if (fs.existsSync(distDir.asNative)) {
+		fs.rmdirSync(distDir.asNative, {recursive: true});
+	}
 
 	print(success`{Removed output directories}`);
 };
