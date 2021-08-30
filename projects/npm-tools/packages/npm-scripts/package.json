@@ -14,7 +14,7 @@
 		"@babel/preset-env": "^7.4.2",
 		"@babel/preset-react": "^7.8.3",
 		"@babel/preset-typescript": "^7.10.4",
-		"@liferay/eslint-config": "25.0.1",
+		"@liferay/eslint-config": "26.0.0",
 		"@liferay/jest-junit-reporter": "1.2.0",
 		"@liferay/js-toolkit-core": "3.0.1",
 		"@testing-library/dom": "^5.6.1",
