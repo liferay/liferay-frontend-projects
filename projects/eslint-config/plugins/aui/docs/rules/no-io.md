@@ -1,6 +1,6 @@
 # Avoid using `A.io.request('url')`
 
-This rule prohibits using `A.getBody()`.
+This rule prohibits using `A.io`.
 
 ## Rule Details
 

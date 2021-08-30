@@ -1,6 +1,6 @@
 # Avoid using `A.each(array, (item) => item)`
 
-This rule prohibits using `A.Array` and its utilities.
+This rule prohibits using `A.each`.
 
 ## Rule Details
 
