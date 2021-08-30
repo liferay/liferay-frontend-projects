@@ -200,6 +200,20 @@ The bundled `@liferay/portal` plugin includes the following [rules](./plugins/po
 -   [@liferay/portal/no-react-dom-render](./plugins/portal/docs/rules/no-react-dom-render.md): Prevents direct usage of `ReactDOM.render` in favor of our wrapper.
 -   [@liferay/portal/no-side-navigation](./plugins/portal/docs/rules/no-side-navigation.md): Guards against the use of the legacy jQuery `sideNavigation` plugin.
 
+#### `@liferay/aui`
+
+The bundled `@liferay/aui` plugin includes the following [rules](./plugins/aui/docs/rules):
+
+-   [@liferay/aui/no-all](./plugins/aui/docs/rules/no-all.md): Prevents usage of `A.all()`
+-   [@liferay/aui/no-array](./plugins/aui/docs/rules/no-array.md): Prevents usage of `A.Array`
+-   [@liferay/aui/no-each](./plugins/aui/docs/rules/no-each.md): Prevents usage of `A.each()`
+-   [@liferay/aui/no-get-body](./plugins/aui/docs/rules/no-get-body.md): Prevents usage of `A.getBody()`
+-   [@liferay/aui/no-io](./plugins/aui/docs/rules/no-io.md): Prevents usage of `A.io()`
+-   [@liferay/aui/no-modal](./plugins/aui/docs/rules/no-modal.md): Prevents usage of `A.Modal()`
+-   [@liferay/aui/no-node](./plugins/aui/docs/rules/no-node.md): Prevents usage of `A.Node()`
+-   [@liferay/aui/no-object](./plugins/aui/docs/rules/no-object.md): Prevents usage of `A.Object`
+-   [@liferay/aui/no-one](./plugins/aui/docs/rules/no-one.md): Prevents usage of `A.one()`
+
 ## License
 
 MIT
