@@ -5,18 +5,21 @@
 
 'use strict';
 
+const local = require('./utils/local');
+
 const config = {
+	plugins: [local('@liferay/aui')],
 	rules: {
-		'@liferay/aui/no-all': 'off',
-		'@liferay/aui/no-array': 'off',
-		'@liferay/aui/no-each': 'off',
-		'@liferay/aui/no-get-body': 'off',
-		'@liferay/aui/no-io': 'off',
-		'@liferay/aui/no-merge': 'off',
-		'@liferay/aui/no-modal': 'off',
-		'@liferay/aui/no-node': 'off',
-		'@liferay/aui/no-object': 'off',
-		'@liferay/aui/no-one': 'off',
+		'@liferay/aui/no-all': 'error',
+		'@liferay/aui/no-array': 'error',
+		'@liferay/aui/no-each': 'error',
+		'@liferay/aui/no-get-body': 'error',
+		'@liferay/aui/no-io': 'error',
+		'@liferay/aui/no-merge': 'error',
+		'@liferay/aui/no-modal': 'error',
+		'@liferay/aui/no-node': 'error',
+		'@liferay/aui/no-object': 'error',
+		'@liferay/aui/no-one': 'error',
 	},
 };
 

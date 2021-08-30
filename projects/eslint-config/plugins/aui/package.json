@@ -5,7 +5,7 @@
 		"test": "tests"
 	},
 	"main": "index.js",
-	"name": "eslint-plugin-liferay",
+	"name": "eslint-plugin-liferay-aui",
 	"private": true,
 	"version": "1.0.0"
 }
