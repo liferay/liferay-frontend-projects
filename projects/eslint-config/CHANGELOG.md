@@ -1,3 +1,19 @@
+## [eslint-config/v26.0.0](https://github.com/liferay/liferay-frontend-projects/tree/eslint-config/v26.0.0) (2021-08-30)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-config/v25.0.1...eslint-config/v26.0.0)
+
+### :new: Features
+
+-   feat(eslint-config): Add lint to catch common AUI utilities ([\#620](https://github.com/liferay/liferay-frontend-projects/pull/620))
+
+### :wrench: Bug fixes
+
+-   fix(eslint-config): add case for abbreviation being a key on an object ([\#594](https://github.com/liferay/liferay-frontend-projects/pull/594))
+
+### :house: Chores
+
+-   chore(eslint-config): revert version bump spam ([\#633](https://github.com/liferay/liferay-frontend-projects/pull/633))
+
 ## [eslint-config/v25.0.1](https://github.com/liferay/liferay-frontend-projects/tree/eslint-config/v25.0.1) (2021-06-14)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-config/v25.0.0...eslint-config/v25.0.1)
