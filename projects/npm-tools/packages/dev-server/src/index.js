@@ -15,6 +15,7 @@ const open = require('open');
 const {dirname, resolve} = require('path');
 const pkgUp = require('pkg-up');
 
+const setupReload = require('./reload');
 const log = require('./util/log');
 
 const IGNORED_PATHS = [
@@ -29,7 +30,12 @@ const WATCH_GLOB = '**/*.{js,jsx,ts,tsx}';
 const MODULE_REGEXP = /\/o\/(?<module>[^/]*)\/(?<file>[^?]*)/;
 const RESOLVED_MODULE_REGEXP = /\/o\/js\/resolved-module\/(?<module>@?[^@]*)@(?<version>\d\.\d\.\d)\/(?<file>[^?]*)/;
 
+function isHTMLResponse(res) {
+	return res.headers && res.headers['content-type']?.includes('text/html');
+}
+
 module.exports = async function () {
+	const LIVE_SESSIONS = [];
 	const MODULE_PATHS = {};
 	let WD;
 
@@ -76,54 +82,104 @@ module.exports = async function () {
 	}
 
 	const proxy = httpProxy.createProxyServer({
+		selfHandleResponse: true,
 		target: url,
 	});
 
 	const fallback = (req, res) => proxy.web(req, res);
 
-	http.createServer((req, res) => {
-		const routableReq =
-			RESOLVED_MODULE_REGEXP.exec(req.url) || MODULE_REGEXP.exec(req.url);
+	proxy.on('proxyRes', (proxyRes, req, res) => {
+		const chunks = [];
 
-		if (routableReq) {
-			const {file, module} = routableReq.groups;
+		Object.keys(proxyRes.headers).forEach((key) => {
+			res.setHeader(key, proxyRes.headers[key]);
+		});
 
-			if (MODULE_PATHS[module]) {
-				readFile(resolve(MODULE_PATHS[module], file), (error, data) => {
-					if (!error) {
-						if (verbose) {
-							log(
-								chalk.green(
-									`Served ${req.url} to ${MODULE_PATHS[module]}/${file}`
-								)
-							);
-						}
+		proxyRes.on('data', (chunk) => {
+			chunks.push(chunk);
 
-						res.write(data);
-						res.end();
-					}
-					else {
-						if (verbose) {
-							log(
-								chalk.yellow(
-									`File ${resolve(
-										MODULE_PATHS[module],
-										file
-									)} not found`
-								)
-							);
-						}
+			if (!isHTMLResponse(proxyRes)) {
+				res.write(chunk);
+			}
+		});
 
-						fallback(req, res);
-					}
-				});
+		proxyRes.on('end', (chunk) => {
+			if (isHTMLResponse(proxyRes)) {
+				res.end(setupReload(Buffer.concat(chunks).toString()));
 			}
 			else {
-				fallback(req, res);
+				res.end(chunk);
+			}
+		});
+	});
+
+	http.createServer((request, response) => {
+		if (
+			request.headers.accept &&
+			request.headers.accept == 'text/event-stream'
+		) {
+			if (request.url === '/events') {
+				log(chalk.cyan('Connecting Live Session...'));
+
+				response.writeHead(200, {
+					'Cache-Control': 'no-cache',
+					Connection: 'keep-alive',
+					'Content-Type': 'text/event-stream',
+				});
+
+				response.write(`id: ${Date.now()}\ndata: connected\n\n`);
+
+				LIVE_SESSIONS.push(response);
 			}
 		}
 		else {
-			fallback(req, res);
+			const routableReq =
+				RESOLVED_MODULE_REGEXP.exec(request.url) ||
+				MODULE_REGEXP.exec(request.url);
+
+			if (routableReq) {
+				const {file, module} = routableReq.groups;
+
+				if (MODULE_PATHS[module]) {
+					readFile(
+						resolve(MODULE_PATHS[module], file),
+						(error, data) => {
+							if (!error) {
+								if (verbose) {
+									log(
+										chalk.green(
+											`Served ${request.url} to ${MODULE_PATHS[module]}/${file}`
+										)
+									);
+								}
+
+								response.write(data);
+								response.end();
+							}
+							else {
+								if (verbose) {
+									log(
+										chalk.yellow(
+											`File ${resolve(
+												MODULE_PATHS[module],
+												file
+											)} not found`
+										)
+									);
+								}
+
+								fallback(request, response);
+							}
+						}
+					);
+				}
+				else {
+					fallback(request, response);
+				}
+			}
+			else {
+				fallback(request, response);
+			}
 		}
 	}).listen(port);
 
@@ -144,6 +200,10 @@ module.exports = async function () {
 
 		log(chalk.blue(`Triggering yarn build from ${moduleWD}`));
 
+		LIVE_SESSIONS.forEach((response) => {
+			response.write(`id: ${Date.now()}\ndata: changes\n\n`);
+		});
+
 		const logger = (data) => log(chalk.grey(`\t ${data}`));
 
 		const yarnBuild = spawn('yarn', ['build'], {cwd: moduleWD});
@@ -158,6 +218,10 @@ module.exports = async function () {
 						`Build completed successfully, you can reload now to see your changes!`
 					)
 				);
+
+				LIVE_SESSIONS.forEach((response) => {
+					response.write(`id: ${Date.now()}\ndata: reload\n\n`);
+				});
 			}
 		});
 
@@ -166,5 +230,5 @@ module.exports = async function () {
 		});
 	});
 
-	log(chalk.green(`\nWatching changes at ${WD}/modules/${WATCH_GLOB}`));
+	log(chalk.green(`Watching changes at ${WD}/modules/${WATCH_GLOB}\n`));
 };
