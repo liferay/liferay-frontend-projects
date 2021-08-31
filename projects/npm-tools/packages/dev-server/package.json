@@ -8,10 +8,12 @@
 	"license": "MIT",
 	"dependencies": {
 		"chalk": "^4.1.2",
+		"chokidar": "^3.5.2",
 		"commander": "^8.1.0",
 		"glob": "^7.1.7",
 		"http-proxy": "^1.18.1",
-		"open": "^8.2.1"
+		"open": "^8.2.1",
+		"pkg-up": "^3.1.0"
 	},
 	"scripts": {
 		"build": "true",
