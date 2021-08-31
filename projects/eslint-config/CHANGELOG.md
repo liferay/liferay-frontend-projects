@@ -1,3 +1,11 @@
+## [eslint-config/v27.0.0](https://github.com/liferay/liferay-frontend-projects/tree/eslint-config/v27.0.0) (2021-08-31)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-config/v26.0.0...eslint-config/v27.0.0)
+
+### :new: Features
+
+-   feat(eslint-config): add an ESlint rule that adds an empty line between sibling elements ([\#622](https://github.com/liferay/liferay-frontend-projects/pull/622))
+
 ## [eslint-config/v26.0.0](https://github.com/liferay/liferay-frontend-projects/tree/eslint-config/v26.0.0) (2021-08-30)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-config/v25.0.1...eslint-config/v26.0.0)
