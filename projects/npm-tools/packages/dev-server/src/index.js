@@ -5,8 +5,11 @@
 
 const chalk = require('chalk');
 const {Command} = require('commander');
-const {readFileSync} = require('fs');
+const {readFile, readFileSync} = require('fs');
 const glob = require('glob');
+const http = require('http');
+const httpProxy = require('http-proxy');
+const open = require('open');
 const {dirname, resolve} = require('path');
 
 const log = require('./util/log');
@@ -18,6 +21,9 @@ const IGNORED_GLOBS = [
 	'**/build/**',
 	'**/sdk/**',
 ];
+
+const MODULE_REGEXP = /\/o\/(?<module>[^/]*)\/(?<file>[^?]*)/;
+const RESOLVED_MODULE_REGEXP = /\/o\/js\/resolved-module\/(?<module>@?[^@]*)@(?<version>\d\.\d\.\d)\/(?<file>[^?]*)/;
 
 module.exports = async function () {
 	const MODULE_PATHS = {};
@@ -42,7 +48,7 @@ module.exports = async function () {
 
 	log(chalk.cyan(require('./title')));
 
-	log(chalk.blue(`Scanning ${WD} for modules, this might take a while...\n`));
+	log(chalk.blue(`Scanning ${WD} for modules, this might take a while...`));
 
 	const modules = glob.sync('**/package.json', {
 		cwd: WD,
@@ -60,6 +66,63 @@ module.exports = async function () {
 	});
 
 	if (verbose) {
-		log(chalk.grey(`Found and mapped ${modules.length} modules in ${WD}`));
+		log(
+			chalk.grey(`\nFound and mapped ${modules.length} modules in ${WD}`)
+		);
 	}
+
+	const proxy = httpProxy.createProxyServer({
+		target: url,
+	});
+
+	const fallback = (req, res) => proxy.web(req, res);
+
+	http.createServer((req, res) => {
+		const routableReq =
+			RESOLVED_MODULE_REGEXP.exec(req.url) || MODULE_REGEXP.exec(req.url);
+
+		if (routableReq) {
+			const {file, module} = routableReq.groups;
+
+			if (MODULE_PATHS[module]) {
+				readFile(resolve(MODULE_PATHS[module], file), (error, data) => {
+					if (!error) {
+						if (verbose) {
+							log(
+								chalk.green(
+									`Served ${req.url} to ${MODULE_PATHS[module]}/${file}`
+								)
+							);
+						}
+
+						res.write(data);
+						res.end();
+					}
+					else {
+						if (verbose) {
+							log(
+								chalk.yellow(
+									`File ${resolve(
+										MODULE_PATHS[module],
+										file
+									)} not found`
+								)
+							);
+						}
+
+						fallback(req, res);
+					}
+				});
+			}
+			else {
+				fallback(req, res);
+			}
+		}
+		else {
+			fallback(req, res);
+		}
+	}).listen(port);
+
+	log(chalk.green(`\nLiferay Dev Server is ready at http:127.0.0.1:${port}`));
+	open(`http://127.0.0.1:${port}`);
 };
