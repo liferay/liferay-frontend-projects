@@ -180,12 +180,14 @@ describe('@liferay/eslint-config/liferay', () => {
 			code: `
 				<div>
 					<div className="   one two one three  "></div>
+
 					<CustomPopover triggerClassName="   foo foo bar  " />
 				</div>
 			`,
 			output: `
 				<div>
 					<div className="one three two"></div>
+
 					<CustomPopover triggerClassName="bar foo" />
 				</div>
 			`,
