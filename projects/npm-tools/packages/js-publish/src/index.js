@@ -223,7 +223,17 @@ async function runYarnPublish(pkg) {
 		args.push('--tag', 'prerelease');
 	}
 
-	run('yarn', 'publish', ...args);
+	try {
+		run('yarn', 'publish', ...args);
+	}
+	catch (error) {
+		printBanner(
+			'Failed to publish package! ❌',
+			'',
+			`You've already pushed to remote.`,
+			`Try publishing with 'yarn publish ${args.join(' ')}'`
+		);
+	}
 }
 
 module.exports = {
