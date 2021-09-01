@@ -1,3 +1,11 @@
+## [eslint-config/v27.0.1](https://github.com/liferay/liferay-frontend-projects/tree/eslint-config/v27.0.1) (2021-09-01)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-config/v27.0.0...eslint-config/v27.0.1)
+
+### :house: Chores
+
+-   chore(eslint-config): add no-aui rules to global eslint-config file ([\#638](https://github.com/liferay/liferay-frontend-projects/pull/638))
+
 ## [eslint-config/v27.0.0](https://github.com/liferay/liferay-frontend-projects/tree/eslint-config/v27.0.0) (2021-08-31)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-config/v26.0.0...eslint-config/v27.0.0)
