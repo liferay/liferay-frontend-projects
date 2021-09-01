@@ -26,7 +26,7 @@ const IGNORED_PATHS = [
 	'tmp',
 	'types',
 ];
-const WATCH_GLOB = '**/*.{js,jsx,ts,tsx}';
+const WATCH_GLOB = '**/*.{css,js,jsx,scss,ts,tsx}';
 const MODULE_REGEXP = /\/o\/(?<module>[^/]*)\/(?<file>[^?]*)/;
 const RESOLVED_MODULE_REGEXP = /\/o\/js\/resolved-module\/(?<module>@?[^@]*)@(?<version>\d+\.\d+\.\d+)\/(?<file>[^?]*)/;
 
@@ -142,7 +142,10 @@ module.exports = async function () {
 
 				if (MODULE_PATHS[module]) {
 					readFile(
-						resolve(MODULE_PATHS[module], file),
+						resolve(
+							MODULE_PATHS[module],
+							file.endsWith('.css') ? `.sass-cache/${file}` : file
+						),
 						(error, data) => {
 							if (!error) {
 								if (verbose) {
