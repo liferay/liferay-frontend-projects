@@ -28,7 +28,7 @@ const IGNORED_PATHS = [
 ];
 const WATCH_GLOB = '**/*.{js,jsx,ts,tsx}';
 const MODULE_REGEXP = /\/o\/(?<module>[^/]*)\/(?<file>[^?]*)/;
-const RESOLVED_MODULE_REGEXP = /\/o\/js\/resolved-module\/(?<module>@?[^@]*)@(?<version>\d\.\d\.\d)\/(?<file>[^?]*)/;
+const RESOLVED_MODULE_REGEXP = /\/o\/js\/resolved-module\/(?<module>@?[^@]*)@(?<version>\d+\.\d+\.\d+)\/(?<file>[^?]*)/;
 
 function isHTMLResponse(res) {
 	return res.headers && res.headers['content-type']?.includes('text/html');
