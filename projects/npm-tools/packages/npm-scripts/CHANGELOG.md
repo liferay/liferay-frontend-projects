@@ -1,3 +1,11 @@
+## [npm-scripts/v46.1.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v46.1.1) (2021-09-01)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v46.1.0...npm-scripts/v46.1.1)
+
+### :new: Features
+
+-   feat(npm-scripts): update eslint-config version ([\#636](https://github.com/liferay/liferay-frontend-projects/pull/636))
+
 ## [npm-scripts/v46.1.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v46.1.0) (2021-08-26)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v46.0.1...npm-scripts/v46.1.0)
