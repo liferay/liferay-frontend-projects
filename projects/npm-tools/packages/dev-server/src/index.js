@@ -209,7 +209,13 @@ module.exports = async function () {
 
 		const logger = (data) => log(chalk.grey(`\t ${data}`));
 
-		const yarnBuild = spawn('yarn', ['build'], {cwd: moduleWD});
+		const yarnBuild = spawn('yarn', ['build'], {
+			cwd: moduleWD,
+			env: {
+				...process.env,
+				NODE_ENV: 'development',
+			},
+		});
 
 		yarnBuild.stdout.on('data', logger);
 		yarnBuild.stderr.on('data', logger);
