@@ -181,6 +181,7 @@ The bundled `@liferay/liferay` plugin includes the following [rules](./plugins/l
 -   [@liferay/liferay/no-duplicate-imports](./plugins/liferay/docs/rules/no-duplicate-imports.md): Enforces at most one `import` of any given module per file.
 -   [@liferay/liferay/no-dynamic-require](./plugins/liferay/docs/rules/no-dynamic-require.md): Enforces that `require()` calls use static arguments.
 -   [@liferay/liferay/no-it-should](./plugins/liferay/docs/rules/no-it-should.md): Enforces that `it()` descriptions start with a verb, not with "should".
+-   [@liferay/liferay/no-length-jsx-expression](./plugins/liferay/docs/rules/no-it-should.md): Enforces that JSX expressions that check against length should make sure 0 isn't rendered".
 -   [@liferay/liferay/no-require-and-call](./plugins/liferay/docs/rules/no-require-and-call.md): Enforces that the result of a `require()` call at the top level is not immediately called.
 -   [@liferay/liferay/padded-test-blocks](./plugins/liferay/docs/rules/padded-test-blocks.md): Enforces blank lines between test blocks (`it()` etc).
 -   [@liferay/liferay/sort-class-names](./plugins/liferay/docs/rules/sort-class-names.md): Enforces (and autofixes) ordering of class names inside JSX `className` attributes.
