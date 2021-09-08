@@ -7,7 +7,7 @@ const chalk = require('chalk');
 const {spawn} = require('child_process');
 const chokidar = require('chokidar');
 const {Command} = require('commander');
-const {readFile, readFileSync} = require('fs');
+const {readFile} = require('fs/promises');
 const glob = require('glob');
 const http = require('http');
 const httpProxy = require('http-proxy');
@@ -16,7 +16,7 @@ const {dirname, resolve} = require('path');
 const pkgUp = require('pkg-up');
 
 const setupReload = require('./reload');
-const log = require('./util/log');
+const {getRequestLogger, log} = require('./util/log');
 
 const IGNORED_PATHS = [
 	'build',
@@ -65,14 +65,10 @@ module.exports = async function () {
 		ignore: IGNORED_PATHS.map((path) => `**/${path}/**`),
 	});
 
-	modules.forEach((module) => {
-		const moduleInfo = JSON.parse(readFileSync(resolve(WD, module)));
+	modules.forEach(async (module) => {
+		const moduleInfo = JSON.parse(await readFile(resolve(WD, module)));
 
-		MODULE_PATHS[moduleInfo.name] = resolve(
-			WD,
-			dirname(module),
-			'build/node/packageRunBuild/resources'
-		);
+		MODULE_PATHS[moduleInfo.name] = resolve(WD, dirname(module));
 	});
 
 	if (verbose) {
@@ -113,7 +109,9 @@ module.exports = async function () {
 		});
 	});
 
-	http.createServer((request, response) => {
+	http.createServer(async (request, response) => {
+		const requestLog = getRequestLogger(request);
+
 		if (
 			request.headers.accept &&
 			request.headers.accept == 'text/event-stream'
@@ -141,46 +139,81 @@ module.exports = async function () {
 				const {file, module} = routableReq.groups;
 
 				if (MODULE_PATHS[module]) {
-					readFile(
-						resolve(
-							MODULE_PATHS[module],
-							file.endsWith('.css') ? `.sass-cache/${file}` : file
-						),
-						(error, data) => {
-							if (!error) {
-								if (verbose) {
-									log(
-										chalk.green(
-											`Served ${request.url} to ${MODULE_PATHS[module]}/${file}`
-										)
-									);
-								}
+					try {
+						const data = await readFile(
+							resolve(
+								MODULE_PATHS[module],
+								'build/node/packageRunBuild/resources',
+								file.endsWith('.css')
+									? `.sass-cache/${file}`
+									: file
+							)
+						);
 
-								response.write(data);
-								response.end();
-							}
-							else {
-								if (verbose) {
-									log(
-										chalk.yellow(
-											`File ${resolve(
-												MODULE_PATHS[module],
-												file
-											)} not found`
-										)
-									);
-								}
-
-								fallback(request, response);
-							}
+						if (verbose) {
+							requestLog(
+								chalk.green(
+									`Served to ${MODULE_PATHS[module]}/build/node/packageRunBuild/resources/${file}`
+								)
+							);
 						}
-					);
+
+						response.write(data);
+						response.end();
+					}
+					catch (error) {
+						try {
+							const data = await readFile(
+								resolve(
+									MODULE_PATHS[module],
+									'tmp/META-INF/resources',
+									file
+								)
+							);
+
+							if (verbose) {
+								requestLog(
+									chalk.green(
+										`Served ${request.url} to ${MODULE_PATHS[module]}/tmp/META-INF/resources/${file}`
+									)
+								);
+							}
+
+							response.write(data);
+							response.end();
+						}
+						catch (error) {
+							if (verbose) {
+								requestLog(
+									chalk.yellow(
+										`Sending ${request.url} to main server`
+									)
+								);
+							}
+
+							fallback(request, response);
+						}
+					}
 				}
 				else {
+					if (verbose) {
+						requestLog(
+							chalk.yellow(
+								`Sending ${request.url} to main server`
+							)
+						);
+					}
+
 					fallback(request, response);
 				}
 			}
 			else {
+				if (verbose) {
+					requestLog(
+						chalk.yellow(`Sending ${request.url} to main server`)
+					);
+				}
+
 				fallback(request, response);
 			}
 		}
