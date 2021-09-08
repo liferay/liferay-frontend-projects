@@ -44,7 +44,7 @@
       "url": "http://opensource.org/licenses/mit-license.html"
     }
   ],
-  "dependencies": {
+  "devDependencies": {
     "less": "1.4.1"
   }
 }
