@@ -3,21 +3,20 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const chalk = require('chalk');
+import chalk from 'chalk';
 
-function log(...messages) {
+export function log(...messages: string[]) {
 	// eslint-disable-next-line no-console
 	messages.forEach((message) => console.log(message));
 }
 
-function requestLog(request) {
+function requestLog(request: any) {
 	const prefix = chalk.gray(`${request.method} ${request.url}`);
 
-	return (...messages) =>
+	return (...messages: string[]) =>
 		log(...messages.map((message) => `${prefix}\n${message}`));
 }
 
-module.exports = {
-	getRequestLogger: (request) => requestLog(request),
-	log,
-};
+export function getRequestLogger(request: any) {
+	return requestLog(request);
+}

@@ -11,6 +11,9 @@ function setupLiveSession() {
 	source.addEventListener(
 		'open',
 		() => {
+
+			// @ts-ignore
+
 			Liferay.Util.openToast({
 				message: 'Session successfully connected to live-reload server',
 			});
@@ -22,6 +25,9 @@ function setupLiveSession() {
 		'message',
 		({data}) => {
 			if (data === 'changes') {
+
+				// @ts-ignore
+
 				Liferay.Util.openToast({
 					message:
 						'Changes detected. Browser will reload momentarily...',
@@ -40,7 +46,7 @@ function setupLiveSession() {
 const CLOSE_BODY_TAG = '</body>';
 const RELOAD_SNIPPET = `<script>(${setupLiveSession.toString()})();</script>`;
 
-module.exports = (content) => {
+export default (content: string) => {
 	return content.replace(
 		CLOSE_BODY_TAG,
 		`${RELOAD_SNIPPET}${CLOSE_BODY_TAG}`

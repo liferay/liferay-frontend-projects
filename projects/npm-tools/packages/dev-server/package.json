@@ -1,11 +1,12 @@
 {
-	"name": "@liferay/dev-server",
 	"bin": {
 		"liferay-dev-server": "./bin/liferay-dev-server.js"
 	},
-	"version": "1.0.0",
-	"main": "src/index.js",
 	"license": "MIT",
+	"name": "@liferay/dev-server",
+	"main": "lib/index.js",
+	"type": "module",
+	"version": "1.0.0",
 	"dependencies": {
 		"chalk": "^4.1.2",
 		"chokidar": "^3.5.2",
@@ -15,8 +16,11 @@
 		"open": "^8.2.1",
 		"pkg-up": "^3.1.0"
 	},
+	"devDependencies": {
+		"typescript": "4.4.2"
+	},
 	"scripts": {
-		"build": "true",
+		"build": "tsc",
 		"ci": "liferay-workspace-scripts ci",
 		"format": "liferay-workspace-scripts format",
 		"format:check": "liferay-workspace-scripts format:check",

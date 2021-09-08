@@ -3,20 +3,21 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const chalk = require('chalk');
-const {spawn} = require('child_process');
-const chokidar = require('chokidar');
-const {Command} = require('commander');
-const {readFile} = require('fs/promises');
-const glob = require('glob');
-const http = require('http');
-const httpProxy = require('http-proxy');
-const open = require('open');
-const {dirname, resolve} = require('path');
-const pkgUp = require('pkg-up');
+import chalk from 'chalk';
+import {spawn} from 'child_process';
+import chokidar from 'chokidar';
+import {Command} from 'commander';
+import {readFile} from 'fs/promises';
+import glob from 'glob';
+import http from 'http';
+import httpProxy from 'http-proxy';
+import open from 'open';
+import {dirname, resolve} from 'path';
+import pkgUp from 'pkg-up';
 
-const setupReload = require('./reload');
-const {getRequestLogger, log} = require('./util/log');
+import setupReload from './reload';
+import title from './title';
+import {getRequestLogger, log} from './util/log';
 
 const IGNORED_PATHS = [
 	'build',
@@ -30,20 +31,23 @@ const WATCH_GLOB = '**/*.{css,js,jsx,scss,ts,tsx}';
 const MODULE_REGEXP = /\/o\/(?<module>[^/]*)\/(?<file>[^?]*)/;
 const RESOLVED_MODULE_REGEXP = /\/o\/js\/resolved-module\/(?<module>@?[^@]*)@(?<version>\d+\.\d+\.\d+)\/(?<file>[^?]*)/;
 
-function isHTMLResponse(res) {
-	return res.headers && res.headers['content-type']?.includes('text/html');
+function isHTMLResponse(response: http.IncomingMessage) {
+	return (
+		response.headers &&
+		response.headers['content-type']?.includes('text/html')
+	);
 }
 
-module.exports = async function () {
-	const LIVE_SESSIONS = [];
-	const MODULE_PATHS = {};
-	let WD;
+export default async function () {
+	const LIVE_SESSIONS = new Set<http.ServerResponse>();
+	const MODULE_PATHS = new Map<string, string>();
+	let WD = '';
 
 	const program = new Command();
 
 	program
 		.argument('<path>', 'Path to liferay-portal')
-		.option('-p, --port <number>', 'Proxy Port', 3000)
+		.option('-p, --port <number>', 'Proxy Port', '3000')
 		.option(
 			'-u, --url <url>',
 			'Liferay Portal URL',
@@ -56,7 +60,7 @@ module.exports = async function () {
 
 	const {port, url, verbose} = program.parse(process.argv).opts();
 
-	log(chalk.cyan(require('./title')));
+	log(chalk.cyan(title));
 
 	log(chalk.blue(`Scanning ${WD} for modules, this might take a while...`));
 
@@ -66,9 +70,11 @@ module.exports = async function () {
 	});
 
 	modules.forEach(async (module) => {
-		const moduleInfo = JSON.parse(await readFile(resolve(WD, module)));
+		const moduleInfo = JSON.parse(
+			await (await readFile(resolve(WD, module))).toString()
+		);
 
-		MODULE_PATHS[moduleInfo.name] = resolve(WD, dirname(module));
+		MODULE_PATHS.set(moduleInfo.name, resolve(WD, dirname(module)));
 	});
 
 	if (verbose) {
@@ -82,41 +88,53 @@ module.exports = async function () {
 		target: url,
 	});
 
-	const fallback = (req, res) => proxy.web(req, res);
+	const fallback = (
+		request: http.IncomingMessage,
+		response: http.ServerResponse
+	) => proxy.web(request, response);
 
-	proxy.on('proxyRes', (proxyRes, req, res) => {
-		const chunks = [];
+	proxy.on('proxyRes', (proxyRes, request, response) => {
+		const chunks: Uint8Array[] = [];
 
 		Object.keys(proxyRes.headers).forEach((key) => {
-			res.setHeader(key, proxyRes.headers[key]);
+			const value = proxyRes.headers[key];
+
+			if (value) {
+				response.setHeader(key, value);
+			}
 		});
 
-		proxyRes.on('data', (chunk) => {
+		proxyRes.on('data', (chunk: Uint8Array) => {
 			chunks.push(chunk);
 
 			if (!isHTMLResponse(proxyRes)) {
-				res.write(chunk);
+				response.write(chunk);
 			}
 		});
 
-		proxyRes.on('end', (chunk) => {
+		proxyRes.on('end', (chunk: Uint8Array) => {
 			if (isHTMLResponse(proxyRes)) {
-				res.end(setupReload(Buffer.concat(chunks).toString()));
+				response.end(setupReload(Buffer.concat(chunks).toString()));
 			}
 			else {
-				res.end(chunk);
+				response.end(chunk);
 			}
 		});
 	});
 
 	http.createServer(async (request, response) => {
 		const requestLog = getRequestLogger(request);
+		const url = request.url;
+
+		if (!url) {
+			return;
+		}
 
 		if (
 			request.headers.accept &&
 			request.headers.accept == 'text/event-stream'
 		) {
-			if (request.url === '/events') {
+			if (url === '/events') {
 				log(chalk.cyan('Connecting Live Session...'));
 
 				response.writeHead(200, {
@@ -127,22 +145,23 @@ module.exports = async function () {
 
 				response.write(`id: ${Date.now()}\ndata: connected\n\n`);
 
-				LIVE_SESSIONS.push(response);
+				LIVE_SESSIONS.add(response);
 			}
 		}
 		else {
 			const routableReq =
-				RESOLVED_MODULE_REGEXP.exec(request.url) ||
-				MODULE_REGEXP.exec(request.url);
+				RESOLVED_MODULE_REGEXP.exec(url) || MODULE_REGEXP.exec(url);
 
-			if (routableReq) {
+			if (routableReq && routableReq.groups) {
 				const {file, module} = routableReq.groups;
 
-				if (MODULE_PATHS[module]) {
+				const modulePath = MODULE_PATHS.get(module);
+
+				if (modulePath) {
 					try {
 						const data = await readFile(
 							resolve(
-								MODULE_PATHS[module],
+								modulePath,
 								'build/node/packageRunBuild/resources',
 								file.endsWith('.css')
 									? `.sass-cache/${file}`
@@ -153,7 +172,7 @@ module.exports = async function () {
 						if (verbose) {
 							requestLog(
 								chalk.green(
-									`Served to ${MODULE_PATHS[module]}/build/node/packageRunBuild/resources/${file}`
+									`Served to ${modulePath}/build/node/packageRunBuild/resources/${file}`
 								)
 							);
 						}
@@ -165,7 +184,7 @@ module.exports = async function () {
 						try {
 							const data = await readFile(
 								resolve(
-									MODULE_PATHS[module],
+									modulePath,
 									'tmp/META-INF/resources',
 									file
 								)
@@ -174,7 +193,7 @@ module.exports = async function () {
 							if (verbose) {
 								requestLog(
 									chalk.green(
-										`Served ${request.url} to ${MODULE_PATHS[module]}/tmp/META-INF/resources/${file}`
+										`Served ${request.url} to ${modulePath}/tmp/META-INF/resources/${file}`
 									)
 								);
 							}
@@ -225,14 +244,14 @@ module.exports = async function () {
 
 	const watcher = chokidar.watch(`${WD}/modules/${WATCH_GLOB}`, {
 		ignoreInitial: true,
-		ignored: (path) =>
+		ignored: (path: string) =>
 			IGNORED_PATHS.some((ignoredPath) => path.includes(ignoredPath)),
 	});
 
 	watcher.on('change', async (path) => {
 		log(chalk.blue(`\nDetected file change: ${path}`));
 
-		const moduleWD = dirname(await pkgUp({cwd: dirname(path)}));
+		const moduleWD = dirname((await pkgUp({cwd: dirname(path)})) as string);
 
 		log(chalk.blue(`Triggering yarn build from ${moduleWD}`));
 
@@ -240,7 +259,7 @@ module.exports = async function () {
 			response.write(`id: ${Date.now()}\ndata: changes\n\n`);
 		});
 
-		const logger = (data) => log(chalk.grey(`\t ${data}`));
+		const logger = (data: unknown) => log(chalk.grey(`\t ${data}`));
 
 		const yarnBuild = spawn('yarn', ['build'], {
 			cwd: moduleWD,
@@ -273,4 +292,4 @@ module.exports = async function () {
 	});
 
 	log(chalk.green(`Watching changes at ${WD}/modules/${WATCH_GLOB}\n`));
-};
+}

@@ -1,0 +1,20 @@
+{
+	"compilerOptions": {
+		"allowSyntheticDefaultImports": true,
+		"baseUrl": ".",
+		"composite": true,
+		"jsx": "react",
+		"module": "es6",
+		"moduleResolution": "node",
+		"outDir": "lib",
+		"rootDir": "./src",
+		"sourceMap": false,
+		"strict": true,
+		"target": "es6",
+		"typeRoots": [
+			"../../../../node_modules/@types",
+			"./node_modules/@types"
+		]
+	},
+	"include": ["src/**/*"]
+}

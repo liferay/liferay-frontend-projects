@@ -5,8 +5,10 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+import server from '../lib/server';
+
 async function main() {
-	await require('../src/index')();
+	await server();
 }
 
 main().catch((error) => {
