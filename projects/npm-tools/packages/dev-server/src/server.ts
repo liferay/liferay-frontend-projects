@@ -84,6 +84,7 @@ export default async function () {
 	}
 
 	const proxy = httpProxy.createProxyServer({
+		followRedirects: true,
 		selfHandleResponse: true,
 		target: url,
 	});
