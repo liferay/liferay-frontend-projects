@@ -82,6 +82,7 @@ const config = {
 		'@liferay/liferay/no-duplicate-imports': 'error',
 		'@liferay/liferay/no-dynamic-require': 'error',
 		'@liferay/liferay/no-it-should': 'error',
+		'@liferay/liferay/no-length-jsx-expression': 'error',
 		'@liferay/liferay/no-require-and-call': 'error',
 		'@liferay/liferay/padded-test-blocks': 'error',
 		'@liferay/liferay/sort-import-destructures': 'error',
