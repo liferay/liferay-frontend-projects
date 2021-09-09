@@ -7,11 +7,13 @@ import chalk from 'chalk';
 import {spawn} from 'child_process';
 import chokidar from 'chokidar';
 import {Command} from 'commander';
-import {readFile} from 'fs/promises';
+import {existsSync} from 'fs';
+import {mkdir, readFile, writeFile} from 'fs/promises';
 import glob from 'glob';
 import http from 'http';
 import httpProxy from 'http-proxy';
 import open from 'open';
+import {tmpdir} from 'os';
 import {dirname, resolve} from 'path';
 import pkgUp from 'pkg-up';
 
@@ -38,9 +40,56 @@ function isHTMLResponse(response: http.IncomingMessage) {
 	);
 }
 
+async function getModulePaths(
+	cwd: string,
+	regenerate: boolean = false
+): Promise<Map<string, string>> {
+	const mappingsTmpDirPath = resolve(tmpdir(), 'liferay-dev-server');
+	const mappingsTmpFilePath = resolve(mappingsTmpDirPath, 'mappings.json');
+
+	if (!regenerate) {
+		try {
+			const paths = await (
+				await readFile(mappingsTmpFilePath)
+			).toString();
+
+			return new Map(JSON.parse(paths));
+		}
+		catch (error) {
+			log(
+				chalk.blue(
+					`Couldn't find mappings cache. Scanning ${cwd} for modules, this might take a while...`
+				)
+			);
+		}
+	}
+
+	const modulePaths = new Map<string, string>();
+
+	const modules = glob.sync('**/package.json', {
+		cwd,
+		ignore: IGNORED_PATHS.map((path) => `**/${path}/**`),
+	});
+
+	for (const module of modules) {
+		const moduleInfo = JSON.parse(
+			await (await readFile(resolve(cwd, module))).toString()
+		);
+
+		modulePaths.set(moduleInfo.name, resolve(cwd, dirname(module)));
+	}
+
+	if (!existsSync(mappingsTmpDirPath)) {
+		await mkdir(mappingsTmpDirPath);
+	}
+
+	await writeFile(mappingsTmpFilePath, JSON.stringify([...modulePaths]));
+
+	return modulePaths;
+}
+
 export default async function () {
 	const LIVE_SESSIONS = new Set<http.ServerResponse>();
-	const MODULE_PATHS = new Map<string, string>();
 	let WD = '';
 
 	const program = new Command();
@@ -48,6 +97,7 @@ export default async function () {
 	program
 		.argument('<path>', 'Path to liferay-portal')
 		.option('-p, --port <number>', 'Proxy Port', '3000')
+		.option('-r, --regenerate', 'Regenerate module path cache', false)
 		.option(
 			'-u, --url <url>',
 			'Liferay Portal URL',
@@ -58,28 +108,17 @@ export default async function () {
 			WD = resolve(path);
 		});
 
-	const {port, url, verbose} = program.parse(process.argv).opts();
+	const {port, regenerate, url, verbose} = program.parse(process.argv).opts();
 
 	log(chalk.cyan(title));
 
-	log(chalk.blue(`Scanning ${WD} for modules, this might take a while...`));
-
-	const modules = glob.sync('**/package.json', {
-		cwd: WD,
-		ignore: IGNORED_PATHS.map((path) => `**/${path}/**`),
-	});
-
-	modules.forEach(async (module) => {
-		const moduleInfo = JSON.parse(
-			await (await readFile(resolve(WD, module))).toString()
-		);
-
-		MODULE_PATHS.set(moduleInfo.name, resolve(WD, dirname(module)));
-	});
+	const modulePaths = await getModulePaths(WD, regenerate);
 
 	if (verbose) {
 		log(
-			chalk.grey(`\nFound and mapped ${modules.length} modules in ${WD}`)
+			chalk.grey(
+				`\nFound and mapped ${modulePaths.size} modules in ${WD}`
+			)
 		);
 	}
 
@@ -156,7 +195,7 @@ export default async function () {
 			if (routableReq && routableReq.groups) {
 				const {file, module} = routableReq.groups;
 
-				const modulePath = MODULE_PATHS.get(module);
+				const modulePath = modulePaths.get(module);
 
 				if (modulePath) {
 					try {
