@@ -111,7 +111,14 @@ $management-bar-default-link-color: $secondary !default;
 $management-bar-default-link-hover-bg: rgba(39, 40, 51, 0.03) !default;
 $management-bar-default-link-hover-color: $navbar-light-hover-color !default;
 
-$management-bar-default-link-active-bg: darken($body-bg, 6.5%) !default;
+$management-bar-default-link-active-bg: darken(
+	if(
+		function-exists(clay-get-fallback),
+		clay-get-fallback($body-bg),
+		$body-bg
+	),
+	6.5%
+) !default;
 $management-bar-default-link-active-color: $body-color !default;
 
 $management-bar-default-link-disabled-bg: transparent !default;
