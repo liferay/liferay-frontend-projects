@@ -207,7 +207,14 @@
 	&[href] {
 		&:hover,
 		&:focus {
-			background-color: darken($color, 10%);
+			background-color: darken(
+				if(
+					function-exists(clay-get-fallback),
+					clay-get-fallback($color),
+					$color
+				),
+				10%
+			);
 		}
 	}
 }
