@@ -1,3 +1,17 @@
+// Map variables for converting variables to correct colors
+// https://github.com/liferay/clay/commit/68fd699c9eee6006634de9ed260fca3cef1ac8f6
+$body-color: if(
+	function-exists(clay-get-fallback),
+	clay-get-fallback($body-color),
+	$body-color
+);
+
+$body-bg: if(
+	function-exists(clay-get-fallback),
+	clay-get-fallback($body-bg),
+	$body-bg
+);
+
 // Compatibility layer components config
 
 $compat-alerts: true !default;
