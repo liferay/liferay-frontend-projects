@@ -82,7 +82,7 @@ function bgPosition(v) {
 
 // Grabs the value of the translate property
 
-const TRANSLATE_REGEX = /(?<=translatex?(?!y)\()\S*(?=,|\))/gim;
+const TRANSLATE_REGEX = /(?<=translatex?(?!y)\((?!0))\S*(?=,|\))/gim;
 
 function translate(v) {
 
