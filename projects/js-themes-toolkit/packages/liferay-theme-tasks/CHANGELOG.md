@@ -1,3 +1,11 @@
+## [liferay-theme-tasks/v10.5.2](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v10.5.2) (2021-09-30)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v10.5.1...liferay-theme-tasks/v10.5.2)
+
+### :wrench: Bug fixes
+
+-   fix(js-theme-toolkit): Fix RTL conversion for translate properties ([\#660](https://github.com/liferay/liferay-frontend-projects/pull/660))
+
 ## [liferay-theme-tasks/v10.5.1](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v10.5.1) (2021-08-26)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v10.5.0...liferay-theme-tasks/v10.5.1)
