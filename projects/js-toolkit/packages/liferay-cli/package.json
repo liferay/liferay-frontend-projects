@@ -4,7 +4,7 @@
 		"liferay": "./bin/liferay.js"
 	},
 	"dependencies": {
-		"@liferay/js-toolkit-core": "^3.0.1",
+		"@liferay/js-toolkit-core": "^4.0.0",
 		"inquirer": "^7.3.1",
 		"resolve": "^1.8.1",
 		"update-check": "^1.5.4",
