@@ -1,7 +1,7 @@
 ---
-name: 👮 Guidelines eslint-config
-about: Issues related to the @liferay/eslint-config project
-labels: eslint-config
+name: 👮 Guidelines eslint-plugin
+about: Issues related to the @liferay/eslint-plugin project
+labels: eslint-plugin
 ---
 
 ### Issue type (mark with `x`)

@@ -46,7 +46,7 @@ Options:
 ## Example projects using @liferay/changelog-generator
 
 -   [Alloy Editor](https://github.com/liferay/alloy-editor) ([CHANGELOG](https://github.com/liferay/alloy-editor/blob/master/CHANGELOG.md)).
--   [@liferay/eslint-config](https://github.com/liferay/liferay-frontend-projects/tree/master/projects/eslint-config) ([CHANGELOG](https://github.com/liferay/liferay-frontend-projects/blob/master/projects/eslint-config/CHANGELOG.md)).
+-   [@liferay/eslint-plugin](https://github.com/liferay/liferay-frontend-projects/tree/master/projects/eslint-plugin) ([CHANGELOG](https://github.com/liferay/liferay-frontend-projects/blob/master/projects/eslint-plugin/CHANGELOG.md)).
 -   [liferay-ckeditor](https://github.com/liferay/liferay-ckeditor) ([CHANGELOG](https://github.com/liferay/liferay-ckeditor/blob/master/CHANGELOG.md)).
 -   [liferay-js-themes-toolkit](https://github.com/liferay/liferay-js-themes-toolkit) (see per-package changelogs in [`packages/*` subdirectories](https://github.com/liferay/liferay-js-themes-toolkit/tree/master/packages)).
 -   [liferay-npm-tools](https://github.com/liferay/liferay-frontend-projects/tree/master/projects/npm-tools) (see per-package changelogs in [`packages/*` subdirectories](https://github.com/liferay/liferay-frontend-projects/tree/master/projects/npm-tools/packages)).

@@ -1,7 +1,7 @@
 {
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"dependencies": {
-		"@liferay/eslint-config": "*"
+		"@liferay/eslint-plugin": "*"
 	},
 	"description": "Liferay's Frontend Infrastructure Team monorepo",
 	"devDependencies": {

@@ -56,12 +56,11 @@ cd "$MODULES"
 
 remove \
     @liferay/npm-scripts \
-    @liferay/eslint-config \
-    liferay-npm-scripts \
-    eslint-config-liferay
+    @liferay/eslint-plugin \
+    liferay-npm-scripts 
 
 echo "Adding local dependencies"
 
 yarn add -W --dev --silent \
-  "$ROOT/projects/eslint-config" \
+  "$ROOT/projects/eslint-plugin" \
   "$ROOT/projects/npm-tools/packages/npm-scripts"

@@ -79,7 +79,7 @@ Similar to what we did with [@liferay/changelog-generator](https://github.com/li
 ## Example projects using @liferay/js-publish
 
 -   [Alloy Editor](https://github.com/liferay/alloy-editor)
--   [@liferay/eslint-config](https://github.com/liferay/liferay-frontend-projects/tree/master/projects/eslint-config)
+-   [@liferay/eslint-plugin](https://github.com/liferay/liferay-frontend-projects/tree/master/projects/eslint-plugin)
 -   [liferay-ckeditor](https://github.com/liferay/liferay-ckeditor)
 -   [liferay-js-themes-toolkit](https://github.com/liferay/liferay-js-themes-toolkit)
 -   [liferay-npm-tools](https://github.com/liferay/liferay-npm-tools)

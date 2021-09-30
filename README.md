@@ -38,18 +38,18 @@ These are the documents that used to live in the [liferay-frontend-guidelines](h
 -   Pull requests
     -   [label: `guidelines`](https://github.com/liferay/liferay-frontend-projects/pulls?q=is%3Apr+label%3Aguidelines+is%3Aopen)
 
-### Package `eslint-config`
+### Package `eslint-plugin`
 
 This is an ESLint [shareable config](http://eslint.org/docs/developer-guide/shareable-configs.html) that helps enforce the [Liferay Frontend Guidelines](guidelines).
 
 -   Project
-    -   [`projects/eslint-config/`](./projects/eslint-config)
+    -   [`projects/eslint-plugin/`](./projects/eslint-plugin)
 -   Issues
-    -   [label: `eslint-config`](https://github.com/liferay/liferay-frontend-projects/issues?q=is%3Aissue+is%3Aopen+label%3Aeslint-config)
+    -   [label: `eslint-plugin`](https://github.com/liferay/liferay-frontend-projects/issues?q=is%3Aissue+is%3Aopen+label%3Aeslint-plugin)
 -   Pull requests
-    -   [label: `eslint-config`](https://github.com/liferay/liferay-frontend-projects/pulls?q=is%3Apr+label%3Aeslint-config+is%3Aopen)
+    -   [label: `eslint-plugin`](https://github.com/liferay/liferay-frontend-projects/pulls?q=is%3Apr+label%3Aeslint-plugin+is%3Aopen)
 -   npm packages
-    -   [@liferay/eslint-config](https://www.npmjs.com/package/@liferay/eslint-config)
+    -   [@liferay/eslint-plugin](https://www.npmjs.com/package/@liferay/eslint-plugin)
 
 ## Projects
 
