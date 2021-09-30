@@ -1,6 +1,6 @@
 This monorepo contains multiple projects, each of which specifies its license in:
 
--   The project `package.json` file (for example, see [`projects/eslint-config/package.json`](./projects/eslint-config/package.json)); and:
+-   The project `package.json` file (for example, see [`projects/eslint-plugin/package.json`](./projects/eslint-plugin/package.json)); and:
 
 -   In header comments in each source code file containing the [SPDX license](https://spdx.org/licenses/) information; for example:
 

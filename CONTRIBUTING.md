@@ -8,7 +8,7 @@ These apply to any work at Liferay, including in this monorepo:
 
 ## Project-specific contribution guidelines
 
--   [`eslint-config`](projects/eslint-config/CONTRIBUTING.md)
+-   [`eslint-plugin`](projects/eslint-plugin/CONTRIBUTING.md)
 -   [`jquery-form`](third-party/projects/jquery-form/CONTRIBUTING.md)
 -   [`js-themes-toolkit` v10](projects/js-themes-toolkit/CONTRIBUTING.md)
 -   [`js-themes-toolkit` v9](maintenance/projects/js-themes-toolkit-v9-x/CONTRIBUTING.md)
@@ -28,7 +28,7 @@ These apply to any work at Liferay, including in this monorepo:
 
 It is helpful to include [an optional scope in your commit messages](guidelines/general/commit_messages.md) so that people can see, at a glance, which commits affect which projects. Valid scopes correspond to project names such as:
 
--   `eslint-config`
+-   `eslint-plugin`
 -   `jquery-form`
 -   `js-themes-toolkit`
 -   `js-toolkit`

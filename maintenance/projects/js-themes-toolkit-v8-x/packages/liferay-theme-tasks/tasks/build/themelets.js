@@ -213,7 +213,7 @@ function getThemeletFilePathArray(filePath) {
 }
 
 function getThemeletDependencies() {
-	// eslint-disable-next-line @liferay/liferay/no-dynamic-require
+	// eslint-disable-next-line @liferay/no-dynamic-require
 	const packageJSON = require(path.join(CWD, 'package.json'));
 
 	let themeletDependencies;

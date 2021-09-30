@@ -10,8 +10,8 @@
 # Example:
 #
 #   bash filter-tags.sh \
-#     eslint-config-liferay/master \
-#     'sed "s#^v#eslint-config-liferay/v#"'
+#     eslint-plugin-liferay/master \
+#     'sed "s#^v#eslint-plugin-liferay/v#"'
 
 set -e
 

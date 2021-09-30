@@ -81,7 +81,7 @@ test('plugin:version should add package.json version to liferay-plugin-package.p
 test('plugin:version should add package.json version to liferay-plugin-package.properties', (done) => {
 	var pkgPath = path.join(tempPath, 'package.json');
 
-	// eslint-disable-next-line @liferay/liferay/no-dynamic-require
+	// eslint-disable-next-line @liferay/no-dynamic-require
 	var pkg = require(pkgPath);
 
 	pkg.version = '1.2.4';

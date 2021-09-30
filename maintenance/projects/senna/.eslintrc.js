@@ -10,8 +10,8 @@ module.exports = {
 		browser: true,
 	},
 	rules: {
-		'@liferay/liferay/no-abbreviations': 'off',
-		'@liferay/liferay/no-it-should': 'warn',
+		'@liferay/no-abbreviations': 'off',
+		'@liferay/no-it-should': 'warn',
 		curly: 'warn',
 		'default-case': 'warn',
 		'no-console': 'warn',

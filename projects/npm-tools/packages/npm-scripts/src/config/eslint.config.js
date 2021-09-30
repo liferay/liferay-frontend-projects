@@ -20,7 +20,7 @@ module.exports = {
 		browser: true,
 		es6: true,
 	},
-	extends: [require.resolve('@liferay/eslint-config/portal')],
+	extends: ['plugin:@liferay/portal'],
 	globals: {
 		AUI: true,
 		CKEDITOR: true,
@@ -51,5 +51,6 @@ module.exports = {
 		},
 		ecmaVersion: 2018,
 	},
+	plugins: ['@liferay'],
 	root: true,
 };

@@ -46,7 +46,7 @@ module.exports = function () {
 	let versionUpgrade;
 
 	if (fs.existsSync(modulePath)) {
-		// eslint-disable-next-line @liferay/liferay/no-dynamic-require
+		// eslint-disable-next-line @liferay/no-dynamic-require
 		versionUpgrade = require(modulePath)();
 	}
 

@@ -145,7 +145,7 @@ function requireDependency(dependency, version) {
 
 	const dependencyPath = require.resolve(dependency, {paths: [depsPath]});
 
-	// eslint-disable-next-line @liferay/liferay/no-dynamic-require
+	// eslint-disable-next-line @liferay/no-dynamic-require
 	return require(dependencyPath);
 }
 

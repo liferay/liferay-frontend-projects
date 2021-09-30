@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-/* eslint-disable no-console, @liferay/liferay/no-dynamic-require */
+/* eslint-disable no-console, @liferay/no-dynamic-require */
 
 const childProcess = require('child_process');
 const fs = require('fs-extra');

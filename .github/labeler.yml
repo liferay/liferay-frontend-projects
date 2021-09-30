@@ -35,9 +35,9 @@ docs:
     - '*.md'
     - '**/*.md'
 
-eslint-config:
-    - projects/eslint-config/*
-    - projects/eslint-config/**/*
+eslint-plugin:
+    - projects/eslint-plugin/*
+    - projects/eslint-plugin/**/*
 
 guidelines:
     - guidelines/*

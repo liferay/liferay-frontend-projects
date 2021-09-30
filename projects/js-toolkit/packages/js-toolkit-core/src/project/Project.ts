@@ -316,7 +316,7 @@ export default class Project {
 
 			const putInMap = (packageName): void => {
 				const pkgJsonPath = this.resolve(`${packageName}/package.json`);
-				// eslint-disable-next-line @typescript-eslint/no-var-requires, @liferay/liferay/no-dynamic-require
+				// eslint-disable-next-line @typescript-eslint/no-var-requires, @liferay/no-dynamic-require
 				const pkgJson = require(pkgJsonPath);
 
 				map.set(pkgJson.name, {
@@ -404,7 +404,7 @@ export default class Project {
 	 * @param moduleName
 	 */
 	require(moduleName: string): unknown {
-		// eslint-disable-next-line @liferay/liferay/no-dynamic-require
+		// eslint-disable-next-line @liferay/no-dynamic-require
 		return require(this.resolve(moduleName));
 	}
 
@@ -458,7 +458,7 @@ export default class Project {
 		const configFilePath = _configFile.asNative;
 
 		this._configuration = fs.existsSync(configFilePath)
-			? // eslint-disable-next-line @liferay/liferay/no-dynamic-require
+			? // eslint-disable-next-line @liferay/no-dynamic-require
 			  require(configFilePath)
 			: {};
 	}
