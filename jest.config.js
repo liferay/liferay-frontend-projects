@@ -11,6 +11,7 @@ module.exports = {
 
 		'projects/amd-loader/jest.config.js',
 		'projects/eslint-config/jest.config.js',
+		'projects/eslint-plugin/jest.config.js',
 		'projects/js-themes-toolkit/jest.config.js',
 		'projects/js-toolkit/jest.config.js',
 		'projects/npm-tools/packages/npm-scripts/jest.config.js',

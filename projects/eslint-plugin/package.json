@@ -11,28 +11,24 @@
 		"eslint-plugin-react-hooks": "4.2.0",
 		"eslint-plugin-sort-destructure-keys": "^1.3.5"
 	},
-	"description": "ESLint shareable config for the Liferay JavaScript Style",
+	"description": "ESLint plugin for the Liferay JavaScript Style",
 	"files": [
 		".eslintrc.js",
-		"aui.js",
-		"index.js",
-		"metal.js",
-		"plugins",
-		"portal.js",
-		"react.js",
+		"configs",
+		"rules",
 		"scripts",
 		"utils"
 	],
 	"keywords": [
 		"code",
 		"eslint",
-		"eslintconfig",
+		"eslintplugin",
 		"liferay",
 		"quality"
 	],
 	"license": "MIT",
 	"main": "index.js",
-	"name": "@liferay/eslint-config",
+	"name": "@liferay/eslint-plugin",
 	"peerDependencies": {
 		"eslint": ">=4.1.1",
 		"typescript": "*"
@@ -43,7 +39,7 @@
 		}
 	},
 	"repository": {
-		"directory": "projects/eslint-config",
+		"directory": "projects/eslint-plugin",
 		"type": "git",
 		"url": "https://github.com/liferay/liferay-frontend-projects.git"
 	},
@@ -59,5 +55,5 @@
 		"preversion": "liferay-workspace-scripts ci",
 		"test": "liferay-workspace-scripts test"
 	},
-	"version": "27.0.1"
+	"version": "1.0.0-alpha.1"
 }

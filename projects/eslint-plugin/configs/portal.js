@@ -5,11 +5,8 @@
 
 'use strict';
 
-const local = require('./utils/local');
-
 const config = {
 	extends: [require.resolve('./react')],
-	plugins: [local('@liferay/portal')],
 	rules: {
 		'@liferay/portal/deprecation': 'error',
 		'@liferay/portal/no-explicit-extend': 'error',

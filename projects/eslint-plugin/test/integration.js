@@ -11,11 +11,11 @@ const {default: diff} = require('jest-diff');
  * Integration tests that show how rules interact when applied together by
  * activating all the rules in a plugin at once.
  */
-describe('@liferay/eslint-config/liferay', () => {
-	const plugin = '@liferay/eslint-config/liferay';
+describe('plugin:@liferay/general', () => {
+	const config = 'general';
 
 	it('formats comments with lines-around-comment', () => {
-		expect(plugin).toAutofix({
+		expect(config).toAutofix({
 			code: `
 				function add() {
 					const x = arguments[0];
@@ -48,7 +48,7 @@ describe('@liferay/eslint-config/liferay', () => {
 		// - sort-import-destructures (sorts destructured items in import
 		//   specifiers)
 
-		expect(plugin).toAutofix({
+		expect(config).toAutofix({
 			code: `
 				import b from 'b';
 				import type {B} from 'b';
@@ -88,7 +88,7 @@ describe('@liferay/eslint-config/liferay', () => {
 		//
 		// https://github.com/liferay-frontend/liferay-portal/pull/992#issuecomment-827803097
 
-		expect(plugin).toAutofix({
+		expect(config).toAutofix({
 			code: `
 				import ClayTooltip from '@clayui/tooltip';
 				import {render, useTimeout} from '@liferay/frontend-js-react-web';
@@ -142,7 +142,7 @@ describe('@liferay/eslint-config/liferay', () => {
 		//
 		// - sort-destructure-keys/sort-destructure-keys
 
-		expect(plugin).toAutofix({
+		expect(config).toAutofix({
 			code: `
 				const b = require('b');
 				const a = require('a');
@@ -176,7 +176,7 @@ describe('@liferay/eslint-config/liferay', () => {
 		// - sort-class-names
 		// - trim-class-names (trims whitespace)
 
-		expect(plugin).toAutofix({
+		expect(config).toAutofix({
 			code: `
 				<div>
 					<div className="   one two one three  "></div>
@@ -195,15 +195,15 @@ describe('@liferay/eslint-config/liferay', () => {
 	});
 });
 
-describe('@liferay/eslint-config/portal', () => {
-	const plugin = '@liferay/eslint-config/portal';
+describe('plugin:@liferay/portal', () => {
+	const config = 'portal';
 
 	// Not much to test here (yet), because most of the rules currently
 	// in this plugin don't have autofixes. This test is included as a
 	// placeholder reserved for future expansion.
 
 	it('formats deprecation notices', () => {
-		expect(plugin).toAutofix({
+		expect(config).toAutofix({
 			code: `
 				/**
 				 * @deprecated As of Mueller (7.2) replaced by Foo
@@ -223,9 +223,9 @@ describe('@liferay/eslint-config/portal', () => {
 const linters = {};
 
 expect.extend({
-	toAutofix(plugin, {code, output}) {
+	toAutofix(configName, {code, output}) {
 		const linter =
-			linters[plugin] ||
+			linters[configName] ||
 			(function () {
 				const linter = new Linter();
 
@@ -243,22 +243,25 @@ expect.extend({
 
 				const baseRules = linter.getRules();
 
-				const baseConfig = require('../index');
+				const baseConfig = require('../configs/general');
 
 				function addRule(name) {
 					let rule;
 
 					const configs = [baseConfig];
 
-					const baseName = name.replace(/^@liferay\/\w+\//, '');
+					const baseName = name.replace(
+						'@liferay/eslint-plugin/',
+						''
+					);
 
-					if (name.startsWith('@liferay/liferay/')) {
-						rule = require('../plugins/liferay').rules[baseName];
+					if (name.startsWith('@liferay/eslint-plugin/portal/')) {
+						rule = require('../rules/portal')[baseName];
+
+						configs.unshift(require('../configs/react'));
 					}
-					else if (name.startsWith('@liferay/portal/')) {
-						rule = require('../plugins/portal').rules[baseName];
-
-						configs.unshift(require('../react'));
+					else if (name.startsWith('@liferay/')) {
+						rule = require('../rules/general')[baseName];
 					}
 					else {
 						rule = baseRules.get(name);
@@ -279,38 +282,38 @@ expect.extend({
 					}
 				}
 
-				if (plugin === '@liferay/eslint-config/liferay') {
+				if (configName === 'general') {
 					[
-						...Object.keys(require('../index').rules),
-						...Object.keys(require('../plugins/liferay').rules).map(
+						...Object.keys(require('../configs/general').rules),
+						...Object.keys(require('../rules/general')).map(
 							(name) => {
-								return `@liferay/liferay/${name}`;
+								return `@liferay/eslint-plugin/${name}`;
 							}
 						),
 					].forEach(addRule);
 				}
-				else if (plugin === '@liferay/eslint-config/portal') {
+				else if (configName === 'portal') {
 					[
-						...Object.keys(require('../index').rules),
-						...Object.keys(require('../portal').rules),
-						...Object.keys(require('../plugins/portal').rules).map(
+						...Object.keys(require('../configs/general').rules),
+						...Object.keys(require('../configs/portal').rules),
+						...Object.keys(require('../rules/portal')).map(
 							(name) => {
-								return `@liferay/portal/${name}`;
+								return `@liferay/eslint-plugin/${name}`;
 							}
 						),
 					].forEach(addRule);
 				}
 				else {
-					throw new Error(`Unknown plugin: ${plugin}`);
+					throw new Error(`Unknown plugin: ${configName}`);
 				}
 
-				linters[plugin] = {
+				linters[configName] = {
 					verifyAndFix(code) {
 						return linter.verifyAndFix(code, config);
 					},
 				};
 
-				return linters[plugin];
+				return linters[configName];
 			})();
 
 		const {output: actual} = linter.verifyAndFix(code);

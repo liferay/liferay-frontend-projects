@@ -6,7 +6,7 @@
 'use strict';
 
 const config = {
-	extends: [require.resolve('./index')],
+	extends: [require.resolve('./general')],
 	parserOptions: {
 		ecmaFeatures: {
 			jsx: true,
@@ -14,9 +14,9 @@ const config = {
 	},
 	plugins: ['react', 'react-hooks'],
 	rules: {
-		'@liferay/liferay/no-duplicate-class-names': 'error',
-		'@liferay/liferay/sort-class-names': 'error',
-		'@liferay/liferay/trim-class-names': 'error',
+		'@liferay/no-duplicate-class-names': 'error',
+		'@liferay/sort-class-names': 'error',
+		'@liferay/trim-class-names': 'error',
 
 		/**
 		 * @see https://github.com/yannickcr/eslint-plugin-react

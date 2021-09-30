@@ -6,7 +6,7 @@
 module.exports = {
 	setupFilesAfterEnv: ['<rootDir>/scripts/setupJest.js'],
 	testMatch: [
-		'<rootDir>/plugins/*/tests/lib/rules/*.js',
+		'<rootDir>/rules/*/tests/lib/rules/*.js',
 		'<rootDir>/test/**/*.js',
 	],
 };
