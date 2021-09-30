@@ -54,7 +54,7 @@ function runGulpInit(registerTasksModule) {
 	);
 
 	// We cannot load this before the project is created because it crashes
-	// eslint-disable-next-line @liferay/liferay/no-dynamic-require
+	// eslint-disable-next-line @liferay/no-dynamic-require
 	const liferayThemeTasks = require(`liferay-theme-tasks/${registerTasksModule}`);
 
 	liferayThemeTasks.registerTasks({gulp});

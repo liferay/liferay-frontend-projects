@@ -48,7 +48,7 @@ function register(options) {
 
 	globby.sync([path.resolve(__dirname, 'tasks/**/*')]).forEach((item) => {
 		if (item.indexOf('__tests__') == -1) {
-			// eslint-disable-next-line @liferay/liferay/no-dynamic-require
+			// eslint-disable-next-line @liferay/no-dynamic-require
 			require(item)(options);
 		}
 	});

@@ -42,7 +42,7 @@ afterEach(() => {
 
 it('throws appropriate error message', () => {
 	const pkgJsonPath = path.join(__dirname, './fixtures/doctor/_package.json');
-	// eslint-disable-next-line @liferay/liferay/no-dynamic-require
+	// eslint-disable-next-line @liferay/no-dynamic-require
 	const pkgJson = require(pkgJsonPath);
 
 	expect(() =>
@@ -59,7 +59,7 @@ it('looks for dependencies regardless if devDependency or not', () => {
 		__dirname,
 		'./fixtures/doctor/_package_mixed_dependencies.json'
 	);
-	// eslint-disable-next-line @liferay/liferay/no-dynamic-require
+	// eslint-disable-next-line @liferay/no-dynamic-require
 	const pkgJson = require(pkgJsonPath);
 
 	expect(() =>
@@ -73,7 +73,7 @@ it('looks for dependencies regardless if devDependency or not', () => {
 
 it('removes supportCompass', () => {
 	const pkgJsonPath = path.join(tempPath, 'package.json');
-	// eslint-disable-next-line @liferay/liferay/no-dynamic-require
+	// eslint-disable-next-line @liferay/no-dynamic-require
 	const pkgJson = require(pkgJsonPath);
 
 	doctor({

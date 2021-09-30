@@ -99,7 +99,7 @@ class WarDeployer extends EventEmitter {
 	}
 
 	_makeRequest() {
-		// eslint-disable-next-line @liferay/liferay/no-dynamic-require
+		// eslint-disable-next-line @liferay/no-dynamic-require
 		const protocol = require(this.protocol);
 
 		const req = protocol.request(this._getPostOptions(), (res) => {

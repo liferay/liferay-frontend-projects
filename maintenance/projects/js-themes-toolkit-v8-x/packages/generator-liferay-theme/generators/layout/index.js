@@ -49,7 +49,7 @@ module.exports = class extends Base {
 
 			fs.stat(themePackagePath, (err, stat) => {
 				if (!err && stat.isFile()) {
-					// eslint-disable-next-line @liferay/liferay/no-dynamic-require
+					// eslint-disable-next-line @liferay/no-dynamic-require
 					const themePackage = require(themePackagePath);
 
 					if (themePackage.liferayTheme) {

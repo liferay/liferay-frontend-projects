@@ -17,11 +17,11 @@ const getMergedConfig = require('../utils/getMergedConfig');
  * A promise to be resolved with the tweaked webpack config.
  */
 async function tweakWebpackConfig(webpackConfigPath) {
-	/* eslint-disable @liferay/liferay/no-dynamic-require */
+	/* eslint-disable @liferay/no-dynamic-require */
 	const webpackConfig = fs.existsSync(webpackConfigPath)
 		? require(webpackConfigPath)
 		: undefined;
-	/* eslint-enable @liferay/liferay/no-dynamic-require */
+	/* eslint-enable @liferay/no-dynamic-require */
 
 	let arrayConfig;
 

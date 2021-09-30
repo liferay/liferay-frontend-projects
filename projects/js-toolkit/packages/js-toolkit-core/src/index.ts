@@ -104,7 +104,7 @@ export {transformText, transformTextFile} from './transform/text';
 
 // Transformation operations per file type
 
-/* eslint-disable @liferay/liferay/imports-first, @liferay/liferay/group-imports */
+/* eslint-disable @liferay/imports-first, @liferay/group-imports */
 import replaceInStringLiterals from './transform/js/operation/replaceInStringLiterals';
 import wrapModule from './transform/js/operation/wrapModule';
 
@@ -115,7 +115,7 @@ import addPkgJsonScripts from './transform/json/operation/addPkgJsonScripts';
 import deletePkgJsonDependencies from './transform/json/operation/deletePkgJsonDependencies';
 
 import appendLines from './transform/text/operation/appendLines';
-/* eslint-enable @liferay/liferay/imports-first, @liferay/liferay/group-imports */
+/* eslint-enable @liferay/imports-first, @liferay/group-imports */
 
 export const TRANSFORM_OPERATIONS = {
 	ConfigurationJson: {

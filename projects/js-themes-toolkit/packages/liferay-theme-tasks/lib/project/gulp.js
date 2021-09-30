@@ -13,7 +13,7 @@ class Gulp {
 			this._gulp = gulp;
 		}
 		else {
-			// eslint-disable-next-line @liferay/liferay/no-dynamic-require
+			// eslint-disable-next-line @liferay/no-dynamic-require
 			this._gulp = require(resolve.sync('gulp', {
 				basedir: project.dir,
 			}));

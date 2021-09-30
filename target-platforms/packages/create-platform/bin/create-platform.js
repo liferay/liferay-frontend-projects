@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-/* eslint-disable @liferay/liferay/no-dynamic-require */
+/* eslint-disable @liferay/no-dynamic-require */
 /* eslint-disable no-console */
 
 const path = require('path');

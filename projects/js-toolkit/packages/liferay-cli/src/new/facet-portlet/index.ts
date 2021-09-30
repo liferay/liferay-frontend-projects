@@ -48,7 +48,7 @@ const facet: Facet = {
 
 		const pkgJsonFile = options.outputPath.join('package.json');
 
-		/* eslint-disable-next-line @liferay/liferay/no-dynamic-require, @typescript-eslint/no-var-requires */
+		/* eslint-disable-next-line @liferay/no-dynamic-require, @typescript-eslint/no-var-requires */
 		const pkgJson = require(pkgJsonFile.asNative);
 		const portletDisplayName = pkgJson['name'];
 		const portletName = getPortletName(portletDisplayName);

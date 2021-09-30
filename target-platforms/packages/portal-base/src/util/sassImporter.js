@@ -54,7 +54,7 @@ function sassResolve(module) {
 				return undefined;
 			}
 
-			/* eslint-disable-next-line @liferay/liferay/no-dynamic-require	*/
+			/* eslint-disable-next-line @liferay/no-dynamic-require	*/
 			const packageJson = require(resolvedPath);
 			const entryPoint = packageJson.style || packageJson.main;
 

@@ -17,7 +17,7 @@ expect.extend({
 			path.basename(plugin)
 		);
 
-		// eslint-disable-next-line @liferay/liferay/no-dynamic-require
+		// eslint-disable-next-line @liferay/no-dynamic-require
 		const instance = require(location);
 
 		const {code, errors, options, output} = config;

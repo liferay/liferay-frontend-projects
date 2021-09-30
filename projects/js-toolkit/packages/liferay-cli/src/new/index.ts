@@ -115,7 +115,8 @@ function loadTargets(): Target[] {
 			.readdirSync(__dirname, {withFileTypes: true})
 			.filter((dirent) => dirent.isDirectory())
 			.filter((dirent) => dirent.name.startsWith('target-'))
-			/* eslint-disable-next-line @liferay/liferay/no-dynamic-require, @typescript-eslint/no-var-requires */
+
+			/* eslint-disable-next-line @liferay/no-dynamic-require, @typescript-eslint/no-var-requires */
 			.map((dirent) => require(`./${dirent.name}`).default)
 	);
 }

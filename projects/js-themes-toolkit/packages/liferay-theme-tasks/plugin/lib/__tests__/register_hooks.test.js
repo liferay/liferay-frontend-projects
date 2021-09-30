@@ -163,7 +163,7 @@ test('_registerHookModule should register hook or log appropriate log messages',
 	);
 	expect(gutil.log.callCount).toBe(1);
 
-	// eslint-disable-next-line @liferay/liferay/no-dynamic-require
+	// eslint-disable-next-line @liferay/no-dynamic-require
 	require(path.join(__dirname, 'fixtures', 'hook_modules', 'hook-module-1'));
 
 	prototype.gulp = {
@@ -199,7 +199,7 @@ test('_registerHookModule should pass correct arguments to hook modules', () => 
 		'hook-module-4'
 	);
 
-	// eslint-disable-next-line @liferay/liferay/no-dynamic-require
+	// eslint-disable-next-line @liferay/no-dynamic-require
 	var moduleHook = require(hookModulePath)().resetHistory();
 
 	prototype.gulp = 'gulp';

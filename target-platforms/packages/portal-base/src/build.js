@@ -118,7 +118,8 @@ function runBundler() {
 		'liferay-npm-bundler/package.json'
 	);
 	const bundlerDir = path.dirname(bundlerPkgJsonPath);
-	/* eslint-disable-next-line @liferay/liferay/no-dynamic-require */
+
+	/* eslint-disable-next-line @liferay/no-dynamic-require */
 	const bundlerPkgJson = require(bundlerPkgJsonPath);
 	const bundlerPath = path.resolve(
 		bundlerDir,

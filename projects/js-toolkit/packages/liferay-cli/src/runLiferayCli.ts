@@ -61,7 +61,7 @@ export default async function runLiferayCli(...args: string[]): Promise<void> {
 
 /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 function projectRequire(moduleName: string): any {
-	/* eslint-disable-next-line @liferay/liferay/no-dynamic-require */
+	/* eslint-disable-next-line @liferay/no-dynamic-require */
 	return require(projectResolve(moduleName));
 }
 

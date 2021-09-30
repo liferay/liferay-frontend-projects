@@ -140,7 +140,7 @@ RegisterHooks.prototype = {
 
 	_registerHookModule(moduleName) {
 		try {
-			// eslint-disable-next-line @liferay/liferay/no-dynamic-require
+			// eslint-disable-next-line @liferay/no-dynamic-require
 			var hookFn = require(moduleName);
 
 			if (_.isFunction(hookFn)) {

@@ -528,7 +528,7 @@
 
 ### :boom: Breaking changes
 
--   feat!: brings in the named-scope package `@liferay/eslint-config` to replace `eslint-config-liferay`, which requires references to rule names to be updated; for example `liferay/no-arrow` becomes `@liferay/liferay/no-arrow`, `liferay-portal/no-react-dom-render` becomes `@liferay/portal/no-react-dom-render`, and so on.
+-   feat!: brings in the named-scope package `@liferay/eslint-config` to replace `eslint-config-liferay`, which requires references to rule names to be updated; for example `liferay/no-arrow` becomes `@liferay/no-arrow`, `liferay-portal/no-react-dom-render` becomes `@liferay/portal/no-react-dom-render`, and so on.
 
 ### :new: Features
 

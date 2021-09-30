@@ -175,7 +175,7 @@ function getMergedConfig(type, property) {
 
 			if (rootDir) {
 				try {
-					/* eslint-disable-next-line @liferay/liferay/no-dynamic-require */
+					/* eslint-disable-next-line @liferay/no-dynamic-require */
 					rootConfig = require(path.join(
 						rootDir,
 						'npmscripts.config'
