@@ -12,7 +12,7 @@ module.exports = {
 
 		node: true,
 	},
-	extends: '@liferay',
+	extends: ['plugin:@liferay/general'],
 	ignorePatterns: [
 
 		// Project-specific
@@ -52,6 +52,7 @@ module.exports = {
 			],
 		},
 	],
+	plugins: ['@liferay'],
 	rules: {
 		'notice/notice': [
 			'error',
