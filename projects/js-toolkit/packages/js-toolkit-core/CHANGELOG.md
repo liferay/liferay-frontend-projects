@@ -1,3 +1,15 @@
+## [js-toolkit-core/v4.0.0](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v4.0.0) (2021-09-30)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v3.0.1...js-toolkit-core/v4.0.0)
+
+### :boom: Breaking changes
+
+-   feat(js-toolkit-core)!: reorganize existing and add new transforms ([\#578](https://github.com/liferay/liferay-frontend-projects/pull/578))
+
+### :new: Features
+
+-   feat(js-toolkit-core)!: reorganize existing and add new transforms ([\#578](https://github.com/liferay/liferay-frontend-projects/pull/578))
+
 ## [js-toolkit-core/v3.0.1](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v3.0.1) (2021-03-16)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v3.0.1-pre.1...js-toolkit-core/v3.0.1)
