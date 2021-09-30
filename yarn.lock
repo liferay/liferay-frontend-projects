@@ -1402,6 +1402,25 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
+"@liferay/js-toolkit-core@3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@liferay/js-toolkit-core/-/js-toolkit-core-3.0.1.tgz#1232febc41b17da00cd12f7de4eba7243df8c18d"
+  integrity sha512-ccMA88w3EPDKLXAHezX6326vq4Hdj7+gWUXxawYhhmkc3LKxG2FEsgapOwI8UnwFB4nZCzsJdTaTuy6wrzRr9Q==
+  dependencies:
+    acorn "^6.2.1"
+    chalk "^2.4.2"
+    clone "^2.1.2"
+    cross-spawn "^7.0.0"
+    dot-prop "^5.0.1"
+    escodegen "^1.14.1"
+    estraverse "^4.3.0"
+    fs-extra "^8.1.0"
+    properties "^1.2.1"
+    read-json-sync "^2.0.1"
+    resolve "^1.8.1"
+    source-map "^0.7.3"
+    webpack "^5.11.1"
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
