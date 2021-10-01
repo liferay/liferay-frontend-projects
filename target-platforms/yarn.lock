@@ -920,13 +920,13 @@
     "@babel/helper-validator-identifier" "^7.14.5"
     to-fast-properties "^2.0.0"
 
-"@clayui/alert@3.31.0":
-  version "3.31.0"
-  resolved "https://registry.yarnpkg.com/@clayui/alert/-/alert-3.31.0.tgz#98bc39093dda8ff696868a600a808dc80a0e9ef1"
-  integrity sha512-45MRvuhRYFEotjaubRVit7gz7Xyt7bT9GEWiTGvx2OmhCItLkrknBtIfVloLsCeY/zcQZUWLJZJvcvtB1LnLAw==
+"@clayui/alert@3.32.0":
+  version "3.32.0"
+  resolved "https://registry.yarnpkg.com/@clayui/alert/-/alert-3.32.0.tgz#5f95ace6862eadf737b32c5e8f95e2c90e7fac2f"
+  integrity sha512-qh54a80TCejMFE59weQb/uNvvT9vwbjZ4uAFLJQ8t2HpRTLNAJvavfF9rKSX4Xa42DEtXWTkm6eFvN3OwZAvaA==
   dependencies:
-    "@clayui/icon" "^3.1.0"
-    "@clayui/layout" "^3.31.0"
+    "@clayui/icon" "^3.32.0"
+    "@clayui/layout" "^3.32.0"
     classnames "^2.2.6"
 
 "@clayui/alert@3.5.1":
@@ -948,7 +948,17 @@
     "@clayui/loading-indicator" "^3.2.0"
     fuzzy "^0.1.3"
 
-"@clayui/autocomplete@3.30.0", "@clayui/autocomplete@^3.25.1", "@clayui/autocomplete@^3.30.0":
+"@clayui/autocomplete@3.36.0", "@clayui/autocomplete@^3.36.0":
+  version "3.36.0"
+  resolved "https://registry.yarnpkg.com/@clayui/autocomplete/-/autocomplete-3.36.0.tgz#003c5664f36ba8de8cfe23aff5c162a3e0f6c469"
+  integrity sha512-C3IOvDtgNYQSwC0F+6Szo1t6mkEOpjQMLTIU8RYfDxb/8qmGYtQ0i9TuLnGTiTHNw/uA6Z6LbRtLRMd32a9f/A==
+  dependencies:
+    "@clayui/drop-down" "^3.36.0"
+    "@clayui/form" "^3.36.0"
+    "@clayui/loading-indicator" "^3.32.0"
+    fuzzy "^0.1.3"
+
+"@clayui/autocomplete@^3.25.1":
   version "3.30.0"
   resolved "https://registry.yarnpkg.com/@clayui/autocomplete/-/autocomplete-3.30.0.tgz#0c59eaa37af6343ea5eb20161725b780dc262b74"
   integrity sha512-jEe7xnk95rbuQaTu4cC5VHk0fC4E20mDpoV+Sxg8K/8Y/TUga/bLABvHap91bR+l0lPvQKgbn/AJ49Iu8H2taQ==
@@ -965,6 +975,13 @@
   dependencies:
     classnames "^2.2.6"
 
+"@clayui/badge@3.32.0":
+  version "3.32.0"
+  resolved "https://registry.yarnpkg.com/@clayui/badge/-/badge-3.32.0.tgz#8f3e113b486c1efa2729ae34c7548272efb4c424"
+  integrity sha512-BcoDjeMsZUUOZdG1E7FOn/1q0RJIN3jfijDZDdiMWEKldOCIXlrk5QtddXkQnVrhaLpLeULaKiNTCpVTIGlRyw==
+  dependencies:
+    classnames "^2.2.6"
+
 "@clayui/breadcrumb@3.25.1":
   version "3.25.1"
   resolved "https://registry.yarnpkg.com/@clayui/breadcrumb/-/breadcrumb-3.25.1.tgz#88b32d3d433168b6bc197c1392211a669832a051"
@@ -978,18 +995,26 @@
     classnames "^2.2.6"
     warning "^4.0.3"
 
-"@clayui/breadcrumb@3.30.0":
-  version "3.30.0"
-  resolved "https://registry.yarnpkg.com/@clayui/breadcrumb/-/breadcrumb-3.30.0.tgz#f20d42c473182bf5ba8445b57554c23aa36d742b"
-  integrity sha512-2vgiFzZjH9YMuTau7cdjOi5LSu6/ksWD1Ami+JVVbEyqs9JA41CfB/XKz6/P0ZUmTKGRTXnC+ZIK5h6fr+9G6Q==
+"@clayui/breadcrumb@3.36.0":
+  version "3.36.0"
+  resolved "https://registry.yarnpkg.com/@clayui/breadcrumb/-/breadcrumb-3.36.0.tgz#71c0e98f4034e27461f81075599d29d99d541678"
+  integrity sha512-URgGHWjIdTmq+NGwjkG+SbtoFTDlKTShhNJ0/ib6On2VfRGGqTpkxvrEhthTv0V3r12RP1cJx8sepyjsNEm+wQ==
   dependencies:
-    "@clayui/button" "^3.6.0"
-    "@clayui/drop-down" "^3.30.0"
-    "@clayui/icon" "^3.1.0"
-    "@clayui/link" "^3.2.0"
-    "@clayui/shared" "^3.29.0"
+    "@clayui/button" "^3.32.0"
+    "@clayui/drop-down" "^3.36.0"
+    "@clayui/icon" "^3.32.0"
+    "@clayui/link" "^3.32.0"
+    "@clayui/shared" "^3.36.0"
     classnames "^2.2.6"
     warning "^4.0.3"
+
+"@clayui/button@3.32.0", "@clayui/button@^3.32.0":
+  version "3.32.0"
+  resolved "https://registry.yarnpkg.com/@clayui/button/-/button-3.32.0.tgz#ddf5711e51fe4f68fa0bc42baaaccdc0dfad372d"
+  integrity sha512-GYbGXbxDzdyWBL6GWun72sq03T2RfbDdY6R9LdZIN5JtgZmp53jECEevA3UwDYBBKaeBvYd/d4xTv6u8C0TtZQ==
+  dependencies:
+    "@clayui/icon" "^3.32.0"
+    classnames "^2.2.6"
 
 "@clayui/button@3.6.0", "@clayui/button@^3.6.0":
   version "3.6.0"
@@ -1015,26 +1040,35 @@
     "@clayui/sticker" "^3.3.0"
     classnames "^2.2.6"
 
-"@clayui/card@3.31.0":
-  version "3.31.0"
-  resolved "https://registry.yarnpkg.com/@clayui/card/-/card-3.31.0.tgz#f403c29cc94c644e57d56a21ae16cea1af362f5f"
-  integrity sha512-yTAflMD9xTf25GEGsWx3ES32kbBqen2Ge99wMwInESnqtoBOzNdd4aIJySOEjOwnu3sNp9tq3THttuwp6sNZVw==
+"@clayui/card@3.36.0":
+  version "3.36.0"
+  resolved "https://registry.yarnpkg.com/@clayui/card/-/card-3.36.0.tgz#730b4e83fb3f90786d8e77024c84603280c21584"
+  integrity sha512-ujsWnCLmGGvjBn/dJtA9pEDXV3XYktaIsGsZW7CVyauLjfWaLB2lc5euGVwEchGMApaA25QxygM4WiKMusgdpw==
   dependencies:
-    "@clayui/button" "^3.6.0"
-    "@clayui/drop-down" "^3.30.0"
-    "@clayui/form" "^3.29.0"
-    "@clayui/icon" "^3.1.0"
-    "@clayui/label" "^3.4.1"
-    "@clayui/layout" "^3.31.0"
-    "@clayui/link" "^3.2.0"
-    "@clayui/shared" "^3.29.0"
-    "@clayui/sticker" "^3.3.0"
+    "@clayui/button" "^3.32.0"
+    "@clayui/drop-down" "^3.36.0"
+    "@clayui/form" "^3.36.0"
+    "@clayui/icon" "^3.32.0"
+    "@clayui/label" "^3.32.0"
+    "@clayui/layout" "^3.32.0"
+    "@clayui/link" "^3.32.0"
+    "@clayui/shared" "^3.36.0"
+    "@clayui/sticker" "^3.32.0"
     classnames "^2.2.6"
 
 "@clayui/charts@3.25.1":
   version "3.25.1"
   resolved "https://registry.yarnpkg.com/@clayui/charts/-/charts-3.25.1.tgz#9db69089bc16d4c818a3d439681e699742b9ab29"
   integrity sha512-sFLflZ32kchqMKYTeQ0V7xh8AWdfxU1mUSCVH9r5eQSdOaB67GEFPsNj8ky+K2QoU1A3SukaDSDqL0EwwRKKyw==
+  dependencies:
+    billboard.js "^1.8.0"
+    classnames "^2.2.6"
+    d3 "^5.9.2"
+
+"@clayui/charts@3.32.0":
+  version "3.32.0"
+  resolved "https://registry.yarnpkg.com/@clayui/charts/-/charts-3.32.0.tgz#ab5aa77234b16912e09bff2c5c821eb05935132c"
+  integrity sha512-/glYoiy6jyAFUSuoWHzKP5GpXT4yUTNAi7SLGO5Q7Dw2TbM8MIJRh7absOHUzuIdz71TJsfxMHvRSXEIkhyGVQ==
   dependencies:
     billboard.js "^1.8.0"
     classnames "^2.2.6"
@@ -1053,16 +1087,16 @@
     classnames "^2.2.6"
     tinycolor2 "^1.4.1"
 
-"@clayui/color-picker@3.31.0":
-  version "3.31.0"
-  resolved "https://registry.yarnpkg.com/@clayui/color-picker/-/color-picker-3.31.0.tgz#8033b0d5cc409e3cbc0eae34348ddb50831194a7"
-  integrity sha512-fFW62/7EJYzKROirL99C4R0ek2Pa/VIWQ1Vz/ObOXcFxy+ZJp46TdC38gQaNz2UhtX8H0eveo72m2E6VngagLw==
+"@clayui/color-picker@3.36.0":
+  version "3.36.0"
+  resolved "https://registry.yarnpkg.com/@clayui/color-picker/-/color-picker-3.36.0.tgz#411e1dbee54666e9351ff0e9e584f6608a944b62"
+  integrity sha512-R5W9SF+MkbE4a8cqV5dOY4SDp2b+0f4fK9z/yJctboUqeGaqGTLLMIGLrXZpmpkLhXFlNKRPmoU3wzcr04PTGw==
   dependencies:
-    "@clayui/button" "^3.6.0"
-    "@clayui/drop-down" "^3.30.0"
-    "@clayui/form" "^3.29.0"
-    "@clayui/icon" "^3.1.0"
-    "@clayui/shared" "^3.29.0"
+    "@clayui/button" "^3.32.0"
+    "@clayui/drop-down" "^3.36.0"
+    "@clayui/form" "^3.36.0"
+    "@clayui/icon" "^3.32.0"
+    "@clayui/shared" "^3.36.0"
     classnames "^2.2.6"
     tinycolor2 "^1.4.2"
 
@@ -1071,19 +1105,10 @@
   resolved "https://registry.yarnpkg.com/@clayui/css/-/css-3.25.3.tgz#5c68e4f98ddf40664d06e8517fbdcf65493ca3d0"
   integrity sha512-BWMkPn0nMpqhog3iCc9ktazoKKG3oChoNr2zzAzF9LusDGZVVo2pamQjdlAZfkfD/daAC5Bo5rlOLazHc45oKg==
 
-"@clayui/css@3.31.0":
-  version "3.31.0"
-  resolved "https://registry.yarnpkg.com/@clayui/css/-/css-3.31.0.tgz#fd0d47a6b051ec84c7d2fb99cec267930edcd93d"
-  integrity sha512-859NW2+h49OKOmdm9Wh9vfddWH/7I6ULhcXQBwZacifHECWTjnBYOBZKekLFXq2AqKgK5vLvnOtPHxBO4FKYBg==
-
-"@clayui/data-provider@3.29.0":
-  version "3.29.0"
-  resolved "https://registry.yarnpkg.com/@clayui/data-provider/-/data-provider-3.29.0.tgz#b1ec977e71319683da49276f15532c99e7f6b2f3"
-  integrity sha512-qxvUjrVCzRTIfLVtFDA7bFP15MwZRwSXQOzhGFHLXO9aSwzUWEtXHEAmZHMalaHxQKaecNcAZMfTY63sSaamMQ==
-  dependencies:
-    "@clayui/shared" "^3.29.0"
-    fast-json-stable-stringify "^2.0.0"
-    warning "^4.0.3"
+"@clayui/css@3.36.0":
+  version "3.36.0"
+  resolved "https://registry.yarnpkg.com/@clayui/css/-/css-3.36.0.tgz#85267afaf33811d08abe4529fb7bb5daea3ef7a8"
+  integrity sha512-12AeYOiFdvwciaRoMeAn/hP6G373KHcgB4CUjKDzl55ZJ/YElZHrZUMx1CoUsEopRyhij0MSq2eF5XqyYOxtzg==
 
 "@clayui/data-provider@3.3.10":
   version "3.3.10"
@@ -1091,6 +1116,15 @@
   integrity sha512-GsZ7ixT98NkZkheyVdGRjhygzNTMCvZ7PMTD1em1mFiobYmQkxnfTQHbItSGzG+c44R9uv3C8p6/7zJVVGSyQw==
   dependencies:
     "@clayui/shared" "^3.5.1"
+    fast-json-stable-stringify "^2.0.0"
+    warning "^4.0.3"
+
+"@clayui/data-provider@3.36.0":
+  version "3.36.0"
+  resolved "https://registry.yarnpkg.com/@clayui/data-provider/-/data-provider-3.36.0.tgz#2b52688ce923e832415635b52ba08c54256ed320"
+  integrity sha512-fNGXrI92ngy3/ypREDImhnjA33XQnx9cIZ015vB0wPmB3rnN8LvFApg89z5TdHEsVLmHTHA7LIgSX+TZDfDOpg==
+  dependencies:
+    "@clayui/shared" "^3.36.0"
     fast-json-stable-stringify "^2.0.0"
     warning "^4.0.3"
 
@@ -1108,17 +1142,17 @@
     classnames "^2.2.6"
     date-fns "^2.14.0"
 
-"@clayui/date-picker@3.30.0":
-  version "3.30.0"
-  resolved "https://registry.yarnpkg.com/@clayui/date-picker/-/date-picker-3.30.0.tgz#25f4ddd9ff2ffdef1e7f572f4839c339f4b09be5"
-  integrity sha512-MyuR8N4r9LV6dhlQBmnwBgbT6RjFWnhaYNmbsiTYrnRPHIT3gdXRRiwOiVOo5BXShda4HtRcUqb5ThqDFa2Yyg==
+"@clayui/date-picker@3.36.0":
+  version "3.36.0"
+  resolved "https://registry.yarnpkg.com/@clayui/date-picker/-/date-picker-3.36.0.tgz#39c3cb507480388e090ab2a686a4389e20201647"
+  integrity sha512-uFdcblU8idCCooXaGxj00luHi0K17R2hSzbl81nGIVesgbbh5u/Ha/QwCdYMuP4Vv4ReeZUQY9oSmZmSKNvFuA==
   dependencies:
-    "@clayui/button" "^3.6.0"
-    "@clayui/drop-down" "^3.30.0"
-    "@clayui/form" "^3.29.0"
-    "@clayui/icon" "^3.1.0"
-    "@clayui/shared" "^3.29.0"
-    "@clayui/time-picker" "^3.29.0"
+    "@clayui/button" "^3.32.0"
+    "@clayui/drop-down" "^3.36.0"
+    "@clayui/form" "^3.36.0"
+    "@clayui/icon" "^3.32.0"
+    "@clayui/shared" "^3.36.0"
+    "@clayui/time-picker" "^3.36.0"
     classnames "^2.2.6"
     date-fns "^2.14.0"
 
@@ -1137,7 +1171,21 @@
     react-transition-group "^4.4.1"
     warning "^4.0.3"
 
-"@clayui/drop-down@3.30.0", "@clayui/drop-down@^3.25.1", "@clayui/drop-down@^3.30.0":
+"@clayui/drop-down@3.36.0", "@clayui/drop-down@^3.36.0":
+  version "3.36.0"
+  resolved "https://registry.yarnpkg.com/@clayui/drop-down/-/drop-down-3.36.0.tgz#560c28923ee1332d44fe3d21c6e8b7fef7418515"
+  integrity sha512-rbHzksXAUbMjhN/7AzodIkI+tWj2mcesU2XMFvOsNesOmAyCbNQyP92RKQj+vz6qBZlg5n2po8+JtKh7nlCAdQ==
+  dependencies:
+    "@clayui/button" "^3.32.0"
+    "@clayui/form" "^3.36.0"
+    "@clayui/icon" "^3.32.0"
+    "@clayui/link" "^3.32.0"
+    "@clayui/shared" "^3.36.0"
+    classnames "^2.2.6"
+    react-transition-group "^4.4.1"
+    warning "^4.0.3"
+
+"@clayui/drop-down@^3.25.1", "@clayui/drop-down@^3.30.0":
   version "3.30.0"
   resolved "https://registry.yarnpkg.com/@clayui/drop-down/-/drop-down-3.30.0.tgz#7bf6abb3a20cd961772b4fffaaeb8c85cf80ee9a"
   integrity sha512-57o4yVFSpKxEs8nMTPbJa0w5VbVxP8UAaiqnnQLXDvTQZthWNbJfCShz9kpEj5VlmoOBvVjyQQ9tASpeVGVv6w==
@@ -1159,6 +1207,13 @@
   dependencies:
     classnames "^2.2.6"
 
+"@clayui/empty-state@3.32.0":
+  version "3.32.0"
+  resolved "https://registry.yarnpkg.com/@clayui/empty-state/-/empty-state-3.32.0.tgz#401c85443a170f48da9e3488d3ca5a2d41f44a7f"
+  integrity sha512-AgD2h/vGeHke3IOPZ1XOPUjO9mpUKeg/MvLp8xM+8A6vnqproRXyxvgFXoQT/aYq0Lu0iQC87NvzBt9HrnHeSw==
+  dependencies:
+    classnames "^2.2.6"
+
 "@clayui/form@3.14.4":
   version "3.14.4"
   resolved "https://registry.yarnpkg.com/@clayui/form/-/form-3.14.4.tgz#50725d4647a3e1fba3fc5449429f8baec694b2df"
@@ -1169,7 +1224,17 @@
     "@clayui/shared" "^3.5.1"
     classnames "^2.2.6"
 
-"@clayui/form@3.29.0", "@clayui/form@^3.14.4", "@clayui/form@^3.29.0":
+"@clayui/form@3.36.0", "@clayui/form@^3.36.0":
+  version "3.36.0"
+  resolved "https://registry.yarnpkg.com/@clayui/form/-/form-3.36.0.tgz#a78d51c5a2b7ff92a785b9a978366d9809d3f484"
+  integrity sha512-AH6jbledwe0tK3SafrOyp6axID8HUdb/nCq5i0xQTnyh4n8Qb1JVQvelWhOHFtdB8O8Uuw6wkR+Ng0KdQY5v6g==
+  dependencies:
+    "@clayui/button" "^3.32.0"
+    "@clayui/icon" "^3.32.0"
+    "@clayui/shared" "^3.36.0"
+    classnames "^2.2.6"
+
+"@clayui/form@^3.14.4", "@clayui/form@^3.29.0":
   version "3.29.0"
   resolved "https://registry.yarnpkg.com/@clayui/form/-/form-3.29.0.tgz#86271903fcd0c95565182c3ae218400f4321fc31"
   integrity sha512-f2PTXpTffNzVkpi2dZgyQ7e8135MVBzE7uU+d0ihpHEqu+Y13AP4H8Gx7TQV6rhqeRU3pSAq9OAf5OvihZGWUg==
@@ -1186,6 +1251,23 @@
   dependencies:
     classnames "^2.2.6"
     warning "^4.0.3"
+
+"@clayui/icon@3.32.0", "@clayui/icon@^3.32.0":
+  version "3.32.0"
+  resolved "https://registry.yarnpkg.com/@clayui/icon/-/icon-3.32.0.tgz#70c91211d1c9ca5aaa328dac82861b48aeed0980"
+  integrity sha512-w6Ao4toV+WMlggrwFSF/QIj7G3AZoHhRqOkXTwtJAyyNwJuv46aqR9qtxwICnKGisbYOlZB18OOUJAoSSxp9cA==
+  dependencies:
+    classnames "^2.2.6"
+    warning "^4.0.3"
+
+"@clayui/label@3.32.0", "@clayui/label@^3.32.0":
+  version "3.32.0"
+  resolved "https://registry.yarnpkg.com/@clayui/label/-/label-3.32.0.tgz#b65ee94c5da45228da7ac6c05202cd721e8b864d"
+  integrity sha512-P6qSFNB8vHlSbRWGCHcZES1n4sArtDUtjhKRVHlqcf+HRgWKcNe+rxjBetKjDytoG9ZubXHOLuM9dbgp44u8iA==
+  dependencies:
+    "@clayui/icon" "^3.32.0"
+    "@clayui/link" "^3.32.0"
+    classnames "^2.2.6"
 
 "@clayui/label@3.4.1", "@clayui/label@^3.4.1":
   version "3.4.1"
@@ -1204,7 +1286,15 @@
     classnames "^2.2.6"
     warning "^4.0.3"
 
-"@clayui/layout@3.31.0", "@clayui/layout@^3.3.0", "@clayui/layout@^3.31.0":
+"@clayui/layout@3.32.0", "@clayui/layout@^3.32.0":
+  version "3.32.0"
+  resolved "https://registry.yarnpkg.com/@clayui/layout/-/layout-3.32.0.tgz#366b831535f2b79b25d71eb156e95a2681146c41"
+  integrity sha512-sCUlbAVcGltw0+cnoHm5E5pcwtDVq1168aAMx14C/eKjodSIDZL5USAjxKp5hiQowlt9g0qR2GdiVIiV+7ePwQ==
+  dependencies:
+    classnames "^2.2.6"
+    warning "^4.0.3"
+
+"@clayui/layout@^3.3.0":
   version "3.31.0"
   resolved "https://registry.yarnpkg.com/@clayui/layout/-/layout-3.31.0.tgz#5226f8dfd87d8637895f3b9286e57c216432b46a"
   integrity sha512-EGVJ07+T3zxBLZhiABm3oZIpJJb0qnmMC/Y8GUVcaJ2cUkF/CHCcxxRnd8i8d99JqnsFpfvRgW4WPd7+PHx+MA==
@@ -1216,6 +1306,13 @@
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/@clayui/link/-/link-3.2.0.tgz#1d5fc80f574f18d3880bc3584cd2d83761b6ec78"
   integrity sha512-UjuEGGwE3X/XnB3Ul+JPPAveHj3d76OyRu8rwhKuw5VwyfQVadb7p8owqpohOPaD29ytljOfce8a6X0vGoXJig==
+  dependencies:
+    classnames "^2.2.6"
+
+"@clayui/link@3.32.0", "@clayui/link@^3.32.0":
+  version "3.32.0"
+  resolved "https://registry.yarnpkg.com/@clayui/link/-/link-3.32.0.tgz#d6b9a1d4fb4dac440c32f7977e008e85c4f3a5fd"
+  integrity sha512-N/mH9dj7SI72A1/ZsJvMMgyE6/ZHpDRKir0F7xHfHFvtns8mjaSiJ4X6gwfd6ck3Kc5QjO9HDgr8zWkjnPJNWw==
   dependencies:
     classnames "^2.2.6"
 
@@ -1234,18 +1331,18 @@
     classnames "^2.2.6"
     warning "^4.0.3"
 
-"@clayui/list@3.31.0":
-  version "3.31.0"
-  resolved "https://registry.yarnpkg.com/@clayui/list/-/list-3.31.0.tgz#19e4e0c903a6ec3baffc37c4cb875e1ac23aa288"
-  integrity sha512-/leWOE7ZVMSv6atwhWevYegpSpFIPirsvnXX5q9j8qAUQqSKbaGfqPj6Nx8BVjFyyHbDGozzCDzFuxX2rKEBiw==
+"@clayui/list@3.36.0":
+  version "3.36.0"
+  resolved "https://registry.yarnpkg.com/@clayui/list/-/list-3.36.0.tgz#1ebbcd745e8a0e8f382cd75e84e560794defd488"
+  integrity sha512-WXOeH4b4wZ1Qkix2IsIsKhJAIIbiyNhhj1SOjYqDaySQv1JLbNG9ioBI1DxWJ2YNXjKsyk1jUFraPsAD/i1VAg==
   dependencies:
-    "@clayui/drop-down" "^3.30.0"
-    "@clayui/form" "^3.29.0"
-    "@clayui/icon" "^3.1.0"
-    "@clayui/label" "^3.4.1"
-    "@clayui/layout" "^3.31.0"
-    "@clayui/link" "^3.2.0"
-    "@clayui/sticker" "^3.3.0"
+    "@clayui/drop-down" "^3.36.0"
+    "@clayui/form" "^3.36.0"
+    "@clayui/icon" "^3.32.0"
+    "@clayui/label" "^3.32.0"
+    "@clayui/layout" "^3.32.0"
+    "@clayui/link" "^3.32.0"
+    "@clayui/sticker" "^3.32.0"
     classnames "^2.2.6"
     warning "^4.0.3"
 
@@ -1253,6 +1350,13 @@
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/@clayui/loading-indicator/-/loading-indicator-3.2.0.tgz#7a5565c5543b345d9e57d8b94b72b7ba83c4667f"
   integrity sha512-c0R4NEa+5gITbsAgf3IxP6O4TjMzaWCT7rv3N4EFWT23lbChRFE/XCq5utXbQIM1M6b+1lYX2qoqsn9o4+63SA==
+  dependencies:
+    classnames "^2.2.6"
+
+"@clayui/loading-indicator@3.32.0", "@clayui/loading-indicator@^3.32.0":
+  version "3.32.0"
+  resolved "https://registry.yarnpkg.com/@clayui/loading-indicator/-/loading-indicator-3.32.0.tgz#d109e3b7190771d5154dc7853ea7a83c75370dac"
+  integrity sha512-G6R/xYIlSX8IfOMWvjef0/gnyPc3wLBKait/4C/hB51XZU/ASQZ7GYgic4QssQUx43VIicEMy2UPdKX005uOyg==
   dependencies:
     classnames "^2.2.6"
 
@@ -1264,22 +1368,22 @@
     "@clayui/layout" "^3.3.0"
     classnames "^2.2.6"
 
-"@clayui/management-toolbar@3.31.0":
-  version "3.31.0"
-  resolved "https://registry.yarnpkg.com/@clayui/management-toolbar/-/management-toolbar-3.31.0.tgz#0531293440ba1ad30f00f469c0d825576800d3fa"
-  integrity sha512-14pX89XHzCP+yV7AyQgHbDc3D6R9eIK3wRybIH0T/6YEy4NFqfiB5SAPN12EGNTqsAKEbgkxV0z+ddikNm+6tw==
+"@clayui/management-toolbar@3.32.0":
+  version "3.32.0"
+  resolved "https://registry.yarnpkg.com/@clayui/management-toolbar/-/management-toolbar-3.32.0.tgz#66e65649552e637ed28ced22fe75e93b8421f020"
+  integrity sha512-R6kqT61OprH8GAhvKWuZisZc9WpzoRk/R7Tav1mc5KJUTIfJ6r3kuC1wqu1+81FouoQcSSyA51yKeX7geNg3hw==
   dependencies:
-    "@clayui/layout" "^3.31.0"
+    "@clayui/layout" "^3.32.0"
     classnames "^2.2.6"
 
-"@clayui/modal@3.29.0":
-  version "3.29.0"
-  resolved "https://registry.yarnpkg.com/@clayui/modal/-/modal-3.29.0.tgz#dc9b4ffba3d311a58fd35e8d2f09bb02a31d7db8"
-  integrity sha512-HhYlyYcrRfY4naPP2MHw8uRtJ00vbiNhv2HI5yQcnPiMpATflQEPUj2I0aA/TczpBy9CAlF818X+uu7kHq8lhw==
+"@clayui/modal@3.36.0":
+  version "3.36.0"
+  resolved "https://registry.yarnpkg.com/@clayui/modal/-/modal-3.36.0.tgz#7bc9d4165b3932336fe0ff00f25bc45936fc7a06"
+  integrity sha512-kP/7hbrzwCG+tamuZ47R9sqxPYjlG401Wdcu2ML7EtG673JZjX1Wkwu8XeI/W3kws+UXv/5qll/DB0L77bs6iw==
   dependencies:
-    "@clayui/button" "^3.6.0"
-    "@clayui/icon" "^3.1.0"
-    "@clayui/shared" "^3.29.0"
+    "@clayui/button" "^3.32.0"
+    "@clayui/icon" "^3.32.0"
+    "@clayui/shared" "^3.36.0"
     classnames "^2.2.6"
     warning "^4.0.3"
 
@@ -1308,18 +1412,18 @@
     classnames "^2.2.6"
     fuzzy "^0.1.3"
 
-"@clayui/multi-select@3.30.0":
-  version "3.30.0"
-  resolved "https://registry.yarnpkg.com/@clayui/multi-select/-/multi-select-3.30.0.tgz#9bad4a5d63ac2d2f20968dbbe910d7292ebc3521"
-  integrity sha512-ToFvgvcqX6gcRHrv3z+8H1bJL/Z1rWpGyKMnIscQcRb45wp6wJJRm7LPmc1vfsKbO+8I5ro6rmhObtxMR9HJ+Q==
+"@clayui/multi-select@3.36.0":
+  version "3.36.0"
+  resolved "https://registry.yarnpkg.com/@clayui/multi-select/-/multi-select-3.36.0.tgz#a921387411845fb64a1517eaf2cdc79730a06bb0"
+  integrity sha512-x1R4morfoLM/1iSdt7BsNnSNSKax8/OFu/kkwe+0lxJGf6xPIgkdlY2VHygDqAL6nfC8n/6xNVodhg9/U/cVww==
   dependencies:
-    "@clayui/autocomplete" "^3.30.0"
-    "@clayui/button" "^3.6.0"
-    "@clayui/drop-down" "^3.30.0"
-    "@clayui/form" "^3.29.0"
-    "@clayui/label" "^3.4.1"
-    "@clayui/loading-indicator" "^3.2.0"
-    "@clayui/shared" "^3.29.0"
+    "@clayui/autocomplete" "^3.36.0"
+    "@clayui/button" "^3.32.0"
+    "@clayui/drop-down" "^3.36.0"
+    "@clayui/form" "^3.36.0"
+    "@clayui/label" "^3.32.0"
+    "@clayui/loading-indicator" "^3.32.0"
+    "@clayui/shared" "^3.36.0"
     classnames "^2.2.6"
     fuzzy "^0.1.3"
 
@@ -1332,23 +1436,23 @@
     "@clayui/icon" "^3.1.0"
     classnames "^2.2.6"
 
-"@clayui/multi-step-nav@3.30.0":
-  version "3.30.0"
-  resolved "https://registry.yarnpkg.com/@clayui/multi-step-nav/-/multi-step-nav-3.30.0.tgz#6fd7410d89b73cf4373324fc142333e02e710c46"
-  integrity sha512-mdKxX5kIND3xMqmx5l72UZNsSmZMA5iP6uzKHKoVXzsJ1jds4Id/V7oyg/VO9u9R4rTksGXJ6KIUF0bjUUG6iw==
+"@clayui/multi-step-nav@3.36.0":
+  version "3.36.0"
+  resolved "https://registry.yarnpkg.com/@clayui/multi-step-nav/-/multi-step-nav-3.36.0.tgz#fc9cd4fdcdbe041b505432807835d0c3a42b80e2"
+  integrity sha512-nyQk7J2APPLp8JrdmD0cmgnbqSSLYrOVwh7txg4EV5RBkoDdoVn+fGO1SwXyhtRFhdASSWDJqubu2GocFkJvSA==
   dependencies:
-    "@clayui/drop-down" "^3.30.0"
-    "@clayui/icon" "^3.1.0"
+    "@clayui/drop-down" "^3.36.0"
+    "@clayui/icon" "^3.32.0"
     classnames "^2.2.6"
 
-"@clayui/nav@3.30.0":
-  version "3.30.0"
-  resolved "https://registry.yarnpkg.com/@clayui/nav/-/nav-3.30.0.tgz#4a3c88596be913b4921533e419c45ee5c8fe8050"
-  integrity sha512-q8qb2bVYIbO15CUuORWwnxX57sNeyV2hIX0JP1UXiqrleoW7aZ9ZdZlu1AvyNNQZ23vOtanf/yhb34TMuyXf+A==
+"@clayui/nav@3.36.0":
+  version "3.36.0"
+  resolved "https://registry.yarnpkg.com/@clayui/nav/-/nav-3.36.0.tgz#35ef9636c27e9c1377180357252a937fcdef789b"
+  integrity sha512-x+G58Lq64DMPBf/AhlhVom0lSvR0hxW3mM2SjRu7GEctUn1DGve/UlvdUzqRsaRyx7nDx8xum8UgKZWK2n/l2Q==
   dependencies:
-    "@clayui/button" "^3.6.0"
-    "@clayui/icon" "^3.1.0"
-    "@clayui/shared" "^3.29.0"
+    "@clayui/button" "^3.32.0"
+    "@clayui/icon" "^3.32.0"
+    "@clayui/shared" "^3.36.0"
     classnames "^2.2.6"
     react-transition-group "^4.4.1"
     warning "^4.0.3"
@@ -1378,15 +1482,15 @@
     react-transition-group "^4.4.1"
     warning "^4.0.3"
 
-"@clayui/navigation-bar@3.31.0":
-  version "3.31.0"
-  resolved "https://registry.yarnpkg.com/@clayui/navigation-bar/-/navigation-bar-3.31.0.tgz#ac63a86b7d67da965676d1e8b3bff6d73635e83d"
-  integrity sha512-wr8rHF9zfl30GP6zARfCTuCEud0KK7a4Wz+E2GDUgW43tuCdxFUXYCoY0TgytgQHDRfb49PlhbrYY5YcTUJSjQ==
+"@clayui/navigation-bar@3.36.0":
+  version "3.36.0"
+  resolved "https://registry.yarnpkg.com/@clayui/navigation-bar/-/navigation-bar-3.36.0.tgz#277e250c64deb3b7f66658b452f15ab8a8817323"
+  integrity sha512-kiTLrbkS7U0mbX4v1BGjUmnerer6zAwzkYIlOnPS6k/DVMQZuoBIL09UrGi0GgXeRbNSMbyP6eqeVhJBHcMTAQ==
   dependencies:
-    "@clayui/button" "^3.6.0"
-    "@clayui/icon" "^3.1.0"
-    "@clayui/layout" "^3.31.0"
-    "@clayui/shared" "^3.29.0"
+    "@clayui/button" "^3.32.0"
+    "@clayui/icon" "^3.32.0"
+    "@clayui/layout" "^3.32.0"
+    "@clayui/shared" "^3.36.0"
     classnames "^2.2.6"
     react-transition-group "^4.4.1"
     warning "^4.0.3"
@@ -1403,16 +1507,16 @@
     "@clayui/shared" "^3.5.1"
     classnames "^2.2.6"
 
-"@clayui/pagination-bar@3.31.0":
-  version "3.31.0"
-  resolved "https://registry.yarnpkg.com/@clayui/pagination-bar/-/pagination-bar-3.31.0.tgz#2d5240d5e14aff20e9d7eb943d4332c616408d1a"
-  integrity sha512-uvZOrhAAgRuOxA6PDqxxyvfL3XNZo354pqnxbcxYlDbTBuzQwKsqy4jpLDURpdiZpE599JY1ugkKWCe1n5fBKg==
+"@clayui/pagination-bar@3.36.0":
+  version "3.36.0"
+  resolved "https://registry.yarnpkg.com/@clayui/pagination-bar/-/pagination-bar-3.36.0.tgz#fd50a84e3de9fc814f36dcc97a8e89c8fece9cf2"
+  integrity sha512-gRWRxAISUH4b4BdyGkGSX48DNE0ZH8kXycwAPgx0LgROAZi1oTRDM0hkmFFOf0sL74PdkSsHpeRpILtaXXwCvQ==
   dependencies:
-    "@clayui/button" "^3.6.0"
-    "@clayui/drop-down" "^3.30.0"
-    "@clayui/icon" "^3.1.0"
-    "@clayui/pagination" "^3.30.0"
-    "@clayui/shared" "^3.29.0"
+    "@clayui/button" "^3.32.0"
+    "@clayui/drop-down" "^3.36.0"
+    "@clayui/icon" "^3.32.0"
+    "@clayui/pagination" "^3.36.0"
+    "@clayui/shared" "^3.36.0"
     classnames "^2.2.6"
 
 "@clayui/pagination@3.25.1":
@@ -1427,7 +1531,19 @@
     "@clayui/shared" "^3.5.1"
     classnames "^2.2.6"
 
-"@clayui/pagination@3.30.0", "@clayui/pagination@^3.25.1", "@clayui/pagination@^3.30.0":
+"@clayui/pagination@3.36.0", "@clayui/pagination@^3.36.0":
+  version "3.36.0"
+  resolved "https://registry.yarnpkg.com/@clayui/pagination/-/pagination-3.36.0.tgz#d74c23efca20ba719bc77a05958a9883c67410f5"
+  integrity sha512-UcbKAHhL+b047H7Y4NNo92P57OQ8iGx+UTlS0JizrKXXjWEZ1ku+Ls8lQI1QUBMNADpPgnewzlcOsSB21mJKew==
+  dependencies:
+    "@clayui/button" "^3.32.0"
+    "@clayui/drop-down" "^3.36.0"
+    "@clayui/icon" "^3.32.0"
+    "@clayui/link" "^3.32.0"
+    "@clayui/shared" "^3.36.0"
+    classnames "^2.2.6"
+
+"@clayui/pagination@^3.25.1":
   version "3.30.0"
   resolved "https://registry.yarnpkg.com/@clayui/pagination/-/pagination-3.30.0.tgz#a63b8fe2287450bcf19c07233f7a8edcff30bf65"
   integrity sha512-igPg55Oo7zBY0uQlz/Wu9D10CwqaXEpXTF1Eo+eWUIasQruns5OQNHNr7s891OWzxGWqP4yhvG8tMPz6SyYvRg==
@@ -1450,25 +1566,24 @@
     classnames "^2.2.6"
     react-transition-group "^4.4.1"
 
-"@clayui/panel@3.29.0":
-  version "3.29.0"
-  resolved "https://registry.yarnpkg.com/@clayui/panel/-/panel-3.29.0.tgz#d7f2e48ca4992604fc77a33d5d2c6854e17e0544"
-  integrity sha512-QkbmvgO5/8oe+kdeIW1ONG4FkVIhdWBiuMvqLZuLa+qR72xnO9Sp1/sq0AorV06QkxTYzXcMU7jslPaqqE5rLA==
+"@clayui/panel@3.36.0":
+  version "3.36.0"
+  resolved "https://registry.yarnpkg.com/@clayui/panel/-/panel-3.36.0.tgz#6527403cce8d8019620c2319ac8555f11e15d1cf"
+  integrity sha512-JRfRqLJeNZR6fVT17AcLJghQ+D1PdQTaSmUUhc+lVAN/F0UH+3wtDWa6Ty0gKJi0T62JhI09yowHD6CAQpouQQ==
   dependencies:
-    "@clayui/button" "^3.6.0"
-    "@clayui/icon" "^3.1.0"
-    "@clayui/shared" "^3.29.0"
+    "@clayui/button" "^3.32.0"
+    "@clayui/icon" "^3.32.0"
+    "@clayui/shared" "^3.36.0"
     classnames "^2.2.6"
     react-transition-group "^4.4.1"
 
-"@clayui/popover@3.29.0":
-  version "3.29.0"
-  resolved "https://registry.yarnpkg.com/@clayui/popover/-/popover-3.29.0.tgz#cdd010c2b1800e36a68c1c33c539529da723311b"
-  integrity sha512-sENZxEcpRFOokbwTEOsk6zhKzn6CHPAmxheSgK36TZsNj0+iTyxWDEjSuFNb82UuaJnngYOEziemBMJhsdwMoA==
+"@clayui/popover@3.36.0":
+  version "3.36.0"
+  resolved "https://registry.yarnpkg.com/@clayui/popover/-/popover-3.36.0.tgz#119a26050c2f669c06629193273f51798be33ce2"
+  integrity sha512-OHyDcMlScZNrbBfob4D35n5hAj8nXd4ZNEloYCVEAXRQh7SPwBQjHRjl+qCG0IHShq+dhZdMRnr36El5HkIstw==
   dependencies:
-    "@clayui/shared" "^3.29.0"
+    "@clayui/shared" "^3.36.0"
     classnames "^2.2.6"
-    dom-align "^1.10.2"
 
 "@clayui/popover@3.5.5":
   version "3.5.5"
@@ -1488,18 +1603,37 @@
     classnames "^2.2.6"
     warning "^4.0.3"
 
-"@clayui/shared@3.29.0", "@clayui/shared@^3.29.0", "@clayui/shared@^3.5.1":
-  version "3.29.0"
-  resolved "https://registry.yarnpkg.com/@clayui/shared/-/shared-3.29.0.tgz#b737dfee602fe69f3f495bf77142b8d498151984"
-  integrity sha512-lfIOHH3l31PpgqW1hgYvfQVDVjyXOJuLvJjW0y1wNTGchA2fKnxYoI8PObP3JRAJEUno7Zw2s3BYIA3lm2dw/g==
+"@clayui/progress-bar@3.32.0":
+  version "3.32.0"
+  resolved "https://registry.yarnpkg.com/@clayui/progress-bar/-/progress-bar-3.32.0.tgz#66d957c315dd242d64e7920b644ce0ee284fc1d4"
+  integrity sha512-IrVz3Lz42ingFWvmgtUBWdt+vdpkhpZuisMI2SbPKhGykMhZRGLY/XZ9IDdOj2hD351d0aqB6sGEigcIaQ7KJA==
   dependencies:
-    "@clayui/button" "^3.6.0"
-    "@clayui/link" "^3.2.0"
+    "@clayui/icon" "^3.32.0"
+    classnames "^2.2.6"
+    warning "^4.0.3"
+
+"@clayui/shared@3.36.0", "@clayui/shared@^3.36.0":
+  version "3.36.0"
+  resolved "https://registry.yarnpkg.com/@clayui/shared/-/shared-3.36.0.tgz#922ed4efa22165b2cf197f3b9fa0271f7a059e9a"
+  integrity sha512-azi/nBNrpP/2MgTprOtFLWy6jEC6ZN1PB/Zfb57aF2yKNPxlwCy3Ep711G1d+nqdhKrlYgcSKu3Owa97MD7IFw==
+  dependencies:
+    "@clayui/button" "^3.32.0"
+    "@clayui/link" "^3.32.0"
+    classnames "^2.2.6"
+    dom-align "^1.10.2"
 
 "@clayui/shared@3.5.1":
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/@clayui/shared/-/shared-3.5.1.tgz#6daee67b300f346381dd126472802f0a83472c4c"
   integrity sha512-p7vDmc+AcUnk7R/3+Xr+WNm7A5sUcmLbYlgK0GkXHUDwe+aVWwWYH1/mBL9aHCt9RFKc6WyM3zZv8cvOzlhFLA==
+  dependencies:
+    "@clayui/button" "^3.6.0"
+    "@clayui/link" "^3.2.0"
+
+"@clayui/shared@^3.29.0", "@clayui/shared@^3.5.1":
+  version "3.29.0"
+  resolved "https://registry.yarnpkg.com/@clayui/shared/-/shared-3.29.0.tgz#b737dfee602fe69f3f495bf77142b8d498151984"
+  integrity sha512-lfIOHH3l31PpgqW1hgYvfQVDVjyXOJuLvJjW0y1wNTGchA2fKnxYoI8PObP3JRAJEUno7Zw2s3BYIA3lm2dw/g==
   dependencies:
     "@clayui/button" "^3.6.0"
     "@clayui/link" "^3.2.0"
@@ -1511,10 +1645,24 @@
   dependencies:
     classnames "^2.2.6"
 
+"@clayui/slider@3.32.0":
+  version "3.32.0"
+  resolved "https://registry.yarnpkg.com/@clayui/slider/-/slider-3.32.0.tgz#1a0f852a120dc7ad628f783d06aa8ca3ea914f7b"
+  integrity sha512-Cf+T6q0ChxNk9HaXo+LLZgbiJccK6khI8uvGC68+4zt2ULEtzXooY9HhyvO/ktPsR6NEUURXlBPr/3j9Dm3nfA==
+  dependencies:
+    classnames "^2.2.6"
+
 "@clayui/sticker@3.3.0", "@clayui/sticker@^3.3.0":
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/@clayui/sticker/-/sticker-3.3.0.tgz#77fa3606688050bf9e731b49f319320c3718f00b"
   integrity sha512-Qmu3jarLiyeQmTZYikIAk9g/npl8bPxN1xhaMWP4C95yUZJgCbvqwzDCSEPHYCR+QiedKizBVKG9kQMoqdmcPA==
+  dependencies:
+    classnames "^2.2.6"
+
+"@clayui/sticker@3.32.0", "@clayui/sticker@^3.32.0":
+  version "3.32.0"
+  resolved "https://registry.yarnpkg.com/@clayui/sticker/-/sticker-3.32.0.tgz#d3f0c02cc2ed441372a95ab0b596fde467052c69"
+  integrity sha512-ei7xJ+S2KVQM12aLCL6kLpkT2a+vbPZ5xjxo3Q0EyQmwWre+x9BN17O2aFK+koPxWglP1E7Nd5YXlCh6GBW8cA==
   dependencies:
     classnames "^2.2.6"
 
@@ -1525,19 +1673,11 @@
   dependencies:
     classnames "^2.2.6"
 
-"@clayui/table@3.29.0":
-  version "3.29.0"
-  resolved "https://registry.yarnpkg.com/@clayui/table/-/table-3.29.0.tgz#4b3b0ae2bacb0a96d77e7218fe1f1ba3ae18a8e7"
-  integrity sha512-5MtfgOVHTas6oxh8WURHIYeZceMqw/AOzjUlxkYlQO1h5xyvfUWgdQWsekX3o37HAZ9KPnnoaWfmr83BC+Ibpg==
+"@clayui/table@3.32.0":
+  version "3.32.0"
+  resolved "https://registry.yarnpkg.com/@clayui/table/-/table-3.32.0.tgz#617d5fc67c45207581b6157a57d9a09966ad01e0"
+  integrity sha512-Dfk0jKF2xM9WqsetGJUEnNK2mhcA4A3vBM3oU1nbIYIr9hQNxJKCs0rQv3d6TjLmkuxrNLI3VayJpYp4VTm25g==
   dependencies:
-    classnames "^2.2.6"
-
-"@clayui/tabs@3.29.0":
-  version "3.29.0"
-  resolved "https://registry.yarnpkg.com/@clayui/tabs/-/tabs-3.29.0.tgz#f0c55be7f8ebd742064400a7641d9866d0e6e5ec"
-  integrity sha512-2V4V16du8Y/R2PJQdTWdswR1cWP+GrLe2aK9Y9bDr25prRNFcAweDaPimFHVTY8sbqqEYiDoJHtanObLtPNztA==
-  dependencies:
-    "@clayui/shared" "^3.29.0"
     classnames "^2.2.6"
 
 "@clayui/tabs@3.3.5":
@@ -1546,6 +1686,14 @@
   integrity sha512-+lQuloC1X89QXjmroobTWgW+9IaQv0W7wvYZcdamWSYGA5IAC5YFXtZ2bukehiwq4CkdGkVgIYX60ap2eZZuzQ==
   dependencies:
     "@clayui/shared" "^3.5.1"
+    classnames "^2.2.6"
+
+"@clayui/tabs@3.36.0":
+  version "3.36.0"
+  resolved "https://registry.yarnpkg.com/@clayui/tabs/-/tabs-3.36.0.tgz#0917f0372ebcf242c5393e2afbf7bf5390ae6355"
+  integrity sha512-FMvATIPMjE1EQ7R1Z1W8yOT0jlbiW6q6Ir9uZPTQjFqwrTYLy1xMFLB1hr5FBFfqamM0CYPmAfU/IE6oNa7x6w==
+  dependencies:
+    "@clayui/shared" "^3.36.0"
     classnames "^2.2.6"
 
 "@clayui/time-picker@3.2.6":
@@ -1559,7 +1707,18 @@
     "@clayui/shared" "^3.5.1"
     classnames "^2.2.6"
 
-"@clayui/time-picker@3.29.0", "@clayui/time-picker@^3.2.6", "@clayui/time-picker@^3.29.0":
+"@clayui/time-picker@3.36.0", "@clayui/time-picker@^3.36.0":
+  version "3.36.0"
+  resolved "https://registry.yarnpkg.com/@clayui/time-picker/-/time-picker-3.36.0.tgz#99b5d861ea4ca490baa3273b5d75039f85fb0e63"
+  integrity sha512-yDygtqPOHhUXNkGyaRRUipcVZ0bQmY6+YRq4K5HW/3j3p3NfZRTW02vvYuRUe2W4cdrlWW0GhIJ+o2+PsnBngg==
+  dependencies:
+    "@clayui/button" "^3.32.0"
+    "@clayui/form" "^3.36.0"
+    "@clayui/icon" "^3.32.0"
+    "@clayui/shared" "^3.36.0"
+    classnames "^2.2.6"
+
+"@clayui/time-picker@^3.2.6":
   version "3.29.0"
   resolved "https://registry.yarnpkg.com/@clayui/time-picker/-/time-picker-3.29.0.tgz#ac554d324a7b0f4c9af57775c1b6ab547d6ce33f"
   integrity sha512-QcLIXaWJOuG6hOaeFpmMAOoCVJskOZ+YrAwflo1rUtW7sIrXmbS8gD3OioxIuvp3lYd/eO7qENkLkybjWJTj1Q==
@@ -1570,14 +1729,13 @@
     "@clayui/shared" "^3.29.0"
     classnames "^2.2.6"
 
-"@clayui/tooltip@3.29.0":
-  version "3.29.0"
-  resolved "https://registry.yarnpkg.com/@clayui/tooltip/-/tooltip-3.29.0.tgz#63fe19bc75cf0a6732f3b5739f9be76a7e5dc693"
-  integrity sha512-wOSdGjV69+7wsIVxrSN3EiBIIBHvbd+rehoarDQ25oWIDkRffYNw6/+nICiU0+e3Lxdg334H3RdX0meIm1Dr2Q==
+"@clayui/tooltip@3.36.0":
+  version "3.36.0"
+  resolved "https://registry.yarnpkg.com/@clayui/tooltip/-/tooltip-3.36.0.tgz#be88b8a2c29621c6cb69a1581f19dfd8149f7e54"
+  integrity sha512-ohKTycxSQO6jdLmwRXeLrphjdvEqy7pVR+mQrSOw+K10d2ULN/W3YWi2YGoLaBJqaM7ykZA5PEQOg2gchHwvMg==
   dependencies:
-    "@clayui/shared" "^3.29.0"
+    "@clayui/shared" "^3.36.0"
     classnames "^2.2.6"
-    dom-align "^1.10.2"
     warning "^4.0.3"
 
 "@clayui/tooltip@3.4.5":
@@ -1599,13 +1757,13 @@
     "@clayui/layout" "^3.3.0"
     classnames "^2.2.6"
 
-"@clayui/upper-toolbar@3.31.0":
-  version "3.31.0"
-  resolved "https://registry.yarnpkg.com/@clayui/upper-toolbar/-/upper-toolbar-3.31.0.tgz#3d1d6db035d4b311d248c134975d65affa3056c4"
-  integrity sha512-YhJKny36RZ+xF0KqbXP/IjxZI2dgGGNnb8xKD0fUS1Pje5S4XvAwEsIzoSzH+6+P5nMtmg75LfHdKoXOd9Q4gQ==
+"@clayui/upper-toolbar@3.36.0":
+  version "3.36.0"
+  resolved "https://registry.yarnpkg.com/@clayui/upper-toolbar/-/upper-toolbar-3.36.0.tgz#51c39e84ae76a54073a97d2e9f8f22f6adf2679a"
+  integrity sha512-Y1JsRwOedl1/aq5GAWhKwawRPoizm86TKQ3LejmEleS9y7uDHph7mz8fM40xTwF8B8wMIw1Se8Ro/H+AZOSzJA==
   dependencies:
-    "@clayui/form" "^3.29.0"
-    "@clayui/layout" "^3.31.0"
+    "@clayui/form" "^3.36.0"
+    "@clayui/layout" "^3.32.0"
     classnames "^2.2.6"
 
 "@liferay/amd-loader@4.3.1":
