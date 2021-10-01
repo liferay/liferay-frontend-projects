@@ -10,12 +10,6 @@ const {createHash} = require('crypto');
 const fs = require('fs');
 const path = require('path');
 
-const ACTUAL_BUILD_DIR = path.resolve(__dirname, '../qa/test-project/build');
-const EXPECTED_BUILD_DIR = path.resolve(
-	__dirname,
-	'../qa/test-project/build.expected'
-);
-const TEST_PROJECT_DIR = path.resolve(__dirname, '../qa/test-project');
 const WORKSPACE_DIR = path.resolve(__dirname, '..', '..');
 
 function diff(expectedDir, actualDir) {
@@ -74,11 +68,11 @@ function readExpected(file) {
 	return content;
 }
 
-function run(cmd, ...args) {
+function run(projectName, cmd, ...args) {
 	console.log('\n>>>', cmd, args.join(' '));
 
 	const result = spawnSync(cmd, args, {
-		cwd: TEST_PROJECT_DIR,
+		cwd: path.resolve(__dirname, `../qa/${projectName}`),
 		shell: true,
 		stdio: 'inherit',
 	});
@@ -88,17 +82,32 @@ function run(cmd, ...args) {
 	}
 }
 
-run('yarn');
+function runQAFor(projectName) {
+	run(projectName, 'yarn');
 
-run('yarn', 'clean');
+	run(projectName, 'yarn', 'clean');
 
-run('yarn', 'build');
+	run(projectName, 'yarn', 'build');
 
-console.log('\n>>> diff', EXPECTED_BUILD_DIR, ACTUAL_BUILD_DIR, '\n');
-if (diff(EXPECTED_BUILD_DIR, ACTUAL_BUILD_DIR)) {
-	console.log('\n🔴 BUILDS DIFFER :-(\n');
-	process.exit(1);
+	const actualBuildDir = path.resolve(
+		__dirname,
+		`../qa/${projectName}/build`
+	);
+	const expectedBuildDir = path.resolve(
+		__dirname,
+		`../qa/${projectName}/build.expected`
+	);
+
+	console.log('\n>>> diff', expectedBuildDir, actualBuildDir, '\n');
+	if (diff(expectedBuildDir, actualBuildDir)) {
+		console.log('\n🔴 BUILDS DIFFER :-(\n');
+		process.exit(1);
+	}
+	else {
+		console.log('\n✅ BUILDS ARE IDENTICAL \\o/\n');
+	}
 }
-else {
-	console.log('\n✅ BUILDS ARE IDENTICAL \\o/\n');
-}
+
+// Launch QA tests
+
+runQAFor('test-portal-7.4-ga1');
