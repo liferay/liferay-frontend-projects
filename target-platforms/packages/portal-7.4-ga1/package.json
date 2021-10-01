@@ -132,5 +132,5 @@
 	"description": "Target Platform for liferay-portal-7.4-ga1",
 	"main": "config.json",
 	"name": "@liferay/portal-7.4-ga1",
-	"version": "1.0.0"
+	"version": "1.0.0-pre.1"
 }
