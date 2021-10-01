@@ -137,6 +137,7 @@ def findUser(replicaUser) {
         "brunofernandezg": "bruno.fernandez"
         ,"bryceosterhaus": "bryce.osterhaus"
         ,"carloslancha": "carlos.lancha"
+        ,"tinycarol": "carolina.alonso"
         ,"diegonvs": "diego.nascimento"
         ,"dsanz": "daniel.sanz"
         ,"eduardoallegrini": "Eduardo.allegrini"
