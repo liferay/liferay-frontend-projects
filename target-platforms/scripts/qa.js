@@ -10,9 +10,9 @@ const {createHash} = require('crypto');
 const fs = require('fs');
 const path = require('path');
 
-const WORKSPACE_DIR = path.resolve(__dirname, '..', '..');
+const TOKENIZED_FILES = ['.css.map', '.json'];
 
-function diff(expectedDir, actualDir) {
+function diff(expectedDir, actualDir, tokens) {
 	let somethingChanged = false;
 
 	const expectedItems = fs.readdirSync(expectedDir);
@@ -31,14 +31,14 @@ function diff(expectedDir, actualDir) {
 
 		if (fs.statSync(expectedFile).isDirectory()) {
 			somethingChanged =
-				somethingChanged || diff(expectedFile, actualFile);
+				somethingChanged || diff(expectedFile, actualFile, tokens);
 		}
 		else if (!actualItems.includes(expectedItem)) {
 			somethingChanged = true;
 			console.log('-', path.join(actualDir, expectedItem));
 		}
 		else {
-			const expectedContent = readExpected(expectedFile);
+			const expectedContent = readExpected(expectedFile, tokens);
 			const actualContent = fs.readFileSync(actualFile);
 
 			const expectedHash = createHash('sha256')
@@ -52,18 +52,39 @@ function diff(expectedDir, actualDir) {
 				somethingChanged = true;
 				console.log('*', path.join(actualDir, expectedItem));
 			}
+
+			// console.log('<<<<<<<<<<<<<<<<<<');
+			// console.log(expectedContent);
+			// console.log('==================');
+			// console.log(actualContent.toString());
+			// console.log('>>>>>>>>>>>>>>>>>>');
+
 		}
 	}
 
 	return somethingChanged;
 }
 
-function readExpected(file) {
+function getTargetPlatformVersion(projectDir) {
+	const projectPackageJson = require(path.join(projectDir, 'package.json'));
+
+	// Should be the only dependency, so no need to look for it
+
+	return Object.values(projectPackageJson.dependencies)[0];
+}
+
+function readExpected(file, tokens) {
 	let content = fs.readFileSync(file).toString();
 
-	if (file.toLowerCase().endsWith('.css.map')) {
-		content = content.replace(/{{WORKSPACE_DIR}}/g, WORKSPACE_DIR);
+	const fileNameLowerCase = file.toLowerCase();
+
+	if (!TOKENIZED_FILES.find((suffix) => fileNameLowerCase.endsWith(suffix))) {
+		return content;
 	}
+
+	Object.entries(tokens).forEach(([key, value]) => {
+		content = content.replace(new RegExp(`{{${key}}}`, 'g'), value);
+	});
 
 	return content;
 }
@@ -89,17 +110,17 @@ function runQAFor(projectName) {
 
 	run(projectName, 'yarn', 'build');
 
-	const actualBuildDir = path.resolve(
-		__dirname,
-		`../qa/${projectName}/build`
-	);
-	const expectedBuildDir = path.resolve(
-		__dirname,
-		`../qa/${projectName}/build.expected`
-	);
+	const projectDir = path.resolve(__dirname, '..', 'qa', projectName);
+	const actualBuildDir = path.join(projectDir, 'build');
+	const expectedBuildDir = path.join(projectDir, 'build.expected');
+
+	const tokens = {
+		TARGET_PLATFORM_VERSION: getTargetPlatformVersion(projectDir),
+		WORKSPACE_DIR: path.resolve(__dirname, '..', '..'),
+	};
 
 	console.log('\n>>> diff', expectedBuildDir, actualBuildDir, '\n');
-	if (diff(expectedBuildDir, actualBuildDir)) {
+	if (diff(expectedBuildDir, actualBuildDir, tokens)) {
 		console.log('\n🔴 BUILDS DIFFER :-(\n');
 		process.exit(1);
 	}
