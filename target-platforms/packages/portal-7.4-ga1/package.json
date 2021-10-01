@@ -3,8 +3,6 @@
 		"liferay": "./liferay.js"
 	},
 	"dependencies": {
-		"@liferay/portal-base": "^1.0.0",
-		"liferay-npm-bundler": "*",
 		"@clayui/alert": "3.5.1",
 		"@clayui/autocomplete": "3.25.1",
 		"@clayui/badge": "3.2.0",
@@ -45,6 +43,7 @@
 		"@clayui/tooltip": "3.4.5",
 		"@clayui/upper-toolbar": "3.1.14",
 		"@liferay/amd-loader": "4.3.1",
+		"@liferay/portal-base": "^1.0.0",
 		"classnames": "2.2.6",
 		"clay": "2.18.1",
 		"clay-alert": "2.22.2",
@@ -81,6 +80,7 @@
 		"formik": "2.1.4",
 		"incremental-dom": "0.5.1",
 		"incremental-dom-string": "0.0.2",
+		"liferay-npm-bundler": "*",
 		"lodash.escape": "4.0.1",
 		"lodash.groupby": "4.6.0",
 		"lodash.isequal": "4.5.0",
@@ -143,5 +143,5 @@
 		"preversion": "yarn ci",
 		"test": "cd ../.. && yarn test"
 	},
-	"version": "1.0.0-pre.1"
+	"version": "1.0.0-pre.2"
 }
