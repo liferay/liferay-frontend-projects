@@ -29,7 +29,14 @@ module.exports = function writePlatform(platformName, packageJson, configJson) {
 		const sourcePath = path.join(assetsDir, file);
 		const targetPath = path.join(platformDir, file);
 
-		fs.writeFileSync(targetPath, fs.readFileSync(sourcePath));
+		fs.writeFileSync(
+			targetPath,
+			replaceTokens(fs.readFileSync(sourcePath).toString(), platformName)
+		);
 		fs.chmodSync(targetPath, fs.statSync(sourcePath).mode);
 	});
 };
+
+function replaceTokens(fileContent, platformName) {
+	return fileContent.replace(/{PLATFORM_NAME}/g, platformName);
+}

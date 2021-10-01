@@ -10,15 +10,9 @@ const {createHash} = require('crypto');
 const fs = require('fs');
 const path = require('path');
 
-const ACTUAL_BUILD_DIR = path.resolve(__dirname, '../qa/test-project/build');
-const EXPECTED_BUILD_DIR = path.resolve(
-	__dirname,
-	'../qa/test-project/build.expected'
-);
-const TEST_PROJECT_DIR = path.resolve(__dirname, '../qa/test-project');
-const WORKSPACE_DIR = path.resolve(__dirname, '..', '..');
+const TOKENIZED_FILES = ['.css.map', '.json'];
 
-function diff(expectedDir, actualDir) {
+function diff(expectedDir, actualDir, tokens) {
 	let somethingChanged = false;
 
 	const expectedItems = fs.readdirSync(expectedDir);
@@ -37,14 +31,14 @@ function diff(expectedDir, actualDir) {
 
 		if (fs.statSync(expectedFile).isDirectory()) {
 			somethingChanged =
-				somethingChanged || diff(expectedFile, actualFile);
+				somethingChanged || diff(expectedFile, actualFile, tokens);
 		}
 		else if (!actualItems.includes(expectedItem)) {
 			somethingChanged = true;
 			console.log('-', path.join(actualDir, expectedItem));
 		}
 		else {
-			const expectedContent = readExpected(expectedFile);
+			const expectedContent = readExpected(expectedFile, tokens);
 			const actualContent = fs.readFileSync(actualFile);
 
 			const expectedHash = createHash('sha256')
@@ -58,27 +52,49 @@ function diff(expectedDir, actualDir) {
 				somethingChanged = true;
 				console.log('*', path.join(actualDir, expectedItem));
 			}
+
+			// console.log('<<<<<<<<<<<<<<<<<<');
+			// console.log(expectedContent);
+			// console.log('==================');
+			// console.log(actualContent.toString());
+			// console.log('>>>>>>>>>>>>>>>>>>');
+
 		}
 	}
 
 	return somethingChanged;
 }
 
-function readExpected(file) {
+function getTargetPlatformVersion(projectDir) {
+	/* eslint-disable-next-line @liferay/no-dynamic-require */
+	const projectPackageJson = require(path.join(projectDir, 'package.json'));
+
+	// Should be the only dependency, so no need to look for it
+
+	return Object.values(projectPackageJson.dependencies)[0];
+}
+
+function readExpected(file, tokens) {
 	let content = fs.readFileSync(file).toString();
 
-	if (file.toLowerCase().endsWith('.css.map')) {
-		content = content.replace(/{{WORKSPACE_DIR}}/g, WORKSPACE_DIR);
+	const fileNameLowerCase = file.toLowerCase();
+
+	if (!TOKENIZED_FILES.find((suffix) => fileNameLowerCase.endsWith(suffix))) {
+		return content;
 	}
+
+	Object.entries(tokens).forEach(([key, value]) => {
+		content = content.replace(new RegExp(`{{${key}}}`, 'g'), value);
+	});
 
 	return content;
 }
 
-function run(cmd, ...args) {
+function run(projectName, cmd, ...args) {
 	console.log('\n>>>', cmd, args.join(' '));
 
 	const result = spawnSync(cmd, args, {
-		cwd: TEST_PROJECT_DIR,
+		cwd: path.resolve(__dirname, `../qa/${projectName}`),
 		shell: true,
 		stdio: 'inherit',
 	});
@@ -88,17 +104,32 @@ function run(cmd, ...args) {
 	}
 }
 
-run('yarn');
+function runQAFor(projectName) {
+	run(projectName, 'yarn');
 
-run('yarn', 'clean');
+	run(projectName, 'yarn', 'clean');
 
-run('yarn', 'build');
+	run(projectName, 'yarn', 'build');
 
-console.log('\n>>> diff', EXPECTED_BUILD_DIR, ACTUAL_BUILD_DIR, '\n');
-if (diff(EXPECTED_BUILD_DIR, ACTUAL_BUILD_DIR)) {
-	console.log('\n🔴 BUILDS DIFFER :-(\n');
-	process.exit(1);
+	const projectDir = path.resolve(__dirname, '..', 'qa', projectName);
+	const actualBuildDir = path.join(projectDir, 'build');
+	const expectedBuildDir = path.join(projectDir, 'build.expected');
+
+	const tokens = {
+		TARGET_PLATFORM_VERSION: getTargetPlatformVersion(projectDir),
+		WORKSPACE_DIR: path.resolve(__dirname, '..', '..'),
+	};
+
+	console.log('\n>>> diff', expectedBuildDir, actualBuildDir, '\n');
+	if (diff(expectedBuildDir, actualBuildDir, tokens)) {
+		console.log('\n🔴 BUILDS DIFFER :-(\n');
+		process.exit(1);
+	}
+	else {
+		console.log('\n✅ BUILDS ARE IDENTICAL \\o/\n');
+	}
 }
-else {
-	console.log('\n✅ BUILDS ARE IDENTICAL \\o/\n');
-}
+
+// Launch QA tests
+
+runQAFor('test-portal-7.4-ga1');

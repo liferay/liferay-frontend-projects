@@ -15,6 +15,17 @@ module.exports = function getBasePackageJson(platformName) {
 		description: 'Target Platform for liferay-' + platformName,
 		main: 'config.json',
 		name: '@liferay/' + platformName,
+		scripts: {
+			build: 'true',
+			ci: 'cd ../.. && yarn ci',
+			format: 'cd ../.. && yarn format',
+			'format:check': 'cd ../.. && yarn format:check',
+			lint: 'cd ../.. && yarn lint',
+			'lint:fix': 'cd ../.. && yarn lint:fix',
+			postversion: 'npx liferay-js-publish',
+			preversion: 'yarn ci',
+			test: 'cd ../.. && yarn test',
+		},
 		version: '1.0.0',
 	};
 };
