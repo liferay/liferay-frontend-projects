@@ -66,6 +66,7 @@ function diff(expectedDir, actualDir, tokens) {
 }
 
 function getTargetPlatformVersion(projectDir) {
+	/* eslint-disable-next-line @liferay/no-dynamic-require */
 	const projectPackageJson = require(path.join(projectDir, 'package.json'));
 
 	// Should be the only dependency, so no need to look for it
