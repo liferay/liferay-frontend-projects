@@ -11,7 +11,7 @@
 const path = require('path');
 
 module.exports = {
-	ignorePatterns: ['qa/test-project/**/*'],
+	ignorePatterns: ['qa/**/*'],
 	rules: {
 		'notice/notice': [
 			'error',
