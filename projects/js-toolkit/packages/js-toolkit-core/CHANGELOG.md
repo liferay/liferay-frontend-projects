@@ -1,3 +1,11 @@
+## [js-toolkit-core/v4.0.1](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v4.0.1) (2021-10-05)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v4.0.0...js-toolkit-core/v4.0.1)
+
+### :wrench: Bug fixes
+
+-   fix(js-toolkit-core): add missing dependency ([\#670](https://github.com/liferay/liferay-frontend-projects/pull/670))
+
 ## [js-toolkit-core/v4.0.0](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v4.0.0) (2021-09-30)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v3.0.1...js-toolkit-core/v4.0.0)
