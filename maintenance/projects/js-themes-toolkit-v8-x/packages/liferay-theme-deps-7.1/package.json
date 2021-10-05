@@ -3,10 +3,10 @@
 	"dependencies": {
 		"compass-mixins": "0.12.10",
 		"gulp-sass": "3.2.1",
-		"liferay-frontend-common-css": "1.0.4",
-		"liferay-frontend-theme-classic-web": "2.0.2",
-		"liferay-frontend-theme-styled": "3.0.13",
-		"liferay-frontend-theme-unstyled": "3.0.13"
+		"liferay-frontend-common-css": "~1.0.4",
+		"liferay-frontend-theme-classic-web": "~2.0.2",
+		"liferay-frontend-theme-styled": "~3.0.27",
+		"liferay-frontend-theme-unstyled": "~3.0.40"
 	},
 	"description": "Set of dependencies required by liferay-theme-tasks",
 	"license": "MIT",
