@@ -59,16 +59,11 @@ function abortWithErrors(stats: webpack.Stats): void {
 }
 
 function runWebpack(options: webpack.Configuration): Promise<webpack.Stats> {
-	return new Promise((resolve, reject) => {
+	return new Promise((resolve) => {
 		const compiler = webpack(options);
 
 		compiler.hooks.done.tap('npm-bundler', (stats) => {
-			if (stats.hasErrors()) {
-				reject(new Error('Webpack execution failed'));
-			}
-			else {
-				resolve(stats);
-			}
+			resolve(stats);
 		});
 
 		compiler.run(undefined);
