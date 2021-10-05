@@ -1,42 +1,22 @@
 {
 	"name": "react-portlet",
-	"version": "0.1.0",
+	"version": "1.0.0",
 	"private": true,
 	"dependencies": {
-		"@testing-library/jest-dom": "^4.2.4",
-		"@testing-library/react": "^9.3.2",
-		"@testing-library/user-event": "^7.1.2",
 		"react": "^16.13.1",
-		"react-dom": "^16.13.1",
-		"react-scripts": "3.4.1"
+		"react-dom": "^16.13.1"
 	},
+	"main": "./src/index.js",
 	"scripts": {
-		"start": "react-scripts start",
-		"build": "react-scripts build",
-		"test": "react-scripts test",
-		"eject": "react-scripts eject",
-		"build:liferay": "SKIP_PREFLIGHT_CHECK=true liferay-npm-bundler",
-		"deploy:liferay": "yarn run build:liferay && lnbs-deploy"
-	},
-	"eslintConfig": {
-		"extends": "react-app"
-	},
-	"browserslist": {
-		"production": [
-			">0.2%",
-			"not dead",
-			"not op_mini all"
-		],
-		"development": [
-			"last 1 chrome version",
-			"last 1 firefox version",
-			"last 1 safari version"
-		]
+		"build": "liferay-npm-bundler"
 	},
 	"devDependencies": {
+		"@babel/preset-env": "^7.11.5",
+		"@babel/preset-react": "^7.10.4",
 		"@liferay/npm-bundler": "^3.0.0",
-		"liferay-npm-build-support": "^3.0.0",
-		"liferay-npm-bundler-preset-create-react-app": "^3.0.0"
+		"babel-loader": "^8.1.0",
+		"css-loader": "^3.6.0",
+		"svg-inline-loader": "^0.8.2"
 	},
 	"portlet": {
 		"com.liferay.portlet.display-category": "JS Toolkit",
