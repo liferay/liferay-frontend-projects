@@ -1,5 +1,5 @@
 {
-	"name": "react-app",
+	"name": "react-portlet",
 	"version": "0.1.0",
 	"private": true,
 	"dependencies": {
@@ -39,8 +39,8 @@
 		"liferay-npm-bundler-preset-create-react-app": "^3.0.0"
 	},
 	"portlet": {
-		"com.liferay.portlet.display-category": "QA",
-		"javax.portlet.name": "reactapp",
+		"com.liferay.portlet.display-category": "JS Toolkit",
+		"javax.portlet.name": "reactportlet",
 		"javax.portlet.security-role-ref": "power-user,user",
 		"javax.portlet.resource-bundle": "content.Language",
 		"com.liferay.portlet.instanceable": true
