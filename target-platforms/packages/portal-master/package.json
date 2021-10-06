@@ -167,7 +167,6 @@
 		"lint": "cd ../.. && yarn lint",
 		"lint:fix": "cd ../.. && yarn lint:fix",
 		"postversion": "npx liferay-js-publish",
-		"prepublishOnly": "echo 'ERROR: THIS PACKAGE IS NOT INTENDED FOR NPM PUBLICATION !!!'; echo ''; exit 1",
 		"preversion": "yarn ci",
 		"test": "cd ../.. && yarn test"
 	},
