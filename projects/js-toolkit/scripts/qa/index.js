@@ -3,72 +3,37 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-const path = require('path');
+const fs = require('fs');
 
-const generateSamples = require('./generate-samples');
-const {
-	lernaPath,
-	linkJsToolkitPath,
-	linkJsToolkitProjectDir,
-	qaDir,
-	samplesDir,
-} = require('./resources');
-const {logStep, safeUnlink, spawn} = require('./util');
+const {qaDir} = require('./resources');
+const {deploy, generate, logStep, spawn} = require('./util');
 
 const argv = getTargets();
 
-if (argv['reset']) {
-	logStep('Cleaning QA directories');
+if (argv['clean']) {
+	logStep('Cleaning qa directory');
+
 	spawn('git', ['checkout', '.'], {
 		cwd: qaDir,
 	});
+
 	spawn('git', ['clean', '-dxf'], {
 		cwd: qaDir,
 	});
 }
 
 if (argv['generate']) {
-	logStep('Generating sample projects');
-	generateSamples();
-}
+	logStep('Generating test projects');
 
-if (argv['install']) {
-	logStep('Installing dependencies and linking local JS Toolkit');
-
-	safeUnlink(path.join(samplesDir, 'yarn.lock'));
-
-	spawn('npm', ['install'], {
-		cwd: linkJsToolkitProjectDir,
-	});
-
-	spawn('node', [linkJsToolkitPath, '-w'], {
-		cwd: samplesDir,
-	});
+	generate('plain-js-portlet', 'Plain JavaScript');
+	generate('react-portlet', 'React');
 }
 
 if (argv['deploy']) {
+	logStep('Deploying test projects');
 
-	// Deploy liferay portlets
-
-	logStep('Deploying Liferay project samples');
-	spawn('node', [lernaPath, 'run', 'deploy'], {
-		cwd: samplesDir,
-	});
-
-	// Deploy adapted projects
-
-	logStep('Deploying adapted project samples');
-	spawn('node', [lernaPath, 'run', 'deploy:liferay'], {
-		cwd: samplesDir,
-		env: {
-			...process.env,
-
-			// This is necessary to avoid create-react-app failures because it
-			// detects duplicated dependencies in the node_modules folder of the
-			// toolkit project (which is up in FS of the `samples` folder)
-
-			SKIP_PREFLIGHT_CHECK: 'true',
-		},
+	fs.readdirSync(qaDir).forEach((projectDirName) => {
+		deploy(projectDirName);
 	});
 }
 
@@ -76,7 +41,7 @@ function getTargets() {
 	let argv = process.argv.slice(2);
 
 	if (argv.length === 0) {
-		argv = ['reset', 'generate', 'install', 'deploy'];
+		argv = ['clean', 'generate', 'deploy'];
 	}
 
 	argv = argv.reduce((hash, val) => {
