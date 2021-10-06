@@ -16,6 +16,7 @@ import facetPlainJs from '../facet-plain-js';
 import facetPortlet from '../facet-portlet';
 import facetProject from '../facet-project';
 import facetReact from '../facet-react';
+import facetSampleStyles from '../facet-sample-styles';
 import prompt from '../util/prompt';
 
 import type {Options, Target} from '..';
@@ -63,6 +64,7 @@ const target: Target = {
 
 		if (frameworkFacet) {
 			options = await frameworkFacet.prompt(useDefaults, options);
+			options = await facetSampleStyles.prompt(true, options);
 			options = await facetBuildable.prompt(true, options);
 		}
 
@@ -81,6 +83,7 @@ const target: Target = {
 
 		if (frameworkFacet) {
 			await frameworkFacet.render(options);
+			await facetSampleStyles.render(options);
 			await facetBuildable.render(options);
 		}
 

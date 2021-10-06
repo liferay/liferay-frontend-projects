@@ -46,36 +46,6 @@ const facet: Facet = {
 
 		await renderer.render('src/index.js', options);
 
-		// Add CSS styles
-
-		const stylesFile: FilePath = options.outputPath.join(
-			'src/css/styles.scss'
-		);
-
-		if (fs.existsSync(stylesFile.asNative)) {
-			print(info`  Adding CSS styles`);
-
-			await transformTextFile(
-				stylesFile,
-				stylesFile,
-				appendLines(
-					'.pre {',
-					'	font-family: monospace;',
-					'	white-space: pre;',
-					'}',
-					'',
-					'.tag {',
-					'	font-weight: bold;',
-					'	margin-right: 1em;',
-					'}',
-					'',
-					'.value {',
-					'	font-family: monospace;',
-					'}'
-				)
-			);
-		}
-
 		// Add configuration fields
 
 		const configurationFile: FilePath = options.outputPath.join(
