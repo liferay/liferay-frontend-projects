@@ -177,6 +177,13 @@ function checkRemote(link, files) {
 				if (statusCode >= 200 && statusCode < 400) {
 					resolve();
 				}
+				else if (statusCode === 403) {
+					warn(
+						files,
+						`Cannot verify ${link} due to forbidden client (HTTP 403)`
+					);
+					resolve();
+				}
 				else if (statusCode === 429) {
 					warn(
 						files,
