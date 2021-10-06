@@ -65,5 +65,5 @@ We currently use [Travis CI](https://travis-ci.org/liferay) to automatically run
 
 These other tools may prove useful inside of (or when running) package.json scripts:
 
--   [liferay-changelog-generator](https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-changelog-generator): updates changelog files based on information in merge commits (see [our documentation on commit messages](./commit_messages.md) for tips on how to write commit and PR messages that lead to high-quality changelogs).
--   [liferay-js-publish](https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-js-publish): streamlines the publishing process for projects which adhere to some simple conventions, making it possible to publish with a `yarn version` invocation.
+-   [liferay-changelog-generator](https://github.com/liferay/liferay-frontend-projects/tree/master/projects/npm-tools/packages/changelog-generator): updates changelog files based on information in merge commits (see [our documentation on commit messages](./commit_messages.md) for tips on how to write commit and PR messages that lead to high-quality changelogs).
+-   [liferay-js-publish](https://github.com/liferay/liferay-frontend-projects/tree/master/projects/npm-tools/packages/js-publish): streamlines the publishing process for projects which adhere to some simple conventions, making it possible to publish with a `yarn version` invocation.

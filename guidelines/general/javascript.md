@@ -5,7 +5,7 @@
 We have three major language environments in use across our projects:
 
 -   In projects such as [Clay](https://github.com/liferay/clay) (and, at the time of writing, [the liferay-js-toolkit "develop" branch](https://github.com/liferay/liferay-js-toolkit/tree/develop)) we are starting to use [TypeScript](./typescript.md).
--   In projects such as [liferay-js-themes-toolkit](https://github.com/liferay/liferay-js-themes-toolkit) and [liferay-npm-tools](https://github.com/liferay/liferay-npm-tools) we use vanilla (untranspiled) JavaScript. These are command-line tools and, for consistency, we assume the availability of language features that are available in the version of [NodeJS](https://nodejs.org/en/) that is used by [liferay-portal](https://github.com/liferay/liferay-portal) (currently, v10.15.1).
+-   In projects such as [js-themes-toolkit](https://github.com/liferay/liferay-frontend-projects/tree/master/projects/js-themes-toolkit) and [npm-tools](https://github.com/liferay/liferay-frontend-projects/tree/master/projects/npm-tools) we use vanilla (untranspiled) JavaScript. These are command-line tools and, for consistency, we assume the availability of language features that are available in the version of [NodeJS](https://nodejs.org/en/) that is used by [liferay-portal](https://github.com/liferay/liferay-portal) (currently, v10.15.1).
 -   In most other projects, including [liferay-portal](https://github.com/liferay/liferay-portal) itself, we use [Babel](https://babeljs.io); see the following section for a description of which transforms we use.
 
 ## Babel features

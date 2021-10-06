@@ -58,7 +58,7 @@ Please, read the [Liferay DXP Formatting Guidelines](../dxp/formatting.md) for s
 
 Install the [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) extension and use the usage option that better suits you.
 
-When working inside [liferay-portal](https://github.com/liferay/liferay-portal), there is some [custom integration](https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-npm-scripts#editor-integrations) that you may wish to apply in order to have it automatically apply some minor overrides to Prettier's standard styling that are required by Liferay.
+When working inside [liferay-portal](https://github.com/liferay/liferay-portal), there is some [custom integration](https://github.com/liferay/liferay-frontend-projects/tree/master/projects/npm-tools/packages/npm-scripts#editor-integrations) that you may wish to apply in order to have it automatically apply some minor overrides to Prettier's standard styling that are required by Liferay.
 
 ### IntelliJ IDEA
 
