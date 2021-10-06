@@ -289,11 +289,11 @@ export default async function () {
 	});
 
 	watcher.on('change', async (path) => {
-		log(chalk.blue(`\nDetected file change: ${path}`));
+		log(chalk.yellow(`\nDetected file change:\n    ${path}`));
 
 		const moduleWD = dirname((await pkgUp({cwd: dirname(path)})) as string);
 
-		log(chalk.blue(`Triggering yarn build from ${moduleWD}`));
+		log(chalk.yellow(`\nTriggering yarn build:\n    ${moduleWD}`));
 
 		LIVE_SESSIONS.forEach((response) => {
 			response.write(`id: ${Date.now()}\ndata: changes\n\n`);
