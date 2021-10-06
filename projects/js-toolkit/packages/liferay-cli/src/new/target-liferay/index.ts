@@ -12,6 +12,7 @@ import {
 import facetBuildable from '../facet-buildable';
 import facetConfiguration from '../facet-configuration';
 import facetLocalization from '../facet-localization';
+import facetPlainJs from '../facet-plain-js';
 import facetPortlet from '../facet-portlet';
 import facetProject from '../facet-project';
 import facetReact from '../facet-react';
@@ -25,6 +26,7 @@ const {
 const {info, print} = format;
 
 const frameworkFacets = {
+	'Plain JavaScript': facetPlainJs,
 	React: facetReact,
 };
 
@@ -44,7 +46,7 @@ const target: Target = {
 				type: 'list',
 			},
 			{
-				choices: ['React'],
+				choices: ['React', 'Plain JavaScript'],
 				default: 'React',
 				defaultDescription: 'Using framework: {React}',
 				message: 'Which will be your application framework?',
