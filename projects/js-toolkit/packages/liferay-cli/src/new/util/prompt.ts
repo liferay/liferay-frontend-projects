@@ -20,7 +20,9 @@ export default async function prompt(
 ): Promise<Options> {
 	if (useDefaults) {
 		return (prompts as ReduceablePrompt[]).reduce((options, prompt) => {
-			options[prompt.name] = prompt.default;
+			if (options[prompt.name] === undefined) {
+				options[prompt.name] = prompt.default;
+			}
 
 			return options;
 		}, options);
