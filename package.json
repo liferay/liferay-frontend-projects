@@ -62,6 +62,7 @@
 		"guidelines",
 		"projects/*",
 		"projects/*/packages/*",
+		"projects/*/qa/*",
 		"support/packages/*"
 	]
 }

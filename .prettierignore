@@ -19,6 +19,7 @@
 
 /projects/js-toolkit/**/generators
 /projects/js-toolkit/**/lib
+/projects/js-toolkit/qa/**
 
 /projects/npm-tools/packages/npm-scripts/__fixtures__/typescript/**/tsconfig.json
 

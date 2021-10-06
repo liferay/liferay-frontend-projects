@@ -47,7 +47,6 @@ export default class Probe {
 
 		if (
 			this._hasDependency('@liferay/npm-bundler') ||
-			this._hasDependency('@liferay/js-toolkit-scripts') ||
 			this._hasScriptCalling('js-toolkit') ||
 			this._hasScriptCalling('liferay-npm-bundler')
 		) {

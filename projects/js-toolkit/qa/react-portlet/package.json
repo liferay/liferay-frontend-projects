@@ -1,0 +1,28 @@
+{
+	"name": "react-portlet",
+	"version": "1.0.0",
+	"private": true,
+	"dependencies": {
+		"react": "^16.13.1",
+		"react-dom": "^16.13.1"
+	},
+	"main": "./src/index.js",
+	"scripts": {
+		"build": "liferay-npm-bundler"
+	},
+	"devDependencies": {
+		"@babel/preset-env": "^7.11.5",
+		"@babel/preset-react": "^7.10.4",
+		"@liferay/npm-bundler": "^3.0.0",
+		"babel-loader": "^8.1.0",
+		"css-loader": "^3.6.0",
+		"svg-inline-loader": "^0.8.2"
+	},
+	"portlet": {
+		"com.liferay.portlet.display-category": "JS Toolkit",
+		"javax.portlet.name": "reactportlet",
+		"javax.portlet.security-role-ref": "power-user,user",
+		"javax.portlet.resource-bundle": "content.Language",
+		"com.liferay.portlet.instanceable": true
+	}
+}
