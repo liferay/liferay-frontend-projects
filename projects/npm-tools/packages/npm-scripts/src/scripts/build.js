@@ -48,6 +48,19 @@ const CWD = process.cwd();
 	webpack,
 }));
 
+function pickItem(array, item) {
+	const index = array.indexOf(item);
+
+	if (index > -1) {
+		array.splice(index, 1);
+
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
 /**
  * Main script that runs all all specified build tasks synchronously.
  *
@@ -58,6 +71,9 @@ const CWD = process.cwd();
  * `minify()` is run unless `NODE_ENV` is `development`.
  */
 module.exports = async function (...args) {
+	const cssOnly = pickItem(args, '--css-only');
+	const jsOnly = pickItem(args, '--js-only');
+
 	const config = getMergedConfig('npmscripts');
 
 	createTempFile('npmscripts.config.json', JSON.stringify(config, null, 2), {
@@ -80,56 +96,60 @@ module.exports = async function (...args) {
 
 	const inputPathExists = fs.existsSync(BUILD_CONFIG.input);
 
-	const useSoy = soyExists();
+	if (!cssOnly) {
+		const useSoy = soyExists();
 
-	if (useSoy) {
-		buildSoy();
-	}
-
-	if (inputPathExists) {
-		const isTypeScript = fs.existsSync('tsconfig.json');
-
-		if (isTypeScript) {
-			await runTSC();
+		if (useSoy) {
+			buildSoy();
 		}
 
-		runBabel(
-			BUILD_CONFIG.input,
-			'--out-dir',
-			BUILD_CONFIG.output,
-			'--source-maps',
-			'--extensions',
-			'.cjs,.es,.es6,.js,.jsx,.mjs,.ts,.tsx'
-		);
+		if (inputPathExists) {
+			const isTypeScript = fs.existsSync('tsconfig.json');
+
+			if (isTypeScript) {
+				await runTSC();
+			}
+
+			runBabel(
+				BUILD_CONFIG.input,
+				'--out-dir',
+				BUILD_CONFIG.output,
+				'--source-maps',
+				'--extensions',
+				'.cjs,.es,.es6,.js,.jsx,.mjs,.ts,.tsx'
+			);
+		}
+
+		if (fs.existsSync('webpack.config.js')) {
+			webpack(...args);
+		}
+
+		if (BUILD_CONFIG.bundler) {
+			runBundler();
+		}
+
+		translateSoy(BUILD_CONFIG.output);
+
+		if (fs.existsSync(path.join(CWD, '.npmbridgerc'))) {
+			runBridge();
+		}
+
+		if (useSoy) {
+			cleanSoy();
+		}
+
+		if (process.env.NODE_ENV !== 'development') {
+			await minify();
+		}
 	}
 
-	if (fs.existsSync('webpack.config.js')) {
-		webpack(...args);
-	}
-
-	if (BUILD_CONFIG.bundler) {
-		runBundler();
-	}
-
-	translateSoy(BUILD_CONFIG.output);
-
-	if (fs.existsSync(path.join(CWD, '.npmbridgerc'))) {
-		runBridge();
-	}
-
-	if (useSoy) {
-		cleanSoy();
-	}
-
-	if (inputPathExists) {
-		buildSass(path.join(CWD, BUILD_CONFIG.input), {
-			imports: BUILD_CONFIG.sassIncludePaths,
-			outputDir: BUILD_CONFIG.output,
-			rtl: true,
-		});
-	}
-
-	if (process.env.NODE_ENV !== 'development') {
-		await minify();
+	if (!jsOnly) {
+		if (inputPathExists) {
+			buildSass(path.join(CWD, BUILD_CONFIG.input), {
+				imports: BUILD_CONFIG.sassIncludePaths,
+				outputDir: BUILD_CONFIG.output,
+				rtl: true,
+			});
+		}
 	}
 };
