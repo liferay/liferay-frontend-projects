@@ -14,7 +14,7 @@ import http from 'http';
 import httpProxy from 'http-proxy';
 import open from 'open';
 import {tmpdir} from 'os';
-import {dirname, resolve} from 'path';
+import {basename, dirname, join, resolve} from 'path';
 import pkgUp from 'pkg-up';
 
 import setupReload from './reload';
@@ -38,6 +38,30 @@ function isHTMLResponse(response: http.IncomingMessage) {
 		response.headers &&
 		response.headers['content-type']?.includes('text/html')
 	);
+}
+
+function findPortalRoot(directory: string) {
+	while (directory) {
+		if (existsSync(join(directory, 'yarn.lock'))) {
+			const base = basename(directory);
+
+			if (base === 'modules') {
+				return join(directory, '..');
+			}
+		}
+
+		if (dirname(directory) === directory) {
+
+			// Can't go any higher.
+
+			directory = '';
+		}
+		else {
+			directory = dirname(directory);
+		}
+	}
+
+	return ''
 }
 
 async function getModulePaths(
@@ -95,7 +119,7 @@ export default async function () {
 	const program = new Command();
 
 	program
-		.argument('<path>', 'Path to liferay-portal')
+		.argument('[path]', 'Path to liferay-portal', process.cwd())
 		.option('-p, --port <number>', 'Proxy Port', '3000')
 		.option('-r, --regenerate', 'Regenerate module path cache', false)
 		.option(
@@ -105,7 +129,7 @@ export default async function () {
 		)
 		.option('-v, --verbose', 'Output verbose', false)
 		.action((path) => {
-			WD = resolve(path);
+			WD = findPortalRoot(path);
 		});
 
 	const {port, regenerate, url, verbose} = program.parse(process.argv).opts();
