@@ -14,7 +14,7 @@ import http from 'http';
 import httpProxy from 'http-proxy';
 import open from 'open';
 import {tmpdir} from 'os';
-import {basename, dirname, join, resolve} from 'path';
+import {basename, dirname, extname, join, resolve} from 'path';
 import pkgUp from 'pkg-up';
 
 import setupReload from './reload';
@@ -61,7 +61,7 @@ function findPortalRoot(directory: string) {
 		}
 	}
 
-	return ''
+	return '';
 }
 
 async function getModulePaths(
@@ -325,13 +325,19 @@ export default async function () {
 
 		const logger = (data: unknown) => log(chalk.grey(`\t ${data}`));
 
-		const yarnBuild = spawn('yarn', ['build'], {
-			cwd: moduleWD,
-			env: {
-				...process.env,
-				NODE_ENV: 'development',
-			},
-		});
+		const cssOnly = extname(path).match(/\.s?css$/);
+
+		const yarnBuild = spawn(
+			'yarn',
+			['build', cssOnly ? '--css-only' : '--js-only'],
+			{
+				cwd: moduleWD,
+				env: {
+					...process.env,
+					NODE_ENV: 'development',
+				},
+			}
+		);
 
 		yarnBuild.stdout.on('data', logger);
 		yarnBuild.stderr.on('data', logger);
