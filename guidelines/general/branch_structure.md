@@ -33,7 +33,7 @@ Pull requests target master and are merged in after review. When we cut a releas
 
 Ideally, "master" is always in a releasable state, but if it isn't, we can apply "hotfixes" by sending a PR that targets the "stable" branch, and then cut a release from there. The same fix is also incorporated in the "master" branch via cherry-picking or merging. This is in some sense a hypothetical scenario: if we keep "master" in shape, you may never see this happen in practice.
 
-The [liferay-js-publish](https://github.com/liferay/liferay-npm-tools/tree/master/packages/liferay-js-publish) package can be used to perform publishes in repositories with the "master" + "stable" structure simply by running a `yarn version` command.
+The [liferay-js-publish](https://github.com/liferay/liferay-frontend-projects/tree/master/projects/npm-tools/packages/js-publish) package can be used to perform publishes in repositories with the "master" + "stable" structure simply by running a `yarn version` command.
 
 ### Examples
 

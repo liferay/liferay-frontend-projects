@@ -50,7 +50,7 @@ gradlew deploy # do the initial deploy
 gradlew deployFast -at # start the deployFast task
 ```
 
-If you make changes to other (non-JS/JSP/CSS) files, you'll need to CTRL-C the `deployFast` task and `deploy`/`deployFast -at` again, as described in [the announcement post in Loop](https://loop.liferay.com/home/-/loop/feed/19825955).
+If you make changes to other (non-JS/JSP/CSS) files, you'll need to CTRL-C the `deployFast` task and `deploy`/`deployFast -at` again.
 
 ### Enabling telnet access to the Gogo shell
 
