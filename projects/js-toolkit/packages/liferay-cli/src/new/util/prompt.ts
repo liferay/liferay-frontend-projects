@@ -4,11 +4,15 @@
  */
 
 import inquirer from 'inquirer';
+import {format} from '@liferay/js-toolkit-core';
+
+const {info, print} = format;
 
 import type {OptionValue, Options} from '../index';
 
 interface ReduceablePrompt {
 	default: OptionValue;
+	defaultDescription?: string;
 	message: string;
 	name: string;
 }
@@ -22,6 +26,10 @@ export default async function prompt(
 		return (prompts as ReduceablePrompt[]).reduce((options, prompt) => {
 			if (options[prompt.name] === undefined) {
 				options[prompt.name] = prompt.default;
+
+				if (prompt.defaultDescription) {
+					print(info`${prompt.defaultDescription}`);
+				}
 			}
 
 			return options;
