@@ -40,7 +40,7 @@ const target: Target = {
 
 		options = await prompt(useDefaults, options, [
 			{
-				choices: ['portal-7.4-ga1'],
+				choices: ['portal-7.4-ga1', 'portal-agnostic'],
 				default: 'portal-7.4-ga1',
 				defaultDescription: 'Using target platform: {portal-7.4-ga1}',
 				message: 'Which will be your target platform?',
