@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import server from '../lib/server';
+const {default: server} = require('../lib/server');
 
 async function main() {
 	await server();
