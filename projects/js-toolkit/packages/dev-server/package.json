@@ -1,12 +1,8 @@
 {
+	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"bin": {
 		"liferay-dev-server": "./bin/liferay-dev-server.js"
 	},
-	"license": "LGPL-3.0",
-	"name": "@liferay/dev-server",
-	"main": "lib/index.js",
-	"type": "module",
-	"version": "1.0.0",
 	"dependencies": {
 		"chalk": "^4.1.2",
 		"chokidar": "^3.5.2",
@@ -16,6 +12,14 @@
 		"open": "^8.2.1",
 		"pkg-up": "^3.1.0"
 	},
+	"license": "LGPL-3.0",
+	"main": "lib/index.js",
+	"name": "@liferay/dev-server",
+	"repository": {
+		"directory": "projects/js-toolkit/packages/dev-server",
+		"type": "git",
+		"url": "https://github.com/liferay/liferay-frontend-projects.git"
+	},
 	"scripts": {
 		"build": "tsc",
 		"ci": "liferay-workspace-scripts ci",
@@ -24,8 +28,10 @@
 		"lint": "liferay-workspace-scripts lint",
 		"lint:fix": "liferay-workspace-scripts lint:fix",
 		"postversion": "liferay-workspace-scripts publish",
+		"prepublishOnly": "yarn build",
 		"preversion": "liferay-workspace-scripts ci",
 		"test": "liferay-workspace-scripts test",
 		"watch": "tsc -w"
-	}
+	},
+	"version": "1.0.0"
 }
