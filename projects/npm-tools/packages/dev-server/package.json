@@ -25,6 +25,7 @@
 		"lint:fix": "liferay-workspace-scripts lint:fix",
 		"postversion": "liferay-workspace-scripts publish",
 		"preversion": "liferay-workspace-scripts ci",
-		"test": "liferay-workspace-scripts test"
+		"test": "liferay-workspace-scripts test",
+		"watch": "tsc -w"
 	}
 }
