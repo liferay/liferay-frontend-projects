@@ -84,10 +84,21 @@ module.exports = function () {
 						);
 					},
 				},
+				{
+					default: false,
+					message:
+						'Bootstrap 3 to 4 compatibility layer is for DXP 7.4 GA1 and we cannot garauntee it working with future releases of Liferay DXP. Confirm?',
+					name: 'bootstrapCompatConfirm',
+					type: 'confirm',
+					when: (answers) => {
+						return answers.bootstrapCompat;
+					},
+				},
 			],
 			(answers) => {
 				if (
 					answers.bootstrapCompat &&
+					answers.bootstrapCompatConfirm &&
 					themeConfig.baseTheme === 'styled'
 				) {
 					addBootstrapCompat = true;
