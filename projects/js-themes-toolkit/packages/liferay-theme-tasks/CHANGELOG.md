@@ -1,3 +1,11 @@
+## [liferay-theme-tasks/v10.5.3](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v10.5.3) (2021-10-07)
+
+## :wrench: Bug Fixes
+
+-   chore(theme-tasks): Add confirmation warning when adding compat layer when upgrading theme ([\#678](https://github.com/liferay/liferay-frontend-projects/pull/678))
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v10.5.2...liferay-theme-tasks/v10.5.3)
+
 ## [liferay-theme-tasks/v10.5.2](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v10.5.2) (2021-09-30)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v10.5.1...liferay-theme-tasks/v10.5.2)
