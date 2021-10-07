@@ -1,6 +1,6 @@
 /**
  * SPDX-FileCopyrightText: © 2021 Liferay, Inc. <https://liferay.com>
- * SPDX-License-Identifier: BSD-3-Clause
+ * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
 import chalk from 'chalk';
@@ -33,14 +33,14 @@ const WATCH_GLOB = '**/*.{css,js,jsx,scss,ts,tsx}';
 const MODULE_REGEXP = /\/o\/(?<module>[^/]*)\/(?<file>[^?]*)/;
 const RESOLVED_MODULE_REGEXP = /\/o\/js\/resolved-module\/(?<module>@?[^@]*)@(?<version>\d+\.\d+\.\d+)\/(?<file>[^?]*)/;
 
-function isHTMLResponse(response: http.IncomingMessage) {
+function isHTMLResponse(response: http.IncomingMessage): boolean {
 	return (
 		response.headers &&
 		response.headers['content-type']?.includes('text/html')
 	);
 }
 
-function findPortalRoot(directory: string) {
+function findPortalRoot(directory: string): string {
 	while (directory) {
 		if (existsSync(join(directory, 'yarn.lock'))) {
 			const base = basename(directory);
@@ -66,14 +66,14 @@ function findPortalRoot(directory: string) {
 
 async function getModulePaths(
 	cwd: string,
-	regenerate: boolean = false
+	regenerate = false
 ): Promise<Map<string, string>> {
 	const mappingsTmpDirPath = resolve(tmpdir(), 'liferay-dev-server');
 	const mappingsTmpFilePath = resolve(mappingsTmpDirPath, 'mappings.json');
 
 	if (!regenerate) {
 		try {
-			const paths = await (
+			const paths = (
 				await readFile(mappingsTmpFilePath)
 			).toString();
 
@@ -97,7 +97,7 @@ async function getModulePaths(
 
 	for (const module of modules) {
 		const moduleInfo = JSON.parse(
-			await (await readFile(resolve(cwd, module))).toString()
+			(await readFile(resolve(cwd, module))).toString()
 		);
 
 		modulePaths.set(moduleInfo.name, resolve(cwd, dirname(module)));
@@ -112,7 +112,7 @@ async function getModulePaths(
 	return modulePaths;
 }
 
-export default async function () {
+export default async function (): Promise<void> {
 	const LIVE_SESSIONS = new Set<http.ServerResponse>();
 	let WD = '';
 
@@ -155,7 +155,7 @@ export default async function () {
 	const fallback = (
 		request: http.IncomingMessage,
 		response: http.ServerResponse
-	) => proxy.web(request, response);
+	): void => proxy.web(request, response);
 
 	proxy.on('proxyRes', (proxyRes, request, response) => {
 		const chunks: Uint8Array[] = [];
@@ -323,7 +323,7 @@ export default async function () {
 			response.write(`id: ${Date.now()}\ndata: changes\n\n`);
 		});
 
-		const logger = (data: unknown) => log(chalk.grey(`\t ${data}`));
+		const logger = (data: unknown): void => log(chalk.grey(`\t ${data}`));
 
 		const cssOnly = extname(path).match(/\.s?css$/);
 

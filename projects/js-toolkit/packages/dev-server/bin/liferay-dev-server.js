@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 /**
- * SPDX-FileCopyrightText: © 2019 Liferay, Inc. <https://liferay.com>
- * SPDX-License-Identifier: BSD-3-Clause
+ * SPDX-FileCopyrightText: © 2021 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
 import server from '../lib/server';

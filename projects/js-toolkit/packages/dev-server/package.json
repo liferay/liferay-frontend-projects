@@ -2,7 +2,7 @@
 	"bin": {
 		"liferay-dev-server": "./bin/liferay-dev-server.js"
 	},
-	"license": "MIT",
+	"license": "LGPL-3.0",
 	"name": "@liferay/dev-server",
 	"main": "lib/index.js",
 	"type": "module",

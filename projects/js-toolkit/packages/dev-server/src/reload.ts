@@ -1,19 +1,19 @@
 /**
  * SPDX-FileCopyrightText: © 2021 Liferay, Inc. <https://liferay.com>
- * SPDX-License-Identifier: BSD-3-Clause
+ * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
 /* global EventSource, Liferay, location */
 
-function setupLiveSession() {
-	var source = new EventSource('/events');
+function setupLiveSession(): void {
+	const source = new EventSource('/events');
 
 	source.addEventListener(
 		'open',
 		() => {
 
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore
-
 			Liferay.Util.openToast({
 				message: 'Session successfully connected to live-reload server',
 			});
@@ -26,8 +26,8 @@ function setupLiveSession() {
 		({data}) => {
 			if (data === 'changes') {
 
+				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 				// @ts-ignore
-
 				Liferay.Util.openToast({
 					message:
 						'Changes detected. Browser will reload momentarily...',
@@ -46,7 +46,7 @@ function setupLiveSession() {
 const CLOSE_BODY_TAG = '</body>';
 const RELOAD_SNIPPET = `<script>(${setupLiveSession.toString()})();</script>`;
 
-export default (content: string) => {
+export default (content: string): string => {
 	return content.replace(
 		CLOSE_BODY_TAG,
 		`${RELOAD_SNIPPET}${CLOSE_BODY_TAG}`
