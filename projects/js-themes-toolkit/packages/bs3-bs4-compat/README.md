@@ -1,6 +1,10 @@
 # Liferay Bootstrap 3 to 4 Compatibility Layer
 
-With the removal of the Bootstrap 3 compatibility layer in Lifray DXP ([LPS-123359](https://issues.liferay.com/browse/LPS-123359)), code that previously relied on legacy Bootstrap 3 markup no longer behaves as expected.
+> **NOTE:** This package is meant to work in DXP 7.4 GA1 and we cannot garauntee it working with future releases of Liferay DXP. We will _not_ be actively testing & maintaining this project for future releases of DXP and will only be fixing reported bugs for DXP 7.4 GA1.
+
+---
+
+With the removal of the Bootstrap 3 compatibility layer in Liferay DXP ([LPS-123359](https://issues.liferay.com/browse/LPS-123359)), code that previously relied on legacy Bootstrap 3 markup no longer behaves as expected.
 
 This built-in layer was always meant to work as a temporary band-aid that projects could use to get an upgrade done fast and out the door. Once the upgrade was completed, it was advised that the project was updated and the compat layer disabled as to speed up the site.
 
