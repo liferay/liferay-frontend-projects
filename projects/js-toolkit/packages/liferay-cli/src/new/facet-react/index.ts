@@ -9,12 +9,14 @@ import {
 	TemplateRenderer,
 	format,
 	transformTextFile,
+	transformJsonFile,
 } from '@liferay/js-toolkit-core';
 import fs from 'fs';
 
 import type {Facet, Options} from '../index';
 
 const {
+	PkgJson: {addDependencies},
 	Text: {appendLines},
 } = TRANSFORM_OPERATIONS;
 const {info, print} = format;
@@ -63,6 +65,23 @@ const facet: Facet = {
 					'portlet-element-id=Portlet Element ID',
 					'portlet-namespace=Portlet Namespace'
 				)
+			);
+		}
+
+		// Add dependencies when necessary
+
+		if (options.platform === 'portal-agnostic') {
+			print(info`  Adding React dependencies`);
+
+			const pkgJsonFile = options.outputPath.join('package.json');
+
+			await transformJsonFile(
+				pkgJsonFile,
+				pkgJsonFile,
+				addDependencies({
+					react: '16.8.6',
+					'react-dom': '16.8.6',
+				})
 			);
 		}
 	},
