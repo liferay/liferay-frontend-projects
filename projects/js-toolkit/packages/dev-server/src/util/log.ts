@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
- import chalk from 'chalk';
+import chalk from 'chalk';
 
 import type {IncomingMessage} from 'http';
 
@@ -19,6 +19,8 @@ function requestLog(request: IncomingMessage): (...messages: string[]) => void {
 		log(...messages.map((message) => `${prefix}\n${message}`));
 }
 
-export function getRequestLogger(request: IncomingMessage): (...messages: string[]) => void {
+export function getRequestLogger(
+	request: IncomingMessage
+): (...messages: string[]) => void {
 	return requestLog(request);
 }

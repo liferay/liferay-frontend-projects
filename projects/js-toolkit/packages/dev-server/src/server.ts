@@ -73,9 +73,7 @@ async function getModulePaths(
 
 	if (!regenerate) {
 		try {
-			const paths = (
-				await readFile(mappingsTmpFilePath)
-			).toString();
+			const paths = (await readFile(mappingsTmpFilePath)).toString();
 
 			return new Map(JSON.parse(paths));
 		}

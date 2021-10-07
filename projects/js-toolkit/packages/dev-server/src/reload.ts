@@ -11,9 +11,9 @@ function setupLiveSession(): void {
 	source.addEventListener(
 		'open',
 		() => {
-
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore
+
 			Liferay.Util.openToast({
 				message: 'Session successfully connected to live-reload server',
 			});
@@ -25,9 +25,9 @@ function setupLiveSession(): void {
 		'message',
 		({data}) => {
 			if (data === 'changes') {
-
 				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 				// @ts-ignore
+
 				Liferay.Util.openToast({
 					message:
 						'Changes detected. Browser will reload momentarily...',
