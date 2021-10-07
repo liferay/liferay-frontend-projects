@@ -29,7 +29,7 @@ module.exports = function build() {
 
 	copyAssets();
 	runSass();
-	runBabel();
+	runCompiler();
 	runBundler();
 
 	print(success`{Project successfully built}`);
@@ -113,6 +113,18 @@ function runBabel() {
 	});
 }
 
+function runCompiler() {
+	const dependencies = project.pkgJson.dependencies || {};
+	const devDependencies = project.pkgJson.devDependencies || {};
+
+	if (devDependencies['typescript'] || dependencies['typescript']) {
+		runTsc();
+	}
+	else {
+		runBabel();
+	}
+}
+
 function runBundler() {
 	const bundlerPkgJsonPath = require.resolve(
 		'liferay-npm-bundler/package.json'
@@ -128,25 +140,7 @@ function runBundler() {
 
 	print(info`Running {liferay-npm-bundler}...`);
 
-	const {error, signal, status} = childProcess.spawnSync(
-		'node',
-		[bundlerPath],
-		{
-			stdio: 'inherit',
-		}
-	);
-
-	if (error) {
-		abort(error);
-	}
-
-	if (signal) {
-		abort(`{liferay-npm-bundler} received signal: ${signal}`);
-	}
-
-	if (status !== 0) {
-		abort(`{liferay-npm-bundler} exited with status: ${status}`);
-	}
+	spawn('node', [bundlerPath]);
 }
 
 function runSass() {
@@ -183,4 +177,28 @@ function runSass() {
 			abort(error);
 		}
 	});
+}
+
+function runTsc() {
+	print(info`Running {tsc} compiler...`);
+
+	spawn('npx', ['tsc']);
+}
+
+function spawn(bin, args) {
+	const {error, signal, status} = childProcess.spawnSync(bin, args, {
+		stdio: 'inherit',
+	});
+
+	if (error) {
+		abort(error);
+	}
+
+	if (signal) {
+		abort(`{${bin}} received signal: ${signal}`);
+	}
+
+	if (status !== 0) {
+		abort(`{${bin}} exited with status: ${status}`);
+	}
 }
