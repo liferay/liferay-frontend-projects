@@ -9,6 +9,7 @@ import {
 	transformJsonFile,
 } from '@liferay/js-toolkit-core';
 
+import facetAngular from '../facet-angular';
 import facetBuildable from '../facet-buildable';
 import facetConfiguration from '../facet-configuration';
 import facetLocalization from '../facet-localization';
@@ -29,9 +30,11 @@ const {
 const {info, print} = format;
 
 const frameworkFacets = {
+	Angular: facetAngular,
 	'Plain JavaScript': facetPlainJs,
 	React: facetReact,
 };
+const platforms = ['portal-7.4-ga1', 'portal-agnostic'];
 
 const target: Target = {
 	name: 'Liferay Platform Project',
@@ -41,15 +44,15 @@ const target: Target = {
 
 		options = await prompt(useDefaults, options, [
 			{
-				choices: ['portal-7.4-ga1', 'portal-agnostic'],
-				default: 'portal-7.4-ga1',
-				defaultDescription: 'Using target platform: {portal-7.4-ga1}',
+				choices: platforms,
+				default: platforms[0],
+				defaultDescription: `Using target platform: {${platforms[0]}`,
 				message: 'Which will be your target platform?',
 				name: 'platform',
 				type: 'list',
 			},
 			{
-				choices: ['React', 'Plain JavaScript'],
+				choices: Object.keys(frameworkFacets),
 				default: 'React',
 				defaultDescription: 'Using framework: {React}',
 				message: 'Which will be your application framework?',
