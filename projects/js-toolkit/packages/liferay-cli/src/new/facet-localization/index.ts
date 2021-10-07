@@ -35,6 +35,8 @@ const facet: Facet = {
 			options.outputPath
 		);
 
+		print(info`  Creating Language.properties file`);
+
 		await renderer.render(
 			'features/localization/Language.properties',
 			options

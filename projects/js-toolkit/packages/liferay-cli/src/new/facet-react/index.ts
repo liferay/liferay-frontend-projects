@@ -8,10 +8,11 @@ import {
 	TRANSFORM_OPERATIONS,
 	TemplateRenderer,
 	format,
-	transformTextFile,
 	transformJsonFile,
+	transformTextFile,
 } from '@liferay/js-toolkit-core';
-import fs from 'fs';
+
+import ensureOutputFile from '../util/ensureOutputFile';
 
 import type {Facet, Options} from '../index';
 
@@ -27,34 +28,29 @@ const facet: Facet = {
 	},
 
 	async render(options: Options): Promise<void> {
+		print(info`Generating sample code...`);
+
 		const renderer = new TemplateRenderer(
 			new FilePath(__dirname).join('templates'),
 			options.outputPath
 		);
 
-		print(info`Generating sample code...`);
-
-		// Configure build tool
-
 		print(info`  Configuring Babel`);
 
 		await renderer.render('.babelrc', options);
-
-		// Create widget
 
 		print(info`  Creating React widget`);
 
 		await renderer.render('src/AppComponent.js', options);
 		await renderer.render('src/index.js', options);
 
-		// Add language keys
+		if (options.addLocalizationSupport) {
+			print(info`  Adding labels for English language`);
 
-		const languageFile: FilePath = options.outputPath.join(
-			'features/localization/Language.properties'
-		);
-
-		if (fs.existsSync(languageFile.asNative)) {
-			print(info`  Adding UI strings for English language`);
+			const languageFile = ensureOutputFile(
+				options,
+				'features/localization/Language.properties'
+			);
 
 			await transformTextFile(
 				languageFile,
@@ -68,12 +64,10 @@ const facet: Facet = {
 			);
 		}
 
-		// Add dependencies when necessary
-
 		if (options.platform === 'portal-agnostic') {
 			print(info`  Adding React dependencies`);
 
-			const pkgJsonFile = options.outputPath.join('package.json');
+			const pkgJsonFile = ensureOutputFile(options, 'package.json');
 
 			await transformJsonFile(
 				pkgJsonFile,

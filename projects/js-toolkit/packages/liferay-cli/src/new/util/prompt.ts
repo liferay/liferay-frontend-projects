@@ -3,12 +3,12 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import inquirer from 'inquirer';
 import {format} from '@liferay/js-toolkit-core';
-
-const {info, print} = format;
+import inquirer from 'inquirer';
 
 import type {OptionValue, Options} from '../index';
+
+const {info, print} = format;
 
 interface ReduceablePrompt {
 	default: OptionValue;

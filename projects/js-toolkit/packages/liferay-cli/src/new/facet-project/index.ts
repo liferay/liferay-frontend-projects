@@ -31,12 +31,12 @@ const facet: Facet = {
 	},
 
 	async render(options: Options): Promise<void> {
+		print(info`Creating project structure`);
+
 		const renderer = new TemplateRenderer(
 			new FilePath(__dirname).join('templates'),
 			options.outputPath
 		);
-
-		print(info`Creating project structure...`);
 
 		await renderer.render('.gitignore', options);
 		await renderer.render('README.md', options);

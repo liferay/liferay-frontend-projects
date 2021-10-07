@@ -18,6 +18,7 @@ import facetProject from '../facet-project';
 import facetReact from '../facet-react';
 import facetSampleConfiguration from '../facet-sample-configuration';
 import facetSampleStyles from '../facet-sample-styles';
+import ensureOutputFile from '../util/ensureOutputFile';
 import prompt from '../util/prompt';
 
 import type {Options, Target} from '..';
@@ -58,16 +59,16 @@ const target: Target = {
 		]);
 
 		options = await facetLocalization.prompt(true, options);
-		options = await facetPortlet.prompt(useDefaults, options);
 		options = await facetConfiguration.prompt(true, options);
+		options = await facetPortlet.prompt(useDefaults, options);
 
 		const frameworkFacet = frameworkFacets[options.framework as string];
 
 		if (frameworkFacet) {
-			options = await frameworkFacet.prompt(useDefaults, options);
-			options = await facetSampleConfiguration.prompt(true, options);
-			options = await facetSampleStyles.prompt(true, options);
 			options = await facetBuildable.prompt(true, options);
+			options = await frameworkFacet.prompt(useDefaults, options);
+			options = await facetSampleStyles.prompt(true, options);
+			options = await facetSampleConfiguration.prompt(true, options);
 		}
 
 		return options;
@@ -75,30 +76,14 @@ const target: Target = {
 
 	async render(options: Options): Promise<void> {
 		await facetProject.render(options);
-		await facetLocalization.render(options);
-		await facetConfiguration.render(options);
-		await facetPortlet.render(options);
-
-		// Generate sample code
-
-		const frameworkFacet = frameworkFacets[options.framework as string];
-
-		if (frameworkFacet) {
-			await frameworkFacet.render(options);
-			await facetSampleConfiguration.render(options);
-			await facetSampleStyles.render(options);
-			await facetBuildable.render(options);
-		}
-
-		// Add target platform to project dependencies
-
-		const pkgJsonFile = options.outputPath.join('package.json');
 
 		print(info`Configuring target platform...`);
 
 		const platform = `@liferay/${options.platform}`;
 
 		print(info`  Adding {${platform}} as a dependency`);
+
+		const pkgJsonFile = ensureOutputFile(options, 'package.json');
 
 		await transformJsonFile(
 			pkgJsonFile,
@@ -107,6 +92,19 @@ const target: Target = {
 				[platform]: '^1.0.0',
 			})
 		);
+
+		await facetLocalization.render(options);
+		await facetConfiguration.render(options);
+		await facetPortlet.render(options);
+
+		const frameworkFacet = frameworkFacets[options.framework as string];
+
+		if (frameworkFacet) {
+			await facetBuildable.render(options);
+			await frameworkFacet.render(options);
+			await facetSampleStyles.render(options);
+			await facetSampleConfiguration.render(options);
+		}
 	},
 };
 

@@ -4,12 +4,12 @@
  */
 
 import {
-	FilePath,
 	TRANSFORM_OPERATIONS,
 	format,
 	transformTextFile,
 } from '@liferay/js-toolkit-core';
-import fs from 'fs';
+
+import ensureOutputFile from '../util/ensureOutputFile';
 
 import type {Facet, Options} from '../index';
 
@@ -24,33 +24,29 @@ const facet: Facet = {
 	},
 
 	async render(options: Options): Promise<void> {
-		const stylesFile: FilePath = options.outputPath.join(
-			'src/css/styles.scss'
+		print(info`  Adding sample CSS styles`);
+
+		const stylesFile = ensureOutputFile(options, 'src/css/styles.scss');
+
+		await transformTextFile(
+			stylesFile,
+			stylesFile,
+			appendLines(
+				'.pre {',
+				'	font-family: monospace;',
+				'	white-space: pre;',
+				'}',
+				'',
+				'.tag {',
+				'	font-weight: bold;',
+				'	margin-right: 1em;',
+				'}',
+				'',
+				'.value {',
+				'	font-family: monospace;',
+				'}'
+			)
 		);
-
-		if (fs.existsSync(stylesFile.asNative)) {
-			print(info`  Adding CSS styles`);
-
-			await transformTextFile(
-				stylesFile,
-				stylesFile,
-				appendLines(
-					'.pre {',
-					'	font-family: monospace;',
-					'	white-space: pre;',
-					'}',
-					'',
-					'.tag {',
-					'	font-weight: bold;',
-					'	margin-right: 1em;',
-					'}',
-					'',
-					'.value {',
-					'	font-family: monospace;',
-					'}'
-				)
-			);
-		}
 	},
 };
 

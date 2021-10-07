@@ -10,8 +10,8 @@ import {
 	format,
 	transformTextFile,
 } from '@liferay/js-toolkit-core';
-import fs from 'fs';
 
+import ensureOutputFile from '../util/ensureOutputFile';
 import prompt from '../util/prompt';
 
 import type {Facet, Options} from '../index';
@@ -50,10 +50,11 @@ const facet: Facet = {
 			options.outputPath
 		);
 
-		const pkgJsonFile = options.outputPath.join('package.json');
+		print(info`  Creating {configuration.json} file`);
 
 		/* eslint-disable-next-line @liferay/no-dynamic-require, @typescript-eslint/no-var-requires */
-		const pkgJson = require(pkgJsonFile.asNative);
+		const pkgJson = require(ensureOutputFile(options, 'package.json')
+			.asNative);
 
 		const context = {
 			category: pkgJson.name,
@@ -62,13 +63,14 @@ const facet: Facet = {
 
 		await renderer.render('features/configuration.json', context);
 
-		// Add configuration name localization key
+		if (options.addLocalizationSupport) {
+			print(info`  Adding configuration name for English language`);
 
-		const languageFile: FilePath = options.outputPath.join(
-			'features/localization/Language.properties'
-		);
+			const languageFile = ensureOutputFile(
+				options,
+				'features/localization/Language.properties'
+			);
 
-		if (fs.existsSync(languageFile.asNative)) {
 			await transformTextFile(
 				languageFile,
 				languageFile,
