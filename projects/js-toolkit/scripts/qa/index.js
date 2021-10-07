@@ -25,6 +25,7 @@ if (argv['clean']) {
 if (argv['generate']) {
 	logStep('Generating test projects');
 
+	generate('agnostic-angular-portlet', 'portal-agnostic', 'Angular');
 	generate(
 		'agnostic-plain-js-portlet',
 		'portal-agnostic',
@@ -32,6 +33,7 @@ if (argv['generate']) {
 	);
 	generate('agnostic-react-portlet', 'portal-agnostic', 'React');
 
+	generate('master-angular-portlet', 'portal-master', 'Angular');
 	generate('master-plain-js-portlet', 'portal-master', 'Plain JavaScript');
 	generate('master-react-portlet', 'portal-master', 'React');
 }
