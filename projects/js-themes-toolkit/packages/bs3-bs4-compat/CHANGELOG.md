@@ -1,3 +1,7 @@
+## [bs3-bs4-compat/v1.0.3](https://github.com/liferay/liferay-frontend-projects/tree/bs3-bs4-compat/v1.0.3) (2021-10-07)
+
+Same `bs3-bs4-compat/v1.0.2`. There was an error with publish script.
+
 ## [bs3-bs4-compat/v1.0.2](https://github.com/liferay/liferay-frontend-projects/tree/bs3-bs4-compat/v1.0.2) (2021-10-07)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/bs3-bs4-compat/v1.0.1...bs3-bs4-compat/v1.0.2)
