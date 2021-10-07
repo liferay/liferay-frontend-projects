@@ -15,6 +15,7 @@ import {
 import ensureOutputFile from '../util/ensureOutputFile';
 import getPortletName from '../util/getPortletName';
 import prompt from '../util/prompt';
+import toHumanReadable from '../util/toHumanReadable';
 
 import type {Facet, Options} from '../index';
 
@@ -54,8 +55,8 @@ const facet: Facet = {
 
 		/* eslint-disable-next-line @liferay/no-dynamic-require, @typescript-eslint/no-var-requires */
 		const pkgJson = require(pkgJsonFile.asNative);
-		const portletDisplayName = pkgJson['name'];
-		const portletName = getPortletName(portletDisplayName);
+		const portletDisplayName = toHumanReadable(pkgJson['name']);
+		const portletName = getPortletName(pkgJson['name']);
 
 		await transformJsonFile(
 			pkgJsonFile,

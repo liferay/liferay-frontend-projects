@@ -7,6 +7,7 @@ import {FilePath, TemplateRenderer, format} from '@liferay/js-toolkit-core';
 import fs from 'fs';
 
 import prompt from '../util/prompt';
+import toHumanReadable from '../util/toHumanReadable';
 
 import type {Facet, Options} from '../index';
 
@@ -45,31 +46,5 @@ const facet: Facet = {
 		fs.mkdirSync(options.outputPath.join('src').asNative);
 	},
 };
-
-/**
- * Converts a technical string to human readable form.
- */
-function toHumanReadable(string: string): string {
-	let capitalizeNext = true;
-	let humanizedString = '';
-
-	for (let i = 0; i < string.length; i++) {
-		if (string[i].match(/[\\._-]/)) {
-			humanizedString += ' ';
-			capitalizeNext = true;
-		}
-		else {
-			if (capitalizeNext) {
-				humanizedString += string[i].toLocaleUpperCase();
-				capitalizeNext = false;
-			}
-			else {
-				humanizedString += string[i];
-			}
-		}
-	}
-
-	return humanizedString;
-}
 
 export default facet;
