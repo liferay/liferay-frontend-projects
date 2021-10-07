@@ -27,9 +27,7 @@ export default function AppComponent(props) {
 				<span className="tag">
 					{Liferay.Language.get('configuration')}:
 				</span> 
-				<span className="value pre">
-					{JSON.stringify(props.configuration, null, 2)}
-				</span>
+				<span className="value pre">{JSON.stringify(props.configuration, null, 2)}</span>
 			</div>
 <% } 
 %>		</div>

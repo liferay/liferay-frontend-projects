@@ -9,7 +9,69 @@ const childProcess = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
-const {currentVersion, liferayDir} = require('./resources');
+const {liferayCliPath, liferayDir, qaDir, tmpDir} = require('./resources');
+
+function deploy(projectDirName) {
+	const projectDir = path.join(qaDir, projectDirName);
+
+	const pkgJson = JSON.parse(
+		fs.readFileSync(path.join(projectDir, 'package.json'), 'utf8')
+	);
+
+	if (!pkgJson.scripts || !pkgJson.scripts.deploy) {
+		return;
+	}
+
+	spawn('yarn', [], {
+		cwd: projectDir,
+	});
+	spawn('yarn', ['build'], {
+		cwd: projectDir,
+	});
+	spawn('yarn', ['deploy'], {
+		cwd: projectDir,
+	});
+}
+
+function generate(projectDirName, framework) {
+	const optionsFilePath = path.join(tmpDir, 'options.json');
+
+	fs.writeFileSync(
+		optionsFilePath,
+		JSON.stringify({
+			framework,
+			platform: 'portal-master',
+		})
+	);
+
+	const projectDir = path.join(qaDir, projectDirName);
+
+	fs.rmdirSync(projectDir, {recursive: true});
+
+	spawn(
+		'node',
+		[
+			liferayCliPath,
+			'new',
+			projectDirName,
+			'--batch',
+			'--options',
+			optionsFilePath,
+		],
+		{
+			cwd: qaDir,
+		}
+	);
+
+	fs.writeFileSync(
+		path.join(projectDir, '.liferay.json'),
+		JSON.stringify({
+			deploy: {
+				path: liferayDir,
+			},
+		})
+	);
+}
 
 function logStep(step) {
 	console.log(`
@@ -17,17 +79,6 @@ function logStep(step) {
 * ${step}
 ********************************************************************************
 `);
-}
-
-function safeUnlink(path) {
-	try {
-		fs.unlinkSync(path);
-	}
-	catch (error) {
-
-		// swallow
-
-	}
 }
 
 function spawn(cmd, args, options = {}) {
@@ -43,35 +94,9 @@ function spawn(cmd, args, options = {}) {
 	}
 }
 
-function writeConfig(dir, options) {
-	const name = options.folder;
-
-	fs.writeFileSync(
-		path.join(dir, `${name}.json`),
-		JSON.stringify(
-			{
-				answers: {
-					'*': {
-						category: 'JS Toolkit QA',
-						description: options.folder,
-						liferayDir,
-						liferayPresent: true,
-						pkgManager: 'yarn',
-						...options,
-					},
-				},
-				batchMode: true,
-				sdkVersion: currentVersion,
-			},
-			null,
-			2
-		)
-	);
-}
-
 module.exports = {
+	deploy,
+	generate,
 	logStep,
-	safeUnlink,
 	spawn,
-	writeConfig,
 };

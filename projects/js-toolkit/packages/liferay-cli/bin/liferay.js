@@ -12,12 +12,18 @@ const {argv} = require('yargs')
 		'new <name>',
 		'Create a new project with the given name',
 		(yargs) =>
-			yargs.option('batch', {
-				default: false,
-				describe:
-					'Batch mode (assumes all defaults without user interaction)',
-				type: 'boolean',
-			})
+			yargs
+				.option('batch', {
+					default: false,
+					describe:
+						'Batch mode (assumes all defaults without user interaction)',
+					type: 'boolean',
+				})
+				.option('options', {
+					describe:
+						'Path to a file containing default values for options',
+					type: 'string',
+				})
 	)
 	.demandCommand()
 	.help();

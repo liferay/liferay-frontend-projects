@@ -14,6 +14,7 @@ interface Arguments {
 	$0: string;
 	batch?: boolean;
 	name?: string;
+	options?: string;
 }
 
 const {error: fail, print, warn} = format;
@@ -29,7 +30,7 @@ export default async function (argv: Arguments): Promise<void> {
 			return await runLiferayCli(...process.argv.slice(2));
 
 		case 'new':
-			return await newProject(argv.name, argv.batch);
+			return await newProject(argv.name, argv.batch, argv.options);
 
 		default:
 			print(fail`Uknown command provided: {${argv._[0]}}`);

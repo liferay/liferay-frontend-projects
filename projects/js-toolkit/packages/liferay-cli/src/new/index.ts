@@ -31,7 +31,8 @@ export interface Target extends Facet {
 
 export default async function newProject(
 	name: string,
-	batch?: boolean
+	batch?: boolean,
+	optionsFilePath?: string
 ): Promise<void> {
 	try {
 		/* eslint-disable-next-line @typescript-eslint/no-var-requires */
@@ -58,6 +59,20 @@ export default async function newProject(
 			name,
 			outputPath,
 		};
+
+		if (optionsFilePath) {
+			try {
+				options = {
+					...options,
+					...JSON.parse(fs.readFileSync(optionsFilePath, 'utf8')),
+				};
+			}
+			catch (error) {
+				throw new Error(
+					`Could not read options file (${error.message})`
+				);
+			}
+		}
 
 		const targets = loadTargets();
 

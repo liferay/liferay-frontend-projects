@@ -9,83 +9,23 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 
-const qaDir = path.join(__dirname, '..', '..', 'qa');
-const samplesDir = path.join(qaDir, 'samples');
-const packagesDir = path.join(samplesDir, 'packages');
+const jsToolkitPath = path.join(__dirname, '..', '..');
 
-const {version: currentSDKVersion} = require(path.join(
-	'..',
-	'..',
+const liferayCliPath = path.join(
+	jsToolkitPath,
 	'packages',
-	'@liferay',
-	'npm-bundler',
-	'package.json'
-));
-
-const lernaPath = path.join(
-	__dirname,
-	'..',
-	'..',
-	'node_modules',
-	'lerna',
-	'cli.js'
+	'liferay-cli',
+	'bin',
+	'liferay.js'
 );
-
-const liferayDir = findLiferayDir();
-
-const liferayJsAdaptGeneratorPath = path.join(
-	__dirname,
-	'..',
-	'..',
-	'packages',
-	'generator-js',
-	'generators',
-	'adapt',
-	'index.js'
-);
-
-const liferayJsGeneratorPath = path.join(
-	__dirname,
-	'..',
-	'..',
-	'packages',
-	'generator-js',
-	'generators',
-	'app',
-	'index.js'
-);
-
-const linkJsToolkitProjectDir = path.join(
-	__dirname,
-	'..',
-	'..',
-	'resources',
-	'devtools',
-	'link-js-toolkit'
-);
-
-const linkJsToolkitPath = path.join(
-	linkJsToolkitProjectDir,
-	'link-js-toolkit.js'
-);
-
-const yoPath =
-	process.platform === 'win32'
-		? path.join(__dirname, '..', '..', 'node_modules', '.bin', 'yo.cmd')
-		: path.join(__dirname, '..', '..', 'node_modules', '.bin', 'yo');
+const qaDir = path.join(jsToolkitPath, 'qa');
+const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'js-toolkit-qa'));
 
 module.exports = {
-	currentSDKVersion,
-	lernaPath,
-	liferayDir,
-	liferayJsAdaptGeneratorPath,
-	liferayJsGeneratorPath,
-	linkJsToolkitPath,
-	linkJsToolkitProjectDir,
-	packagesDir,
+	liferayCliPath,
+	liferayDir: findLiferayDir(),
 	qaDir,
-	samplesDir,
-	yoPath,
+	tmpDir,
 };
 
 function findLiferayDir() {
@@ -96,11 +36,9 @@ function findLiferayDir() {
 
 	try {
 		const json = JSON.parse(
-			fs.readFileSync(
-				path.join(os.homedir(), '.generator-liferay-js.json')
-			)
+			fs.readFileSync(path.join(os.homedir(), '.liferay.json'))
 		);
-		liferayDir = json.answers['*'].liferayDir;
+		liferayDir = json.deploy.path;
 	}
 	catch (error) {
 
