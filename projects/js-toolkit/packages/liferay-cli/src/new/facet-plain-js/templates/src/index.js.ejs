@@ -7,8 +7,8 @@
  * @param  {Object} params a hash with values of interest to the portlet            
  * @return {void}                                                                   
  */                                                                                 
-export default function main(props) { 
-	const node = document.getElementById(props.portletElementId);
+export default function main(params) { 
+	const node = document.getElementById(params.portletElementId);
                                                                                     
 	node.innerHTML =`                                                               
 		<div>
@@ -16,26 +16,26 @@ export default function main(props) {
 				<span class="tag">
 					${Liferay.Language.get('portlet-namespace')}:
 				</span> 
-				<span class="value">${props.portletNamespace}</span>
+				<span class="value">${params.portletNamespace}</span>
 			</div>
 			<div>
 				<span class="tag">
 					${Liferay.Language.get('context-path')}:
 				</span> 
-				<span class="value">${props.contextPath}</span>
+				<span class="value">${params.contextPath}</span>
 			</div>
 			<div>
 				<span class="tag">
 					${Liferay.Language.get('portlet-element-id')}:
 				</span> 
-				<span class="value">${props.portletElementId}</span>
+				<span class="value">${params.portletElementId}</span>
 			</div>
 <% if (addConfigurationSupport) { 
 %>			<div>
 				<span class="tag">
 					${Liferay.Language.get('configuration')}:
 				</span> 
-				<span class="value pre">${JSON.stringify(props.configuration, null, 2)}</span>
+				<span class="value pre">${JSON.stringify(params.configuration, null, 2)}</span>
 			</div>
 <% } 
 %>		</div>
