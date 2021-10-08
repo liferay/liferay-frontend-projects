@@ -1,3 +1,11 @@
+## [js-themes-toolkit-v8-x/v8.2.4](https://github.com/liferay/liferay-frontend-projects/tree/js-themes-toolkit-v8-x/v8.2.4) (2021-10-07)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-themes-toolkit-v8-x/v8.2.3...js-themes-toolkit-v8-x/v8.2.4)
+
+### :wrench: Bug fixes
+
+-   fix(js-themes-toolkit): update 7.1 themes deps versions to get the latest available ([\#673](https://github.com/liferay/liferay-frontend-projects/pull/673))
+
 ## [js-themes-toolkit-v8-x/v8.2.3](https://github.com/liferay/liferay-frontend-projects/tree/js-themes-toolkit-v8-x/v8.2.3) (2020-12-11)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-themes-toolkit/v8.2.2...js-themes-toolkit-v8-x/v8.2.3)
