@@ -19,6 +19,7 @@ import facetProject from '../facet-project';
 import facetReact from '../facet-react';
 import facetSampleConfiguration from '../facet-sample-configuration';
 import facetSampleStyles from '../facet-sample-styles';
+import facetVuejs from '../facet-vuejs';
 import ensureOutputFile from '../util/ensureOutputFile';
 import prompt from '../util/prompt';
 
@@ -33,6 +34,7 @@ const frameworkFacets = {
 	Angular: facetAngular,
 	'Plain JavaScript': facetPlainJs,
 	React: facetReact,
+	'Vue.js': facetVuejs,
 };
 const platforms = ['portal-7.4-ga1', 'portal-agnostic'];
 
