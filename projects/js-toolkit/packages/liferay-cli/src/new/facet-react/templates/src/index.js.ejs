@@ -12,20 +12,16 @@ import AppComponent from './AppComponent';
  * @param  {Object} params a hash with values of interest to the portlet
  * @return {void}
  */
-<% if (addConfigurationSupport) { 
-%>export default function main({portletNamespace, contextPath, portletElementId, configuration}) {
-<% } else { 
-%>export default function main({portletNamespace, contextPath, portletElementId}) { 
-<% }
-%>	 ReactDOM.render(
+export default function main(params) { 
+	 ReactDOM.render(
 		<AppComponent 
-			portletNamespace={portletNamespace} 
-			contextPath={contextPath}
-			portletElementId={portletElementId}
+			portletNamespace={params.portletNamespace} 
+			contextPath={params.contextPath}
+			portletElementId={params.portletElementId}
 <% if (addConfigurationSupport) { 
-%>			configuration={configuration}
+%>			configuration={params.configuration}
 <% } 
 %>		 />, 
-		document.getElementById(portletElementId)
+		document.getElementById(params.portletElementId)
 	);
 }
