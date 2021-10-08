@@ -1,3 +1,11 @@
+## [js-themes-toolkit-v8-x/v8.2.4](https://github.com/liferay/liferay-frontend-projects/tree/js-themes-toolkit-v8-x/v8.2.4) (2021-10-07)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-themes-toolkit-v8-x/v8.2.3...js-themes-toolkit-v8-x/v8.2.4)
+
+### :new: Features
+
+-   feat(eslint-config): Add lint to catch common abbreviations ([\#564](https://github.com/liferay/liferay-frontend-projects/pull/564))
+
 ## [js-themes-toolkit-v8-x/v8.2.3](https://github.com/liferay/liferay-frontend-projects/tree/js-themes-toolkit-v8-x/v8.2.3) (2020-12-11)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-themes-toolkit/v8.2.2...js-themes-toolkit-v8-x/v8.2.3)

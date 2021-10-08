@@ -11,7 +11,7 @@
 	},
 	"devDependencies": {
 		"gulp": "^3.9.1",
-		"liferay-theme-tasks": "8.2.3",
+		"liferay-theme-tasks": "8.2.4",
 		"liferay-theme-deps-6.2": "7.0.0"
 	}
 }

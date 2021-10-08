@@ -32,8 +32,8 @@
 		"inquirer": "^0.12.0",
 		"liferay-plugin-node-tasks": "^2.0.0",
 		"liferay-theme-deps-6.2": "^7.0.0",
-		"liferay-theme-deps-7.0": "^8.2.3",
-		"liferay-theme-deps-7.1": "^8.2.3",
+		"liferay-theme-deps-7.0": "^8.2.4",
+		"liferay-theme-deps-7.1": "^8.2.4",
 		"list-stream": "^1.0.0",
 		"lodash": "^4.17.11",
 		"minimist": "^1.1.0",
@@ -66,5 +66,5 @@
 		"type": "git",
 		"url": "https://github.com/liferay/liferay-frontend-projects"
 	},
-	"version": "8.2.3"
+	"version": "8.2.4"
 }
