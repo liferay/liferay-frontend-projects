@@ -11,7 +11,7 @@ This development server detects changes to Javscript, Typescript, and CSS/SCSS f
 Run this command anywhere in the `liferay-portal` repo.
 
 ```sh
-$ npx liferay-dev-server
+$ npx @liferay/dev-server
 ```
 
 This command will spin up a development server on `localhost:3000`. This sever proxies all request to your local instance of Liferay DXP on `localhost:8080`.
