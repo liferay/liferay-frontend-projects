@@ -94,7 +94,7 @@ const target: Target = {
 			pkgJsonFile,
 			pkgJsonFile,
 			addDependencies({
-				[platform]: '^1.0.0',
+				[platform]: '*',
 			})
 		);
 
