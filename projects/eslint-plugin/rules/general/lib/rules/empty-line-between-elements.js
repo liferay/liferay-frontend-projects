@@ -12,7 +12,10 @@ module.exports = {
 				let previousNodeEndLocation;
 
 				node.children.map((childNode, i) => {
-					if (childNode.type === 'JSXElement') {
+					if (
+						childNode.type === 'JSXElement' ||
+						childNode.type === 'JSXExpressionContainer'
+					) {
 						if (
 							previousNodeEndLocation + 1 ===
 							childNode.loc.start.line
