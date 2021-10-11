@@ -25,4 +25,5 @@ module.exports = {
 	'sort-import-destructures': require('./lib/rules/sort-import-destructures'),
 	'sort-imports': require('./lib/rules/sort-imports'),
 	'trim-class-names': require('./lib/rules/trim-class-names'),
+	'use-state-naming-pattern': require('./lib/rules/use-state-naming-pattern'),
 };
