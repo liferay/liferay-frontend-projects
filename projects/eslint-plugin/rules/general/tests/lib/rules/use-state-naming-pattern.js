@@ -22,40 +22,56 @@ const message = 'useState must follow naming pattern `const [* , set*] =`';
 
 ruleTester.run('use-state-naming-pattern', rule, {
 	invalid: [
+
+		// {
+		// 	code: 'const [val, updateVal] = useState()',
+		// 	errors: [
+		// 		{
+		// 			message,
+		// 			type: 'ArrayPattern',
+		// 		},
+		// 	],
+		// 	output: 'const [val, setVal] = useState()',
+		// },
+		// {
+		// 	code: 'const [val, updateVal] = React.useState()',
+		// 	errors: [
+		// 		{
+		// 			message,
+		// 			type: 'ArrayPattern',
+		// 		},
+		// 	],
+		// 	output: 'const [val, setVal] = React.useState()',
+		// },
+
 		{
-			code: 'const [val, updateVal] = useState()',
+			code: 'const [, updateVal] = React.useState()',
 			errors: [
 				{
 					message,
 					type: 'ArrayPattern',
 				},
 			],
-			output: 'const [val, setVal] = useState()',
-		},
-		{
-			code: 'const [val, updateVal] = React.useState()',
-			errors: [
-				{
-					message,
-					type: 'ArrayPattern',
-				},
-			],
-			output: 'const [val, setVal] = React.useState()',
 		},
 	],
 
 	valid: [
+
+		// {
+		// 	code: 'const [val, setVal] = useState()',
+		// },
+		// {
+		// 	code: 'const [val, setVal] = useState(1)',
+		// },
+		// {
+		// 	code: 'const [val, setVal] = React.useState()',
+		// },
+		// {
+		// 	code: 'const [val, setVal] = React.useState(1)',
+		// },
+
 		{
-			code: 'const [val, setVal] = useState()',
-		},
-		{
-			code: 'const [val, setVal] = useState(1)',
-		},
-		{
-			code: 'const [val, setVal] = React.useState()',
-		},
-		{
-			code: 'const [val, setVal] = React.useState(1)',
+			code: 'const [, setVal] = React.useState(1)',
 		},
 	],
 });

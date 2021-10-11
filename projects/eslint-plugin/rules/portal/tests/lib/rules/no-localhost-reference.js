@@ -26,7 +26,7 @@ ruleTester.run('no-localhost-reference', rule, {
 			errors: [
 				{
 					message,
-					type: 'ArrowFunctionExpression',
+					type: 'Literal',
 				},
 			],
 		},
@@ -39,7 +39,7 @@ ruleTester.run('no-localhost-reference', rule, {
 			errors: [
 				{
 					message,
-					type: 'ArrowFunctionExpression',
+					type: 'Literal',
 				},
 			],
 		},
@@ -50,9 +50,17 @@ ruleTester.run('no-localhost-reference', rule, {
 			errors: [
 				{
 					message,
-					type: 'ArrowFunctionExpression',
+					type: 'Literal',
 				},
 			],
+		},
+	],
+	valid: [
+		{
+			code: "const localhost = 'foo';",
+		},
+		{
+			code: '// localhost:3000',
 		},
 	],
 });

@@ -26,15 +26,20 @@ module.exports = {
 					return;
 				}
 
-				const variables = node.parent.id.elements;
+				const variables =
+					node.parent && node.parent.id && node.parent.id.elements;
 
-				if (variables.length !== 2) {
+				if (!variables || variables.length !== 2) {
 					return;
 				}
 
 				const [valueVariable, setterVariable] = variables;
 
-				const valueVariableName = valueVariable.name;
+				if (!setterVariable) {
+					return;
+				}
+
+				const valueVariableName = valueVariable && valueVariable.name;
 				const setterVariableName = setterVariable.name;
 
 				const expectedSetterVariableName = valueVariableName
@@ -43,26 +48,31 @@ module.exports = {
 							.toUpperCase()}${valueVariableName.slice(1)}`
 					: undefined;
 
-				if (
-					!valueVariable ||
-					!setterVariable ||
-					setterVariableName !== expectedSetterVariableName
-				) {
-					context.report({
-						fix: valueVariableName
-							? (fixer) =>
-									fixer.replaceTextRange(
-										[
-											node.parent.id.range[0],
-											node.parent.id.range[1],
-										],
-										`[${valueVariableName}, ${expectedSetterVariableName}]`
-									)
-							: undefined,
-						messageId: ERROR_ID,
-						node: node.parent.id,
-					});
+				if (setterVariableName === expectedSetterVariableName) {
+					return;
 				}
+
+				const setterStartsWithSet =
+					setterVariableName.slice(0, 3) === 'set';
+
+				if (setterStartsWithSet) {
+					return;
+				}
+
+				context.report({
+					fix: valueVariableName
+						? (fixer) =>
+								fixer.replaceTextRange(
+									[
+										node.parent.id.range[0],
+										node.parent.id.range[1],
+									],
+									`[${valueVariableName}, ${expectedSetterVariableName}]`
+								)
+						: undefined,
+					messageId: ERROR_ID,
+					node: node.parent.id,
+				});
 			},
 		};
 	},

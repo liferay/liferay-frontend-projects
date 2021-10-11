@@ -17,10 +17,15 @@ module.exports = {
 					return;
 				}
 
-				if (node.value.match(/.*localhost.*/)) {
+				if (
+					node &&
+					node.value &&
+					typeof node.value.match === 'function' &&
+					node.value.match(/.*localhost.*/)
+				) {
 					context.report({
 						message: DESCRIPTION,
-						node: node.parent,
+						node,
 					});
 				}
 			},

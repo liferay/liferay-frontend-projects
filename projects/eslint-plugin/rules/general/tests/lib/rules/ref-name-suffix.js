@@ -20,7 +20,7 @@ const message = 'useRef values should be suffixed with `Ref`';
 const errors = [
 	{
 		message,
-		type: 'Literal',
+		type: 'VariableDeclarator',
 	},
 ];
 
@@ -47,6 +47,9 @@ ruleTester.run('ref-name-suffix', rule, {
 	],
 
 	valid: [
+		{
+			code: "variableName !== 'ref'",
+		},
 		{
 			code: 'const nodeRef = useRef(null);',
 		},

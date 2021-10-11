@@ -21,7 +21,10 @@ module.exports = {
 				) {
 					const variableName = node.id.name;
 
-					if (!variableName.match(NAME_PATTERN)) {
+					if (
+						variableName !== 'ref' &&
+						!variableName.match(NAME_PATTERN)
+					) {
 						context.report({
 							fix: (fixer) => {
 								return fixer.replaceText(
@@ -29,7 +32,7 @@ module.exports = {
 									variableName + 'Ref'
 								);
 							},
-							messageId: 'ref-name-suffix',
+							message: DESCRIPTION,
 							node,
 						});
 					}
