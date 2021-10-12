@@ -9,11 +9,16 @@ const DESCRIPTION = 'do not make explicit references to localhost.';
 
 module.exports = {
 	create(context) {
-		const filename = path.basename(context.getFilename());
+		const filePath = context.getFilename();
+		const filename = path.basename(filePath);
 
 		return {
 			Literal(node) {
-				if (filename.includes('webpack') || filename.includes('jest')) {
+				if (
+					filename.includes('webpack') ||
+					filename.includes('jest') ||
+					filePath.includes('test')
+				) {
 					return;
 				}
 
