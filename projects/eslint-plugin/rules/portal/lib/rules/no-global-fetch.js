@@ -16,7 +16,7 @@ module.exports = {
 
 		const isValidDefaultImport = (node) => {
 			return (
-				node.source.value.endsWith('/fetch.es') &&
+				node.source.value.endsWith('/fetch') &&
 				node.specifiers.find(
 					(specifier) => specifier.type === 'ImportDefaultSpecifier'
 				)

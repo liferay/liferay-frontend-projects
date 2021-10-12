@@ -66,10 +66,10 @@ ruleTester.run('no-global-fetch', rule, {
 		},
 		{
 
-			// Unnamed import from '../fetch.es'
+			// Unnamed import from '../fetch'
 
 			code: `
-				import fetch from '../fetch.es';
+				import fetch from '../fetch';
 
 				function doSomething(url) {
 					return fetch(url);
@@ -78,10 +78,10 @@ ruleTester.run('no-global-fetch', rule, {
 		},
 		{
 
-			// Unnamed import from '../util/fetch.es'
+			// Unnamed import from '../util/fetch'
 
 			code: `
-				import fetch from '../util/fetch.es';
+				import fetch from '../util/fetch';
 
 				function doSomething(url) {
 					return fetch(url);
