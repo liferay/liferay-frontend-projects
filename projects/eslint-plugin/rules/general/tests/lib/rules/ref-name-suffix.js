@@ -17,29 +17,49 @@ const ruleTester = new MultiTester(parserOptions);
 
 const message = 'useRef values should be suffixed with `Ref`';
 
-const errors = [
-	{
-		message,
-		type: 'VariableDeclarator',
-	},
-];
-
 ruleTester.run('ref-name-suffix', rule, {
 	invalid: [
 		{
 			code: `
 				const node = useRef(null);
+
+				node.current = 'test';
+
+				node.current = 'foo';
 			 `,
-			errors,
+			errors: [
+				{
+					message,
+					type: 'Identifier',
+				},
+				{
+					message: 'ref variable (renamed to nodeRef)',
+					type: 'Identifier',
+				},
+				{
+					message: 'ref variable (renamed to nodeRef)',
+					type: 'Identifier',
+				},
+			],
 			output: `
 				const nodeRef = useRef(null);
+
+				nodeRef.current = 'test';
+
+				nodeRef.current = 'foo';
 			 `,
 		},
+
 		{
 			code: `
 				const node = React.useRef(null);
 			 `,
-			errors,
+			errors: [
+				{
+					message,
+					type: 'Identifier',
+				},
+			],
 			output: `
 				const nodeRef = React.useRef(null);
 			 `,

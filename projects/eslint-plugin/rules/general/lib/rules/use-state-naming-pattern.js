@@ -5,8 +5,6 @@
 
 const DESCRIPTION = 'useState must follow naming pattern `const [* , set*] =`';
 
-const ERROR_ID = 'use-state-naming-pattern';
-
 module.exports = {
 	create(context) {
 		return {
@@ -42,13 +40,17 @@ module.exports = {
 				const valueVariableName = valueVariable && valueVariable.name;
 				const setterVariableName = setterVariable.name;
 
+				if (!setterVariableName) {
+					return;
+				}
+
 				const expectedSetterVariableName = valueVariableName
 					? `set${valueVariableName
 							.charAt(0)
 							.toUpperCase()}${valueVariableName.slice(1)}`
 					: undefined;
 
-				if (setterVariableName === expectedSetterVariableName) {
+				if (!setterVariableName === expectedSetterVariableName) {
 					return;
 				}
 
@@ -59,20 +61,27 @@ module.exports = {
 					return;
 				}
 
-				context.report({
-					fix: valueVariableName
-						? (fixer) =>
-								fixer.replaceTextRange(
-									[
-										node.parent.id.range[0],
-										node.parent.id.range[1],
-									],
-									`[${valueVariableName}, ${expectedSetterVariableName}]`
-								)
-						: undefined,
-					messageId: ERROR_ID,
-					node: node.parent.id,
-				});
+				const variable = context
+					.getDeclaredVariables(node.parent)
+					.find((item) => item.name === setterVariableName);
+
+				for (const reference of variable.references) {
+					context.report({
+						fix: (fixer) => {
+							if (expectedSetterVariableName) {
+								return fixer.replaceText(
+									reference.identifier,
+									expectedSetterVariableName
+								);
+							}
+						},
+						message:
+							reference.identifier === setterVariable
+								? DESCRIPTION
+								: `${setterVariableName} variable (renamed to ${expectedSetterVariableName})`,
+						node: reference.identifier,
+					});
+				}
 			},
 		};
 	},
@@ -83,9 +92,6 @@ module.exports = {
 			recommended: false,
 		},
 		fixable: 'code',
-		messages: {
-			[ERROR_ID]: DESCRIPTION,
-		},
 		schema: [],
 	},
 };

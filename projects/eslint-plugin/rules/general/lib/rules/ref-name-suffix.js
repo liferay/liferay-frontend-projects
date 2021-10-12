@@ -25,16 +25,24 @@ module.exports = {
 						variableName !== 'ref' &&
 						!variableName.match(NAME_PATTERN)
 					) {
-						context.report({
-							fix: (fixer) => {
-								return fixer.replaceText(
-									node.id,
-									variableName + 'Ref'
-								);
-							},
-							message: DESCRIPTION,
-							node,
-						});
+						const [variable] = context.getDeclaredVariables(node);
+						const newVariableName = variable.name + 'Ref';
+
+						for (const reference of variable.references) {
+							context.report({
+								fix: (fixer) => {
+									return fixer.replaceText(
+										reference.identifier,
+										newVariableName
+									);
+								},
+								message:
+									reference.identifier === node.id
+										? DESCRIPTION
+										: `ref variable (renamed to ${newVariableName})`,
+								node: reference.identifier,
+							});
+						}
 					}
 				}
 			},
