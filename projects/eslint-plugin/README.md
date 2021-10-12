@@ -25,11 +25,12 @@ If you previously used `@liferay/eslint-config`, upgrading to use this plugin is
 $ npm install --save-dev @liferay/eslint-plugin
 ```
 
-````js
+```js
 module.exports = {
 	plugins: ['@liferay'],
 	extends: ['plugin:@liferay/general'],
 };
+```
 
 ## Usage
 
@@ -40,7 +41,7 @@ module.exports = {
 	plugins: ['@liferay'],
 	extends: ['plugin:@liferay/general'],
 };
-````
+```
 
 This preset provides a reasonable starting point for an independent open source project. You can also specify `plugin:@liferay/react`, `plugin:@liferay/metal`, or `plugin:@liferay/portal`.
 
