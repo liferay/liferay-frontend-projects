@@ -15,17 +15,17 @@ export interface ManifestJsonPackages {
 
 /** Structure of a package in `manifest.json` files */
 export interface ManifestJsonPackage {
-	src: ManifestJsonPackageDescriptor;
 	dest: ManifestJsonPackageDescriptor;
 	modules?: ManifestJsonModules;
+	src: ManifestJsonPackageDescriptor;
 }
 
 /** Structure of a package descriptor in `manifest.json` files */
 export interface ManifestJsonPackageDescriptor {
+	dir: string;
 	id: string;
 	name: string;
 	version: string;
-	dir: string;
 }
 
 /** Structure of a `modules` of package descriptor in `manifest.json` files */

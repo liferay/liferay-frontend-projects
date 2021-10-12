@@ -5,15 +5,15 @@
 
 /** Minimal package.json structure description */
 export default interface PkgJson {
-	name: string;
-	version: string;
-	description?: string;
-	main?: string;
-	portlet?: PkgJsonPortletProperties;
 	dependencies?: PkgJsonDependencies;
+	description?: string;
 	devDependencies?: PkgJsonDependencies;
+	main?: string;
+	name: string;
 	peerDependencies?: PkgJsonDependencies;
+	portlet?: PkgJsonPortletProperties;
 	scripts?: PkgJsonScripts;
+	version: string;
 }
 
 export interface PkgJsonDependencies {

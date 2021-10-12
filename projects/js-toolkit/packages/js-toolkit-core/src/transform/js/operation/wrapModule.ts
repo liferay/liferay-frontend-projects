@@ -13,15 +13,6 @@ import {parse} from '../parse';
 export interface Options {
 
 	/**
-	 * The name of the require() method. Default value is 'require'.
-	 *
-	 * @remarks
-	 * This is used to scan the code and find the necessary dependencies to
-	 * construct the AMD define() invocation.
-	 */
-	requireIdentifier?: string;
-
-	/**
 	 * Extra dependencies to add to the AMD define() call (other than those
 	 * detected by scanning the code for require() calls).
 	 *
@@ -35,6 +26,15 @@ export interface Options {
 	defineDependencies?: {
 		[argumentName: string]: string;
 	};
+
+	/**
+	 * The name of the require() method. Default value is 'require'.
+	 *
+	 * @remarks
+	 * This is used to scan the code and find the necessary dependencies to
+	 * construct the AMD define() invocation.
+	 */
+	requireIdentifier?: string;
 }
 
 /**

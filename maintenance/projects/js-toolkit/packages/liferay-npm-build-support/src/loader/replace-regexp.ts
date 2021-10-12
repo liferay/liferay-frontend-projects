@@ -11,11 +11,11 @@ import {
 /** Configuration options for `replace-regexp` loader */
 export interface Options {
 
-	/** RegExp pattern to look for */
-	pattern: string;
-
 	/** RegExp flags to use */
 	flags?: string;
+
+	/** RegExp pattern to look for */
+	pattern: string;
 
 	/** Replacement string */
 	replacement: string;

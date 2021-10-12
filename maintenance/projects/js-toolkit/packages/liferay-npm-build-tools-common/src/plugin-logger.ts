@@ -7,10 +7,10 @@
  * A message descriptor
  */
 export interface Message {
-	source: string;
 	level: 'info' | 'warn' | 'error';
-	things: any[];
 	link?: string;
+	source: string;
+	things: any[];
 }
 
 class MessageTweaker {

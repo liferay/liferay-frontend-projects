@@ -24,10 +24,10 @@ export interface UnrolledAlias {
 	/** Absolute path to directory where alias is configured */
 	absDir: FilePath;
 
-	fromType: AliasFromType;
-
 	/** Original 'from' field value */
 	from: string;
+
+	fromType: AliasFromType;
 
 	to: AliasToValue;
 }

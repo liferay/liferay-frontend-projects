@@ -15,17 +15,17 @@ export interface Packages {
 
 /** Structure of a package in `manifest.json` files */
 export interface Package {
-	src: PackageDescriptor;
 	dest: PackageDescriptor;
 	modules?: Modules;
+	src: PackageDescriptor;
 }
 
 /** Structure of a package descriptor in `manifest.json` files */
 export interface PackageDescriptor {
+	dir: string;
 	id: string;
 	name: string;
 	version: string;
-	dir: string;
 }
 
 /** Structure of a `modules` of package descriptor in `manifest.json` files */
