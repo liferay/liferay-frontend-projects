@@ -16,10 +16,12 @@ module.exports = {
 
 		const isValidDefaultImport = (node) => {
 			return (
-				node.source.value.endsWith('/fetch') &&
-				node.specifiers.find(
-					(specifier) => specifier.type === 'ImportDefaultSpecifier'
-				)
+				node.source.value.endsWith('/fetch') ||
+				(node.source.value.endsWith('/fetch.es') &&
+					node.specifiers.find(
+						(specifier) =>
+							specifier.type === 'ImportDefaultSpecifier'
+					))
 			);
 		};
 

@@ -90,6 +90,30 @@ ruleTester.run('no-global-fetch', rule, {
 		},
 		{
 
+			// Unnamed import from '../fetch.es'
+
+			code: `
+				import fetch from '../fetch.es';
+
+				function doSomething(url) {
+					return fetch(url);
+				}
+			`,
+		},
+		{
+
+			// Unnamed import from '../util/fetch.es'
+
+			code: `
+				import fetch from '../util/fetch.es';
+
+				function doSomething(url) {
+					return fetch(url);
+				}
+			`,
+		},
+		{
+
 			// Namespaced from Liferay.Util
 
 			code: `
