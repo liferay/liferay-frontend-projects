@@ -5,7 +5,7 @@
 
 import {FilePath, TemplateRenderer, format} from '@liferay/js-toolkit-core';
 
-import prompt from '../util/prompt';
+import prompt from '../../util/prompt';
 
 import type {Facet, Options} from '../index';
 

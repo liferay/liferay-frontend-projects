@@ -6,8 +6,6 @@
 import {FilePath} from '@liferay/js-toolkit-core';
 import fs from 'fs';
 
-import type {Options} from '../index';
-
 /**
  * Ensure a project's output file exists and return its FilePath.
  *
@@ -15,7 +13,7 @@ import type {Options} from '../index';
  * @param projectPosixRelativePath
  */
 export default function ensureOutputFile(
-	options: Options,
+	options: {outputPath: FilePath},
 	projectPosixRelativePath: string
 ): FilePath {
 	const file = options.outputPath.join(

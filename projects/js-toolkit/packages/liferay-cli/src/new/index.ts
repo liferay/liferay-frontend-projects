@@ -7,7 +7,7 @@ import {FilePath, format} from '@liferay/js-toolkit-core';
 import fs from 'fs';
 import path from 'path';
 
-import prompt from './util/prompt';
+import prompt from '../util/prompt';
 
 const {error: fail, info, print, success, text, title} = format;
 

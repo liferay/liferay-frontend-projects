@@ -12,10 +12,10 @@ import {
 	transformTextFile,
 } from '@liferay/js-toolkit-core';
 
-import ensureOutputFile from '../util/ensureOutputFile';
-import getPortletName from '../util/getPortletName';
-import prompt from '../util/prompt';
-import toHumanReadable from '../util/toHumanReadable';
+import ensureOutputFile from '../../util/ensureOutputFile';
+import getPortletName from '../../util/getPortletName';
+import prompt from '../../util/prompt';
+import toHumanReadable from '../../util/toHumanReadable';
 
 import type {Facet, Options} from '../index';
 

@@ -11,7 +11,7 @@ import {
 	transformTextFile,
 } from '@liferay/js-toolkit-core';
 
-import ensureOutputFile from '../util/ensureOutputFile';
+import ensureOutputFile from '../../util/ensureOutputFile';
 
 import type {Facet, Options} from '../index';
 

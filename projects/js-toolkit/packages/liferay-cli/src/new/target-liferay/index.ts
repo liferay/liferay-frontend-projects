@@ -9,6 +9,8 @@ import {
 	transformJsonFile,
 } from '@liferay/js-toolkit-core';
 
+import ensureOutputFile from '../../util/ensureOutputFile';
+import prompt from '../../util/prompt';
 import facetAngular from '../facet-angular';
 import facetBuildable from '../facet-buildable';
 import facetConfiguration from '../facet-configuration';
@@ -20,8 +22,6 @@ import facetReact from '../facet-react';
 import facetSampleConfiguration from '../facet-sample-configuration';
 import facetSampleStyles from '../facet-sample-styles';
 import facetVuejs from '../facet-vuejs';
-import ensureOutputFile from '../util/ensureOutputFile';
-import prompt from '../util/prompt';
 
 import type {Options, Target} from '..';
 
