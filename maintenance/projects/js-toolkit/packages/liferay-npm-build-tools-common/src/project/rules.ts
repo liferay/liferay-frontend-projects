@@ -9,7 +9,7 @@ import path from 'path';
 import {Project} from '.';
 import {BundlerLoaderEntryPoint, BundlerLoaderMetadata} from '../api/loaders';
 import FilePath from '../file-path';
-import {splitModuleName} from '../modules';
+import {joinModuleName, splitModuleName} from '../modules';
 import {VersionInfo} from './types';
 
 /**
@@ -100,11 +100,11 @@ export default class Rules {
 
 			this._versionsInfo = resolvedModules.reduce(
 				(map: Map<string, VersionInfo>, resolvedModule) => {
-					const {modulePath, pkgName} = splitModuleName(
+					const {modulePath, pkgName, scope} = splitModuleName(
 						resolvedModule
 					);
 					const pkgJsonPath = _project.toolResolve(
-						`${pkgName}/package.json`
+						`${joinModuleName(scope, pkgName, '')}/package.json`
 					);
 					const pkgJson = require(pkgJsonPath);
 
