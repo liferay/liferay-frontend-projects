@@ -18,58 +18,71 @@ function deploy(projectDirName) {
 		fs.readFileSync(path.join(projectDir, 'package.json'), 'utf8')
 	);
 
-	if (!pkgJson.scripts || !pkgJson.scripts.deploy) {
+	const {scripts} = pkgJson;
+
+	if (!scripts) {
+		return;
+	}
+
+	let buildScript;
+	let deployScript;
+
+	if (scripts['deploy']) {
+		deployScript = 'deploy';
+		buildScript = 'build';
+	}
+	else if (scripts['deploy:liferay']) {
+		deployScript = 'deploy:liferay';
+		buildScript = 'build:liferay';
+	}
+
+	if (!deployScript) {
 		return;
 	}
 
 	spawn('yarn', [], {
 		cwd: projectDir,
 	});
-	spawn('yarn', ['build'], {
-		cwd: projectDir,
-	});
-	spawn('yarn', ['deploy'], {
+
+	if (buildScript) {
+		spawn('yarn', [buildScript], {
+			cwd: projectDir,
+		});
+	}
+
+	spawn('yarn', [deployScript], {
 		cwd: projectDir,
 	});
 }
 
 function generate(projectDirName, platform, framework) {
-	const optionsFilePath = path.join(tmpDir, 'options.json');
+	zapProjectDir(projectDirName);
 
-	fs.writeFileSync(
-		optionsFilePath,
-		JSON.stringify({
-			framework,
-			platform,
-		})
-	);
+	runLiferayCli(qaDir, ['new', projectDirName], {
+		framework,
+		platform,
+	});
+
+	writeLiferayJsonFile(projectDirName);
+}
+
+function generateCreateReactApp(projectDirName) {
+	zapProjectDir(projectDirName);
+
+	spawn('npx', ['create-react-app@4.0.3', projectDirName], {
+		cwd: qaDir,
+	});
 
 	const projectDir = path.join(qaDir, projectDirName);
 
-	fs.rmdirSync(projectDir, {recursive: true});
+	runLiferayCli(projectDir, ['adapt'], {});
 
-	spawn(
-		'node',
-		[
-			liferayCliPath,
-			'new',
-			projectDirName,
-			'--batch',
-			'--options',
-			optionsFilePath,
-		],
-		{
-			cwd: qaDir,
-		}
-	);
+	writeLiferayJsonFile(projectDirName);
 
 	fs.writeFileSync(
-		path.join(projectDir, '.liferay.json'),
-		JSON.stringify({
-			deploy: {
-				path: liferayDir,
-			},
-		})
+		path.join(projectDir, '.env'),
+		'SKIP_PREFLIGHT_CHECK=true',
+		'utf8'
 	);
 }
 
@@ -79,6 +92,24 @@ function logStep(step) {
 * ${step}
 ********************************************************************************
 `);
+}
+
+function runLiferayCli(dir, args, options) {
+	const optionsFilePath = path.join(tmpDir, 'options.json');
+
+	fs.writeFileSync(optionsFilePath, JSON.stringify(options));
+
+	const argv = [
+		liferayCliPath,
+		...args,
+		'--batch',
+		'--options',
+		optionsFilePath,
+	];
+
+	spawn('node', argv, {
+		cwd: dir,
+	});
 }
 
 function spawn(cmd, args, options = {}) {
@@ -94,9 +125,25 @@ function spawn(cmd, args, options = {}) {
 	}
 }
 
+function writeLiferayJsonFile(projectDirName) {
+	fs.writeFileSync(
+		path.join(qaDir, projectDirName, '.liferay.json'),
+		JSON.stringify({
+			deploy: {
+				path: liferayDir,
+			},
+		})
+	);
+}
+
+function zapProjectDir(projectDirName) {
+	fs.rmdirSync(path.join(qaDir, projectDirName), {recursive: true});
+}
+
 module.exports = {
 	deploy,
 	generate,
+	generateCreateReactApp,
 	logStep,
 	spawn,
 };
