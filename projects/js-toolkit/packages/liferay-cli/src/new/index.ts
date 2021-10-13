@@ -38,7 +38,11 @@ export default async function newProject(
 		/* eslint-disable-next-line @typescript-eslint/no-var-requires */
 		const {version} = require('../../package.json');
 
-		print('', title`|👋 |Welcome to Liferay Project Generator v${version}`);
+		print(
+			'',
+			title`|👋 |Welcome to Liferay Project Generator v${version}`,
+			''
+		);
 
 		const outputPath = FilePath.coerce(name).resolve();
 
@@ -50,7 +54,6 @@ export default async function newProject(
 		}
 
 		print(
-			'',
 			text`⚙ Gathering information to create project...`,
 			info`Using project name: {${name}}`
 		);
@@ -103,20 +106,21 @@ export default async function newProject(
 
 		await target.render(options);
 
-		print('', success`{Project has been generated successfully!}`);
+		print(
+			'',
+			success`{Project has been generated successfully!}`,
+			'',
+			text`
+You can now run the following commands to build your project:
 
-		print(text`
+    $ {cd ${name}| ↩|}
+    $ {npm install| ↩|} 
+    $ {npm run build| ↩|} 
 
-			  You can now run the following commands to build your project:
-
-			      $ {cd ${name}| ↩|}
-			      $ {npm install| ↩|} 
-			      $ {npm run build| ↩|} 
-
-			  This will create a {${name}.jar} file in your {${path.join(name, 'dist')}}
-			  folder that you can deploy to your local Liferay server.
-
-		`);
+This will create a {${name}.jar} file in your {${path.join(name, 'dist')}}
+folder that you can deploy to your local Liferay server.
+`
+		);
 	}
 	catch (error) {
 		print(fail`Could not generate project due to error:`);
