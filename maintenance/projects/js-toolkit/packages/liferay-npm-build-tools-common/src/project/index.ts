@@ -27,8 +27,8 @@ export type PkgManager = 'npm' | 'yarn' | null;
 
 /** Information on the preset being used */
 export interface PresetInfo {
-	name: string;
 	isAutopreset: boolean;
+	name: string;
 }
 
 /**

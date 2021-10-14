@@ -60,14 +60,14 @@ export interface BundlerLoaderContext {
 	/** Content of main transformed object */
 	content: string;
 
-	/** Path to main transformed object (relative to project dir) */
-	filePath: string;
-
 	/**
 	 * Hash of extra objects to write (keys are paths relative to output
 	 * dir and values are the content of the file)
 	 */
 	extraArtifacts: object;
+
+	/** Path to main transformed object (relative to project dir) */
+	filePath: string;
 
 	/** A standard plugin logger to write things to the report */
 	log: PluginLogger;

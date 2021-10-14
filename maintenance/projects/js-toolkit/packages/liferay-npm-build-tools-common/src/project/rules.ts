@@ -16,11 +16,11 @@ import {VersionInfo} from './types';
  * A bundler loader plugin descriptor
  */
 export interface BundlerLoaderDescriptor {
-	loader: string;
-	resolvedModule: string;
 	exec: BundlerLoaderEntryPoint;
-	options: object;
+	loader: string;
 	metadata: BundlerLoaderMetadata;
+	options: object;
+	resolvedModule: string;
 }
 
 /**
@@ -28,9 +28,9 @@ export interface BundlerLoaderDescriptor {
  * `.npmbundlerrc`).
  */
 interface BundlerNormalizedRule {
-	test: RegExp[];
-	include: RegExp[];
 	exclude: RegExp[];
+	include: RegExp[];
+	test: RegExp[];
 	use: BundlerLoaderDescriptor[];
 }
 

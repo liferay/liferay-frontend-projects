@@ -10,8 +10,8 @@ import newProject from './new';
 import runLiferayCli from './runLiferayCli';
 
 interface Arguments {
-	_: string[];
 	$0: string;
+	_: string[];
 	batch?: boolean;
 	name?: string;
 	options?: string;

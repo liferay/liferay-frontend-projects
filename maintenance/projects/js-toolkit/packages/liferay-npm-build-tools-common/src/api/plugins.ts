@@ -12,10 +12,10 @@ import PluginLogger from '../plugin-logger';
  * (see `liferay-npm-build-tools-common/lib/babel-ipc` module).
  */
 export interface BabelIpcObject {
+	globalConfig: object;
 	log: PluginLogger;
 	manifest: Manifest;
 	rootPkgJson: object;
-	globalConfig: object;
 }
 
 /**

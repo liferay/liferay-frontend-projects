@@ -15,13 +15,13 @@ import {BundlerPluginEntryPoint} from '../api/plugins';
  * @see BundlerPluginEntryPoint
  */
 export interface BundlerPluginDescriptor<T> {
-	name: string;
 	config: object;
+	name: string;
 	run: BundlerPluginEntryPoint<T>;
 }
 
 /** Plugin version information */
 export interface VersionInfo {
-	version: string;
 	path: string;
+	version: string;
 }

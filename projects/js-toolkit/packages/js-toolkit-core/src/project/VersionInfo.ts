@@ -5,6 +5,6 @@
 
 /** Plugin version information */
 export default interface VersionInfo {
-	version: string;
 	path: string;
+	version: string;
 }

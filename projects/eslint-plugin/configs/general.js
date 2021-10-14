@@ -15,6 +15,30 @@ const config = {
 			files: ['*.{ts,tsx}'],
 			parser: '@typescript-eslint/parser',
 			rules: {
+				'@typescript-eslint/member-ordering': [
+					'error',
+					{
+						default: [],
+						interfaces: {
+							memberTypes: [
+								'constructor',
+								'method',
+								'field',
+								'signature',
+							],
+							order: 'alphabetically',
+						},
+						typeLiterals: {
+							memberTypes: [
+								'constructor',
+								'method',
+								'field',
+								'signature',
+							],
+							order: 'alphabetically',
+						},
+					},
+				],
 				'@typescript-eslint/no-unused-vars': [
 					'error',
 					{

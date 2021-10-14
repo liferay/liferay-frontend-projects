@@ -9,14 +9,14 @@
  */
 export interface ModuleNameParts {
 
-	/** Scope of module (starts with at sign) */
-	scope?: string;
+	/** Module file path relative to package root (starts with /) */
+	modulePath?: string;
 
 	/** Package name of module */
 	pkgName: string;
 
-	/** Module file path relative to package root (starts with /) */
-	modulePath?: string;
+	/** Scope of module (starts with at sign) */
+	scope?: string;
 }
 
 /**
