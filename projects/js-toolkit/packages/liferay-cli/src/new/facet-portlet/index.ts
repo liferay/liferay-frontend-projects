@@ -11,10 +11,11 @@ import {
 	transformJsonFile,
 	transformTextFile,
 } from '@liferay/js-toolkit-core';
-import fs from 'fs';
 
+import ensureOutputFile from '../util/ensureOutputFile';
 import getPortletName from '../util/getPortletName';
 import prompt from '../util/prompt';
+import toHumanReadable from '../util/toHumanReadable';
 
 import type {Facet, Options} from '../index';
 
@@ -37,25 +38,25 @@ const facet: Facet = {
 	},
 
 	async render(options: Options): Promise<void> {
+		print(info`Generating porlet...`);
+
 		const renderer = new TemplateRenderer(
 			new FilePath(__dirname).join('templates'),
 			options.outputPath
 		);
 
+		print(info`  Creating {styles.scss} file`);
+
 		await renderer.render('src/css/styles.scss', options);
 
-		// Add portlet properties
+		print(info`  Setting porlet headers`);
 
-		const pkgJsonFile = options.outputPath.join('package.json');
+		const pkgJsonFile = ensureOutputFile(options, 'package.json');
 
 		/* eslint-disable-next-line @liferay/no-dynamic-require, @typescript-eslint/no-var-requires */
 		const pkgJson = require(pkgJsonFile.asNative);
-		const portletDisplayName = pkgJson['name'];
-		const portletName = getPortletName(portletDisplayName);
-
-		print(info`Generating porlet...`);
-		print(info`  Setting porlet name: {${portletDisplayName}}`);
-		print(info`  Setting portlet category: {${options.category}}`);
+		const portletDisplayName = toHumanReadable(pkgJson['name']);
+		const portletName = getPortletName(pkgJson['name']);
 
 		await transformJsonFile(
 			pkgJsonFile,
@@ -69,13 +70,14 @@ const facet: Facet = {
 			})
 		);
 
-		// Add portlet display name
+		if (options.addLocalizationSupport) {
+			const languageFile = ensureOutputFile(
+				options,
+				'features/localization/Language.properties'
+			);
 
-		const languageFile: FilePath = options.outputPath.join(
-			'features/localization/Language.properties'
-		);
+			print(info`  Set portlet resource bundle`);
 
-		if (fs.existsSync(languageFile.asNative)) {
 			await transformJsonFile(
 				pkgJsonFile,
 				pkgJsonFile,
@@ -83,6 +85,8 @@ const facet: Facet = {
 					'javax.portlet.resource-bundle': 'content.Language',
 				})
 			);
+
+			print(info`  Add portlet display name for English language`);
 
 			await transformTextFile(
 				languageFile,
@@ -93,6 +97,8 @@ const facet: Facet = {
 			);
 		}
 		else {
+			print(info`  Set portlet display name`);
+
 			await transformJsonFile(
 				pkgJsonFile,
 				pkgJsonFile,

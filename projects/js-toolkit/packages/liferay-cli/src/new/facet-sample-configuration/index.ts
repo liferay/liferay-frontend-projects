@@ -4,13 +4,13 @@
  */
 
 import {
-	FilePath,
 	TRANSFORM_OPERATIONS,
 	format,
 	transformJsonFile,
 	transformTextFile,
 } from '@liferay/js-toolkit-core';
-import fs from 'fs';
+
+import ensureOutputFile from '../util/ensureOutputFile';
 
 import type {Facet, Options} from '../index';
 
@@ -26,57 +26,53 @@ const facet: Facet = {
 	},
 
 	async render(options: Options): Promise<void> {
+		if (!options.addConfigurationSupport) {
+			return;
+		}
 
-		// Add configuration fields
+		print(info`  Adding configuration schemas`);
 
-		const configurationFile: FilePath = options.outputPath.join(
+		const configurationFile = ensureOutputFile(
+			options,
 			'features/configuration.json'
 		);
 
-		if (fs.existsSync(configurationFile.asNative)) {
-			print(
-				info`  Adding System Settings Configuration schema`,
-				info`  Adding Portlet Instance Configuration schema`
-			);
-
-			await transformJsonFile(
-				configurationFile,
-				configurationFile,
-				addField('system', 'fruit', {
-					default: 'orange',
-					description: 'fruit-help',
-					name: 'fruit',
-					options: {
-						apple: 'an-apple',
-						orange: 'an-orange',
-						pear: 'a-pear',
-					},
-					required: false,
-					type: 'string',
-				}),
-				addField('portletInstance', 'drink', {
-					default: 'water',
-					description: 'drink-help',
-					name: 'drink',
-					options: {
-						coffee: 'coffee',
-						tea: 'tea',
-						water: 'water',
-					},
-					required: false,
-					type: 'string',
-				})
-			);
-		}
-
-		// Add language keys
-
-		const languageFile: FilePath = options.outputPath.join(
-			'features/localization/Language.properties'
+		await transformJsonFile(
+			configurationFile,
+			configurationFile,
+			addField('system', 'fruit', {
+				default: 'orange',
+				description: 'fruit-help',
+				name: 'fruit',
+				options: {
+					apple: 'an-apple',
+					orange: 'an-orange',
+					pear: 'a-pear',
+				},
+				required: false,
+				type: 'string',
+			}),
+			addField('portletInstance', 'drink', {
+				default: 'water',
+				description: 'drink-help',
+				name: 'drink',
+				options: {
+					coffee: 'coffee',
+					tea: 'tea',
+					water: 'water',
+				},
+				required: false,
+				type: 'string',
+			})
 		);
 
-		if (fs.existsSync(languageFile.asNative)) {
-			print(info`  Adding Configuration strings for English language`);
+		if (options.addLocalizationSupport) {
+			print(info`  Adding configuration labels for English language`);
+
+			const languageFile = ensureOutputFile(
+				options,
+				'features/localization/Language.properties'
+			);
 
 			await transformTextFile(
 				languageFile,

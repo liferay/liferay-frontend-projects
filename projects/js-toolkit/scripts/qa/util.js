@@ -33,14 +33,14 @@ function deploy(projectDirName) {
 	});
 }
 
-function generate(projectDirName, framework) {
+function generate(projectDirName, platform, framework) {
 	const optionsFilePath = path.join(tmpDir, 'options.json');
 
 	fs.writeFileSync(
 		optionsFilePath,
 		JSON.stringify({
 			framework,
-			platform: 'portal-master',
+			platform,
 		})
 	);
 

@@ -25,15 +25,28 @@ if (argv['clean']) {
 if (argv['generate']) {
 	logStep('Generating test projects');
 
-	generate('plain-js-portlet', 'Plain JavaScript');
-	generate('react-portlet', 'React');
+	generate('agnostic-angular-portlet', 'portal-agnostic', 'Angular');
+	generate(
+		'agnostic-plain-js-portlet',
+		'portal-agnostic',
+		'Plain JavaScript'
+	);
+	generate('agnostic-react-portlet', 'portal-agnostic', 'React');
+
+	generate('master-angular-portlet', 'portal-master', 'Angular');
+	generate('master-plain-js-portlet', 'portal-master', 'Plain JavaScript');
+	generate('master-react-portlet', 'portal-master', 'React');
 }
 
 if (argv['deploy']) {
 	logStep('Deploying test projects');
 
-	fs.readdirSync(qaDir).forEach((projectDirName) => {
-		deploy(projectDirName);
+	fs.readdirSync(qaDir, {withFileTypes: true}).forEach((dirent) => {
+		if (!dirent.isDirectory()) {
+			return;
+		}
+
+		deploy(dirent.name);
 	});
 }
 
