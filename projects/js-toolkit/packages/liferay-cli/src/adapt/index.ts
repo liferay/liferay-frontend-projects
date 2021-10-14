@@ -31,7 +31,9 @@ export interface Options {
 }
 
 const tuneProjectMethods = {
+	[ProjectType.ANGULAR_CLI]: tuneAngularCliProject,
 	[ProjectType.CREATE_REACT_APP]: tuneCreateReactAppProject,
+	[ProjectType.VUE_CLI]: tuneVueCliProject,
 };
 
 export default async function adaptProject(
@@ -221,7 +223,35 @@ async function promptForOptions(
 	return options;
 }
 
+async function tuneAngularCliProject(_options: Options): Promise<void> {
+	const pkgJsonFile = new FilePath(project.dir.join('package.json').asNative);
+
+	/* eslint-disable-next-line @liferay/no-dynamic-require, @typescript-eslint/no-var-requires */
+	const pkgJson = require(pkgJsonFile.asNative);
+
+	await transformJsonFile(
+		pkgJsonFile,
+		pkgJsonFile,
+		addPortletProperties({
+			'com.liferay.portlet.header-portlet-css': `/${pkgJson.name}/styles.css`,
+			'com.liferay.portlet.instanceable': false,
+		})
+	);
+}
+
 async function tuneCreateReactAppProject(_options: Options): Promise<void> {
+	const pkgJsonFile = new FilePath(project.dir.join('package.json').asNative);
+
+	await transformJsonFile(
+		pkgJsonFile,
+		pkgJsonFile,
+		addPortletProperties({
+			'com.liferay.portlet.instanceable': true,
+		})
+	);
+}
+
+async function tuneVueCliProject(_options: Options): Promise<void> {
 	const pkgJsonFile = new FilePath(project.dir.join('package.json').asNative);
 
 	await transformJsonFile(
