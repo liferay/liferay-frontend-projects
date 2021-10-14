@@ -1,0 +1,98 @@
+{
+	"output": "dist.liferay/work",
+
+	"ignore": ["**/*"],
+	"exclude": {
+		"*": ["**/*"]
+	},
+
+	"sources": ["dist.liferay/generated", "dist", "package.json"],
+	"rules": [
+		{
+			"description": "Copy static assets",
+			"test": "^dist/[^/]+/assets/.*",
+			"use": [
+				{
+					"loader": "copy-loader"
+				}
+			]
+		},
+		{
+			"description": "Transform Liferay's source files",
+			"test": "^dist.liferay/generated/.*\\.js$",
+			"use": [
+				{
+					"loader": "babel-loader",
+					"options": {
+						"presets": ["babel-preset-liferay-standard"]
+					}
+				}
+			]
+		},
+		{
+			"description": "Transform webpack JavaScript bundles",
+			"test": "^dist/[^/]+/.*\\.js$",
+			"use": [
+				{
+					"loader": "@liferay/portal-adapt-base/src/loader/wrapWebpackBundle",
+					"options": {
+						"removePrefix": "dist/"
+					}
+				},
+				{
+					"loader": "@liferay/portal-adapt-base/src/loader/replaceRegExp",
+					"options": {
+						"pattern": "\"app-root\"",
+						"replacement": "\"#\"+_LIFERAY_PARAMS_.portletElementId"
+					}
+				},
+				{
+					"loader": "@liferay/portal-adapt-base/src/loader/adaptStaticURLsAtRuntime",
+					"options": {
+						"docroot": "dist/${project.name}",
+						"include": ["^assets/.*"],
+						"matchSubstring": true
+					}
+				},
+				{
+					"loader": "@liferay/portal-adapt-base/src/loader/namespaceWebpack"
+				},
+				{
+					"loader": "@liferay/portal-adapt-base/src/loader/removeWebpackHash"
+				},
+				{
+					"loader": "@liferay/portal-adapt-base/src/loader/normalizeAngularOutput"
+				}
+			]
+		},
+		{
+			"description": "Remove content hash from webpack bundles and CSS",
+			"test": "",
+			"include": ["^dist/[^/]+/styles.*\\.css$"],
+			"use": [
+				{
+					"loader": "@liferay/portal-adapt-base/src/loader/removeWebpackHash"
+				}
+			]
+		},
+		{
+			"description": "Add CSS portlet header to package.json",
+			"test": "^package\\.json$",
+			"use": [
+				{
+					"loader": "@liferay/portal-adapt-base/src/loader/addCSSPortletHeader",
+					"options": {
+						"css": "/${project.dir.basename}/styles.css"
+					}
+				}
+			]
+		}
+	],
+
+	"create-jar": {
+		"output-dir": "dist.liferay",
+		"features": {
+			"js-extender": true
+		}
+	}
+}
