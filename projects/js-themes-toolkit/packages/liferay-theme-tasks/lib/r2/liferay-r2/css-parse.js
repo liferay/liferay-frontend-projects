@@ -277,7 +277,8 @@ module.exports = function (css, options) {
 
 		// declarations
 
-		var decl, rule;
+		var decl;
+		var rule;
 		while ((decl = declaration()) || (rule = expandedatrule())) {
 			if (decl) {
 				decls.push(decl);

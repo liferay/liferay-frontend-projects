@@ -42,7 +42,8 @@ beforeAll(() => {
 });
 
 describe('plugin feature tests', () => {
-	let logger, manifest;
+	let logger;
+	let manifest;
 
 	beforeEach(() => {
 		babelIpc.set(filename, {

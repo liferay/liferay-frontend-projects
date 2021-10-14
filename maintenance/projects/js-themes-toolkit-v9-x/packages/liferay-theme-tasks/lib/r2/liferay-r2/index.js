@@ -163,12 +163,12 @@ function processDeclaration(declaration, rule) {
 
 	// RegEx for comments is taken from http://www.w3.org/TR/CSS21/grammar.html
 
-	var commentRegEx = /\/\*[^*]*\*+([^/*][^*]*\*+)*\//g,
-		prop = declaration.property.replace(commentRegEx, ''), // remove comments
-		val = declaration.value.replace(commentRegEx, ''),
-		important = /!important/,
-		isImportant = val.match(important),
-		asterisk = prop.match(/^(\*+)(.+)/, '');
+	var commentRegEx = /\/\*[^*]*\*+([^/*][^*]*\*+)*\//g;
+	var prop = declaration.property.replace(commentRegEx, ''); // remove comments
+	var val = declaration.value.replace(commentRegEx, '');
+	var important = /!important/;
+	var isImportant = val.match(important);
+	var asterisk = prop.match(/^(\*+)(.+)/, '');
 
 	if (asterisk) {
 		prop = asterisk[2];
