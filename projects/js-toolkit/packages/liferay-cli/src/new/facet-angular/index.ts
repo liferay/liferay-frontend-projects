@@ -48,8 +48,6 @@ const facet: Facet = {
 
 		await renderer.render('tsconfig.json', context);
 
-		// TODO: add build step: tsc
-
 		print(info`  Creating Angular application`);
 
 		await renderer.render('src/app/app.component.html', context);
