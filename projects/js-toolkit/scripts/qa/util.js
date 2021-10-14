@@ -12,6 +12,8 @@ const path = require('path');
 const {liferayCliPath, liferayDir, qaDir, tmpDir} = require('./resources');
 
 function deploy(projectDirName) {
+	logStep(`DEPLOY: ${projectDirName}`);
+
 	const projectDir = path.join(qaDir, projectDirName);
 
 	const pkgJson = JSON.parse(
@@ -56,6 +58,8 @@ function deploy(projectDirName) {
 }
 
 function generate(projectDirName, platform, framework) {
+	logStep(`GENERATE: ${projectDirName}`);
+
 	zapProjectDir(projectDirName);
 
 	runLiferayCli(qaDir, ['new', projectDirName], {
@@ -66,7 +70,35 @@ function generate(projectDirName, platform, framework) {
 	writeLiferayJsonFile(projectDirName);
 }
 
+function generateAngularCli(projectDirName) {
+	logStep(`GENERATE: ${projectDirName}`);
+
+	zapProjectDir(projectDirName);
+
+	spawn(
+		'npx',
+		[
+			'@angular/cli@12.2.10',
+			'new',
+			projectDirName,
+			'--defaults',
+			'--skip-install',
+		],
+		{
+			cwd: qaDir,
+		}
+	);
+
+	const projectDir = path.join(qaDir, projectDirName);
+
+	runLiferayCli(projectDir, ['adapt'], {});
+
+	writeLiferayJsonFile(projectDirName);
+}
+
 function generateCreateReactApp(projectDirName) {
+	logStep(`GENERATE: ${projectDirName}`);
+
 	zapProjectDir(projectDirName);
 
 	spawn('npx', ['create-react-app@4.0.3', projectDirName], {
@@ -84,6 +116,26 @@ function generateCreateReactApp(projectDirName) {
 		'SKIP_PREFLIGHT_CHECK=true',
 		'utf8'
 	);
+}
+
+function generateVueCli(projectDirName) {
+	logStep(`GENERATE: ${projectDirName}`);
+
+	zapProjectDir(projectDirName);
+
+	spawn(
+		'npx',
+		['@vue/cli@4.5.14', 'create', projectDirName, '-d', '-m', 'yarn'],
+		{
+			cwd: qaDir,
+		}
+	);
+
+	const projectDir = path.join(qaDir, projectDirName);
+
+	runLiferayCli(projectDir, ['adapt'], {});
+
+	writeLiferayJsonFile(projectDirName);
 }
 
 function logStep(step) {
@@ -143,7 +195,9 @@ function zapProjectDir(projectDirName) {
 module.exports = {
 	deploy,
 	generate,
+	generateAngularCli,
 	generateCreateReactApp,
+	generateVueCli,
 	logStep,
 	spawn,
 };
