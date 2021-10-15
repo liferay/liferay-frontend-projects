@@ -6,7 +6,15 @@
 const fs = require('fs');
 
 const {qaDir} = require('./resources');
-const {deploy, generate, logStep, spawn} = require('./util');
+const {
+	deploy,
+	generate,
+	generateAngularCli,
+	generateCreateReactApp,
+	generateVueCli,
+	logStep,
+	spawn,
+} = require('./util');
 
 const argv = getTargets();
 
@@ -38,6 +46,10 @@ if (argv['generate']) {
 	generate('master-plain-js-portlet', 'portal-master', 'Plain JavaScript');
 	generate('master-react-portlet', 'portal-master', 'React');
 	generate('master-vuejs-portlet', 'portal-master', 'Vue.js');
+
+	generateAngularCli('angular-cli-portlet');
+	generateCreateReactApp('create-react-app-portlet');
+	generateVueCli('vue-cli-portlet');
 }
 
 if (argv['deploy']) {

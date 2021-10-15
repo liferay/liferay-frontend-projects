@@ -6,6 +6,20 @@
  */
 
 const {argv} = require('yargs')
+	.command('adapt', 'Adapt the project in the current directory', (yargs) =>
+		yargs
+			.option('batch', {
+				default: false,
+				describe:
+					'Batch mode (assumes all defaults without user interaction)',
+				type: 'boolean',
+			})
+			.option('options', {
+				describe:
+					'Path to a file containing default values for options',
+				type: 'string',
+			})
+	)
 	.command('build', 'Build a project created with @liferay/cli')
 	.command('clean', 'Remove output directories')
 	.command(

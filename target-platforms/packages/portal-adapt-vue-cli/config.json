@@ -1,0 +1,80 @@
+{
+	"output": "dist.liferay/work",
+
+	"ignore": ["**/*"],
+	"exclude": {
+		"*": ["**/*"]
+	},
+
+	"sources": ["dist.liferay/generated", "dist", "package.json"],
+	"rules": [
+		{
+			"description": "Copy static assets",
+			"test": "",
+			"include": ["^dist/fonts/.*$", "^dist/img/.*$", "^dist/media/.*$"],
+			"use": [
+				{
+					"loader": "copy-loader"
+				}
+			]
+		},
+		{
+			"description": "Transform Liferay's source files",
+			"test": "^dist.liferay/generated/.*\\.js$",
+			"use": [
+				{
+					"loader": "babel-loader",
+					"options": {
+						"presets": ["babel-preset-liferay-standard"]
+					}
+				}
+			]
+		},
+		{
+			"description": "Transform webpack JavaScript bundles",
+			"test": "^dist/js/.*\\.js$",
+			"use": [
+				{
+					"loader": "@liferay/portal-adapt-base/src/loader/wrapWebpackBundle",
+					"options": {
+						"removePrefix": "dist/"
+					}
+				},
+				{
+					"loader": "@liferay/portal-adapt-base/src/loader/replaceRegExp",
+					"options": {
+						"pattern": "'#app'",
+						"replacement": "'#'+_LIFERAY_PARAMS_.portletElementId"
+					}
+				},
+				{
+					"loader": "@liferay/portal-adapt-base/src/loader/adaptStaticURLs",
+					"options": {
+						"docroot": "dist",
+						"include": ["^fonts/.*", "^img/.*", "^media/.*"]
+					}
+				},
+				{
+					"loader": "@liferay/portal-adapt-base/src/loader/namespaceWebpack"
+				}
+			]
+		},
+		{
+			"description": "Remove content hash from webpack bundles and CSS",
+			"test": "",
+			"include": ["^dist/js/.*\\.js$"],
+			"use": [
+				{
+					"loader": "@liferay/portal-adapt-base/src/loader/removeWebpackHash"
+				}
+			]
+		}
+	],
+
+	"create-jar": {
+		"output-dir": "dist.liferay",
+		"features": {
+			"js-extender": true
+		}
+	}
+}

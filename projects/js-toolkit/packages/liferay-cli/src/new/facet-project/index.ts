@@ -6,8 +6,8 @@
 import {FilePath, TemplateRenderer, format} from '@liferay/js-toolkit-core';
 import fs from 'fs';
 
-import prompt from '../util/prompt';
-import toHumanReadable from '../util/toHumanReadable';
+import prompt from '../../util/prompt';
+import toHumanReadable from '../../util/toHumanReadable';
 
 import type {Facet, Options} from '../index';
 

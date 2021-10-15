@@ -1,0 +1,112 @@
+{
+	"output": "build.liferay/work",
+
+	"ignore": ["**/*"],
+	"exclude": {
+		"*": ["**/*"]
+	},
+
+	"sources": ["build.liferay/generated", "build", "package.json"],
+	"rules": [
+		{
+			"description": "Copy static assets",
+			"test": "",
+			"include": [
+				"^build/static/css/.*\\.css$",
+				"^build/static/media/.*"
+			],
+			"use": [
+				{
+					"loader": "copy-loader"
+				}
+			]
+		},
+		{
+			"description": "Transform Liferay's source files",
+			"test": "^build.liferay/generated/.*\\.js$",
+			"use": [
+				{
+					"loader": "babel-loader",
+					"options": {
+						"presets": ["babel-preset-liferay-standard"]
+					}
+				}
+			]
+		},
+		{
+			"description": "Transform webpack JavaScript bundles",
+			"test": "^build/static/js/.*\\.js$",
+			"use": [
+				{
+					"loader": "@liferay/portal-adapt-base/src/loader/wrapWebpackBundle",
+					"options": {
+						"removePrefix": "build/"
+					}
+				},
+				{
+					"loader": "@liferay/portal-adapt-base/src/loader/replaceRegExp",
+					"options": {
+						"pattern": "document.getElementById\\(\"root\"\\)",
+						"replacement": "document.getElementById(_LIFERAY_PARAMS_.portletElementId)"
+					}
+				},
+				{
+					"loader": "@liferay/portal-adapt-base/src/loader/adaptStaticURLsAtRuntime",
+					"options": {
+						"docroot": "build",
+						"include": ["^static/media/.*"]
+					}
+				},
+				{
+					"loader": "@liferay/portal-adapt-base/src/loader/namespaceWebpack"
+				}
+			]
+		},
+		{
+			"description": "Rewrite CSS media URLs",
+			"test": "^build/static/css/.*\\.css$",
+			"use": [
+				{
+					"loader": "@liferay/portal-adapt-base/src/loader/adaptStaticURLs",
+					"options": {
+						"docroot": "build",
+						"include": ["^static/media/.*"],
+						"matchQuotes": false
+					}
+				}
+			]
+		},
+		{
+			"description": "Remove content hash from webpack bundles and CSS",
+			"test": "",
+			"include": [
+				"^build/static/css/.*\\.css$",
+				"^build/static/js/.*\\.js$"
+			],
+			"use": [
+				{
+					"loader": "@liferay/portal-adapt-base/src/loader/removeWebpackHash"
+				}
+			]
+		},
+		{
+			"description": "Add CSS portlet header to package.json",
+			"test": "^package\\.json$",
+			"use": [
+				{
+					"loader": "@liferay/portal-adapt-base/src/loader/addCSSPortletHeader",
+					"options": {
+						"css": "/static/css/main.chunk.css"
+					}
+				}
+			]
+		}
+	],
+
+	"create-jar": {
+		"output-dir": "build.liferay",
+		"features": {
+			"js-extender": true
+		}
+	}
+}

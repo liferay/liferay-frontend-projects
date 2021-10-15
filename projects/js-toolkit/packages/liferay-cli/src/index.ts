@@ -6,6 +6,7 @@
 import {format} from '@liferay/js-toolkit-core';
 import checkForUpdate from 'update-check';
 
+import adaptProject from './adapt';
 import newProject from './new';
 import runLiferayCli from './runLiferayCli';
 
@@ -24,6 +25,9 @@ export default async function (argv: Arguments): Promise<void> {
 	await warnIfNewerVersionAvailable();
 
 	switch (argv._[0]) {
+		case 'adapt':
+			return await adaptProject(argv.batch, argv.options);
+
 		case 'build':
 		case 'clean':
 		case 'deploy':
