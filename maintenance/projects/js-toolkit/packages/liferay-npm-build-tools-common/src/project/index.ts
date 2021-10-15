@@ -22,6 +22,8 @@ import Rules from './rules';
 import Transform from './transform';
 import {VersionInfo} from './types';
 
+export {ProjectType} from './probe';
+
 /** A package manager */
 export type PkgManager = 'npm' | 'yarn' | null;
 
