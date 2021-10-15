@@ -9,6 +9,7 @@ import {
 	transformJsonFile,
 } from '@liferay/js-toolkit-core';
 
+import dependencies from '../../dependencies.json';
 import ensureOutputFile from '../../util/ensureOutputFile';
 import prompt from '../../util/prompt';
 import facetAngular from '../facet-angular';
@@ -36,7 +37,7 @@ const frameworkFacets = {
 	React: facetReact,
 	'Vue.js': facetVuejs,
 };
-const platforms = ['portal-7.4-ga1', 'portal-agnostic'];
+const platforms = dependencies['target-liferay']['platforms'];
 
 const target: Target = {
 	name: 'Liferay Platform Project',

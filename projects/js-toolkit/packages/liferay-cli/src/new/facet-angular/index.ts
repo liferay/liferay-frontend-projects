@@ -12,6 +12,7 @@ import {
 	transformTextFile,
 } from '@liferay/js-toolkit-core';
 
+import dependencies from '../../dependencies.json';
 import ensureOutputFile from '../../util/ensureOutputFile';
 
 import type {Facet, Options} from '../index';
@@ -83,40 +84,9 @@ const facet: Facet = {
 		await transformJsonFile(
 			pkgJsonFile,
 			pkgJsonFile,
-			addDependencies({
-				'@angular/animations': '10.2.2',
-				'@angular/common': '10.2.2',
-				'@angular/compiler': '10.2.2',
-				'@angular/core': '10.2.2',
-				'@angular/forms': '10.2.2',
-				'@angular/platform-browser': '10.2.2',
-				'@angular/platform-browser-dynamic': '10.2.2',
-				'@angular/router': '10.2.2',
-				rxjs: '6.6.3',
-				tslib: '2.0.3',
-				'zone.js': '0.10.3',
-			}),
+			addDependencies(dependencies['facet-angular']['dependencies']),
 			addDependencies(
-				{
-					'@angular/cli': '10.2.0',
-					'@angular/compiler-cli': '10.2.2',
-					'@angular-devkit/build-angular': '0.1002.0',
-					'@types/jasmine': '3.5.14',
-					'@types/jasminewd2': '2.0.8',
-					'@types/node': '12.11.1',
-					codelyzer: '6.0.1',
-					'jasmine-core': '3.6.0',
-					'jasmine-spec-reporter': '5.0.2',
-					karma: '5.0.9',
-					'karma-chrome-launcher': '3.1.0',
-					'karma-coverage-istanbul-reporter': '3.0.3',
-					'karma-jasmine': '4.0.1',
-					'karma-jasmine-html-reporter': '1.5.4',
-					protractor: '7.0.0',
-					'ts-node': '8.3.0',
-					tslint: '6.1.3',
-					typescript: '4.0.5',
-				},
+				dependencies['facet-angular']['devDependencies'],
 				'dev'
 			)
 		);
