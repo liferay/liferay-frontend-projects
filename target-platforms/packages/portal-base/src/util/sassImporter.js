@@ -3,10 +3,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+const {FilePath} = require('@liferay/js-toolkit-core');
 const fs = require('fs');
-const {
-	default: FilePath,
-} = require('liferay-npm-build-tools-common/lib/file-path');
 const {sync: resolve} = require('resolve');
 
 module.exports = function (url, _prev) {

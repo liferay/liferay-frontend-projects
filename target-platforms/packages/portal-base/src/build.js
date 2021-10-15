@@ -4,22 +4,22 @@
  */
 
 const babel = require('@babel/core');
-const childProcess = require('child_process');
+const babelPresetEnv = require('@babel/preset-env');
+const babelPresetReact = require('@babel/preset-react');
+const {format} = require('@liferay/js-toolkit-core');
 const fs = require('fs');
-const {
-	error: fail,
-	info,
-	print,
-	success,
-} = require('liferay-npm-build-tools-common/lib/format');
 const {
 	default: project,
 } = require('liferay-npm-build-tools-common/lib/project');
 const path = require('path');
 const sass = require('sass');
 
+const abort = require('./util/abort');
 const findFiles = require('./util/findFiles');
 const sassImporter = require('./util/sassImporter');
+const spawn = require('./util/spawn');
+
+const {info, print, success} = format;
 
 const srcDir = project.dir.join('src');
 const {buildDir} = project;
@@ -34,18 +34,6 @@ module.exports = function build() {
 
 	print(success`{Project successfully built}`);
 };
-
-function abort(error) {
-	if (error.stack) {
-		print(error.stack);
-	}
-	else {
-		print(error.toString());
-	}
-
-	print(fail`Build failed`);
-	process.exit(1);
-}
 
 function copyAssets() {
 	const assetFiles = findFiles(srcDir, (dirent) => {
@@ -87,10 +75,7 @@ function runBabel() {
 				fs.readFileSync(jsFile.asNative, 'utf8'),
 				{
 					filename: jsFile.asNative,
-					presets: [
-						require('@babel/preset-env'),
-						require('@babel/preset-react'),
-					],
+					presets: [babelPresetEnv, babelPresetReact],
 					sourceMaps: true,
 				}
 			);
@@ -183,22 +168,4 @@ function runTsc() {
 	print(info`Running {tsc} compiler...`);
 
 	spawn('npx', ['tsc']);
-}
-
-function spawn(bin, args) {
-	const {error, signal, status} = childProcess.spawnSync(bin, args, {
-		stdio: 'inherit',
-	});
-
-	if (error) {
-		abort(error);
-	}
-
-	if (signal) {
-		abort(`{${bin}} received signal: ${signal}`);
-	}
-
-	if (status !== 0) {
-		abort(`{${bin}} exited with status: ${status}`);
-	}
 }
