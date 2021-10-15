@@ -57,7 +57,8 @@ function loadBabelPlugins(presets, plugins) {
 	return []
 		.concat(
 			...presets.map((preset) => {
-				let presetModule, presetName;
+				let presetModule;
+				let presetName;
 
 				try {
 					presetName = `babel-preset-${preset}`;

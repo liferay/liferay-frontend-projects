@@ -131,7 +131,8 @@ function configureProjects() {
 
 		const pkgJson = require(pkgJsonPath);
 
-		let fileName, jsonProperty;
+		let fileName;
+		let jsonProperty;
 
 		if (pkgJson.liferayTheme && !pkgJson.liferayTheme.themelet) {
 			fileName = 'liferay-theme.json';
