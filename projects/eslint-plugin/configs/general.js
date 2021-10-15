@@ -105,8 +105,10 @@ const config = {
 		'@liferay/no-length-jsx-expression': 'error',
 		'@liferay/no-require-and-call': 'error',
 		'@liferay/padded-test-blocks': 'error',
+		'@liferay/ref-name-suffix': 'error',
 		'@liferay/sort-import-destructures': 'error',
 		'@liferay/sort-imports': 'error',
+		'@liferay/use-state-naming-pattern': 'error',
 		curly: 'error',
 		'default-case': 'error',
 		'lines-around-comment': [

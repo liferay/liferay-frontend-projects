@@ -20,8 +20,10 @@ module.exports = {
 	'no-length-jsx-expression': require('./lib/rules/no-length-jsx-expression'),
 	'no-require-and-call': require('./lib/rules/no-require-and-call'),
 	'padded-test-blocks': require('./lib/rules/padded-test-blocks'),
+	'ref-name-suffix': require('./lib/rules/ref-name-suffix'),
 	'sort-class-names': require('./lib/rules/sort-class-names'),
 	'sort-import-destructures': require('./lib/rules/sort-import-destructures'),
 	'sort-imports': require('./lib/rules/sort-imports'),
 	'trim-class-names': require('./lib/rules/trim-class-names'),
+	'use-state-naming-pattern': require('./lib/rules/use-state-naming-pattern'),
 };
