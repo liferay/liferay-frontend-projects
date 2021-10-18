@@ -29,6 +29,7 @@ module.exports = {
 			},
 		],
 		'prefer-arrow-callback': 'off',
+		'promise/catch-or-return': 'off',
 		'sort-keys': 'off',
 	},
 };
