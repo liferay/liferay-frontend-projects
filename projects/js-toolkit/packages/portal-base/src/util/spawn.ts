@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-const childProcess = require('child_process');
+import childProcess from 'child_process';
 
-const abort = require('./abort');
+import abort from './abort';
 
-module.exports = function spawn(bin, args) {
+export default function spawn(bin: string, args: string[]): void {
 	const {error, signal, status} = childProcess.spawnSync(bin, args, {
 		stdio: 'inherit',
 	});
@@ -23,4 +23,4 @@ module.exports = function spawn(bin, args) {
 	if (status !== 0) {
 		abort(`{${bin}} exited with status: ${status}`);
 	}
-};
+}

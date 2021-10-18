@@ -3,16 +3,22 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-const {format} = require('@liferay/js-toolkit-core');
-const path = require('path');
+import {format} from '@liferay/js-toolkit-core';
+import path from 'path';
 
-const build = require('./build');
-const clean = require('./clean');
-const deploy = require('./deploy');
+import build from './build';
+import clean from './clean';
+import deploy from './deploy';
 
 const {fail, print, title} = format;
 
-module.exports = function run(platformPath, overrides) {
+export interface Tasks {
+	build?: {(): Promise<void>};
+	clean?: {(): Promise<void>};
+	deploy?: {(): Promise<void>};
+}
+
+export default function run(platformPath: string, taskOverrides: Tasks) {
 	if (process.argv.length < 3) {
 		print(fail`No command provided`);
 		process.exit(1);
@@ -22,7 +28,7 @@ module.exports = function run(platformPath, overrides) {
 
 	/* eslint-disable-next-line */
 	const pkgJson = require(path.join(platformPath, 'package.json'));
-	const tasks = {build, clean, deploy, ...(overrides || {})};
+	const tasks: Tasks = {build, clean, deploy, ...(taskOverrides || {})};
 
 	switch (cmd) {
 		case 'build':
@@ -45,6 +51,5 @@ module.exports = function run(platformPath, overrides) {
 		default:
 			print(fail`Unknown command: {${cmd}}`);
 			process.exit(1);
-			break;
 	}
-};
+}

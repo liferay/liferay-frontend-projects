@@ -3,28 +3,26 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-const babel = require('@babel/core');
-const babelPresetEnv = require('@babel/preset-env');
-const babelPresetReact = require('@babel/preset-react');
-const {format} = require('@liferay/js-toolkit-core');
-const fs = require('fs');
-const {
-	default: project,
-} = require('liferay-npm-build-tools-common/lib/project');
-const path = require('path');
-const sass = require('sass');
+import * as babel from '@babel/core';
+import babelPresetEnv from '@babel/preset-env';
+import babelPresetReact from '@babel/preset-react';
+import {FilePath, format} from '@liferay/js-toolkit-core';
+import fs from 'fs';
+import project from 'liferay-npm-build-tools-common/lib/project';
+import path from 'path';
+import sass from 'sass';
 
-const abort = require('./util/abort');
-const findFiles = require('./util/findFiles');
-const sassImporter = require('./util/sassImporter');
-const spawn = require('./util/spawn');
+import abort from './util/abort';
+import findFiles from './util/findFiles';
+import sassImporter from './util/sassImporter';
+import spawn from './util/spawn';
 
 const {info, print, success} = format;
 
-const srcDir = project.dir.join('src');
-const {buildDir} = project;
+const srcDir = new FilePath(project.dir.join('src').asNative);
+const buildDir = new FilePath(project.buildDir.asNative);
 
-module.exports = function build() {
+export default async function build(): Promise<void> {
 	fs.mkdirSync(buildDir.asNative, {recursive: true});
 
 	copyAssets();
@@ -33,9 +31,9 @@ module.exports = function build() {
 	runBundler();
 
 	print(success`{Project successfully built}`);
-};
+}
 
-function copyAssets() {
+function copyAssets(): void {
 	const assetFiles = findFiles(srcDir, (dirent) => {
 		const lowerCaseName = dirent.name.toLowerCase();
 
@@ -60,7 +58,7 @@ function copyAssets() {
 	});
 }
 
-function runBabel() {
+function runBabel(): void {
 	const jsFiles = findFiles(srcDir, (dirent) =>
 		dirent.name.toLowerCase().endsWith('.js')
 	);
@@ -98,9 +96,9 @@ function runBabel() {
 	});
 }
 
-function runCompiler() {
-	const dependencies = project.pkgJson.dependencies || {};
-	const devDependencies = project.pkgJson.devDependencies || {};
+function runCompiler(): void {
+	const dependencies = project.pkgJson['dependencies'] || {};
+	const devDependencies = project.pkgJson['devDependencies'] || {};
 
 	if (devDependencies['typescript'] || dependencies['typescript']) {
 		runTsc();
@@ -110,7 +108,7 @@ function runCompiler() {
 	}
 }
 
-function runBundler() {
+function runBundler(): void {
 	const bundlerPkgJsonPath = require.resolve(
 		'liferay-npm-bundler/package.json'
 	);
@@ -128,7 +126,7 @@ function runBundler() {
 	spawn('node', [bundlerPath]);
 }
 
-function runSass() {
+function runSass(): void {
 	const scssFiles = findFiles(srcDir, (dirent) => {
 		const lowerCaseName = dirent.name.toLowerCase();
 
@@ -164,7 +162,7 @@ function runSass() {
 	});
 }
 
-function runTsc() {
+function runTsc(): void {
 	print(info`Running {tsc} compiler...`);
 
 	spawn('npx', ['tsc']);

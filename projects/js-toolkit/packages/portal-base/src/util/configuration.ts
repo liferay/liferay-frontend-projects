@@ -3,22 +3,28 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-const fs = require('fs');
-const {
-	default: project,
-} = require('liferay-npm-build-tools-common/lib/project');
+import fs from 'fs';
+import project from 'liferay-npm-build-tools-common/lib/project';
+
+export type Command = 'deploy';
+
+export interface Configuration {
+	deploy?: {
+		liferayDir?: string;
+	};
+}
 
 const CONFIGURATION_FILE = '.liferay.json';
 const configuration = load();
 
-function get(command, key) {
+export function get(command: Command, key: string) {
 	configuration[command] = configuration[command] || {};
 
 	return configuration[command][key];
 }
 
-function load() {
-	let configuration = {};
+function load(): Configuration {
+	let configuration: Configuration = {};
 
 	try {
 		configuration = JSON.parse(
@@ -37,7 +43,7 @@ function load() {
 	return configuration;
 }
 
-function save() {
+function save(): void {
 	fs.writeFileSync(
 		project.dir.join(CONFIGURATION_FILE).asNative,
 		JSON.stringify(configuration, null, '\t'),
@@ -45,14 +51,9 @@ function save() {
 	);
 }
 
-function set(command, key, value) {
+export function set(command: Command, key: string, value) {
 	configuration[command] = configuration[command] || {};
 	configuration[command][key] = value;
 
 	save();
 }
-
-module.exports = {
-	get,
-	set,
-};

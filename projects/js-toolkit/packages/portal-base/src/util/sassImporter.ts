@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-const {FilePath} = require('@liferay/js-toolkit-core');
-const fs = require('fs');
-const {sync: resolve} = require('resolve');
+import {FilePath} from '@liferay/js-toolkit-core';
+import fs from 'fs';
+import {sync as resolve} from 'resolve';
 
-module.exports = function (url, _prev) {
+export default function (url: string) {
 	const importDir = new FilePath(this.options.file).dirname();
 
 	let targetFile = tryImport(url, (file) => {
@@ -36,9 +36,9 @@ module.exports = function (url, _prev) {
 	}
 
 	return {file: targetFile.asNative};
-};
+}
 
-function sassResolve(module) {
+function sassResolve(module: string): string {
 	try {
 		if (module.includes('/')) {
 			return resolve(module, {basedir: '.'});
@@ -64,7 +64,7 @@ function sassResolve(module) {
 	}
 }
 
-function tryImport(url, resolve) {
+function tryImport(url: string, resolve: {(file: FilePath): string}): FilePath {
 	const importFile = new FilePath(url, {posix: true});
 
 	for (const prefix of ['', '_']) {

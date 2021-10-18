@@ -3,22 +3,21 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-const {format} = require('@liferay/js-toolkit-core');
-const fs = require('fs');
-const {
-	default: project,
-} = require('liferay-npm-build-tools-common/lib/project');
-const path = require('path');
-const {createInterface} = require('readline');
+import {FilePath, format} from '@liferay/js-toolkit-core';
+import fs from 'fs';
+import project from 'liferay-npm-build-tools-common/lib/project';
+import path from 'path';
+import {createInterface} from 'readline';
 
-const configuration = require('./util/configuration');
+import * as configuration from './util/configuration';
 
 const {fail, print, question, success} = format;
 
-const {outputDir, outputFilename} = project.jar;
+const outputDir = new FilePath(project.jar.outputDir.asNative);
+const outputFilename = project.jar.outputFilename;
 const outputFile = outputDir.join(outputFilename);
 
-module.exports = async function deploy() {
+export default async function deploy(): Promise<void> {
 	if (!fs.existsSync(outputFile.asNative)) {
 		print(
 			fail`Bundle {${outputFile}} does not exist; please build it before deploying`
@@ -40,16 +39,16 @@ module.exports = async function deploy() {
 	fs.copyFileSync(outputFile.asNative, path.join(deployPath, outputFilename));
 
 	print(success`Bundle {${outputFile}} deployed to {${deployPath}}`);
-};
+}
 
-async function promptForDeployPath() {
+async function promptForDeployPath(): Promise<string> {
 	const lines = createInterface({
 		input: process.stdin,
 	});
 
 	print(question`Please enter your local Liferay installation directory`);
 
-	let deployPath;
+	let deployPath: string;
 
 	for await (const line of lines) {
 		deployPath = path.join(line, 'osgi', 'modules');

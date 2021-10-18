@@ -3,9 +3,13 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-const fs = require('fs');
+import {FilePath} from '@liferay/js-toolkit-core';
+import fs, {Dirent} from 'fs';
 
-module.exports = function findFiles(dir, condition) {
+export default function findFiles(
+	dir: FilePath,
+	condition: {(dirent: Dirent): boolean}
+): FilePath[] {
 	return fs
 		.readdirSync(dir.asNative, {withFileTypes: true})
 		.reduce((files, dirent) => {
@@ -18,4 +22,4 @@ module.exports = function findFiles(dir, condition) {
 
 			return files;
 		}, []);
-};
+}
