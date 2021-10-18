@@ -101,6 +101,7 @@ const config = {
 		'@liferay/no-absolute-import': 'error',
 		'@liferay/no-duplicate-imports': 'error',
 		'@liferay/no-dynamic-require': 'error',
+		'@liferay/no-get-data-attribute': 'error',
 		'@liferay/no-it-should': 'error',
 		'@liferay/no-length-jsx-expression': 'error',
 		'@liferay/no-require-and-call': 'error',

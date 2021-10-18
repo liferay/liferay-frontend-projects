@@ -16,6 +16,7 @@ module.exports = {
 	'no-duplicate-class-names': require('./lib/rules/no-duplicate-class-names'),
 	'no-duplicate-imports': require('./lib/rules/no-duplicate-imports'),
 	'no-dynamic-require': require('./lib/rules/no-dynamic-require'),
+	'no-get-data-attribute': require('./lib/rules/no-get-data-attribute'),
 	'no-it-should': require('./lib/rules/no-it-should'),
 	'no-length-jsx-expression': require('./lib/rules/no-length-jsx-expression'),
 	'no-require-and-call': require('./lib/rules/no-require-and-call'),
