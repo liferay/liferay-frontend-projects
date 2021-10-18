@@ -3,15 +3,15 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-const childProcess = require('child_process');
+import childProcess from 'child_process';
 
-/**
- *
- * @param {Project} project
- * @param {string} script
- * @param {Array<*>} args
- */
-module.exports = function runPkgJsonScript(project, script, args = []) {
+import type {Project} from 'liferay-npm-build-tools-common/lib/project';
+
+export default function runPkgJsonScript(
+	project: Project,
+	script: string,
+	args: string[] = []
+): void {
 	const {pkgManager} = project;
 
 	if (pkgManager !== 'yarn') {
@@ -36,4 +36,4 @@ module.exports = function runPkgJsonScript(project, script, args = []) {
 			`Package script '${script}' finished due to signal ${proc.signal}`
 		);
 	}
-};
+}

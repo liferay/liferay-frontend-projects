@@ -3,16 +3,31 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import {
+	BundlerLoaderContext,
+	BundlerLoaderReturn,
+} from 'liferay-npm-build-tools-common/lib/api/loaders';
+
+/** Configuration options for `replace-regexp` loader */
+export interface Options {
+
+	/** RegExp flags to use */
+	flags?: string;
+
+	/** RegExp pattern to look for */
+	pattern: string;
+
+	/** Replacement string */
+	replacement: string;
+}
+
 /**
  * A loader that replaces regular expressions inside a file.
- *
- * Valid oprtions are:
- *
- *	-pattern: RegExp pattern to look for
- *	-flags: optional RegExp flags to use
- *	-replacement: replacement string
  */
-module.exports = function replaceRegexp(context, options) {
+export default function replaceRegexp(
+	context: BundlerLoaderContext,
+	options: Options
+): BundlerLoaderReturn {
 	const {content, log} = context;
 	const {flags = 'g', pattern, replacement} = options;
 
@@ -35,4 +50,4 @@ module.exports = function replaceRegexp(context, options) {
 	);
 
 	return content.replace(regexp, replacement);
-};
+}

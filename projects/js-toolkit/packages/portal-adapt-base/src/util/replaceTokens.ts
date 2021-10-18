@@ -3,15 +3,17 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import type {Project} from 'liferay-npm-build-tools-common/lib/project';
+
 /**
  * Replace `${project.dir.basename}`, `${project.name}` and `${project.version}`
  * tokens inside strings of loader options objects.
  */
-module.exports = function replaceTokens(
-	project,
-	options,
+export default function replaceTokens<T>(
+	project: Project,
+	options: T,
 	{except} = {except: []}
-) {
+): T {
 	const {pkgJson} = project;
 
 	Object.keys(options).forEach((key) => {
@@ -31,4 +33,4 @@ module.exports = function replaceTokens(
 	});
 
 	return options;
-};
+}

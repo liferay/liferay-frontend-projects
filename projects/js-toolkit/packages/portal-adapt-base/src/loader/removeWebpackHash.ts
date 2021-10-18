@@ -3,7 +3,12 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-const removeWebpackHash = require('../util/removeWebpackHash');
+import {
+	BundlerLoaderContext,
+	BundlerLoaderReturn,
+} from 'liferay-npm-build-tools-common/lib/api/loaders';
+
+import removeWebpackHash from '../util/removeWebpackHash';
 
 /**
  * A loader that removes webpack hashes from filenames.
@@ -12,7 +17,9 @@ const removeWebpackHash = require('../util/removeWebpackHash');
  * A webpack hash is defined as the rightmost hex number surrounded by dots in a
  * file name.
  */
-module.exports = function removeWebpackHashLoader(context) {
+export default function removeWebpackHashLoader(
+	context: BundlerLoaderContext
+): BundlerLoaderReturn {
 	const {content, extraArtifacts, filePath, log} = context;
 
 	const newFilePath = removeWebpackHash(filePath);
@@ -32,4 +39,4 @@ module.exports = function removeWebpackHashLoader(context) {
 	log.info('remove-webpack-hash', `Diverting file output to ${newFilePath}`);
 
 	return undefined;
-};
+}

@@ -3,9 +3,23 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-const project = require('liferay-npm-build-tools-common/lib/project');
+import {
+	BundlerLoaderContext,
+	BundlerLoaderReturn,
+} from 'liferay-npm-build-tools-common/lib/api/loaders';
+import * as project from 'liferay-npm-build-tools-common/lib/project';
 
-const replaceTokens = require('../util/replaceTokens');
+import replaceTokens from '../util/replaceTokens';
+
+/** Configuration options for `add-css-portlet-header` loader */
+export interface Options {
+
+	/**
+	 * Path to the CSS file to use as `header-portlet-css` property of the
+	 * portlet.
+	 */
+	css: string;
+}
 
 /**
  * A loader that adds the `com.liferay.portlet.header-portlet-css` to the
@@ -16,14 +30,11 @@ const replaceTokens = require('../util/replaceTokens');
  *
  * It is normally used from adapted projects to inject the framework's generated
  * CSS file into the portlet.
- *
- * @remarks
- *
- * Valid options are:
- *
- *   - css: path to the CSS file to use as `header-portlet-css` property of the portlet
  */
-module.exports = function addCSSPortletHeader(context, options) {
+export default function addCSSPortletHeader(
+	context: BundlerLoaderContext,
+	options: Options
+): BundlerLoaderReturn {
 	const {content, log} = context;
 	const {css} = replaceTokens(project.default, options);
 
@@ -44,4 +55,4 @@ module.exports = function addCSSPortletHeader(context, options) {
 	log.info('add-css-portlet-header', `Added ${css} as portlet CSS file`);
 
 	return JSON.stringify(pkgJson, null, '\t');
-};
+}

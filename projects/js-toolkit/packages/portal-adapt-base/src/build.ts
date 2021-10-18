@@ -3,45 +3,37 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-const {
-	FilePath,
-	TemplateRenderer,
-	format,
-} = require('@liferay/js-toolkit-core');
-const project = require('liferay-npm-build-tools-common/lib/project');
+import {FilePath, TemplateRenderer, format} from '@liferay/js-toolkit-core';
+import * as project from 'liferay-npm-build-tools-common/lib/project';
 
-const runNodeModulesBin = require('./util/runNodeModulesBin');
-const runPkgJsonScript = require('./util/runPkgJsonScript');
+import runNodeModulesBin from './util/runNodeModulesBin';
+import runPkgJsonScript from './util/runPkgJsonScript';
 
 const {fail, info, print} = format;
 const {ProjectType} = project;
 
 const templatesDir = new FilePath(__dirname).join('templates');
 
-module.exports = function build() {
+export default async function build(): Promise<void> {
 	switch (project.default.probe.type) {
 		case ProjectType.ANGULAR_CLI:
-			buildWith('build');
+			await buildWith('build');
 			break;
 
 		case ProjectType.CREATE_REACT_APP:
-			buildWith('build');
+			await buildWith('build');
 			break;
 
 		case ProjectType.VUE_CLI:
-			buildWith('build', ['--prod=true']);
+			await buildWith('build', ['--prod=true']);
 			break;
 
 		default:
 			failWithUnsupportedProjectType();
 	}
-};
+}
 
-/**
- * @param {string} script
- * @param {Array<*>} args
- */
-async function buildWith(script, args = []) {
+async function buildWith(script: string, args: string[] = []): Promise<void> {
 	runPkgJsonScript(project.default, script, args);
 
 	const renderer = new TemplateRenderer(
@@ -59,7 +51,7 @@ async function buildWith(script, args = []) {
 	runNodeModulesBin(project.default, 'liferay-npm-bundler');
 }
 
-function failWithUnsupportedProjectType() {
+function failWithUnsupportedProjectType(): void {
 	print(
 		fail`
 Oops! Your project type is not supported by {Liferay JS Toolkit} or cannot be

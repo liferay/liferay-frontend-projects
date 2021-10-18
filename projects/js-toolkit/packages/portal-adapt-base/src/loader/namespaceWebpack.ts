@@ -3,8 +3,12 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-const crypto = require('crypto');
-const project = require('liferay-npm-build-tools-common/lib/project');
+import crypto from 'crypto';
+import {
+	BundlerLoaderContext,
+	BundlerLoaderReturn,
+} from 'liferay-npm-build-tools-common/lib/api/loaders';
+import * as project from 'liferay-npm-build-tools-common/lib/project';
 
 /**
  * A loader to namespace occurrences of the `webpackJsonp` variable.
@@ -17,7 +21,9 @@ const project = require('liferay-npm-build-tools-common/lib/project');
  * `webpackJsonp_${uuid}` where the `uuid` is derived from the project's name
  * and version.
  */
-module.exports = function namespaceWebpack(context) {
+export default function namespaceWebpack(
+	context: BundlerLoaderContext
+): BundlerLoaderReturn {
 	const {content, log} = context;
 	const regexp = /webpackJsonp/g;
 
@@ -49,4 +55,4 @@ module.exports = function namespaceWebpack(context) {
 		.replace(/=/g, '');
 
 	return content.replace(regexp, `webpackJsonp_${uuid}`);
-};
+}

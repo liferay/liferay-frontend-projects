@@ -3,6 +3,11 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import {
+	BundlerLoaderContext,
+	BundlerLoaderReturn,
+} from 'liferay-npm-build-tools-common/lib/api/loaders';
+
 /**
  * This loader:
  *
@@ -16,7 +21,9 @@
  * targets, while Angular versions >=10 only produce one type of artifact, not
  * differentiated by file name.
  */
-module.exports = function normalizeAngularOutput(context) {
+export default function normalizeAngularOutput(
+	context: BundlerLoaderContext
+): BundlerLoaderReturn {
 	const {filePath, log} = context;
 
 	if (filePath.includes('-es') && !filePath.includes('-es5.')) {
@@ -63,4 +70,4 @@ module.exports = function normalizeAngularOutput(context) {
 	});
 
 	return undefined;
-};
+}

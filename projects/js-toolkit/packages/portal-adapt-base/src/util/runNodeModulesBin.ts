@@ -3,15 +3,15 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-const spawn = require('cross-spawn');
+import spawn from 'cross-spawn';
 
-/**
- *
- * @param {Project} project
- * @param {string} script
- * @param {Array<*>} args
- */
-module.exports = function runNodeModulesBin(project, script, args = []) {
+import type {Project} from 'liferay-npm-build-tools-common/lib/project';
+
+export default function runNodeModulesBin(
+	project: Project,
+	script: string,
+	args: string[] = []
+): void {
 	const proc = spawn.sync(
 		project.dir.join('node_modules', '.bin', script).asNative,
 		args,
@@ -33,4 +33,4 @@ module.exports = function runNodeModulesBin(project, script, args = []) {
 			`Node modules binary '${script}' finished due to signal ${proc.signal}`
 		);
 	}
-};
+}

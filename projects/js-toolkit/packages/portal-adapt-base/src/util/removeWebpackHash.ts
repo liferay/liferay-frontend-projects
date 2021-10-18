@@ -7,10 +7,10 @@
  * Remove a webpack hash (a hex number surrounded by dots near the end of the
  * file name) if present from a file path.
  */
-module.exports = function removeWebpackHash(filePath) {
+export default function removeWebpackHash(filePath: string): string {
 	const filePathParts = filePath.split('.');
 
-	let hashIndex;
+	let hashIndex: number;
 
 	for (hashIndex = filePathParts.length - 1; hashIndex >= 0; hashIndex--) {
 		const filePathPart = filePathParts[hashIndex];
@@ -27,4 +27,4 @@ module.exports = function removeWebpackHash(filePath) {
 	filePathParts.splice(hashIndex, 1);
 
 	return filePathParts.join('.');
-};
+}

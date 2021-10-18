@@ -3,11 +3,25 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-const {FilePath} = require('@liferay/js-toolkit-core');
-const fs = require('fs');
-const babelUtil = require('liferay-npm-build-tools-common/lib/babel-util');
+import {FilePath} from '@liferay/js-toolkit-core';
+import fs from 'fs';
+import {
+	BundlerLoaderContext,
+	BundlerLoaderReturn,
+} from 'liferay-npm-build-tools-common/lib/api/loaders';
+import * as babelUtil from 'liferay-npm-build-tools-common/lib/babel-util';
 
-const removeWebpackHash = require('../util/removeWebpackHash');
+import removeWebpackHash from '../util/removeWebpackHash';
+
+/** Configuration options for `wrap-webpack-bundler` loader */
+export interface Options {
+
+	/** Whether to use webpack hashes in file names to compute module names */
+	honorWebpackHash?: boolean;
+
+	/** A prefix to remove from file paths when computing the module name */
+	removePrefix?: string;
+}
 
 /**
  * A loader that wraps JavaScript files into a `Liferay.Loader.define()` call.
@@ -17,15 +31,11 @@ const removeWebpackHash = require('../util/removeWebpackHash');
  * define call.
  *
  * The name of the module is inferred from the project relative file path.
- *
- * Valid options are:
- *
- *   - removePrefix: optional prefix to remove from file paths
- *   - honorWebpackHash: optional flag to maintain webpack hashes in file names
- *
- * Both options may affect the module name because they transform the file name.
  */
-module.exports = function wrapWebpackBundle(context, options) {
+export default function wrapWebpackBundle(
+	context: BundlerLoaderContext,
+	options: Options
+): BundlerLoaderReturn {
 	const {content, filePath, log} = context;
 	const {honorWebpackHash = false, removePrefix = ''} = options;
 
@@ -49,13 +59,13 @@ Liferay.Loader.define(
 		}
 	}
 );`;
-};
+}
 
 /**
  * Compute the module name associated to a project relative file path removing
  * the `removePrefix` before.
  */
-function getModuleName(prjRelfilePath, removePrefix) {
+function getModuleName(prjRelfilePath: string, removePrefix: string): string {
 	const absFile = new FilePath(prjRelfilePath);
 	const pkgDir = new FilePath(babelUtil.getPackageDir(prjRelfilePath));
 
