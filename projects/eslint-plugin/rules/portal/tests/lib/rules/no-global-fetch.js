@@ -66,6 +66,30 @@ ruleTester.run('no-global-fetch', rule, {
 		},
 		{
 
+			// Unnamed import from '../fetch'
+
+			code: `
+				import fetch from '../fetch';
+
+				function doSomething(url) {
+					return fetch(url);
+				}
+			`,
+		},
+		{
+
+			// Unnamed import from '../util/fetch'
+
+			code: `
+				import fetch from '../util/fetch';
+
+				function doSomething(url) {
+					return fetch(url);
+				}
+			`,
+		},
+		{
+
 			// Unnamed import from '../fetch.es'
 
 			code: `
