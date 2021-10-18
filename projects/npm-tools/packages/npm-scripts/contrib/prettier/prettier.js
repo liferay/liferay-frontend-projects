@@ -831,7 +831,7 @@ module.exports = {
 						since: '1.17.0',
 						category: 'JavaScript',
 						type: 'choice',
-						default: 'as-needed',
+						default: 'consistent',
 						description:
 							'Change when properties in objects are quoted.',
 						choices: [

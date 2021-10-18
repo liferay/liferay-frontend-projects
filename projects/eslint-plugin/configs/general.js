@@ -146,7 +146,7 @@ const config = {
 		'prefer-arrow-callback': ['error', {allowNamedFunctions: true}],
 		'prefer-const': 'error',
 		'prefer-object-spread': 'error',
-		'quote-props': ['error', 'as-needed'],
+		'quote-props': ['error', 'consistent-as-needed'],
 		radix: 'error',
 		'sort-destructure-keys/sort-destructure-keys': [
 			'error',
