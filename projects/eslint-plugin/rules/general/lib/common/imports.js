@@ -252,19 +252,19 @@ function withScope() {
 		scope,
 
 		visitors: {
-			ArrowFunctionExpression: enterScope,
+			'ArrowFunctionExpression': enterScope,
 			'ArrowFunctionExpression:exit': exitScope,
 
-			BlockStatement: enterScope,
+			'BlockStatement': enterScope,
 			'BlockStatement:exit': exitScope,
 
-			FunctionDeclaration: enterScope,
+			'FunctionDeclaration': enterScope,
 			'FunctionDeclaration:exit': exitScope,
 
-			FunctionExpression: enterScope,
+			'FunctionExpression': enterScope,
 			'FunctionExpression:exit': exitScope,
 
-			ObjectExpression: enterScope,
+			'ObjectExpression': enterScope,
 			'ObjectExpression:exit': exitScope,
 		},
 	};

@@ -32,7 +32,7 @@ module.exports = {
 					presets: ['liferay-standard'],
 				},
 				'copy-plugins': ['exclude-imports'],
-				plugins: ['replace-browser-modules'],
+				'plugins': ['replace-browser-modules'],
 				'post-plugins': [
 					'namespace-packages',
 					'inject-imports-dependencies',
@@ -43,15 +43,15 @@ module.exports = {
 				'.babelrc': {
 					presets: ['liferay-standard'],
 				},
-				plugins: ['resolve-linked-dependencies'],
+				'plugins': ['resolve-linked-dependencies'],
 				'post-plugins': [
 					'namespace-packages',
 					'inject-imports-dependencies',
 				],
 			},
-			ignore: ['__generated__/**/*'],
-			output: 'build/node/packageRunBuild/resources',
-			rules: [
+			'ignore': ['__generated__/**/*'],
+			'output': 'build/node/packageRunBuild/resources',
+			'rules': [
 				{
 					test: '\\.css$',
 					use: ['css-loader'],
@@ -69,7 +69,7 @@ module.exports = {
 					],
 				},
 			],
-			sources: ['src/main/resources/META-INF/resources'],
+			'sources': ['src/main/resources/META-INF/resources'],
 		},
 
 		// Passed to:

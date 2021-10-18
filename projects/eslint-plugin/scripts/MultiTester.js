@@ -28,8 +28,8 @@ class MultiTester extends RuleTester {
 					...options,
 					parser: require.resolve('babel-eslint'),
 				}),
-				espree: new RuleTester(options),
-				typescript: new RuleTester({
+				'espree': new RuleTester(options),
+				'typescript': new RuleTester({
 					...options,
 					parser: require.resolve('@typescript-eslint/parser'),
 				}),

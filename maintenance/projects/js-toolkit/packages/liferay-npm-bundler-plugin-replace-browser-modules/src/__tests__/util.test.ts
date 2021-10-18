@@ -11,7 +11,7 @@ import {UnrolledAliasesMap, unrollAliasesMap} from '../util';
 it('unrollAliasesMap works', () => {
 	const unrolledAliasesMap = unrollAliasesMap({
 		'/home/me/project': {
-			fs: false,
+			'fs': false,
 			'/log.js': './log-browser.js',
 		},
 		'/home/me/project/dir': {

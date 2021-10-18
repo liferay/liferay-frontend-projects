@@ -17,7 +17,7 @@ describe('loadAliases', () => {
 		]);
 
 		expect(aliases).toEqual({
-			fs: './fs-shim.js',
+			'fs': './fs-shim.js',
 			'./random.js': './random-shim.js',
 			'./log': './log-shim.js',
 			'./utils/printer.js': './printer-shim.js',
@@ -32,7 +32,7 @@ describe('loadAliases', () => {
 
 		expect(aliases).toEqual({
 			'./random.js': './random-shim.js',
-			fs: './fs-shim2.js',
+			'fs': './fs-shim2.js',
 			'./log': './log-shim.js',
 		});
 	});
@@ -45,7 +45,7 @@ describe('loadAliases', () => {
 
 		expect(aliases).toEqual({
 			'./random.js': './random-shim.js',
-			fs: './fs-shim.js',
+			'fs': './fs-shim.js',
 			'./log': './log-shim.js',
 		});
 	});

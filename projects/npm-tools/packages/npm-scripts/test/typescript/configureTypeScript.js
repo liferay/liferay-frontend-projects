@@ -146,7 +146,7 @@ describe('configureTypeScript()', () => {
 
 			expect(config).toEqual({
 				...BASE_CONFIG,
-				compilerOptions: {
+				'compilerOptions': {
 					...BASE_CONFIG.compilerOptions,
 					typeRoots: [
 
@@ -166,7 +166,7 @@ describe('configureTypeScript()', () => {
 			const config = {
 				...BASE_CONFIG,
 				'@generated': 'bcba4b119d3cf7bdcb52b5d3d5a71d24f5290ca2',
-				compilerOptions: {
+				'compilerOptions': {
 					...BASE_CONFIG.compilerOptions,
 					typeRoots: [
 						'../../../node_modules/@types',
@@ -257,7 +257,7 @@ describe('configureTypeScript()', () => {
 			expect(config).toEqual({
 				...BASE_CONFIG,
 				'@overrides': overrides,
-				compilerOptions: {
+				'compilerOptions': {
 					...BASE_CONFIG.compilerOptions,
 					outDir: './build/node/packageRunBuild/dist/',
 					target: 'es5',
@@ -306,7 +306,7 @@ describe('configureTypeScript()', () => {
 
 			expect(JSON.parse(readConfig('frontend-js-react-web'))).toEqual({
 				...BASE_CONFIG,
-				compilerOptions: {
+				'compilerOptions': {
 					...BASE_CONFIG.compilerOptions,
 					paths: {
 						'@liferay/frontend-js-state-web': [
@@ -318,7 +318,7 @@ describe('configureTypeScript()', () => {
 						'./node_modules/@types',
 					],
 				},
-				references: [
+				'references': [
 					{
 						path: '../frontend-js-state-web',
 					},
@@ -336,7 +336,7 @@ describe('configureTypeScript()', () => {
 				JSON.parse(readConfig('frontend-js-clay-sample-web'))
 			).toEqual({
 				...BASE_CONFIG,
-				compilerOptions: {
+				'compilerOptions': {
 					...BASE_CONFIG.compilerOptions,
 					paths: {
 						'@liferay/frontend-js-react-web': [
@@ -351,7 +351,7 @@ describe('configureTypeScript()', () => {
 						'./node_modules/@types',
 					],
 				},
-				references: [
+				'references': [
 					{
 						path: '../frontend-js-react-web',
 					},
@@ -370,7 +370,7 @@ describe('configureTypeScript()', () => {
 
 			expect(JSON.parse(readConfig('frontend-js-state-web'))).toEqual({
 				...BASE_CONFIG,
-				compilerOptions: {
+				'compilerOptions': {
 					...BASE_CONFIG.compilerOptions,
 					typeRoots: [
 						'../../../node_modules/@types',

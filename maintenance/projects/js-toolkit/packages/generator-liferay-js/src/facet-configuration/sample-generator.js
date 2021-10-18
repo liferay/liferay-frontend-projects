@@ -73,16 +73,16 @@ export default class {
 				// Add configuration localization
 
 				new LanguagePropertiesModifier(this._generator).addProperties({
-					fruit: 'Favorite fruit',
+					'fruit': 'Favorite fruit',
 					'fruit-help': 'Choose the fruit you like the most',
 					'an-orange': 'An orange',
 					'a-pear': 'A pear',
 					'an-apple': 'An apple',
-					drink: 'Favorite drink',
+					'drink': 'Favorite drink',
 					'drink-help': 'Choose the drink you like the most',
-					water: 'Water',
-					wine: 'Wine',
-					beer: 'Beer',
+					'water': 'Water',
+					'wine': 'Wine',
+					'beer': 'Beer',
 				});
 			}
 			else {

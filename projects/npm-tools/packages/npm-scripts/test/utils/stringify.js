@@ -135,7 +135,7 @@ describe('stringify()', () => {
 				'@readonly':
 					'** AUTO-GENERATED: DO NOT EDIT OUTSIDE @overrides **',
 				'@see': 'https://git.io/JY2EA',
-				compilerOptions: {
+				'compilerOptions': {
 					allowSyntheticDefaultImports: true,
 					baseUrl: '.',
 					composite: true,
@@ -153,8 +153,8 @@ describe('stringify()', () => {
 						'./node_modules/@types',
 					],
 				},
-				include: ['src/**/*', 'test/**/*'],
-				references: [],
+				'include': ['src/**/*', 'test/**/*'],
+				'references': [],
 			})
 		).toBe(
 			'{\n' +

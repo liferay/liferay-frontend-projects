@@ -139,7 +139,7 @@ module.exports = {
 				}
 			},
 
-			Literal(node) {
+			'Literal'(node) {
 				if (!disallowed.values.has(node.value)) {
 					return;
 				}

@@ -425,7 +425,7 @@ export default class Project {
 	 * `liferay-npm-bundler.config.js` options.
 	 */
 	set argv(argv: {
-		config: string;
+		'config': string;
 		'create-jar': boolean;
 		'dump-report': boolean;
 	}) {

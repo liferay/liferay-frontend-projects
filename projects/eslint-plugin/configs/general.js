@@ -110,7 +110,7 @@ const config = {
 		'@liferay/sort-import-destructures': 'error',
 		'@liferay/sort-imports': 'error',
 		'@liferay/use-state-naming-pattern': 'error',
-		curly: 'error',
+		'curly': 'error',
 		'default-case': 'error',
 		'lines-around-comment': [
 			'error',
@@ -147,7 +147,7 @@ const config = {
 		'prefer-const': 'error',
 		'prefer-object-spread': 'error',
 		'quote-props': ['error', 'consistent-as-needed'],
-		radix: 'error',
+		'radix': 'error',
 		'sort-destructure-keys/sort-destructure-keys': [
 			'error',
 			{caseSensitive: true},

@@ -316,7 +316,7 @@ function translate(subscriptionKey, locales, texts) {
 		url: 'translate',
 		qs: {
 			'api-version': '3.0',
-			to: targetLocales,
+			'to': targetLocales,
 		},
 		headers: {
 			'Ocp-Apim-Subscription-Key': subscriptionKey,

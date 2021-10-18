@@ -78,7 +78,7 @@ describe('project.jar', () => {
 
 			// Coming from liferay-npm-bundler.config.js
 
-			Responsible: 'john.doe@somewhere.net',
+			'Responsible': 'john.doe@somewhere.net',
 
 			// Coming from manifest.json
 

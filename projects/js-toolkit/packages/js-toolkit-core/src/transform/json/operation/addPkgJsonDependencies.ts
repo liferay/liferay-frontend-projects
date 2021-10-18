@@ -20,8 +20,8 @@ export default function addPkgJsonDependencies(
 	return (async (pkgJson) => {
 		const key = {
 			'': 'dependencies',
-			dev: 'devDependencies',
-			peer: 'peerDependencies',
+			'dev': 'devDependencies',
+			'peer': 'peerDependencies',
 		}[type];
 
 		pkgJson[key] = {

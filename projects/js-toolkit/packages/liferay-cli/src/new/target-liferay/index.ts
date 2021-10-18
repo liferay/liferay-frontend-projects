@@ -32,9 +32,9 @@ const {
 const {info, print} = format;
 
 const frameworkFacets = {
-	Angular: facetAngular,
+	'Angular': facetAngular,
 	'Plain JavaScript': facetPlainJs,
-	React: facetReact,
+	'React': facetReact,
 	'Vue.js': facetVuejs,
 };
 const platforms = dependencies['target-liferay']['platforms'];

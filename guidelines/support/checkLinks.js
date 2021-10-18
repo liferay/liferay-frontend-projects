@@ -24,11 +24,11 @@ const FILTER_PATTERN = /\.md$/;
  * See: https://github.com/liferay/liferay-frontend-guidelines/issues/133
  */
 const HEADERS = {
-	Accept:
+	'Accept':
 		'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
 	'Accept-Encoding': 'gzip, deflate, br',
 	'Accept-Language': 'en-US,en;q=0.8,es-ES;q=0.5,es;q=0.3',
-	DNT: '1',
+	'DNT': '1',
 	'User-Agent':
 		'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:74.0) Gecko/20100101 Firefox/74.0',
 };

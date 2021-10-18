@@ -41,7 +41,7 @@ const typescriptEslintRecommendedRules = {
 	'@typescript-eslint/prefer-namespace-keyword': 'error',
 	'@typescript-eslint/triple-slash-reference': 'error',
 	'@typescript-eslint/type-annotation-spacing': 'error',
-	camelcase: 'off',
+	'camelcase': 'off',
 
 	// Temporarily turn off lines-around-comment:
 	// https://github.com/liferay/liferay-frontend-projects/issues/128

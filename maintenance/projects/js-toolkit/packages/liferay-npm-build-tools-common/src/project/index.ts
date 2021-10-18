@@ -319,7 +319,7 @@ export class Project {
 	 * `.npmbundlerrc` options.
 	 */
 	set argv(argv: {
-		config: string;
+		'config': string;
 		'create-jar': boolean;
 		'dump-report': boolean;
 	}) {

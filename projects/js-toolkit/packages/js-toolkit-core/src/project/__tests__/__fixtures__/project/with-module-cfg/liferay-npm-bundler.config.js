@@ -2,7 +2,7 @@ module.exports = {
 	packages: {
 		'a-package': {
 			'copy-plugins': ['a-config/my-copy-plugin'],
-			plugins: ['a-config/my-pre-plugin'],
+			'plugins': ['a-config/my-pre-plugin'],
 			'.babelrc': {
 				presets: ['a-config/my-babel-preset'],
 				plugins: ['a-config/my-babel-plugin'],

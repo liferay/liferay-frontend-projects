@@ -18,13 +18,13 @@ describe('addPkgJsonDependencies', () => {
 
 	it('adds dependencies', async () => {
 		const pkgJson2 = await addPkgJsonDependencies({
-			react: '^16.0.0',
+			'react': '^16.0.0',
 			'react-dom': '^16.0.0',
 		})(pkgJson);
 
 		expect(pkgJson2).toStrictEqual({
 			dependencies: {
-				react: '^16.0.0',
+				'react': '^16.0.0',
 				'react-dom': '^16.0.0',
 			},
 			name: 'a-project',
@@ -35,7 +35,7 @@ describe('addPkgJsonDependencies', () => {
 	it('adds devDependencies', async () => {
 		const pkgJson2 = await addPkgJsonDependencies(
 			{
-				react: '^16.0.0',
+				'react': '^16.0.0',
 				'react-dom': '^16.0.0',
 			},
 			'dev'
@@ -43,7 +43,7 @@ describe('addPkgJsonDependencies', () => {
 
 		expect(pkgJson2).toStrictEqual({
 			devDependencies: {
-				react: '^16.0.0',
+				'react': '^16.0.0',
 				'react-dom': '^16.0.0',
 			},
 			name: 'a-project',
@@ -54,7 +54,7 @@ describe('addPkgJsonDependencies', () => {
 	it('adds peerDependencies', async () => {
 		const pkgJson2 = await addPkgJsonDependencies(
 			{
-				react: '^16.0.0',
+				'react': '^16.0.0',
 				'react-dom': '^16.0.0',
 			},
 			'peer'
@@ -63,7 +63,7 @@ describe('addPkgJsonDependencies', () => {
 		expect(pkgJson2).toStrictEqual({
 			name: 'a-project',
 			peerDependencies: {
-				react: '^16.0.0',
+				'react': '^16.0.0',
 				'react-dom': '^16.0.0',
 			},
 			version: '1.0.0',

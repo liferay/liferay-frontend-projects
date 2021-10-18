@@ -10,7 +10,7 @@ module.exports = function getBaseConfigJson(_platformName) {
 				presets: ['liferay-standard'],
 			},
 			'copy-plugins': ['exclude-imports'],
-			plugins: ['replace-browser-modules'],
+			'plugins': ['replace-browser-modules'],
 			'post-plugins': [
 				'namespace-packages',
 				'inject-imports-dependencies',
@@ -21,19 +21,19 @@ module.exports = function getBaseConfigJson(_platformName) {
 			'.babelrc': {
 				presets: ['liferay-standard'],
 			},
-			plugins: ['resolve-linked-dependencies'],
+			'plugins': ['resolve-linked-dependencies'],
 			'post-plugins': [
 				'namespace-packages',
 				'inject-imports-dependencies',
 			],
 		},
-		config: {
+		'config': {
 			imports: {},
 		},
 		'create-jar': {
 			'output-dir': 'dist',
 		},
-		rules: [
+		'rules': [
 			{
 				test: '\\.css$',
 				use: ['css-loader'],
@@ -52,6 +52,6 @@ module.exports = function getBaseConfigJson(_platformName) {
 				],
 			},
 		],
-		sources: ['src'],
+		'sources': ['src'],
 	};
 };
