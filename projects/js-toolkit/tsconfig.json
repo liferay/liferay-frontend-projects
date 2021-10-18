@@ -2,13 +2,13 @@
 	"compileOnSave": true,
 	"compilerOptions": {
 		"esModuleInterop": true,
-		"lib": ["ES2015", "DOM"],
+		"lib": ["ES2015"],
 		"module": "CommonJS",
 		"moduleResolution": "node",
 		"resolveJsonModule": true,
 		"sourceMap": false,
 		"target": "ES2018",
-		"types": ["node", "jest"]
+		"types": ["jest", "node"]
 	},
 	"exclude": ["node_modules", "qa", "**/__tests__/**"]
 }
