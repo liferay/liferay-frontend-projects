@@ -78,6 +78,7 @@ const config = {
 		'no-for-of-loops',
 		'no-only-tests',
 		'notice',
+		'promise',
 		'sort-destructure-keys',
 	],
 	rules: {
@@ -147,6 +148,7 @@ const config = {
 		'prefer-arrow-callback': ['error', {allowNamedFunctions: true}],
 		'prefer-const': 'error',
 		'prefer-object-spread': 'error',
+		'promise/catch-or-return': ['error', {allowFinally: true}],
 		'quote-props': ['error', 'consistent-as-needed'],
 		'radix': 'error',
 		'sort-destructure-keys/sort-destructure-keys': [
