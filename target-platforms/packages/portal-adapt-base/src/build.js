@@ -3,19 +3,18 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-const {FilePath, TemplateRenderer} = require('@liferay/js-toolkit-core');
 const {
-	error,
-	info,
-	print,
-} = require('liferay-npm-build-tools-common/lib/format');
+	FilePath,
+	TemplateRenderer,
+	format,
+} = require('@liferay/js-toolkit-core');
 const project = require('liferay-npm-build-tools-common/lib/project');
-const {
-	ProjectType,
-} = require('liferay-npm-build-tools-common/lib/project/probe');
 
 const runNodeModulesBin = require('./util/runNodeModulesBin');
 const runPkgJsonScript = require('./util/runPkgJsonScript');
+
+const {fail, info, print} = format;
+const {ProjectType} = project;
 
 const templatesDir = new FilePath(__dirname).join('templates');
 
@@ -62,7 +61,7 @@ async function buildWith(script, args = []) {
 
 function failWithUnsupportedProjectType() {
 	print(
-		error`
+		fail`
 Oops! Your project type is not supported by {Liferay JS Toolkit} or cannot be
 autodetected.`,
 		'',

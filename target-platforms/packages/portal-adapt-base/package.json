@@ -1,13 +1,9 @@
 {
 	"dependencies": {
-		"@liferay/js-toolkit-core": "^4.0.1",
 		"@liferay/portal-base": "^1.0.0",
+		"cross-spawn": "^7.0.0",
 		"escape-string-regexp": "^2.0.0",
-		"globby": "^10.0.1",
-		"liferay-npm-bundler": "^2.26.0",
-		"babel-preset-liferay-standard": "^2.26.0",
-		"liferay-npm-bundler-loader-babel-loader": "^2.26.0",
-		"liferay-npm-bundler-loader-copy-loader": "^2.26.0"
+		"globby": "^10.0.1"
 	},
 	"description": "Base library for adaptation autopresets",
 	"main": "./src/index.js",

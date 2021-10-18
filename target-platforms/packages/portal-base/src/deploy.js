@@ -3,13 +3,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+const {format} = require('@liferay/js-toolkit-core');
 const fs = require('fs');
-const {
-	error: fail,
-	print,
-	question,
-	success,
-} = require('liferay-npm-build-tools-common/lib/format');
 const {
 	default: project,
 } = require('liferay-npm-build-tools-common/lib/project');
@@ -17,6 +12,8 @@ const path = require('path');
 const {createInterface} = require('readline');
 
 const configuration = require('./util/configuration');
+
+const {fail, print, question, success} = format;
 
 const {outputDir, outputFilename} = project.jar;
 const outputFile = outputDir.join(outputFilename);

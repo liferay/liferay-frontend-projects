@@ -12,6 +12,7 @@ import {
 	transformTextFile,
 } from '@liferay/js-toolkit-core';
 
+import dependencies from '../../dependencies.json';
 import ensureOutputFile from '../../util/ensureOutputFile';
 
 import type {Facet, Options} from '../index';
@@ -70,9 +71,8 @@ const facet: Facet = {
 		await transformJsonFile(
 			pkgJsonFile,
 			pkgJsonFile,
-			addDependencies({
-				vue: '2.6.7',
-			})
+			addDependencies(dependencies['facet-vue']['dependencies']),
+			addDependencies(dependencies['facet-vue']['devDependencies'], 'dev')
 		);
 	},
 };

@@ -12,6 +12,7 @@ import {
 	transformTextFile,
 } from '@liferay/js-toolkit-core';
 
+import dependencies from '../../dependencies.json';
 import ensureOutputFile from '../../util/ensureOutputFile';
 
 import type {Facet, Options} from '../index';
@@ -72,10 +73,11 @@ const facet: Facet = {
 			await transformJsonFile(
 				pkgJsonFile,
 				pkgJsonFile,
-				addDependencies({
-					react: '16.8.6',
-					'react-dom': '16.8.6',
-				})
+				addDependencies(dependencies['facet-react']['dependencies']),
+				addDependencies(
+					dependencies['facet-react']['devDependencies'],
+					'dev'
+				)
 			);
 		}
 	},

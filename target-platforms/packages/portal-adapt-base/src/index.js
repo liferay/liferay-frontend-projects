@@ -3,10 +3,12 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-const {clean, deploy} = require('@liferay/portal-base');
+const portalBase = require('@liferay/portal-base');
 
-module.exports = {
-	build: require('./build'),
-	clean,
-	deploy,
-};
+const build = require('./build');
+
+module.exports = (platformPath, overrides) =>
+	portalBase(platformPath, {
+		build,
+		...(overrides || {}),
+	});
