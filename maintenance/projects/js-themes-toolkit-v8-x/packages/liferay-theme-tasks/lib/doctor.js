@@ -9,8 +9,6 @@ const _ = require('lodash');
 
 const lfrThemeConfig = require('./liferay_theme_config');
 
-/* eslint-disable quote-props */
-
 const SUPPORTED_TASKS = {
 	default: {
 		'6.2': ' - please run "gulp upgrade" first',
@@ -27,8 +25,6 @@ const SUPPORTED_TASKS = {
 			'and then "gulp upgrade" again',
 	},
 };
-
-/* eslint-enable quote-props */
 
 function getSupportedTasks(task) {
 	return SUPPORTED_TASKS[task] || SUPPORTED_TASKS.default;

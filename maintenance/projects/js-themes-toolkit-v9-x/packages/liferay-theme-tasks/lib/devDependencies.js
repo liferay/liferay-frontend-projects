@@ -23,7 +23,7 @@ const gulpVersion = '3.9.1';
 const themeTasksVersion = `^${pkgJson.version}`;
 
 // Define dependencies for each Liferay DXP version and project type
-/* eslint-disable quote-props */
+
 module.exports = {
 	layout: {
 		7.2: {
@@ -68,4 +68,3 @@ module.exports = {
 		},
 	},
 };
-/* eslint-enable quote-props */
