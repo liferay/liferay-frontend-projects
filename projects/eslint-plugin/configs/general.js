@@ -94,6 +94,7 @@ const config = {
 		'@liferay/aui/no-one': 'error',
 		'@liferay/destructure-requires': 'error',
 		'@liferay/empty-line-between-elements': 'error',
+		'@liferay/expect-assert': 'error',
 		'@liferay/group-imports': 'error',
 		'@liferay/import-extensions': 'error',
 		'@liferay/imports-first': 'error',
