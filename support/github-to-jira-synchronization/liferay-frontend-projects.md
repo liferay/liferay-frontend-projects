@@ -154,6 +154,7 @@ def findUser(replicaUser) {
         ,"pat270": "patrick.yeo"
         ,"sergiojimcos":"sergio.jdelcoso"
         ,"tinycarol": "carolina.alonso"
+        ,"victorg1991": "victor.galan"
     ]
     def usernameMapped = usernameMapping[replicaUser.username];
     if (usernameMapped) {
