@@ -8,24 +8,35 @@
 const copyfiles = require('copyfiles');
 const path = require('path');
 
+const abort = require('./util/abort');
 const getProjectDirectories = require('./util/getProjectDirectories');
-const {runNodeBin} = require('./util/run');
+const spawn = require('./util/spawn');
 
-function copyAssets() {
+function compile(dir) {
+	try {
+		spawn('yarn', ['run', 'tsc'], {cwd: dir});
+	}
+	catch (error) {
+		throw new Error(
+			`Compilation failed for project: ${path.basename(dir)}`
+		);
+	}
+}
+
+async function copyAssets(dir) {
 	return new Promise((resolve) => {
-		console.log('copy:', path.basename(process.cwd()));
+		const dirUp = dir.split(path.sep).length;
 
 		copyfiles(
-			['src/**/*', 'lib/'],
+			[`${dir}/src/**/*`, `${dir}/lib/`],
 			{
 				all: true,
 				exclude: ['**/*.js', '**/*.ts', '**/__tests__/**/*'],
-				up: 1,
+				up: dirUp + 1,
 			},
 			(error) => {
 				if (error) {
-					console.error(error);
-					process.exit(1);
+					abort(error);
 				}
 
 				resolve();
@@ -34,38 +45,28 @@ function copyAssets() {
 	});
 }
 
-async function main() {
-	if (process.argv.includes('--all')) {
-		const projectDirectories = getProjectDirectories();
+async function build(dir) {
+	try {
+		console.log('copy:', path.basename(dir));
 
-		for (const projectDirectory of getProjectDirectories()) {
-			process.chdir(projectDirectory);
+		await copyAssets(dir);
 
-			try {
-				await copyAssets();
-			}
-			finally {
-				process.chdir('../..');
-			}
-		}
+		console.log('compile:', path.basename(dir));
 
-		console.log('build:', path.basename(process.cwd()));
-
-		runNodeBin.pipe(
-			'tsc',
-			'--build',
-			...projectDirectories.map((projectDirectory) =>
-				path.join(projectDirectory, 'tsconfig.json')
-			)
-		);
+		compile(dir);
 	}
-	else {
-		await copyAssets();
-
-		console.log('build:', path.basename(process.cwd()));
-
-		runNodeBin.pipe('tsc');
+	catch (error) {
+		abort(error.toString());
 	}
 }
 
-main();
+(async () => {
+	if (process.argv.includes('--all')) {
+		for (const projectDir of getProjectDirectories()) {
+			await build(projectDir);
+		}
+	}
+	else {
+		build(path.resolve('.'));
+	}
+})();

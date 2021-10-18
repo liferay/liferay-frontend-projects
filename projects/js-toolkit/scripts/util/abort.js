@@ -3,12 +3,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-function abort(...msgs) {
+module.exports = function abort(...msgs) {
 	console.error(`\n❌ ${msgs.join('\n')}\n`);
 
 	process.exit(1);
-}
-
-module.exports = {
-	abort,
 };

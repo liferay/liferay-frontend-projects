@@ -5,82 +5,58 @@
 
 /* eslint-disable no-console */
 
-const fs = require('fs-extra');
+const fs = require('fs');
 const path = require('path');
 
-const {abort} = require('./util/report');
+const abort = require('./util/abort');
+const getProjectDirectories = require('./util/getProjectDirectories');
 
-function hasValidOutDir(json) {
+function assertValidOutDir(json) {
 	const {compilerOptions} = json;
 
-	if (!compilerOptions) {
-		return false;
+	if (!compilerOptions || !compilerOptions.outDir) {
+		abort('No compilerOptions.outDir found in tsconfig.json');
 	}
 
-	const {outDir} = compilerOptions;
-
-	if (!outDir) {
-		return false;
-	}
-
-	const absOutDir = path.resolve(outDir);
+	const absOutDir = path.resolve(compilerOptions.outDir);
 	const projectDir = path.resolve('.');
 
 	if (path.relative(projectDir, absOutDir).startsWith('../')) {
-		return false;
+		abort('Invalid compilerOptions.outDir found in tsconfig.json');
 	}
 
 	return true;
 }
 
-function clean() {
-	console.log('clean:', path.basename(process.cwd()));
+function clean(dir) {
+	console.log('clean:', path.basename(dir));
+
+	const cwd = process.cwd();
+
+	process.chdir(dir);
 
 	try {
-		const json = fs.readJSONSync('tsconfig.json');
+		/* eslint-disable-next-line @liferay/no-dynamic-require */
+		const json = require(path.resolve(dir, 'tsconfig.json'));
 
-		if (!hasValidOutDir(json)) {
-			abort(
-				`Invalid compilerOptions.outDir found in ` +
-					`${path.basename(path.resolve('.'))}/tsconfig.json`
-			);
-		}
+		assertValidOutDir(json);
 
-		fs.removeSync(json.compilerOptions.outDir);
+		fs.rmdirSync(json.compilerOptions.outDir, {recursive: true});
+		fs.unlinkSync(path.resolve(dir, 'tsconfig.tsbuildinfo'));
 	}
 	catch (error) {
 		if (error.code !== 'ENOENT') {
 			abort(error.toString());
 		}
 	}
-
-	fs.removeSync('tsconfig.tsbuildinfo');
+	finally {
+		process.chdir(cwd);
+	}
 }
 
 if (process.argv.includes('--all')) {
-
-	// Clean all packages.
-
-	const cwd = process.cwd();
-
-	for (const entry of fs.readdirSync('packages', {withFileTypes: true})) {
-		if (entry.isDirectory()) {
-			const pkg = path.join('packages', entry.name);
-
-			try {
-				process.chdir(pkg);
-
-				clean();
-			}
-			finally {
-				process.chdir(cwd);
-			}
-		}
-	}
+	getProjectDirectories().forEach(clean);
 }
 else {
-
-	// Clean just the current working directory.
-
-	clean();
+	clean(path.resolve('.'));
 }

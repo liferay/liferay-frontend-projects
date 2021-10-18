@@ -12,7 +12,7 @@
 		"preversion": "echo Cannot version private package; false",
 		"qa": "node scripts/qa/index.js",
 		"test": "liferay-workspace-scripts test",
-		"watch": "node scripts/watch.js"
+		"watch": "node scripts/watch.js --all"
 	},
 	"version": "0.1.0"
 }
