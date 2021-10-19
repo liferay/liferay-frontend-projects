@@ -300,7 +300,9 @@ export default async function (): Promise<void> {
 		}
 	}).listen(port);
 
-	log(chalk.green(`\nLiferay Dev Server is ready at http:127.0.0.1:${port}`));
+	log(
+		chalk.green(`\nLiferay Dev Server is ready at http://127.0.0.1:${port}`)
+	);
 
 	open(`http://127.0.0.1:${port}`);
 
