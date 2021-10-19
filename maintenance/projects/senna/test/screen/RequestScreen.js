@@ -37,19 +37,19 @@ describe('RequestScreen', function () {
 		this.xhr.restore();
 	});
 
-	it('should be cacheable', () => {
+	it('is cacheable', () => {
 		var screen = new RequestScreen();
 		assert.ok(screen.isCacheable());
 	});
 
-	it('should set HTTP method', () => {
+	it('sets HTTP method', () => {
 		var screen = new RequestScreen();
 		assert.strictEqual(RequestScreen.GET, screen.getHttpMethod());
 		screen.setHttpMethod(RequestScreen.POST);
 		assert.strictEqual(RequestScreen.POST, screen.getHttpMethod());
 	});
 
-	it('should set HTTP headers', () => {
+	it('sets HTTP headers', () => {
 		var screen = new RequestScreen();
 		assert.deepEqual(
 			{
@@ -62,14 +62,14 @@ describe('RequestScreen', function () {
 		assert.deepEqual({}, screen.getHttpHeaders());
 	});
 
-	it('should set timeout', () => {
+	it('sets timeout', () => {
 		var screen = new RequestScreen();
 		assert.strictEqual(30000, screen.getTimeout());
 		screen.setTimeout(0);
 		assert.strictEqual(0, screen.getTimeout());
 	});
 
-	it('should screen beforeUpdateHistoryPath return request path if responseURL or X-Request-URL not present', () => {
+	it('screen beforeUpdateHistoryPath return request path if responseURL or X-Request-URL not present', () => {
 		var screen = new RequestScreen();
 		sinon.stub(screen, 'getRequest', () => {
 			return {
@@ -82,7 +82,7 @@ describe('RequestScreen', function () {
 		assert.strictEqual('/path', screen.beforeUpdateHistoryPath('/path'));
 	});
 
-	it('should screen beforeUpdateHistoryPath return responseURL if present', () => {
+	it('screen beforeUpdateHistoryPath return responseURL if present', () => {
 		var screen = new RequestScreen();
 		sinon.stub(screen, 'getRequest', () => {
 			return {
@@ -96,7 +96,7 @@ describe('RequestScreen', function () {
 		);
 	});
 
-	it('should screen beforeUpdateHistoryPath return X-Request-URL if present and responseURL is not', () => {
+	it('screen beforeUpdateHistoryPath return X-Request-URL if present and responseURL is not', () => {
 		var screen = new RequestScreen();
 		sinon.stub(screen, 'getRequest', () => {
 			return {
@@ -114,7 +114,7 @@ describe('RequestScreen', function () {
 		);
 	});
 
-	it('should screen beforeUpdateHistoryState return null if form navigate to post-without-redirect-get', () => {
+	it('screen beforeUpdateHistoryState return null if form navigate to post-without-redirect-get', () => {
 		var screen = new RequestScreen();
 		assert.strictEqual(
 			null,
@@ -127,12 +127,12 @@ describe('RequestScreen', function () {
 		);
 	});
 
-	it('should request path return null if no requests were made', () => {
+	it('requests path return null if no requests were made', () => {
 		var screen = new RequestScreen();
 		assert.strictEqual(null, screen.getRequestPath());
 	});
 
-	it('should send request to an url', (done) => {
+	it('sends request to an url', (done) => {
 
 		// This test will run only on Chrome to avoid unique url on test case
 
@@ -159,7 +159,7 @@ describe('RequestScreen', function () {
 		}
 	});
 
-	it('should load response content from cache', (done) => {
+	it('loads response content from cache', (done) => {
 		var screen = new RequestScreen();
 		var cache = {};
 		screen.addCache(cache);
@@ -169,7 +169,7 @@ describe('RequestScreen', function () {
 		});
 	});
 
-	it('should not load response content from cache for post requests', (done) => {
+	it('does not load response content from cache for post requests', (done) => {
 		var screen = new RequestScreen();
 		var cache = {};
 		screen.setHttpMethod(RequestScreen.POST);
@@ -183,7 +183,7 @@ describe('RequestScreen', function () {
 		this.requests[0].respond(200);
 	});
 
-	it('should cancel load request to an url', (done) => {
+	it('cancels load request to an url', (done) => {
 		var screen = new RequestScreen();
 		screen
 			.load('/url')
@@ -195,7 +195,7 @@ describe('RequestScreen', function () {
 			.cancel();
 	});
 
-	it('should fail for timeout request', (done) => {
+	it('fails for timeout request', (done) => {
 		var screen = new RequestScreen();
 		screen.setTimeout(0);
 		screen.load('/url').catch((reason) => {
@@ -206,7 +206,7 @@ describe('RequestScreen', function () {
 		var id = setTimeout(() => this.requests[0].respond(200), 100);
 	});
 
-	it('should fail for invalid status code response', (done) => {
+	it('fails for invalid status code response', (done) => {
 		new RequestScreen().load('/url').catch((error) => {
 			assert.ok(error.invalidStatus);
 			done();
@@ -214,7 +214,7 @@ describe('RequestScreen', function () {
 		this.requests[0].respond(404);
 	});
 
-	it('should return the correct http status code for "page not found"', (done) => {
+	it('returns the correct http status code for "page not found"', (done) => {
 		new RequestScreen().load('/url').catch((error) => {
 			assert.strictEqual(error.statusCode, 404);
 			done();
@@ -222,7 +222,7 @@ describe('RequestScreen', function () {
 		this.requests[0].respond(404);
 	});
 
-	it('should return the correct http status code for "unauthorised"', (done) => {
+	it('returns the correct http status code for "unauthorised"', (done) => {
 		new RequestScreen().load('/url').catch((error) => {
 			assert.strictEqual(error.statusCode, 401);
 			done();
@@ -230,7 +230,7 @@ describe('RequestScreen', function () {
 		this.requests[0].respond(401);
 	});
 
-	it('should fail for request errors response', (done) => {
+	it('fails for request errors response', (done) => {
 		new RequestScreen().load('/url').catch((error) => {
 			assert.ok(error.requestError);
 			done();
@@ -238,7 +238,7 @@ describe('RequestScreen', function () {
 		this.requests[0].error();
 	});
 
-	it('should form navigate force post method and request body wrapped in FormData', (done) => {
+	it('form navigate force post method and request body wrapped in FormData', (done) => {
 		globals.capturedFormElement = globals.document.createElement('form');
 		var screen = new RequestScreen();
 		screen.load('/url').then(() => {
@@ -250,7 +250,7 @@ describe('RequestScreen', function () {
 		this.requests[0].respond(200);
 	});
 
-	it('should add submit input button value into request FormData', (done) => {
+	it('adds submit input button value into request FormData', (done) => {
 		globals.capturedFormElement = globals.document.createElement('form');
 		const submitButton = globals.document.createElement('button');
 		submitButton.name = 'submitButton';
@@ -270,7 +270,7 @@ describe('RequestScreen', function () {
 		this.requests[0].respond(200);
 	});
 
-	it('should not cache get requests on ie browsers', (done) => {
+	it('does not cache get requests on ie browsers', (done) => {
 
 		// This test will run only on IE
 
@@ -289,7 +289,7 @@ describe('RequestScreen', function () {
 		}
 	});
 
-	it('should not cache get requests on edge browsers', (done) => {
+	it('does not cache get requests on edge browsers', (done) => {
 
 		// This test will run only on Edge
 
@@ -307,7 +307,7 @@ describe('RequestScreen', function () {
 		}
 	});
 
-	it('should not cache redirected requests on edge browsers', (done) => {
+	it('does not cache redirected requests on edge browsers', (done) => {
 
 		// This test will run only on Edge
 
@@ -331,7 +331,7 @@ describe('RequestScreen', function () {
 		}
 	});
 
-	it('should navigate over same protocol the page was viewed on', (done) => {
+	it('navigates over same protocol the page was viewed on', (done) => {
 		var screen = new RequestScreen();
 		var wrongProtocol = globals.window.location.origin.replace(
 			'http',

@@ -64,7 +64,7 @@ describe('App', function () {
 		restorePreventDOMException18();
 	});
 
-	it('should add route', () => {
+	it('adds route', () => {
 		this.app = new App();
 		this.app.addRoutes(new Route('/path', Screen));
 		var route = this.app.findRoute('/path');
@@ -74,14 +74,14 @@ describe('App', function () {
 		assert.strictEqual(Screen, route.getHandler());
 	});
 
-	it('should remove route', () => {
+	it('removes route', () => {
 		this.app = new App();
 		var route = new Route('/path', Screen);
 		this.app.addRoutes(route);
 		assert.ok(this.app.removeRoute(route));
 	});
 
-	it('should add route from object', () => {
+	it('adds route from object', () => {
 		this.app = new App();
 		this.app.addRoutes({
 			path: '/path',
@@ -94,7 +94,7 @@ describe('App', function () {
 		assert.strictEqual(Screen, route.getHandler());
 	});
 
-	it('should add route from array', () => {
+	it('adds route from array', () => {
 		this.app = new App();
 		this.app.addRoutes([
 			{
@@ -114,13 +114,13 @@ describe('App', function () {
 		assert.strictEqual(Screen, routeOther.getHandler());
 	});
 
-	it('should not find route for not registered paths', () => {
+	it('does not find route for not registered paths', () => {
 		this.app = new App();
 		this.app.addRoutes(new Route('/path', Screen));
 		assert.strictEqual(null, this.app.findRoute('/pathOther'));
 	});
 
-	it('should not allow navigation for urls with hashbang when navigating to same basepath', () => {
+	it('does not allow navigation for urls with hashbang when navigating to same basepath', () => {
 		this.app = new App();
 		this.app.addRoutes(new Route('/path', Screen));
 		globals.window = {
@@ -135,7 +135,7 @@ describe('App', function () {
 		assert.strictEqual(false, this.app.canNavigate('/path#hashbang'));
 	});
 
-	it('should allow navigation for urls with hashbang when navigating to different basepath', () => {
+	it('allows navigation for urls with hashbang when navigating to different basepath', () => {
 		this.app = new App();
 		this.app.addRoutes(new Route('/path', Screen));
 		globals.window = {
@@ -150,7 +150,7 @@ describe('App', function () {
 		assert.strictEqual(true, this.app.canNavigate('/path#hashbang'));
 	});
 
-	it('should find route for urls with hashbang for different basepath', () => {
+	it('finds route for urls with hashbang for different basepath', () => {
 		this.app = new App();
 		this.app.addRoutes(new Route('/pathOther', Screen));
 		globals.window = {
@@ -163,7 +163,7 @@ describe('App', function () {
 		assert.ok(this.app.findRoute('/pathOther#hashbang'));
 	});
 
-	it('should find route for urls ending with or without slash', () => {
+	it('finds route for urls ending with or without slash', () => {
 		this.app = new App();
 		this.app.addRoutes(new Route('/pathOther', Screen));
 		globals.window = {
@@ -177,34 +177,34 @@ describe('App', function () {
 		assert.ok(this.app.findRoute('/pathOther/'));
 	});
 
-	it('should ignore query string on findRoute when ignoreQueryStringFromRoutePath is enabled', () => {
+	it('ignores query string on findRoute when ignoreQueryStringFromRoutePath is enabled', () => {
 		this.app = new App();
 		this.app.setIgnoreQueryStringFromRoutePath(true);
 		this.app.addRoutes(new Route('/path', Screen));
 		assert.ok(this.app.findRoute('/path?foo=1'));
 	});
 
-	it('should not ignore query string on findRoute when ignoreQueryStringFromRoutePath is disabled', () => {
+	it('does not ignore query string on findRoute when ignoreQueryStringFromRoutePath is disabled', () => {
 		this.app = new App();
 		this.app.addRoutes(new Route('/path', Screen));
 		assert.ok(!this.app.findRoute('/path?foo=1'));
 	});
 
-	it('should add surface', () => {
+	it('adds surface', () => {
 		this.app = new App();
 		this.app.addSurfaces(new Surface('surfaceId'));
 		assert.ok(this.app.surfaces.surfaceId);
 		assert.strictEqual('surfaceId', this.app.surfaces.surfaceId.getId());
 	});
 
-	it('should add surface from surface id', () => {
+	it('adds surface from surface id', () => {
 		this.app = new App();
 		this.app.addSurfaces('surfaceId');
 		assert.ok(this.app.surfaces.surfaceId);
 		assert.strictEqual('surfaceId', this.app.surfaces.surfaceId.getId());
 	});
 
-	it('should add surface from array', () => {
+	it('adds surface from array', () => {
 		this.app = new App();
 		this.app.addSurfaces([new Surface('surfaceId'), 'surfaceIdOther']);
 		assert.ok(this.app.surfaces.surfaceId);
@@ -216,7 +216,7 @@ describe('App', function () {
 		);
 	});
 
-	it('should create screen instance to a route', () => {
+	it('creates screen instance to a route', () => {
 		this.app = new App();
 		var screen = this.app.createScreenInstance(
 			'/path',
@@ -225,7 +225,7 @@ describe('App', function () {
 		assert.ok(screen instanceof Screen);
 	});
 
-	it('should create screen instance to a route for Screen class child', () => {
+	it('creates screen instance to a route for Screen class child', () => {
 		this.app = new App();
 		var screen = this.app.createScreenInstance(
 			'/path',
@@ -234,7 +234,7 @@ describe('App', function () {
 		assert.ok(screen instanceof HtmlScreen);
 	});
 
-	it('should create screen instance to a route with function handler', () => {
+	it('creates screen instance to a route with function handler', () => {
 		this.app = new App();
 		var stub = sinon.stub();
 		var route = new Route('/path', stub);
@@ -245,7 +245,7 @@ describe('App', function () {
 		assert.ok(screen instanceof Screen);
 	});
 
-	it('should get same screen instance to a route', () => {
+	it('gets same screen instance to a route', () => {
 		this.app = new App();
 		var route = new Route('/path', Screen);
 		var screen = this.app.createScreenInstance('/path', route);
@@ -256,7 +256,7 @@ describe('App', function () {
 		);
 	});
 
-	it('should use same screen instance when simulating navigate refresh', () => {
+	it('uses same screen instance when simulating navigate refresh', () => {
 		this.app = new App();
 		var route = new Route('/path', HtmlScreen);
 		var screen = this.app.createScreenInstance('/path', route);
@@ -267,7 +267,7 @@ describe('App', function () {
 		assert.strictEqual(screen, screenRefresh);
 	});
 
-	it('should store screen for path with query string when ignoreQueryStringFromRoutePath is enabled', (done) => {
+	it('stores screen for path with query string when ignoreQueryStringFromRoutePath is enabled', (done) => {
 		class NoCacheScreen extends Screen {
 			constructor() {
 				super();
@@ -284,7 +284,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should create different screen instance when navigate to same path with different query strings if ignoreQueryStringFromRoutePath is enabled', (done) => {
+	it('creates different screen instance when navigate to same path with different query strings if ignoreQueryStringFromRoutePath is enabled', (done) => {
 		class NoCacheScreen extends Screen {
 			constructor() {
 				super();
@@ -311,7 +311,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should create different screen instance navigate when not cacheable', (done) => {
+	it('creates different screen instance navigate when not cacheable', (done) => {
 		class NoCacheScreen extends Screen {
 			constructor() {
 				super();
@@ -335,7 +335,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should use same screen instance navigate when is cacheable', (done) => {
+	it('uses same screen instance navigate when is cacheable', (done) => {
 		class CacheScreen extends Screen {
 			constructor() {
 				super();
@@ -359,7 +359,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should clear screen cache', () => {
+	it('clears screen cache', () => {
 		this.app = new App();
 		this.app.screens['/path'] = this.app.createScreenInstance(
 			'/path',
@@ -369,7 +369,7 @@ describe('App', function () {
 		assert.strictEqual(0, Object.keys(this.app.screens).length);
 	});
 
-	it('should clear all screen caches on app dispose', () => {
+	it('clears all screen caches on app dispose', () => {
 		this.app = new App();
 		var screen1 = this.app.createScreenInstance(
 			'/path1',
@@ -387,7 +387,7 @@ describe('App', function () {
 		assert.strictEqual(0, Object.keys(this.app.screens).length);
 	});
 
-	it('should clear screen cache and remove surfaces', () => {
+	it('clears screen cache and remove surfaces', () => {
 		this.app = new App();
 		var surface = new Surface('surfaceId');
 		surface.remove = sinon.stub();
@@ -400,7 +400,7 @@ describe('App', function () {
 		assert.strictEqual(1, surface.remove.callCount);
 	});
 
-	it('should clear screen cache for activeScreen but not remove it', () => {
+	it('clears screen cache for activeScreen but not remove it', () => {
 		this.app = new App();
 		this.app.screens['/path'] = this.app.createScreenInstance(
 			'/path',
@@ -413,7 +413,7 @@ describe('App', function () {
 		assert.strictEqual(null, this.app.activeScreen.getCache());
 	});
 
-	it('should not to clear screen cache the being used in a pending navigation', (done) => {
+	it('does not to clear screen cache the being used in a pending navigation', (done) => {
 		const event = new EventEmitter();
 		class StubScreen extends Screen {
 			constructor() {
@@ -448,14 +448,14 @@ describe('App', function () {
 		event.on('flip', callback);
 	});
 
-	it('should get allow prevent navigate', () => {
+	it('gets allow prevent navigate', () => {
 		this.app = new App();
 		assert.strictEqual(true, this.app.getAllowPreventNavigate());
 		this.app.setAllowPreventNavigate(false);
 		assert.strictEqual(false, this.app.getAllowPreventNavigate());
 	});
 
-	it('should get default title', () => {
+	it('gets default title', () => {
 		globals.document.title = 'default';
 		this.app = new App();
 		assert.strictEqual('default', this.app.getDefaultTitle());
@@ -463,28 +463,28 @@ describe('App', function () {
 		assert.strictEqual('title', this.app.getDefaultTitle());
 	});
 
-	it('should get basepath', () => {
+	it('gets basepath', () => {
 		this.app = new App();
 		assert.strictEqual('', this.app.getBasePath());
 		this.app.setBasePath('/base');
 		assert.strictEqual('/base', this.app.getBasePath());
 	});
 
-	it('should get update scroll position', () => {
+	it('gets update scroll position', () => {
 		this.app = new App();
 		assert.strictEqual(true, this.app.getUpdateScrollPosition());
 		this.app.setUpdateScrollPosition(false);
 		assert.strictEqual(false, this.app.getUpdateScrollPosition());
 	});
 
-	it('should get loading css class', () => {
+	it('gets loading css class', () => {
 		this.app = new App();
 		assert.strictEqual('senna-loading', this.app.getLoadingCssClass());
 		this.app.setLoadingCssClass('');
 		assert.strictEqual('', this.app.getLoadingCssClass());
 	});
 
-	it('should get form selector', () => {
+	it('gets form selector', () => {
 		this.app = new App();
 		assert.strictEqual(
 			'form[enctype="multipart/form-data"]:not([data-senna-off])',
@@ -494,7 +494,7 @@ describe('App', function () {
 		assert.strictEqual('', this.app.getFormSelector());
 	});
 
-	it('should get link selector', () => {
+	it('gets link selector', () => {
 		this.app = new App();
 		assert.strictEqual(
 			'a:not([data-senna-off]):not([target="_blank"])',
@@ -504,7 +504,7 @@ describe('App', function () {
 		assert.strictEqual('', this.app.getLinkSelector());
 	});
 
-	it('should test if can navigate to url', () => {
+	it('tests if can navigate to url', () => {
 		this.app = new App();
 		globals.window = {
 			history: {},
@@ -532,7 +532,7 @@ describe('App', function () {
 		assert.ok(!this.app.canNavigate('mailto:contact@sennajs.com'));
 	});
 
-	it('should test if can navigate to url with base path ending in "/"', () => {
+	it('tests if can navigate to url with base path ending in "/"', () => {
 		this.app = new App();
 		globals.window = {
 			history: {},
@@ -556,7 +556,7 @@ describe('App', function () {
 		assert.ok(!this.app.canNavigate('http://external/path'));
 	});
 
-	it('should be able to navigate to route that ends with "/"', () => {
+	it('is able to navigate to route that ends with "/"', () => {
 		this.app = new App();
 		globals.window = {
 			history: {},
@@ -577,7 +577,7 @@ describe('App', function () {
 		assert.ok(this.app.canNavigate('http://localhost/path/123/'));
 	});
 
-	it('should detect a navigation to different port and refresh page', () => {
+	it('detects a navigation to different port and refresh page', () => {
 		this.app = new App();
 		globals.window = {
 			history: {},
@@ -597,7 +597,7 @@ describe('App', function () {
 		assert.isFalse(this.app.canNavigate('http://localhost:9083/path/123/'));
 	});
 
-	it('should be able to navigate to a path using default protocol port', () => {
+	it('is able to navigate to a path using default protocol port', () => {
 		this.app = new App();
 		globals.window = {
 			history: {},
@@ -617,7 +617,7 @@ describe('App', function () {
 		assert.isTrue(this.app.canNavigate('http://localhost:80/path/123/'));
 	});
 
-	it('should store proper senna state after navigate', (done) => {
+	it('stores proper senna state after navigate', (done) => {
 		this.app = new App();
 		this.app.addRoutes(new Route('/path', Screen));
 		this.app.navigate('/path').then(() => {
@@ -633,7 +633,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should navigate emit startNavigate and endNavigate custom event', (done) => {
+	it('emits startNavigate and endNavigate custom event on navigation', (done) => {
 		var startNavigateStub = sinon.stub();
 		var endNavigateStub = sinon.stub();
 		this.app = new App();
@@ -653,7 +653,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should navigate emit startNavigate and endNavigate custom event with replace history', (done) => {
+	it('emits startNavigate and endNavigate custom event with replace history on navigation', (done) => {
 		var startNavigateStub = sinon.stub();
 		var endNavigateStub = sinon.stub();
 		this.app = new App();
@@ -673,7 +673,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should navigate overwrite event.path on beforeNavigate custom event', (done) => {
+	it('overwrites event.path on beforeNavigate custom event', (done) => {
 		this.app = new App();
 		this.app.addRoutes(new Route('/path1', Screen));
 		this.app.on('beforeNavigate', (event) => {
@@ -685,7 +685,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should cancel navigate', (done) => {
+	it('cancels navigate', (done) => {
 		var stub = sinon.stub();
 		this.app = new App();
 		this.app.addRoutes(new Route('/path', Screen));
@@ -703,7 +703,7 @@ describe('App', function () {
 			.cancel();
 	});
 
-	it('should clear pendingNavigate after navigate', (done) => {
+	it('clears pendingNavigate after navigate', (done) => {
 		this.app = new App();
 		this.app.addRoutes(new Route('/path', Screen));
 		this.app.navigate('/path').then(() => {
@@ -713,7 +713,7 @@ describe('App', function () {
 		assert.ok(this.app.pendingNavigate);
 	});
 
-	it('should wait for pendingNavigate if navigate to same path', (done) => {
+	it('waits for pendingNavigate if navigate to same path', (done) => {
 		class CacheScreen extends Screen {
 			constructor() {
 				super();
@@ -732,7 +732,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should navigate back when clicking browser back button', (done) => {
+	it('navigates back when clicking browser back button', (done) => {
 		this.app = new App();
 		this.app.addRoutes(new Route('/path1', Screen));
 		this.app.addRoutes(new Route('/path2', Screen));
@@ -754,7 +754,7 @@ describe('App', function () {
 			});
 	});
 
-	it('should not navigate back on a hash change', (done) => {
+	it('does not navigate back on a hash change', (done) => {
 		this.app = new App();
 		this.app.addRoutes(new Route('/path1', Screen));
 		this.app.addRoutes(new Route('/path2', Screen));
@@ -772,7 +772,7 @@ describe('App', function () {
 			});
 	});
 
-	it('should only call beforeNavigate when waiting for pendingNavigate if navigate to same path', (done) => {
+	it('only calls beforeNavigate when waiting for pendingNavigate if navigate to same path', (done) => {
 		class CacheScreen extends Screen {
 			constructor() {
 				super();
@@ -794,7 +794,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should not wait for pendingNavigate if navigate to different path', (done) => {
+	it('does not wait for pendingNavigate if navigate to different path', (done) => {
 		class CacheScreen extends Screen {
 			constructor() {
 				super();
@@ -817,7 +817,7 @@ describe('App', function () {
 			});
 	});
 
-	it('should simulate refresh on navigate to the same path', (done) => {
+	it('simulates refresh on navigate to the same path', (done) => {
 		this.app = new App();
 		this.app.addRoutes(new Route('/path', Screen));
 		this.app.once('startNavigate', (payload) => {
@@ -833,7 +833,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should add loading css class on navigate', (done) => {
+	it('adds loading css class on navigate', (done) => {
 		var containsLoadingCssClass = () => {
 			return globals.document.documentElement.classList.contains(
 				this.app.getLoadingCssClass()
@@ -853,7 +853,7 @@ describe('App', function () {
 			.then(() => assert.ok(!containsLoadingCssClass()));
 	});
 
-	it('should not remove loading css class on navigate if there is pending navigate', (done) => {
+	it('does not remove loading css class on navigate if there is pending navigate', (done) => {
 		var containsLoadingCssClass = () => {
 			return globals.document.documentElement.classList.contains(
 				this.app.getLoadingCssClass()
@@ -877,7 +877,7 @@ describe('App', function () {
 		this.app.navigate('/path1');
 	});
 
-	it('should not navigate to unrouted paths', (done) => {
+	it('does not navigate to unrouted paths', (done) => {
 		this.app = new App();
 		this.app.on('endNavigate', (payload) => {
 			assert.ok(payload.error instanceof Error);
@@ -888,7 +888,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should store scroll position on page scroll', (done) => {
+	it('stores scroll position on page scroll', (done) => {
 		if (!canScrollIFrame_) {
 			done();
 
@@ -906,7 +906,7 @@ describe('App', function () {
 		globals.window.scrollTo(100, 100);
 	});
 
-	it('should not store page scroll position during navigate', (done) => {
+	it('does not store page scroll position during navigate', (done) => {
 		this.app = new App();
 		this.app.addRoutes(new Route('/path', Screen));
 		this.app.on('startNavigate', () => {
@@ -920,7 +920,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should update scroll position on navigate', (done) => {
+	it('updates scroll position on navigate', (done) => {
 		if (!canScrollIFrame_) {
 			done();
 
@@ -944,7 +944,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should not update scroll position on navigate if updateScrollPosition is disabled', (done) => {
+	it('does not update scroll position on navigate if updateScrollPosition is disabled', (done) => {
 		if (!canScrollIFrame_) {
 			done();
 
@@ -969,7 +969,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should restore scroll position on navigate back', (done) => {
+	it('restores scroll position on navigate back', (done) => {
 		if (!canScrollIFrame_) {
 			done();
 
@@ -998,7 +998,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should dispatch navigate to current path', (done) => {
+	it('dispatchs navigate to current path', (done) => {
 		globals.window.history.replaceState({}, '', '/path1?foo=1#hash');
 		this.app = new App();
 		this.app.addRoutes(new Route('/path', Screen));
@@ -1014,7 +1014,7 @@ describe('App', function () {
 		this.app.dispatch();
 	});
 
-	it('should prevent navigation when beforeDeactivate returns "true"', (done) => {
+	it('prevents navigation when beforeDeactivate returns "true"', (done) => {
 		class NoNavigateScreen extends Screen {
 			beforeDeactivate() {
 				return true;
@@ -1034,7 +1034,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should prevent navigation when beforeDeactivate resolves to "true"', (done) => {
+	it('prevents navigation when beforeDeactivate resolves to "true"', (done) => {
 		class NoNavigateScreen extends Screen {
 			beforeDeactivate() {
 				return new CancellablePromise((resolve) => {
@@ -1056,7 +1056,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should prevent navigation when beforeActivate returns "true"', (done) => {
+	it('prevents navigation when beforeActivate returns "true"', (done) => {
 		class NoNavigateScreen extends Screen {
 			beforeActivate() {
 				return true;
@@ -1079,7 +1079,7 @@ describe('App', function () {
 			});
 	});
 
-	it('should prevent navigation when beforeActivate promise resolves to "true"', (done) => {
+	it('prevents navigation when beforeActivate promise resolves to "true"', (done) => {
 		class NoNavigateScreen extends Screen {
 			beforeActivate() {
 				return new CancellablePromise((resolve) => {
@@ -1104,7 +1104,7 @@ describe('App', function () {
 			});
 	});
 
-	it('should prefetch paths', (done) => {
+	it('prefetchs paths', (done) => {
 		this.app = new App();
 		this.app.addRoutes(new Route('/path', Screen));
 		this.app.prefetch('/path').then(() => {
@@ -1113,7 +1113,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should prefetch fail on navigate to unrouted paths', (done) => {
+	it('prefetchs fail on navigate to unrouted paths', (done) => {
 		this.app = new App();
 		this.app.on('endNavigate', (payload) => {
 			assert.ok(payload.error instanceof Error);
@@ -1124,7 +1124,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should cancel prefetch', (done) => {
+	it('cancels prefetch', (done) => {
 		this.app = new App();
 		this.app.addRoutes(new Route('/path', Screen));
 		this.app.on('endNavigate', (payload) => {
@@ -1139,7 +1139,7 @@ describe('App', function () {
 			.cancel();
 	});
 
-	it('should navigate when clicking on routed links', () => {
+	it('navigates when clicking on routed links', () => {
 		this.app = new App();
 		this.app.addRoutes(new Route('/path', Screen));
 		dom.triggerEvent(enterDocumentLinkElement('/path'), 'click');
@@ -1147,7 +1147,7 @@ describe('App', function () {
 		exitDocumentLinkElement();
 	});
 
-	it('should not navigate when clicking on target blank links', () => {
+	it('does not navigate when clicking on target blank links', () => {
 		this.app = new App();
 		this.app.addRoutes(new Route('/path', Screen));
 		const link = enterDocumentLinkElement('/path');
@@ -1158,7 +1158,7 @@ describe('App', function () {
 		assert.strictEqual(this.app.pendingNavigate, null);
 	});
 
-	it('should pass original event object to "beforeNavigate" when a link is clicked', () => {
+	it('passes original event object to "beforeNavigate" when a link is clicked', () => {
 		this.app = new App();
 		this.app.addRoutes(new Route('/path', Screen));
 		this.app.on('beforeNavigate', (data) => {
@@ -1171,7 +1171,7 @@ describe('App', function () {
 		assert.notEqual('/path', window.location.pathname);
 	});
 
-	it('should prevent navigation on both senna and the browser via beforeNavigate', () => {
+	it('prevents navigation on both senna and the browser via beforeNavigate', () => {
 		this.app = new App();
 		this.app.addRoutes(new Route('/preventedPath', Screen));
 		this.app.on('beforeNavigate', (data, event) => {
@@ -1184,7 +1184,7 @@ describe('App', function () {
 		assert.notEqual('/preventedPath', window.location.pathname);
 	});
 
-	it('should not navigate when clicking on external links', () => {
+	it('does not navigate when clicking on external links', () => {
 		var link = enterDocumentLinkElement('http://sennajs.com');
 		this.app = new App();
 		this.app.setAllowPreventNavigate(false);
@@ -1194,7 +1194,7 @@ describe('App', function () {
 		exitDocumentLinkElement();
 	});
 
-	it('should not navigate when clicking on links outside basepath', () => {
+	it('does not navigate when clicking on links outside basepath', () => {
 		var link = enterDocumentLinkElement('/path');
 		this.app = new App();
 		this.app.setAllowPreventNavigate(false);
@@ -1205,7 +1205,7 @@ describe('App', function () {
 		exitDocumentLinkElement();
 	});
 
-	it('should not navigate when clicking on unrouted links', () => {
+	it('does not navigate when clicking on unrouted links', () => {
 		var link = enterDocumentLinkElement('/path');
 		this.app = new App();
 		this.app.setAllowPreventNavigate(false);
@@ -1215,7 +1215,7 @@ describe('App', function () {
 		exitDocumentLinkElement();
 	});
 
-	it('should not navigate when clicking on links with invalid mouse button or modifier keys pressed', () => {
+	it('does not navigate when clicking on links with invalid mouse button or modifier keys pressed', () => {
 		var link = enterDocumentLinkElement('/path');
 		this.app = new App();
 		this.app.setAllowPreventNavigate(false);
@@ -1240,7 +1240,7 @@ describe('App', function () {
 		exitDocumentLinkElement();
 	});
 
-	it('should not navigate when navigate fails synchronously', () => {
+	it('does not navigate when navigate fails synchronously', () => {
 		var link = enterDocumentLinkElement('/path');
 		this.app = new App();
 		this.app.setAllowPreventNavigate(false);
@@ -1254,7 +1254,7 @@ describe('App', function () {
 		exitDocumentLinkElement();
 	});
 
-	it('should reload page on navigate back to a routed page without history state', (done) => {
+	it('reloads page on navigate back to a routed page without history state', (done) => {
 		this.app = new App();
 		this.app.reloadPage = sinon.stub();
 		this.app.addRoutes(new Route('/path1', Screen));
@@ -1271,7 +1271,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should be able to update referrer when Screen history state returns null', (done) => {
+	it('is able to update referrer when Screen history state returns null', (done) => {
 		class NullStateScreen extends Screen {
 			beforeUpdateHistoryState() {
 				return null;
@@ -1293,7 +1293,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should not reload page on navigate back to a routed page with same path containing hashbang without history state', (done) => {
+	it('does not reload page on navigate back to a routed page with same path containing hashbang without history state', (done) => {
 		this.app = new App();
 		this.app.addRoutes(new Route('/path', Screen));
 		this.app.reloadPage = sinon.stub();
@@ -1310,7 +1310,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should reload page on navigate back to a routed page with different path containing hashbang without history state', (done) => {
+	it('reloads page on navigate back to a routed page with different path containing hashbang without history state', (done) => {
 		this.app = new App();
 		this.app.addRoutes(new Route('/path1', Screen));
 		this.app.addRoutes(new Route('/path2', Screen));
@@ -1328,7 +1328,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should not reload page on clicking links with same path containing different hashbang without history state', (done) => {
+	it('does not reload page on clicking links with same path containing different hashbang without history state', (done) => {
 		this.app = new App();
 		this.app.addRoutes(new Route('/path', Screen));
 		this.app.reloadPage = sinon.stub();
@@ -1340,7 +1340,7 @@ describe('App', function () {
 		dom.triggerEvent(globals.window, 'popstate');
 	});
 
-	it('should not navigate on clicking links when onbeforeunload returns truthy value', () => {
+	it('does not navigate on clicking links when onbeforeunload returns truthy value', () => {
 		const beforeunload = sinon.spy();
 		window.onbeforeunload = beforeunload;
 		this.app = new App();
@@ -1351,7 +1351,7 @@ describe('App', function () {
 		assert.strictEqual(1, beforeunload.callCount);
 	});
 
-	it('should not navigate back to the previous page on navigate back when onbeforeunload returns a truthy value', (done) => {
+	it('does not navigate back to the previous page on navigate back when onbeforeunload returns a truthy value', (done) => {
 		const beforeunload = sinon.spy();
 		window.onbeforeunload = beforeunload;
 		this.app = new App();
@@ -1370,7 +1370,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should resposition scroll to hashed anchors on hash popstate', (done) => {
+	it('repositions scroll to hashed anchors on hash popstate', (done) => {
 		if (!canScrollIFrame_) {
 			done();
 
@@ -1404,7 +1404,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should navigate when submitting routed forms', () => {
+	it('navigates when submitting routed forms', () => {
 		this.app = new App();
 		this.app.addRoutes(new Route('/path', Screen));
 		const form = enterDocumentFormElement('/path', 'post');
@@ -1416,12 +1416,12 @@ describe('App', function () {
 		});
 	});
 
-	it('should not navigate when submitting routed forms if submit event was prevented', () => {
+	it('does not navigate when submitting routed forms if submit event was prevented', () => {
 		this.app = new App();
 		this.app.addRoutes(new Route('/path', Screen));
 		var form = enterDocumentFormElement('/path', 'post');
 
-		return new CancellablePromise((resolve, reject) => {
+		return new CancellablePromise((resolve, _reject) => {
 			dom.once(form, 'submit', (event) => {
 				event.preventDefault();
 				assert.ok(!this.app.pendingNavigate);
@@ -1433,12 +1433,12 @@ describe('App', function () {
 		});
 	});
 
-	it('should not capture form element when submit event was prevented', () => {
+	it('does not capture form element when submit event was prevented', () => {
 		this.app = new App();
 		this.app.addRoutes(new Route('/path', Screen));
 		var form = enterDocumentFormElement('/path', 'post');
 
-		return new CancellablePromise((resolve, reject) => {
+		return new CancellablePromise((resolve, _reject) => {
 			dom.once(form, 'submit', (event) => {
 				event.preventDefault();
 				assert.ok(!globals.capturedFormElement);
@@ -1450,7 +1450,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should expose form reference in event data when submitting routed forms', (done) => {
+	it('exposes form reference in event data when submitting routed forms', (done) => {
 		this.app = new App();
 		this.app.addRoutes(new Route('/path', Screen));
 		const form = enterDocumentFormElement('/path', 'post');
@@ -1465,7 +1465,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should not navigate when submitting forms with method get', () => {
+	it('does not navigate when submitting forms with method get', () => {
 		var form = enterDocumentFormElement('/path', 'get');
 		this.app = new App();
 		this.app.setAllowPreventNavigate(false);
@@ -1476,7 +1476,7 @@ describe('App', function () {
 		exitDocument(form);
 	});
 
-	it('should not navigate when submitting on external forms', () => {
+	it('does not navigate when submitting on external forms', () => {
 		var form = enterDocumentFormElement('http://sennajs.com', 'post');
 		this.app = new App();
 		this.app.setAllowPreventNavigate(false);
@@ -1486,7 +1486,7 @@ describe('App', function () {
 		exitDocument(form);
 	});
 
-	it('should not navigate when submitting on forms outside basepath', () => {
+	it('does not navigate when submitting on forms outside basepath', () => {
 		var form = enterDocumentFormElement('/path', 'post');
 		this.app = new App();
 		this.app.setAllowPreventNavigate(false);
@@ -1497,7 +1497,7 @@ describe('App', function () {
 		exitDocument(form);
 	});
 
-	it('should not navigate when submitting on unrouted forms', () => {
+	it('does not navigate when submitting on unrouted forms', () => {
 		var form = enterDocumentFormElement('/path', 'post');
 		this.app = new App();
 		this.app.setAllowPreventNavigate(false);
@@ -1507,7 +1507,7 @@ describe('App', function () {
 		exitDocument(form);
 	});
 
-	it('should not capture form if navigate fails when submitting forms', () => {
+	it('does not capture form if navigate fails when submitting forms', () => {
 		var form = enterDocumentFormElement('/path', 'post');
 		this.app = new App();
 		this.app.setAllowPreventNavigate(false);
@@ -1517,7 +1517,7 @@ describe('App', function () {
 		exitDocument(form);
 	});
 
-	it('should capture form on beforeNavigate', (done) => {
+	it('captures form on beforeNavigate', (done) => {
 		const form = enterDocumentFormElement('/path', 'post');
 		this.app = new App();
 		this.app.setAllowPreventNavigate(false);
@@ -1533,7 +1533,7 @@ describe('App', function () {
 		assert.ok(globals.capturedFormElement);
 	});
 
-	it('should capture form button when submitting', () => {
+	it('captures form button when submitting', () => {
 		const form = enterDocumentFormElement('/path', 'post');
 		const button = globals.document.createElement('button');
 		form.appendChild(button);
@@ -1541,8 +1541,8 @@ describe('App', function () {
 		this.app.setAllowPreventNavigate(false);
 		this.app.addRoutes(new Route('/path', StubScreen));
 
-		return new CancellablePromise((resolve, reject) => {
-			this.app.on('beforeNavigate', (event) => {
+		return new CancellablePromise((resolve, _reject) => {
+			this.app.on('beforeNavigate', (_event) => {
 				assert.ok(globals.capturedFormButtonElement);
 				resolve();
 			});
@@ -1555,7 +1555,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should capture form button when clicking submit button', () => {
+	it('captures form button when clicking submit button', () => {
 		const form = enterDocumentFormElement('/path', 'post');
 		const button = globals.document.createElement('button');
 		button.type = 'submit';
@@ -1570,7 +1570,7 @@ describe('App', function () {
 		exitDocument(form);
 	});
 
-	it('should set redirect path if history path was redirected', (done) => {
+	it('sets redirect path if history path was redirected', (done) => {
 		class RedirectScreen extends Screen {
 			beforeUpdateHistoryPath() {
 				return '/redirect';
@@ -1585,7 +1585,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should update the state with the redirected path', (done) => {
+	it('updates the state with the redirected path', (done) => {
 		class RedirectScreen extends Screen {
 			beforeUpdateHistoryPath() {
 				return '/redirect';
@@ -1599,7 +1599,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should restore hashbang if redirect path is the same as requested path', (done) => {
+	it('restores hashbang if redirect path is the same as requested path', (done) => {
 		class RedirectScreen extends Screen {
 			beforeUpdateHistoryPath() {
 				return '/path';
@@ -1613,7 +1613,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should not restore hashbang if redirect path is not the same as requested path', (done) => {
+	it('does not restore hashbang if redirect path is not the same as requested path', (done) => {
 		class RedirectScreen extends Screen {
 			beforeUpdateHistoryPath() {
 				return '/redirect';
@@ -1627,7 +1627,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should skipLoadPopstate before page is loaded', (done) => {
+	it('honors skipLoadPopstate before page is loaded', (done) => {
 		this.app = new App();
 		this.app.onLoad_(); // Simulate
 		assert.ok(this.app.skipLoadPopstate);
@@ -1637,7 +1637,7 @@ describe('App', function () {
 		}, 0);
 	});
 
-	it('should respect screen lifecycle on navigate', () => {
+	it('respects screen lifecycle on navigate', () => {
 		class StubScreen2 extends Screen {}
 		StubScreen2.prototype.activate = sinon.spy();
 		StubScreen2.prototype.beforeDeactivate = sinon.spy();
@@ -1678,7 +1678,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should render surfaces', (done) => {
+	it('renders surfaces', (done) => {
 		class ContentScreen extends Screen {
 			getSurfaceContent(surfaceId) {
 				return surfaceId;
@@ -1700,7 +1700,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should pass extracted params to "getSurfaceContent"', (done) => {
+	it('passes extracted params to "getSurfaceContent"', (done) => {
 		var screen;
 		class ContentScreen extends Screen {
 			constructor() {
@@ -1737,7 +1737,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should pass extracted params to "getSurfaceContent" with base path', (done) => {
+	it('passes extracted params to "getSurfaceContent" with base path', (done) => {
 		var screen;
 		class ContentScreen extends Screen {
 			constructor() {
@@ -1775,7 +1775,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should extract params for the given route and path', () => {
+	it('extracts params for the given route and path', () => {
 		this.app = new App();
 		this.app.setBasePath('/path');
 		var route = new Route('/:foo(\\d+)/:bar', () => {});
@@ -1787,7 +1787,7 @@ describe('App', function () {
 		assert.deepEqual(expectedParams, params);
 	});
 
-	it('should render default surface content when not provided by screen', (done) => {
+	it('renders default surface content when not provided by screen', (done) => {
 		class ContentScreen1 extends Screen {
 			getSurfaceContent(surfaceId) {
 				if (surfaceId === 'surfaceId1') {
@@ -1851,7 +1851,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should add surface content after history path is updated', (done) => {
+	it('adds surface content after history path is updated', (done) => {
 		var surface = new Surface('surfaceId');
 		surface.addContent = () => {
 			assert.strictEqual('/path', globals.window.location.pathname);
@@ -1864,7 +1864,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should not navigate when HTML5 History api is not supported', () => {
+	it('does not navigate when HTML5 History api is not supported', () => {
 		var original = utils.isHtml5HistorySupported;
 		assert.throws(() => {
 			this.app = new App();
@@ -1877,7 +1877,7 @@ describe('App', function () {
 		utils.isHtml5HistorySupported = original;
 	});
 
-	it('should navigate cancelling navigation to multiple paths after navigation is scheduled to keep only the last one', (done) => {
+	it('navigates cancelling navigation to multiple paths after navigation is scheduled to keep only the last one', (done) => {
 		const app = (this.app = new App());
 
 		class TestScreen extends Screen {
@@ -1925,7 +1925,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should navigate cancelling navigation to multiple paths when navigation strategy is setted up to be immediate', (done) => {
+	it('navigates cancelling navigation to multiple paths when navigation strategy is setted up to be immediate', (done) => {
 		this.app = new App();
 
 		class TestScreen extends Screen {
@@ -1963,7 +1963,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should set document title from screen title', (done) => {
+	it('sets document title from screen title', (done) => {
 		class TitledScreen extends Screen {
 			getTitle() {
 				return 'title';
@@ -1977,7 +1977,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should set globals.capturedFormElement to null after navigate', (done) => {
+	it('sets globals.capturedFormElement to null after navigate', (done) => {
 		this.app = new App();
 		this.app.addRoutes(new Route('/path', Screen));
 		this.app.navigate('/path').then(() => {
@@ -1986,7 +1986,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should cancel nested promises on canceled navigate', (done) => {
+	it('cancels nested promises on canceled navigate', (done) => {
 		this.app = new App();
 		this.app.addRoutes(new Route('/path', HtmlScreen));
 		this.app
@@ -1999,7 +1999,7 @@ describe('App', function () {
 			.cancel();
 	});
 
-	it('should cancel nested promises on canceled prefetch', (done) => {
+	it('cancels nested promises on canceled prefetch', (done) => {
 		this.app = new App();
 		this.app.addRoutes(new Route('/path', HtmlScreen));
 		this.app
@@ -2012,7 +2012,7 @@ describe('App', function () {
 			.cancel();
 	});
 
-	it('should wait for pendingNavigate before removing screen on double back navigation', (done) => {
+	it('waits for pendingNavigate before removing screen on double back navigation', (done) => {
 		class CacheScreen extends Screen {
 			constructor() {
 				super();
@@ -2059,7 +2059,7 @@ describe('App', function () {
 			});
 	});
 
-	it('should scroll to anchor element on navigate', (done) => {
+	it('scrolls to anchor element on navigate', (done) => {
 		if (!canScrollIFrame_) {
 			done();
 
@@ -2084,7 +2084,7 @@ describe('App', function () {
 		});
 	});
 
-	it('should update the document.referrer upon navigation', (done) => {
+	it('updates the document.referrer upon navigation', (done) => {
 
 		// Specify this test to only retry up to 4 times
 		// See: https://mochajs.org/#retry-tests
@@ -2131,7 +2131,7 @@ describe('App', function () {
 			});
 	});
 
-	it('should not reload page on navigate back to a routed page without history state and skipLoadPopstate is active', () => {
+	it('does not reload page on navigate back to a routed page without history state and skipLoadPopstate is active', () => {
 		this.app = new App();
 		this.app.reloadPage = sinon.stub();
 		this.app.addRoutes(new Route('/path1', Screen));
@@ -2141,7 +2141,7 @@ describe('App', function () {
 			window.history.replaceState(null, null, null);
 
 			return this.app.navigate('/path2').then(() => {
-				return new CancellablePromise((resolve, reject) => {
+				return new CancellablePromise((resolve, _reject) => {
 					dom.once(globals.window, 'popstate', () => {
 						assert.strictEqual(0, this.app.reloadPage.callCount);
 						resolve();
