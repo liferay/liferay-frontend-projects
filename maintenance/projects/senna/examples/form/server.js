@@ -14,14 +14,14 @@ var upload = multer();
 
 app.use(express.static('../../'));
 
-app.post('/post', upload.array(), (req, res, next) => {
+app.post('/post', upload.array(), (req, res, _next) => {
 	var content = '<div id="result1">';
 	content += JSON.stringify(req.body, 5);
 	content += '</div>';
 	res.end(content);
 });
 
-app.post('/post-get', upload.array(), (req, res, next) => {
+app.post('/post-get', upload.array(), (_req, res, _next) => {
 	res.redirect('/examples/form/redirect.html');
 });
 

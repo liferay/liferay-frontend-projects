@@ -56,6 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
 						return getContent('06', '07', '08');
 					case '/examples/gallery/img/08.jpg':
 						return getContent('07', '08', '01');
+					default:
+						return undefined;
 				}
 			}
 		};

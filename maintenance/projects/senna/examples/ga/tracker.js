@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+/* global ga */
+
 // https://developers.google.com/analytics/devguides/collection/analyticsjs/single-page-applications
 
 document.addEventListener('DOMContentLoaded', () => {
