@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+/* eslint-disable no-console */
+
 'use strict';
 
 import {array, async, isDefAndNotNull, isString, object} from 'metal';
@@ -1272,7 +1274,11 @@ class App extends EventEmitter {
 
 		return nextScreen
 			.load(path)
-			.then(() => (this.screens[path] = nextScreen))
+			.then(() => {
+				this.screens[path] = nextScreen;
+
+				return this.screens[path];
+			})
 			.catch((reason) => {
 				this.handleNavigateError_(path, nextScreen, reason);
 				throw reason;
