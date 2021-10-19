@@ -3,7 +3,7 @@
 	"dependencies": {
 		"dot-prop": "^5.0.1",
 		"fs-extra": "^8.1.0",
-		"liferay-npm-build-tools-common": "2.26.0"
+		"liferay-npm-build-tools-common": "2.27.0"
 	},
 	"description": "A liferay-npm-bundler plugin to replace files listed under the browser/module entry of package.json files.",
 	"main": "lib/index.js",
@@ -18,5 +18,5 @@
 		"copyfiles": "node ../../scripts/copyfiles.js",
 		"prepublish": "yarn build"
 	},
-	"version": "2.26.0"
+	"version": "2.27.0"
 }
