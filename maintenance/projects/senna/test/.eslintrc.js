@@ -3,8 +3,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const path = require('path');
-
 module.exports = {
 	env: {
 		mocha: true,
@@ -12,5 +10,8 @@ module.exports = {
 	globals: {
 		assert: true,
 		sinon: true,
+	},
+	rules: {
+		'no-console': 'off',
 	},
 };
