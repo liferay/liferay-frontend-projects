@@ -1,3 +1,20 @@
+## [liferay-js-toolkit/v2.27.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.27.0) (2021-10-18)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.26.0...liferay-js-toolkit/v2.27.0)
+
+### :new: Features
+
+-   feat: add support for `emitCssFile` option in `liferay-npm-bundler-loader-css-loader` ([\#629](https://github.com/liferay/liferay-frontend-projects/pull/629))
+
+### :wrench: Bug fixes
+
+-   fix(js-toolkit): support scoped packages in bundler rules ([\#693](https://github.com/liferay/liferay-frontend-projects/pull/693))
+-   fix(js-toolkit): fix security vulnerability related to dot-prop and merge ([\#582](https://github.com/liferay/liferay-frontend-projects/pull/582))
+
+### :woman_juggling: Refactoring
+
+-   refactor: reorganize code to settle migration from old to new JS Toolkit ([\#694](https://github.com/liferay/liferay-frontend-projects/pull/694))
+
 ## [liferay-js-toolkit/v2.26.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.26.0) (2021-06-10)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.25.0...liferay-js-toolkit/v2.26.0)
