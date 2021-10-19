@@ -121,7 +121,7 @@ var propertyMap = {
 	'border-top-left-radius': 'border-top-right-radius',
 	'border-top-right-radius': 'border-top-left-radius',
 
-	left: 'right',
+	'left': 'right',
 
 	'margin-left': 'margin-right',
 	'margin-right': 'margin-left',
@@ -129,7 +129,7 @@ var propertyMap = {
 	'padding-left': 'padding-right',
 	'padding-right': 'padding-left',
 
-	right: 'left',
+	'right': 'left',
 };
 
 var valueMap = {
@@ -140,13 +140,13 @@ var valueMap = {
 	'border-radius': quad_radius,
 	'border-style': quad,
 	'border-width': quad,
-	clear: rtltr,
+	'clear': rtltr,
 	direction,
-	float: rtltr,
-	margin: quad,
-	padding: quad,
+	'float': rtltr,
+	'margin': quad,
+	'padding': quad,
 	'text-align': rtltr,
-	transform: translate,
+	'transform': translate,
 };
 
 function processRule(rule, index, list) {

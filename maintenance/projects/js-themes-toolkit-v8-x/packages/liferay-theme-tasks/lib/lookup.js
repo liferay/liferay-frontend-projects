@@ -22,9 +22,10 @@ function lookup(key, version = null) {
 	}
 
 	return {
-		baseThemeDependencies: () =>
+		'baseThemeDependencies': () =>
 			require('./lookup/base').getBaseDependencies,
-		devDependencies: () => require('./lookup/dependencies').devDependencies,
+		'devDependencies': () =>
+			require('./lookup/dependencies').devDependencies,
 		'kickstart:afterPromptThemeSource': () =>
 			require('./lookup/kickstart').afterPromptThemeSource,
 		'kickstart:choices': () => require('./lookup/kickstart').choices,

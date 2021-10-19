@@ -116,7 +116,7 @@ describe('project.jar', () => {
 
 			// Coming from .npmbundlerrc
 
-			Responsible: 'john.doe@somewhere.net',
+			'Responsible': 'john.doe@somewhere.net',
 
 			// Coming from manifest.json
 

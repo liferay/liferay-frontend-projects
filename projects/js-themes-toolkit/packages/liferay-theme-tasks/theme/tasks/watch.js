@@ -98,6 +98,7 @@ module.exports = function () {
 				throw error;
 			}
 
+			// eslint-disable-next-line promise/catch-or-return
 			Promise.all([
 				portfinder.getPortPromise({port: 9080}),
 				portfinder.getPortPromise({port: 35729}),
@@ -270,6 +271,7 @@ module.exports = function () {
 				const filepath = path.resolve('build', match[3]);
 				const ext = path.extname(filepath);
 
+				// eslint-disable-next-line promise/catch-or-return
 				isReadable(filepath).then((exists) => {
 					if (exists) {
 						if (MIME_TYPES[ext]) {

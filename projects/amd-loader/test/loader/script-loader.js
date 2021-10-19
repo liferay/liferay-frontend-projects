@@ -36,6 +36,7 @@ describe('ScriptLoader', () => {
 
 		config.addModule('a@1.0.0');
 
+		// eslint-disable-next-line promise/catch-or-return
 		scriptLoader.loadModules(['a@1.0.0']).then(() => {
 			expect(document.scripts).toHaveLength(1);
 
@@ -55,6 +56,7 @@ describe('ScriptLoader', () => {
 
 		moduleNames.forEach((moduleName) => config.addModule(moduleName));
 
+		// eslint-disable-next-line promise/catch-or-return
 		scriptLoader.loadModules(moduleNames).then(() => {
 			expect(document.scripts).toHaveLength(2);
 
@@ -79,6 +81,7 @@ describe('ScriptLoader', () => {
 
 		moduleNames.forEach((moduleName) => config.addModule(moduleName));
 
+		// eslint-disable-next-line promise/catch-or-return
 		scriptLoader.loadModules(moduleNames).then(() => {
 			expect(document.scripts).toHaveLength(1);
 

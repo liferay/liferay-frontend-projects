@@ -76,6 +76,7 @@ test('_applyHooks should pass', (done) => {
 
 	// Call tasks and check their trace
 
+	// eslint-disable-next-line promise/catch-or-return
 	callTask(task0)
 		.then((trace) => expect(trace).toEqual(['test2', 'after:test2']))
 		.then(() => callTask(task1))

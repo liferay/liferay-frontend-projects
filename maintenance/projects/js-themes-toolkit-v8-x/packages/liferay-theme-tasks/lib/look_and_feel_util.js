@@ -18,7 +18,7 @@ const QUERY_ELEMENTS = {
 	'layout-templates.0.custom.0.layout-template': 'id',
 	'layout-templates.0.standard.0.layout-template': 'id',
 	'portlet-decorator': 'id',
-	roles: 'single',
+	'roles': 'single',
 	'settings.0.setting': 'key',
 };
 

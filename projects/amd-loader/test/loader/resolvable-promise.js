@@ -31,12 +31,14 @@ describe('ResolvablePromise', () => {
 		let preCalled;
 		let postCalled;
 
+		// eslint-disable-next-line promise/catch-or-return
 		resolvablePromise.then(() => {
 			preCalled = 'pre';
 		});
 
 		resolvablePromise.resolve();
 
+		// eslint-disable-next-line promise/catch-or-return
 		resolvablePromise.then(() => {
 			postCalled = 'post';
 		});

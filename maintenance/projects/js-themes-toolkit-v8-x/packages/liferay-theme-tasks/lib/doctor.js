@@ -9,26 +9,22 @@ const _ = require('lodash');
 
 const lfrThemeConfig = require('./liferay_theme_config');
 
-/* eslint-disable quote-props */
-
 const SUPPORTED_TASKS = {
 	default: {
-		6.2: ' - please run "gulp upgrade" first',
+		'6.2': ' - please run "gulp upgrade" first',
 		'7.0': true,
-		7.1: true,
+		'7.1': true,
 	},
 
 	upgrade: {
-		6.2: true,
+		'6.2': true,
 		'7.0': true,
-		7.1:
+		'7.1':
 			' - please run ' +
 			'"npm install --save-dev liferay-theme-tasks@9.0.0-alpha.1" ' +
 			'and then "gulp upgrade" again',
 	},
 };
-
-/* eslint-enable quote-props */
 
 function getSupportedTasks(task) {
 	return SUPPORTED_TASKS[task] || SUPPORTED_TASKS.default;

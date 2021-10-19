@@ -23,18 +23,18 @@ const gulpVersion = '3.9.1';
 const themeTasksVersion = `^${pkgJson.version}`;
 
 // Define dependencies for each Liferay DXP version and project type
-/* eslint-disable quote-props */
+
 module.exports = {
 	layout: {
 		7.2: {
 			default: {
-				gulp: gulpVersion,
+				'gulp': gulpVersion,
 				'liferay-theme-tasks': themeTasksVersion,
 			},
 		},
 		7.3: {
 			default: {
-				gulp: gulpVersion,
+				'gulp': gulpVersion,
 				'liferay-theme-tasks': themeTasksVersion,
 			},
 		},
@@ -43,7 +43,7 @@ module.exports = {
 		7.2: {
 			default: {
 				'compass-mixins': strict('0.12.10'),
-				gulp: gulpVersion,
+				'gulp': gulpVersion,
 				'liferay-frontend-common-css': strict('1.0.4'),
 				'liferay-frontend-theme-styled': strict('4.0.21'),
 				'liferay-frontend-theme-unstyled': strict('4.0.17'),
@@ -56,7 +56,7 @@ module.exports = {
 		7.3: {
 			default: {
 				'compass-mixins': strict('0.12.10'),
-				gulp: gulpVersion,
+				'gulp': gulpVersion,
 				'liferay-frontend-common-css': strict('1.0.4'),
 				'liferay-frontend-theme-styled': strict('5.0.15'),
 				'liferay-frontend-theme-unstyled': strict('5.0.20'),
@@ -68,4 +68,3 @@ module.exports = {
 		},
 	},
 };
-/* eslint-enable quote-props */

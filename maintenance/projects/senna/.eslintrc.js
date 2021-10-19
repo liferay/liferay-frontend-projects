@@ -12,7 +12,7 @@ module.exports = {
 	rules: {
 		'@liferay/no-abbreviations': 'off',
 		'@liferay/no-it-should': 'warn',
-		curly: 'warn',
+		'curly': 'warn',
 		'default-case': 'warn',
 		'no-console': 'warn',
 		'no-empty': 'warn',
@@ -29,6 +29,7 @@ module.exports = {
 			},
 		],
 		'prefer-arrow-callback': 'off',
+		'promise/catch-or-return': 'off',
 		'sort-keys': 'off',
 	},
 };

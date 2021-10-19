@@ -399,6 +399,7 @@ function searchGlobalModules(config, callback) {
 }
 
 function searchNpm(config, callback) {
+	// eslint-disable-next-line promise/catch-or-return
 	npmKeyword(config.keyword).then((packages) => {
 		async.map(packages, getPackageJSON, (error, results) => {
 			if (error) {

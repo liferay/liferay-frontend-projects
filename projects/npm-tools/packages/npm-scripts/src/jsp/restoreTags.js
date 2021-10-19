@@ -178,9 +178,9 @@ function appendScriptlet(scriptlet, token, output) {
 			token.previous.previous.previous,
 		'-2': token.previous && token.previous.previous,
 		'-1': token.previous,
-		0: token,
-		1: token.next,
-		2: token.next && token.next.next,
+		'0': token,
+		'1': token.next,
+		'2': token.next && token.next.next,
 		/* eslint-enable sort-keys */
 	};
 

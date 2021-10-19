@@ -15,10 +15,10 @@ const prjDirPath = path.join(__dirname, '__fixtures__', 'a-project');
 const filename = path.join(prjDirPath, 'path', 'to', 'module.js');
 
 const imports = {
-	provider: {
+	'provider': {
 		'imp-package': '^1.0.0',
 	},
-	shims: {
+	'shims': {
 		fs: '^1.0.0',
 	},
 	'': {

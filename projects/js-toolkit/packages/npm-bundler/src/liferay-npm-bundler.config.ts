@@ -5,14 +5,14 @@
 
 module.exports = {
 	'create-jar': false,
-	imports: {
+	'imports': {
 		'frontend-js-components-web': {
 			'/': '>=1.0.0',
 		},
 		'frontend-js-metal-web': {
 			'incremental-dom': '>=0.5.1',
 			'incremental-dom-string': '>=0.0.3',
-			metal: '>=2.16.5',
+			'metal': '>=2.16.5',
 			'metal-affix': '>=2.0.0',
 			'metal-ajax': '>=2.1.1',
 			'metal-anim': '>=2.0.0',
@@ -45,34 +45,34 @@ module.exports = {
 			'metal-uri': '>=2.4.0',
 			'metal-useragent': '>=3.0.0',
 			'metal-web-component': '>=2.16.5',
-			querystring: '>=0.2.0',
+			'querystring': '>=0.2.0',
 			'xss-filters': '>=1.2.7',
 		},
 		'frontend-js-node-shims': {
-			assert: '>=1.4.1',
-			buffer: '>=5.0.7',
+			'assert': '>=1.4.1',
+			'buffer': '>=5.0.7',
 			'console-browserify': '>=1.1.0',
 			'domain-browser': '>=1.1.7',
-			events: '>=1.1.1',
+			'events': '>=1.1.1',
 			'os-browserify': '>=0.3.0',
 			'path-browserify': '>=0.0.0',
-			process: '>=0.11.10',
-			punycode: '>=2.1.0',
+			'process': '>=0.11.10',
+			'punycode': '>=2.1.0',
 			'querystring-es3': '>=0.2.1',
-			setimmediate: '>=1.0.5',
-			string_decoder: '>=1.0.3',
+			'setimmediate': '>=1.0.5',
+			'string_decoder': '>=1.0.3',
 			'timers-browserify': '>=2.0.4',
 			'tty-browserify': '>=0.0.0',
-			url: '>=0.11.0',
-			util: '>=0.10.3',
+			'url': '>=0.11.0',
+			'util': '>=0.10.3',
 			'vm-browserify': '>=0.0.4',
 		},
 		'frontend-js-react-web': {
 			'/': '>=1.0.0',
-			classnames: '>=2.2.6',
-			formik: '>=1.4.3',
+			'classnames': '>=2.2.6',
+			'formik': '>=1.4.3',
 			'prop-types': '>=15.7.2',
-			react: '>=16.8.6',
+			'react': '>=16.8.6',
 			'react-dnd': '>=7.0.2',
 			'react-dnd-html5-backend': '>=7.0.2',
 			'react-dom': '>=16.8.6',
@@ -88,8 +88,8 @@ module.exports = {
 			'lodash.isequal': '>=4.5.0',
 			'lodash.memoize': '>=4.1.2',
 			'lodash.unescape': '>=4.0.1',
-			svg4everybody: '>=2.1.9',
-			uuid: '>=3.3.2',
+			'svg4everybody': '>=2.1.9',
+			'uuid': '>=3.3.2',
 		},
 		'frontend-taglib': {
 			'/': '>=1.0.0',
@@ -134,7 +134,7 @@ module.exports = {
 			'@clayui/tabs': '>=3.0.0',
 			'@clayui/time-picker': '>=3.0.0',
 			'@clayui/tooltip': '>=3.0.0',
-			clay: '>=2.9.0',
+			'clay': '>=2.9.0',
 			'clay-alert': '>=2.9.0',
 			'clay-autocomplete': '>=2.9.0',
 			'clay-badge': '>=2.9.0',
@@ -168,9 +168,9 @@ module.exports = {
 		},
 	},
 	'log-level': 'debug',
-	output: 'build/node/packageRunBuild/resources',
-	source: 'src/main/resources/META-INF/resources',
-	webpack: {
+	'output': 'build/node/packageRunBuild/resources',
+	'source': 'src/main/resources/META-INF/resources',
+	'webpack': {
 		module: {
 			rules: [
 				{
@@ -181,5 +181,5 @@ module.exports = {
 			],
 		},
 	},
-	workdir: 'build/node/bundler',
+	'workdir': 'build/node/bundler',
 };

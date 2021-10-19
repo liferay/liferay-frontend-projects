@@ -201,7 +201,7 @@ export default async function (): Promise<void> {
 
 				response.writeHead(200, {
 					'Cache-Control': 'no-cache',
-					Connection: 'keep-alive',
+					'Connection': 'keep-alive',
 					'Content-Type': 'text/event-stream',
 				});
 

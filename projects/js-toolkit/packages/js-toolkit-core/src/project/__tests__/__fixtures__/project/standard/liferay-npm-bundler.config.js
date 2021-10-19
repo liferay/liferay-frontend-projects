@@ -1,5 +1,5 @@
 module.exports = {
-	config: {
+	'config': {
 		imports: {
 			'an-osgi-module': {
 				d3: '>=3.0.0',
@@ -18,17 +18,17 @@ module.exports = {
 	'create-jar': {
 		'output-dir': 'dist',
 		'output-filename': 'output.jar',
-		customManifestHeaders: {
+		'customManifestHeaders': {
 			'Project-Name': 'Overriden in manifest.json',
-			Responsible: 'john.doe@somewhere.net',
+			'Responsible': 'john.doe@somewhere.net',
 		},
-		features: {
-			localization: 'features/localization/Language',
-			manifest: 'features/manifest.json',
+		'features': {
+			'localization': 'features/localization/Language',
+			'manifest': 'features/manifest.json',
 			'web-context': '/standard',
 		},
 	},
-	exclude: {
+	'exclude': {
 		'*': ['__tests__/**/*'],
 		'is-object': ['test/**/*'],
 		'is-array@1.0.1': ['test/**/*', 'Makefile'],
