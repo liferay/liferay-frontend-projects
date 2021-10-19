@@ -7,6 +7,7 @@ import fs from 'fs';
 import project from 'liferay-npm-build-tools-common/lib/project';
 
 export type Command = 'deploy';
+export type ConfigurationValue = boolean | number | object | string;
 
 export interface Configuration {
 	deploy?: {
@@ -17,7 +18,7 @@ export interface Configuration {
 const CONFIGURATION_FILE = '.liferay.json';
 const configuration = load();
 
-export function get(command: Command, key: string) {
+export function get(command: Command, key: string): ConfigurationValue {
 	configuration[command] = configuration[command] || {};
 
 	return configuration[command][key];
@@ -51,7 +52,11 @@ function save(): void {
 	);
 }
 
-export function set(command: Command, key: string, value) {
+export function set(
+	command: Command,
+	key: string,
+	value: ConfigurationValue
+): void {
 	configuration[command] = configuration[command] || {};
 	configuration[command][key] = value;
 

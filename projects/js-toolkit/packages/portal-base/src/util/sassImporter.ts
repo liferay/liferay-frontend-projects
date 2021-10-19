@@ -7,7 +7,7 @@ import {FilePath} from '@liferay/js-toolkit-core';
 import fs from 'fs';
 import {sync as resolve} from 'resolve';
 
-export default function (url: string) {
+export default function (url: string): {file: string} {
 	const importDir = new FilePath(this.options.file).dirname();
 
 	let targetFile = tryImport(url, (file) => {
@@ -52,7 +52,7 @@ function sassResolve(module: string): string {
 				return undefined;
 			}
 
-			/* eslint-disable-next-line @liferay/no-dynamic-require	*/
+			/* eslint-disable-next-line */
 			const packageJson = require(resolvedPath);
 			const entryPoint = packageJson.style || packageJson.main;
 

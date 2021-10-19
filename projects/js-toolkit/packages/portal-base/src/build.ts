@@ -114,7 +114,7 @@ function runBundler(): void {
 	);
 	const bundlerDir = path.dirname(bundlerPkgJsonPath);
 
-	/* eslint-disable-next-line @liferay/no-dynamic-require */
+	/* eslint-disable-next-line */
 	const bundlerPkgJson = require(bundlerPkgJsonPath);
 	const bundlerPath = path.resolve(
 		bundlerDir,

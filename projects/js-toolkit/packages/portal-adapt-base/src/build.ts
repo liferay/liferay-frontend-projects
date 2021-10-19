@@ -10,21 +10,21 @@ import runNodeModulesBin from './util/runNodeModulesBin';
 import runPkgJsonScript from './util/runPkgJsonScript';
 
 const {fail, info, print} = format;
-const {ProjectType} = project;
+const {ANGULAR_CLI, CREATE_REACT_APP, VUE_CLI} = project.ProjectType;
 
 const templatesDir = new FilePath(__dirname).join('templates');
 
 export default async function build(): Promise<void> {
 	switch (project.default.probe.type) {
-		case ProjectType.ANGULAR_CLI:
+		case ANGULAR_CLI:
 			await buildWith('build');
 			break;
 
-		case ProjectType.CREATE_REACT_APP:
+		case CREATE_REACT_APP:
 			await buildWith('build');
 			break;
 
-		case ProjectType.VUE_CLI:
+		case VUE_CLI:
 			await buildWith('build', ['--prod=true']);
 			break;
 

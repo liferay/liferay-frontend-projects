@@ -18,7 +18,10 @@ export interface Tasks {
 	deploy?: {(): Promise<void>};
 }
 
-export default function run(platformPath: string, taskOverrides: Tasks) {
+export default async function run(
+	platformPath: string,
+	taskOverrides: Tasks
+): Promise<void> {
 	if (process.argv.length < 3) {
 		print(fail`No command provided`);
 		process.exit(1);
@@ -35,17 +38,17 @@ export default function run(platformPath: string, taskOverrides: Tasks) {
 			print(
 				title`Building project for target platform: {${pkgJson.name}}`
 			);
-			tasks.build();
+			await tasks.build();
 			break;
 
 		case 'clean':
 			print(title`Cleaning output folders`);
-			tasks.clean();
+			await tasks.clean();
 			break;
 
 		case 'deploy':
 			print(title`Deploying project to Liferay local installation`);
-			tasks.deploy();
+			await tasks.deploy();
 			break;
 
 		default:

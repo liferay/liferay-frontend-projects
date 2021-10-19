@@ -25,7 +25,7 @@ export default async function deploy(): Promise<void> {
 		process.exit(1);
 	}
 
-	let deployPath = configuration.get('deploy', 'path');
+	let deployPath = configuration.get('deploy', 'path') as string;
 
 	if (!deployPath) {
 		deployPath = await promptForDeployPath();
