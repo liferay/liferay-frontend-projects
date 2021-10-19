@@ -35,27 +35,27 @@
 			"test": "^dist/js/.*\\.js$",
 			"use": [
 				{
-					"loader": "@liferay/portal-adapt-base/src/loader/wrapWebpackBundle",
+					"loader": "@liferay/portal-adapt-base/lib/loader/wrapWebpackBundle",
 					"options": {
 						"removePrefix": "dist/"
 					}
 				},
 				{
-					"loader": "@liferay/portal-adapt-base/src/loader/replaceRegExp",
+					"loader": "@liferay/portal-adapt-base/lib/loader/replaceRegExp",
 					"options": {
 						"pattern": "'#app'",
 						"replacement": "'#'+_LIFERAY_PARAMS_.portletElementId"
 					}
 				},
 				{
-					"loader": "@liferay/portal-adapt-base/src/loader/adaptStaticURLs",
+					"loader": "@liferay/portal-adapt-base/lib/loader/adaptStaticURLs",
 					"options": {
 						"docroot": "dist",
 						"include": ["^fonts/.*", "^img/.*", "^media/.*"]
 					}
 				},
 				{
-					"loader": "@liferay/portal-adapt-base/src/loader/namespaceWebpack"
+					"loader": "@liferay/portal-adapt-base/lib/loader/namespaceWebpack"
 				}
 			]
 		},
@@ -65,7 +65,7 @@
 			"include": ["^dist/js/.*\\.js$"],
 			"use": [
 				{
-					"loader": "@liferay/portal-adapt-base/src/loader/removeWebpackHash"
+					"loader": "@liferay/portal-adapt-base/lib/loader/removeWebpackHash"
 				}
 			]
 		}
