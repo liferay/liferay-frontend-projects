@@ -18,6 +18,7 @@ module.exports = {
 					node.arguments[0].value.startsWith('data-')
 				) {
 					const argumentValue = node.arguments[0].value;
+
 					const argumentName = argumentValue.replace('data-', '');
 
 					context.report({
@@ -40,7 +41,7 @@ module.exports = {
 	meta: {
 		docs: {
 			category: 'Best Practices',
-			description: 'Use dataset instead of getAttribute("data-*")',
+			description: 'use dataset instead of getAttribute("data-*")',
 			recommended: false,
 			url:
 				'https://github.com/liferay/liferay-frontend-projects/issues/311',

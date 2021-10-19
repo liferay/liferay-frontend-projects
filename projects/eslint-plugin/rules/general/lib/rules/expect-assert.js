@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-const MESSAGE = 'Every `expect()` should assert something.';
+const message = 'every `expect()` should assert something.';
 
 module.exports = {
 	create(context) {
@@ -16,7 +16,7 @@ module.exports = {
 					!node.parent.property
 				) {
 					context.report({
-						message: MESSAGE,
+						message,
 						node,
 					});
 				}
@@ -27,7 +27,7 @@ module.exports = {
 	meta: {
 		docs: {
 			category: 'Best Practices',
-			description: MESSAGE,
+			description: message,
 			recommended: false,
 			url:
 				'https://github.com/liferay/liferay-frontend-projects/issues/6',

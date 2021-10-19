@@ -24,11 +24,11 @@ ruleTester.run('expect-assert', rule, {
 			`,
 			errors: [
 				{
-					message: 'Every `expect()` should assert something.',
+					message: 'every `expect()` should assert something.',
 					type: 'CallExpression',
 				},
 				{
-					message: 'Every `expect()` should assert something.',
+					message: 'every `expect()` should assert something.',
 					type: 'CallExpression',
 				},
 			],
