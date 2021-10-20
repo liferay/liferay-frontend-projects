@@ -65,7 +65,7 @@ function maybeAddEsModuleFlagCase1(t, path, state) {
 
 	const args = parent.arguments;
 
-	if (args.length != 3) {
+	if (args.length !== 3) {
 		return false;
 	}
 

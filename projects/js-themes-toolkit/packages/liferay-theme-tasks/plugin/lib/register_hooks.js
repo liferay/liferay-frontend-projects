@@ -78,7 +78,7 @@ RegisterHooks.prototype = {
 				var when = data[0];
 				var taskName = data[1];
 
-				if (when != 'after' && when != 'before') {
+				if (when !== 'after' && when !== 'before') {
 					return taskHookMap;
 				}
 

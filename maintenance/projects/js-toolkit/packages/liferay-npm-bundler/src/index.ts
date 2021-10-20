@@ -115,11 +115,11 @@ function run(): void {
 /** Report linked dependencies of a given package.json */
 function reportLinkedDependencies(pkgJson: object): void {
 	['dependencies', 'devDependencies'].forEach((scope) => {
-		if (pkgJson[scope] != null) {
+		if (pkgJson[scope] !== null) {
 			Object.keys(pkgJson[scope]).forEach((depName) => {
 				const depVersion = pkgJson[scope][depName];
 
-				if (semver.validRange(depVersion) == null) {
+				if (semver.validRange(depVersion) === null) {
 					const depPkgJsonPath = path.join(
 						'node_modules',
 						depName,

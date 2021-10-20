@@ -194,7 +194,7 @@ export default async function (): Promise<void> {
 
 		if (
 			request.headers.accept &&
-			request.headers.accept == 'text/event-stream'
+			request.headers.accept === 'text/event-stream'
 		) {
 			if (url === '/events') {
 				log(chalk.cyan('Connecting Live Session...'));

@@ -70,7 +70,7 @@ function transformCallExpression(
 
 	const {arguments: params} = node;
 
-	if (params.length != 1) {
+	if (params.length !== 1) {
 		return false;
 	}
 

@@ -124,7 +124,7 @@ function addChild(parentNode, childName) {
 function findChild(parentNode, childName, create = false) {
 	const elements = parentNode.elements || [];
 
-	let childNode = elements.find((node) => node.name == childName);
+	let childNode = elements.find((node) => node.name === childName);
 
 	if (childNode === undefined && create) {
 		childNode = {

@@ -36,7 +36,7 @@ function run(target) {
 	${proc.stderr}`
 		);
 	}
-	if (proc.status != 0) {
+	if (proc.status !== 0) {
 		abort(
 			`${target}:`,
 			`Exit with status code ${proc.status}

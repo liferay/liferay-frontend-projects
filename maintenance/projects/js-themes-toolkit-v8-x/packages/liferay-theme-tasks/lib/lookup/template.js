@@ -36,7 +36,7 @@ function isLanguage(version) {
 
 function printWarnings(version) {
 	return function (generator, {templateLanguage}) {
-		if (templateLanguage == 'vm') {
+		if (templateLanguage === 'vm') {
 			if (version === '7.0') {
 				generator.log(
 					chalk.yellow(

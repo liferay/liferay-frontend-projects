@@ -27,7 +27,7 @@ expect.extend({
 					pass = false;
 					message = `Path '${path}' is not a folder`;
 				}
-				else if (fs.readdirSync(path).length == 0) {
+				else if (fs.readdirSync(path).length === 0) {
 					pass = false;
 					message = `Folder '${path}' is empty`;
 				}
@@ -51,7 +51,7 @@ expect.extend({
 					pass = false;
 					message = `Path '${path}' is not a folder`;
 				}
-				else if (fs.readdirSync(path).length != 0) {
+				else if (fs.readdirSync(path).length !== 0) {
 					pass = false;
 					message = `Folder '${path}' is not empty`;
 				}
@@ -364,7 +364,7 @@ function setupTempTheme(options) {
 function cleanTempPlugin(tempPlugin) {
 	const {savedCwd} = tempPlugin;
 
-	if (savedCwd != null) {
+	if (savedCwd !== null) {
 		process.chdir(savedCwd);
 	}
 }
@@ -377,7 +377,7 @@ function cleanTempPlugin(tempPlugin) {
 function cleanTempTheme(tempTheme) {
 	const {savedCwd} = tempTheme;
 
-	if (savedCwd != null) {
+	if (savedCwd !== null) {
 		process.chdir(savedCwd);
 	}
 }

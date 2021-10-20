@@ -46,7 +46,7 @@ ${lines
 	.map((line, i) => {
 		i += beginLine;
 
-		const errorMarker = i == aroundLine ? '>' : ' ';
+		const errorMarker = i === aroundLine ? '>' : ' ';
 		const lineNumber = i.toString().padStart(padMinChars);
 
 		return `${errorMarker} ${lineNumber}: ${line}`;

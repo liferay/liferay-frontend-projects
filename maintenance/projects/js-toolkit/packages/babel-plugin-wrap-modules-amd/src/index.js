@@ -52,7 +52,7 @@ export default function ({types: t}) {
 				if (
 					!t.isCallExpression(parent) ||
 					parent.callee !== node ||
-					parent.arguments.length != 1
+					parent.arguments.length !== 1
 				) {
 					return;
 				}
@@ -134,7 +134,7 @@ export default function ({types: t}) {
 
 					node.body = defineNode;
 
-					if (dependencies.length == 0) {
+					if (dependencies.length === 0) {
 						log.info(
 							'wrap-modules-amd',
 							'No dependencies detected'

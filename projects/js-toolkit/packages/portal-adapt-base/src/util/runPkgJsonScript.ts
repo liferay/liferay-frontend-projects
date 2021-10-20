@@ -26,7 +26,7 @@ export default function runPkgJsonScript(
 	if (proc.error) {
 		throw proc.error;
 	}
-	else if (proc.status != 0) {
+	else if (proc.status !== 0) {
 		throw new Error(
 			`Package script '${script}' finished with status ${proc.status}`
 		);

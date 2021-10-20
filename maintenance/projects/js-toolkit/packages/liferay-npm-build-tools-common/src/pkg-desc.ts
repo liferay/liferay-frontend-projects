@@ -99,7 +99,7 @@ export default class PkgDesc {
 	}
 
 	get isRoot(): boolean {
-		return this.id == PkgDesc.ROOT_ID;
+		return this.id === PkgDesc.ROOT_ID;
 	}
 
 	private _clean: boolean;

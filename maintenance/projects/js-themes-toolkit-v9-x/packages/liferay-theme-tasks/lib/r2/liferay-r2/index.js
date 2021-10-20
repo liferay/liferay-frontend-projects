@@ -15,7 +15,7 @@ function quad(v, m) {
 
 	// 1px 2px 3px 4px => 1px 4px 3px 2px
 
-	if ((m = v.trim().split(/\s+(?=[^)]*(?:[(]|$))/)) && m.length == 4) {
+	if ((m = v.trim().split(/\s+(?=[^)]*(?:[(]|$))/)) && m.length === 4) {
 		return [m[0], m[3], m[2], m[1]].join(' ');
 	}
 
@@ -29,10 +29,10 @@ function quad_radius(v) {
 	// since border-radius: top-left top-right bottom-right bottom-left
 	// will be border-radius: top-right top-left bottom-left bottom-right
 
-	if (m && m.length == 4) {
+	if (m && m.length === 4) {
 		return [m[1], m[0], m[3], m[2]].join(' ');
 	}
-	else if (m && m.length == 3) {
+	else if (m && m.length === 3) {
 
 		// super odd how this works
 		// 5px 10px 20px => 10px 5px 10px 20px
@@ -67,10 +67,10 @@ function bgPosition(v) {
 		v = v.replace(/\bright\b/, 'left');
 	}
 	var m = v.trim().split(/\s+/);
-	if (m && m.length == 1 && v.match(/(\d+)([a-z]{2}|%)/)) {
+	if (m && m.length === 1 && v.match(/(\d+)([a-z]{2}|%)/)) {
 		v = 'right ' + v;
 	}
-	if (m && m.length == 2 && m[0].match(/\d+%/)) {
+	if (m && m.length === 2 && m[0].match(/\d+%/)) {
 
 		// 30% => 70% (100 - x)
 

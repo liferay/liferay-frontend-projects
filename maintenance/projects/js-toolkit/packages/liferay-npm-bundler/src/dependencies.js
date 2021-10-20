@@ -41,7 +41,7 @@ export function addPackageDependencies(
 	const pkg = new PkgDesc(
 		packageJson.name,
 		packageJson.version,
-		path.resolve(baseDirPath) == path.resolve(project.dir.asNative)
+		path.resolve(baseDirPath) === path.resolve(project.dir.asNative)
 			? null
 			: baseDirPath
 	);
@@ -65,7 +65,7 @@ export function addPackageDependencies(
 		.map((dependency) =>
 			resolveDependencyDir(baseDirPath, packageJson, dependency)
 		)
-		.filter((dependencyDir) => dependencyDir != null);
+		.filter((dependencyDir) => dependencyDir !== null);
 
 	dependencyDirs.forEach((dependencyDir) => {
 		addPackageDependencies(collectedDependencies, dependencyDir);

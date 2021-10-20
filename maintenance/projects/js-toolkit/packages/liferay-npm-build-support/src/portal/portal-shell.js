@@ -38,7 +38,7 @@ export default class extends GogoShell {
 	 */
 	start(bundleId) {
 		return this.sendCommand(`start ${bundleId}`).then((response) => {
-			if (response.length != 0) {
+			if (response.length !== 0) {
 				throw new Error(response);
 			}
 
@@ -53,7 +53,7 @@ export default class extends GogoShell {
 	 */
 	stop(bundleId) {
 		return this.sendCommand(`stop ${bundleId}`).then((response) => {
-			if (response.length != 0) {
+			if (response.length !== 0) {
 				throw new Error(response);
 			}
 
@@ -68,7 +68,7 @@ export default class extends GogoShell {
 	 */
 	uninstall(bundleId) {
 		return this.sendCommand(`uninstall ${bundleId}`).then((response) => {
-			if (response.length != 0) {
+			if (response.length !== 0) {
 				throw new Error(response);
 			}
 
@@ -104,7 +104,7 @@ export default class extends GogoShell {
 			const lines = response.split('\n');
 
 			const bundleLine = lines.find(
-				(line) => line.indexOf(`|${symbolicName} (${version})`) != -1
+				(line) => line.indexOf(`|${symbolicName} (${version})`) !== -1
 			);
 
 			if (!bundleLine) {

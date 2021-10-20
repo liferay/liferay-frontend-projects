@@ -97,7 +97,7 @@ InitPrompt.prototype = {
 		if (appServerPath) {
 			var baseName = path.basename(appServerPath);
 
-			if (baseName != 'webapps') {
+			if (baseName !== 'webapps') {
 				appServerPath = getPath(answers).join(appServerPath, 'webapps');
 			}
 

@@ -37,15 +37,15 @@ expect.extend({
 
 				const invalidFields = invalidDepFields[pkgId] || {};
 
-				if (dep.id != pkgId) {
+				if (dep.id !== pkgId) {
 					invalidFields.id = `${dep.id} (expected: ${pkgId})`;
 				}
 
-				if (dep.name != pkgName) {
+				if (dep.name !== pkgName) {
 					invalidFields.name = `${dep.name} (expected: ${pkgName})`;
 				}
 
-				if (dep.version != pkgVersion) {
+				if (dep.version !== pkgVersion) {
 					invalidFields.version =
 						`${dep.version} ` + `(expected: ${pkgVersion})`;
 				}
@@ -70,7 +70,7 @@ expect.extend({
 		});
 
 		Object.keys(deps).forEach((depId) => {
-			if (pkgIds.indexOf(depId) == -1) {
+			if (pkgIds.indexOf(depId) === -1) {
 				extraDeps.push(depId);
 			}
 		});

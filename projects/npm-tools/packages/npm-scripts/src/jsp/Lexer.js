@@ -663,7 +663,7 @@ class Lexer {
 
 				// Return result of previous `peek()`.
 
-				if (peeked != undefined) {
+				if (peeked !== undefined) {
 					result = peeked;
 				}
 				else {

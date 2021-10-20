@@ -15,7 +15,7 @@ const toolkitProjectNames = fs
 	.map((dir) => `@liferay/${dir}`);
 
 function isToolkitDep(pkgName) {
-	return toolkitProjectNames.indexOf(pkgName) != -1;
+	return toolkitProjectNames.indexOf(pkgName) !== -1;
 }
 
 function modifyPackageJson(pkgJsonPath, callback) {

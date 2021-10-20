@@ -509,7 +509,7 @@ describe('LayoutCreator', () => {
 			_.forEach(choices, (choice, index) => {
 				index = index + 1;
 
-				if (index % 2 == 0) {
+				if (index % 2 === 0) {
 					assert.equal(choice.type, 'separator');
 					assert.equal(
 						stripAnsi(choice.line),
@@ -527,7 +527,7 @@ describe('LayoutCreator', () => {
 				}
 			});
 
-			assert(choices[choices.length - 1].type != 'separator');
+			assert(choices[choices.length - 1].type !== 'separator');
 
 			while (prototype.rows.length < 7) {
 				prototype.rows.push({
@@ -569,7 +569,7 @@ describe('LayoutCreator', () => {
 			_.forEach(choices, (choice, index) => {
 				index = index + 1;
 
-				if (index % 2 == 0) {
+				if (index % 2 === 0) {
 					assert.equal(choice.value, choiceValue);
 					assert.equal(
 						stripAnsi(choice.name),
@@ -587,7 +587,7 @@ describe('LayoutCreator', () => {
 				}
 			});
 
-			assert(choices[choices.length - 1].type == 'separator');
+			assert(choices[choices.length - 1].type === 'separator');
 
 			while (prototype.rows.length < 7) {
 				prototype.rows.push({

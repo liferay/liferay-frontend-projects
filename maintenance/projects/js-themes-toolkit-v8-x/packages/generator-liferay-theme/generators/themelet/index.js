@@ -82,14 +82,14 @@ module.exports = class extends Base {
 		return prompts.reduce((result, item) => {
 			const name = item.name;
 
-			if (name == 'themeName') {
+			if (name === 'themeName') {
 				item.default = 'My Liferay Themelet';
 				item.message = 'What would you like to call your themelet?';
 			}
-			else if (name == 'themeId') {
+			else if (name === 'themeId') {
 				item.message = 'Would you like to use this as the themeletId?';
 			}
-			else if (name == 'liferayVersion') {
+			else if (name === 'liferayVersion') {
 				item.choices = ['7.1', '7.0', 'All'];
 				item.message = 'Which version of Liferay is this themelet for?';
 			}
@@ -107,7 +107,7 @@ module.exports = class extends Base {
 	}
 
 	_promptCallback(props) {
-		if (props.liferayVersion == 'All') {
+		if (props.liferayVersion === 'All') {
 			props.liferayVersion = '*';
 		}
 		super._promptCallback.call(this, props);

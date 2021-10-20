@@ -92,7 +92,7 @@ function getHref(filePath, extension, pathModule, namespaceDependencies) {
 		webContextPath = webContextPathLine.substring(16).trim();
 	}
 
-	if (filePath.indexOf(`node_modules${path.sep}`) != -1) {
+	if (filePath.indexOf(`node_modules${path.sep}`) !== -1) {
 		const pathParts = filePath.split(path.sep);
 
 		const projectNameIndex = lastIndexOf(pathParts, 'node_modules') + 1;
@@ -156,7 +156,7 @@ function getHref(filePath, extension, pathModule, namespaceDependencies) {
 	if (extension !== undefined) {
 		const extname = path.extname(filePath);
 
-		if (extname == '') {
+		if (extname === '') {
 			filePath = `${filePath}.${extension}`;
 		}
 		else {
