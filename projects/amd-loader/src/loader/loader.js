@@ -155,7 +155,7 @@ export default class Loader {
 				success = lastArg;
 				failure = undefined;
 			}
-			else if (lastArg === null) {
+			else if (lastArg === null || lastArg === undefined) {
 				moduleNames = args[0];
 				success = undefined;
 				failure = undefined;
@@ -170,7 +170,11 @@ export default class Loader {
 			const lastArg = args[args.length - 1];
 			let successGiven = false;
 
-			if (typeof lastArg === 'function' || lastArg === null) {
+			if (
+				typeof lastArg === 'function' ||
+				lastArg === null ||
+				lastArg === undefined
+			) {
 				successGiven = true;
 			}
 
@@ -185,7 +189,8 @@ export default class Loader {
 
 				if (
 					typeof penultimateArg === 'function' ||
-					penultimateArg === null
+					penultimateArg === null ||
+					penultimateArg === undefined
 				) {
 					failureGiven = true;
 				}

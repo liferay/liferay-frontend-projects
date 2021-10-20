@@ -321,7 +321,7 @@ function cleanTempTheme(themeName, version, component, initCwd) {
 
 	cleanDirectory(tempPath);
 
-	if (initCwd !== null) {
+	if (initCwd !== null && initCwd !== undefined) {
 		process.chdir(initCwd);
 	}
 }

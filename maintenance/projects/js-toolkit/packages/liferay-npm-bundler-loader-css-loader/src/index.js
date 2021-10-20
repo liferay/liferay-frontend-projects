@@ -156,7 +156,7 @@ function getHref(filePath, extension, pathModule, namespaceDependencies) {
 	if (extension !== undefined) {
 		const extname = path.extname(filePath);
 
-		if (extname === '') {
+		if (!extname) {
 			filePath = `${filePath}.${extension}`;
 		}
 		else {

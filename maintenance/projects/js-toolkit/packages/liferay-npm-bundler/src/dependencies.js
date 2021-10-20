@@ -65,7 +65,10 @@ export function addPackageDependencies(
 		.map((dependency) =>
 			resolveDependencyDir(baseDirPath, packageJson, dependency)
 		)
-		.filter((dependencyDir) => dependencyDir !== null);
+		.filter(
+			(dependencyDir) =>
+				dependencyDir !== null && dependencyDir !== undefined
+		);
 
 	dependencyDirs.forEach((dependencyDir) => {
 		addPackageDependencies(collectedDependencies, dependencyDir);

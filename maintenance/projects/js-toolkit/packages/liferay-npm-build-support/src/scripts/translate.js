@@ -29,7 +29,7 @@ export default function () {
 		subscriptionKey = cfg.getTranslatorTextKey();
 	}
 
-	if (!subscriptionKey || subscriptionKey === '') {
+	if (!subscriptionKey) {
 		console.error(
 			'-------------------------------------------------------------\n' +
 				'    🛑 Microsoft Translator credentials not set 🛑\n\n' +

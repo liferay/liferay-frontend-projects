@@ -364,7 +364,7 @@ function setupTempTheme(options) {
 function cleanTempPlugin(tempPlugin) {
 	const {savedCwd} = tempPlugin;
 
-	if (savedCwd !== null) {
+	if (savedCwd !== null && savedCwd !== undefined) {
 		process.chdir(savedCwd);
 	}
 }
@@ -377,7 +377,7 @@ function cleanTempPlugin(tempPlugin) {
 function cleanTempTheme(tempTheme) {
 	const {savedCwd} = tempTheme;
 
-	if (savedCwd !== null) {
+	if (savedCwd !== null && savedCwd !== undefined) {
 		process.chdir(savedCwd);
 	}
 }

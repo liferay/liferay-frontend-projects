@@ -67,7 +67,7 @@ function changeFilePathExtension(context) {
 
 	const extname = path.extname(filePath);
 
-	if (extname === '') {
+	if (!extname) {
 		filePath = `${filePath}.css`;
 	}
 	else {

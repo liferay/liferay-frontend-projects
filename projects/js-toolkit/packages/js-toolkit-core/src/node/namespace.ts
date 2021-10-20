@@ -11,7 +11,9 @@ import * as mod from './modules';
  * @return true if the module is namespaced
  */
 export function isNamespaced(moduleName: string): boolean {
-	return getNamespace(moduleName) !== null;
+	const namespace = getNamespace(moduleName);
+
+	return namespace !== null && namespace !== undefined;
 }
 
 /**
@@ -71,7 +73,7 @@ export function addNamespace(
 export function removeNamespace(moduleName: string): string {
 	const namespace = getNamespace(moduleName);
 
-	if (namespace !== null) {
+	if (namespace !== null && namespace !== undefined) {
 		if (moduleName.startsWith('@')) {
 			return moduleName.replace(`@${namespace}`, '@');
 		}
