@@ -1,0 +1,17 @@
+{
+	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
+	"bin": {
+		"local-npm": "./bin/local-npm.js"
+	},
+	"description": "Helper tool for working with local npm repos",
+	"name": "@liferay/local-npm",
+	"license": "MIT",
+	"private": true,
+	"scripts": {
+		"build": true
+	},
+	"version": "0.0.1",
+	"dependencies": {
+		"yargs": "^15.4.1"
+	}
+}
