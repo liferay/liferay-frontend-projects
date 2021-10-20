@@ -274,6 +274,8 @@ class RequestScreen extends Screen {
 						reason.requestError = true;
 						reason.requestPrematureTermination = true;
 						break;
+					default:
+						break;
 				}
 				throw reason;
 			});

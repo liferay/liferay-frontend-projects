@@ -29,13 +29,13 @@ describe('AppDataAttributeHandler', () => {
 		console.log.restore();
 	});
 
-	it('should throw error when base element not specified', () => {
+	it('throws error when base element not specified', () => {
 		assert.throws(() => {
 			new AppDataAttributeHandler().handle();
 		}, Error);
 	});
 
-	it('should throw error when base element not valid', () => {
+	it('throws error when base element not valid', () => {
 		assert.throws(() => {
 			var appDataAttributeHandler = new AppDataAttributeHandler();
 			appDataAttributeHandler.setBaseElement({});
@@ -43,7 +43,7 @@ describe('AppDataAttributeHandler', () => {
 		}, Error);
 	});
 
-	it('should throw error when already handled', () => {
+	it('throws error when already handled', () => {
 		assert.throws(() => {
 			var appDataAttributeHandler = new AppDataAttributeHandler();
 			appDataAttributeHandler.setBaseElement(globals.document.body);
@@ -52,7 +52,7 @@ describe('AppDataAttributeHandler', () => {
 		}, Error);
 	});
 
-	it('should not throw error when base element specified', () => {
+	it('does not throw error when base element specified', () => {
 		assert.doesNotThrow(() => {
 			var appDataAttributeHandler = new AppDataAttributeHandler();
 			appDataAttributeHandler.setBaseElement(globals.document.body);
@@ -61,7 +61,7 @@ describe('AppDataAttributeHandler', () => {
 		});
 	});
 
-	it('should dispose internal app when disposed', () => {
+	it('disposes internal app when disposed', () => {
 		var appDataAttributeHandler = new AppDataAttributeHandler();
 		appDataAttributeHandler.setBaseElement(globals.document.body);
 		appDataAttributeHandler.handle();
@@ -69,14 +69,14 @@ describe('AppDataAttributeHandler', () => {
 		assert.ok(appDataAttributeHandler.getApp().isDisposed());
 	});
 
-	it('should dispose when not handled', () => {
+	it('disposes when not handled', () => {
 		assert.doesNotThrow(() => {
 			var appDataAttributeHandler = new AppDataAttributeHandler();
 			appDataAttributeHandler.dispose();
 		});
 	});
 
-	it('should get app', () => {
+	it('gets app', () => {
 		var appDataAttributeHandler = new AppDataAttributeHandler();
 		appDataAttributeHandler.setBaseElement(globals.document.body);
 		appDataAttributeHandler.handle();
@@ -84,7 +84,7 @@ describe('AppDataAttributeHandler', () => {
 		appDataAttributeHandler.dispose();
 	});
 
-	it('should get base element', () => {
+	it('gets base element', () => {
 		var appDataAttributeHandler = new AppDataAttributeHandler();
 		appDataAttributeHandler.setBaseElement(globals.document.body);
 		assert.strictEqual(
@@ -93,7 +93,7 @@ describe('AppDataAttributeHandler', () => {
 		);
 	});
 
-	it('should add app surfaces from document', () => {
+	it('adds app surfaces from document', () => {
 		enterDocumentSurfaceElement('surfaceId');
 		var appDataAttributeHandler = new AppDataAttributeHandler();
 		appDataAttributeHandler.setBaseElement(globals.document.body);
@@ -103,7 +103,7 @@ describe('AppDataAttributeHandler', () => {
 		exitDocumentSurfaceElement('surfaceId');
 	});
 
-	it('should adds random id to body without id when used as app surface', () => {
+	it('adds random id to body without id when used as app surface', () => {
 		globals.document.body.setAttribute('data-senna-surface', '');
 		var appDataAttributeHandler = new AppDataAttributeHandler();
 		appDataAttributeHandler.setBaseElement(globals.document.body);
@@ -113,7 +113,7 @@ describe('AppDataAttributeHandler', () => {
 		globals.document.body.removeAttribute('data-senna-surface');
 	});
 
-	it('should throw error when adding app surfaces from document missing id', () => {
+	it('throws error when adding app surfaces from document missing id', () => {
 		enterDocumentSurfaceElementMissingId('surfaceId');
 		assert.throws(() => {
 			var appDataAttributeHandler = new AppDataAttributeHandler();
@@ -123,7 +123,7 @@ describe('AppDataAttributeHandler', () => {
 		exitDocumentSurfaceElementMissingId('surfaceId');
 	});
 
-	it('should add default route if not found in document', () => {
+	it('adds default route if not found in document', () => {
 		var appDataAttributeHandler = new AppDataAttributeHandler();
 		appDataAttributeHandler.setBaseElement(globals.document.body);
 		appDataAttributeHandler.handle();
@@ -131,7 +131,7 @@ describe('AppDataAttributeHandler', () => {
 		appDataAttributeHandler.dispose();
 	});
 
-	it('should add routes from document', () => {
+	it('adds routes from document', () => {
 		enterDocumentRouteElement('/path1');
 		enterDocumentRouteElement('/path2');
 		var appDataAttributeHandler = new AppDataAttributeHandler();
@@ -143,7 +143,7 @@ describe('AppDataAttributeHandler', () => {
 		exitDocumentRouteElement('/path2');
 	});
 
-	it('should add routes from document with regex paths', () => {
+	it('adds routes from document with regex paths', () => {
 		enterDocumentRouteElement('regex:[a-z]');
 		var appDataAttributeHandler = new AppDataAttributeHandler();
 		appDataAttributeHandler.setBaseElement(globals.document.body);
@@ -156,7 +156,7 @@ describe('AppDataAttributeHandler', () => {
 		exitDocumentRouteElement('regex:[a-z]');
 	});
 
-	it('should throw error when adding routes from document with missing screen type', () => {
+	it('throws error when adding routes from document with missing screen type', () => {
 		enterDocumentRouteElementMissingScreenType('/path');
 		assert.throws(() => {
 			var appDataAttributeHandler = new AppDataAttributeHandler();
@@ -166,7 +166,7 @@ describe('AppDataAttributeHandler', () => {
 		exitDocumentRouteElement('/path');
 	});
 
-	it('should throw error when adding routes from document with missing path', () => {
+	it('throws error when adding routes from document with missing path', () => {
 		enterDocumentRouteElementMissingPath();
 		assert.throws(() => {
 			var appDataAttributeHandler = new AppDataAttributeHandler();
@@ -176,7 +176,7 @@ describe('AppDataAttributeHandler', () => {
 		exitDocumentRouteElementMissingPath();
 	});
 
-	it('should set base path from data attribute', () => {
+	it('sets base path from data attribute', () => {
 		globals.document.body.setAttribute('data-senna-base-path', '/base');
 		var appDataAttributeHandler = new AppDataAttributeHandler();
 		appDataAttributeHandler.setBaseElement(globals.document.body);
@@ -189,7 +189,7 @@ describe('AppDataAttributeHandler', () => {
 		globals.document.body.removeAttribute('data-senna-base-path');
 	});
 
-	it('should set link selector from data attribute', () => {
+	it('sets link selector from data attribute', () => {
 		globals.document.body.setAttribute('data-senna-link-selector', 'a');
 		var appDataAttributeHandler = new AppDataAttributeHandler();
 		appDataAttributeHandler.setBaseElement(globals.document.body);
@@ -202,7 +202,7 @@ describe('AppDataAttributeHandler', () => {
 		globals.document.body.removeAttribute('data-senna-link-selector');
 	});
 
-	it('should set loading css class from data attribute', () => {
+	it('sets loading css class from data attribute', () => {
 		globals.document.body.setAttribute(
 			'data-senna-loading-css-class',
 			'loading'
@@ -218,7 +218,7 @@ describe('AppDataAttributeHandler', () => {
 		globals.document.body.removeAttribute('data-senna-loading-css-class');
 	});
 
-	it('should set update scroll position to false from data attribute', () => {
+	it('sets update scroll position to false from data attribute', () => {
 		globals.document.body.setAttribute(
 			'data-senna-update-scroll-position',
 			'false'
@@ -236,7 +236,7 @@ describe('AppDataAttributeHandler', () => {
 		);
 	});
 
-	it('should set update scroll position to true from data attribute', () => {
+	it('sets update scroll position to true from data attribute', () => {
 		globals.document.body.setAttribute(
 			'data-senna-update-scroll-position',
 			'true'
@@ -254,7 +254,7 @@ describe('AppDataAttributeHandler', () => {
 		);
 	});
 
-	it('should dispatch app from data attribute', () => {
+	it('dispatches app from data attribute', () => {
 		globals.document.body.setAttribute('data-senna-dispatch', '');
 		var appDataAttributeHandler = new AppDataAttributeHandler();
 		appDataAttributeHandler.setBaseElement(globals.document.body);

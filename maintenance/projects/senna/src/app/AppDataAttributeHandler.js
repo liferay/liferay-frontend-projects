@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+/* eslint-disable no-console */
+
 'use strict';
 
 import {Disposable, getUid, isDefAndNotNull, isElement, object} from 'metal';

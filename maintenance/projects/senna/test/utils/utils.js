@@ -29,7 +29,7 @@ describe('utils', () => {
 		globals.window = window;
 	});
 
-	it('should copy attributes from source node to target node', () => {
+	it('copies attributes from source node to target node', () => {
 		var nodeA = document.createElement('div');
 		nodeA.setAttribute('a', 'valueA');
 		nodeA.setAttribute('b', 'valueB');
@@ -44,7 +44,7 @@ describe('utils', () => {
 		assert.strictEqual(nodeB.getAttribute('b'), 'valueB');
 	});
 
-	it('should clear attributes from a given node', () => {
+	it('clears attributes from a given node', () => {
 		var node = document.createElement('div');
 		node.setAttribute('a', 'valueA');
 		node.setAttribute('b', 'valueB');
@@ -56,21 +56,21 @@ describe('utils', () => {
 		assert.strictEqual(node.attributes.length, 0);
 	});
 
-	it('should get path from url', () => {
+	it('gets path from url', () => {
 		assert.strictEqual(
 			'/path?a=1#hash',
 			utils.getUrlPath('http://hostname/path?a=1#hash')
 		);
 	});
 
-	it('should get path from url excluding hashbang', () => {
+	it('gets path from url excluding hashbang', () => {
 		assert.strictEqual(
 			'/path?a=1',
 			utils.getUrlPathWithoutHash('http://hostname/path?a=1#hash')
 		);
 	});
 
-	it('should get path from url excluding hashbang and search', () => {
+	it('gets path from url excluding hashbang and search', () => {
 		assert.strictEqual(
 			'/path',
 			utils.getUrlPathWithoutHashAndSearch(
@@ -79,7 +79,7 @@ describe('utils', () => {
 		);
 	});
 
-	it('should test if path is current browser path', () => {
+	it('tests if path is current browser path', () => {
 		assert.ok(utils.isCurrentBrowserPath('http://hostname/path?a=1'));
 		assert.ok(utils.isCurrentBrowserPath('http://hostname/path?a=1#hash'));
 		assert.ok(!utils.isCurrentBrowserPath('http://hostname/path1?a=1'));
@@ -89,24 +89,24 @@ describe('utils', () => {
 		assert.ok(!utils.isCurrentBrowserPath());
 	});
 
-	it('should get current browser path', () => {
+	it('gets current browser path', () => {
 		assert.strictEqual('/path?a=1#hash', utils.getCurrentBrowserPath());
 	});
 
-	it('should get current browser path excluding hashbang', () => {
+	it('gets current browser path excluding hashbang', () => {
 		assert.strictEqual(
 			'/path?a=1',
 			utils.getCurrentBrowserPathWithoutHash()
 		);
 	});
 
-	it('should test if Html5 history is supported', () => {
+	it('tests if Html5 history is supported', () => {
 		assert.ok(utils.isHtml5HistorySupported());
 		globals.window.history = null;
 		assert.ok(!utils.isHtml5HistorySupported());
 	});
 
-	it('should test if a given url is a valid web (http/https) uri', () => {
+	it('tests if a given url is a valid web (http/https) uri', () => {
 		assert.ok(
 			!utils.isWebUri('tel:+999999999'),
 			'tel:+999999999 is not a valid url'

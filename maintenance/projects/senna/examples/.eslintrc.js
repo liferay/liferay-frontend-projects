@@ -4,12 +4,8 @@
  */
 
 module.exports = {
-	env: {
-		mocha: true,
-	},
 	globals: {
-		assert: true,
-		sinon: true,
+		senna: true,
 	},
 	rules: {
 		'no-console': 'off',
