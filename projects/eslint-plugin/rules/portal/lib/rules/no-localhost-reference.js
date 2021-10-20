@@ -12,21 +12,21 @@ module.exports = {
 		const filePath = context.getFilename();
 		const filename = path.basename(filePath);
 
+		if (
+			filename.includes('webpack') ||
+			filename.includes('jest') ||
+			filePath.includes('test')
+		) {
+			return {};
+		}
+
 		return {
 			Literal(node) {
 				if (
-					filename.includes('webpack') ||
-					filename.includes('jest') ||
-					filePath.includes('test')
-				) {
-					return;
-				}
-
-				if (
 					node &&
 					node.value &&
-					typeof node.value.match === 'function' &&
-					node.value.match(/.*localhost.*/)
+					typeof node.value.includes === 'function' &&
+					node.value.includes('localhost')
 				) {
 					context.report({
 						message: DESCRIPTION,
