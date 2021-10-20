@@ -1,22 +1,17 @@
 {
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
-	"bin": {
-		"liferay-dev-server": "./bin/liferay-dev-server.js"
-	},
 	"dependencies": {
-		"chalk": "^4.1.2",
-		"chokidar": "^3.5.2",
-		"commander": "^8.1.0",
-		"glob": "^7.1.7",
-		"http-proxy": "^1.18.1",
-		"open": "^8.2.1",
-		"pkg-up": "^3.1.0"
+		"@liferay/portal-base": "^1.0.0",
+		"cross-spawn": "^7.0.0",
+		"escape-string-regexp": "^2.0.0",
+		"globby": "^10.0.1"
 	},
+	"description": "Base library for adaptation autopresets",
 	"license": "LGPL-3.0",
 	"main": "lib/index.js",
-	"name": "@liferay/dev-server",
+	"name": "@liferay/portal-adapt-base",
 	"repository": {
-		"directory": "projects/js-toolkit/packages/dev-server",
+		"directory": "projects/js-toolkit/packages/portal-adapt-base",
 		"type": "git",
 		"url": "https://github.com/liferay/liferay-frontend-projects.git"
 	},
@@ -31,8 +26,7 @@
 		"postversion": "liferay-workspace-scripts publish",
 		"prepublishOnly": "yarn build",
 		"preversion": "liferay-workspace-scripts ci",
-		"test": "liferay-workspace-scripts test",
-		"watch": "tsc -w"
+		"test": "liferay-workspace-scripts test"
 	},
 	"version": "1.0.0"
 }

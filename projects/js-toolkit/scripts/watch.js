@@ -6,11 +6,11 @@
 /* eslint-disable no-console */
 
 const watch = require('@cnakazawa/watch');
-const fs = require('fs-extra');
-const globby = require('globby');
+const childProcess = require('child_process');
+const fs = require('fs');
 const path = require('path');
 
-const {runNodeBin} = require('./util/run');
+const getProjectDirectories = require('./util/getProjectDirectories');
 
 /**
  * Filter file/dir paths containing static files so that they can be watched to
@@ -64,19 +64,22 @@ function filterStaticFiles(filename) {
 
 // Watch changes to TypeScript files to trigger `tsc`
 
-console.log('watch tsc:', path.basename(process.cwd()));
-
-runNodeBin.pipe(
-	'tsc',
-	'--build',
-	...globby.sync('packages/*/tsconfig.json'),
-	'--watch',
-	'--preserveWatchOutput'
+childProcess.spawn(
+	'yarn',
+	[
+		'run',
+		'tsc',
+		'--build',
+		...getProjectDirectories().map((dir) =>
+			path.resolve(dir, 'tsconfig.json')
+		),
+		'--watch',
+		'--preserveWatchOutput',
+	],
+	{stdio: 'inherit'}
 );
 
 // Watch changes to static files to trigger `yarn copyfiles`
-
-console.log('watch static:', path.basename(process.cwd()));
 
 watch.watchTree(
 	'.',
@@ -103,7 +106,7 @@ watch.watchTree(
 
 			console.log('copy:', filename, '➡', dest);
 
-			fs.copySync(filename, dest);
+			fs.writeFileSync(dest, fs.readFileSync(filename));
 		}
 	}
 );

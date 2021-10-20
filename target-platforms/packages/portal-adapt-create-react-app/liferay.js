@@ -5,6 +5,6 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-const portalAdaptBase = require('@liferay/portal-adapt-base');
+const {default: portalAdaptBase} = require('@liferay/portal-adapt-base');
 
 portalAdaptBase(__dirname);

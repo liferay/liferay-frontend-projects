@@ -34,20 +34,20 @@
 			"test": "^dist/[^/]+/.*\\.js$",
 			"use": [
 				{
-					"loader": "@liferay/portal-adapt-base/src/loader/wrapWebpackBundle",
+					"loader": "@liferay/portal-adapt-base/lib/loader/wrapWebpackBundle",
 					"options": {
 						"removePrefix": "dist/"
 					}
 				},
 				{
-					"loader": "@liferay/portal-adapt-base/src/loader/replaceRegExp",
+					"loader": "@liferay/portal-adapt-base/lib/loader/replaceRegExp",
 					"options": {
 						"pattern": "\"app-root\"",
 						"replacement": "\"#\"+_LIFERAY_PARAMS_.portletElementId"
 					}
 				},
 				{
-					"loader": "@liferay/portal-adapt-base/src/loader/adaptStaticURLsAtRuntime",
+					"loader": "@liferay/portal-adapt-base/lib/loader/adaptStaticURLsAtRuntime",
 					"options": {
 						"docroot": "dist/${project.name}",
 						"include": ["^assets/.*"],
@@ -55,13 +55,13 @@
 					}
 				},
 				{
-					"loader": "@liferay/portal-adapt-base/src/loader/namespaceWebpack"
+					"loader": "@liferay/portal-adapt-base/lib/loader/namespaceWebpack"
 				},
 				{
-					"loader": "@liferay/portal-adapt-base/src/loader/removeWebpackHash"
+					"loader": "@liferay/portal-adapt-base/lib/loader/removeWebpackHash"
 				},
 				{
-					"loader": "@liferay/portal-adapt-base/src/loader/normalizeAngularOutput"
+					"loader": "@liferay/portal-adapt-base/lib/loader/normalizeAngularOutput"
 				}
 			]
 		},
@@ -71,7 +71,7 @@
 			"include": ["^dist/[^/]+/styles.*\\.css$"],
 			"use": [
 				{
-					"loader": "@liferay/portal-adapt-base/src/loader/removeWebpackHash"
+					"loader": "@liferay/portal-adapt-base/lib/loader/removeWebpackHash"
 				}
 			]
 		},
@@ -80,7 +80,7 @@
 			"test": "^package\\.json$",
 			"use": [
 				{
-					"loader": "@liferay/portal-adapt-base/src/loader/addCSSPortletHeader",
+					"loader": "@liferay/portal-adapt-base/lib/loader/addCSSPortletHeader",
 					"options": {
 						"css": "/${project.dir.basename}/styles.css"
 					}

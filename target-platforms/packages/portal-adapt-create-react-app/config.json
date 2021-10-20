@@ -38,27 +38,27 @@
 			"test": "^build/static/js/.*\\.js$",
 			"use": [
 				{
-					"loader": "@liferay/portal-adapt-base/src/loader/wrapWebpackBundle",
+					"loader": "@liferay/portal-adapt-base/lib/loader/wrapWebpackBundle",
 					"options": {
 						"removePrefix": "build/"
 					}
 				},
 				{
-					"loader": "@liferay/portal-adapt-base/src/loader/replaceRegExp",
+					"loader": "@liferay/portal-adapt-base/lib/loader/replaceRegExp",
 					"options": {
 						"pattern": "document.getElementById\\(\"root\"\\)",
 						"replacement": "document.getElementById(_LIFERAY_PARAMS_.portletElementId)"
 					}
 				},
 				{
-					"loader": "@liferay/portal-adapt-base/src/loader/adaptStaticURLsAtRuntime",
+					"loader": "@liferay/portal-adapt-base/lib/loader/adaptStaticURLsAtRuntime",
 					"options": {
 						"docroot": "build",
 						"include": ["^static/media/.*"]
 					}
 				},
 				{
-					"loader": "@liferay/portal-adapt-base/src/loader/namespaceWebpack"
+					"loader": "@liferay/portal-adapt-base/lib/loader/namespaceWebpack"
 				}
 			]
 		},
@@ -67,7 +67,7 @@
 			"test": "^build/static/css/.*\\.css$",
 			"use": [
 				{
-					"loader": "@liferay/portal-adapt-base/src/loader/adaptStaticURLs",
+					"loader": "@liferay/portal-adapt-base/lib/loader/adaptStaticURLs",
 					"options": {
 						"docroot": "build",
 						"include": ["^static/media/.*"],
@@ -85,7 +85,7 @@
 			],
 			"use": [
 				{
-					"loader": "@liferay/portal-adapt-base/src/loader/removeWebpackHash"
+					"loader": "@liferay/portal-adapt-base/lib/loader/removeWebpackHash"
 				}
 			]
 		},
@@ -94,7 +94,7 @@
 			"test": "^package\\.json$",
 			"use": [
 				{
-					"loader": "@liferay/portal-adapt-base/src/loader/addCSSPortletHeader",
+					"loader": "@liferay/portal-adapt-base/lib/loader/addCSSPortletHeader",
 					"options": {
 						"css": "/static/css/main.chunk.css"
 					}
