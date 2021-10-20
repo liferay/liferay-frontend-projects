@@ -157,6 +157,7 @@ const config = {
 		],
 		'sort-keys': ['error', 'asc', {caseSensitive: true, natural: true}],
 		'spaced-comment': ['error', 'always'],
+		'valid-typeof': 'error',
 	},
 };
 
