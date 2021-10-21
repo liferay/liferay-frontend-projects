@@ -1,3 +1,11 @@
+## [npm-scripts/v46.4.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v46.4.1) (2021-10-21)
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): sort prettier config ([\#711](https://github.com/liferay/liferay-frontend-projects/pull/711))
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v46.4.0...npm-scripts/v46.4.1)
+
 ## [npm-scripts/v46.4.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v46.4.0) (2021-10-21)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v46.3.0...npm-scripts/v46.4.0)
