@@ -53,9 +53,9 @@ function assertLocalRepo() {
 	const yarnUrl = run('yarn', 'config', 'get', 'registry');
 
 	if (npmUrl === NPM_REGISTRY || yarnUrl === YARN_REGISTRY) {
-		console.log('');
-		console.log('  🔴 NOT using LOCAL repo: refusing to do anything');
-		console.log('');
+		console.log(
+			'\n  🔴 NOT using LOCAL registry: refusing to do anything\n'
+		);
 		process.exit(1);
 	}
 }
@@ -75,13 +75,10 @@ function install(packageName) {
 	console.log(`  ⛔ Removing ${packageName} from yarn cache`);
 	run('yarn', 'cache', 'clean', packageName);
 
-	console.log(`  👊 Forcing reinstallation of ${packageName}`);
-	console.log('');
+	console.log(`  👊 Forcing reinstallation of ${packageName}\n`);
 	run('yarn', 'add', packageName, '--force', '-O', {stdio: 'inherit'});
 
-	console.log('');
-	console.log('  🎉 All work done (exquisitely, we could say)');
-	console.log('');
+	console.log('\n  🎉 All work done (exquisitely, we could say)\n');
 }
 
 function publish(projects) {
@@ -89,24 +86,26 @@ function publish(projects) {
 
 	projects = projects.map((name) => path.resolve(name));
 
-	console.log('');
+	console.log('\n  ⛔ Unpublishing:');
 
 	projects.forEach((dir) => {
 		const {name, version} = require(`${dir}/package.json`);
 		const pkgId = `${name}@${version}`;
 
-		console.log(`  ⛔ Unpublishing ${pkgId}`);
+		console.log(`       ${pkgId}`);
+
 		run('npm', 'unpublish', pkgId);
 		run('yarn', 'cache', 'clean', pkgId);
 	});
 
-	console.log('');
+	console.log('\n  🚀 Publishing:');
 
 	projects.forEach((dir) => {
 		const {name, version} = require(`${dir}/package.json`);
 		const pkgId = `${name}@${version}`;
 
-		console.log(`  🚀 Publishing ${pkgId}`);
+		console.log(`       ${pkgId}`);
+
 		run('npm', 'publish', {cwd: dir});
 	});
 
@@ -117,22 +116,22 @@ function registryGet() {
 	const npmUrl = run('npm', 'get', 'registry');
 	const yarnUrl = run('yarn', 'config', 'get', 'registry');
 
-	console.log('');
-
 	if (npmUrl === NPM_REGISTRY && yarnUrl === YARN_REGISTRY) {
-		console.log('  🌍 Using PUBLIC repo');
+		console.log('\n  🌍 Using PUBLIC registry\n');
 	}
 	else if (npmUrl === NPM_REGISTRY) {
-		console.log("  🔴 Using public npm repo, but local yarn (that's bad)");
+		console.log(
+			"\n  🔴 Using public npm registry, but local yarn (that's bad)\n"
+		);
 	}
 	else if (yarnUrl === YARN_REGISTRY) {
-		console.log("  🔴 Using local npm repo, but remote yarn (that's bad)");
+		console.log(
+			"\n  🔴 Using local npm registry, but remote yarn (that's bad)\n"
+		);
 	}
 	else {
-		console.log('  🏠 Using LOCAL repo');
+		console.log('\n  🏠 Using LOCAL registry\n');
 	}
-
-	console.log('');
 }
 
 function registrySet(which) {
@@ -173,8 +172,11 @@ function run(cmd, ...args) {
 	}
 
 	if (result.status !== 0) {
-		console.error(result.stdout.toString());
-		console.error(result.stderr.toString());
+		if (result.stdout) {
+			console.error(result.stdout.toString());
+			console.error(result.stderr.toString());
+		}
+
 		console.error('  🔥 Execution failed; sorry');
 		console.error();
 		process.exit(result.status);

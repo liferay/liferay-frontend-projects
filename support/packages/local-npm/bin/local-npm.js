@@ -16,14 +16,14 @@ const {argv} = yargs
 	)
 	.command(
 		['publish [<projects>...]', 'p'],
-		'Publish current project or a list of projects to the local repo'
+		'Publish current project or a list of projects to the local registry'
 	)
 	.command(
 		['registry', 'r'],
-		'Set/get the current npm and yarn configured repositories',
+		'Set/get the current npm and yarn configured registries',
 		(yargs) =>
 			yargs
-				.command(['get', 'g'], 'Print current npm/yarn repo')
+				.command(['get', 'g'], 'Print current npm/yarn registry')
 				.command(
 					['set', 's'],
 					'Set the npm/yarn repo to use',
