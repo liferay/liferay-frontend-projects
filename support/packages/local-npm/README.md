@@ -1,9 +1,9 @@
 # @liferay/local-npm
 
-`@liferay/local-npm` is a private package internal to this monorepo that
-provides a CLI tool to leverage local npm registries (like
-[verdaccio](https://verdaccio.org/)) to publish local versions of development
-packages to be able to test them before the public release is made.
+`@liferay/local-npm` is a private package (internal to this monorepo) that
+provides a CLI tool for using local npm registries (like
+[Verdaccio](https://verdaccio.org/)) to publish local versions of development
+packages and be able to test them before the public release is made.
 
 ## Installation
 
