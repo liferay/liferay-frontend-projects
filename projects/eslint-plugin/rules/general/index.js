@@ -13,6 +13,7 @@ module.exports = {
 	'imports-first': require('./lib/rules/imports-first'),
 	'no-abbreviations': require('./lib/rules/no-abbreviations'),
 	'no-absolute-import': require('./lib/rules/no-absolute-import'),
+	'no-anonymous-exports': require('./lib/rules/no-anonymous-exports'),
 	'no-arrow': require('./lib/rules/no-arrow'),
 	'no-duplicate-class-names': require('./lib/rules/no-duplicate-class-names'),
 	'no-duplicate-imports': require('./lib/rules/no-duplicate-imports'),
