@@ -23,6 +23,7 @@ module.exports = {
 		'/maintenance/projects/js-toolkit/**/__fixtures__',
 		'/maintenance/projects/senna/build',
 		'/projects/amd-loader/build',
+		'/projects/js-themes-toolkit/qa',
 		'/projects/js-toolkit/qa',
 		'/projects/js-toolkit/**/generators',
 		'/projects/js-toolkit/**/lib',
