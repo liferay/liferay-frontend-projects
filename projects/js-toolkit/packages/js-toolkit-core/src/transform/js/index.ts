@@ -140,7 +140,10 @@ async function mergeMaps(
 			line: mapping.originalLine,
 		});
 
-		if (origPosInOldMap.source == null) {
+		if (
+			origPosInOldMap.source === null ||
+			origPosInOldMap.source === undefined
+		) {
 			return;
 		}
 

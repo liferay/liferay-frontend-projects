@@ -39,7 +39,7 @@ module.exports = function (options) {
 
 				var moduleVersion = result.match(REGEX_MODULE_VERSION);
 
-				if (moduleVersion && moduleVersion[1] != npmPackageVersion) {
+				if (moduleVersion && moduleVersion[1] !== npmPackageVersion) {
 					result = result.replace(
 						REGEX_MODULE_VERSION,
 						(_match, _g1) => {

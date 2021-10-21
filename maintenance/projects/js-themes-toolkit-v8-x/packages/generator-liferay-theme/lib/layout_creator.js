@@ -29,7 +29,7 @@ inquirer.prompt.prompts.list.prototype.render = function () {
 	var choices = _.reduce(
 		this.opt.choices.choices,
 		(result, item) => {
-			if (item.type != 'separator') {
+			if (item.type !== 'separator') {
 				result.push(item);
 			}
 
@@ -113,16 +113,16 @@ LayoutCreator.prototype = {
 	_afterPromptFinishRow(answers, cb) {
 		var finish = answers.finish;
 
-		if (finish == 'add') {
+		if (finish === 'add') {
 			this._promptRow(cb);
 		}
-		else if (finish == 'insert') {
+		else if (finish === 'insert') {
 			this._promptInsertRow(cb);
 		}
-		else if (answers.finish == 'finish') {
+		else if (answers.finish === 'finish') {
 			cb(null);
 		}
-		else if (finish == 'remove') {
+		else if (finish === 'remove') {
 			this._promptRemoveRow(cb);
 		}
 	},

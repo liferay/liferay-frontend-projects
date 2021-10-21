@@ -62,7 +62,7 @@ async function asyncTransform(
 	let importsFound = false;
 
 	for (const pkgName of Object.keys(imports)) {
-		if (content.indexOf(pkgName) != -1) {
+		if (content.indexOf(pkgName) !== -1) {
 			importsFound = true;
 
 			break;

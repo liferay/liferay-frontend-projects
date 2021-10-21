@@ -29,7 +29,7 @@ export default function () {
 		subscriptionKey = cfg.getTranslatorTextKey();
 	}
 
-	if (!subscriptionKey || subscriptionKey == '') {
+	if (!subscriptionKey) {
 		console.error(
 			'-------------------------------------------------------------\n' +
 				'    🛑 Microsoft Translator credentials not set 🛑\n\n' +
@@ -49,10 +49,10 @@ export default function () {
 	const localizationFileMap = project.l10n.localizationFileMap;
 
 	const locales = Object.keys(localizationFileMap).filter(
-		(locale) => locale != 'default'
+		(locale) => locale !== 'default'
 	);
 
-	if (locales.length == 0) {
+	if (locales.length === 0) {
 		console.log(
 			'No locales found: nothing to translate.\n\n' +
 				'You can edit your .npmbuildrc file to add new supported ' +
@@ -127,7 +127,7 @@ export function addMissingTranslations(translation, labels) {
 		});
 
 		console.log(
-			count == 0
+			count === 0
 				? `  · No missing translations found for locale ${locale}`
 				: `  · Added ${count} missing translations for locale ${locale}`
 		);
@@ -228,7 +228,7 @@ function showMissingSupportedLocales() {
 	const supportedLocales = cfg.getSupportedLocales();
 
 	const missingLocales = availableLocales.filter(
-		(locale) => supportedLocales.indexOf(locale) == -1
+		(locale) => supportedLocales.indexOf(locale) === -1
 	);
 
 	if (missingLocales.length > 0) {
@@ -252,7 +252,7 @@ function createMissingSupportedLocalesFiles() {
 	const supportedLocales = cfg.getSupportedLocales();
 
 	const missingLocales = supportedLocales.filter(
-		(locale) => project.l10n.availableLocales.indexOf(locale) == -1
+		(locale) => project.l10n.availableLocales.indexOf(locale) === -1
 	);
 
 	if (missingLocales.length > 0) {
@@ -338,7 +338,7 @@ function translate(subscriptionKey, locales, texts) {
 						if (err) {
 							reject(err);
 						}
-						else if (response.statusCode != 200) {
+						else if (response.statusCode !== 200) {
 							reject({
 								code: response.statusCode,
 								message: response.statusMessage,

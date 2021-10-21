@@ -63,7 +63,7 @@ export function getDestDir(pkg) {
  *         finishes
  */
 export function iterateSerially(values, asyncProcess) {
-	if (values.length == 0) {
+	if (values.length === 0) {
 		return Promise.resolve();
 	}
 

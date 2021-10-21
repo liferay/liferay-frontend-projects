@@ -114,6 +114,7 @@ const config = {
 		'@liferay/use-state-naming-pattern': 'error',
 		'curly': 'error',
 		'default-case': 'error',
+		'eqeqeq': 'error',
 		'lines-around-comment': [
 			'error',
 			{

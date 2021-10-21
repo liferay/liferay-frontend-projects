@@ -19,8 +19,8 @@ const lrFormatOpts = (process.env['LR_FORMAT_OPTS'] || '').split(',');
 
 /** Unrolled formatting options */
 const opts = {
-	noColors: lrFormatOpts.indexOf('no-colors') != -1,
-	noDecorations: lrFormatOpts.indexOf('no-decorations') != -1,
+	noColors: lrFormatOpts.indexOf('no-colors') !== -1,
+	noDecorations: lrFormatOpts.indexOf('no-decorations') !== -1,
 };
 
 const verbatim = (...args) => args.join(' ');

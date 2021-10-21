@@ -297,7 +297,7 @@ export function loadSourceMap(filePath) {
 
 	const url = matches[1];
 
-	if (url.indexOf('data:') == 0) {
+	if (url.indexOf('data:') === 0) {
 		const parsedData = parseDataURL(url);
 
 		if (parsedData) {

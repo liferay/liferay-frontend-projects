@@ -75,7 +75,7 @@ export default class Loader {
 
 		// Acccount for call polymorphism
 
-		if (args.length == 2) {
+		if (args.length === 2) {
 			factory = dependencies;
 			dependencies = ['require', 'exports', 'module'];
 		}
@@ -142,12 +142,12 @@ export default class Loader {
 
 		// Account for call polymorphism
 
-		if (args.length == 1) {
+		if (args.length === 1) {
 			moduleNames = args[0];
 			success = undefined;
 			failure = undefined;
 		}
-		else if (args.length == 2) {
+		else if (args.length === 2) {
 			const lastArg = args[args.length - 1];
 
 			if (typeof lastArg === 'function') {
@@ -155,7 +155,7 @@ export default class Loader {
 				success = lastArg;
 				failure = undefined;
 			}
-			else if (lastArg == null) {
+			else if (lastArg === null || lastArg === undefined) {
 				moduleNames = args[0];
 				success = undefined;
 				failure = undefined;
@@ -170,7 +170,11 @@ export default class Loader {
 			const lastArg = args[args.length - 1];
 			let successGiven = false;
 
-			if (typeof lastArg === 'function' || lastArg == null) {
+			if (
+				typeof lastArg === 'function' ||
+				lastArg === null ||
+				lastArg === undefined
+			) {
 				successGiven = true;
 			}
 
@@ -185,7 +189,8 @@ export default class Loader {
 
 				if (
 					typeof penultimateArg === 'function' ||
-					penultimateArg == null
+					penultimateArg === null ||
+					penultimateArg === undefined
 				) {
 					failureGiven = true;
 				}
@@ -208,7 +213,7 @@ export default class Loader {
 		if (typeof moduleNames === 'string') {
 			moduleNames = [moduleNames];
 		}
-		else if (moduleNames.length == 1 && Array.isArray(moduleNames[0])) {
+		else if (moduleNames.length === 1 && Array.isArray(moduleNames[0])) {
 			moduleNames = [].concat(...moduleNames);
 		}
 

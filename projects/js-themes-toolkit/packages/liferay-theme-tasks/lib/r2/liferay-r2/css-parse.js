@@ -126,7 +126,7 @@ module.exports = function (css, options) {
 		comments(rules);
 		while (
 			css.length &&
-			css.charAt(0) != '}' &&
+			css.charAt(0) !== '}' &&
 			(node = atrule() || rule())
 		) {
 			rules.push(node);
@@ -180,14 +180,14 @@ module.exports = function (css, options) {
 
 	function comment() {
 		var pos = position();
-		if ('/' != css.charAt(0) || '*' != css.charAt(1)) {
+		if ('/' !== css.charAt(0) || '*' !== css.charAt(1)) {
 			return;
 		}
 
 		var i = 2;
 		while (
-			null != css.charAt(i) &&
-			('*' != css.charAt(i) || '/' != css.charAt(i + 1))
+			null !== css.charAt(i) &&
+			('*' !== css.charAt(i) || '/' !== css.charAt(i + 1))
 		) {
 			++i;
 		}
@@ -599,7 +599,7 @@ module.exports = function (css, options) {
 	 */
 
 	function atrule() {
-		if (css[0] != '@') {
+		if (css[0] !== '@') {
 			return;
 		}
 

@@ -175,7 +175,7 @@ function checkProjects(projects) {
 	msg(0, 'Checking projects:');
 
 	Object.values(projects).forEach((project) => {
-		if (project.dir.asPosix.indexOf(cfg.getRunPath()) != 0) {
+		if (project.dir.asPosix.indexOf(cfg.getRunPath()) !== 0) {
 			return;
 		}
 

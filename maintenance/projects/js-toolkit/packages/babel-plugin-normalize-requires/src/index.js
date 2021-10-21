@@ -16,7 +16,7 @@ export default function ({types: t}) {
 				exit(path, state) {
 					const {node} = path;
 
-					if (node.name == 'require') {
+					if (node.name === 'require') {
 						const parent = path.parent;
 
 						if (t.isCallExpression(parent)) {
@@ -85,13 +85,13 @@ export default function ({types: t}) {
 function isPackageName(moduleName) {
 	const firstSlashIndex = moduleName.indexOf('/');
 
-	if (firstSlashIndex == -1) {
+	if (firstSlashIndex === -1) {
 		return true;
 	}
 
 	const restOfModuleName = moduleName.substring(firstSlashIndex + 1);
 
-	if (moduleName.startsWith('@') && restOfModuleName.indexOf('/') == -1) {
+	if (moduleName.startsWith('@') && restOfModuleName.indexOf('/') === -1) {
 		return true;
 	}
 

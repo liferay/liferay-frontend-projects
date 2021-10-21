@@ -20,7 +20,7 @@ export default function removeWebpackHash(filePath: string): string {
 		}
 	}
 
-	if (hashIndex == -1) {
+	if (hashIndex === -1) {
 		return filePath;
 	}
 

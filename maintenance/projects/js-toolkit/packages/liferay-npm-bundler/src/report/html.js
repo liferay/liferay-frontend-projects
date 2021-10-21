@@ -89,7 +89,7 @@ export function htmlDump(report) {
 									`<div title="${allFiles
 										.filter(
 											(file) =>
-												copiedFiles.indexOf(file) == -1
+												copiedFiles.indexOf(file) === -1
 										)
 										.sort()
 										.join(',')}">
@@ -556,7 +556,7 @@ function htmlTable(...args) {
 		content = content.join('\n');
 	}
 
-	if (columns.length == 0) {
+	if (columns.length === 0) {
 		return `
 			<table>
 				${content}
@@ -595,7 +595,7 @@ function htmlLogOutput(
 	rowLoggers,
 	{source} = {source: true}
 ) {
-	if (prefixCells.length != rowLoggers.length) {
+	if (prefixCells.length !== rowLoggers.length) {
 		throw new Error(
 			'The length of prefixCells and rowLoggers must be the same'
 		);
@@ -612,7 +612,7 @@ function htmlLogOutput(
 	const rows = [];
 
 	prefixCells.forEach((cells, i) => {
-		if (cells.length != prefixColumns.length) {
+		if (cells.length !== prefixColumns.length) {
 			throw new Error(
 				`Prefix cells row ${i} has an invalid length: ${cells.length}`
 			);
@@ -620,7 +620,7 @@ function htmlLogOutput(
 
 		const msgs = rowLoggers[i].messages;
 
-		if (msgs.length == 0) {
+		if (msgs.length === 0) {
 			rows.push(
 				htmlRow(`
 					${cells.map((cell) => `<td>${cell}</td>`).join(' ')}

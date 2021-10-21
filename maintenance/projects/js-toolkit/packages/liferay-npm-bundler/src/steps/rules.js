@@ -73,7 +73,7 @@ function processPackage(srcPkg) {
 function processFile(srcPkg, destPkg, prjRelPath) {
 	const loaders = project.rules.loadersForFile(prjRelPath);
 
-	if (loaders.length == 0) {
+	if (loaders.length === 0) {
 		return Promise.resolve();
 	}
 
@@ -231,7 +231,7 @@ function assertString(object, field, what) {
  * @param {object} context
  */
 function writeLoadersResult(srcPkg, destPkg, context) {
-	if (context.content != undefined) {
+	if (context.content !== undefined && context.content !== null) {
 		writeRuleFile(
 			destPkg,
 			srcPkg.dir.relative(project.dir.join(context.filePath)).asNative,
@@ -241,7 +241,7 @@ function writeLoadersResult(srcPkg, destPkg, context) {
 
 	Object.entries(context.extraArtifacts).forEach(
 		([extraPrjRelPath, content]) => {
-			if (content == undefined) {
+			if (content === undefined || content === null) {
 				return;
 			}
 

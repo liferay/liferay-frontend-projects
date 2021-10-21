@@ -161,13 +161,13 @@ export function reportAndResolveCollisions(
 			absFromPosixPath
 		].filter((alias) => {
 			const included =
-				alias.fromType != AliasFromType.EXTERNAL ||
+				alias.fromType !== AliasFromType.EXTERNAL ||
 				!moduleExists(absFromPosixPath);
 
 			if (!included) {
 				const rootRelDir = absRootDir.relative(alias.absDir);
 				const where =
-					rootRelDir.asPosix == ''
+					rootRelDir.asPosix === ''
 						? "project's root folder"
 						: `'${rootRelDir.asPosix}'`;
 
@@ -186,7 +186,7 @@ export function reportAndResolveCollisions(
 	// Remove empty aliases
 
 	Object.keys(unrolledAliasesMap).forEach((absFromPath) => {
-		if (unrolledAliasesMap[absFromPath].length == 0) {
+		if (unrolledAliasesMap[absFromPath].length === 0) {
 			delete unrolledAliasesMap[absFromPath];
 		}
 	});
@@ -213,7 +213,7 @@ export function reportAndResolveCollisions(
 
 			const rootRelDir = absRootDir.relative(alias.absDir);
 			const where =
-				rootRelDir.asPosix == ''
+				rootRelDir.asPosix === ''
 					? "project's root folder"
 					: `'${rootRelDir.asPosix}'`;
 

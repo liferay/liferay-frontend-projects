@@ -176,7 +176,7 @@ function spawn(cmd, args, options = {}) {
 		...options,
 	});
 
-	if (proc.error || proc.status != 0) {
+	if (proc.error || proc.status !== 0) {
 		process.exit(1);
 	}
 }

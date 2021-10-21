@@ -10,7 +10,7 @@ const getDepVersions = require('./util/get-dep-versions');
 
 const argv = process.argv;
 
-if (argv.length != 4) {
+if (argv.length !== 4) {
 	console.log('Usage: level-deps <package name> <desired version>');
 	process.exit(2);
 }

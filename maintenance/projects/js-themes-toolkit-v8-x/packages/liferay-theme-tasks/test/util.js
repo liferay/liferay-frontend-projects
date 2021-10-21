@@ -46,7 +46,7 @@ expect.extend({
 					pass = false;
 					message = `Path '${path}' is not a folder`;
 				}
-				else if (fs.readdirSync(path).length == 0) {
+				else if (fs.readdirSync(path).length === 0) {
 					pass = false;
 					message = `Folder '${path}' is empty`;
 				}
@@ -70,7 +70,7 @@ expect.extend({
 					pass = false;
 					message = `Path '${path}' is not a folder`;
 				}
-				else if (fs.readdirSync(path).length != 0) {
+				else if (fs.readdirSync(path).length !== 0) {
 					pass = false;
 					message = `Folder '${path}' is not empty`;
 				}
@@ -321,7 +321,7 @@ function cleanTempTheme(themeName, version, component, initCwd) {
 
 	cleanDirectory(tempPath);
 
-	if (initCwd != null) {
+	if (initCwd !== null && initCwd !== undefined) {
 		process.chdir(initCwd);
 	}
 }

@@ -85,7 +85,12 @@ watch.watchTree(
 	'.',
 	{filter: filterStaticFiles, ignoreDotFiles: false, interval: 1},
 	(filename, curr, prev) => {
-		if (typeof filename == 'object' && prev === null && curr === null) {
+		if (
+			filename !== null &&
+			typeof filename === 'object' &&
+			(prev === null || prev === undefined) &&
+			(curr === null || curr === undefined)
+		) {
 			console.log(
 				'Watching',
 				Object.keys(filename).length,

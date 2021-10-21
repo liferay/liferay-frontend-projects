@@ -154,7 +154,7 @@ Remember that we have used your Liferay installation at:
 function getTargets() {
 	let argv = process.argv.slice(2);
 
-	if (argv.length == 0) {
+	if (argv.length === 0) {
 		argv = ['reset', 'generate', 'install', 'deploy'];
 	}
 

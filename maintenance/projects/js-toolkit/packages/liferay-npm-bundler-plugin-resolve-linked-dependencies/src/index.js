@@ -11,11 +11,14 @@ import semver from 'semver';
  * @return {void}
  */
 export default function ({log}, {pkgJson}) {
-	if (pkgJson.dependencies != null) {
+	if (pkgJson.dependencies !== null && pkgJson.dependencies !== undefined) {
 		Object.keys(pkgJson.dependencies).forEach((name) => {
 			const link = pkgJson.dependencies[name];
 
-			if (semver.validRange(link) == null) {
+			if (
+				semver.validRange(link) === null ||
+				semver.validRange(link) === undefined
+			) {
 				const depPkgJsonPath = path.join(
 					'node_modules',
 					name,

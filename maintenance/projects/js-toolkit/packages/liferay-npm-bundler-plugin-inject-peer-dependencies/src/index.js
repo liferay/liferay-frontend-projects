@@ -29,7 +29,7 @@ export default function ({config, log, pkg, source}, {pkgJson}) {
 			const code = fs.readFileSync(file.asNative);
 			const defineCallOffset = code.indexOf(defineCall);
 
-			if (defineCallOffset != -1) {
+			if (defineCallOffset !== -1) {
 				const funOffset = code.indexOf(')', defineCallOffset);
 				let defineCallLine;
 
@@ -175,7 +175,7 @@ function removeModuleName(line) {
 function extractDependencies(line) {
 	const indexOfClose = line.indexOf(']');
 
-	if (!line.startsWith('[') || indexOfClose == -1) {
+	if (!line.startsWith('[') || indexOfClose === -1) {
 		return [];
 	}
 

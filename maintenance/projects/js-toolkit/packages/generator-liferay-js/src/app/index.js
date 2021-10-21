@@ -56,7 +56,7 @@ export default class extends Generator {
 	_findTargets() {
 		const tds = fs
 			.readdirSync(path.join(__dirname, '..'))
-			.filter((file) => file.indexOf('target-') == 0)
+			.filter((file) => file.indexOf('target-') === 0)
 			.map((target) => target.replace('target-', ''))
 			.map((target) => ({
 				...getTargetDescription(target),

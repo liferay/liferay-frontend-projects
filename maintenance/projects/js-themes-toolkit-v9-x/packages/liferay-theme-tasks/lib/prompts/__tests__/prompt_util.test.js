@@ -58,7 +58,7 @@ it('formatThemeletSelection should format themelet selection retrieved from getM
 it('getListType should get listType based on environment', () => {
 	const listType = promptUtil.getListType();
 
-	expect(listType == 'list' || listType == 'rawlist').toBe(true);
+	expect(listType === 'list' || listType === 'rawlist').toBe(true);
 });
 
 it('getModuleChoices should get module choices that are appropriate for extend type', () => {
@@ -80,7 +80,7 @@ it('getModuleChoices should get module choices that are appropriate for extend t
 		const number = index + 1;
 		const name = 'themelet-' + number;
 
-		if (number == 1) {
+		if (number === 1) {
 			expect(item.name).toBe(name + ' (selected)');
 		}
 
@@ -108,7 +108,7 @@ it('getModuleChoices should get module choices that are appropriate for extend t
 		const number = index + 1;
 		const name = 'themelet-' + number;
 
-		if (number == 1) {
+		if (number === 1) {
 			expect(item.checked).toBe(true);
 		}
 		else {

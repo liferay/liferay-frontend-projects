@@ -91,7 +91,7 @@ export function normalizeImportsConfig(
 
 					delete normalized[namespace][pkgName];
 
-					if (Object.keys(normalized[namespace]).length == 0) {
+					if (Object.keys(normalized[namespace]).length === 0) {
 						delete normalized[namespace];
 					}
 				}
