@@ -21,6 +21,7 @@ module.exports = {
 	'no-it-should': require('./lib/rules/no-it-should'),
 	'no-length-jsx-expression': require('./lib/rules/no-length-jsx-expression'),
 	'no-require-and-call': require('./lib/rules/no-require-and-call'),
+	'no-use-strict-in-module': require('./lib/rules/no-use-strict-in-module'),
 	'padded-test-blocks': require('./lib/rules/padded-test-blocks'),
 	'ref-name-suffix': require('./lib/rules/ref-name-suffix'),
 	'sort-class-names': require('./lib/rules/sort-class-names'),

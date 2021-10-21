@@ -107,6 +107,7 @@ const config = {
 		'@liferay/no-it-should': 'error',
 		'@liferay/no-length-jsx-expression': 'error',
 		'@liferay/no-require-and-call': 'error',
+		'@liferay/no-use-strict-in-module': 'error',
 		'@liferay/padded-test-blocks': 'error',
 		'@liferay/ref-name-suffix': 'error',
 		'@liferay/sort-import-destructures': 'error',
