@@ -10227,6 +10227,13 @@ liferay-npm-bundler-loader-css-loader@^2.27.0:
     liferay-npm-build-tools-common "2.27.0"
     read-json-sync "^2.0.1"
 
+liferay-npm-bundler-loader-json-loader@2.24.2:
+  version "2.24.2"
+  resolved "https://registry.yarnpkg.com/liferay-npm-bundler-loader-json-loader/-/liferay-npm-bundler-loader-json-loader-2.24.2.tgz#6d66d14a9d369e6b75597737b43419e5ff00de9d"
+  integrity sha512-3Dc3zap9XpnG0J8WYZC/dbnz8WBcF7KE04b6OGDAb3ZndzXrs4wLhCNRjICqFIHqQtjUr+ejAfYC5qA2HHK43w==
+  dependencies:
+    liferay-npm-build-tools-common "2.24.2"
+
 liferay-npm-bundler-loader-json-loader@^2.27.0:
   version "2.27.0"
   resolved "https://registry.yarnpkg.com/liferay-npm-bundler-loader-json-loader/-/liferay-npm-bundler-loader-json-loader-2.27.0.tgz#0ce2bebaffc773b5abf6a4b07d3a536109a77a8e"
