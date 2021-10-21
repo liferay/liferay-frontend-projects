@@ -1,3 +1,11 @@
+## [npm-scripts/v46.4.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v46.4.0) (2021-10-21)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v46.3.0...npm-scripts/v46.4.0)
+
+### :new: Features
+
+-   feat(npm-scripts): support import of .json files ([\#709](https://github.com/liferay/liferay-frontend-projects/pull/709))
+
 ## [npm-scripts/v46.3.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v46.3.0) (2021-10-08)
 
 ### :new: Features
