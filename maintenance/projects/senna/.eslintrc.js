@@ -12,6 +12,7 @@ module.exports = {
 	rules: {
 		'@liferay/no-abbreviations': 'off',
 		'@liferay/no-it-should': 'warn',
+		'@liferay/no-use-strict-in-module': 'off',
 		'curly': 'warn',
 		'default-case': 'warn',
 		'no-console': 'warn',

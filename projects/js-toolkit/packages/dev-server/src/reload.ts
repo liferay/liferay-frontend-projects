@@ -46,9 +46,9 @@ function setupLiveSession(): void {
 const CLOSE_BODY_TAG = '</body>';
 const RELOAD_SNIPPET = `<script>(${setupLiveSession.toString()})();</script>`;
 
-export default (content: string): string => {
+export default function (content: string): string {
 	return content.replace(
 		CLOSE_BODY_TAG,
 		`${RELOAD_SNIPPET}${CLOSE_BODY_TAG}`
 	);
-};
+}
