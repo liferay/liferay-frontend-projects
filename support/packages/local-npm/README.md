@@ -1,10 +1,9 @@
 # @liferay/local-npm
 
 `@liferay/local-npm` is a private package internal to this monorepo that
-provides a CLI tool to leverage local npm registries (like 
+provides a CLI tool to leverage local npm registries (like
 [verdaccio](https://verdaccio.org/)) to publish local versions of development
 packages to be able to test them before the public release is made.
-
 
 ## Installation
 
@@ -13,7 +12,6 @@ executable available in your system.
 
 > 👀 Note that we don't publish versions of this package to the public npm
 > registry, so the only way to install it is to `yarn link` it.
-
 
 ## Usage
 
@@ -27,8 +25,8 @@ We recommend [Verdaccio](https://verdaccio.org), which can be installed using
 Once that's done, you need to know that `npm` and `yarn` can be configured to
 use any registry different from the public ones, which are:
 
-- https://registry.npmjs.org
-- https://registry.yarnpkg.com
+-   https://registry.npmjs.org
+-   https://registry.yarnpkg.com
 
 This lets you (the user) put a proxy between your `npm`/`yarn` and the public
 registry. That proxy may contain packages you have published locally, which are
@@ -42,7 +40,7 @@ project as if they had been already released to the general public.
 The advantages of this are:
 
 1. Because you are using true packages, your sample projects will reproduce
-   exactly the same configuration they will have when the packages are truly 
+   exactly the same configuration they will have when the packages are truly
    released to the public. This means, no more `yarn link`s or flaky
    `node_modules` folders due to them.
 2. Because you are using a local npm registry, you are not polluting the public
@@ -67,8 +65,7 @@ The advantages of this are:
 
 Note: The main con of using a local npm registry is the need to republish a new
 version each time you modify any package, making development & testing slower
-than simply `yarn link`.  For cases where speed is needed, you may use `yarn
-link` but beware that you must know what you are doing because `yarn link` may
+than simply `yarn link`. For cases where speed is needed, you may use `yarn link` but beware that you must know what you are doing because `yarn link` may
 completely break node's resolution algorithm as it diverts resolution of
 dependencies of linked packages to their own folder locations, which usually
 leads to unpredictable results.
@@ -108,8 +105,7 @@ The only moments when you need to switch back to using the public registry are:
 #### Case 1
 
 Case 1 will usually happen at the end of a pull request preparation. Whenever
-we change dependencies in `liferay-frontend-projects`, we must run `yarn
-install` so that `yarn.lock` is updated and we can commit the modified version.
+we change dependencies in `liferay-frontend-projects`, we must run `yarn install` so that `yarn.lock` is updated and we can commit the modified version.
 
 However, `yarn.lock` files hold information about the registry from where the
 packages are downloaded. If you run `yarn install` when your machine is
@@ -167,7 +163,7 @@ Perico has two options:
 Perico is a smart guy so he chooses 2. The development workflow would go like
 this:
 
-1. Fix `portal-base` 
+1. Fix `portal-base`
 2. Run `local-npm publish` inside `portal-base`, which pushes a new version of
    that package to the local npm registry.
 3. Run `liferay new test-project` to generate a test project that will use
