@@ -50,6 +50,7 @@
 		"liferay-npm-bridge-generator": "2.24.2",
 		"liferay-npm-bundler": "2.24.2",
 		"liferay-npm-bundler-loader-css-loader": "2.24.2",
+		"liferay-npm-bundler-loader-json-loader": "2.24.2",
 		"liferay-npm-bundler-plugin-exclude-imports": "2.24.2",
 		"liferay-npm-bundler-plugin-inject-imports-dependencies": "2.24.2",
 		"liferay-npm-bundler-plugin-inject-peer-dependencies": "2.24.2",
