@@ -14,6 +14,7 @@ module.exports = {
 	'no-abbreviations': require('./lib/rules/no-abbreviations'),
 	'no-absolute-import': require('./lib/rules/no-absolute-import'),
 	'no-arrow': require('./lib/rules/no-arrow'),
+	'no-conditional-object-keys': require('./lib/rules/no-conditional-object-keys'),
 	'no-duplicate-class-names': require('./lib/rules/no-duplicate-class-names'),
 	'no-duplicate-imports': require('./lib/rules/no-duplicate-imports'),
 	'no-dynamic-require': require('./lib/rules/no-dynamic-require'),
