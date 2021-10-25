@@ -17,8 +17,9 @@
     "web": "http://twitter.com/davegandy"
   },
   "repository": {
+    "directory": "third-party/projects/alloy-font-awesome",
     "type": "git",
-    "url": "https://github.com/FortAwesome/Font-Awesome.git"
+    "url": "https://github.com/liferay/liferay-frontend-projects.git"
   },
   "contributors": [
     {
