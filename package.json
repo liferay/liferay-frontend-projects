@@ -31,7 +31,7 @@
 		"mem-fs": "^1.2.0",
 		"mem-fs-editor": "^7.0.1",
 		"prettier": "2.1.2",
-		"sinon": "^9.2.1",
+		"sinon": "^11.1.2",
 		"strip-ansi": "^6.0.0",
 		"terser-webpack-plugin": "^5.0.3",
 		"ts-jest": "^26.4.1",
