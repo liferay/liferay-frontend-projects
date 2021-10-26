@@ -9,9 +9,9 @@ A Target Platform is a single `npm` dependency that you may use in your
 JavaScript projects to have all needed dependencies and tools to deploy it in a
 specific release of Liferay CE Portal or DXP.
 
-The Target Platform takes care of all configuration details for you you, so
-that you don't need to bother about dependency numbers or configuring the parts
-of the build that can be inferred from the target version of Liferay CE
+The Target Platform takes care of all configuration details for you, so that
+you don't need to bother about dependency numbers or configuring the parts of
+the build that can be inferred from the target version of Liferay CE
 Portal/DXP.
 
 ## Supported Target Platforms
@@ -29,20 +29,21 @@ ones that are listed here:
     adapting native React projects for deployment to Liferay.
 -   `portal-adapt-vue-cli`: a special target platform that is used when adapting
     native Vue.js projects for deployment to Liferay.
--   `portal-agnostic`: a target platform to avoid coupling of the project with any
+-   `portal-agnostic`: a target platform to avoid coupling of the project with
+-   any
     specific Liferay version.
 -   `portal-master`: an internal target platform used by this project to be able
     to target current development version of Liferay Portal.
 
 ## How to use Target Platforms
 
-Target platforms are usually set as a npm dependency in projects created by the
+Target platforms are provided as a npm dependency in projects created with the
 [`@liferay/cli` tool](https://github.com/izaera/liferay-frontend-projects/blob/doc-toolkit-3/projects/js-toolkit/packages/liferay-cli).
 They provide all dependencies needed to build, deploy and run the project when
 targeting the selected platform.
 
-That means you don't need to do anything specific to use them. You just will
-because `@liferay/cli` will inject them in your projects.
+That means you don't need to do anything specific to use them. `@liferay/cli`
+will inject all Liferay dependencies needed in your projects.
 
 ### A note about contents of target platforms
 
@@ -50,7 +51,8 @@ Among other things, target platforms contain:
 
 -   The npm dependencies: for example
     [these ones](https://github.com/izaera/liferay-frontend-projects/blob/doc-toolkit-3/target-platforms/packages/portal-7.4-ga1/package.json#L5-L131).
--   The `liferay-npm-bundler` configuration used to build the project: for example
+-   The `liferay-npm-bundler` configuration used to build the project: for
+-   example
     [this one](https://github.com/izaera/liferay-frontend-projects/blob/doc-toolkit-3/target-platforms/packages/portal-7.4-ga1/config.json).
 -   The `liferay.js` file that will be invoked by the `@liferay/cli` to delegate
     its tasks to the target platform: for example
@@ -75,5 +77,5 @@ Two examples of those shared projects are:
 We may add or refactor these shared projects in the future, depending on how
 the list of target platforms and types evolve but, thanks to the `@liferay/cli`
 delegation and the `liferay.js` files contained inside target platforms, nobody
-will ever be affected by those changes, as they will happen transparently to
-the projects using the target platforms.
+should be affected by those changes, as they will happen transparently to the
+projects using the target platforms.

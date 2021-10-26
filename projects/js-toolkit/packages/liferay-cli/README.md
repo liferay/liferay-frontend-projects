@@ -3,8 +3,8 @@
 This project hosts the Liferay JS Toolkit CLI Tool.
 
 Inspired by other frameworks, like React, Angular, or Vue.js, the Liferay JS
-Toolkit is providing a unifying CLI tool to invoke all implemented features,
-like project generation, build, deployment, etc.
+Toolkit provides a CLI tool to invoke all implemented features, like project
+generation, build, deployment, etc.
 
 > 👀 Note that this tool still uses the JS Toolkit under the hood, so please
 > refer to
@@ -13,18 +13,15 @@ like project generation, build, deployment, etc.
 
 ## Installation
 
-The `@liferay/cli` tool may be installed globally using `npm install -g` or
-`yarn global add`, to make it available from the command line.
+The `@liferay/cli` tool may be installed globally using `npm install -g @liferay/cli` or `yarn global add @liferay/cli`, to make it available from the
+command line.
 
 However, if you don't want to mess with global installations, you can also run
-it using `npx`. This ensures that you always use the latest version, and won't
-install it locally.
+it using `npx @liferay/cli ...`. This ensures that you always use the latest
+version, and won't install it locally.
 
-So, to run it, just type `npx @liferay/cli ...` in your command line and you are
-good to go.
-
-Alternatively, if you decide to install it globally, simple invoke `liferay`
-from the command line, which is the name of the
+If you install globally, simple invoke `liferay` from the command line, which
+is the name of the
 [binary provided by `@liferay/cli`](https://github.com/liferay/liferay-frontend-projects/blob/master/projects/js-toolkit/packages/liferay-cli/bin/liferay.js).
 
 ## Available actions
@@ -39,16 +36,12 @@ Currently, the `@liferay/cli` tool supports the following features:
 
 ## Project generation
 
-Project generation lets you create new projects for the main existing
-frameworks:
+Project generation lets you create new projects for the following
+frameworks[^1]:
 
 -   [React](https://reactjs.org/)
 -   [Angular](https://angular.io/)
 -   [Vue.js](https://vuejs.org/)
-
-We try to always support the latest version of these frameworks but, given the
-fast pace at which they evolve, there may be some lag between the time when a
-framework's version is published and the time `@liferay/cli` supports it.
 
 > 👀 This feature is a replacement of the
 > [older Yeoman Liferay JavaScript generator](https://github.com/liferay/liferay-frontend-projects/tree/master/maintenance/projects/js-toolkit/packages/generator-liferay-js)
@@ -88,31 +81,18 @@ local to the project).
 Note that, if you don't want to couple your project to any version of
 Liferay Portal, you may choose to use the
 [`portal-agnostic`](https://github.com/liferay/liferay-frontend-projects/tree/master/target-platforms/packages/portal-agnostic)
-target platform. Choosing that platform your project will not be injected any of
-the packages that come bundled with Liferay Portal.
+target platform. By choosing the agnostic platform your project will not be
+injected with any of the packages that come bundled with Liferay Portal.
 
 ## Project adaptation
 
 Project adaptation lets you transform you native React, Angular and Vue.js
-projects into Liferay widgets that you can deploy to your Liferay Portal
-instance.
-
-We try to always support the latest version of the three frameworks mentioned
-above but, given the fast pace at which they evolve, there may be some lag
-between the time when a framework's version is published and the time
-`@liferay/cli` supports it.
+projects[^1] into Liferay widgets that you can deploy to your Liferay Portal
+instance[^2].
 
 > 👀 This feature is a replacement of the
 > [older Yeoman Liferay JavaScript generator](https://github.com/liferay/liferay-frontend-projects/tree/master/maintenance/projects/js-toolkit/packages/generator-liferay-js)
 > but it doesn't rely on Yeoman any more.
->
-> Also note that adaptation is a best effort heuristic process so don't expect
-> every native framework functionality to work when a project is adapted.
->
-> This is mainly due to the fact that there's some mismatch between these
-> frameworks' application model (they assume a SPA deployed as a single webapp)
-> and the one of Liferay, that assumes that many unrelated portlets cooperate
-> together to produce a single HTML page.
 
 ### Usage
 
@@ -209,8 +189,8 @@ that by inspecting your project's `package.json` file).
 ## Internal architecture
 
 The big majority of `@liferay/cli`'s source code is devoted to project
-generation and adaptation, that is what previously was the Yeoman generator of
-JS Toolkit.
+generation and adaptation, this what previously located in our Yeoman
+generator.
 
 The rest of the commands (those used on generated/adapted projects) are simply
 delegated to the selected target platform (see
@@ -221,8 +201,23 @@ looks inside your project's `node_modules` folder to locate the selected target
 platform and invoke it to do its duties.
 
 This eases maintenance and evolution of `@liferay/cli` because we don't need to
-maintain a huge monolyth of code targeting disparate targets.
+maintain a huge monolith of code targeting disparate targets.
 
 To gain more insights on target platforms and what they are intended for, you
 may have a look at
 [their project directory](https://github.com/liferay/liferay-frontend-projects/tree/master/target-platforms).
+
+---
+
+[^1]:
+    We aim to support the latest version of these frameworks but, given the
+    fast pace at which they evolve, there may be some lag between the time when a
+    framework's version is published and the time `@liferay/cli` supports it.
+
+[^2]:
+    Note that adaptation is a best effort heuristic process so don't expect
+    every native framework functionality to work when a project is adapted. This
+    is mainly due to the fact that there's some mismatch between these
+    frameworks' application model (they assume a SPA deployed as a single webapp)
+    and the one of Liferay, that assumes that many unrelated portlets cooperate
+    together to produce a single HTML page.
