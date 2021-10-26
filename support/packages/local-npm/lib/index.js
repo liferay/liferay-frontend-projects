@@ -94,7 +94,7 @@ function publish(projects) {
 
 		console.log(`       ${pkgId}`);
 
-		run('npm', 'unpublish', pkgId);
+		run('npm', 'unpublish', pkgId, {lenient: true});
 		run('yarn', 'cache', 'clean', pkgId);
 	});
 
@@ -150,6 +150,7 @@ function registrySet(which) {
 
 function run(cmd, ...args) {
 	let options = {
+		lenient: false, // set to true to ignore error return codes
 		shell: true,
 		stdio: 'pipe',
 	};
@@ -171,7 +172,7 @@ function run(cmd, ...args) {
 		process.exit(1);
 	}
 
-	if (result.status !== 0) {
+	if (!options.lenient && result.status !== 0) {
 		if (result.stdout) {
 			console.error(result.stdout.toString());
 			console.error(result.stderr.toString());
