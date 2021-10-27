@@ -7,8 +7,7 @@ import chalk from 'chalk';
 import {spawn} from 'child_process';
 import chokidar from 'chokidar';
 import {Command} from 'commander';
-import {existsSync} from 'fs';
-import {mkdir, readFile, writeFile} from 'fs/promises';
+import * as fs from 'fs';
 import glob from 'glob';
 import http from 'http';
 import httpProxy from 'http-proxy';
@@ -16,10 +15,15 @@ import open from 'open';
 import {tmpdir} from 'os';
 import {basename, dirname, extname, join, resolve} from 'path';
 import pkgUp from 'pkg-up';
+import {promisify} from 'util';
 
 import setupReload from './reload';
 import title from './title';
 import {getRequestLogger, log} from './util/log';
+
+const mkdir = promisify(fs.mkdir);
+const readFile = promisify(fs.readFile);
+const writeFile = promisify(fs.writeFile);
 
 const IGNORED_PATHS = [
 	'build',
@@ -42,7 +46,7 @@ function isHTMLResponse(response: http.IncomingMessage): boolean {
 
 function findPortalRoot(directory: string): string {
 	while (directory) {
-		if (existsSync(join(directory, 'yarn.lock'))) {
+		if (fs.existsSync(join(directory, 'yarn.lock'))) {
 			const base = basename(directory);
 
 			if (base === 'modules') {
@@ -101,7 +105,7 @@ async function getModulePaths(
 		modulePaths.set(moduleInfo.name, resolve(cwd, dirname(module)));
 	}
 
-	if (!existsSync(mappingsTmpDirPath)) {
+	if (!fs.existsSync(mappingsTmpDirPath)) {
 		await mkdir(mappingsTmpDirPath);
 	}
 
