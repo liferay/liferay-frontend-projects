@@ -7,8 +7,7 @@ import chalk from 'chalk';
 import {spawn} from 'child_process';
 import chokidar from 'chokidar';
 import {Command} from 'commander';
-import {existsSync} from 'fs';
-import {mkdir, readFile, writeFile} from 'fs/promises';
+import fs, {existsSync} from 'fs';
 import glob from 'glob';
 import http from 'http';
 import httpProxy from 'http-proxy';
@@ -16,10 +15,15 @@ import open from 'open';
 import {tmpdir} from 'os';
 import {basename, dirname, extname, join, resolve} from 'path';
 import pkgUp from 'pkg-up';
+import {promisify} from 'util';
 
 import setupReload from './reload';
 import title from './title';
 import {getRequestLogger, log} from './util/log';
+
+const mkdir = promisify(fs.mkdir);
+const readFile = promisify(fs.readFile);
+const writeFile = promisify(fs.writeFile);
 
 const IGNORED_PATHS = [
 	'build',
