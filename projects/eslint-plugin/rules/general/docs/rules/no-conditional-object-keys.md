@@ -7,54 +7,30 @@ This rule enforces that engineers don't use a truthy or falsy value that `Object
 Examples of **incorrect** code for this rule:
 
 ```js
+if (Object.keys({foo: 'bar'})) {
+	// do your magic
+}
+
 if (!Object.keys({foo: 'bar'})) {
 	// do your magic
 }
-```
 
-or
-
-```js
 !!Object.keys({foo: 'bar'}) && 'test';
-```
 
-or
-
-```js
 const negatedObjectKeys = !Object.keys({foo: 'bar'});
-```
 
-or
-
-```js
 !Object.keys({foo: 'bar'}) && true;
 ```
 
 Examples of **correct** code for this rule:
 
 ```js
-if (Object.keys({foo: 'bar'})) {
-	// do your magic
-}
-```
-
-or
-
-```js
 if (Object.keys({foo: 'bar'}).length) {
 	// do your magic
 }
-```
 
-or
-
-```js
 Object.keys({foo: 'bar'}) && 'test';
-```
 
-or
-
-```js
 if (Object.keys({foo: 'bar'}).find((i) => true)) {
 	// do your magic
 }
