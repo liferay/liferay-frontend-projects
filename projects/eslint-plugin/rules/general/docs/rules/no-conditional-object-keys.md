@@ -29,7 +29,7 @@ if (Object.keys({foo: 'bar'}).length) {
 	// do your magic
 }
 
-Object.keys({foo: 'bar'}) && 'test';
+Object.keys({foo: 'bar'}).length && 'test';
 
 if (Object.keys({foo: 'bar'}).find((i) => true)) {
 	// do your magic
