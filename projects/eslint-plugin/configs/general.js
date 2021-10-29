@@ -102,6 +102,7 @@ const config = {
 		'@liferay/no-abbreviations': 'error',
 		'@liferay/no-absolute-import': 'error',
 		'@liferay/no-anonymous-exports': 'error',
+		'@liferay/no-conditional-object-keys': 'error',
 		'@liferay/no-duplicate-imports': 'error',
 		'@liferay/no-dynamic-require': 'error',
 		'@liferay/no-get-data-attribute': 'error',
