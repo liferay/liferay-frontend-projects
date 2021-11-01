@@ -5,7 +5,7 @@
 	},
 	"description": "Liferay's Frontend Infrastructure Team monorepo",
 	"devDependencies": {
-		"@babel/preset-env": "^7.4.2",
+		"@babel/preset-env": "^7.16.0",
 		"@cnakazawa/watch": "^1.0.4",
 		"@types/ejs": "3.0.4",
 		"@types/escodegen": "0.0.6",
