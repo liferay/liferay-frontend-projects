@@ -5,6 +5,8 @@
 
 module.exports = {
 	create(context) {
+		const sourceCode = context.getSourceCode();
+
 		return {
 			CallExpression(node) {
 				if (
@@ -21,16 +23,31 @@ module.exports = {
 
 					const argumentName = argumentValue.replace('data-', '');
 
+					const replacementString = argumentName.includes('-')
+						? `['${argumentName}']`
+						: '.' + argumentName;
 					context.report({
 						fix: (fixer) => {
 							if (node.callee.object.type === 'Identifier') {
 								return fixer.replaceText(
 									node,
-									`${node.callee.object.name}.dataset.${argumentName}`
+									`${node.callee.object.name}.dataset${replacementString}`
+								);
+							}
+							else if (
+								node.callee.object.type === 'MemberExpression'
+							) {
+								const memberExpressionString = sourceCode.getText(
+									node.callee.object
+								);
+
+								return fixer.replaceText(
+									node,
+									`${memberExpressionString}.dataset${replacementString}`
 								);
 							}
 						},
-						message: `Use "dataset.${argumentName}" instead of "getAttribute('${argumentValue}')"`,
+						message: `Use "dataset${replacementString}" instead of "getAttribute('${argumentValue}')"`,
 						node: node.callee.property,
 					});
 				}
