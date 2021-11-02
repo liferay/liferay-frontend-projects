@@ -25,8 +25,8 @@ module.exports = {
 				if (
 					node &&
 					node.value &&
-					typeof node.value.includes === 'function' &&
-					node.value.includes('localhost')
+					typeof node.value === 'string' &&
+					node.value.indexOf('localhost') !== -1
 				) {
 					context.report({
 						message: DESCRIPTION,
