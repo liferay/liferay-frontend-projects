@@ -10,8 +10,9 @@
   },
   "license": "BSD",
   "repository": {
+    "directory": "third-party/projects/alloy-ui",
     "type": "git",
-    "url": "git@github.com:liferay/alloy-ui.git"
+    "url": "https://github.com/liferay/liferay-frontend-projects.git"
   },
   "keywords": [
     "alloy",

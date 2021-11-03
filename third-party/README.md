@@ -1,5 +1,13 @@
 # Projects
 
+## Alloy UI
+
+-   Upstream project: https://github.com/liferay/alloy-ui
+-   Base version used by Liferay: [alloy-ui/3.1.0-deprecated.86](https://github.com/liferay/alloy-ui/releases/tag/3.1.0-deprecated.86)
+-   Changelog showing Liferay changes: [`CHANGELOG.md`](./projects/alloy-ui/CHANGELOG.md).
+-   Our package name: `alloy-ui`
+-   Usage site in Liferay DXP: [`frontend-js-aui-web`](https://github.com/liferay/liferay-portal/blob/master/modules/apps/frontend-js/frontend-js-aui-web/build.gradle#L10)
+
 ## jquery-form
 
 -   Upstream project: https://github.com/jquery-form/form
