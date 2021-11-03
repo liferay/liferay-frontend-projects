@@ -1,0 +1,22 @@
+{
+    "name": "aui-collection",
+    "builds": {
+        "aui-map": {
+            "jsfiles": [
+                "js/aui-map.js"
+            ]
+        },
+
+        "aui-set": {
+            "jsfiles": [
+                "js/aui-set.js"
+            ]
+        },
+
+        "aui-linkedset": {
+            "jsfiles": [
+                "js/aui-linkedset.js"
+            ]
+        }
+    }
+}

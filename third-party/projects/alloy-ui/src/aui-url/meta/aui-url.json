@@ -1,0 +1,9 @@
+{
+    "aui-url": {
+        "requires": [
+            "oop",
+            "querystring-parse",
+            "querystring-stringify"
+        ]
+    }
+}

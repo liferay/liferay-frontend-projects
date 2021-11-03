@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="stylesheet" href="../../build/aui-css/css/bootstrap.css">
+    <script src="../../build/aui/aui.js"></script>
+</head>
+<body>
+    <h1>AlloyUI - Diagram builder</h1>
+    <div id="diagrambuilderBB" class="diagram-builder">
+        <div id="diagrambuilderCB" class="diagram-builder-content">
+
+            <div class="tabbable">
+                <div class="tabbable-content">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="javascript:;">Add node</a></li>
+                        <li><a href="javascript:;">Settings</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane"></div>
+                        <div class="tab-pane"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="diagram-builder-content-container">
+                <div class="diagram-builder-canvas">
+                    <div class="diagram-builder-drop-container"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script>
+    YUI({ filter:'raw' }).use('aui-diagram-builder', function(Y) {
+
+        var availableFields = [
+            {
+                type: 'task',
+                label: 'Task',
+                iconClass: 'diagram-node-task-icon'
+            },
+            {
+                type: 'state',
+                label: 'State',
+                iconClass: 'diagram-node-state-icon'
+            },
+            {
+                type: 'join',
+                label: 'Join',
+                iconClass: 'diagram-node-join-icon'
+            },
+            {
+                type: 'fork',
+                label: 'Fork',
+                iconClass: 'diagram-node-fork-icon'
+            },
+
+            {
+                type: 'start',
+                label: 'Start',
+                iconClass: 'diagram-node-start-icon'
+            },
+            {
+                type: 'end',
+                label: 'End',
+                iconClass: 'diagram-node-end-icon'
+            },
+            {
+                type: 'condition',
+                label: 'Condition',
+                iconClass: 'diagram-node-condition-icon'
+            }
+        ];
+
+        new Y.DiagramBuilder({
+            availableFields: availableFields,
+            boundingBox: '#diagrambuilderBB',
+            srcNode: '#diagrambuilderCB',
+            fields: [
+                {
+                    name: 'StartNode0',
+                    type: 'start',
+                    xy: [10, 10]
+                },
+                {
+                    name: 'Condition0',
+                    type: 'condition',
+                    xy: [100, 100]
+                },
+                {
+                    name: 'State0',
+                    type: 'state',
+                    xy: [250, 100]
+                },
+                {
+                    name: 'Join0',
+                    type: 'join',
+                    xy: [100, 300]
+                },
+                {
+                    name: 'Task0',
+                    type: 'task',
+                    xy: [400, 100]
+                },
+                {
+                    name: 'Fork0',
+                    type: 'fork',
+                    xy: [400, 300]
+                },
+                {
+                    name: 'EndNode0',
+                    type: 'end',
+                    xy: [600, 10]
+                }
+            ]
+        }).render();
+
+    });
+    </script>
+</body>
+</html>

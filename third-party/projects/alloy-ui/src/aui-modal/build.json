@@ -1,0 +1,16 @@
+{
+    "name": "aui-modal",
+    "builds": {
+        "aui-modal": {
+            "jsfiles": [
+                "js/aui-modal.js"
+            ]
+        },
+
+        "aui-modal-resize": {
+            "jsfiles": [
+                "js/aui-modal-resize.js"
+            ]
+        }
+    }
+}

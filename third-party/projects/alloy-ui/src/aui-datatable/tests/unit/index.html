@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>aui-datatable</title>
+
+    <link rel="stylesheet" href="../../../../build/aui-css/css/bootstrap.css">
+
+    <script src="../../../../build/aui/aui.js"></script>
+    <script src="js/tests.js"></script>
+    <meta charset="utf-8" />
+</head>
+<body class="yui3-skin-sam">
+
+<div id="logger"></div>
+<h1>AlloyUI - Datatable</h1>
+<div id="simple" class="table-striped"></div>
+
+<div id="datatable" class="table-striped"></div>
+
+<script>
+YUI({
+    coverage: ['aui-datatable'],
+    filter: (window.location.search.match(/[?&]filter=([^&]+)/) || [])[1] || 'raw'
+}).use('test-console', 'test', 'aui-datatable-tests', function(Y) {
+
+    (new Y.Test.Console()).render('#logger');
+
+    Y.Test.Runner.setName('aui-datatable');
+    Y.Test.Runner.run();
+});
+</script>
+</body>
+</html>

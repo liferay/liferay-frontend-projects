@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../build/aui-css/css/bootstrap.css">
+    <script src="../../build/aui/aui.js"></script>
+</head>
+
+<body class="yui3-skin-sam">
+
+<div id="wrapper">
+    <h1>Alloy - Palette</h1>
+
+    <h3>Palette</h3>
+    <div id="palette"></div>
+</div>
+
+<script>
+    YUI({ filter:'raw' }).use('aui-palette', function(Y) {
+
+        var palette = new Y.Palette({
+            items: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ],
+            on: {
+                enter: function(event) {
+                    Y.log(event.type);
+                },
+                leave: function(event) {
+                    Y.log(event.type);
+                },
+                select: function(event) {
+                    Y.log(event.type);
+                },
+                unselect: function(event) {
+                    Y.log(event.type);
+                }
+            },
+            toggleSelection: false
+        }).render('#palette');
+
+    });
+</script>
+
+</body>
+</html>

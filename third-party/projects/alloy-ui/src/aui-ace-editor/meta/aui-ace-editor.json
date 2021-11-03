@@ -1,0 +1,42 @@
+{
+    "aui-ace-editor": {
+        "requires": [
+            "aui-node",
+            "aui-component"
+        ]
+    },
+    "aui-ace-autocomplete-base": {
+    	"requires": [
+            "aui-ace-editor"
+        ]
+    },
+    "aui-ace-autocomplete-templateprocessor": {
+        "requires": [
+            "aui-ace-autocomplete-base"
+        ]
+    },
+    "aui-ace-autocomplete-freemarker": {
+    	"requires": [
+            "aui-ace-autocomplete-templateprocessor"
+        ]
+    },
+    "aui-ace-autocomplete-velocity": {
+        "requires": [
+            "aui-ace-autocomplete-templateprocessor"
+        ]
+    },
+    "aui-ace-autocomplete-list": {
+    	"requires": [
+            "aui-ace-autocomplete-base",
+            "overlay",
+            "widget-autohide"
+        ],
+        "skinnable": true
+    },
+    "aui-ace-autocomplete-plugin": {
+    	"requires": [
+            "aui-ace-autocomplete-list",
+            "plugin"
+        ]
+    }
+}

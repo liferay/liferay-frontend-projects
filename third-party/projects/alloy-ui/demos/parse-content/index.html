@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title></title>
+	<link rel="stylesheet" href="../../build/aui-css/css/bootstrap.css">
+	<script src="../../build/aui/aui.js"></script>
+</head>
+<body>
+<h1>AlloyUI - Parse content</h1>
+<div id="temp1"></div>
+<div class="label label-important hide" id="missing">
+	<b>Response with empty element did not load.</b>
+</div>
+<div id="temp2"></div>
+<script>
+	var index = 0;
+
+	YUI({ filter:'raw' }).use('aui-parse-content', function(Y) {
+
+		var node1 = Y.one('#temp1');
+		var node2 = Y.one('#temp2');
+
+		node1.plug(Y.Plugin.ParseContent);
+		node2.plug(Y.Plugin.ParseContent);
+
+		Y.io('assets/content.html', {
+			on: {
+				success: function(id, o) {
+					node1.setContent(o.responseText);
+				}
+			}
+		});
+
+    	Y.io('assets/blank-content-script.html', {
+    		on: {
+    			success: function(id, o) {
+    				node2.setContent(o.responseText);
+
+    				setTimeout(function() {
+						if (!window.EMPTY_EL_SCRIPT_LOADED) {
+							Y.one('#missing').show();
+						}
+                    }, 500);
+    			}
+    		}
+    	});
+    });
+</script>
+</body>
+</html>

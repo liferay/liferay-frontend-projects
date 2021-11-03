@@ -1,0 +1,14 @@
+{
+    "aui-aria": {
+        "requires": [
+            "plugin",
+        	"aui-component"
+        ]
+    },
+
+    "aui-aria-table-sortable": {
+        "requires": [
+            "aui-aria"
+        ]
+    }
+}

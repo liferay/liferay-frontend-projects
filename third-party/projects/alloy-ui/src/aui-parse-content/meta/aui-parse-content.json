@@ -1,0 +1,11 @@
+{
+    "aui-parse-content": {
+        "requires": [
+            "async-queue",
+            "plugin",
+            "io-base",
+            "aui-component",
+            "aui-node-base"
+        ]
+    }
+}

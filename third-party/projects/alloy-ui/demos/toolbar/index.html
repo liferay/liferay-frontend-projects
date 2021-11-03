@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="stylesheet" href="../../build/aui-css/css/bootstrap.css">
+    <script src="../../build/aui/aui.js"></script>
+    <style>
+        #checkgroup4 {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>AlloyUI - Toolbar</h1>
+    <h2>Horizontal</h2>
+    <p>
+        <div id="toolbar1" class="btn-toolbar">
+            <button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-print"></span></button>
+            <button class="btn btn-default btn-xs" type="button">Typed button</button>
+            <div id="checkgroup1" class="btn-group btn-group-checkbox">
+                <button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-bold"></span></button>
+                <button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-italic"></span></button>
+                <button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-font"></span></button>
+            </div>
+            <div id="radiogroup1" class="btn-group btn-group-radio">
+                <button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-align-left"></span></button>
+                <button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-align-center"></span></button>
+                <button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-align-right"></span></button>
+                <button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-align-justify"></span></button>
+            </div>
+        </div>
+    </p>
+    <p>
+        <div id="toolbar2" class="btn-toolbar">
+            <button class="btn btn-default"><span class="glyphicon glyphicon-print"></span></button>
+            <div id="checkgroup2" class="btn-group btn-group-checkbox">
+                <button class="btn btn-default"><span class="glyphicon glyphicon-bold"></span></button>
+                <button class="btn btn-default"><span class="glyphicon glyphicon-italic"></span></button>
+                <button class="btn btn-default"><span class="glyphicon glyphicon-font"></span></button>
+            </div>
+            <div id="radiogroup2" class="btn-group btn-group-radio">
+                <button class="btn btn-default"><span class="glyphicon glyphicon-align-left"></span></button>
+                <button class="btn btn-default"><span class="glyphicon glyphicon-align-center"></span></button>
+                <button class="btn btn-default"><span class="glyphicon glyphicon-align-right"></span></button>
+                <button class="btn btn-default"><span class="glyphicon glyphicon-align-justify"></span></button>
+            </div>
+        </div>
+    </p>
+    <p>
+        <div id="toolbar3" class="btn-toolbar">
+            <button class="btn btn-default btn-lg"><span class="glyphicon glyphicon-print"></span></button>
+            <div id="checkgroup3" class="btn-group btn-group-checkbox">
+                <button class="btn btn-default btn-lg"><span class="glyphicon glyphicon-bold"></span></button>
+                <button class="btn btn-default btn-lg"><span class="glyphicon glyphicon-italic"></span></button>
+                <button class="btn btn-default btn-lg"><span class="glyphicon glyphicon-font"></span></button>
+            </div>
+            <div id="radiogroup3" class="btn-group btn-group-radio">
+                <button class="btn btn-default btn-lg"><span class="glyphicon glyphicon-align-left"></span></button>
+                <button class="btn btn-default btn-lg"><span class="glyphicon glyphicon-align-center"></span></button>
+                <button class="btn btn-default btn-lg"><span class="glyphicon glyphicon-align-right"></span></button>
+                <button class="btn btn-default btn-lg"><span class="glyphicon glyphicon-align-justify"></span></button>
+            </div>
+        </div>
+    </p>
+    <h2>Vertical</h2>
+    <div id="vertical" class="btn-toolbar">
+        <div id="checkgroup4" class="btn-group-checkbox btn-group-vertical">
+            <button class="btn btn-default"><span class="glyphicon glyphicon-bold"></span></button>
+            <button class="btn btn-default"><span class="glyphicon glyphicon-italic"></span></button>
+            <button class="btn btn-default"><span class="glyphicon glyphicon-font"></span></button>
+        </div>
+        <div id="radiogroup4" class="btn-group-radio btn-group-vertical">
+            <button class="btn btn-default"><span class="glyphicon glyphicon-align-left"></span></button>
+            <button class="btn btn-default"><span class="glyphicon glyphicon-align-center"></span></button>
+            <button class="btn btn-default"><span class="glyphicon glyphicon-align-right"></span></button>
+            <button class="btn btn-default"><span class="glyphicon glyphicon-align-justify"></span></button>
+        </div>
+    </div>
+    <h2>From JavaScript</h2>
+    <div id="toolbarjs1"></div><br>
+    <div id="toolbarjs2"></div>
+    <div class="hide">
+        <div id="btngroupjs" class="btn-group btn-group-radio">
+            <button class="btn btn-default"><span class="glyphicon glyphicon-align-left"></span></button>
+            <button class="btn btn-default"><span class="glyphicon glyphicon-align-center"></span></button>
+            <button class="btn btn-default"><span class="glyphicon glyphicon-align-right"></span></button>
+            <button class="btn btn-default"><span class="glyphicon glyphicon-align-justify"></span></button>
+        </div>
+    </div>
+    <script>
+    YUI({ filter: 'raw' }).use('aui-toolbar', function(Y) {
+
+        console.time('How long does it take?');
+
+        new Y.Toolbar({
+            boundingBox: '#toolbar1',
+            on: {
+                click: function(event) {
+                    var widget = this.getEnclosingWidget(event);
+
+                    if (Y.instanceOf(widget, Y.Button)) {
+                        Y.log(widget.getNode());
+                    }
+                    else if (Y.instanceOf(widget, Y.ButtonGroup)) {
+                        Y.log(widget.getSelectedButtons());
+                    }
+                }
+            }
+        }).render();
+
+        new Y.Toolbar({
+            boundingBox: '#toolbar2'
+        }).render();
+
+        new Y.Toolbar({
+            boundingBox: '#toolbar3'
+        }).render();
+
+        new Y.Toolbar({
+            boundingBox: '#vertical'
+        }).render();
+
+        new Y.Toolbar({
+            boundingBox: '#toolbarjs1',
+            children: [
+                [
+                    { label: 'Button' },
+                    {
+                        domType: 'button',
+                        label: 'Typed button'
+                    },
+                ],
+                [
+                    {
+                        icon: 'glyphicon glyphicon-camera',
+                        label: '12345',
+                        on: {
+                            click: function(event) {
+                                Y.log(event);
+                            }
+                        }
+                    },
+                    { icon: 'glyphicon glyphicon-print' }
+                ],
+                [
+                    'radio',
+                    {
+                        icon: 'glyphicon glyphicon-facetime-video',
+                        label: '1'
+                    },
+                    { label: '2' },
+                    { label: '3' }
+                ],
+                [
+                    'checkbox',
+                    { icon: 'glyphicon glyphicon-bold' },
+                    { icon: 'glyphicon glyphicon-italic' },
+                    { icon: 'glyphicon glyphicon-font' }
+                ],
+                [
+                    'radio',
+                    'vertical',
+                    { icon: 'glyphicon glyphicon-align-left' },
+                    { icon: 'glyphicon glyphicon-align-center' },
+                    { icon: 'glyphicon glyphicon-align-right' },
+                    { icon: 'glyphicon glyphicon-align-justify' }
+                ]
+            ]
+        }).render();
+
+        new Y.Toolbar({
+            boundingBox: '#toolbarjs2',
+            children: [
+                new Y.ButtonGroup({
+                    boundingBox: '#btngroupjs',
+                    render: true
+                }),
+                [
+                    'checkbox', // Button group type
+                    'vertical', // Button display orientation
+                    { icon: 'glyphicon glyphicon-camera' },
+                    { icon: 'glyphicon glyphicon-print' }
+                ],
+                [ /*empty button group*/ ],
+                [
+                    new Y.Button({
+                        label: 'From constructor'
+                    }),
+                    new Y.ToggleButton({
+                        label: 'Toggle button'
+                    })
+                ],
+                [ /*empty button group*/ ],
+                [ /*empty button group*/ ],
+                {
+                    cssClass: 'btn-info btn-large',
+                    icon: 'glyphicon glyphicon-print',
+                    iconAlign: 'right',
+                    label: 'Large from plain object',
+                    on: {
+                        click: function(event) {
+                            Y.log(event);
+                        }
+                    }
+                }
+            ]
+        }).render();
+
+        console.timeEnd('How long does it take?');
+
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+{
+    "aui-base": {
+        "use": [
+            "oop",
+            "yui-throttle",
+            "aui-classnamemanager",
+            "aui-debounce",
+            "aui-base-core",
+            "aui-base-lang",
+            "aui-node-base"
+        ]
+    },
+
+    "aui-base-deprecated": {
+        "use": [
+            "aui-base",
+            "aui-node",
+            "aui-component",
+            "aui-delayed-task-deprecated",
+            "aui-selector",
+            "aui-event-base"
+        ]
+    },
+
+    "aui-base-core": {
+    },
+
+    "aui-base-html5-shiv": {
+         "condition": {
+            "name": "aui-base-html5-shiv",
+            "trigger": "node-base",
+            "ua": "ie"
+        }
+    },
+
+    "aui-base-lang": {
+    }
+}

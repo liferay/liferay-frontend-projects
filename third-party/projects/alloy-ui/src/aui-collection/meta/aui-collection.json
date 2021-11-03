@@ -1,0 +1,27 @@
+{
+    "aui-collection": {
+        "use": [
+            "aui-map",
+            "aui-set",
+            "aui-linkedset"
+        ]
+    },
+
+    "aui-map": {
+        "requires": [
+            "base-build"
+        ]
+    },
+
+    "aui-set": {
+        "requires": [
+            "aui-map"
+        ]
+    },
+
+    "aui-linkedset": {
+        "requires": [
+            "aui-set"
+        ]
+    }
+}

@@ -1,0 +1,137 @@
+{
+    "aui-datatable": {
+        "use": [
+            "aui-datatable-edit",
+            "aui-datatable-highlight",
+            "aui-datatable-selection",
+            "aui-datatable-property-list"
+        ]
+    },
+
+    "aui-datatable-body": {
+        "requires": [
+            "aui-classnamemanager",
+            "datatable-base",
+            "event-key",
+            "aui-event-base"
+        ]
+    },
+
+    "aui-datatable-core": {
+        "requires": [
+            "aui-datatable-body",
+            "datatable-base",
+            "event-key",
+            "aui-event-base"
+        ],
+        "skinnable": true
+    },
+
+    "aui-datatable-base-cell-editor": {
+        "requires": [
+            "datatable-base",
+            "overlay"
+        ],
+        "skinnable": true
+    },
+
+    "aui-datatable-base-options-cell-editor": {
+        "requires": [
+            "aui-datatable-base-cell-editor",
+            "escape"
+        ],
+        "skinnable": true
+    },
+
+    "aui-datatable-checkbox-cell-editor": {
+        "requires": [
+            "aui-datatable-base-options-cell-editor"
+        ]
+    },
+
+    "aui-datatable-date-cell-editor": {
+        "requires": [
+            "aui-datatable-base-options-cell-editor"
+        ]
+    },
+
+    "aui-datatable-dropdown-cell-editor": {
+        "requires": [
+            "aui-datatable-base-options-cell-editor"
+        ]
+    },
+
+    "aui-datatable-edit": {
+        "use": [
+            "datatable-base",
+            "calendar",
+            "overlay",
+            "sortable",
+            "aui-datatype",
+            "aui-toolbar",
+            "aui-form-validator",
+            "aui-datatable-base-cell-editor",
+            "aui-datatable-base-options-cell-editor",
+            "aui-datatable-cell-editor-support",
+            "aui-datatable-core",
+            "aui-datatable-checkbox-cell-editor",
+            "aui-datatable-date-cell-editor",
+            "aui-datatable-dropdown-cell-editor",
+            "aui-datatable-radio-cell-editor",
+            "aui-datatable-text-cell-editor",
+            "aui-datatable-text-area-cell-editor"
+        ]
+    },
+
+    "aui-datatable-radio-cell-editor": {
+        "requires": [
+            "aui-datatable-base-options-cell-editor"
+        ]
+    },
+
+    "aui-datatable-text-cell-editor": {
+        "requires": [
+            "aui-datatable-base-options-cell-editor"
+        ]
+    },
+
+    "aui-datatable-text-area-cell-editor": {
+        "requires": [
+            "aui-datatable-base-options-cell-editor"
+        ]
+    },
+
+    "aui-datatable-cell-editor-support": {
+        "requires": [
+            "datatable-base"
+        ]
+    },
+
+    "aui-datatable-highlight": {
+        "requires": [
+            "aui-datatable-selection"
+        ],
+        "skinnable": true
+    },
+
+    "aui-datatable-selection": {
+        "requires": [
+            "aui-datatable-core"
+        ],
+        "skinnable": true
+    },
+
+    "aui-datatable-property-list": {
+        "requires": [
+            "datatable-scroll",
+            "datatable-sort",
+            "aui-datatable-core",
+            "aui-datatable-edit",
+            "aui-datatable-highlight",
+            "aui-datatable-selection",
+            "aui-widget-cssclass",
+            "aui-widget-toggle"
+        ],
+        "skinnable": true
+    }
+}
