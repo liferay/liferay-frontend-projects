@@ -1,0 +1,46 @@
+{
+    "name": "aui-ace-editor",
+    "exec": [
+        "./scripts/build.js"
+    ],
+    "postexec": [
+        "./scripts/postbuild.js"
+    ],
+    "builds": {
+        "aui-ace-editor": {
+            "jsfiles": [
+                "js/.aui-ace-editor.js"
+            ]
+        },
+        "aui-ace-autocomplete-base": {
+            "jsfiles": [
+                "js/aui-ace-autocomplete-base.js"
+            ]
+        },
+        "aui-ace-autocomplete-templateprocessor": {
+            "jsfiles": [
+                "js/aui-ace-autocomplete-templateprocessor.js"
+            ]
+        },
+        "aui-ace-autocomplete-freemarker": {
+            "jsfiles": [
+                "js/aui-ace-autocomplete-freemarker.js"
+            ]
+        },
+        "aui-ace-autocomplete-velocity": {
+            "jsfiles": [
+                "js/aui-ace-autocomplete-velocity.js"
+            ]
+        },
+        "aui-ace-autocomplete-list": {
+            "jsfiles": [
+                "js/aui-ace-autocomplete-list.js"
+            ]
+        },
+        "aui-ace-autocomplete-plugin": {
+            "jsfiles": [
+                "js/aui-ace-autocomplete-plugin.js"
+            ]
+        }
+    }
+}

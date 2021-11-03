@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="stylesheet" href="../../build/aui-css/css/bootstrap.css">
+    <script src="../../build/aui/aui.js"></script>
+    <style>
+    .example {
+        margin-top: 80px;
+    }
+    .btn-primary {
+        margin-top: 20px;
+    }
+    </style>
+</head>
+<body>
+    <h1>AlloyUI - Popover</h1>
+    <div class="example">
+        <button class="btn btn-large btn-primary" id="triggerTop">Click here to toggle a top popover</button>
+        <button class="btn btn-large btn-primary" id="triggerBottom">Click here to toggle a bottom popover</button>
+        <button class="btn btn-large btn-primary" id="triggerConstrain">Click here to toggle a bottom popover</button>
+    </div>
+    <script>
+    YUI({ filter:'raw' }).use('aui-popover', function(Y) {
+
+        new Y.Popover({
+            align: {
+                node: '#triggerTop'
+            },
+            animated: true,
+            bodyContent: 'One fine body…',
+            delay: 500, // in milliseconds
+            duration: 0.5, // in seconds
+            headerContent: 'Header content',
+            trigger: '#triggerTop',
+            position: function() {
+                return 'top';
+            }
+        }).render();
+
+        new Y.Popover({
+            align: {
+                node: '#triggerBottom'
+            },
+            bodyContent: 'Another fine body…',
+            headerContent: 'Header content',
+            position: 'bottom',
+            trigger: '#triggerBottom'
+        }).render();
+
+        new Y.Popover({
+            align: {
+                node: '#triggerConstrain'
+            },
+            bodyContent: 'Try to hide me reducing the browser viewport.',
+            constrain: true,
+            headerContent: 'Header content',
+            position: 'bottom',
+            trigger: '#triggerConstrain'
+        }).render();
+
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AlloyUI Audio Demo</title>
+    <link rel="stylesheet" href="../../build/aui-css/css/bootstrap.css">
+
+    <style>
+        #container {
+            height: 40px;
+            margin-left: 10px;
+            position: relative;
+            width: 300px;
+        }
+    </style>
+
+    <script src="../../build/aui/aui.js"></script>
+</head>
+
+<body>
+    <h1>AlloyUI - Audio demo</h1>
+
+    <div id="container">
+        <div id="demo"></div>
+        <br>
+        <a class="btn btn-success" href="#" id="play-btn" role="button">
+            <span class="glyphicon glyphicon-play"></span> Play
+        </a>
+        <a class="btn btn-danger" href="#" id="pause-btn" role="button">
+            <span class="glyphicon glyphicon-pause"></span> Pause
+        </a>
+        <a class="btn btn-info" href="#" id="change-audio-btn" role="button">
+            <span class="glyphicon glyphicon-music"></span> Change Audio
+        </a>
+    </div>
+
+    <script>
+    YUI({ filter: 'raw' }).use('aui-audio', function(Y) {
+        var audio = new Y.Audio({
+            boundingBox: '#demo',
+            fixedAttributes: {
+                allowfullscreen: 'true'
+            },
+            oggUrl: 'assets/bc.ogg',
+            url: 'assets/bc.mp3'
+        }).render();
+
+        audio.after('play', function() {
+            Y.log('play');
+        });
+
+        audio.after('pause', function() {
+            Y.log('pause');
+        });
+
+        Y.one('#play-btn').on('click', function(e) {
+            e.preventDefault();
+
+            audio.play();
+        });
+
+        Y.one('#pause-btn').on('click', function(e) {
+            e.preventDefault();
+
+            audio.pause();
+        });
+
+        Y.one('#change-audio-btn').on('click', function(e) {
+            e.preventDefault();
+
+            audio.pause();
+            audio.set('oggUrl', 'assets/zelda.ogg');
+            audio.set('url', 'assets/zelda.mp3');
+            audio.load();
+            audio.play();
+        });
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+{
+    "aui-button": {
+        "use": [
+            "aui-button-core"
+        ]
+    },
+
+    "aui-button-core": {
+        "requires": [
+            "button",
+            "button-group",
+            "button-plugin",
+            "aui-component",
+            "aui-widget-cssclass",
+            "aui-widget-toggle"
+        ],
+        "skinnable": true
+    },
+
+    "aui-button-search-cancel": {
+        "requires": [
+            "array-invoke",
+            "base",
+            "base-build",
+            "event-focus",
+            "event-move",
+            "event-resize",
+            "node-screen",
+            "node-event-delegate",
+            "aui-node-base",
+            "aui-classnamemanager",
+            "aui-event-input"
+        ]
+    },
+
+    "aui-button-switch": {
+        "requires": [
+            "aui-node-base",
+            "base-build",
+            "event-key",
+            "transition",
+            "widget"
+        ],
+        "skinnable": true
+    }
+}

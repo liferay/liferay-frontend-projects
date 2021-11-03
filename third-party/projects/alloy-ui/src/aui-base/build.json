@@ -1,0 +1,34 @@
+{
+    "name": "aui-base",
+    "builds": {
+        "aui-base-core": {
+            "jsfiles": [
+                "js/aui-aliases.js",
+                "js/aui-loader.js",
+                "js/aui-base.js",
+                "js/aui-ready.js"
+            ]
+        },
+
+        "aui-base-html5-shiv": {
+            "jsfiles": [
+                "js/aui-html5-shiv.js"
+            ]
+        },
+
+        "aui-base-lang": {
+            "jsfiles": [
+                "js/aui-lang.js"
+            ]
+        }
+    },
+    "rollups": {
+        "aui": {
+            "basefilename": "aui",
+            "files": [
+                "yui",
+                "aui-base-core"
+            ]
+        }
+    }
+}

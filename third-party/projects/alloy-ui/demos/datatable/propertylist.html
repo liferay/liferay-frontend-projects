@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="stylesheet" href="../../build/aui-css/css/bootstrap.css">
+    <script src="../../build/aui/aui.js"></script>
+</head>
+<body class="yui3-skin-sam">
+    <h1>AlloyUI - Datatable property list</h1>
+    <div id="simple" class="table-condensed table-striped"></div>
+    <script>
+    YUI({ filter: 'raw' }).use('aui-datatable-property-list', function(Y) {
+
+        var properties = [
+            {
+                editor: new Y.CheckboxCellEditor({
+                    editable: true,
+                    options: [ 'Yes', 'No' ]
+                }),
+                name: 'Boolean',
+                value: 'Yes'
+            },
+            {
+                editor: new Y.DateCellEditor(),
+                name: 'Date',
+                value: '10/10/2011'
+            },
+            {
+                name: 'Decimal',
+                value: '0.1',
+                readOnly: true
+            },
+            {
+                name: 'Integer',
+                value: '1',
+                readOnly: true
+            },
+            {
+                name: 'Number',
+                value: '123',
+                readOnly: true
+            },
+            {
+                editor: new Y.RadioCellEditor({
+                    editable: true,
+                    options: {
+                        yes: 'Yes',
+                        no: 'No',
+                        maybe: 'Maybe'
+                    }
+                }),
+                name: 'Radio',
+                value: 'no'
+            },
+            {
+                editor: new Y.DropDownCellEditor({
+                    editable: true,
+                    options: {
+                        apple: 'Apple',
+                        cherry: 'Cherry',
+                        banana: 'Banana',
+                        kiwi: 'Kiwi'
+                    }
+                }),
+                name: 'Select',
+                value: 'cherry'
+            },
+            {
+                editor: new Y.DropDownCellEditor({
+                    editable: true,
+                    multiple: true,
+                    options: {
+                        apple: 'Apple',
+                        cherry: 'Cherry',
+                        banana: 'Banana',
+                        kiwi: 'Kiwi'
+                    }
+                }),
+                name: 'Select multiple',
+                value: 'banana,kiwi'
+            },
+            {
+                name: 'Text',
+                value: 'Text value'
+            },
+            {
+                editor: new Y.TextAreaCellEditor(),
+                name: 'Text-box',
+                value: 'Text-box value'
+            }
+        ];
+
+        new Y.PropertyList({
+            cssClass: 'table-bordered',
+            boundingBox: '#simple',
+            data: properties,
+            on: {
+                'model:change': function(event) {
+                    var model = event.target;
+                    Y.log('saved', model);
+                }
+            }
+        })
+        .render();
+
+    });
+    </script>
+</body>
+</html>

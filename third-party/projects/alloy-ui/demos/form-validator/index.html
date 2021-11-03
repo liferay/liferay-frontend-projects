@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="stylesheet" href="../../build/aui-css/css/bootstrap.css">
+    <script src="../../build/aui/aui.js"></script>
+    <style>
+    form {
+        margin: 0 20px;
+    }
+    </style>
+</head>
+<body>
+    <h1>AlloyUI - Form Validator</h1>
+    <h2>Rules extracted from HTML markup</h2>
+    <form action="" id="fm1" name="fm1">
+        <div class="form-group">
+            <label class="control-label" for="digit1">Digit (required)</label>
+            <div class="controls">
+                <input name="digit1" id="digit1" class="field-required field-digits form-control" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="email1">E-Mail</label>
+            <div class="controls">
+                <input name="email1" id="email1" class="field-email form-control" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="select1">Gender (required)</label>
+            <div class="controls">
+                <select name="select1" id="select1" class="field-required field-select">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value=""></option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="file1">File (required)</label>
+            <div class="controls">
+                <input name="file1" id="file1" class="field-required form-control" type="file">
+            </div>
+        </div>
+        <input type="submit" class="btn btn-primary">
+    </form>
+    <h2>Rules passed from JavaScript</h2>
+    <form action="" id="fm2" name="fm2">
+        <div class="form-group">
+            <label class="control-label" for="digit2">Digit (required)</label>
+            <div class="controls">
+                <input name="digit2" id="digit2" class="form-control" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="email2">E-Mail</label>
+            <div class="controls">
+                <input name="email2" id="email2" class="form-control" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="custom-input">Custom rule (digit >= 50)</label>
+            <div class="controls">
+                <input name="custom-input" id="custom-input" class="form-control" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="image-url">Headshot URL</label>
+            <div class="controls">
+                <input name="image-url" id="image-url" class="form-control" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="forty-two">Custom rule (digit = 42)</label>
+            <div class="controls">
+                <input name="forty-two" id="forty-two" class="form-control" type="text">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Gender:</label>
+
+            <div class="radio">
+              <label class="control-label"><input type="radio" name="gender" value="male" /> Male</label>
+            </div>
+
+            <div class="radio">
+              <label class="control-label"><input type="radio" name="gender" value="female" /> Female</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="checkbox">
+              <label for="confirm" class="control-label"><input type="checkbox" name="confirm" id="confirm" value="true"/>Check this box</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="file2">File (required)</label>
+            <div class="controls">
+                <input name="file2" id="file2" class="field-required form-control" type="file">
+            </div>
+        </div>
+        <input type="submit" class="btn btn-primary">
+    </form>
+    <script>
+    YUI({ filter:'raw' }).use('aui-form-validator', function(Y) {
+
+        new Y.FormValidator({
+            boundingBox: Y.one('#fm1'),
+            showAllMessages: true,
+            validateOnBlur: false,
+            validateOnInput: true
+        });
+
+        Y.config.FormValidator.STRINGS.gt50 = 'The digit should be >= 50.';
+        Y.config.FormValidator.RULES.gt50 = function(val, fieldNode, ruleValue) {
+            return (val >= 50);
+        };
+
+        var isImageURL = function(val) {
+            var regex = /(https?:\/\/.*\.(?:png|jpg|jpeg|gif))/i;
+            return regex.test(val);
+        };
+
+        var isEqualTo42 = function(val) {
+            return (val == 42);
+        };
+
+        Y.FormValidator.addCustomRules(
+            {
+                'imageURL': {
+                    condition: isImageURL,
+                    errorMessage: 'Please enter a valid URL that points to an image (jpg, jpeg, png, or gif).'
+                },
+                'fortytwo':{
+                    condition: isEqualTo42,
+                    errorMessage: 'Value must be 42'
+                }
+            }
+        );
+
+        new Y.FormValidator({
+            boundingBox: Y.one('#fm2'),
+            rules: {
+                confirm: {
+                    required: true
+                },
+                'custom-input': {
+                    digits: true,
+                    gt50: true
+                },
+                digit2: {
+                    digits: true,
+                    required: true
+                },
+                email2: {
+                    email: true
+                },
+                gender: {
+                    required: true
+                },
+                'forty-two': {
+                    fortytwo: true
+                },
+                file2: {
+                    required: true
+                },
+                'image-url': {
+                    imageURL: true,
+                    required: true
+                }
+            },
+            showAllMessages: true
+        });
+
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="stylesheet" href="../../build/aui-css/css/bootstrap.css">
+    <script src="../../build/aui/aui.js"></script>
+    <style>
+    .examples {
+        padding: 30px;
+    }
+    .examples .nav {
+        margin-bottom: 5px;
+    }
+    </style>
+</head>
+<body>
+    <h1>AlloyUI - Tabview</h1>
+    <div class="examples">
+        <h2>From markup</h2>
+        <div id="markup">
+            <ul class="nav nav-tabs">
+                <li><a href="#foo">foo</a></li>
+                <li class="active"><a href="#bar">bar</a></li>
+                <li><a href="#baz">baz</a></li>
+            </ul>
+            <div class="tab-content">
+                <div id="foo" class="tab-pane">
+                    <p>foo Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente officia minus nobis obcaecati neque sint fugit reiciendis dolorum quia nihil numquam sunt eum? Odio doloribus laborum quisquam enim aliquam iure.</p>
+                </div>
+                <div id="bar">
+                    <p>bar Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptas non iste perspiciatis explicabo distinctio quaerat maiores ab aut quasi quod aliquid iusto possimus neque eius consequuntur deserunt inventore doloremque rerum.</p>
+                </div>
+                <div id="baz" class="tab-pane">
+                    <p>baz Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore aut officia commodi maxime ea cumque nulla quam molestias odit ipsam sapiente laudantium minima reprehenderit. Esse laboriosam fuga beatae doloremque officiis.</p>
+                </div>
+            </div>
+        </div>
+        <h2>Stacked</h2>
+        <div id="stacked"></div>
+        <h2>Pills</h2>
+        <div id="pills"></div>
+        <h2>Stacked pills</h2>
+        <div id="stackedpills"></div>
+        <h2>List</h2>
+        <div id="list">
+            <ul class="well nav nav-list">
+                <li class="nav-header">List Header</li>
+                <li><a href="#foo">foo</a></li>
+                <li class="nav-header">List Header</li>
+                <li class="active"><a href="#bar">bar</a></li>
+                <li><a href="#baz">baz</a></li>
+                <li><a href="#qux">qux</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="hide" id="foo">
+                    <p>foo Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente officia minus nobis obcaecati neque sint fugit reiciendis dolorum quia nihil numquam sunt eum? Odio doloribus laborum quisquam enim aliquam iure.</p>
+                </div>
+                <div id="bar">
+                    <p>bar Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptas non iste perspiciatis explicabo distinctio quaerat maiores ab aut quasi quod aliquid iusto possimus neque eius consequuntur deserunt inventore doloremque rerum.</p>
+                </div>
+                <div class="hide" id="baz">
+                    <p>baz Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore aut officia commodi maxime ea cumque nulla quam molestias odit ipsam sapiente laudantium minima reprehenderit. Esse laboriosam fuga beatae doloremque officiis.</p>
+                </div>
+                <div class="hide" id="qux">
+                    <p>qux Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore aut officia commodi maxime ea cumque nulla quam molestias odit ipsam sapiente laudantium minima reprehenderit. Esse laboriosam fuga beatae doloremque officiis.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    YUI({ filter:'raw' }).use('aui-tabview', function(Y) {
+
+        console.time('How long does it take?');
+
+        new Y.TabView({
+            srcNode: '#markup'
+        }).render();
+
+        new Y.TabView({
+            children: [
+                {
+                    label: 'foo',
+                    content: '<p>foo content</p>'
+                },
+                {
+                    label: 'bar',
+                    content: '<p>bar content</p>'
+                },
+                {
+                    label: 'fooz',
+                    content: '<p>fooz content</p>'
+                }
+           ],
+           srcNode: '#stacked',
+           stacked: true
+        }).render();
+
+        new Y.TabView({
+            children: [
+                {
+                    label: 'foo',
+                    content: '<p>foo content</p>'
+                },
+                {
+                    label: 'bar',
+                    content: '<p>bar content</p>'
+                },
+                {
+                    label: 'fooz',
+                    content: '<p>fooz content</p>'
+                }
+           ],
+           srcNode: '#pills',
+           type: 'pills'
+        }).render();
+
+        new Y.TabView({
+            children: [
+                {
+                    label: 'foo',
+                    content: '<p>foo content</p>'
+                },
+                {
+                    label: 'bar',
+                    content: '<p>bar content</p>'
+                },
+                {
+                    label: 'fooz',
+                    content: '<p>fooz content</p>'
+                }
+           ],
+           srcNode: '#stackedpills',
+           stacked: true,
+           type: 'pills'
+        }).render();
+
+        new Y.TabView({
+            srcNode: '#list',
+            type: 'list'
+        }).render();
+
+        console.timeEnd('How long does it take?');
+
+    });
+    </script>
+</body>
+</html>

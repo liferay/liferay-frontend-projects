@@ -1,0 +1,23 @@
+{
+    "name": "aui-node",
+    "builds": {
+        "aui-node-accessible": {
+            "jsfiles": [
+                "js/aui-node-accessible.js"
+            ]
+        },
+
+        "aui-node-base": {
+            "jsfiles": [
+                "js/aui-node-base.js"
+            ]
+        },
+
+        "aui-node-html5": {
+            "jsfiles": [
+                "js/aui-node-html5.js",
+                "js/aui-node-html5-print.js"
+            ]
+        }
+    }
+}

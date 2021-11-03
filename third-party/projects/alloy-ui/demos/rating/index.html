@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="stylesheet" href="../../build/aui-css/css/bootstrap.css">
+    <script src="../../build/aui/aui.js"></script>
+</head>
+<body>
+    <h1>AlloyUI - Rating</h1>
+    <h2>Created from JavaScript</h2>
+    <span id="rating"></span>
+    <h2>From input elements markup</h2>
+    <div id="ratinginput">
+        <input type="radio" name="rating1" value="v1" title="Horrible" />
+        <input type="radio" name="rating1" value="v2" title="Very bad" />
+        <input type="radio" name="rating1" value="v3" title="Bad" />
+        <input type="radio" name="rating1" value="v4" title="Acceptable" />
+        <input type="radio" name="rating1" value="v5" title="Good" />
+        <input type="radio" name="rating1" value="v6" title="Very good" />
+        <input type="radio" name="rating1" value="v7" title="Perfect" />
+    </div>
+    <h2>From input and label elements markup</h2>
+    <div id="ratinglabeled">
+        <label for="ratingLabeled1">Rate this as 1</label>
+        <input type="radio" id="ratingLabeled1" name="ratingLabeled1" title="Rate this as 1 using title dom attr" value="1" />
+        <label for="ratingLabeled2">Rate this as 2</label>
+        <input type="radio" id="ratingLabeled2" name="ratingLabeled2" value="2" />
+        <label for="ratingLabeled3">Rate this as 3</label>
+        <input type="radio" id="ratingLabeled3" name="ratingLabeled3" value="3" />
+    </div>
+    <h2>Thumbs up and down</h2>
+    <span id="thumbs"></span>
+    <h2>Thumbs up and down from input elements markup</h2>
+    <div id="thumbsinput">
+        <input type="radio" name="rating1" value="v1" title="Horrible" />
+        <input type="radio" name="rating1" value="v2" title="Very bad" />
+    </div>
+    <script>
+    YUI({ filter: 'raw' }).use('aui-rating', function(Y) {
+
+        new Y.Rating({
+            boundingBox: '#rating',
+            label: 'Label '
+        }).render();
+
+        new Y.Rating({
+            boundingBox: '#ratinginput'
+        }).render();
+
+        new Y.Rating({
+            boundingBox: '#ratinglabeled',
+            disabled: true
+        }).render();
+
+        new Y.ThumbRating({
+            boundingBox: '#thumbs'
+        }).render();
+
+        new Y.ThumbRating({
+            boundingBox: '#thumbsinput'
+        }).render();
+
+    });
+    </script>
+</body>
+</html>
