@@ -53,9 +53,9 @@ const facet: Facet = {
 
 		await renderer.render('src/app/app.component.html', context);
 		await renderer.render('src/app/app.component.ts', context);
-		await renderer.render('src/app/dynamic.loader.ts', context);
+		await renderer.render('src/app/app.dynamic.loader.ts', context);
 		await renderer.render('src/app/app.module.ts', context);
-		await renderer.render('src/types/LiferayParams.ts', context);
+		await renderer.render('src/types/liferay.params.ts', context);
 		await renderer.render('src/polyfills.ts', context);
 		await renderer.render('src/index.ts', context);
 

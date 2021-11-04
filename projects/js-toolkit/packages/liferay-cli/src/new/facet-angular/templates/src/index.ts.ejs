@@ -3,9 +3,9 @@ import './polyfills';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { AppComponent } from './app/app.component';
+import { AppDynamicLoader } from './app/app.dynamic.loader';
 import { AppModule } from './app/app.module';
-import { DynamicLoader } from './app/dynamic.loader';
-import LiferayParams from './types/LiferayParams'
+import { LiferayParams } from './types/liferay.params';
 
 /**
  * This is the actual method that initializes the portlet. It is invoked by the 
@@ -21,7 +21,7 @@ export default function(params: LiferayParams) {
 			// to the portlet's DOM, which is different for each portlet
 			// instance and, thus, cannot be determined until the page is
 			// rendered (during runtime).
-			const dynamicLoader = new DynamicLoader(injector);
+			const dynamicLoader = new AppDynamicLoader(injector);
 
 			dynamicLoader.loadComponent(AppComponent, params);
 		});

@@ -6,7 +6,7 @@ import {
 	Type,
 } from '@angular/core';
 
-import LiferayParams from '../types/LiferayParams'
+import { LiferayParams } from '../types/liferay.params';
 import { AppComponent } from './app.component';
 
 /**
@@ -14,14 +14,14 @@ import { AppComponent } from './app.component';
  * the portlet's DOM, which is different for each portlet instance and thus,
  * cannot be determined until the page is rendered (during runtime).
  */
-export class DynamicLoader {
+export class AppDynamicLoader {
 	constructor(private injector: Injector) {}
 
 	loadComponent<T>(
 		component: Type<AppComponent>, params: LiferayParams) {
-		
+
 		const node = document.getElementById(params.portletElementId);
-		
+
 		(<NgZone>this.injector.get(NgZone)).run(() => {
 			const componentFactory = this.injector
 				.get(ComponentFactoryResolver)
