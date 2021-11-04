@@ -13,9 +13,10 @@ module.exports = {
 		const filename = path.basename(filePath);
 
 		if (
-			filename.includes('webpack') ||
 			filename.includes('jest') ||
-			filePath.includes('test')
+			filePath.includes('dev') ||
+			filePath.includes('test') ||
+			filePath.includes('webpack')
 		) {
 			return {};
 		}
