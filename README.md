@@ -156,7 +156,7 @@ These are projects that are not under active development but which may receive b
 In addition to our own projects listed above, we sometimes have the need to apply small patches on top of third-party code.
 
 -   Projects
-    -   [alloy-ui](./third-party/projects/alloy-ui): A fork of https://github.com/alloy-ui
+    -   [alloy-ui](./third-party/projects/alloy-ui): A fork of https://github.com/liferay/alloy-ui
     -   [alloy-font-awesome](./third-party/projects/alloy-font-awesome): A fork of https://github.com/liferay/alloy-font-awesome
     -   [jquery-form](./third-party/projects/jquery-form): A fork of https://github.com/jquery-form/form
 -   Issues
