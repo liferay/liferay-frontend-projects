@@ -41,6 +41,13 @@ function isHTMLResponse(response: http.IncomingMessage): boolean {
 }
 
 function findPortalRoot(directory: string): string {
+	if (
+		basename(directory) === 'liferay-portal' &&
+		existsSync(join(directory, 'modules'))
+	) {
+		return directory;
+	}
+
 	while (directory) {
 		if (existsSync(join(directory, 'yarn.lock'))) {
 			const base = basename(directory);
