@@ -13,9 +13,10 @@ module.exports = {
 		const filename = path.basename(filePath);
 
 		if (
-			filename.includes('webpack') ||
 			filename.includes('jest') ||
-			filePath.includes('test')
+			filePath.includes('dev') ||
+			filePath.includes('test') ||
+			filePath.includes('webpack')
 		) {
 			return {};
 		}
@@ -25,8 +26,8 @@ module.exports = {
 				if (
 					node &&
 					node.value &&
-					typeof node.value.includes === 'function' &&
-					node.value.includes('localhost')
+					typeof node.value === 'string' &&
+					node.value.indexOf('localhost') !== -1
 				) {
 					context.report({
 						message: DESCRIPTION,

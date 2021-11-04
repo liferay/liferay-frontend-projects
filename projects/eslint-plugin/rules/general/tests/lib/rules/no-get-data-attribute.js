@@ -21,6 +21,8 @@ ruleTester.run('no-get-data-attribute', rule, {
 			code: `
 				el.querySelector('test').getAttribute('data-foo');
 				el.getAttribute('data-test');
+				el.getAttribute('data-some-other-key');
+				one.el.getAttribute('data-some-other-key');
 			`,
 			errors: [
 				{
@@ -32,10 +34,20 @@ ruleTester.run('no-get-data-attribute', rule, {
 					message: `Use "dataset.test" instead of "getAttribute('data-test')"`,
 					type: 'Identifier',
 				},
+				{
+					message: `Use "dataset['some-other-key']" instead of "getAttribute('data-some-other-key')"`,
+					type: 'Identifier',
+				},
+				{
+					message: `Use "dataset['some-other-key']" instead of "getAttribute('data-some-other-key')"`,
+					type: 'Identifier',
+				},
 			],
 			output: `
 				el.querySelector('test').getAttribute('data-foo');
 				el.dataset.test;
+				el.dataset['some-other-key'];
+				one.el.dataset['some-other-key'];
 			`,
 		},
 	],
