@@ -1,16 +1,29 @@
 {
+	"angularCompilerOptions": {
+		"enableI18nLegacyMessageIdFormat": false,
+		"strictInjectionParameters": true,
+		"strictInputAccessModifiers": true,
+		"strictTemplates": true
+	},
+	"compileOnSave": false,
 	"compilerOptions": {
-		"emitDecoratorMetadata": true,
+		"baseUrl": "./",
+		"declaration": false,
+		"downlevelIteration": true,
 		"experimentalDecorators": true,
-		"inlineSources": true,
-		"lib": ["es2015", "dom"],
+		"forceConsistentCasingInFileNames": true,
+		"importHelpers": true,
+		"lib": [
+			"es2015",
+			"dom"
+		],
 		"module": "commonjs",
 		"moduleResolution": "node",
-		"noImplicitAny": true,
-		"noStrictGenericChecks": true,
-		"outDir": "build",
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitReturns": true,
+		"outDir": "./build",
 		"sourceMap": true,
-		"suppressImplicitAnyIndexErrors": true,
+		"strict": true,
 		"target": "es5",
 		"typeRoots": ["./node_modules/@types/"]
 	},
