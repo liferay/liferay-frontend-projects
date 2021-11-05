@@ -18,8 +18,7 @@ const facet: LiferayTargetFacet = {
 	async prompt(useDefaults: boolean, options: Options): Promise<Options> {
 		return await prompt(useDefaults, options, [
 			{
-				type: 'confirm',
-				name: 'createInitializer',
+				default: false,
 				message:
 					'Does your shared bundle need an initializer?\n' +
 					'\n' +
@@ -28,7 +27,8 @@ const facet: LiferayTargetFacet = {
 					'  💡 It may also be useful if you need to load any polyfill that must be\n' +
 					'     loaded just once.\n' +
 					'\n',
-				default: false,
+				name: 'createInitializer',
+				type: 'confirm',
 			},
 		]);
 	},

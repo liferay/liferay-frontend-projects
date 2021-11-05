@@ -21,8 +21,8 @@ import facetPortlet from '../facet-portlet';
 import facetProject from '../facet-project';
 import facetReact from '../facet-react';
 import facetSampleConfiguration from '../facet-sample-configuration';
-import facetSharedBundle from '../facet-shared-bundle';
 import facetSampleStyles from '../facet-sample-styles';
+import facetSharedBundle from '../facet-shared-bundle';
 import facetVuejs from '../facet-vuejs';
 
 import type {Facet, Options, Target} from '..';
