@@ -10,23 +10,27 @@
 
 const Jira = require('jira-client');
 
-const PROJECT = process.env.PROJECT || 'IFI';
+const {PASSWORD, PROJECT, USERNAME} = require('./constants');
 
 class JiraClient {
 	constructor() {
 		this.client = new Jira({
 			apiVersion: '2',
 			host: 'issues.liferay.com',
-			password: process.env.PASSWORD,
+			password: PASSWORD,
 			protocol: 'https',
 			strictSSL: true,
-			username: process.env.USER,
+			username: USERNAME,
 		});
 	}
 
-	createIssue({description, title, type = 'Task'}) {
+	createIssue({assignee, description, milestone, title, type = 'Task'}) {
 		return this.client.addNewIssue({
 			fields: {
+				assignee: {
+					name: assignee,
+				},
+				customfield_12821: milestone,
 				description,
 				issuetype: {
 					name: type,
