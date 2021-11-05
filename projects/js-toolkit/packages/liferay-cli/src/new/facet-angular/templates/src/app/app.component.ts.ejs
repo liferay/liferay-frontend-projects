@@ -1,16 +1,14 @@
 import { Component } from '@angular/core';
 
-import LiferayParams from '../types/LiferayParams'
+import { LiferayParams } from '../types/liferay.params';
 
 declare const Liferay: any;
 
 @Component({
-	templateUrl: 
-		Liferay.ThemeDisplay.getPathContext() + 
-		'/o/<%= pkgJson.name %>-<%= pkgJson.version %>/app/app.component.html'
+	templateUrl: './app.component.html'
 })
 export class AppComponent {
-	params: LiferayParams;
+	params?: LiferayParams;
 	labels: any;
 
 	constructor() {
@@ -25,6 +23,6 @@ export class AppComponent {
 	}
 
 	get configurationJSON() {
-		return JSON.stringify(this.params.configuration, null, 2);
+		return JSON.stringify(this.params?.configuration, null, 2);
 	}
 }
