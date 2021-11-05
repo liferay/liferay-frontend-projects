@@ -40,11 +40,13 @@ if (argv['generate']) {
 		'Plain JavaScript'
 	);
 	generate('agnostic-react-portlet', 'portal-agnostic', 'React');
+	generate('agnostic-shared-bundle', 'portal-agnostic', 'Shared bundle');
 	generate('agnostic-vuejs-portlet', 'portal-agnostic', 'Vue.js');
 
 	generate('master-angular-portlet', 'portal-master', 'Angular');
 	generate('master-plain-js-portlet', 'portal-master', 'Plain JavaScript');
 	generate('master-react-portlet', 'portal-master', 'React');
+	generate('master-shared-bundle', 'portal-master', 'Shared bundle');
 	generate('master-vuejs-portlet', 'portal-master', 'Vue.js');
 
 	generateAngularCli('angular-cli-portlet');

@@ -1,11 +1,13 @@
 /agnostic-angular-portlet
 /agnostic-plain-js-portlet
 /agnostic-react-portlet
+/agnostic-shared-bundle
 /agnostic-vuejs-portlet
 
 /master-angular-portlet
 /master-plain-js-portlet
 /master-react-portlet
+/master-shared-bundle
 /master-vuejs-portlet
 
 /angular-cli-portlet
