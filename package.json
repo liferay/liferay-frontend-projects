@@ -8,7 +8,7 @@
 		"@babel/preset-env": "^7.4.2",
 		"@cnakazawa/watch": "^1.0.4",
 		"@types/ejs": "3.0.4",
-		"@types/escodegen": "0.0.6",
+		"@types/escodegen": "0.0.7",
 		"@types/estraverse": "5.1.0",
 		"@types/estree": "0.0.46",
 		"@types/fs-extra": "9.0.1",
