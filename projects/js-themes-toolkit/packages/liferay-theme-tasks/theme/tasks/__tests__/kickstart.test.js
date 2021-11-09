@@ -33,7 +33,11 @@ describe('globally installed theme', () => {
 
 	beforeEach(() => {
 		tempTheme = setupTempTheme({
-			init: () => registerTasks({gulp: new Gulp()}),
+			init: () =>
+				registerTasks({
+					gulp: new Gulp(),
+					sassOptions: {dartSass: false},
+				}),
 			namespace: 'kickstart_task_global',
 			themeName: 'base-theme',
 			version: '7.1',
@@ -96,7 +100,11 @@ describe('npm theme', () => {
 
 	beforeEach(() => {
 		tempTheme = setupTempTheme({
-			init: () => registerTasks({gulp: new Gulp()}),
+			init: () =>
+				registerTasks({
+					gulp: new Gulp(),
+					sassOptions: {dartSass: false},
+				}),
 			namespace: 'kickstart_task_npm',
 		});
 

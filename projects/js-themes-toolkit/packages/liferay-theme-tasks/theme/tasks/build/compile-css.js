@@ -35,15 +35,28 @@ module.exports = function () {
 		const {options} = project;
 
 		const sassOptions = getSassOptions(options.sassOptions, {
-			dartSass: false,
+			dartSass: true,
 			includePaths: getSassIncludePaths(),
 			sourceMap: true,
 		});
 
+		let nodeSass;
+
+		if (!sassOptions.dartSass) {
+			try {
+				nodeSass = require('node-sass');
+			}
+			catch (_error) {
+				console.error(
+					'`node-sass` is not found. Try installing it first `npm install node-sass`.'
+				);
+			}
+		}
+
 		const gulpIf = require('gulp-if');
 		const gulpSass = sassOptions.dartSass
 			? require('./sass')
-			: require('gulp-sass')(require('node-sass'));
+			: require('gulp-sass')(nodeSass);
 		const gulpSourceMaps = require('gulp-sourcemaps');
 
 		const postCSSOptions = getPostCSSOptions(options.postcss);

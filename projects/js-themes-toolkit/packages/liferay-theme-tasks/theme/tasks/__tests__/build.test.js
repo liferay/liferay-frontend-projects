@@ -122,6 +122,8 @@ describe('using lib_sass', () => {
 					sassOptions: (defaults) => {
 						sassOptionsCalled = true;
 
+						defaults.dartSass = false;
+
 						assertTruthy(defaults.includePaths);
 
 						return defaults;
@@ -152,7 +154,6 @@ describe('using lib_sass', () => {
 					distName: 'base-theme',
 					gulp: new Gulp(),
 					hookFn: buildHookFn,
-					sassOptions: {dartSass: true},
 				}),
 			namespace: 'dart_sass_build_task',
 			themeConfig: {},

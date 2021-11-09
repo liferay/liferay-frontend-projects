@@ -34,6 +34,9 @@ beforeEach(() => {
 			registerTasks({
 				distName: 'base-theme',
 				gulp: new Gulp(),
+				sassOptions: {
+					dartSass: false,
+				},
 			}),
 		namespace: 'deploy_task',
 		themeName: 'base-theme-7-2',
