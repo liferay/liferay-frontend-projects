@@ -101,7 +101,7 @@ async function format(options = {}) {
 					}
 					else {
 						const formatted = await format(source, prettierOptions);
-						fs.writeFileSync(filepath, formatted);
+						fs.writeFileSync(filepath, formatted || '');
 						fixed++;
 					}
 				}
