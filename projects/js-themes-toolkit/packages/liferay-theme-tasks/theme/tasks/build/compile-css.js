@@ -43,7 +43,7 @@ module.exports = function () {
 		const gulpIf = require('gulp-if');
 		const gulpSass = sassOptions.dartSass
 			? require('./sass')
-			: require('gulp-sass');
+			: require('gulp-sass')(require('node-sass'));
 		const gulpSourceMaps = require('gulp-sourcemaps');
 
 		const postCSSOptions = getPostCSSOptions(options.postcss);
