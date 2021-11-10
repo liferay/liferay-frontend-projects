@@ -1,2 +1,0 @@
-aui-template-deprecated
-========

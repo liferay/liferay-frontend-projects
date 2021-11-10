@@ -1,7 +1,0 @@
-{
-    "aui-classnamemanager": {
-        "requires": [
-            "classnamemanager"
-        ]
-    }
-}

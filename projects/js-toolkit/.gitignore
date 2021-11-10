@@ -1,5 +1,0 @@
-node_modules/*
-packages/*/generators
-packages/*/lib
-packages/*/node_modules
-tsconfig.tsbuildinfo

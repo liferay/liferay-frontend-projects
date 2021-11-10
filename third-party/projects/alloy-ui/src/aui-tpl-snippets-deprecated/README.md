@@ -1,2 +1,0 @@
-aui-tpl-snippets-deprecated
-========

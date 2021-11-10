@@ -1,2 +1,0 @@
-aui-autocomplete-deprecated
-========

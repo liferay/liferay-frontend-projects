@@ -1,5 +1,0 @@
-{
-	"browser": {
-		"/random.js": "./random-shim.js"
-	}
-}

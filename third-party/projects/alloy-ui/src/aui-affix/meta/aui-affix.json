@@ -1,9 +1,0 @@
-{
-    "aui-affix": {
-        "requires": [
-            "base",
-            "node-screen",
-            "aui-node"
-        ]
-    }
-}

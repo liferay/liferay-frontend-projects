@@ -1,7 +1,0 @@
-<div class="<%= className %>" id="main-content" role="main"><% _.forEach(rowData, function(row, index) { %>
-	<div class="portlet-layout <%= rowClassName %>"><% _.forEach(row, function(column, index) { %>
-		<div class="<%= columnPrefix %><%= column.size %> portlet-column<%= column.className ? " " + column.className : "" %>" id="column-<%= column.number %>">
-			$<%= '{' %>processor.processColumn("column-<%= column.number %>", "portlet-column-content<%= column.contentClassName ? " " + column.contentClassName : "" %>")<%= '}' %>
-		</div><% }); %>
-	</div><% }); %>
-</div>

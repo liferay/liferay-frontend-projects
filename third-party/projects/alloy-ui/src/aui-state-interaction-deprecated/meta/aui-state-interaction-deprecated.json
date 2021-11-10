@@ -1,8 +1,0 @@
-{
-    "aui-state-interaction-deprecated": {
-        "requires": [
-            "aui-base-deprecated",
-            "plugin"
-        ]
-    }
-}

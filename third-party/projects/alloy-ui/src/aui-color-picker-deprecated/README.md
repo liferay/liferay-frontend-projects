@@ -1,2 +1,0 @@
-aui-color-picker-deprecated
-========

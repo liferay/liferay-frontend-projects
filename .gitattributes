@@ -1,6 +1,0 @@
-# Don't let Git transform line-endings to CRLF on Windows, because that
-# would break the snapshots.
-*.js text eol=lf
-*.jsp text eol=lf
-*.jspf text eol=lf
-*.js.snap text eol=lf

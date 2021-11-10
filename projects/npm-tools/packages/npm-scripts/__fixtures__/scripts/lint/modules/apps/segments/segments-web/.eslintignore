@@ -1,4 +1,0 @@
-# Another project-level .eslintignore.
-
-**/legacy/*
-!src/stuff/*.js

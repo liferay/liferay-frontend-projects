@@ -1,6 +1,0 @@
-{
-	"browser": {
-		"is-object": "./browser/is-object.js",
-		"./replaced.js": "./browser/replaced.js"
-	}
-}

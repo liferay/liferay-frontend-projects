@@ -1,5 +1,0 @@
-{
-	"create-jar": {
-		"web-context-path": "/my-portlet"
-	}
-}

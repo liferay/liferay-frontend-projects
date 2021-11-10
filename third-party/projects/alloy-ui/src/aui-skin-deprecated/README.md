@@ -1,2 +1,0 @@
-aui-skin-deprecated
-========

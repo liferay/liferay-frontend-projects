@@ -1,7 +1,0 @@
-{
-    "aui-arraysort": {
-        "requires": [
-            "arraysort"
-        ]
-    }
-}

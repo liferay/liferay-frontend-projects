@@ -1,9 +1,0 @@
-api
-build
-bower_components
-coverage
-temp
-maven-dist
-node_modules
-npm-debug.log
-.sass-cache

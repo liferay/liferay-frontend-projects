@@ -1,7 +1,0 @@
-{
-	"name": "create-jar-off-with-portlet",
-	"version": "1.0.0",
-	"portlet": {
-		"com.liferay.portlet.display-category": "category.sample"
-	}
-}

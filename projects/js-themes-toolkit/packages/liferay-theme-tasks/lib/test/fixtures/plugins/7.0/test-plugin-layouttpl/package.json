@@ -1,7 +1,0 @@
-{
-	"name": "test-plugin-layouttpl",
-	"version": "1.2.3",
-	"liferayPlugin": {
-		"version": "7.0"
-	}
-}

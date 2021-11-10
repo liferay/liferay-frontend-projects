@@ -1,7 +1,0 @@
-{
-	"dependencies": {
-		"@liferay/frontend-js-state-web": "*"
-	},
-	"main": "js/index.js",
-	"name": "@liferay/frontend-js-react-web"
-}

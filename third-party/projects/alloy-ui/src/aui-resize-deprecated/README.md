@@ -1,2 +1,0 @@
-aui-resize-deprecated
-========

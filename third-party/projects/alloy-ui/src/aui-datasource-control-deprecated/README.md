@@ -1,2 +1,0 @@
-aui-datasource-control-deprecated
-========

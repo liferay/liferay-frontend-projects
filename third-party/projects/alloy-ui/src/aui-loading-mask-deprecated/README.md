@@ -1,2 +1,0 @@
-aui-loading-mask-deprecated
-========

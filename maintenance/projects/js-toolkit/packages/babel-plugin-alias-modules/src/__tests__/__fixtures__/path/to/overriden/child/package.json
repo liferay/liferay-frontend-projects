@@ -1,5 +1,0 @@
-{
-	"browser": {
-		"./module": "./child-shim.js"
-	}
-}

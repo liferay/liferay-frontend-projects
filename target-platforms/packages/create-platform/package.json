@@ -1,6 +1,0 @@
-{
-	"bin": "./bin/create-platform.js",
-	"description": "Liferay Target Plaform Creator",
-	"name": "@liferay/create-platform",
-	"version": "1.0.0"
-}

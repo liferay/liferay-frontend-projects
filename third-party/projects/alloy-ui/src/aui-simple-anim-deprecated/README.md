@@ -1,2 +1,0 @@
-aui-simple-anim-deprecated
-========

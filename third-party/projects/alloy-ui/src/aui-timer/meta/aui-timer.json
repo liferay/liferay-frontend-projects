@@ -1,7 +1,0 @@
-{
-    "aui-timer": {
-        "requires": [
-            "oop"
-        ]
-    }
-}

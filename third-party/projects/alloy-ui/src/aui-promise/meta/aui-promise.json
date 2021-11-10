@@ -1,9 +1,0 @@
-{
-    "aui-promise": {
-        "requires": [
-            "array-invoke",
-            "promise",
-            "oop"
-        ]
-    }
-}
