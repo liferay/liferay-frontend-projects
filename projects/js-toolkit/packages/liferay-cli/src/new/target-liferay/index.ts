@@ -22,19 +22,25 @@ import facetProject from '../facet-project';
 import facetReact from '../facet-react';
 import facetSampleConfiguration from '../facet-sample-configuration';
 import facetSampleStyles from '../facet-sample-styles';
+import facetSharedBundle from '../facet-shared-bundle';
 import facetVuejs from '../facet-vuejs';
 
-import type {Options, Target} from '..';
+import type {Facet, Options, Target} from '..';
+
+export interface LiferayTargetFacet extends Facet {
+	isPortlet: boolean;
+}
 
 const {
 	PkgJson: {addDependencies},
 } = TRANSFORM_OPERATIONS;
 const {info, print} = format;
 
-const frameworkFacets = {
+const projectTypeFacets: {[name: string]: LiferayTargetFacet} = {
 	'Angular': facetAngular,
 	'Plain JavaScript': facetPlainJs,
 	'React': facetReact,
+	'Shared bundle': facetSharedBundle,
 	'Vue.js': facetVuejs,
 };
 const platforms = dependencies['target-liferay']['platforms'];
@@ -55,27 +61,39 @@ const target: Target = {
 				type: 'list',
 			},
 			{
-				choices: Object.keys(frameworkFacets),
+				choices: Object.keys(projectTypeFacets),
 				default: 'React',
-				defaultDescription: 'Using framework: {React}',
-				message: 'Which will be your application framework?',
-				name: 'framework',
+				defaultDescription: 'Using project type: {React}',
+				message: 'Which will be your project type?',
+				name: 'projectType',
 				type: 'list',
 			},
 		]);
 
-		options = await facetLocalization.prompt(true, options);
-		options = await facetConfiguration.prompt(true, options);
-		options = await facetPortlet.prompt(useDefaults, options);
+		const projectTypeFacet =
+			projectTypeFacets[options.projectType as string];
 
-		const frameworkFacet = frameworkFacets[options.framework as string];
+		options = await facetLocalization.prompt(
+			useDefaults || projectTypeFacet.isPortlet,
+			options
+		);
+		options = await facetConfiguration.prompt(
+			useDefaults || projectTypeFacet.isPortlet,
+			options
+		);
 
-		if (frameworkFacet) {
-			options = await facetBuildable.prompt(true, options);
-			options = await frameworkFacet.prompt(useDefaults, options);
-			options = await facetSampleStyles.prompt(true, options);
-			options = await facetSampleConfiguration.prompt(true, options);
+		if (projectTypeFacet.isPortlet) {
+			options = await facetPortlet.prompt(useDefaults, options);
 		}
+
+		options = await facetBuildable.prompt(true, options);
+		options = await projectTypeFacet.prompt(useDefaults, options);
+
+		if (projectTypeFacet.isPortlet) {
+			options = await facetSampleStyles.prompt(true, options);
+		}
+
+		options = await facetSampleConfiguration.prompt(true, options);
 
 		return options;
 	},
@@ -99,18 +117,24 @@ const target: Target = {
 			})
 		);
 
+		const projectTypeFacet =
+			projectTypeFacets[options.projectType as string];
+
 		await facetLocalization.render(options);
 		await facetConfiguration.render(options);
-		await facetPortlet.render(options);
 
-		const frameworkFacet = frameworkFacets[options.framework as string];
-
-		if (frameworkFacet) {
-			await facetBuildable.render(options);
-			await frameworkFacet.render(options);
-			await facetSampleStyles.render(options);
-			await facetSampleConfiguration.render(options);
+		if (projectTypeFacet.isPortlet) {
+			await facetPortlet.render(options);
 		}
+
+		await facetBuildable.render(options);
+		await projectTypeFacet.render(options);
+
+		if (projectTypeFacet.isPortlet) {
+			await facetSampleStyles.render(options);
+		}
+
+		await facetSampleConfiguration.render(options);
 	},
 };
 

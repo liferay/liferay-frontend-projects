@@ -15,7 +15,8 @@ import {
 import dependencies from '../../dependencies.json';
 import ensureOutputFile from '../../util/ensureOutputFile';
 
-import type {Facet, Options} from '../index';
+import type {Options} from '../index';
+import type {LiferayTargetFacet} from '../target-liferay';
 
 const {
 	PkgJson: {addDependencies},
@@ -23,7 +24,9 @@ const {
 } = TRANSFORM_OPERATIONS;
 const {info, print} = format;
 
-const facet: Facet = {
+const facet: LiferayTargetFacet = {
+	isPortlet: true,
+
 	async prompt(useDefaults: boolean, options: Options): Promise<Options> {
 		return options;
 	},
