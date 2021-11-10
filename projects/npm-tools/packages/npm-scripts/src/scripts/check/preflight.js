@@ -8,6 +8,7 @@ const {SpawnError} = require('../../utils/spawnSync');
 const checkConfigFileNames = require('./preflight/checkConfigFileNames');
 const checkPackageJSONFiles = require('./preflight/checkPackageJSONFiles');
 const checkTypeScriptTypeArtifacts = require('./preflight/checkTypeScriptTypeArtifacts');
+const checkYarnLock = require('./preflight/checkYarnLock');
 
 /**
  * Runs the "preflight" checks (basically everything that is not already covered
@@ -18,6 +19,7 @@ async function preflight() {
 		...checkConfigFileNames(),
 		...checkPackageJSONFiles(),
 		...(await checkTypeScriptTypeArtifacts()),
+		...checkYarnLock(),
 	];
 
 	if (errors.length) {
