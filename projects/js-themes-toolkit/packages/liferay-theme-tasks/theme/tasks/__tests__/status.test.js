@@ -14,7 +14,8 @@ let tempTheme;
 
 beforeEach(() => {
 	tempTheme = setupTempTheme({
-		init: () => registerTasks({gulp: new Gulp()}),
+		init: () =>
+			registerTasks({gulp: new Gulp(), sassOptions: {dartSass: false}}),
 		namespace: 'status_task',
 	});
 });
