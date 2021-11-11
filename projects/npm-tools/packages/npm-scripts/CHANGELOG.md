@@ -1,3 +1,14 @@
+## [npm-scripts/v46.5.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v46.5.0) (2021-11-11)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v46.4.1...npm-scripts/v46.5.0)
+
+### :new: Features
+
+-   feat(npm-scripts): update liferay-theme-tasks dependency version ([\#745](https://github.com/liferay/liferay-frontend-projects/pull/745))
+-   feat(npm-scripts): add preflight check for yarn.lock validity ([\#744](https://github.com/liferay/liferay-frontend-projects/pull/744))
+-   feat(npm-scripts): bump eslint-plugin version ([\#733](https://github.com/liferay/liferay-frontend-projects/pull/733))
+-   feat(npm-scripts): lint against dev directories ([\#731](https://github.com/liferay/liferay-frontend-projects/pull/731))
+
 ## [npm-scripts/v46.4.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v46.4.1) (2021-10-21)
 
 ### :wrench: Bug fixes
