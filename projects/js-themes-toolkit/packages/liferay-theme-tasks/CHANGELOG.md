@@ -1,3 +1,11 @@
+## [liferay-theme-tasks/v11.0.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v11.0.0) (2021-11-11)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v10.5.3...liferay-theme-tasks/v11.0.0)
+
+### :new: Features
+
+-   feat(theme-tasks): upgrade gulp-sass and node-sass for newer node versions ([\#741](https://github.com/liferay/liferay-frontend-projects/pull/741))
+
 ## [liferay-theme-tasks/v10.5.3](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v10.5.3) (2021-10-07)
 
 ## :wrench: Bug Fixes
