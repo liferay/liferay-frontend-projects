@@ -8,6 +8,8 @@
 		constructor() {
 			super();
 
+			this.friendlyURLMapping = this.getAttribute('friendly-url-mapping');
+
 			this.value = 0;
 
 			this.counter = document.createElement('span');
@@ -34,12 +36,16 @@
 				}
 			`;
 
+			this.route = document.createElement('div');
+			this.updateRoute();
+
 			const root = document.createElement('div');
 
 			root.appendChild(style);
 			root.appendChild(this.decrementButton);
 			root.appendChild(this.incrementButton);
 			root.appendChild(this.counter);
+			root.appendChild(this.route);
 
 			this.attachShadow({mode: 'open'}).appendChild(root);
 
@@ -63,6 +69,22 @@
 
 		increment() {
 			this.counter.innerText = ++this.value;
+		}
+
+		updateRoute() {
+			const url = window.location.href;
+			const prefix = `/-/${this.friendlyURLMapping}/`;
+			const prefixIndex = url.indexOf(prefix);
+
+			let route;
+
+			if (prefixIndex === -1) {
+				route = '/';
+			} else {
+				route = url.substring(prefixIndex + prefix.length - 1);
+			}
+
+			this.route.innerHTML = `<hr><b>Portlet internal route</b>: ${route}`;
 		}
 	}
 
