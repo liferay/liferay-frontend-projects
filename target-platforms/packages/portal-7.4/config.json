@@ -20,6 +20,12 @@
 	},
 	"config": {
 		"imports": {
+			"@liferay/document-library-preview-css": {
+				"/": "*"
+			},
+			"@liferay/fragment-renderer-collection-filter-impl": {
+				"/": "*"
+			},
 			"@liferay/frontend-js-a11y-web": {
 				"/": "*"
 			},
@@ -37,6 +43,15 @@
 				"/": "*"
 			},
 			"@liferay/frontend-taglib": {
+				"/": "*"
+			},
+			"@liferay/map-common": {
+				"/": "*"
+			},
+			"@liferay/map-google-maps": {
+				"/": "*"
+			},
+			"@liferay/map-openstreetmap": {
 				"/": "*"
 			},
 			"asset-taglib": {
@@ -227,15 +242,6 @@
 				"clay-tooltip": "*"
 			},
 			"item-selector-taglib": {
-				"/": "*"
-			},
-			"map-common": {
-				"/": "*"
-			},
-			"map-google-maps": {
-				"/": "*"
-			},
-			"map-openstreetmap": {
 				"/": "*"
 			}
 		}
