@@ -5,38 +5,37 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-/* eslint-disable @liferay/no-dynamic-require */
 /* eslint-disable no-console */
 
+const {spawnSync} = require('child_process');
 const path = require('path');
 
 const getBaseConfigJson = require('../lib/getBaseConfigJson');
 const getBasePackageJson = require('../lib/getBasePackageJson');
+const getBundlerImports = require('../lib/getBundlerImports');
+const getDependencyVersion = require('../lib/getDependencyVersion');
+const getPortalVersion = require('../lib/getPortalVersion');
+const getPortalYarnLock = require('../lib/getPortalYarnLock');
 const writePlatform = require('../lib/writePlatform');
 
 const IGNORED_PROVIDERS = ['frontend-js-node-shims'];
 const IGNORED_PROVIDES = ['/'];
 
-if (process.argv.length < 4) {
-	console.log(
-		'\nUsage: create-plaform <liferay-portal dir> <target platform name>\n'
-	);
-	process.exit(1);
-}
+const platformsDir = path.resolve(__dirname, '..', '..');
 
-const portalDir = path.resolve(process.argv[2]);
-const platformName = process.argv[3];
+async function main([portalTagOrDir, platformName]) {
 
-const config = require(path.join(portalDir, 'modules', 'npmscripts.config.js'));
+	// Find out bundler imports
 
-// Initialize output config.json
+	const imports = await getBundlerImports(portalTagOrDir);
 
-const configJson = getBaseConfigJson(platformName);
+	// Initialize output config.json
 
-configJson.config.imports = {
-	...configJson.config.imports,
-	...Object.entries(config.build.bundler.config.imports).reduce(
-		(imports, [provider, provides]) => {
+	const configJson = getBaseConfigJson(platformName);
+
+	configJson.config.imports = {
+		...configJson.config.imports,
+		...Object.entries(imports).reduce((imports, [provider, provides]) => {
 			if (IGNORED_PROVIDERS.includes(provider)) {
 				return imports;
 			}
@@ -51,73 +50,85 @@ configJson.config.imports = {
 			);
 
 			return imports;
+		}, {}),
+	};
+
+	// Initialize output package.json
+
+	const portalVersion = getPortalVersion(portalTagOrDir);
+
+	const packageJson = getBasePackageJson(platformName, portalVersion);
+
+	const portalYarnLock = await getPortalYarnLock(portalTagOrDir);
+
+	const dependencies = Object.entries(imports).reduce(
+		(dependencies, [provider, provides]) => {
+			if (IGNORED_PROVIDERS.includes(provider)) {
+				return dependencies;
+			}
+
+			Object.keys(provides).forEach((packageName) => {
+				if (IGNORED_PROVIDES.includes(packageName)) {
+					return;
+				}
+
+				dependencies[packageName] = getDependencyVersion(
+					packageName,
+					portalYarnLock
+				);
+
+				if (dependencies[packageName] === undefined) {
+					console.log(
+						`WARNING: Could not determine version for ` +
+							`${packageName} @ ${provider}`
+					);
+
+					dependencies[packageName] = provider;
+				}
+			});
+
+			return dependencies;
 		},
 		{}
-	),
-};
+	);
 
-// Initialize output package.json
+	// Sort dependencies
 
-const packageJson = getBasePackageJson(platformName);
+	packageJson.dependencies = {
+		...packageJson.dependencies,
+		...Object.keys(dependencies)
+			.sort()
+			.reduce((sortedDependencies, packageName) => {
+				sortedDependencies[packageName] = dependencies[packageName];
 
-const dependencies = Object.entries(config.build.bundler.config.imports).reduce(
-	(dependencies, [provider, provides]) => {
-		if (IGNORED_PROVIDERS.includes(provider)) {
-			return dependencies;
-		}
+				return sortedDependencies;
+			}, {}),
+	};
 
-		Object.keys(provides).forEach((packageName) => {
-			if (IGNORED_PROVIDES.includes(packageName)) {
-				return;
-			}
+	// Produce output
 
-			const providerDir = path.join(
-				portalDir,
-				'modules',
-				'node_modules',
-				provider
-			);
+	writePlatform(platformName, packageJson, configJson);
 
-			try {
-				const packageJsonPath = require.resolve(
-					packageName + '/package.json',
-					{
-						paths: [providerDir],
-					}
-				);
-				const packageJson = require(packageJsonPath);
+	// Run yarn format
 
-				dependencies[packageName] = packageJson.version;
-			}
-			catch (error) {
-				console.log(
-					'WARNING: Dependency',
-					packageName,
-					'of provider',
-					provider,
-					'could not be resolved; it will be ignored'
-				);
-			}
-		});
+	const result = spawnSync('npx', ['prettier', '-w', `${platformName}/**`], {
+		cwd: platformsDir,
+		shell: true,
+		stdio: 'inherit',
+	});
 
-		return dependencies;
-	},
-	{}
-);
+	if (result.status) {
+		process.exit(result.status);
+	}
+}
 
-// Sort dependencies
+const args = process.argv.slice(2);
 
-packageJson.dependencies = {
-	...packageJson.dependencies,
-	...Object.keys(dependencies)
-		.sort()
-		.reduce((sortedDependencies, packageName) => {
-			sortedDependencies[packageName] = dependencies[packageName];
+if (args.length !== 2) {
+	console.log(
+		'\nUsage: create-plaform <liferay-portal tag/dir> <target platform name>\n'
+	);
+	process.exit(1);
+}
 
-			return sortedDependencies;
-		}, {}),
-};
-
-// Produce output
-
-writePlatform(platformName, packageJson, configJson);
+main(args);

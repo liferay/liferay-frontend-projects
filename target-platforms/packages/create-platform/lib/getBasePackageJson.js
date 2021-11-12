@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-module.exports = function getBasePackageJson(platformName) {
+module.exports = function getBasePackageJson(platformName, portalVersion) {
 	return {
 		bin: {
 			liferay: './liferay.js',
@@ -12,9 +12,9 @@ module.exports = function getBasePackageJson(platformName) {
 			'@liferay/portal-base': '^1.0.0',
 			'liferay-npm-bundler': '*',
 		},
-		description: 'Target Platform for liferay-' + platformName,
+		description: `Target platform for Liferay Portal ${portalVersion}`,
 		main: 'config.json',
-		name: '@liferay/' + platformName,
+		name: `@liferay/${platformName}`,
 		scripts: {
 			'build': 'true',
 			'ci': 'cd ../.. && yarn ci',
