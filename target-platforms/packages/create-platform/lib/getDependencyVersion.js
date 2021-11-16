@@ -10,9 +10,7 @@ module.exports = function getDependencyVersion(packageName, portalYarnLock) {
 			line.startsWith(`${packageName}@`)
 	);
 
-	const versionLine = portalYarnLock
-		.slice(lineIndex + 1)
-		.find((line) => line.startsWith('  version "'));
+	const versionLine = portalYarnLock[lineIndex + 1];
 
 	if (!versionLine) {
 		return undefined;
