@@ -53,12 +53,15 @@ function diff(expectedDir, actualDir, tokens) {
 				console.log('*', path.join(actualDir, expectedItem));
 			}
 
-			// console.log('<<<<<<<<<<<<<<<<<<');
-			// console.log(expectedContent);
-			// console.log('==================');
-			// console.log(actualContent.toString());
-			// console.log('>>>>>>>>>>>>>>>>>>');
+			/*
 
+			console.log('<<<<<<<<<<<<<<<<<<');
+			console.log(expectedContent);
+			console.log('==================');
+			console.log(actualContent.toString());
+			console.log('>>>>>>>>>>>>>>>>>>');
+
+			*/
 		}
 	}
 
