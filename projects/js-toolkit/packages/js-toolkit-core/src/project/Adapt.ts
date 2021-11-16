@@ -33,6 +33,7 @@ export default class Adapt {
 
 	_lazyInit(): void {
 		const {_project} = this;
+
 		const {probe} = _project;
 
 		switch (probe.type) {

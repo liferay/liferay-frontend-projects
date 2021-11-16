@@ -12,6 +12,7 @@ import resolveModule from 'resolve';
 import report from './report';
 
 const pkgJson = project.pkgJson;
+
 const rootPkg = new PkgDesc(pkgJson.name, pkgJson.version);
 
 /**
@@ -53,6 +54,7 @@ export function addPackageDependencies(
 	collectedDependencies[pkg.id] = pkg;
 
 	let dependencies = packageJson.dependencies || {};
+
 	dependencies = Object.keys(dependencies);
 	dependencies = dependencies.concat(extraDependencies);
 

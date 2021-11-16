@@ -26,6 +26,7 @@ module.exports = () => ({apply});
 
 function apply(resolver) {
 	const config = getMergedConfig('npmscripts');
+
 	const soyDir = path.join(config.build.temp, 'soy');
 
 	resolver.hooks.describedResolve.tapAsync(

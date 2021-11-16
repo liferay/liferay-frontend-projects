@@ -128,6 +128,7 @@ function confirm(prompt, answer = 'y', matcher = YES_REGEX) {
 
 	const promise = new Promise((resolve) => {
 		const question = answer === 'y' ? `${prompt} [y/n] ` : `${prompt} `;
+
 		readline.question(question, resolve);
 	}).then((result) => {
 		if (answer === 'y') {

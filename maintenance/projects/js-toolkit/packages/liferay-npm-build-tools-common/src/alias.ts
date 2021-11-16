@@ -99,6 +99,7 @@ export function loadAliases(
 	aliasFields: string[]
 ): AliasHash {
 	const absPkgJsonFile = pkgJsonFile.resolve();
+
 	const cacheKey = `${absPkgJsonFile.asNative}|${aliasFields.join()}`;
 
 	let aliases: AliasHash = aliasesCache[cacheKey];

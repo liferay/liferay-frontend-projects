@@ -12,6 +12,7 @@ const DEPLOYMENT_STRATEGIES = themeUtil.DEPLOYMENT_STRATEGIES;
 
 function registerTasks() {
 	const {gulp, options, store} = project;
+
 	const {runSequence} = gulp;
 	const {argv, pathDist} = options;
 	const {

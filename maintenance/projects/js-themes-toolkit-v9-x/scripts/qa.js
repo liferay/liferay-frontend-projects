@@ -11,6 +11,7 @@ const path = require('path');
 const {argv} = require('yargs');
 
 const workDir = path.resolve(__dirname, '..', 'qa');
+
 const pkgsDir = path.join(workDir, 'packages');
 const yoPath = path.join(workDir, 'node_modules', '.bin', 'yo');
 

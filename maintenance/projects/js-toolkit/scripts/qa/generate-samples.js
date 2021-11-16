@@ -25,6 +25,7 @@ function generateSamples() {
 	ensureDirectories();
 	writeConfigurations();
 	const configs = getUsedConfigurations();
+
 	generateLiferaySamples(configs);
 	prepareManualProjects();
 	generateCreateReactAppSample();
@@ -157,6 +158,7 @@ function prepareManualProjects() {
 		// Change deploy directory
 
 		const npmbuildrcPath = path.join(packagesDir, prj, '.npmbuildrc');
+
 		const npmbuildrc = JSON.parse(fs.readFileSync(npmbuildrcPath));
 
 		npmbuildrc.liferayDir = liferayDir;
@@ -174,6 +176,7 @@ function generateCreateReactAppSample() {
 	// to our QA folder.
 
 	const tmpDir = path.join(qaDir, 'tmp');
+
 	const tmpPrjDir = path.join(tmpDir, 'create-react-app');
 
 	fs.emptyDirSync(tmpPrjDir);

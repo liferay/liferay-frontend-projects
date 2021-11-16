@@ -35,6 +35,7 @@ async function spawnMultiple(...callbacks) {
 
 	if (failedCount) {
 		const jobCount = callbacks.length;
+
 		const jobs = jobCount === 1 ? 'job' : 'jobs';
 
 		throw new SpawnError(`${failedCount} of ${jobCount} ${jobs} failed`);

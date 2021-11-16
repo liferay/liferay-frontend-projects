@@ -109,6 +109,7 @@ function instrument(callbacks) {
 			for (const [label, timestamps] of Object.entries(metrics)) {
 				for (const {end, start} of timestamps) {
 					const delta = end - start;
+
 					events.push({delta, end, label, start});
 				}
 			}

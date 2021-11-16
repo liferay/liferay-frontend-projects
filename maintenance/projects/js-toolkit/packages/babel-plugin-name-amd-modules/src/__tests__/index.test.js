@@ -12,6 +12,7 @@ import path from 'path';
 import plugin from '../index';
 
 const prjDirPath = path.join(__dirname, '__fixtures__', 'a-project');
+
 const filename = path.join(prjDirPath, 'path', 'to', 'module.js');
 
 beforeAll(() => {

@@ -26,6 +26,7 @@ module.exports = {
 						!variableName.match(NAME_PATTERN)
 					) {
 						const [variable] = context.getDeclaredVariables(node);
+
 						const newVariableName = variable.name + 'Ref';
 
 						for (const reference of variable.references) {

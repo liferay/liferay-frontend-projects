@@ -40,6 +40,7 @@ export default async function runLiferayCli(...args: string[]): Promise<void> {
 	}
 
 	const packageJson = projectRequire(`${targetPlatformName}/package.json`);
+
 	const liferayBin = packageJson.bin['liferay'];
 
 	if (!liferayBin) {

@@ -11,6 +11,7 @@ const configureTypeScript = require('../../src/typescript/configureTypeScript');
 const expandGlobs = require('../../src/utils/expandGlobs');
 
 const FIXTURES = path.join(__dirname, '..', '..', '__fixtures__', 'typescript');
+
 const MODULES = path.join(FIXTURES, 'modules');
 
 const EXPECT_HASH = expect.stringMatching(/^[0-9a-f]{40}$/);

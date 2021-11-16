@@ -18,6 +18,7 @@ const {createBourbonFile} = require('../../lib/bourbon_dependencies');
 
 module.exports = function () {
 	const {gulp, options} = project;
+
 	const {pathBuild} = options;
 
 	const handleScssError = (error) => {
@@ -154,6 +155,7 @@ function getSassIncludePaths() {
 	includePaths.push(path.dirname(require.resolve('compass-mixins')));
 
 	const argv = themeUtil.getArgv();
+
 	if (argv['sass-include-paths']) {
 		const customPaths = argv['sass-include-paths']
 			.split(',')
@@ -166,6 +168,7 @@ function getSassIncludePaths() {
 	}
 
 	const themeNodeModules = path.resolve('node_modules');
+
 	if (fs.existsSync(themeNodeModules)) {
 		includePaths.push(themeNodeModules);
 	}

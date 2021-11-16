@@ -71,6 +71,7 @@ class ExtendPrompt {
 		const baseTheme = this.themeConfig.baseTheme;
 		const module = answers.module;
 		const modulePackages = answers.modules;
+
 		const pkg = modulePackages[module];
 
 		if (!module) {

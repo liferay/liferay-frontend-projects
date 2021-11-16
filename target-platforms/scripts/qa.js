@@ -112,6 +112,7 @@ function runQAFor(projectName) {
 	run(projectName, 'yarn', 'build');
 
 	const projectDir = path.resolve(__dirname, '..', 'qa', projectName);
+
 	const actualBuildDir = path.join(projectDir, 'build');
 	const expectedBuildDir = path.join(projectDir, 'build.expected');
 

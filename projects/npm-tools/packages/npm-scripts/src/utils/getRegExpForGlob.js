@@ -97,6 +97,7 @@ function getRegExpForGlob(glob) {
 	}
 
 	const result = new RegExp(`^${pattern}$`);
+
 	result.glob = glob;
 
 	if (negated) {

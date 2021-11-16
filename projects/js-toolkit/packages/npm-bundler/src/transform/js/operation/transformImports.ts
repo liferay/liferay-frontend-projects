@@ -107,6 +107,7 @@ function transformImportDeclaration(
 ): boolean {
 	const {imports} = project;
 	const moduleName = node.source.value as string;
+
 	const config = imports[moduleName];
 
 	if (!config) {

@@ -158,6 +158,7 @@ describe('using lib_sass', () => {
 
 	function _assertFixAtDirectives(cb) {
 		const cssPath = path.join(buildPath, 'css');
+
 		const mainCssPath = path.join(cssPath, 'main.css');
 
 		expect(fs.existsSync(cssPath)).toBe(true);
@@ -206,6 +207,7 @@ describe('using lib_sass', () => {
 		expect(fs.existsSync(templatesPath)).toBe(true);
 
 		const customCSSFileName = '_custom.scss';
+
 		const customCSSPath = path.join(cssPath, customCSSFileName);
 
 		const fileContent = testUtil.stripNewlines(
@@ -299,6 +301,7 @@ describe('using lib_sass', () => {
 		expect(fs.existsSync(velocityPath)).toBe(true);
 
 		const customCSSFileName = '_custom.scss';
+
 		const customCSSPath = path.join(buildPath, 'css', customCSSFileName);
 
 		expect(fs.readFileSync(customCSSPath).toString()).toMatch(

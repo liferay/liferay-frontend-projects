@@ -57,6 +57,7 @@ function restoreTags(source, tags) {
 
 	for (let i = 0; i < tokens.length; i++) {
 		const token = tokens[i];
+
 		const {contents, name} = token;
 
 		switch (name) {
@@ -125,6 +126,7 @@ function restoreTags(source, tags) {
 
 	for (let i = 0; i < tokens.length; i++) {
 		const token = tokens[i];
+
 		const {contents, name} = token;
 
 		switch (name) {
@@ -218,6 +220,7 @@ function appendScriptlet(scriptlet, token, output) {
 		// invalidated by previous edits.
 
 		const whitespace = tokens[-1].contents;
+
 		output = output.slice(0, -whitespace.length);
 
 		// Add newline to force blank line, then re-add trimmed whitespace.
@@ -315,6 +318,7 @@ function getIndentedTag(tag, token) {
 		// Look at last line to figure out original indent.
 
 		const last = lines.pop();
+
 		const {0: original} = last.match(new RegExp(`^${TAB_CHAR}*`));
 
 		// Restore original indent to first line, then dedent the whole tag.

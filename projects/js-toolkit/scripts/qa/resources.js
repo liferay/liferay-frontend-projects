@@ -38,6 +38,7 @@ function findLiferayDir() {
 		const json = JSON.parse(
 			fs.readFileSync(path.join(os.homedir(), '.liferay.json'))
 		);
+
 		liferayDir = json.deploy.path;
 	}
 	catch (error) {

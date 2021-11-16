@@ -16,6 +16,7 @@ app.use(express.static('../../'));
 
 app.post('/post', upload.array(), (req, res, _next) => {
 	var content = '<div id="result1">';
+
 	content += JSON.stringify(req.body, 5);
 	content += '</div>';
 	res.end(content);

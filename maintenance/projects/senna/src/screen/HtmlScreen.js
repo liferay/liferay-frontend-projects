@@ -81,11 +81,13 @@ class HtmlScreen extends RequestScreen {
 			newStyle,
 			HtmlScreen.selectors.stylesTemporary
 		);
+
 		if (isTemporaryStyle) {
 			this.pendingStyles.push(newStyle);
 		}
 		if (newStyle.id) {
 			var styleInDoc = globals.document.getElementById(newStyle.id);
+
 			if (styleInDoc) {
 				styleInDoc.parentNode.insertBefore(
 					newStyle,
@@ -123,6 +125,7 @@ class HtmlScreen extends RequestScreen {
 			const tempNode = globals.document
 				.createRange()
 				.createContextualFragment(content);
+
 			placeholder = tempNode.querySelector('senna');
 		}
 		else {
@@ -233,6 +236,7 @@ class HtmlScreen extends RequestScreen {
 
 		permanentsInDoc.forEach((resource) => {
 			var resourceKey = this.getResourceKey_(resource);
+
 			if (resourceKey) {
 				HtmlScreen.permanentResourcesInDoc[resourceKey] = true;
 			}
@@ -310,10 +314,12 @@ class HtmlScreen extends RequestScreen {
 	 */
 	getSurfaceContent(surfaceId) {
 		var surface = this.virtualDocument.querySelector('#' + surfaceId);
+
 		if (surface) {
 			var defaultChild = surface.querySelector(
 				'#' + surfaceId + '-' + Surface.DEFAULT
 			);
+
 			if (defaultChild) {
 				return defaultChild.innerHTML;
 			}
@@ -356,6 +362,7 @@ class HtmlScreen extends RequestScreen {
 		var temporariesInDoc = this.virtualQuerySelectorAll_(
 			HtmlScreen.selectors.stylesTemporary
 		);
+
 		temporariesInDoc.forEach((style) =>
 			this.replaceStyleAndMakeUnique_(style)
 		);
@@ -426,6 +433,7 @@ class HtmlScreen extends RequestScreen {
 	 */
 	resolveTitleFromVirtualDocument() {
 		const title = this.virtualDocument.querySelector(this.titleSelector);
+
 		if (title) {
 			this.setTitle(title.textContent.trim());
 		}
@@ -433,6 +441,7 @@ class HtmlScreen extends RequestScreen {
 
 	resolveMetaTagsFromVirtualDocument() {
 		const metas = this.virtualQuerySelectorAll_(this.metaTagsSelector);
+
 		if (metas) {
 			this.setMetas(metas);
 		}

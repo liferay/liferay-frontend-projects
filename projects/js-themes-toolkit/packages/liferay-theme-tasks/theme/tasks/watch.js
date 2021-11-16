@@ -66,6 +66,7 @@ function isReadable(file) {
 
 module.exports = function () {
 	const {gulp, options, store} = project;
+
 	const {runSequence} = gulp;
 	const {argv, distName, pathBuild, pathSrc, resourcePrefix} = options;
 	const {deploymentStrategy, dockerContainerName} = store;
@@ -176,8 +177,11 @@ module.exports = function () {
 
 	gulp.task('watch:reload', (callback) => {
 		const {changedFile} = store;
+
 		const srcPath = path.relative(project.dir, changedFile.path);
+
 		const dstPath = srcPath.replace(/^src\//, '');
+
 		const urlPath = `${resourcePrefix}/${distName}/${dstPath}`;
 
 		livereload.changed({
@@ -267,8 +271,10 @@ module.exports = function () {
 			const requestUrl = url.parse(req.url);
 
 			const match = themePattern.exec(requestUrl.pathname);
+
 			if (match) {
 				const filepath = path.resolve('build', match[3]);
+
 				const ext = path.extname(filepath);
 
 				// eslint-disable-next-line promise/catch-or-return
@@ -299,9 +305,11 @@ module.exports = function () {
 				`Watch mode is now active at: ${url}`,
 				`Proxying: ${proxyUrl}`,
 			];
+
 			const width = messages.reduce((max, line) => {
 				return Math.max(line.length, max);
 			}, 0);
+
 			const ruler = '-'.repeat(width);
 
 			// eslint-disable-next-line no-console

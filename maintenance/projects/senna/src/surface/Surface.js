@@ -115,6 +115,7 @@ class Surface extends Disposable {
 	 */
 	createChild(screenId) {
 		var child = globals.document.createElement('div');
+
 		child.setAttribute('id', this.makeId_(screenId));
 
 		return child;
@@ -179,6 +180,7 @@ class Surface extends Disposable {
 	 */
 	maybeWrapContentAsDefault_() {
 		var element = this.getElement();
+
 		if (element && !this.defaultChild) {
 			var fragment = globals.document.createDocumentFragment();
 			while (element.firstChild) {
@@ -214,6 +216,7 @@ class Surface extends Disposable {
 	show(screenId) {
 		var from = this.activeChild;
 		var to = this.getChild(screenId);
+
 		if (!to) {
 			to = this.defaultChild;
 		}
@@ -232,6 +235,7 @@ class Surface extends Disposable {
 	 */
 	remove(screenId) {
 		var child = this.getChild(screenId);
+
 		if (child) {
 			exitDocument(child);
 		}

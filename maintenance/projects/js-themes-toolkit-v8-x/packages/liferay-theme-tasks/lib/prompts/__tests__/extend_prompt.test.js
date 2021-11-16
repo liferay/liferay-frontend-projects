@@ -438,6 +438,7 @@ it('_promptThemeSource should prompt correct workflow', () => {
 	prototype._promptThemeSource();
 
 	const args = inquirer.prompt.getCall(0).args;
+
 	const questions = args[0];
 
 	const extendType = questions[0];

@@ -441,6 +441,7 @@ class Lexer {
 
 					for (let i = 0; i < matchers.length; i++) {
 						const matcher = lookup(matchers[i]);
+
 						const match = matcher.exec(remaining);
 
 						if (match !== null) {

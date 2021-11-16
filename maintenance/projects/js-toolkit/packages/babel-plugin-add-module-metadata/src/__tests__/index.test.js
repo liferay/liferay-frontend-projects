@@ -15,6 +15,7 @@ import plugin from '../index';
 
 const prjDirPath = path.join(__dirname, '__fixtures__', 'a-project');
 const prjRelModulePath = path.join('path', 'to', 'module.js');
+
 const filename = path.join(prjDirPath, prjRelModulePath);
 const prjPkgDesc = new PkgDesc('a-project', '1.0.0', null);
 

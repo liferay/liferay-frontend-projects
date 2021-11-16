@@ -43,6 +43,7 @@ export default class DependencyResolver {
 			}
 
 			const modulesParam = `modules=${encodeURIComponent(modules)}`;
+
 			let url = `${config.resolvePath}?${modulesParam}`;
 			let options = {};
 
@@ -58,6 +59,7 @@ export default class DependencyResolver {
 				.then((response) => response.text())
 				.then((text) => {
 					const resolution = JSON.parse(text);
+
 					this._cachedResolutions[modules] = resolution;
 					resolve(resolution);
 				})

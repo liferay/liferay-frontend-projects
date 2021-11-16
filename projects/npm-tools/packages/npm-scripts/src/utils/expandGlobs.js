@@ -128,6 +128,7 @@ function expandGlobs(matchGlobs, ignoreGlobs = [], options = {}) {
 		currentDepth++;
 
 		const entries = fs.readdirSync(directory);
+
 		entries.forEach((entry) => {
 			const file = path.posix.join(directory, entry);
 			const testedFilePath = path.isAbsolute(baseDir)

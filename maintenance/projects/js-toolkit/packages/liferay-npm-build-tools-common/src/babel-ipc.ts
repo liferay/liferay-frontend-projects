@@ -12,6 +12,7 @@ import FilePath from './file-path';
 declare const global: {
 	_babel_ipc_: object;
 };
+
 global._babel_ipc_ = global._babel_ipc_ || {};
 
 /** Babel state object view */

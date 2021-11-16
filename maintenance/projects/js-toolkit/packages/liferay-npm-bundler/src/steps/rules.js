@@ -104,6 +104,7 @@ function runLoaders(loaders, firstLoaderIndex, context) {
 	}
 
 	const loader = loaders[firstLoaderIndex];
+
 	const encoding = loader.metadata.encoding;
 
 	let result;

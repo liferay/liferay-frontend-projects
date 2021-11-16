@@ -25,6 +25,7 @@ Object.values(depVersions[dep]).forEach((prjs) => {
 
 	prjs.forEach((prj) => {
 		const pkgJsonPath = path.join('packages', prj, 'package.json');
+
 		const pkgJson = JSON.parse(fs.readFileSync(pkgJsonPath));
 
 		console.log(`  ${prj}`);

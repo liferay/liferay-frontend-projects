@@ -49,6 +49,7 @@ describe('Route', () => {
 
 		it('sets path and handler from constructor', () => {
 			var route = new Route('/path', core.nullFunction);
+
 			assert.strictEqual('/path', route.getPath());
 			assert.strictEqual(core.nullFunction, route.getHandler());
 		});
@@ -57,11 +58,13 @@ describe('Route', () => {
 	describe('Matching', () => {
 		it('matches route by string path', () => {
 			var route = new Route('/path', core.nullFunction);
+
 			assert.ok(route.matchesPath('/path'));
 		});
 
 		it('matches route by string path with params', () => {
 			var route = new Route('/path/:foo(\\d+)', core.nullFunction);
+
 			assert.ok(route.matchesPath('/path/10'));
 			assert.ok(route.matchesPath('/path/10/'));
 			assert.ok(!route.matchesPath('/path/abc'));
@@ -70,6 +73,7 @@ describe('Route', () => {
 
 		it('matches route by regex path', () => {
 			var route = new Route(/\/path/, core.nullFunction);
+
 			assert.ok(route.matchesPath('/path'));
 		});
 
@@ -77,16 +81,19 @@ describe('Route', () => {
 			var route = new Route((path) => {
 				return path === '/path';
 			}, core.nullFunction);
+
 			assert.ok(route.matchesPath('/path'));
 		});
 
 		it('does not match any route', () => {
 			var route = new Route('/path', core.nullFunction);
+
 			assert.ok(!route.matchesPath('/invalid'));
 		});
 
 		it('does not match any route for invalid path', () => {
 			var route = new Route({}, core.nullFunction);
+
 			assert.ok(!route.matchesPath('/invalid'));
 		});
 	});
@@ -97,11 +104,13 @@ describe('Route', () => {
 				'/path/:foo(\\d+)/:bar(\\w+)',
 				core.nullFunction
 			);
+
 			var params = route.extractParams('/path/123/abc');
 			var expected = {
 				foo: '123',
 				bar: 'abc',
 			};
+
 			assert.deepEqual(expected, params);
 		});
 
@@ -110,13 +119,17 @@ describe('Route', () => {
 				'/path/:foo(\\d+)/:bar(\\w+)',
 				core.nullFunction
 			);
+
 			var params = route.extractParams('/path/abc/123');
+
 			assert.strictEqual(null, params);
 		});
 
 		it('returns empty object if trying to extract params from path given as function', () => {
 			var route = new Route(core.nullFunction, core.nullFunction);
+
 			var params = route.extractParams('/path/123/abc');
+
 			assert.deepEqual({}, params);
 		});
 	});

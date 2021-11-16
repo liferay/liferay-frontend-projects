@@ -75,6 +75,7 @@ function addFiles(srcDirPath, srcGlobs, destFolder) {
 
 	filePaths.forEach((filePath) => {
 		const parts = filePath.split(path.sep);
+
 		const dirs = parts.slice(0, parts.length - 1);
 		const name = parts[parts.length - 1];
 
@@ -290,6 +291,7 @@ function getPortletInstanceConfigurationJson() {
 	}
 
 	const filePath = project.jar.configurationFile.asNative;
+
 	const configurationJson = fs.readJSONSync(filePath);
 
 	if (
@@ -313,6 +315,7 @@ function getSystemConfigurationJson() {
 	}
 
 	const filePath = project.jar.configurationFile.asNative;
+
 	const configurationJson = fs.readJSONSync(filePath);
 
 	if (

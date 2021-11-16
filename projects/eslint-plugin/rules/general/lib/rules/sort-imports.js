@@ -290,7 +290,9 @@ module.exports = {
 
 						for (let i = firstMismatch; i <= lastMismatch; i++) {
 							const node = actual[i];
+
 							const range = getRangeForNode(node);
+
 							const text = code.getText().slice(...range);
 
 							sources.set(actual[i], {text});

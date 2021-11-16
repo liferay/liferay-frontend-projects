@@ -6,12 +6,14 @@
 import Loader from './loader';
 
 const cfg = window.__CONFIG__ || {};
+
 const namespace = typeof cfg.namespace === 'string' ? cfg.namespace : undefined;
 const exposeGlobal = cfg.exposeGlobal === undefined ? true : cfg.exposeGlobal;
 const loader = new Loader(cfg);
 
 if (namespace) {
 	const ns = window[namespace] ? window[namespace] : {};
+
 	ns.Loader = loader;
 	window[namespace] = ns;
 }

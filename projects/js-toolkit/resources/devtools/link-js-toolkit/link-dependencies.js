@@ -17,6 +17,7 @@ function linkDependencies(extraDependencies = []) {
 	// Read package.json
 
 	const pkgJson = readJsonSync(path.join('.', 'package.json'));
+
 	pkgJson.dependencies = pkgJson.dependencies || {};
 	pkgJson.devDependencies = pkgJson.devDependencies || {};
 

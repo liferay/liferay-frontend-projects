@@ -287,6 +287,7 @@ export function loadSourceMap(filePath) {
 	const annotation = fileContent.toString().substring(offset);
 
 	let matches = annotation.match(/\/\/# sourceMappingURL=(.*)/);
+
 	if (!matches) {
 		matches = annotation.match(/\/\*# sourceMappingURL=(.*) \*\//);
 

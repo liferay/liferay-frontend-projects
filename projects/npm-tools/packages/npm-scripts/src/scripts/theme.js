@@ -60,11 +60,13 @@ function checkExistingBuildArgs(args) {
  */
 function prepareAdditionalBuildArgs() {
 	const modules = findModulesDirectory();
+
 	if (!modules) {
 		throw new Error('Unable to find "modules" directory');
 	}
 
 	const themes = path.join(modules, 'apps/frontend-theme');
+
 	if (!fs.existsSync(themes)) {
 		throw new Error('Unable to find "frontend-theme" directory');
 	}
@@ -72,6 +74,7 @@ function prepareAdditionalBuildArgs() {
 	const args = [];
 	Object.keys(BUILD_ARGS).forEach((key) => {
 		const value = BUILD_ARGS[key];
+
 		args.push(key, value.replace(MODULES_DIR, modules));
 	});
 
@@ -83,6 +86,7 @@ function prepareAdditionalBuildArgs() {
  */
 function run(...subcommandAndArgs) {
 	const [subcommand, ...args] = subcommandAndArgs;
+
 	switch (subcommand) {
 		case 'build':
 			checkExistingBuildArgs(args);

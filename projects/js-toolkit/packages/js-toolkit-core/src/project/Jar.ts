@@ -90,6 +90,7 @@ export default class Jar {
 		}
 
 		const {_project} = this;
+
 		const {configuration} = _project;
 
 		if (this._outputDir === undefined) {
@@ -202,6 +203,7 @@ different: using the one in liferay-npm-bundler.config.js
 
 	_getBndWebContextPath(): string {
 		const {dir} = this._project;
+
 		const bndFile = dir.join('bnd.bnd');
 
 		if (fs.existsSync(bndFile.asNative)) {

@@ -188,6 +188,7 @@ describe('Lexer()', () => {
 				const ORIGINAL = match('foo')
 					.name('ORIGINAL')
 					.onMatch(() => calls.push('ORIGINAL'));
+
 				const COPY = an(ORIGINAL)
 					.name('COPY')
 					.onMatch(() => calls.push('COPY'));

@@ -46,6 +46,7 @@ async function warnIfNewerVersionAvailable(): Promise<void> {
 	try {
 		/* eslint-disable-next-line @typescript-eslint/no-var-requires */
 		const packageJson = require('../package.json');
+
 		const update = await checkForUpdate(packageJson, {
 
 			// Check every 3 days

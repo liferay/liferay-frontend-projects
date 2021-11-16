@@ -81,6 +81,7 @@ class RequestScreen extends Screen {
 	assertValidResponseStatusCode(status) {
 		if (!this.isValidResponseStatusCode(status)) {
 			var error = new Error(errors.INVALID_STATUS);
+
 			error.invalidStatus = true;
 			error.statusCode = status;
 			throw error;
@@ -92,6 +93,7 @@ class RequestScreen extends Screen {
 	 */
 	beforeUpdateHistoryPath(path) {
 		var redirectPath = this.getRequestPath();
+
 		if (redirectPath && redirectPath !== path) {
 			return redirectPath;
 		}
@@ -160,9 +162,11 @@ class RequestScreen extends Screen {
 	 */
 	getRequestPath() {
 		var request = this.getRequest();
+
 		if (request) {
 			var requestPath = request.requestPath;
 			var responseUrl = this.maybeExtractResponseUrlFromRequest(request);
+
 			if (responseUrl) {
 				requestPath = responseUrl;
 			}
@@ -210,6 +214,7 @@ class RequestScreen extends Screen {
 	 */
 	getFormData(formElement, submittedButtonElement) {
 		const formData = new FormData(formElement);
+
 		this.maybeAppendSubmitButtonValue_(formData, submittedButtonElement);
 
 		return formData;
@@ -220,6 +225,7 @@ class RequestScreen extends Screen {
 	 */
 	load(path) {
 		const cache = this.getCache();
+
 		if (isDefAndNotNull(cache)) {
 			return CancellablePromise.resolve(cache);
 		}
@@ -310,6 +316,7 @@ class RequestScreen extends Screen {
 	 */
 	maybeExtractResponseUrlFromRequest(request) {
 		var responseUrl = request.responseURL;
+
 		if (responseUrl) {
 			return responseUrl;
 		}
@@ -330,8 +337,10 @@ class RequestScreen extends Screen {
 			const inputs = globals.capturedFormElement.querySelectorAll(
 				'input[type="file"]:not([disabled])'
 			);
+
 			for (let index = 0; index < inputs.length; index++) {
 				const input = inputs[index];
+
 				if (input.files.length > 0) {
 					return;
 				}
@@ -353,8 +362,10 @@ class RequestScreen extends Screen {
 			const inputs = globals.capturedFormElement.querySelectorAll(
 				'input[type="file"][data-safari-temp-disabled]'
 			);
+
 			for (let index = 0; index < inputs.length; index++) {
 				const input = inputs[index];
+
 				input.removeAttribute('data-safari-temp-disabled');
 				input.removeAttribute('disabled');
 			}

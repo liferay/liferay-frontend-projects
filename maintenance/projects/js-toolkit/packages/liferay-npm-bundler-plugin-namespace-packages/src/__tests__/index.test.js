@@ -14,6 +14,7 @@ const fixturesDir = path.join(__dirname, '__fixtures__');
 
 it('namespaces packages correctly for the root package', () => {
 	const pkgJson = readJsonSync(`${fixturesDir}/project/package.json`);
+
 	const pkg = new PkgDesc(pkgJson.name, pkgJson.version, fixturesDir, true);
 	const log = new PluginLogger();
 
@@ -25,7 +26,9 @@ it('namespaces packages correctly for the root package', () => {
 it('namespaces packages correctly for non-root package', () => {
 	const rootPkgJson = readJsonSync(`${fixturesDir}/project/package.json`);
 	const dir = `${fixturesDir}/project/node_modules/is-finite`;
+
 	const pkgJson = readJsonSync(`${dir}/package.json`);
+
 	const pkg = new PkgDesc(pkgJson.name, pkgJson.version, dir);
 	const log = new PluginLogger();
 
@@ -37,7 +40,9 @@ it('namespaces packages correctly for non-root package', () => {
 it('logs results correctly', () => {
 	const rootPkgJson = readJsonSync(`${fixturesDir}/project/package.json`);
 	const dir = `${fixturesDir}/project/node_modules/is-finite`;
+
 	const pkgJson = readJsonSync(`${dir}/package.json`);
+
 	const pkg = new PkgDesc(pkgJson.name, pkgJson.version, dir);
 	const log = new PluginLogger();
 

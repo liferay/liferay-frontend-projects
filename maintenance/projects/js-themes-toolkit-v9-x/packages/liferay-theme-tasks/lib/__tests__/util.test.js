@@ -61,6 +61,7 @@ describe('resolveDependency()', () => {
 		const resolved = util.resolveDependency(
 			'liferay-frontend-theme-styled'
 		);
+
 		expect(resolved).toContain(process.cwd());
 	});
 });

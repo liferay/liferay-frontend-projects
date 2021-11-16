@@ -114,9 +114,11 @@ function getLiferayThemeModuleFromURL(url) {
 		// Just in case package name doesn't match URL basename, read it.
 
 		const {dependencies} = JSON.parse(fs.readFileSync('package.json'));
+
 		const themeName = Object.keys(dependencies)[0];
 
 		const json = path.join('node_modules', themeName, 'package.json');
+
 		config = JSON.parse(fs.readFileSync(json));
 	});
 
@@ -183,6 +185,7 @@ module.exports = {
  */
 function withScratchDirectory(cb) {
 	const template = path.join(os.tmpdir(), 'theme-finder-');
+
 	const directory = fs.mkdtempSync(template);
 
 	const cwd = process.cwd();

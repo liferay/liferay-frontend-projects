@@ -217,6 +217,7 @@ function safeReadJsonSync(filePath) {
 	catch (err) {
 		if (err.code !== 'ENOENT') {
 			const msg = `(at ${filePath}) ${err.message}`;
+
 			err.message = msg;
 			throw err;
 		}

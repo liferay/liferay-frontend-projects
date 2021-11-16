@@ -640,6 +640,7 @@ describe('deprecated config', () => {
 			const pkgOther = new PkgDesc('other-package', '1.0.0', __dirname);
 
 			let plugins = project.transform.getPrePluginDescriptors(pkg1);
+
 			expect(plugins[0].run({}, {})).toEqual(1);
 
 			plugins = project.transform.getPrePluginDescriptors(pkg2);

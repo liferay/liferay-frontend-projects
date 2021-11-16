@@ -51,6 +51,7 @@ module.exports = class Copier {
 	 */
 	copyDir(src, {context = {}} = {}) {
 		const gen = this._generator;
+
 		const files = fs.readdirSync(gen.templatePath(src));
 
 		files.forEach((file) => {

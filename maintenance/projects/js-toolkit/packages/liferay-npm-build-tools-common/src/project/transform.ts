@@ -43,6 +43,7 @@ export default class Transform {
 
 		if (this._versionsInfo === undefined) {
 			const {_project} = this;
+
 			const {npmbundlerrc} = _project;
 
 			const map = new Map<string, VersionInfo>();
@@ -69,6 +70,7 @@ export default class Transform {
 					const pkgJsonPath = _project.toolResolve(
 						`${pkgName}/package.json`
 					);
+
 					const pkgJson = _project.toolRequire(pkgJsonPath);
 
 					map.set(pluginName, {

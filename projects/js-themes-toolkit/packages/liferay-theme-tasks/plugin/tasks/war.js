@@ -11,6 +11,7 @@ const project = require('../../lib/project');
 
 module.exports = function () {
 	const {gulp} = project;
+
 	const {runSequence} = gulp;
 
 	gulp.task('plugin:war', () => {

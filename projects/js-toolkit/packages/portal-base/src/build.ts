@@ -46,6 +46,7 @@ function copyAssets(): void {
 
 	assetFiles.forEach((assetFile) => {
 		const srcDirRelAssetFile = srcDir.relative(assetFile);
+
 		const outFile = buildDir.join(srcDirRelAssetFile);
 
 		try {
@@ -112,6 +113,7 @@ function runBundler(): void {
 	const bundlerPkgJsonPath = require.resolve(
 		'liferay-npm-bundler/package.json'
 	);
+
 	const bundlerDir = path.dirname(bundlerPkgJsonPath);
 
 	/* eslint-disable-next-line */

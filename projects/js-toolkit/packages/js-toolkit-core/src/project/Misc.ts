@@ -105,6 +105,7 @@ export default class Misc {
 	get reportFile(): FilePath | undefined {
 		if (this._reportFile === undefined) {
 			const {_project} = this;
+
 			const {configuration} = _project;
 
 			const dumpReport = prop.get(configuration, 'dump-report', false);
@@ -123,6 +124,7 @@ export default class Misc {
 	get reportLevel(): LogLevel {
 		if (this._reportLevel === undefined) {
 			const {_project} = this;
+
 			const {configuration} = _project;
 
 			let dumpReport = prop.get<string | boolean>(

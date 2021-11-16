@@ -30,7 +30,9 @@ module.exports = class extends Generator {
 		const cp = new Copier(this);
 
 		const {layoutId, liferayVersion} = this.answers;
+
 		const layoutName = snakeCase(layoutId);
+
 		const templateFilename = `${layoutName}.ftl`;
 		const thumbnailFilename = `${layoutName}.png`;
 
@@ -71,6 +73,7 @@ module.exports = class extends Generator {
 
 	_getDevDependencies() {
 		const {liferayVersion} = this.answers;
+
 		const devDependencies = devDependenciesMap[liferayVersion].default;
 
 		return JSON.stringify(devDependencies, null, 2)

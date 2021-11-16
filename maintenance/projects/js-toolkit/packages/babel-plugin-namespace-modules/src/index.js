@@ -45,6 +45,7 @@ export default function ({types: t}) {
 				node: {expression},
 			} = path;
 			const {opts} = state;
+
 			const {namespaces, unrolledImports} = opts;
 
 			if (!t.isCallExpression(expression)) {
@@ -137,6 +138,7 @@ export default function ({types: t}) {
 		exit(path, state) {
 			const {node} = path;
 			const {opts} = state;
+
 			const {namespaces, unrolledImports} = opts;
 
 			if (node.name !== 'require') {
@@ -269,7 +271,9 @@ export default function ({types: t}) {
  */
 function addDependencyNamespace(moduleName, namespacePkg, unrolledImports) {
 	const {pkgName, scope} = mod.splitModuleName(moduleName);
+
 	const fullPkgName = mod.joinModuleName(scope, pkgName);
+
 	const pkg = unrolledImports[fullPkgName] || namespacePkg;
 
 	return pkg.name === '' ? moduleName : ns.addNamespace(moduleName, pkg);

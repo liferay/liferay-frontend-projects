@@ -122,6 +122,7 @@ module.exports = {
 							) {
 								const start = previous.range[1];
 								const end = node.range[0];
+
 								const between = source.text.slice(start, end);
 
 								let newlines = 0;

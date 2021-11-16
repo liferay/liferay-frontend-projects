@@ -16,6 +16,7 @@ beforeEach(() => {
 		namespace: 'status_task',
 		registerTasks: true,
 	});
+
 	runSequence = config.runSequence;
 });
 

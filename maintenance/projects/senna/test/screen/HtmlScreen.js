@@ -33,6 +33,7 @@ describe('HtmlScreen', function () {
 
 	it('gets title selector', () => {
 		var screen = new HtmlScreen();
+
 		assert.strictEqual('title', screen.getTitleSelector());
 		screen.setTitleSelector('div.title');
 		assert.strictEqual('div.title', screen.getTitleSelector());
@@ -40,6 +41,7 @@ describe('HtmlScreen', function () {
 
 	it('returns loaded content', (done) => {
 		var screen = new HtmlScreen();
+
 		screen.load('/url').then((content) => {
 			assert.strictEqual('content', content);
 			done();
@@ -49,6 +51,7 @@ describe('HtmlScreen', function () {
 
 	it('sets title from response content', (done) => {
 		var screen = new HtmlScreen();
+
 		screen.load('/url').then(() => {
 			assert.strictEqual('new', screen.getTitle());
 			done();
@@ -58,6 +61,7 @@ describe('HtmlScreen', function () {
 
 	it('does not set title from response content if not present', (done) => {
 		var screen = new HtmlScreen();
+
 		screen.load('/url').then(() => {
 			assert.strictEqual(null, screen.getTitle());
 			done();
@@ -67,6 +71,7 @@ describe('HtmlScreen', function () {
 
 	it('cancels load request to an url', (done) => {
 		var screen = new HtmlScreen();
+
 		screen
 			.load('/url')
 			.catch((reason) => {
@@ -78,6 +83,7 @@ describe('HtmlScreen', function () {
 
 	it('copies surface root node attributes from response content', (done) => {
 		var screen = new HtmlScreen();
+
 		screen.allocateVirtualDocumentForContent(
 			'<html attributeA="valueA"><div id="surfaceId">surface</div></html>'
 		);
@@ -92,6 +98,7 @@ describe('HtmlScreen', function () {
 
 	it('extracts surface content from response content', () => {
 		var screen = new HtmlScreen();
+
 		screen.allocateVirtualDocumentForContent(
 			'<div id="surfaceId">surface</div>'
 		);
@@ -107,6 +114,7 @@ describe('HtmlScreen', function () {
 
 	it('extracts surface content from response content default child if present', () => {
 		var screen = new HtmlScreen();
+
 		screen.allocateVirtualDocumentForContent(
 			'<div id="surfaceId">static<div id="surfaceId-default">surface</div></div>'
 		);
@@ -122,6 +130,7 @@ describe('HtmlScreen', function () {
 
 	it('releases virtual document after activate', () => {
 		var screen = new HtmlScreen();
+
 		screen.allocateVirtualDocumentForContent('');
 		assert.ok(screen.virtualDocument);
 		screen.activate();
@@ -171,6 +180,7 @@ describe('HtmlScreen', function () {
 		);
 		var surface = new Surface('surfaceId');
 		var screen = new HtmlScreen();
+
 		screen.allocateVirtualDocumentForContent('');
 		assert.ok(!window.sentinel);
 		screen
@@ -192,6 +202,7 @@ describe('HtmlScreen', function () {
 		);
 		var surface = new Surface('surfaceId');
 		var screen = new HtmlScreen();
+
 		screen.allocateVirtualDocumentForContent('');
 		screen
 			.evaluateStyles({
@@ -208,12 +219,15 @@ describe('HtmlScreen', function () {
 		enterDocumentSurfaceElement('surfaceId', '');
 		new Surface('surfaceId');
 		var screen = new HtmlScreen();
+
 		screen.allocateVirtualDocumentForContent(
 			'<link rel="Shortcut Icon" href="/for/favicon.ico" />'
 		);
 		screen.evaluateFavicon_().then(() => {
 			var element = document.querySelector('link[rel="Shortcut Icon"]');
+
 			var uri = new Uri(element.href);
+
 			assert.strictEqual('/for/favicon.ico', uri.getPathname());
 			exitDocumentElement('surfaceId');
 			done();
@@ -222,6 +236,7 @@ describe('HtmlScreen', function () {
 
 	it('always evaluate tracked favicon', (done) => {
 		var screen = new HtmlScreen();
+
 		screen.allocateVirtualDocumentForContent(
 			'<link id="favicon" rel="Shortcut Icon" href="/for/favicon.ico" />'
 		);
@@ -234,6 +249,7 @@ describe('HtmlScreen', function () {
 				var element = document.querySelector(
 					'link[rel="Shortcut Icon"]'
 				);
+
 				assert.ok(element);
 				new Uri(element.href);
 				exitDocumentElement('favicon');
@@ -256,6 +272,7 @@ describe('HtmlScreen', function () {
 			);
 			new Surface('surfaceId');
 			var screen = new HtmlScreen();
+
 			screen.allocateVirtualDocumentForContent(
 				'<link rel="Shortcut Icon" href="/for/favicon.ico" />'
 			);
@@ -263,7 +280,9 @@ describe('HtmlScreen', function () {
 				var element = document.querySelector(
 					'link[rel="Shortcut Icon"]'
 				);
+
 				var uri = new Uri(element.href);
+
 				assert.strictEqual('/for/favicon.ico', uri.getPathname());
 				assert.ok(uri.hasParameter('q') === false);
 				exitDocumentElement('surfaceId');
@@ -286,6 +305,7 @@ describe('HtmlScreen', function () {
 			);
 			new Surface('surfaceId');
 			var screen = new HtmlScreen();
+
 			screen.allocateVirtualDocumentForContent(
 				'<link rel="Shortcut Icon" href="/for/favicon.ico" />'
 			);
@@ -293,7 +313,9 @@ describe('HtmlScreen', function () {
 				var element = document.querySelector(
 					'link[rel="Shortcut Icon"]'
 				);
+
 				var uri = new Uri(element.href);
+
 				assert.strictEqual('/for/favicon.ico', uri.getPathname());
 				assert.ok(uri.hasParameter('q'));
 				exitDocumentElement('surfaceId');
@@ -304,6 +326,7 @@ describe('HtmlScreen', function () {
 
 	it('always evaluate tracked temporary scripts', (done) => {
 		var screen = new HtmlScreen();
+
 		screen.allocateVirtualDocumentForContent(
 			'<script data-senna-track="temporary">window.sentinel=true;</script>'
 		);
@@ -324,6 +347,7 @@ describe('HtmlScreen', function () {
 
 	it('always evaluate tracked temporary styles', (done) => {
 		var screen = new HtmlScreen();
+
 		screen.allocateVirtualDocumentForContent(
 			'<style id="temporaryStyle" data-senna-track="temporary">body{background-color:rgb(0, 255, 0);}</style>'
 		);
@@ -342,6 +366,7 @@ describe('HtmlScreen', function () {
 
 	it('appends existing teporary styles with id in the same place as the reference', (done) => {
 		var screen = new HtmlScreen();
+
 		screen.allocateVirtualDocumentForContent(
 			'<style id="temporaryStyle" data-senna-track="temporary">body{background-color:rgb(0, 255, 0);}</style>'
 		);
@@ -366,6 +391,7 @@ describe('HtmlScreen', function () {
 
 	it('evaluates tracked permanent scripts only once', (done) => {
 		var screen = new HtmlScreen();
+
 		screen.allocateVirtualDocumentForContent(
 			'<script id="permanentScriptKey" data-senna-track="permanent">window.sentinel=true;</script>'
 		);
@@ -385,6 +411,7 @@ describe('HtmlScreen', function () {
 
 	it('evaluates tracked permanent styles only once', (done) => {
 		var screen = new HtmlScreen();
+
 		screen.allocateVirtualDocumentForContent(
 			'<style id="permanentStyle" data-senna-track="permanent">body{background-color:rgb(0, 255, 0);}</style>'
 		);
@@ -421,6 +448,7 @@ describe('HtmlScreen', function () {
 
 	it('clears pendingStyles after screen activates', (done) => {
 		var screen = new HtmlScreen();
+
 		screen.allocateVirtualDocumentForContent(
 			'<style id="temporaryStyle" data-senna-track="temporary"></style>'
 		);
@@ -476,6 +504,7 @@ describe('HtmlScreen', function () {
 
 			screen.load('/url').then(() => {
 				var style = screen.virtualQuerySelectorAll_('#style')[0];
+
 				style.addEventListener('load', () => {
 					window.sentinelLoadCount++;
 				});
@@ -501,6 +530,7 @@ describe('HtmlScreen', function () {
 
 	it('has correct title', (done) => {
 		var screen = new HtmlScreen();
+
 		screen.allocateVirtualDocumentForContent('<title>left</title>');
 		screen.resolveTitleFromVirtualDocument();
 		screen.flip([]).then(() => {
@@ -511,6 +541,7 @@ describe('HtmlScreen', function () {
 
 	it('has correct title when the title contains html entities', (done) => {
 		var screen = new HtmlScreen();
+
 		screen.allocateVirtualDocumentForContent(
 			'<title>left &amp; right</title>'
 		);

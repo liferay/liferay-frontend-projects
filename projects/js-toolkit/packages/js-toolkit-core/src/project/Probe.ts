@@ -69,6 +69,7 @@ export default class Probe {
 
 	_hasScriptCalling(tool: string): boolean {
 		const {pkgJson} = this._project;
+
 		const {scripts} = pkgJson;
 
 		if (!scripts) {

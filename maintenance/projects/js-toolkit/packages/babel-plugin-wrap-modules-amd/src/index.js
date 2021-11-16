@@ -105,6 +105,7 @@ export default function ({types: t}) {
 					path.traverse(wrapVisitor, state);
 
 					const {node} = path;
+
 					const {body} = node;
 
 					dependencies = Object.keys(dependencies).map(

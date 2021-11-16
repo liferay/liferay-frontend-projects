@@ -106,6 +106,7 @@ function removeBabelConfig() {
 
 	if (fs.existsSync('package.json')) {
 		const configFile = fs.readFileSync('package.json', 'utf8');
+
 		const config = JSON.parse(configFile);
 
 		if (config && config[PREFIX_BACKUP + 'babel']) {

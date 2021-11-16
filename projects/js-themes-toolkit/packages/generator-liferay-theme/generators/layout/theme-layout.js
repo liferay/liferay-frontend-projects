@@ -25,7 +25,9 @@ module.exports = class extends Generator {
 		const cp = new Copier(this);
 
 		const {layoutId, liferayVersion} = this.answers;
+
 		const layoutName = snakeCase(layoutId);
+
 		const templateFilename = `${layoutName}.ftl`;
 		const thumbnailFilename = `${layoutName}.png`;
 

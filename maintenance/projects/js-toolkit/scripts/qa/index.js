@@ -68,6 +68,7 @@ if (argv['install']) {
 
 	fs.readdirSync(projectsDir).forEach((projectName) => {
 		const projectDir = path.join(projectsDir, projectName);
+
 		const pkgJson = fs.readJsonSync(path.join(projectDir, 'package.json'));
 
 		if (pkgJson.bin) {

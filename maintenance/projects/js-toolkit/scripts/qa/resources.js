@@ -8,9 +8,12 @@ const os = require('os');
 const path = require('path');
 
 const workspaceDir = path.join(__dirname, '..', '..');
+
 const projectsDir = path.join(workspaceDir, 'packages');
 const qaDir = path.join(workspaceDir, 'qa');
+
 const samplesDir = path.join(qaDir, 'samples');
+
 const packagesDir = path.join(samplesDir, 'packages');
 
 const {version: currentSDKVersion} = require(path.join(
@@ -101,6 +104,7 @@ function findLiferayDir() {
 				path.join(os.homedir(), '.generator-liferay-js.json')
 			)
 		);
+
 		liferayDir = json.answers['*'].liferayDir;
 	}
 	catch (err) {

@@ -14,6 +14,7 @@ const runBabel = require('./runBabel');
 const spawnSync = require('./spawnSync');
 
 const BUILD_CONFIG = getMergedConfig('npmscripts', 'build');
+
 const SOY_TEMP_DIR = path.join(BUILD_CONFIG.temp, 'soy');
 
 /**

@@ -42,6 +42,7 @@ module.exports.registerTasks = function (options) {
 
 function register(options) {
 	const gulp = (options.gulp = plugins.help(options.gulp));
+
 	const store = gulp.storage;
 
 	store.set('changedFile');

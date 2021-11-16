@@ -12,6 +12,7 @@ const InitPrompt = require('../prompts/init_prompt');
 
 module.exports = function () {
 	const {gulp, store} = project;
+
 	const {appServerPath, dockerContainerName} = store;
 
 	gulp.task('plugin:init', (callback) => {

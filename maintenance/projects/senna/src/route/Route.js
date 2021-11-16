@@ -48,6 +48,7 @@ class Route {
 	buildParsedData_() {
 		if (!this.parsedData_) {
 			var tokens = parse(this.path);
+
 			var regex = toRegex(tokens);
 			this.parsedData_ = {
 				regex,

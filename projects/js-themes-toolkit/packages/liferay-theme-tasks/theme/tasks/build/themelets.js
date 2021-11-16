@@ -25,6 +25,7 @@ const defaultTemplateLanguage = 'ftl';
 
 module.exports = function () {
 	const {gulp, options} = project;
+
 	const {runSequence} = gulp;
 	const {pathBuild} = options;
 

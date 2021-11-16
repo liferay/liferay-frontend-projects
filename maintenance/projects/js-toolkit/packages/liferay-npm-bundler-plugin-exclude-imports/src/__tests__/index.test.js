@@ -39,6 +39,7 @@ it('empties files when package is listed in imports', () => {
 
 it('leaves files untouched when package is missing from imports', () => {
 	const originalFiles = ['1.js', '2.js', '3.js'];
+
 	const files = originalFiles.slice();
 
 	plugin(
@@ -70,6 +71,7 @@ it('leaves files untouched when package is missing from imports', () => {
 
 it('leaves files untouched when package is self-imported from project', () => {
 	const originalFiles = ['1.js', '2.js', '3.js'];
+
 	const files = originalFiles.slice();
 
 	plugin(

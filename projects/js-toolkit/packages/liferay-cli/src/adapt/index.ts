@@ -151,6 +151,7 @@ async function performBaseAdaptation(options: Options): Promise<void> {
 	);
 	/* eslint-disable-next-line @liferay/no-dynamic-require, @typescript-eslint/no-var-requires */
 	const pkgJson = require(pkgJsonFile.asNative);
+
 	const portletDisplayName = toHumanReadable(pkgJson['name']);
 	const portletName = getPortletName(pkgJson['name']);
 

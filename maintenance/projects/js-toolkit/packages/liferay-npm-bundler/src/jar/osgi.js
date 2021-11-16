@@ -10,6 +10,7 @@
  */
 export function getBundleVersionAndClassifier(pkgJsonVersion) {
 	const parts = pkgJsonVersion.split('-');
+
 	if (parts.length > 1) {
 		return parts[0] + '.' + parts.slice(1).join('-');
 	}
