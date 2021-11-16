@@ -5,7 +5,7 @@
 	"dependencies": {
 		"@liferay/portal-base": "^1.0.0",
 		"liferay-npm-bundler": "*",
-		"clay-alert": "2.1.12",
+		"clay-alert": "2.3.4",
 		"metal": "2.16.5",
 		"metal-ajax": "2.1.1",
 		"metal-anim": "2.0.0",
@@ -24,9 +24,9 @@
 		"metal-uri": "2.4.0",
 		"metal-useragent": "3.0.0",
 		"metal-web-component": "2.16.5",
-		"senna": "2.5.6"
+		"senna": "2.7.0"
 	},
-	"description": "Target platform for Liferay Portal 7.1.0-ga1",
+	"description": "Target platform for Liferay Portal 7.1.1-ga2",
 	"main": "config.json",
 	"name": "@liferay/portal-7.1",
 	"scripts": {
@@ -40,5 +40,5 @@
 		"preversion": "yarn ci",
 		"test": "cd ../.. && yarn test"
 	},
-	"version": "1.0.0"
+	"version": "2.0.0"
 }
