@@ -6,7 +6,7 @@
 		"@liferay/portal-base": "^1.0.0",
 		"liferay-npm-bundler": "*"
 	},
-	"description": "Target Platform for liferay-portal-agnostic",
+	"description": "Target Platform for Liferay Portal (no specific version)",
 	"main": "config.json",
 	"name": "@liferay/portal-agnostic",
 	"scripts": {
