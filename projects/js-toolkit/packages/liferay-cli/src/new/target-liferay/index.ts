@@ -53,8 +53,11 @@ const target: Target = {
 
 		options = await prompt(useDefaults, options, [
 			{
-				choices: platforms,
-				default: platforms[0],
+				choices: Object.entries(platforms).map(([value, name]) => ({
+					name,
+					value,
+				})),
+				default: Object.entries(platforms)[0][1],
 				defaultDescription: `Using target platform: {${platforms[0]}`,
 				message: 'Which will be your target platform?',
 				name: 'platform',
