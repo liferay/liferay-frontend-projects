@@ -20,8 +20,8 @@ To view the list of supported target platforms browse
 [the packages folder](./packages).
 
 All platform names describe the target product and version (for instance:
-`portal-7.4-ga1` refers to Liferay CE Portal 7.4 GA1) except for some special
-ones that are listed here:
+`portal-7.4` refers to Liferay CE Portal 7.4) except for some special ones that
+are listed here:
 
 -   `portal-adapt-angular-cli`: a special target platform that is used when
     adapting native Angular projects for deployment to Liferay.
@@ -34,6 +34,10 @@ ones that are listed here:
     specific Liferay version.
 -   `portal-master`: an internal target platform used by this project to be able
     to target current development version of Liferay Portal.
+
+The versions of these packages in the npm registry usually correlate with
+Liferay Portal GA versions. For example: `@liferay/portal-7.4@4.0.0` is to be
+used for Liferay Portal 7.4 GA4.
 
 ## How to use Target Platforms
 
