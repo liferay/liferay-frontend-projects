@@ -2,7 +2,7 @@
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"description": "Bootstrap 3 to 4 Compatibility Layer for Liferay DXP",
 	"engines": {
-		"node": ">=8.0.0"
+		"node": ">=16.0.0"
 	},
 	"keywords": [
 		"liferay"
