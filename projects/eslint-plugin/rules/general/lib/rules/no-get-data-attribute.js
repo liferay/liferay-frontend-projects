@@ -3,6 +3,17 @@
  * SPDX-License-Identifier: MIT
  */
 
+function camelize(val) {
+	return val
+		.split('-')
+		.map((item, i) => {
+			return i !== 0
+				? item.charAt(0).toUpperCase() + item.slice(1)
+				: item;
+		})
+		.join('');
+}
+
 module.exports = {
 	create(context) {
 		const sourceCode = context.getSourceCode();
@@ -21,17 +32,16 @@ module.exports = {
 				) {
 					const argumentValue = node.arguments[0].value;
 
-					const argumentName = argumentValue.replace('data-', '');
+					const argumentName = camelize(
+						argumentValue.replace('data-', '')
+					);
 
-					const replacementString = argumentName.includes('-')
-						? `['${argumentName}']`
-						: '.' + argumentName;
 					context.report({
 						fix: (fixer) => {
 							if (node.callee.object.type === 'Identifier') {
 								return fixer.replaceText(
 									node,
-									`${node.callee.object.name}.dataset${replacementString}`
+									`${node.callee.object.name}.dataset.${argumentName}`
 								);
 							}
 							else if (
@@ -43,11 +53,11 @@ module.exports = {
 
 								return fixer.replaceText(
 									node,
-									`${memberExpressionString}.dataset${replacementString}`
+									`${memberExpressionString}.dataset.${argumentName}`
 								);
 							}
 						},
-						message: `Use "dataset${replacementString}" instead of "getAttribute('${argumentValue}')"`,
+						message: `Use "dataset.${argumentName}" instead of "getAttribute('${argumentValue}')"`,
 						node: node.callee.property,
 					});
 				}
