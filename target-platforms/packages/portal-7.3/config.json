@@ -26,6 +26,9 @@
 			"asset-taglib": {
 				"/": "*"
 			},
+			"commerce-frontend-js": {
+				"/": "*"
+			},
 			"data-engine-taglib": {
 				"/": "*"
 			},
@@ -81,13 +84,12 @@
 			},
 			"frontend-js-web": {
 				"/": "*",
-				"liferay-amd-loader": "*",
+				"@liferay/amd-loader": "*",
 				"lodash.escape": "*",
 				"lodash.groupby": "*",
 				"lodash.isequal": "*",
 				"lodash.memoize": "*",
 				"lodash.unescape": "*",
-				"svg4everybody": "*",
 				"uuid": "*"
 			},
 			"frontend-taglib-chart": {
