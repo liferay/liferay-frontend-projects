@@ -11,7 +11,7 @@
     "javax.portlet.resource-bundle": "content.Language"
   },
   "dependencies": {
-    "@test-project$liferay/portal-7.4-ga1": "{{TARGET_PLATFORM_VERSION}}",
+    "@test-project$liferay/portal-7.4": "{{TARGET_PLATFORM_VERSION}}",
     "@liferay/frontend-js-react-web": "*",
     "@liferay/frontend-js-state-web": "*",
     "@liferay/frontend-taglib": "*",
