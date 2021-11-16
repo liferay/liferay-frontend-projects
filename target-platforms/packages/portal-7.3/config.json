@@ -20,6 +20,9 @@
 	},
 	"config": {
 		"imports": {
+			"app-builder-web": {
+				"/": "*"
+			},
 			"asset-taglib": {
 				"/": "*"
 			},
