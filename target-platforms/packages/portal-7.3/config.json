@@ -70,7 +70,8 @@
 				"classnames": "*",
 				"prop-types": "*",
 				"react": "*",
-				"react-dom": "*"
+				"react-dom": "*",
+				"/": "*"
 			},
 			"frontend-js-recharts": {
 				"recharts": "*"
