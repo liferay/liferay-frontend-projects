@@ -6,6 +6,7 @@
 module.exports = {
 	'array-is-array': require('./lib/rules/array-is-array'),
 	'destructure-requires': require('./lib/rules/destructure-requires'),
+	'blank-line-declaration-usage': require('./lib/rules/blank-line-declaration-usage'),
 	'empty-line-between-elements': require('./lib/rules/empty-line-between-elements'),
 	'expect-assert': require('./lib/rules/expect-assert'),
 	'group-imports': require('./lib/rules/group-imports'),

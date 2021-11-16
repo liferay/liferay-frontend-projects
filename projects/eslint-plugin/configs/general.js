@@ -93,6 +93,7 @@ const config = {
 		'@liferay/aui/no-node': 'error',
 		'@liferay/aui/no-object': 'error',
 		'@liferay/aui/no-one': 'error',
+		'@liferay/blank-line-declaration-usage': 'error',
 		'@liferay/destructure-requires': 'error',
 		'@liferay/empty-line-between-elements': 'error',
 		'@liferay/expect-assert': 'error',
