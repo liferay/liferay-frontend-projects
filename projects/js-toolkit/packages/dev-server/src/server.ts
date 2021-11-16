@@ -76,6 +76,7 @@ async function getModulePaths(
 	regenerate = false
 ): Promise<Map<string, string>> {
 	const mappingsTmpDirPath = resolve(tmpdir(), 'liferay-dev-server');
+
 	const mappingsTmpFilePath = resolve(mappingsTmpDirPath, 'mappings.json');
 
 	if (!regenerate) {

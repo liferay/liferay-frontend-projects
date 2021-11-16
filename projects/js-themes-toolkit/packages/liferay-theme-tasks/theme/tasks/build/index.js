@@ -74,6 +74,7 @@ function injectJS() {
 
 module.exports = function () {
 	const {gulp, options} = project;
+
 	const {runSequence} = gulp;
 	const {pathBuild, pathSrc} = options;
 

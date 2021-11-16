@@ -110,6 +110,7 @@ class AppDataAttributeHandler extends Disposable {
 	 */
 	maybeAddRoutes_() {
 		var routesSelector = 'link[rel="senna-route"]';
+
 		this.querySelectorAllAsArray_(routesSelector).forEach((link) =>
 			this.maybeParseLinkRoute_(link)
 		);
@@ -124,6 +125,7 @@ class AppDataAttributeHandler extends Disposable {
 	 */
 	maybeAddSurfaces_() {
 		var surfacesSelector = '[' + dataAttributes.surface + ']';
+
 		this.querySelectorAllAsArray_(surfacesSelector).forEach(
 			(surfaceElement) => {
 				this.updateElementIdIfSpecialSurface_(surfaceElement);
@@ -151,6 +153,7 @@ class AppDataAttributeHandler extends Disposable {
 			this.maybeParseLinkRoutePath_(link),
 			this.maybeParseLinkRouteHandler_(link)
 		);
+
 		this.app.addRoutes(route);
 		console.log('Senna scanned route ' + route.getPath());
 	}
@@ -162,6 +165,7 @@ class AppDataAttributeHandler extends Disposable {
 	 */
 	maybeParseLinkRouteHandler_(link) {
 		var handler = link.getAttribute('type');
+
 		if (isDefAndNotNull(handler)) {
 			handler = object.getObjectByName(handler);
 		}
@@ -176,6 +180,7 @@ class AppDataAttributeHandler extends Disposable {
 	 */
 	maybeParseLinkRoutePath_(link) {
 		var path = link.getAttribute('href');
+
 		if (isDefAndNotNull(path)) {
 			if (path.indexOf('regex:') === 0) {
 				path = new RegExp(path.substring(6));
@@ -190,6 +195,7 @@ class AppDataAttributeHandler extends Disposable {
 	 */
 	maybeSetBasePath_() {
 		var basePath = this.baseElement.getAttribute(dataAttributes.basePath);
+
 		if (isDefAndNotNull(basePath)) {
 			this.app.setBasePath(basePath);
 			console.log('Senna scanned base path ' + basePath);
@@ -204,6 +210,7 @@ class AppDataAttributeHandler extends Disposable {
 		var linkSelector = this.baseElement.getAttribute(
 			dataAttributes.linkSelector
 		);
+
 		if (isDefAndNotNull(linkSelector)) {
 			this.app.setLinkSelector(linkSelector);
 			console.log('Senna scanned link selector ' + linkSelector);
@@ -218,6 +225,7 @@ class AppDataAttributeHandler extends Disposable {
 		var loadingCssClass = this.baseElement.getAttribute(
 			dataAttributes.loadingCssClass
 		);
+
 		if (isDefAndNotNull(loadingCssClass)) {
 			this.app.setLoadingCssClass(loadingCssClass);
 			console.log('Senna scanned loading css class ' + loadingCssClass);
@@ -232,6 +240,7 @@ class AppDataAttributeHandler extends Disposable {
 		var updateScrollPosition = this.baseElement.getAttribute(
 			dataAttributes.updateScrollPosition
 		);
+
 		if (isDefAndNotNull(updateScrollPosition)) {
 			if (updateScrollPosition === 'false') {
 				this.app.setUpdateScrollPosition(false);

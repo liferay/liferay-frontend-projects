@@ -73,6 +73,7 @@ describe('when describing the run', () => {
 			name: 'a-package',
 			version: '1.1.0',
 		};
+
 		report.dependencies([pkg]);
 		report.linkedDependency(pkg.name, 'file:../a-package', pkg.version);
 	});

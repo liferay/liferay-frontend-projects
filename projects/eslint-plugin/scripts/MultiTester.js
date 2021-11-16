@@ -44,6 +44,7 @@ class MultiTester extends RuleTester {
 
 			const handleSkips = (test) => {
 				const {skip, ...config} = test;
+
 				if (skip && skip.includes(key)) {
 					return false;
 				}

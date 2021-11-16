@@ -25,6 +25,7 @@ const getMergedConfig = require('./getMergedConfig');
  */
 function createTempFile(filename, content, {autoDelete = true} = {}) {
 	const build = getMergedConfig('npmscripts', 'build');
+
 	const tempDirPath = path.join(build.temp, 'tmp');
 
 	fs.ensureDirSync(tempDirPath);

@@ -39,11 +39,13 @@ describe('RequestScreen', function () {
 
 	it('is cacheable', () => {
 		var screen = new RequestScreen();
+
 		assert.ok(screen.isCacheable());
 	});
 
 	it('sets HTTP method', () => {
 		var screen = new RequestScreen();
+
 		assert.strictEqual(RequestScreen.GET, screen.getHttpMethod());
 		screen.setHttpMethod(RequestScreen.POST);
 		assert.strictEqual(RequestScreen.POST, screen.getHttpMethod());
@@ -64,6 +66,7 @@ describe('RequestScreen', function () {
 
 	it('sets timeout', () => {
 		var screen = new RequestScreen();
+
 		assert.strictEqual(30000, screen.getTimeout());
 		screen.setTimeout(0);
 		assert.strictEqual(0, screen.getTimeout());
@@ -71,6 +74,7 @@ describe('RequestScreen', function () {
 
 	it('screen beforeUpdateHistoryPath return request path if responseURL or X-Request-URL not present', () => {
 		var screen = new RequestScreen();
+
 		sinon.stub(screen, 'getRequest', () => {
 			return {
 				requestPath: '/path',
@@ -84,6 +88,7 @@ describe('RequestScreen', function () {
 
 	it('screen beforeUpdateHistoryPath return responseURL if present', () => {
 		var screen = new RequestScreen();
+
 		sinon.stub(screen, 'getRequest', () => {
 			return {
 				requestPath: '/path',
@@ -98,6 +103,7 @@ describe('RequestScreen', function () {
 
 	it('screen beforeUpdateHistoryPath return X-Request-URL if present and responseURL is not', () => {
 		var screen = new RequestScreen();
+
 		sinon.stub(screen, 'getRequest', () => {
 			return {
 				requestPath: '/path',
@@ -129,6 +135,7 @@ describe('RequestScreen', function () {
 
 	it('requests path return null if no requests were made', () => {
 		var screen = new RequestScreen();
+
 		assert.strictEqual(null, screen.getRequestPath());
 	});
 
@@ -141,6 +148,7 @@ describe('RequestScreen', function () {
 		}
 		else {
 			var screen = new RequestScreen();
+
 			screen.load('/url').then(() => {
 				assert.strictEqual(
 					globals.window.location.origin + '/url',
@@ -162,6 +170,7 @@ describe('RequestScreen', function () {
 	it('loads response content from cache', (done) => {
 		var screen = new RequestScreen();
 		var cache = {};
+
 		screen.addCache(cache);
 		screen.load('/url').then((cachedContent) => {
 			assert.strictEqual(cache, cachedContent);
@@ -185,6 +194,7 @@ describe('RequestScreen', function () {
 
 	it('cancels load request to an url', (done) => {
 		var screen = new RequestScreen();
+
 		screen
 			.load('/url')
 			.then(() => assert.fail())
@@ -197,6 +207,7 @@ describe('RequestScreen', function () {
 
 	it('fails for timeout request', (done) => {
 		var screen = new RequestScreen();
+
 		screen.setTimeout(0);
 		screen.load('/url').catch((reason) => {
 			assert.ok(reason.timeout);
@@ -241,6 +252,7 @@ describe('RequestScreen', function () {
 	it('form navigate force post method and request body wrapped in FormData', (done) => {
 		globals.capturedFormElement = globals.document.createElement('form');
 		var screen = new RequestScreen();
+
 		screen.load('/url').then(() => {
 			assert.strictEqual(RequestScreen.POST, screen.getRequest().method);
 			assert.ok(screen.getRequest().requestBody instanceof FormData);
@@ -253,6 +265,7 @@ describe('RequestScreen', function () {
 	it('adds submit input button value into request FormData', (done) => {
 		globals.capturedFormElement = globals.document.createElement('form');
 		const submitButton = globals.document.createElement('button');
+
 		submitButton.name = 'submitButton';
 		submitButton.type = 'submit';
 		submitButton.value = 'Send';
@@ -280,6 +293,7 @@ describe('RequestScreen', function () {
 		else {
 			var url = '/url';
 			var screen = new RequestScreen();
+
 			screen.load(url).then(() => {
 				assert.notStrictEqual(url, screen.getRequest().url);
 				assert.strictEqual(url, screen.getRequestPath());
@@ -299,6 +313,7 @@ describe('RequestScreen', function () {
 		else {
 			var url = '/url';
 			var screen = new RequestScreen();
+
 			screen.load(url).then(() => {
 				assert.notStrictEqual(url, screen.getRequest().url);
 				done();
@@ -320,6 +335,7 @@ describe('RequestScreen', function () {
 			);
 			var url = '/url';
 			var screen = new RequestScreen();
+
 			screen.load(url).then(() => {
 				assert.ok(
 					'"0"',
@@ -337,8 +353,10 @@ describe('RequestScreen', function () {
 			'http',
 			'https'
 		);
+
 		screen.load(wrongProtocol + '/url').then(() => {
 			var url = screen.getRequest().url;
+
 			assert.ok(url.indexOf('http:') === 0);
 			done();
 		});

@@ -39,6 +39,7 @@ globby.sync('src/demo/modules/**/*.js').forEach((file) => {
 	const filePath = file.substring(
 		path.join(DEMO_SRC, 'modules').length + path.sep.length
 	);
+
 	const dirname = path.dirname(filePath);
 
 	fs.mkdirsSync(DEMO_BUILD, 'modules', dirname);

@@ -120,7 +120,9 @@ function addEsModuleFlag(state) {
 	}
 
 	const {filename} = state.file.opts;
+
 	const pkgDir = babelUtil.getPackageDir(filename);
+
 	const pkgJson = readJsonSync(npath.join(pkgDir, 'package.json'));
 
 	const {rootPkgJson} = babelIpc.get(state);

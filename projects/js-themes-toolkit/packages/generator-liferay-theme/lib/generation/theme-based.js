@@ -29,6 +29,7 @@ const pipeline = promisify(stream.pipeline);
 
 async function writing(generator, themeName) {
 	const project = new Project(generator);
+
 	const {liferayVersion} = project;
 
 	let {themeVersion} = argv;

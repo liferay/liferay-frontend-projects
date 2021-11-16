@@ -108,6 +108,7 @@ async function transformBundles(): Promise<void> {
  */
 async function writeManifestModule(): Promise<void> {
 	const {name, version} = project.pkgJson;
+
 	const moduleName = `${name}@${version}/webpack.manifest`;
 
 	const renderer = new TemplateRenderer(

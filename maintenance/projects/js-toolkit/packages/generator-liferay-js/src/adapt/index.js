@@ -273,6 +273,7 @@ export default class extends Generator {
 		const npmbundlerrc = new NpmbundlerrcModifier(this);
 		const pkgJson = new PkgJsonModifier(this, 2);
 		const projectAnalyzer = new ProjectAnalyzer(this);
+
 		const portletName = getPortletName(projectAnalyzer);
 
 		const {preset} = this._options;

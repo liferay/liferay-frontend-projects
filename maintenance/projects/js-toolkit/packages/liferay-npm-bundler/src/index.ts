@@ -86,6 +86,7 @@ function run(): void {
 				// Report and show execution time
 
 				const hrtime = process.hrtime(start);
+
 				report.executionTime(hrtime);
 				log.info(`Bundling took ${pretty(hrtime)}`);
 

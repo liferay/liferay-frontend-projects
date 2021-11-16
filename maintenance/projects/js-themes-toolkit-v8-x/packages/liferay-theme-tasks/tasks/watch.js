@@ -185,8 +185,11 @@ module.exports = function (options) {
 
 	gulp.task('watch:reload', (cb) => {
 		const changedFile = storage.get('changedFile');
+
 		const srcPath = path.relative(process.cwd(), changedFile.path);
+
 		const dstPath = srcPath.replace(/^src\//, '');
+
 		const urlPath = `${resourcePrefix}/${distName}/${dstPath}`;
 
 		livereload.changed({
@@ -276,8 +279,10 @@ module.exports = function (options) {
 			const requestUrl = url.parse(req.url);
 
 			const match = themePattern.exec(requestUrl.pathname);
+
 			if (match) {
 				const filepath = path.resolve('build', match[3]);
+
 				const ext = path.extname(filepath);
 
 				isReadable(filepath).then((exists) => {
@@ -307,9 +312,11 @@ module.exports = function (options) {
 				`Watch mode is now active at: ${url}`,
 				`Proxying: ${proxyUrl}`,
 			];
+
 			const width = messages.reduce((max, line) => {
 				return Math.max(line.length, max);
 			}, 0);
+
 			const ruler = '-'.repeat(width);
 
 			// eslint-disable-next-line no-console

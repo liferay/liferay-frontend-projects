@@ -6,6 +6,7 @@
 const merge = require('deepmerge');
 
 const emptyTarget = (value) => (Array.isArray(value) ? [] : {});
+
 const clone = (value, options) => merge(emptyTarget(value), value, options);
 
 /**
@@ -19,6 +20,7 @@ function combineMerge(target, source, options) {
 			const cloneRequested = options.clone !== false;
 			const shouldClone =
 				cloneRequested && options.isMergeableObject(item);
+
 			destination[i] = shouldClone ? clone(item, options) : item;
 		}
 		else if (options.isMergeableObject(item)) {
@@ -90,8 +92,10 @@ function checkBabelName(name, kind) {
 	Object.entries(NORMALIZERS[kind]).reduce((done, [pattern, replacement]) => {
 		if (!done) {
 			const regExp = new RegExp(pattern);
+
 			if (regExp.test(name)) {
 				const normalized = name.replace(regExp, replacement);
+
 				if (normalized !== name) {
 					throw new Error(
 						`checkBabelName(): expected "${normalized}", got "${name}"`

@@ -97,6 +97,7 @@ async function processJSP(source, {onFormat, onLint, onMinify}) {
 
 	for (let i = 0; i < transformed.length; i++) {
 		const {closeTag, contents, openTag, range} = transformed[i];
+
 		const {index, length} = range;
 
 		result +=

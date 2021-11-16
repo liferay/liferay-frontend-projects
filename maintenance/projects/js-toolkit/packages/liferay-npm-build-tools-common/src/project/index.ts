@@ -205,6 +205,7 @@ export class Project {
 				const pkgJsonPath = this.toolResolve(
 					`${packageName}/package.json`
 				);
+
 				const pkgJson = require(pkgJsonPath);
 
 				map.set(pkgJson.name, {
@@ -224,6 +225,7 @@ export class Project {
 			// Get preset version
 
 			const {_npmbundlerrc} = this;
+
 			const preset = _npmbundlerrc['preset'];
 
 			if (preset) {

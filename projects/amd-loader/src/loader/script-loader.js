@@ -58,6 +58,7 @@ export default class ScriptLoader {
 	 */
 	_loadScript(modulesURL) {
 		const config = this._config;
+
 		const modules = config.getModules(modulesURL.modules);
 
 		let script = this._injectedScripts[modulesURL.url];

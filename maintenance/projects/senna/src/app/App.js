@@ -396,6 +396,7 @@ class App extends EventEmitter {
 		}
 		/* jshint newcap: false */
 		var screen = this.screens[path];
+
 		if (!screen) {
 			var handler = route.getHandler();
 			if (
@@ -444,6 +445,7 @@ class App extends EventEmitter {
 	 */
 	doNavigate_(path, opt_replaceHistory) {
 		var route = this.findRoute(path);
+
 		if (!route) {
 			this.pendingNavigate = CancellablePromise.reject(
 				new CancellablePromise.CancellationError('No route for ' + path)
@@ -555,6 +557,7 @@ class App extends EventEmitter {
 		path = this.getRoutePath(path);
 		for (var i = 0; i < this.routes.length; i++) {
 			var route = this.routes[i];
+
 			if (route.matchesPath(path)) {
 				return route;
 			}
@@ -720,6 +723,7 @@ class App extends EventEmitter {
 	 */
 	lockHistoryScrollPosition_() {
 		var state = globals.window.history.state;
+
 		if (!state) {
 			return;
 		}
@@ -908,14 +912,17 @@ class App extends EventEmitter {
 	 */
 	maybeRepositionScrollToHashedAnchor() {
 		const hash = globals.window.location.hash;
+
 		if (hash) {
 			const anchorElement = globals.document.getElementById(
 				hash.substring(1)
 			);
+
 			if (anchorElement) {
 				const {offsetLeft, offsetTop} = utils.getNodeOffset(
 					anchorElement
 				);
+
 				globals.window.scrollTo(offsetLeft, offsetTop);
 			}
 		}
@@ -956,9 +963,12 @@ class App extends EventEmitter {
 	 */
 	maybeUpdateScrollPositionState_() {
 		var hash = globals.window.location.hash;
+
 		var anchorElement = globals.document.getElementById(hash.substring(1));
+
 		if (anchorElement) {
 			const {offsetLeft, offsetTop} = utils.getNodeOffset(anchorElement);
+
 			this.saveHistoryCurrentPageScrollPosition_(offsetTop, offsetLeft);
 		}
 	}
@@ -1046,6 +1056,7 @@ class App extends EventEmitter {
 	 */
 	onBeforeUnloadDefault_(event) {
 		var func = window._onbeforeunload;
+
 		if (func && !func._overloaded && func()) {
 			event.preventDefault();
 		}
@@ -1082,6 +1093,7 @@ class App extends EventEmitter {
 	 */
 	onDocSubmitDelegate_(event) {
 		var form = event.delegateTarget;
+
 		if (form.method === 'get') {
 			console.log('GET method not supported');
 
@@ -1090,6 +1102,7 @@ class App extends EventEmitter {
 		event.capturedFormElement = form;
 		const buttonSelector =
 			'button:not([type]),button[type=submit],input[type=submit]';
+
 		if (match(globals.document.activeElement, buttonSelector)) {
 			event.capturedFormButtonElement = globals.document.activeElement;
 		}
@@ -1186,12 +1199,14 @@ class App extends EventEmitter {
 				}
 			});
 			const uri = new Uri(state.path);
+
 			uri.setHostname(globals.window.location.hostname);
 			uri.setPort(globals.window.location.port);
 			const isNavigationScheduled = this.maybeScheduleNavigation_(
 				uri.toString(),
 				{}
 			);
+
 			if (isNavigationScheduled) {
 				return;
 			}
@@ -1262,6 +1277,7 @@ class App extends EventEmitter {
 	 */
 	prefetch(path) {
 		var route = this.findRoute(path);
+
 		if (!route) {
 			return CancellablePromise.reject(
 				new CancellablePromise.CancellationError('No route for ' + path)
@@ -1293,6 +1309,7 @@ class App extends EventEmitter {
 	 */
 	prepareNavigateHistory_(path, nextScreen, opt_replaceHistory) {
 		let title = nextScreen.getTitle();
+
 		if (!isString(title)) {
 			title = this.getDefaultTitle();
 		}
@@ -1333,6 +1350,7 @@ class App extends EventEmitter {
 	prepareNavigateSurfaces_(nextScreen, surfaces, params) {
 		Object.keys(surfaces).forEach((id) => {
 			var surfaceContent = nextScreen.getSurfaceContent(id, params);
+
 			surfaces[id].addContent(nextScreen.getId(), surfaceContent);
 			console.log(
 				'Screen [' +
@@ -1369,6 +1387,7 @@ class App extends EventEmitter {
 	 */
 	removeScreen(path) {
 		var screen = this.screens[path];
+
 		if (screen) {
 			Object.keys(this.surfaces).forEach((surfaceId) =>
 				this.surfaces[surfaceId].remove(screen.getId())
@@ -1385,6 +1404,7 @@ class App extends EventEmitter {
 	 */
 	saveHistoryCurrentPageScrollPosition_(scrollTop, scrollLeft) {
 		var state = globals.window.history.state;
+
 		if (state && state.senna) {
 			[state.scrollTop, state.scrollLeft] = [scrollTop, scrollLeft];
 			globals.window.history.replaceState(state, null, null);
@@ -1495,6 +1515,7 @@ class App extends EventEmitter {
 	 */
 	syncScrollPositionSyncThenAsync_() {
 		var state = globals.window.history.state;
+
 		if (!state) {
 			return;
 		}
@@ -1538,6 +1559,7 @@ class App extends EventEmitter {
 		utils.setReferrer(referrer);
 
 		const titleNode = globals.document.querySelector('title');
+
 		if (titleNode) {
 			titleNode.innerHTML = title;
 		}

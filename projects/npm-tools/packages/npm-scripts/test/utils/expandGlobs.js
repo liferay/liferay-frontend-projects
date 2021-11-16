@@ -88,6 +88,7 @@ describe('expandGlobs()', () => {
 		cwd = process.cwd();
 
 		const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'scripts-'));
+
 		process.chdir(directory);
 
 		FIXTURES.forEach((fixture) => {

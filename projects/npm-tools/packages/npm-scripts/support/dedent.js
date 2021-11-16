@@ -10,6 +10,7 @@
  */
 function dedent(tabs) {
 	const indent = '\t'.repeat(tabs);
+
 	const regExp = new RegExp(`^${indent}`, 'gm');
 
 	return (strings, ...interpolations) => {

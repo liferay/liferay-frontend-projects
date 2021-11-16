@@ -9,6 +9,7 @@ const path = require('path');
 const project = require('../index');
 
 const prjPath = path.join(__dirname, 'fixtures', 'a-project');
+
 const pkgJsonPath = path.join(prjPath, 'package.json');
 
 const savedCwd = process.cwd();

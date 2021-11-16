@@ -90,6 +90,7 @@ function publish(projects) {
 
 	projects.forEach((dir) => {
 		const {name, version} = require(`${dir}/package.json`);
+
 		const pkgId = `${name}@${version}`;
 
 		console.log(`       ${pkgId}`);
@@ -102,6 +103,7 @@ function publish(projects) {
 
 	projects.forEach((dir) => {
 		const {name, version} = require(`${dir}/package.json`);
+
 		const pkgId = `${name}@${version}`;
 
 		console.log(`       ${pkgId}`);

@@ -10,6 +10,7 @@ const DESCRIPTION = 'do not make explicit references to localhost.';
 module.exports = {
 	create(context) {
 		const filePath = context.getFilename();
+
 		const filename = path.basename(filePath);
 
 		if (

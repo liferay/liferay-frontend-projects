@@ -26,10 +26,12 @@ module.exports = function (css, options) {
 
 	function updatePosition(str) {
 		var lines = str.match(/\n/g);
+
 		if (lines) {
 			lineno += lines.length;
 		}
 		var i = str.lastIndexOf('\n');
+
 		column = ~i ? str.length - i : column + str.length;
 	}
 
@@ -80,6 +82,7 @@ module.exports = function (css, options) {
 
 	function error(msg, start) {
 		var err = new Error(`${filename} (${lineno}:${column}) ${msg}`);
+
 		err.position = new Position(start);
 		err.filename = filename;
 		err.description = msg;
@@ -142,10 +145,12 @@ module.exports = function (css, options) {
 
 	function match(re) {
 		var m = re.exec(css);
+
 		if (!m) {
 			return;
 		}
 		var str = m[0];
+
 		updatePosition(str);
 		css = css.slice(str.length);
 
@@ -211,6 +216,7 @@ module.exports = function (css, options) {
 
 	function selector() {
 		var m = match(/^([^{]+)/);
+
 		if (!m) {
 			return;
 		}
@@ -232,6 +238,7 @@ module.exports = function (css, options) {
 		// prop
 
 		var prop = match(/^(\*?[-#/*\w]+(\[[0-9a-z_-]+\])?)\s*/);
+
 		if (!prop) {
 			return;
 		}
@@ -246,6 +253,7 @@ module.exports = function (css, options) {
 		// val
 
 		var val = match(/^((?:'(?:\\'|.)*?'|"(?:\\"|.)*?"|\([^)]*?\)|[^};])+)/);
+
 		if (!val) {
 			return error('property missing value');
 		}
@@ -462,6 +470,7 @@ module.exports = function (css, options) {
 	function atpage() {
 		var pos = position();
 		var m = match(/^@page */);
+
 		if (!m) {
 			return;
 		}
@@ -499,6 +508,7 @@ module.exports = function (css, options) {
 	function atdocument() {
 		var pos = position();
 		var m = match(/^@([-\w]+)?document *([^{]+)/);
+
 		if (!m) {
 			return;
 		}
@@ -585,10 +595,12 @@ module.exports = function (css, options) {
 	function _atrule(name) {
 		var pos = position();
 		var m = match(new RegExp('^@' + name + ' *([^;\\n]+);'));
+
 		if (!m) {
 			return;
 		}
 		var ret = {type: name};
+
 		ret[name] = trim(m[1]);
 
 		return pos(ret);

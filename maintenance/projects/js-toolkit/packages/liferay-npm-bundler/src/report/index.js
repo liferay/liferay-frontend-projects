@@ -117,6 +117,7 @@ export class Report {
 	 */
 	linkedDependency(packageName, packageLink, packageVersion) {
 		const pkgId = `${packageName}@${packageVersion}`;
+
 		const pkg = this._getPackage(pkgId, false);
 
 		if (pkg) {

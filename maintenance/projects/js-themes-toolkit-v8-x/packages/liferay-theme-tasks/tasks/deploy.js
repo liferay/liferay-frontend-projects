@@ -12,6 +12,7 @@ const DEPLOYMENT_STRATEGIES = themeUtil.DEPLOYMENT_STRATEGIES;
 
 function registerTasks(options) {
 	const {argv, gulp, pathDist} = options;
+
 	const {storage} = gulp;
 
 	const runSequence = require('run-sequence').use(gulp);

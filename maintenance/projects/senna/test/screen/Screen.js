@@ -97,6 +97,7 @@ describe('Screen', () => {
 
 	it('gets screen id', () => {
 		var screen = new Screen();
+
 		assert.ok(screen.getId());
 		screen.setId('otherId');
 		assert.strictEqual('otherId', screen.getId());
@@ -104,6 +105,7 @@ describe('Screen', () => {
 
 	it('gets screen title', () => {
 		var screen = new Screen();
+
 		assert.strictEqual(null, screen.getTitle());
 		screen.setTitle('other');
 		assert.strictEqual('other', screen.getTitle());
@@ -140,6 +142,7 @@ describe('Screen', () => {
 		);
 		var surface = new Surface('surfaceId');
 		var screen = new Screen();
+
 		screen
 			.evaluateStyles({
 				surfaceId: surface,

@@ -116,7 +116,9 @@ module.exports = function () {
 
 	gulp.task('upgrade:config', () => {
 		const {targetVersion} = versionUpgrade;
+
 		const dotTargetVersion = targetVersion + '.0';
+
 		const underscoreTargetVersion = dotTargetVersion.replace(/\./g, '_');
 
 		project.themeConfig.setConfig({

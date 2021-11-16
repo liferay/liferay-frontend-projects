@@ -66,6 +66,7 @@ module.exports = (options) =>
 		catch (error) {
 			const filePath =
 				(error.file === 'stdin' ? file.path : error.file) || file.path;
+
 			const relativePath = path.relative(process.cwd(), filePath);
 			const message = [
 				chalk.underline(relativePath),

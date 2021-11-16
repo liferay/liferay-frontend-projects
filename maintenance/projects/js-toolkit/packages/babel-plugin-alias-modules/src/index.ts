@@ -44,6 +44,7 @@ export class Visitor {
 	CallExpression(bpath) {
 		const {_log} = this;
 		const {node} = bpath;
+
 		const {callee} = node;
 
 		if (!t.isIdentifier(callee)) {

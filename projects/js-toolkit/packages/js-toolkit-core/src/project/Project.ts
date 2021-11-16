@@ -336,6 +336,7 @@ export default class Project {
 			// Get preset version
 
 			const {_configuration} = this;
+
 			const preset = _configuration['preset'];
 
 			if (preset) {
@@ -446,6 +447,7 @@ export default class Project {
 
 	_loadConfiguration(): void {
 		const {_configFile} = this;
+
 		const configDir = _configFile.dirname();
 
 		if (fs.existsSync(configDir.join('.npmbundlerrc').asNative)) {

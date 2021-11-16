@@ -32,6 +32,7 @@ describe('ScriptLoader', () => {
 
 	it('inserts synchronous DOM script nodes', (done) => {
 		const config = new Config({combine: false, url: 'http://localhost'});
+
 		const scriptLoader = new ScriptLoader(document, config);
 
 		config.addModule('a@1.0.0');
@@ -50,6 +51,7 @@ describe('ScriptLoader', () => {
 
 	it('works without combine flag', (done) => {
 		const config = new Config({combine: false, url: 'http://localhost'});
+
 		const scriptLoader = new ScriptLoader(document, config);
 
 		const moduleNames = ['a@1.0.0', 'b@1.2.0'];
@@ -75,6 +77,7 @@ describe('ScriptLoader', () => {
 
 	it('works with combine flag', (done) => {
 		const config = new Config({combine: true, url: 'http://localhost'});
+
 		const scriptLoader = new ScriptLoader(document, config);
 
 		const moduleNames = ['a@1.0.0', 'b@1.2.0'];
@@ -96,6 +99,7 @@ describe('ScriptLoader', () => {
 
 	it('rejects on error', (done) => {
 		const config = new Config({combine: true, url: 'http://localhost'});
+
 		const scriptLoader = new ScriptLoader(document, config);
 
 		const moduleNames = ['a@1.0.0', 'b@1.2.0'];

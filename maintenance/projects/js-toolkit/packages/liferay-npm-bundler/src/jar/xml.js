@@ -22,7 +22,9 @@ const TYPES = {
  */
 export function addMetatypeAttr(metatype, id, desc) {
 	const metadata = findChild(metatype, 'metatype:MetaData');
+
 	const ocd = findChild(metadata, 'OCD');
+
 	const ad = addChild(ocd, 'AD');
 
 	addAttr(ad, 'id', id);

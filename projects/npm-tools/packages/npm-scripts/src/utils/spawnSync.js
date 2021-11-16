@@ -31,6 +31,7 @@ function spawnSync(command, args = [], options = {}) {
 		'../../node_modules/.bin',
 		command
 	);
+
 	const executable = fs.existsSync(localCommand) ? localCommand : command;
 
 	const {error, signal, status} = spawn.sync(executable, args, {

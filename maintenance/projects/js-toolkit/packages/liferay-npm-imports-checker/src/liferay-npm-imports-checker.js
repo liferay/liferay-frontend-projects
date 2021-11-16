@@ -114,6 +114,7 @@ function loadProjects() {
 
 			try {
 				const pkgJson = readJsonSync(pkgJsonPath);
+
 				const project = projects[pkgJson.name];
 
 				if (project) {

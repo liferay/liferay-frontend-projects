@@ -27,6 +27,7 @@ export default function ({config, log, pkg, source}, {pkgJson}) {
 		.map((posixPath) => new FilePath(posixPath, {posix: true}))
 		.forEach((file) => {
 			const code = fs.readFileSync(file.asNative);
+
 			const defineCallOffset = code.indexOf(defineCall);
 
 			if (defineCallOffset !== -1) {
@@ -105,6 +106,7 @@ function processModuleDependencies(
 		}
 
 		const {pkgName, scope} = mod.splitModuleName(dep);
+
 		const scopedPkgName = mod.joinModuleName(scope, pkgName);
 
 		if (!pkgJson.dependencies[scopedPkgName]) {

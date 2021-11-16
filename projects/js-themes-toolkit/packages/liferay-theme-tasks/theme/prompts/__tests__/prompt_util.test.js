@@ -66,6 +66,7 @@ it('getModuleChoices should get module choices that are appropriate for extend t
 
 	_.forEach(choices, (item, index) => {
 		const number = index + 1;
+
 		const name = 'themelet-' + number;
 
 		expect(item.name).toBe(name);
@@ -78,6 +79,7 @@ it('getModuleChoices should get module choices that are appropriate for extend t
 
 	_.forEach(choices, (item, index) => {
 		const number = index + 1;
+
 		const name = 'themelet-' + number;
 
 		if (number === 1) {
@@ -93,6 +95,7 @@ it('getModuleChoices should get module choices that are appropriate for extend t
 
 	_.forEach(choices, (item, index) => {
 		const number = index + 1;
+
 		const name = 'themelet-' + number;
 
 		expect(!item.checked).toBe(true);
@@ -106,6 +109,7 @@ it('getModuleChoices should get module choices that are appropriate for extend t
 
 	_.forEach(choices, (item, index) => {
 		const number = index + 1;
+
 		const name = 'themelet-' + number;
 
 		if (number === 1) {

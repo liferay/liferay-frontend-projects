@@ -67,6 +67,7 @@ function bgPosition(v) {
 		v = v.replace(/\bright\b/, 'left');
 	}
 	var m = v.trim().split(/\s+/);
+
 	if (m && m.length === 1 && v.match(/(\d+)([a-z]{2}|%)/)) {
 		v = 'right ' + v;
 	}
@@ -151,6 +152,7 @@ var valueMap = {
 
 function processRule(rule, index, list) {
 	var prev = list[index - 1];
+
 	if (prev && prev.type === 'comment' && prev.comment.trim() === '@noflip') {
 		return;
 	}
@@ -176,9 +178,11 @@ function processDeclaration(declaration, rule) {
 	// RegEx for comments is taken from http://www.w3.org/TR/CSS21/grammar.html
 
 	var commentRegEx = /\/\*[^*]*\*+([^/*][^*]*\*+)*\//g;
+
 	var prop = declaration.property.replace(commentRegEx, ''); // remove comments
 	var val = declaration.value.replace(commentRegEx, '');
 	var important = /!important/;
+
 	var isImportant = val.match(important);
 	var asterisk = prop.match(/^(\*+)(.+)/, '');
 

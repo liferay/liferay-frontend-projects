@@ -9,6 +9,7 @@ const fs = require('fs');
 const yeoman = require('yeoman-environment');
 
 const env = yeoman.createEnv();
+
 const paths = env.getNpmPaths();
 
 paths.forEach((path) => {

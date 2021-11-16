@@ -15,6 +15,7 @@ const {fail, print, question, success} = format;
 
 const outputDir = new FilePath(project.jar.outputDir.asNative);
 const outputFilename = project.jar.outputFilename;
+
 const outputFile = outputDir.join(outputFilename);
 
 export default async function deploy(): Promise<void> {

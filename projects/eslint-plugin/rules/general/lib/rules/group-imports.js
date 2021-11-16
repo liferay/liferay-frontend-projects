@@ -23,7 +23,9 @@ module.exports = {
 
 		function expectBlankLines(node, count = 1) {
 			const comments = getLeadingComments(node, context);
+
 			const initial = comments[0] || node;
+
 			const token = context.getTokenBefore(initial, {
 				includeComments: true,
 			});

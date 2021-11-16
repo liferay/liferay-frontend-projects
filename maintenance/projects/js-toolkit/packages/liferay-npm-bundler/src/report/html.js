@@ -125,7 +125,9 @@ export function htmlDump(report) {
 	const packageProcessesPresent = Object.keys(_packages).reduce(
 		(found, pkgId) => {
 			const pkg = _packages[pkgId];
+
 			const {babel, copy, post, pre} = pkg.process;
+
 			const copyKeys = Object.keys(copy);
 			const preKeys = Object.keys(pre);
 			const postKeys = Object.keys(post);
@@ -154,7 +156,9 @@ export function htmlDump(report) {
 				.sort()
 				.map((pkgId) => {
 					const pkg = _packages[pkgId];
+
 					const {babel, copy, post, pre} = pkg.process;
+
 					const copyKeys = Object.keys(copy);
 					const preKeys = Object.keys(pre);
 					const postKeys = Object.keys(post);
@@ -211,7 +215,9 @@ export function htmlDump(report) {
 			.sort()
 			.map((pkgId) => {
 				const pkg = _packages[pkgId];
+
 				const {copy, post, pre} = pkg.process;
+
 				const copyKeys = Object.keys(copy);
 				const preKeys = Object.keys(pre);
 				const postKeys = Object.keys(post);
@@ -298,7 +304,9 @@ export function htmlDump(report) {
 			.sort()
 			.map((pkgId) => {
 				const pkg = _packages[pkgId];
+
 				const {babel} = pkg.process;
+
 				const babelKeys = Object.keys(babel.files);
 
 				return htmlIf(babelKeys.length > 0, () =>

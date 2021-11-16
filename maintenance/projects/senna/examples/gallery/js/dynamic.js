@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
      ========================================================================== */
 
 	var app = new senna.App();
+
 	app.addSurfaces('preview');
 	app.addRoutes(
 		new senna.Route(
@@ -36,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	function customScreenRouteHandler() {
 		var screenInstance = new senna.Screen();
+
 		screenInstance.cached = true;
 		screenInstance.getSurfaceContent = function (surfaceId) {
 			if (surfaceId === 'preview') {

@@ -237,6 +237,7 @@ describe('using lib_sass', () => {
 
 	function _assertFixAtDirectives(callback) {
 		const cssPath = path.join(buildPath, 'css');
+
 		const mainCssPath = path.join(cssPath, 'main.css');
 
 		assertExists(cssPath);
@@ -286,6 +287,7 @@ describe('using lib_sass', () => {
 		assertExists(templatesPath);
 
 		const customCSSFileName = '_custom.scss';
+
 		const customCSSPath = path.join(cssPath, customCSSFileName);
 
 		const fileContent = stripNewlines(
@@ -393,6 +395,7 @@ describe('using lib_sass', () => {
 		assertExists(velocityPath);
 
 		const customCSSFileName = '_custom.scss';
+
 		const customCSSPath = path.join(buildPath, 'css', customCSSFileName);
 
 		assertMatches(

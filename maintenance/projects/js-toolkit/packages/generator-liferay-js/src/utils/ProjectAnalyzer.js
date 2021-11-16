@@ -84,6 +84,7 @@ export default class ProjectAnalyzer {
 	 */
 	get localizationBundleName() {
 		const bundleName = path.basename(this.localizationFilePath);
+
 		const extname = path.extname(bundleName);
 
 		return bundleName.replace(new RegExp(extname.replace('.', '\\.')), '');

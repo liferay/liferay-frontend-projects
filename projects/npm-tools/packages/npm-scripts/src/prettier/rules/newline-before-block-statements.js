@@ -15,6 +15,7 @@ module.exports = {
 			// We only fix if on same line.
 
 			let last = source.getLastToken(node);
+
 			const keyword = source.getTokenAfter(last);
 
 			if (last.loc.end.line === keyword.loc.start.line) {

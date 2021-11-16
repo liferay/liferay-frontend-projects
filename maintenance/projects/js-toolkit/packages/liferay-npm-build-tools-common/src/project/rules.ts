@@ -106,6 +106,7 @@ export default class Rules {
 					const pkgJsonPath = _project.toolResolve(
 						`${joinModuleName(scope, pkgName, '')}/package.json`
 					);
+
 					const pkgJson = require(pkgJsonPath);
 
 					map.set(resolvedModule, {

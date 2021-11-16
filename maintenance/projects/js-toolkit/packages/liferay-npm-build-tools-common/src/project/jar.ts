@@ -24,6 +24,7 @@ export default class Jar {
 	 */
 	get compressionLevel(): number {
 		const {_project} = this;
+
 		const {npmbundlerrc} = _project;
 
 		if (this._compressionLevel === undefined) {
@@ -95,6 +96,7 @@ export default class Jar {
 	 */
 	get outputDir(): FilePath {
 		const {_project} = this;
+
 		const {npmbundlerrc} = _project;
 
 		if (this._outputDir === undefined) {

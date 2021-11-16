@@ -135,7 +135,9 @@ async function getChanges(from, to) {
 
 			if (info) {
 				const [subject, description] = message.split(/\n+/);
+
 				const metadata = subject.match(/Merge pull request #(\d+)/);
+
 				const number = metadata ? metadata[1] : NaN;
 
 				if (description) {
@@ -191,12 +193,14 @@ async function getRemote(options) {
 	}
 
 	const remotes = await git('remote', '-v');
+
 	const lines = remotes.split('\n');
 
 	for (let i = 0; i < lines.length; i++) {
 		const match = lines[i].match(
 			/\bgithub\.com[/:]liferay\/(\S+?)(?:\.git)?\s/i
 		);
+
 		if (match) {
 			return `https://github.com/liferay/${match[1]}`;
 		}
@@ -452,6 +456,7 @@ async function go(options) {
 				to: from,
 				version: from,
 			});
+
 			contents += '\n' + chunk;
 
 			from = previousVersion;

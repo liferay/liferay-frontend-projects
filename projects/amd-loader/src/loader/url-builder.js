@@ -38,6 +38,7 @@ export default class URLBuilder {
 
 		moduleNames.forEach((moduleName) => {
 			const module = config.getModule(moduleName);
+
 			const path = this._getModulePath(module);
 
 			if (config.combine) {

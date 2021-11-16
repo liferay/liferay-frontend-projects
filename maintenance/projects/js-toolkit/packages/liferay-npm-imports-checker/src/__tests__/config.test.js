@@ -21,6 +21,7 @@ beforeEach(() => {
 			'modules',
 			'a-project'
 		);
+
 		process.chdir(testDir);
 		cfg = require('../config');
 		cfg.reloadConfig();

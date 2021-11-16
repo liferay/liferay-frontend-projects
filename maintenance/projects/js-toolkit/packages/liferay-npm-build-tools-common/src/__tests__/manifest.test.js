@@ -48,6 +48,7 @@ describe('save', () => {
 		manifest.addPackage(srcPkg2, destPkg2);
 
 		const tmpDir = fs.mkdtempSync('manifest');
+
 		const tmpFilePath = path.join(tmpDir, 'manifest.json');
 
 		manifest.save(tmpFilePath);
@@ -67,6 +68,7 @@ describe('save', () => {
 
 it('constructor with file works', () => {
 	const tmpDir = fs.mkdtempSync('manifest');
+
 	const tmpFilePath = path.join(tmpDir, 'manifest.json');
 
 	const manifest = new Manifest(tmpFilePath);

@@ -14,12 +14,14 @@ describe('Cacheable', () => {
 
 	it('is cacheable', () => {
 		var cacheable = new Cacheable();
+
 		cacheable.setCacheable(true);
 		assert.ok(cacheable.isCacheable());
 	});
 
 	it('clears cache when toggle cacheable state', () => {
 		var cacheable = new Cacheable();
+
 		cacheable.setCacheable(true);
 		cacheable.addCache('data');
 		assert.strictEqual('data', cacheable.getCache());
@@ -29,6 +31,7 @@ describe('Cacheable', () => {
 
 	it('clears cache on dispose', () => {
 		var cacheable = new Cacheable();
+
 		cacheable.setCacheable(true);
 		cacheable.addCache('data');
 		cacheable.dispose();

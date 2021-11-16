@@ -18,6 +18,7 @@ const lfrThemeConfig = require('./liferay_theme_config');
 const argv = minimist(process.argv.slice(2));
 
 const pkg = lfrThemeConfig.getConfig(true);
+
 const themeConfig = pkg.liferayTheme;
 
 const CUSTOM_DEP_PATH_ENV_VARIABLE_MAP = {

@@ -15,6 +15,7 @@ class Project {
 
 	get type() {
 		const {fs} = this._generator;
+
 		const pkgJson = fs.readJSON('package.json');
 
 		if (pkgJson === undefined) {

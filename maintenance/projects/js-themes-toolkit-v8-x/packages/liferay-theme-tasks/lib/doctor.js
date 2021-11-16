@@ -86,6 +86,7 @@ function assertTasksSupported(version, tasks) {
 			default:
 				{
 					const message = getSupportedTasks(task)[version] || '';
+
 					if (message !== true) {
 						log(
 							colors.yellow(

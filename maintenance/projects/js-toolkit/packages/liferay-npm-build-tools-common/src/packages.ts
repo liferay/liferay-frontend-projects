@@ -47,6 +47,7 @@ export function resolveModuleFile(pkgPath: string, moduleName: string): string {
 	let fullModulePath = path.resolve(
 		path.join(pkgPath, ...moduleName.split('/'))
 	);
+
 	let moduleStats = safeStat(fullModulePath);
 
 	if (moduleStats.isDirectory()) {
@@ -54,6 +55,7 @@ export function resolveModuleFile(pkgPath: string, moduleName: string): string {
 		// Given module name is a directory
 
 		const pkgJsonPath = path.join(fullModulePath, 'package.json');
+
 		const pkgJsonStats = safeStat(pkgJsonPath);
 
 		if (pkgJsonStats.isFile()) {
@@ -61,6 +63,7 @@ export function resolveModuleFile(pkgPath: string, moduleName: string): string {
 			// Module directory has package.json file
 
 			const pkgJson = readJsonSync(pkgJsonPath);
+
 			const {main} = pkgJson;
 
 			if (main) {

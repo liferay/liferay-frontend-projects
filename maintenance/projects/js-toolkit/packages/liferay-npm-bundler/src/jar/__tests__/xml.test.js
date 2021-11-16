@@ -13,6 +13,7 @@ import {
 describe('addMetatypeAttr', () => {
 	it('works with just the type', () => {
 		const xml = createMetatype('id', 'name');
+
 		addMetatypeAttr(xml, 'an-attr', {
 			type: 'string',
 		});
@@ -22,6 +23,7 @@ describe('addMetatypeAttr', () => {
 
 	it('adds description if present', () => {
 		const xml = createMetatype('id', 'name');
+
 		addMetatypeAttr(xml, 'an-attr', {
 			type: 'string',
 			description: 'a-description',
@@ -32,6 +34,7 @@ describe('addMetatypeAttr', () => {
 
 	it('adds required if present', () => {
 		const xml = createMetatype('id', 'name');
+
 		addMetatypeAttr(xml, 'an-attr', {
 			type: 'string',
 			required: true,
@@ -42,6 +45,7 @@ describe('addMetatypeAttr', () => {
 
 	it('adds default if present', () => {
 		const xml = createMetatype('id', 'name');
+
 		addMetatypeAttr(xml, 'an-attr', {
 			type: 'string',
 			default: 'default-value',
@@ -52,6 +56,7 @@ describe('addMetatypeAttr', () => {
 
 	it('adds options if present', () => {
 		const xml = createMetatype('id', 'name');
+
 		addMetatypeAttr(xml, 'an-attr', {
 			type: 'string',
 			options: {
@@ -66,6 +71,7 @@ describe('addMetatypeAttr', () => {
 
 it('addMetatypeLocalization works', () => {
 	const xml = createMetatype('id', 'name');
+
 	addMetatypeLocalization(xml, 'localization/file.properties');
 
 	expect(xml).toMatchSnapshot();
@@ -79,6 +85,7 @@ it('createMetatype works', () => {
 
 it('all together works', () => {
 	const xml = createMetatype('id', 'name');
+
 	addMetatypeLocalization(xml, 'localization/file.properties');
 	addMetatypeAttr(xml, 'a-number', {type: 'number'});
 	addMetatypeAttr(xml, 'a-float', {type: 'float'});

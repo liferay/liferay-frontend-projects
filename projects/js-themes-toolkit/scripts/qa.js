@@ -12,7 +12,9 @@ const path = require('path');
 const {argv} = require('yargs');
 
 const projectDir = path.resolve(__dirname, '..');
+
 const workDir = path.join(projectDir, 'qa');
+
 const pkgsDir = path.join(workDir, 'packages');
 const yoPath = path.join(workDir, 'node_modules', '.bin', 'yo');
 const generatorsPath = path.join(
@@ -21,6 +23,7 @@ const generatorsPath = path.join(
 	'generator-liferay-theme',
 	'generators'
 );
+
 const generatorPath = path.join(generatorsPath, 'app', 'index.js');
 const classicGeneratorPath = path.join(generatorsPath, 'classic', 'index.js');
 const adminGeneratorPath = path.join(generatorsPath, 'admin', 'index.js');

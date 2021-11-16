@@ -14,6 +14,7 @@ const resolve = require('resolve');
  */
 function generateSoyDependencies(dependencies) {
 	const cwd = process.cwd();
+
 	const projectName = path.basename(cwd);
 
 	const stringDependencies = dependencies

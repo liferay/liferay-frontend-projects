@@ -52,6 +52,7 @@ var plug = function (r2) {
 
 		if (swap) {
 			var handle = resizeHandleInnerRegexp.exec(swap)[1];
+
 			v = swapHandleInnerBg[handle] || v;
 		}
 		else {

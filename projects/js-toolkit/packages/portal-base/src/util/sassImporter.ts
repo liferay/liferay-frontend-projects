@@ -54,6 +54,7 @@ function sassResolve(module: string): string {
 
 			/* eslint-disable-next-line */
 			const packageJson = require(resolvedPath);
+
 			const entryPoint = packageJson.style || packageJson.main;
 
 			return resolve(module + '/' + entryPoint, {basedir: '.'});

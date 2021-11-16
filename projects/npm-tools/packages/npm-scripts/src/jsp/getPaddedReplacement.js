@@ -41,6 +41,7 @@ const IDENTIFIER = new RegExp(`${ID_START}[^${ID_END}]+${ID_END}`);
  */
 function getPaddedReplacement(match, template) {
 	const paddingLength = Math.max(match.length - template.length - 2, 0);
+
 	const padding = '_'.repeat(paddingLength);
 
 	return ID_START + template + padding + ID_END;

@@ -31,10 +31,12 @@ describe('utils', () => {
 
 	it('copies attributes from source node to target node', () => {
 		var nodeA = document.createElement('div');
+
 		nodeA.setAttribute('a', 'valueA');
 		nodeA.setAttribute('b', 'valueB');
 
 		var nodeB = document.createElement('div');
+
 		utils.copyNodeAttributes(nodeA, nodeB);
 
 		assert.strictEqual(nodeA.attributes.length, nodeB.attributes.length);
@@ -46,6 +48,7 @@ describe('utils', () => {
 
 	it('clears attributes from a given node', () => {
 		var node = document.createElement('div');
+
 		node.setAttribute('a', 'valueA');
 		node.setAttribute('b', 'valueB');
 

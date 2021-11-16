@@ -50,6 +50,7 @@ export default class Misc {
 	 */
 	get noTracking(): boolean {
 		const {_project} = this;
+
 		const {npmbundlerrc} = _project;
 
 		if (!prop.has(npmbundlerrc, 'no-tracking')) {
@@ -89,6 +90,7 @@ export default class Misc {
 	 */
 	get reportFile(): FilePath | undefined {
 		const {_project} = this;
+
 		const {npmbundlerrc} = _project;
 
 		const dumpReport = prop.get(npmbundlerrc, 'dump-report', false);

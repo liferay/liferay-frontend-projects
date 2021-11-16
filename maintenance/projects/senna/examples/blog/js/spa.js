@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	console.log('Senna version:', senna.version);
 
 	var app = new senna.App();
+
 	app.setBasePath('/examples/blog');
 	app.addSurfaces('posts');
 	app.addRoutes(new senna.Route(/\w+\.html/, senna.HtmlScreen));

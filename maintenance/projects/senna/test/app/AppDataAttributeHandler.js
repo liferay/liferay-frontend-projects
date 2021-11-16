@@ -38,6 +38,7 @@ describe('AppDataAttributeHandler', () => {
 	it('throws error when base element not valid', () => {
 		assert.throws(() => {
 			var appDataAttributeHandler = new AppDataAttributeHandler();
+
 			appDataAttributeHandler.setBaseElement({});
 			appDataAttributeHandler.handle();
 		}, Error);
@@ -46,6 +47,7 @@ describe('AppDataAttributeHandler', () => {
 	it('throws error when already handled', () => {
 		assert.throws(() => {
 			var appDataAttributeHandler = new AppDataAttributeHandler();
+
 			appDataAttributeHandler.setBaseElement(globals.document.body);
 			appDataAttributeHandler.handle();
 			appDataAttributeHandler.handle();
@@ -55,6 +57,7 @@ describe('AppDataAttributeHandler', () => {
 	it('does not throw error when base element specified', () => {
 		assert.doesNotThrow(() => {
 			var appDataAttributeHandler = new AppDataAttributeHandler();
+
 			appDataAttributeHandler.setBaseElement(globals.document.body);
 			appDataAttributeHandler.handle();
 			appDataAttributeHandler.dispose();
@@ -63,6 +66,7 @@ describe('AppDataAttributeHandler', () => {
 
 	it('disposes internal app when disposed', () => {
 		var appDataAttributeHandler = new AppDataAttributeHandler();
+
 		appDataAttributeHandler.setBaseElement(globals.document.body);
 		appDataAttributeHandler.handle();
 		appDataAttributeHandler.dispose();
@@ -72,12 +76,14 @@ describe('AppDataAttributeHandler', () => {
 	it('disposes when not handled', () => {
 		assert.doesNotThrow(() => {
 			var appDataAttributeHandler = new AppDataAttributeHandler();
+
 			appDataAttributeHandler.dispose();
 		});
 	});
 
 	it('gets app', () => {
 		var appDataAttributeHandler = new AppDataAttributeHandler();
+
 		appDataAttributeHandler.setBaseElement(globals.document.body);
 		appDataAttributeHandler.handle();
 		assert.ok(appDataAttributeHandler.getApp());
@@ -86,6 +92,7 @@ describe('AppDataAttributeHandler', () => {
 
 	it('gets base element', () => {
 		var appDataAttributeHandler = new AppDataAttributeHandler();
+
 		appDataAttributeHandler.setBaseElement(globals.document.body);
 		assert.strictEqual(
 			globals.document.body,
@@ -96,6 +103,7 @@ describe('AppDataAttributeHandler', () => {
 	it('adds app surfaces from document', () => {
 		enterDocumentSurfaceElement('surfaceId');
 		var appDataAttributeHandler = new AppDataAttributeHandler();
+
 		appDataAttributeHandler.setBaseElement(globals.document.body);
 		appDataAttributeHandler.handle();
 		assert.ok('surfaceId' in appDataAttributeHandler.getApp().surfaces);
@@ -106,6 +114,7 @@ describe('AppDataAttributeHandler', () => {
 	it('adds random id to body without id when used as app surface', () => {
 		globals.document.body.setAttribute('data-senna-surface', '');
 		var appDataAttributeHandler = new AppDataAttributeHandler();
+
 		appDataAttributeHandler.setBaseElement(globals.document.body);
 		appDataAttributeHandler.handle();
 		assert.ok(globals.document.body);
@@ -117,6 +126,7 @@ describe('AppDataAttributeHandler', () => {
 		enterDocumentSurfaceElementMissingId('surfaceId');
 		assert.throws(() => {
 			var appDataAttributeHandler = new AppDataAttributeHandler();
+
 			appDataAttributeHandler.setBaseElement(globals.document.body);
 			appDataAttributeHandler.handle();
 		}, Error);
@@ -125,6 +135,7 @@ describe('AppDataAttributeHandler', () => {
 
 	it('adds default route if not found in document', () => {
 		var appDataAttributeHandler = new AppDataAttributeHandler();
+
 		appDataAttributeHandler.setBaseElement(globals.document.body);
 		appDataAttributeHandler.handle();
 		assert.ok(appDataAttributeHandler.getApp().hasRoutes());
@@ -135,6 +146,7 @@ describe('AppDataAttributeHandler', () => {
 		enterDocumentRouteElement('/path1');
 		enterDocumentRouteElement('/path2');
 		var appDataAttributeHandler = new AppDataAttributeHandler();
+
 		appDataAttributeHandler.setBaseElement(globals.document.body);
 		appDataAttributeHandler.handle();
 		assert.strictEqual(2, appDataAttributeHandler.getApp().routes.length);
@@ -146,6 +158,7 @@ describe('AppDataAttributeHandler', () => {
 	it('adds routes from document with regex paths', () => {
 		enterDocumentRouteElement('regex:[a-z]');
 		var appDataAttributeHandler = new AppDataAttributeHandler();
+
 		appDataAttributeHandler.setBaseElement(globals.document.body);
 		appDataAttributeHandler.handle();
 		assert.ok(
@@ -160,6 +173,7 @@ describe('AppDataAttributeHandler', () => {
 		enterDocumentRouteElementMissingScreenType('/path');
 		assert.throws(() => {
 			var appDataAttributeHandler = new AppDataAttributeHandler();
+
 			appDataAttributeHandler.setBaseElement(globals.document.body);
 			appDataAttributeHandler.handle();
 		}, Error);
@@ -170,6 +184,7 @@ describe('AppDataAttributeHandler', () => {
 		enterDocumentRouteElementMissingPath();
 		assert.throws(() => {
 			var appDataAttributeHandler = new AppDataAttributeHandler();
+
 			appDataAttributeHandler.setBaseElement(globals.document.body);
 			appDataAttributeHandler.handle();
 		}, Error);
@@ -179,6 +194,7 @@ describe('AppDataAttributeHandler', () => {
 	it('sets base path from data attribute', () => {
 		globals.document.body.setAttribute('data-senna-base-path', '/base');
 		var appDataAttributeHandler = new AppDataAttributeHandler();
+
 		appDataAttributeHandler.setBaseElement(globals.document.body);
 		appDataAttributeHandler.handle();
 		assert.strictEqual(
@@ -192,6 +208,7 @@ describe('AppDataAttributeHandler', () => {
 	it('sets link selector from data attribute', () => {
 		globals.document.body.setAttribute('data-senna-link-selector', 'a');
 		var appDataAttributeHandler = new AppDataAttributeHandler();
+
 		appDataAttributeHandler.setBaseElement(globals.document.body);
 		appDataAttributeHandler.handle();
 		assert.strictEqual(
@@ -208,6 +225,7 @@ describe('AppDataAttributeHandler', () => {
 			'loading'
 		);
 		var appDataAttributeHandler = new AppDataAttributeHandler();
+
 		appDataAttributeHandler.setBaseElement(globals.document.body);
 		appDataAttributeHandler.handle();
 		assert.strictEqual(
@@ -224,6 +242,7 @@ describe('AppDataAttributeHandler', () => {
 			'false'
 		);
 		var appDataAttributeHandler = new AppDataAttributeHandler();
+
 		appDataAttributeHandler.setBaseElement(globals.document.body);
 		appDataAttributeHandler.handle();
 		assert.strictEqual(
@@ -242,6 +261,7 @@ describe('AppDataAttributeHandler', () => {
 			'true'
 		);
 		var appDataAttributeHandler = new AppDataAttributeHandler();
+
 		appDataAttributeHandler.setBaseElement(globals.document.body);
 		appDataAttributeHandler.handle();
 		assert.strictEqual(
@@ -257,6 +277,7 @@ describe('AppDataAttributeHandler', () => {
 	it('dispatches app from data attribute', () => {
 		globals.document.body.setAttribute('data-senna-dispatch', '');
 		var appDataAttributeHandler = new AppDataAttributeHandler();
+
 		appDataAttributeHandler.setBaseElement(globals.document.body);
 		appDataAttributeHandler.handle();
 

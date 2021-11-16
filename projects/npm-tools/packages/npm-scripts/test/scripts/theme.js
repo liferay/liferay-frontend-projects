@@ -16,7 +16,9 @@ jest.mock('../../src/utils/spawnSync');
 const {normalize} = path;
 
 const FIXTURES = getFixturePath('scripts', 'theme');
+
 const MODULES = path.join(FIXTURES, 'modules');
+
 const APPS = path.join(MODULES, 'apps');
 const NODE_MODULES = path.join(MODULES, 'node_modules');
 const FJORD = path.join(APPS, 'frontend-theme-fjord', 'frontend-theme-fjord');

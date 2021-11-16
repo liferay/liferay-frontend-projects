@@ -158,7 +158,9 @@ class Screen extends Cacheable {
 
 		Object.keys(surfaces).forEach((sId) => {
 			var surface = surfaces[sId];
+
 			var deferred = surface.show(this.id);
+
 			transitions.push(deferred);
 		});
 

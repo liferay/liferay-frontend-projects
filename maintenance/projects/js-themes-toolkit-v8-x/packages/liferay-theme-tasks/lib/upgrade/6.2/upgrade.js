@@ -281,6 +281,7 @@ module.exports = function (options) {
 			.pipe(
 				plugins.filter((file) => {
 					const extname = path.extname(file.path).slice(1);
+
 					const basename = path.basename(file.path, `.${extname}`);
 
 					if (promptResults[basename][extname]) {

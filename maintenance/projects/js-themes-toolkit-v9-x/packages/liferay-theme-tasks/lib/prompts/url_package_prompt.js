@@ -82,6 +82,7 @@ class URLPackagePrompt {
 		if (this.themelet && answers.module) {
 			Object.keys(answers.module).forEach((k) => {
 				const moduleName = this.config.selectedModules[k];
+
 				answers.module[moduleName] = answers.module[k];
 				delete answers.module[k];
 			});

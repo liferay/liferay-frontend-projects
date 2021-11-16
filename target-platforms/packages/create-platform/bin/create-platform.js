@@ -85,6 +85,7 @@ const dependencies = Object.entries(config.build.bundler.config.imports).reduce(
 						paths: [providerDir],
 					}
 				);
+
 				const packageJson = require(packageJsonPath);
 
 				dependencies[packageName] = packageJson.version;

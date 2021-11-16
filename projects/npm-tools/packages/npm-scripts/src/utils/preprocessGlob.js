@@ -44,6 +44,7 @@ function preprocessGlob(glob) {
 			}
 
 			const index = substitutions.length - 1;
+
 			if (substitutions[index] === '') {
 
 				// There were no substitutions at all; braces are literal.
@@ -61,6 +62,7 @@ function preprocessGlob(glob) {
 			// We are capturing normal text.
 
 			const index = template.length - 1;
+
 			template[index] = template[index] + char;
 		}
 		else {
@@ -68,6 +70,7 @@ function preprocessGlob(glob) {
 			// We are capturing substitution(s).
 
 			const index = substitutions.length - 1;
+
 			substitutions[index] += char;
 		}
 	}
