@@ -19,7 +19,7 @@
 	},
 	"description": "Yeoman generator for creating Liferay themes",
 	"engines": {
-		"node": ">=8.0.0"
+		"node": ">=16.0.0"
 	},
 	"files": [
 		"generators",
