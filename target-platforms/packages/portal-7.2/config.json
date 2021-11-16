@@ -1,0 +1,102 @@
+{
+	"*": {
+		".babelrc": {
+			"presets": ["liferay-standard"]
+		},
+		"copy-plugins": ["exclude-imports"],
+		"plugins": ["replace-browser-modules"],
+		"post-plugins": [
+			"namespace-packages",
+			"inject-imports-dependencies",
+			"inject-peer-dependencies"
+		]
+	},
+	"/": {
+		".babelrc": {
+			"presets": ["liferay-standard"]
+		},
+		"plugins": ["resolve-linked-dependencies"],
+		"post-plugins": ["namespace-packages", "inject-imports-dependencies"]
+	},
+	"config": {
+		"imports": {
+			"asset-taglib": {
+				"/": "*"
+			},
+			"dynamic-data-mapping-form-builder": {
+				"/": "*"
+			},
+			"dynamic-data-mapping-form-field-type": {
+				"/": "*"
+			},
+			"frontend-js-metal-web": {
+				"metal": "*",
+				"metal-component": "*",
+				"metal-soy": "*",
+				"metal-state": "*",
+				"metal-dom": "*",
+				"metal-ajax": "*",
+				"metal-debounce": "*",
+				"metal-events": "*",
+				"metal-path-parser": "*",
+				"metal-promise": "*",
+				"metal-structs": "*",
+				"metal-uri": "*",
+				"metal-useragent": "*",
+				"incremental-dom": "*",
+				"incremental-dom-string": "*",
+				"metal-incremental-dom": "*",
+				"metal-jsx": "*",
+				"metal-soy-bundle": "*",
+				"metal-position": "*",
+				"metal-web-component": "*"
+			},
+			"frontend-js-spa-web": {
+				"senna": "*"
+			},
+			"frontend-js-web": {
+				"/": "*"
+			},
+			"frontend-taglib-clay": {
+				"clay-autocomplete": "*",
+				"clay-button": "*",
+				"clay-data-provider": "*",
+				"clay-icon": "*",
+				"clay-label": "*",
+				"clay-link": "*",
+				"clay-multi-select": "*",
+				"clay-portal": "*",
+				"clay-radio": "*"
+			},
+			"hello-soy-web": {
+				"/": "*"
+			},
+			"map-common": {
+				"/": "*"
+			}
+		}
+	},
+	"create-jar": {
+		"output-dir": "dist"
+	},
+	"rules": [
+		{
+			"test": "\\.css$",
+			"use": ["css-loader"]
+		},
+		{
+			"exclude": "node_modules",
+			"test": ".*/[^_][^/]+\\.scss$",
+			"use": [
+				{
+					"loader": "css-loader",
+					"options": {
+						"emitCssFile": false,
+						"extension": ".css"
+					}
+				}
+			]
+		}
+	],
+	"sources": ["src"]
+}
