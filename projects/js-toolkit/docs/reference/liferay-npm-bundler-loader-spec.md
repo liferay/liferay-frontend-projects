@@ -19,18 +19,18 @@ function(context, options) {
 
 The first argument `context` is an object which contains the following fields:
 
-- `content`: a string with the contents of the processed file (it can be
-  considered the main input of the loader).
-- `filePath`: the project-relative path of the file to which loader is being
-  applied.
-- `extraArtifacts`: an object with project-relative paths as keys and strings
-  as values of properties which may be used to output extra files in addition
-  to the one being processed (it can be useful to generate source maps, for
-  example).
-- `log`: a logger to dump execution information that will be written to the
-  bundler's report file (see the
-  [PluginLogger class](https://github.com/liferay/liferay-frontend-projects/blob/master/maintenance/projects/js-toolkit/packages/liferay-npm-build-tools-common/src/plugin-logger.ts)
-  for information on its structure and API).
+-   `content`: a string with the contents of the processed file (it can be
+    considered the main input of the loader).
+-   `filePath`: the project-relative path of the file to which loader is being
+    applied.
+-   `extraArtifacts`: an object with project-relative paths as keys and strings
+    as values of properties which may be used to output extra files in addition
+    to the one being processed (it can be useful to generate source maps, for
+    example).
+-   `log`: a logger to dump execution information that will be written to the
+    bundler's report file (see the
+    [PluginLogger class](https://github.com/liferay/liferay-frontend-projects/blob/master/maintenance/projects/js-toolkit/packages/liferay-npm-build-tools-common/src/plugin-logger.ts)
+    for information on its structure and API).
 
 The second argument is an object which is directly taken from the `options`
 field of the loader's configuration (see
@@ -41,8 +41,7 @@ To finish with, the function may return nothing or a modified content. If
 something is returned, it will be copied on top of the `context.content` field
 and used to feed the next loader or write the final output file.
 
-That means that returning 'something' or setting `context.content =
-'something'` is fully equivalent.
+That means that returning 'something' or setting `context.content = 'something'` is fully equivalent.
 
 However, there's one exotic case in which you cannot use the return syntax and
 need to explicitly assign to `context.content`. That's when you want no file to

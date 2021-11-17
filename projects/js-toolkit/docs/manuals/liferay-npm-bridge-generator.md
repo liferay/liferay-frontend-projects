@@ -67,25 +67,25 @@ project. The file has the following structure:
 }
 ```
 
-- **input**: the input directory to be scanned in search of source modules.
+-   **input**: the input directory to be scanned in search of source modules.
 
-- **output**: the output directory where bridge modules are placed.
+-   **output**: the output directory where bridge modules are placed.
 
-- **file-globs**: a comma separated list of file globs to be used as source
-  modules.
+-   **file-globs**: a comma separated list of file globs to be used as source
+    modules.
 
-- **dest-file-mapper**: an object with a regexp and a replacement value to be
-  applied to source file paths to map them to destination file paths.
+-   **dest-file-mapper**: an object with a regexp and a replacement value to be
+    applied to source file paths to map them to destination file paths.
 
-- **src-mod-name-mapper**: an object with a regexp and a replacement value to be
-  applied to source file paths to map them to source module names.
+-   **src-mod-name-mapper**: an object with a regexp and a replacement value to be
+    applied to source file paths to map them to source module names.
 
-- **dest-mod-name-mapper**: an object with a regexp and a replacement value to
-  be applied to destination file paths to convert them to destination module names.
+-   **dest-mod-name-mapper**: an object with a regexp and a replacement value to
+    be applied to destination file paths to convert them to destination module names.
 
 ## Command line arguments
 
 In addition to the configuration file, you can pass the following arguments to
 the tool (from the command line):
 
-- **--verbose**: when given, shows details about the execution of the tool.
+-   **--verbose**: when given, shows details about the execution of the tool.

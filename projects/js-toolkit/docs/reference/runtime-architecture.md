@@ -8,10 +8,10 @@ For instance, if you deploy the example OSGi bundle described
 [there](./How-to-deploy-npm-packages-to-Liferay.md#structure-of-osgi-bundles-containing-npm-packages)
 you will get the following URLs (one for each module):
 
-- http://localhost/o/js/module/598/my-bundle-package@1.0.0/lib/index.js
-- http://localhost/o/js/module/598/isobject@2.1.0/index.js
-- http://localhost/o/js/module/598/isarray@1.0.0/index.js
-- http://localhost/o/js/module/598/isarray@2.0.0/index.js
+-   http://localhost/o/js/module/598/my-bundle-package@1.0.0/lib/index.js
+-   http://localhost/o/js/module/598/isobject@2.1.0/index.js
+-   http://localhost/o/js/module/598/isarray@1.0.0/index.js
+-   http://localhost/o/js/module/598/isarray@2.0.0/index.js
 
 > 👀 Note that the '598' may vary and corresponds to the OSGi bundle id.
 
@@ -30,10 +30,10 @@ In the example above, for each group of canonical URLs referring to the same
 module inside different OSGi bundles, there's another canonical URL for the
 resolved module. In this example, we would have:
 
-- http://localhost/o/js/resolved-module/my-bundle-package@1.0.0/lib/index.js
-- http://localhost/o/js/resolved-module/isobject@2.1.0/index.js
-- http://localhost/o/js/resolved-module/isarray@1.0.0/index.js
-- http://localhost/o/js/resolved-module/isarray@2.0.0/index.js
+-   http://localhost/o/js/resolved-module/my-bundle-package@1.0.0/lib/index.js
+-   http://localhost/o/js/resolved-module/isobject@2.1.0/index.js
+-   http://localhost/o/js/resolved-module/isarray@1.0.0/index.js
+-   http://localhost/o/js/resolved-module/isarray@2.0.0/index.js
 
 > 👀 Note how the bundle id '598' disappears and 'module' is replaced by
 > 'resolved-module'.

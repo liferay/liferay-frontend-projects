@@ -56,6 +56,6 @@ when re-executed.
 
 This is especially true for Angular, which tends to load quite a lot of
 polyfills, some of which are not re-entrant and lead to failures if reloaded.
-See 
+See
 [this comment](https://github.com/liferay/liferay-js-toolkit/issues/498#issuecomment-579696947)
 for a more detailed explanation.

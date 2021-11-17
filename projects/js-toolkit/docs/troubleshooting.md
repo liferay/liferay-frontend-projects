@@ -32,8 +32,7 @@ steps to diagnose the problem:
    adapting a framework project, an
    [adaption limitation](./caveats/adaptation.md).
 
-2. Mark the `Explain resolutions` checkbox in `Control Panel > Configuration >
-   System Settings > Infrastructure > JavaScript Loader`: this makes the Loader
+2. Mark the `Explain resolutions` checkbox in `Control Panel > Configuration > System Settings > Infrastructure > JavaScript Loader`: this makes the Loader
    dump diagnostic traces to the JavaScript console and/or any error it is
    finding. You may use the log level filters in your browser's console to
    decide what you want to see whether it is just errors or the whole debugging

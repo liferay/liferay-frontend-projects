@@ -100,7 +100,7 @@ Portal (as explained in the
 [deployment architecture reference](../reference/deployment-architecture.md)).
 
 That OSGi bundle could be created by the standard Gradle build for portlets or,
-alternatively, by the bundler itself (this was made possible when the 
+alternatively, by the bundler itself (this was made possible when the
 [JavaScript portlet](../reference/js-portlet-entry-point.md) feature was
 introduced).
 
@@ -133,25 +133,25 @@ The bundler runs the project source files through the following workflow:
 3. For the project:
 
     1. Run source files inside the source directories configured in
-	   [.npmbundlerrc](../reference/dot-npmbundlerrc.md#sources) through the
-	   [rules](../reference/dot-npmbundlerrc.md#rules).
+       [.npmbundlerrc](../reference/dot-npmbundlerrc.md#sources) through the
+       [rules](../reference/dot-npmbundlerrc.md#rules).
     2. Pre-process project's package with configured plugins.
     3. Run Babel through each `.js` file in the project with configured plugins
-	   (this is intended to convert ES5 files into AMD modules, not to transpile
-	   ES6+ sources).
+       (this is intended to convert ES5 files into AMD modules, not to transpile
+       ES6+ sources).
     4. Post-process project's package with configured plugins.
 
 4. For each dependency package:
 
     1. Copy package to output dir (in plain _package_@_version_ format, as
-	   opposed to the standard `node_modules` tree format). To determine what is
-	   copied, the bundler invokes a special type of plugin intended to filter
-	   the package file list.
+       opposed to the standard `node_modules` tree format). To determine what is
+       copied, the bundler invokes a special type of plugin intended to filter
+       the package file list.
     2. Run rules on the package files.
     3. Pre-process package with configured plugins.
     4. Run Babel through each `.js` file in the package with configured plugins
-	   (this is intended to convert ES5 files into AMD modules, not to do any
-	   other type of processing).
+       (this is intended to convert ES5 files into AMD modules, not to do any
+       other type of processing).
     5. Post-process package with configured plugins.
 
 The pre and post process steps are the same, they only differ in the moment
@@ -161,7 +161,7 @@ transformations on the npm packages like, for instance, modifying its
 `package.json` file, or deleting or moving files.
 
 > 👀 Note that the pre, post and Babel phases were designed for the **old
-> mode** of operation (see 
+> mode** of operation (see
 > [The two modes of operation](#The-two-modes-of-operation)) so they will be
 > gradually replaced by rules in the future as the preferred way of building
 > projects.
@@ -332,7 +332,7 @@ With this simple schema you may write any loader you may think of. For example:
 
 You can even chain several loaders to act upon each file. That way you can, for
 example, convert a `.scss` file into real CSS (by running the
-[sass-loader](https://github.com/liferay/liferay-frontend-projects/tree/master/maintenance/projects/js-toolkit/packages/liferay-npm-bundler-loader-sass-loader) 
+[sass-loader](https://github.com/liferay/liferay-frontend-projects/tree/master/maintenance/projects/js-toolkit/packages/liferay-npm-bundler-loader-sass-loader)
 on it) and then make it a JavaScript module with the
 [style-loader](https://github.com/liferay/liferay-frontend-projects/tree/master/maintenance/projects/js-toolkit/packages/liferay-npm-bundler-loader-style-loader)
 loader.

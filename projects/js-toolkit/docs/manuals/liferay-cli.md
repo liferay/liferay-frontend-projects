@@ -8,8 +8,7 @@ generation, build, deployment, etc.
 
 ## Installation
 
-The `@liferay/cli` tool may be installed globally using `npm install -g
-@liferay/cli` or `yarn global add @liferay/cli`, to make it available from the
+The `@liferay/cli` tool may be installed globally using `npm install -g @liferay/cli` or `yarn global add @liferay/cli`, to make it available from the
 command line.
 
 However, if you don't want to mess with global installations, you can also run
@@ -58,8 +57,8 @@ actions (like `build`, `deploy`, etc.) with `npm|yarn run <command>`.
 One of the key questions in the wizard is related to the platform you wish to
 target. A target platform defines:
 
-- The set of rules to build the project
-- The default dependencies of the project
+-   The set of rules to build the project
+-   The default dependencies of the project
 
 So, for example, when using
 [`portal-7.4`](https://github.com/liferay/liferay-frontend-projects/tree/master/target-platforms/packages/portal-7.4)
@@ -198,15 +197,14 @@ may have a look at
 ---
 
 [^1]:
-	We aim to support the latest version of these frameworks but, given the
-	fast pace at which they evolve, there may be some lag between the time when
-	a framework's version is published and the time `@liferay/cli` supports it.
+    We aim to support the latest version of these frameworks but, given the
+    fast pace at which they evolve, there may be some lag between the time when
+    a framework's version is published and the time `@liferay/cli` supports it.
 
 [^2]:
-	Note that adaptation is a best effort heuristic process so don't expect
-	every native framework functionality to work when a project is adapted.
-	This is mainly due to the fact that there's some mismatch between these
-	frameworks' application model (they assume a SPA deployed as a single
-	webapp) and the one of Liferay, that assumes that many unrelated portlets
-	cooperate together to produce a single HTML page.
-
+    Note that adaptation is a best effort heuristic process so don't expect
+    every native framework functionality to work when a project is adapted.
+    This is mainly due to the fact that there's some mismatch between these
+    frameworks' application model (they assume a SPA deployed as a single
+    webapp) and the one of Liferay, that assumes that many unrelated portlets
+    cooperate together to produce a single HTML page.

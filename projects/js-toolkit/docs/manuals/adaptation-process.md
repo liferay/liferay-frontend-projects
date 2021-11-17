@@ -32,7 +32,7 @@ maintenance.
 
 ## How to adapt an existing project
 
-To adapt an existing project you just need to run 
+To adapt an existing project you just need to run
 [the `liferay adapt` command](./liferay-cli.md#project-adaptation) in the
 project's directory.
 
@@ -41,11 +41,11 @@ project's directory.
 Right now the list of supported projects categorized by framework and tool is:
 
 1. [React](https://reactjs.org/) framework
-	1. [create-react-app](https://facebook.github.io/create-react-app/) project generator [ℹ️](#create-react-app-projects)
+    1. [create-react-app](https://facebook.github.io/create-react-app/) project generator [ℹ️](#create-react-app-projects)
 2. [Angular](https://angular.io/) framework
-	1. [Angular CLI](https://cli.angular.io/) project generator [ℹ️](#angular-cli-projects)
+    1. [Angular CLI](https://cli.angular.io/) project generator [ℹ️](#angular-cli-projects)
 3. [Vue.js](https://vuejs.org/) framework
-	1. [Vue CLI](https://cli.vuejs.org/) project generator [ℹ️](vue-cli-projects)
+    1. [Vue CLI](https://cli.vuejs.org/) project generator [ℹ️](vue-cli-projects)
 
 ## How project types are detected and what requirements they must fulfill
 

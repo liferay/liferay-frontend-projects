@@ -66,8 +66,8 @@ It would also check the rest of the declarations, of course.
 To finish with, if any of the checks fail, the tool exits with an error level
 greater than 0:
 
-- It exits with error level 1 if only warnings were emitted
-- It exits with error level 2 if error and/or warnings were emitted
+-   It exits with error level 1 if only warnings were emitted
+-   It exits with error level 2 if error and/or warnings were emitted
 
 This is so that you can integrate the tool in your CI, for example, and make
 the build fail.
@@ -78,9 +78,9 @@ You can create a `.npmimportscheckerrc` file in the directory where you run the
 tool to configure some aspects of the checks. The file is in JSON format and
 currently supports the following sections:
 
-- `ignore`: this is a three levels deep object where first level is the checked
-  project's name, second is provider's name, and third is imported package's
-  name, whose value must be `true` if you want to skip that check.
+-   `ignore`: this is a three levels deep object where first level is the checked
+    project's name, second is provider's name, and third is imported package's
+    name, whose value must be `true` if you want to skip that check.
 
 For example, this file:
 
@@ -104,9 +104,9 @@ command line option to write an initial version where all failing checks are
 configured as ignored. Then, you can fix and remove any ignored check that you
 still want to test in the future.
 
-- `exclude-folders`: this is an array of folder names that will be excluded
-  from load when the tool is run. This is useful to make the tool run faster by
-  not recursing unneded folders.
+-   `exclude-folders`: this is an array of folder names that will be excluded
+    from load when the tool is run. This is useful to make the tool run faster by
+    not recursing unneded folders.
 
 For example, if you configure:
 
@@ -121,29 +121,29 @@ or `classes` when doing the checks. However, note that the `node_modules`
 folder is excluded by default and you don't need to add it to the configuration
 file.
 
-- `check-project-versions`: when set to true, it not only matches semver
-  constraints in `.npmbundlerrc` against the provider, but also against the
-  project's `node_modules` folder to make sure that the constraints in
-  `package.json` and `.npmbundlerrc` are compatible. This is interesting if you
-  are running tests against the imported packages, for example, so that you run
-  the tests with a version compatible with the one being used in runtime.
+-   `check-project-versions`: when set to true, it not only matches semver
+    constraints in `.npmbundlerrc` against the provider, but also against the
+    project's `node_modules` folder to make sure that the constraints in
+    `package.json` and `.npmbundlerrc` are compatible. This is interesting if you
+    are running tests against the imported packages, for example, so that you run
+    the tests with a version compatible with the one being used in runtime.
 
 ## Command line arguments
 
 You can pass the following arguments to the tool (from the command line):
 
-- **--help**: shows help about accepted command line arguments.
+-   **--help**: shows help about accepted command line arguments.
 
-- **--version**: when given, shows the `liferay-npm-imports-checker` version.
+-   **--version**: when given, shows the `liferay-npm-imports-checker` version.
 
-- **--check-project-versions**: same as `check-project-versions: true` in the
-  configuration file.
+-   **--check-project-versions**: same as `check-project-versions: true` in the
+    configuration file.
 
-- **--write-ignores**: when given, the `liferay-npm-imports-checker` tool will
-  update the `ignore` section of your `.npmimportscheckerrc` file with those
-  projects that failed. This can be used to obtain an initial
-  `.npmimportscheckerrc` file than can then be tweaked manually.
+-   **--write-ignores**: when given, the `liferay-npm-imports-checker` tool will
+    update the `ignore` section of your `.npmimportscheckerrc` file with those
+    projects that failed. This can be used to obtain an initial
+    `.npmimportscheckerrc` file than can then be tweaked manually.
 
-- **--show-projects-load**: when given, the tool will log all projects found
-  inside the source tree. This can be useful to fix issues and/or enhance the
-  performance of the tool by ignoring spurious detected projects.
+-   **--show-projects-load**: when given, the tool will log all projects found
+    inside the source tree. This can be useful to fix issues and/or enhance the
+    performance of the tool by ignoring spurious detected projects.

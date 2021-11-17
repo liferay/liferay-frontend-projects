@@ -81,12 +81,12 @@ field.
 
 Can be any of the following types:
 
-- `number`: an integer number
-- `float`: a floating point number
-- `string`: a string
-- `boolean`: true or false
-- `password`: same as string but is not displayed to user (not supported in
-  `portletInstance` configuration)
+-   `number`: an integer number
+-   `float`: a floating point number
+-   `string`: a string
+-   `boolean`: true or false
+-   `password`: same as string but is not displayed to user (not supported in
+    `portletInstance` configuration)
 
 #### `{field name}`
 

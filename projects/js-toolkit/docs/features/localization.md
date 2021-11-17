@@ -31,13 +31,13 @@ so on) and fill them with the translated `key=value` pairs.
 
 Imagine you have these localization files in your project:
 
-- **Language.properties**
+-   **Language.properties**
 
 ```properties
 hello-world=Hello world
 ```
 
-- **Language_es.properties**
+-   **Language_es.properties**
 
 ```properties
 hello-world=Hola mundo

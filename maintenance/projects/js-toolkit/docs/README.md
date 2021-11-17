@@ -19,6 +19,6 @@ You can also get information about released versions and their changes in the
 
 Now, let's go with the documentation:
 
-- [How to create mixed Java/JavaScript projects](./How-to-create-mixed-Java-JavaScript-projects.md)
-- [Migrating bundler from 1.x to 2.x](./Migrating-bundler-from-1.x-to-2.x.md)
-- [How to use the deprecated Yeoman Generator](./How-to-use-generator-liferay-js.md)
+-   [How to create mixed Java/JavaScript projects](./How-to-create-mixed-Java-JavaScript-projects.md)
+-   [Migrating bundler from 1.x to 2.x](./Migrating-bundler-from-1.x-to-2.x.md)
+-   [How to use the deprecated Yeoman Generator](./How-to-use-generator-liferay-js.md)
