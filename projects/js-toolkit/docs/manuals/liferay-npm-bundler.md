@@ -337,9 +337,6 @@ on it) and then make it a JavaScript module with the
 [style-loader](https://github.com/liferay/liferay-frontend-projects/tree/master/maintenance/projects/js-toolkit/packages/liferay-npm-bundler-loader-style-loader)
 loader.
 
-Please see the [loaders catalog](../reference/liferay-npm-bundler-loaders.md)
-for more information on all known loaders.
-
 ### How to configure rules and loaders
 
 To define the sources to be transformed by loaders you just need to use the

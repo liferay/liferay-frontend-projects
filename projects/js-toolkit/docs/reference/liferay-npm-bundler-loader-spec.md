@@ -106,8 +106,3 @@ export default function (context, options) {
 Then you can write that function to an `index.js` file, put it inside a npm
 package and publish it so that you can then configure its name in the `rules`
 section of the `.npmbundlerrc` file.
-
-## Existing loaders
-
-You can see an enumeration of all known loaders in the
-[List of loaders](../reference/liferay-npm-bundler-loaders.md).

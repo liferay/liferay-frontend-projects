@@ -67,8 +67,6 @@ Now, let's go with the documentation:
 	   (may need upgrading in the future, when we switch to the new bundler)
     4. [liferay-npm-bundler v2 loader interface](./reference/liferay-npm-bundler-loader-spec.md)
 	   (may be deprecated in the future, when we switch to the new bundler)
-    5. [liferay-npm-bundler v2 loaders catalog](./reference/liferay-npm-bundler-loaders.md)
-	   (may be deprecated in the future, when we switch to the new bundler)
 
 4. Low level topics:
 
