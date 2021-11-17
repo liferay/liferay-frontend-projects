@@ -36,12 +36,12 @@ Now, let's go with the documentation:
 
 1. Most usual tasks:
 
-    1. [Using @liferay/cli to manage projects](../packages/liferay-cli/README.md)
+    1. [Using @liferay/cli to manage projects](./manuals/liferay-cli.md)
 		1. Create a new project:
-			1. [From scratch](../packages/liferay-cli/README.md#project-generation)
-			2. [Adapting an existing project](../packages/liferay-cli/README.md#project-adaptation)
-        2. [Build a project](../packages/liferay-cli/README.md#project-build)
-        3. [Deploy a project](../packages/liferay-cli/README.md#project-deployment)
+			1. [From scratch](./manuals/liferay-cli.md#project-generation)
+			2. [Adapting an existing project](./manuals/liferay-cli.md#project-adaptation)
+        2. [Build a project](./manuals/liferay-cli.md#project-build)
+        3. [Deploy a project](./manuals/liferay-cli.md#project-deployment)
 		4. Liferay specific features:
 			1. [Localization support](./features/localization.md)
 			2. [Configuration support](./features/configuration.md)
@@ -52,7 +52,7 @@ Now, let's go with the documentation:
 
 2. Tool manuals:
 
-    1. [@liferay/cli](../packages/liferay-cli/README.md)
+    1. [@liferay/cli](./manuals/liferay-cli.md)
     2. [liferay-npm-bundler v2](./manuals/liferay-npm-bundler.md)
     3. [liferay-npm-bridge-generator v2](./manuals/liferay-npm-bridge-generator.md)
 	   (deprecated, its use is discouraged)

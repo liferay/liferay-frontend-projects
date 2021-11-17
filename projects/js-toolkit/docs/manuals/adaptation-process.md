@@ -33,8 +33,8 @@ maintenance.
 ## How to adapt an existing project
 
 To adapt an existing project you just need to run 
-[the `liferay adapt` command](../../packages/liferay-cli/README.md#project-adaptation)
-in the project's directory.
+[the `liferay adapt` command](./liferay-cli.md#project-adaptation) in the
+project's directory.
 
 ## Supported projects
 
