@@ -6,14 +6,10 @@ Inspired by other frameworks, like React, Angular, or Vue.js, the Liferay JS
 Toolkit provides a CLI tool to invoke all implemented features, like project
 generation, build, deployment, etc.
 
-> 👀 Note that this tool still uses the JS Toolkit under the hood, so please
-> refer to
-> [its documentation](https://github.com/liferay/liferay-frontend-projects/blob/master/maintenance/projects/js-toolkit/docs/README.md)
-> for more details on configuration and behavior.
-
 ## Installation
 
-The `@liferay/cli` tool may be installed globally using `npm install -g @liferay/cli` or `yarn global add @liferay/cli`, to make it available from the
+The `@liferay/cli` tool may be installed globally using `npm install -g
+@liferay/cli` or `yarn global add @liferay/cli`, to make it available from the
 command line.
 
 However, if you don't want to mess with global installations, you can also run
@@ -43,10 +39,6 @@ frameworks[^1]:
 -   [Angular](https://angular.io/)
 -   [Vue.js](https://vuejs.org/)
 
-> 👀 This feature is a replacement of the
-> [older Yeoman Liferay JavaScript generator](https://github.com/liferay/liferay-frontend-projects/tree/master/maintenance/projects/js-toolkit/packages/generator-liferay-js)
-> but it doesn't rely on Yeoman any more.
-
 ### Usage
 
 ```sh
@@ -66,14 +58,14 @@ actions (like `build`, `deploy`, etc.) with `npm|yarn run <command>`.
 One of the key questions in the wizard is related to the platform you wish to
 target. A target platform defines:
 
--   The set of rules to build the project
--   The default dependencies of the project
+- The set of rules to build the project
+- The default dependencies of the project
 
 So, for example, when using
-[`portal-7.4-ga1`](https://github.com/liferay/liferay-frontend-projects/tree/master/target-platforms/packages/portal-7.4-ga1)
-you are saying that your project will be deployed to Liferay Portal CE 7.4 GA1
-and thus your project will have access to
-[any JavaScript API available in that version](https://github.com/liferay/liferay-frontend-projects/blob/master/target-platforms/packages/portal-7.4-ga1/config.json#L21-L171)
+[`portal-7.4`](https://github.com/liferay/liferay-frontend-projects/tree/master/target-platforms/packages/portal-7.4)
+you are saying that your project will be deployed to Liferay Portal CE 7.4 and
+thus your project will have access to
+[any JavaScript API available in that version](https://github.com/liferay/liferay-frontend-projects/blob/master/target-platforms/packages/portal-7.4/config.json)
 (for instance, if you use React, the copy of `react` that comes bundled with
 Liferay Portal will be used in your project, instead of referring to a new one,
 local to the project).
@@ -90,10 +82,6 @@ Project adaptation lets you transform you native React, Angular and Vue.js
 projects[^1] into Liferay widgets that you can deploy to your Liferay Portal
 instance[^2].
 
-> 👀 This feature is a replacement of the
-> [older Yeoman Liferay JavaScript generator](https://github.com/liferay/liferay-frontend-projects/tree/master/maintenance/projects/js-toolkit/packages/generator-liferay-js)
-> but it doesn't rely on Yeoman any more.
-
 ### Usage
 
 In your native project's directory run:
@@ -109,8 +97,8 @@ Once the project is adapted you may use the `build:liferay`, `deploy:liferay`,
 `clean:liferay`, etc. tasks to perform the same tasks you would do for a true
 Liferay project (ie: one that had been generated with `liferay new`).
 
-Learn more about project adaptation in
-[JS Toolkit's documentation on adaptation](https://github.com/liferay/liferay-frontend-projects/blob/master/maintenance/projects/js-toolkit/docs/How-to-adapt-most-popular-frameworks-projects.md#supported-projects).
+Learn more about project adaptation in the
+[adaptation process manual](../../docs/manuals/adaptation-process.md).
 
 ## Project build
 
@@ -210,14 +198,14 @@ may have a look at
 ---
 
 [^1]:
-    We aim to support the latest version of these frameworks but, given the
-    fast pace at which they evolve, there may be some lag between the time when a
-    framework's version is published and the time `@liferay/cli` supports it.
+	We aim to support the latest version of these frameworks but, given the
+	fast pace at which they evolve, there may be some lag between the time when
+	a framework's version is published and the time `@liferay/cli` supports it.
 
 [^2]:
-    Note that adaptation is a best effort heuristic process so don't expect
-    every native framework functionality to work when a project is adapted. This
-    is mainly due to the fact that there's some mismatch between these
-    frameworks' application model (they assume a SPA deployed as a single webapp)
-    and the one of Liferay, that assumes that many unrelated portlets cooperate
-    together to produce a single HTML page.
+	Note that adaptation is a best effort heuristic process so don't expect
+	every native framework functionality to work when a project is adapted.
+	This is mainly due to the fact that there's some mismatch between these
+	frameworks' application model (they assume a SPA deployed as a single
+	webapp) and the one of Liferay, that assumes that many unrelated portlets
+	cooperate together to produce a single HTML page.
