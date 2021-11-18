@@ -1,3 +1,15 @@
+## [liferay-theme-tasks/v11.1.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v11.1.0) (2021-11-18)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v11.0.0...liferay-theme-tasks/v11.1.0)
+
+### :new: Features
+
+-   feat(theme-tasks): update liferay-font-awesome version reference ([\#759](https://github.com/liferay/liferay-frontend-projects/pull/759))
+
+### :house: Chores
+
+-   chore: update engines field to match our node lts ([\#748](https://github.com/liferay/liferay-frontend-projects/pull/748))
+
 ## [liferay-theme-tasks/v11.0.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v11.0.0) (2021-11-11)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v10.5.3...liferay-theme-tasks/v11.0.0)
