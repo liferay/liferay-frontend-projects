@@ -1,3 +1,11 @@
+## [npm-scripts/v46.6.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v46.6.0) (2021-11-18)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v46.5.0...npm-scripts/v46.6.0)
+
+### :new: Features
+
+-   feat(npm-scripts): update liferay-theme-tasks version ([\#760](https://github.com/liferay/liferay-frontend-projects/pull/760))
+
 ## [npm-scripts/v46.5.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v46.5.0) (2021-11-11)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v46.4.1...npm-scripts/v46.5.0)
