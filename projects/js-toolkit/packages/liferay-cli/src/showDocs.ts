@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {FilePath, format} from '@liferay/js-toolkit-core';
+import {format} from '@liferay/js-toolkit-core';
 
-const {info, print, success, text, title} = format;
+const {print, text, title} = format;
 
 export default async function showDocs(): Promise<void> {
 	print(
