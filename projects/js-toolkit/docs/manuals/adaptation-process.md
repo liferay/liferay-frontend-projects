@@ -184,22 +184,22 @@ build, there are (and will be) some [limitations](../caveats/adaptation.md).
 ## One final note
 
 The general idea of the adaptation is to be able to deploy _native_ framework
-projects to Liferay. However, because you are deploying to Liferay, you may be
-able to use some of its APIs or features. But keep in mind that, the farther
-you drift from the framework's structure, the most tied you will be to
-Liferay's platform so it is worth considering migrating instead of adapting if
-you just want to deploy to Liferay platform.
+projects to Liferay. As you are deploying to Liferay, you may be able to use
+some of its APIs or features, but keep in mind that, the farther you drift from
+the framework's structure, the more tied you will be to Liferay's platform so
+it is worth considering migrating instead of adapting if you just want to
+deploy to Liferay platform.
 
-In addition, some of Liferay features may no be available because of how
+In addition, some of Liferay features may not be available because of how
 frameworks work or make assumptions about the underlying platform. For example:
 Angular assumes that it is in control a whole Single Page Application, as
 opposed to rendering things inside a small portion of a page (which is typical
 of portlet based platforms).
 
 Also, keep in mind that usually framework builds are based on webpack which
-bundles all JavaScript in a single file to be consumed by just the adapted
-portlet. This means that, if you deploy 5 portlets based on `create-react-app`,
-for example, you will have 5 copies of React in the JavaScript interpreter.
+bundles all JavaScript in a single file to be consumed by the adapted portlet.
+This means that, if you deploy 5 portlets based on `create-react-app`, for
+example, you will have 5 copies of React in the JavaScript interpreter.
 
 If that's not what you intend, you may need to migrate your projects to true
 Liferay JS Toolkit projects and make use of its imports feature to be able to
