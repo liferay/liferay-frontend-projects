@@ -19,7 +19,7 @@ interface Arguments {
 	options?: string;
 }
 
-const {error: fail, print, warn} = format;
+const {fail, print, warn} = format;
 
 /** Default entry point for the @liferay/cli executable. */
 export default async function (argv: Arguments): Promise<void> {
