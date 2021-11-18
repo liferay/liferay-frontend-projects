@@ -1,3 +1,16 @@
+## [generator-liferay-theme/v10.2.0](https://github.com/liferay/liferay-frontend-projects/tree/generator-liferay-theme/v10.2.0) (2021-11-18)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/generator-liferay-theme/v10.1.0...generator-liferay-theme/v10.2.0)
+
+### :new: Features
+
+-   feat(npm-scripts): update liferay-theme-tasks version ([\#760](https://github.com/liferay/liferay-frontend-projects/pull/760))
+-   feat(eslint-config): Add lint to catch common abbreviations ([\#564](https://github.com/liferay/liferay-frontend-projects/pull/564))
+
+### :house: Chores
+
+-   chore: update engines field to match our node lts ([\#748](https://github.com/liferay/liferay-frontend-projects/pull/748))
+
 ## [generator-liferay-theme/v10.1.0](https://github.com/liferay/liferay-frontend-projects/tree/generator-liferay-theme/v10.1.0) (2021-05-17)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/generator-liferay-theme/v10.0.2...generator-liferay-theme/v10.1.0)
