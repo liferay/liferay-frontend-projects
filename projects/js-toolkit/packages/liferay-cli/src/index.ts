@@ -10,6 +10,7 @@ import adaptProject from './adapt';
 import newProject from './new';
 import runLiferayCli from './runLiferayCli';
 import showDocs from './showDocs';
+import upgradeProject from './upgradeProject';
 
 interface Arguments {
 	$0: string;
@@ -39,6 +40,9 @@ export default async function (argv: Arguments): Promise<void> {
 
 		case 'new':
 			return await newProject(argv.name, argv.batch, argv.options);
+
+		case 'upgrade-project':
+			return await upgradeProject();
 
 		default:
 			print(fail`Unknown command provided: {${argv._[0]}}`);
