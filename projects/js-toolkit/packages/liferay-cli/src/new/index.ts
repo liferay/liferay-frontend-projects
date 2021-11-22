@@ -9,7 +9,7 @@ import path from 'path';
 
 import prompt from '../util/prompt';
 
-const {error: fail, info, print, success, text, title} = format;
+const {fail, info, print, success, text, title} = format;
 
 export type OptionValue = FilePath | boolean | number | string;
 

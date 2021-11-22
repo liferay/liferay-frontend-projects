@@ -9,6 +9,7 @@ import checkForUpdate from 'update-check';
 import adaptProject from './adapt';
 import newProject from './new';
 import runLiferayCli from './runLiferayCli';
+import showDocs from './showDocs';
 
 interface Arguments {
 	$0: string;
@@ -18,7 +19,7 @@ interface Arguments {
 	options?: string;
 }
 
-const {error: fail, print, warn} = format;
+const {fail, print, warn} = format;
 
 /** Default entry point for the @liferay/cli executable. */
 export default async function (argv: Arguments): Promise<void> {
@@ -32,6 +33,9 @@ export default async function (argv: Arguments): Promise<void> {
 		case 'clean':
 		case 'deploy':
 			return await runLiferayCli(...process.argv.slice(2));
+
+		case 'docs':
+			return await showDocs();
 
 		case 'new':
 			return await newProject(argv.name, argv.batch, argv.options);

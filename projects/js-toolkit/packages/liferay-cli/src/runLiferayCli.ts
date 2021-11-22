@@ -7,7 +7,7 @@ import {format} from '@liferay/js-toolkit-core';
 import child_process from 'child_process';
 import resolve from 'resolve';
 
-const {error: fail, print} = format;
+const {fail, print} = format;
 
 export default async function runLiferayCli(...args: string[]): Promise<void> {
 	const pkgJson = projectRequire('./package.json');
