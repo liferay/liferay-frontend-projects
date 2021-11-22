@@ -41,7 +41,7 @@ export default async function (argv: Arguments): Promise<void> {
 			return await newProject(argv.name, argv.batch, argv.options);
 
 		default:
-			print(fail`Uknown command provided: {${argv._[0]}}`);
+			print(fail`Unknown command provided: {${argv._[0]}}`);
 			process.exit(1);
 	}
 }
