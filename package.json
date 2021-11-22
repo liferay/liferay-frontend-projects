@@ -26,7 +26,7 @@
 		"fs-extra": "^9.0.1",
 		"globby": "^11.0.1",
 		"gulp-coveralls": "0.1.4",
-		"http-server": "^0.11.1",
+		"http-server": "^14.0.0",
 		"jest": "26.4.2",
 		"mem-fs": "^1.2.0",
 		"mem-fs-editor": "^7.0.1",
