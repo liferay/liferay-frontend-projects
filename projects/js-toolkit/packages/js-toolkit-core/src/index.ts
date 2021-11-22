@@ -58,6 +58,8 @@ export type {
 	ConfigurationJsonField,
 } from './schema/ConfigurationJson';
 
+export type {default as LiferayJson} from './schema/LiferayJson';
+
 export type {
 	default as ManifestJson,
 	ManifestJsonPackages,
@@ -109,12 +111,15 @@ import replaceInStringLiterals from './transform/js/operation/replaceInStringLit
 import wrapModule from './transform/js/operation/wrapModule';
 
 import addConfigurationJsonField from './transform/json/operation/addConfigurationJsonField';
+import addOrSetPkgJsonScripts from './transform/json/operation/addOrSetPkgJsonScripts';
 import addPkgJsonDependencies from './transform/json/operation/addPkgJsonDependencies';
 import addPkgJsonPortletProperties from './transform/json/operation/addPkgJsonPortletProperties';
-import addPkgJsonScripts from './transform/json/operation/addPkgJsonScripts';
 import deletePkgJsonDependencies from './transform/json/operation/deletePkgJsonDependencies';
+import deletePkgJsonScripts from './transform/json/operation/deletePkgJsonScripts';
+import setLiferayJsonDeployPath from './transform/json/operation/setLiferayJsonDeployPath';
 
 import appendLines from './transform/text/operation/appendLines';
+import removeLines from './transform/text/operation/removeLines';
 /* eslint-enable @liferay/imports-first, @liferay/group-imports */
 
 export const TRANSFORM_OPERATIONS = {
@@ -125,13 +130,19 @@ export const TRANSFORM_OPERATIONS = {
 		replaceInStringLiterals,
 		wrapModule,
 	},
+	LiferayJson: {
+		setLiferayJsonDeployPath,
+	},
 	PkgJson: {
 		addDependencies: addPkgJsonDependencies,
 		addPortletProperties: addPkgJsonPortletProperties,
-		addScripts: addPkgJsonScripts,
+		addScripts: addOrSetPkgJsonScripts,
 		deleteDependencies: deletePkgJsonDependencies,
+		deleteScripts: deletePkgJsonScripts,
+		setScripts: addOrSetPkgJsonScripts,
 	},
 	Text: {
 		appendLines,
+		removeLines,
 	},
 };

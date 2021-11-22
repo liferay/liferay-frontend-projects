@@ -8,11 +8,11 @@ import {JsonTransform} from '..';
 import PkgJson, {PkgJsonScripts} from '../../../schema/PkgJson';
 
 /**
- * Add one or more npm scripts to a package.json file
+ * Add/set one or more npm scripts to a package.json file
  *
  * @param scripts
  */
-export default function addPkgJsonScripts(
+export default function addOrSetPkgJsonScripts(
 	scripts: PkgJsonScripts
 ): JsonTransform<PkgJson> {
 	return (async (pkgJson) => {
