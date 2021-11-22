@@ -35,7 +35,7 @@ const facet: Facet = {
 		await transformTextFile(
 			gitignoreFile,
 			gitignoreFile,
-			appendLines('/build', '/dist')
+			appendLines('/build', '/dist', 'liferay-npm-bundler-report.html')
 		);
 
 		print(info`  Configuring npm build scripts`);
