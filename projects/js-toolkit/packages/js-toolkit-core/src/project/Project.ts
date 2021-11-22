@@ -44,6 +44,8 @@ export type PkgManager = 'npm' | 'yarn' | null;
  * Describes a standard JS Toolkit project.
  */
 export default class Project {
+	static WARN_ON_NPMBUNDLERRC = false;
+
 	adapt: Adapt;
 	jar: Jar;
 	l10n: Localization;
@@ -448,7 +450,10 @@ export default class Project {
 		const {_configFile} = this;
 		const configDir = _configFile.dirname();
 
-		if (fs.existsSync(configDir.join('.npmbundlerrc').asNative)) {
+		if (
+			fs.existsSync(configDir.join('.npmbundlerrc').asNative) &&
+			Project.WARN_ON_NPMBUNDLERRC
+		) {
 			print(
 				warn`There is a {.npmbundlerrc} file in {${configDir.basename()}}: it will be ignored`,
 				info`Consider migrating the project to bundler 3.x or removing it if is a leftover`
