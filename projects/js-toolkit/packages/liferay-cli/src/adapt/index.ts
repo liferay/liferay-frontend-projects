@@ -145,6 +145,17 @@ async function performBaseAdaptation(options: Options): Promise<void> {
 		appendLines('/build.liferay')
 	);
 
+	const npmignoreFile = ensureOutputFile(
+		{outputPath: projectDir},
+		'.npmignore'
+	);
+
+	await transformTextFile(
+		npmignoreFile,
+		npmignoreFile,
+		appendLines('.liferay.json')
+	);
+
 	const pkgJsonFile = ensureOutputFile(
 		{outputPath: projectDir},
 		'package.json'
