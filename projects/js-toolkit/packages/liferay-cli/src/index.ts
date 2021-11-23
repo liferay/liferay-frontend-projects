@@ -6,12 +6,6 @@
 import {format} from '@liferay/js-toolkit-core';
 import checkForUpdate from 'update-check';
 
-import adaptProject from './adapt';
-import newProject from './new';
-import runLiferayCli from './runLiferayCli';
-import showDocs from './showDocs';
-import upgradeProject from './upgradeProject';
-
 interface Arguments {
 	$0: string;
 	_: string[];
@@ -28,26 +22,32 @@ export default async function (argv: Arguments): Promise<void> {
 
 	switch (argv._[0]) {
 		case 'adapt':
-			return await adaptProject(argv.batch, argv.options);
+			return await run('./adapt', argv.batch, argv.options);
 
 		case 'build':
 		case 'clean':
 		case 'deploy':
-			return await runLiferayCli(...process.argv.slice(2));
+			return await run('./runLiferayCli', ...process.argv.slice(2));
 
 		case 'docs':
-			return await showDocs();
+			return await run('./showDocs');
 
 		case 'new':
-			return await newProject(argv.name, argv.batch, argv.options);
+			return await run('./new', argv.name, argv.batch, argv.options);
 
 		case 'upgrade-project':
-			return await upgradeProject();
+			return await run('./upgradeProject');
 
 		default:
 			print(fail`Unknown command provided: {${argv._[0]}}`);
 			process.exit(1);
 	}
+}
+
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+async function run(moduleName: string, ...args: any[]): Promise<void> {
+	/* eslint-disable-next-line @liferay/no-dynamic-require, @typescript-eslint/no-var-requires */
+	await require(moduleName).default(...args);
 }
 
 async function warnIfNewerVersionAvailable(): Promise<void> {
