@@ -40,6 +40,10 @@ const {argv} = require('yargs')
 					type: 'string',
 				})
 	)
+	.command(
+		'upgrade-project',
+		'Upgrade a project created with the old Yeoman generator'
+	)
 	.demandCommand()
 	.help();
 

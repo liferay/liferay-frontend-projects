@@ -4,9 +4,9 @@
  */
 
 import PkgJson from '../../../../schema/PkgJson';
-import addPkgJsonScripts from '../addPkgJsonScripts';
+import addOrSetPkgJsonScripts from '../addOrSetPkgJsonScripts';
 
-describe('addPkgJsonScripts', () => {
+describe('addOrSetPkgJsonScripts', () => {
 	let pkgJson: PkgJson;
 
 	beforeEach(() => {
@@ -17,7 +17,7 @@ describe('addPkgJsonScripts', () => {
 	});
 
 	it('adds scripts', async () => {
-		const pkgJson2 = await addPkgJsonScripts({
+		const pkgJson2 = await addOrSetPkgJsonScripts({
 			build: 'webpack',
 			test: 'jest',
 		})(pkgJson);

@@ -40,6 +40,7 @@ const facet: Facet = {
 		);
 
 		await renderer.render('.gitignore', options);
+		await renderer.render('.npmignore', options);
 		await renderer.render('README.md', options);
 		await renderer.render('package.json', options);
 

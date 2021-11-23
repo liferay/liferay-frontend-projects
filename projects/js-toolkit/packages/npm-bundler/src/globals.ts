@@ -8,6 +8,8 @@ import fs from 'fs-extra';
 
 export const manifest = new Manifest();
 
+Project.WARN_ON_NPMBUNDLERRC = true;
+
 export const project = new Project('.');
 
 const {workDir} = project;
