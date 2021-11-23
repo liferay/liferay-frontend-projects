@@ -8,9 +8,6 @@
 		"deploy": "lerna run deploy"
 	},
 	"workspaces": {
-		"nohoist": [
-			"**/liferay-font-awesome"
-		],
 		"packages": [
 			"packages/*"
 		]

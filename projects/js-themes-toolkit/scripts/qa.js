@@ -109,6 +109,7 @@ function runYarnInstall() {
 
 		let pkgJson = require(pkgJsonPath);
 
+		pkgJson = deleteDevDependency(pkgJson, 'liferay-font-awesome');
 		pkgJson = deleteDevDependency(pkgJson, 'liferay-theme-tasks');
 
 		fs.writeFileSync(pkgJsonPath, JSON.stringify(pkgJson, null, '\t'));
