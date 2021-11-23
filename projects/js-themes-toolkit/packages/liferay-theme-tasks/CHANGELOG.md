@@ -1,3 +1,11 @@
+## [liferay-theme-tasks/v11.2.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v11.2.0) (2021-11-23)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v11.1.0...liferay-theme-tasks/v11.2.0)
+
+### :new: Features
+
+-   feat(theme-tasks): update theme dependencies to match Liferay 7.4.13 ([\#766](https://github.com/liferay/liferay-frontend-projects/pull/766))
+
 ## [liferay-theme-tasks/v11.1.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v11.1.0) (2021-11-18)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v11.0.0...liferay-theme-tasks/v11.1.0)
