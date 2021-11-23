@@ -21,6 +21,9 @@
     "type": "git",
     "url": "https://github.com/liferay/liferay-frontend-projects.git"
   },
+  "scripts": {
+    "build": true
+  },
   "files": [
     "font",
     "css",
