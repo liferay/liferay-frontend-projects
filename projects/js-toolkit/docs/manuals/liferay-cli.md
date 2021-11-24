@@ -28,6 +28,7 @@ Currently `@liferay/cli` supports the following features:
 -   [Project build](#project-build)
 -   [Project deployment](#project-deployment)
 -   [Project clean](#project-clean)
+-   [Project upgrade](#project-upgrade)
 
 ## Project generation
 
@@ -172,6 +173,40 @@ $ yarn clean ↩
 
 Note that `npm|yarn run clean` is an alias to `liferay clean` (you can see
 that by inspecting your project's `package.json` file).
+
+## Project upgrade
+
+The `upgrade-project` command will convert an existing project created with the
+old Liferay JavaScript Toolkit v2 Yeoman-based generator to a project using
+`@liferay/cli` and [target platforms](#target-platform).
+
+You just need to change to the project's directory and run the command. It will
+provide you all the information you need to know and ask you for confirmation.
+
+Note that:
+
+1. Some things may not be upgraded: for example, the `npm run start` and
+   `npm run translate` scripts will be lost if you upgrade. If you really need
+   them, the tool will suggest you to file an issue so that we can implement a
+   way to workaround this.
+2. The tool only upgrades the things it knows about, which are the things that
+   the old Yeoman-based generator configured when the project was created. Any
+   other tweak you may have made to your project will be respected as it is.
+   However, that doesn't necessarily mean that it will work because, due to the
+   changes the tool makes, there could be conflicts between your tweaked
+   configuration and the original one after being upgraded. Should this be the
+   case you will need to upgrade your tweaks manually.
+3. Given the nature of the upgrade process it is very recommended to do a backup
+   of the original state so that, if the upgrade goes wrong or you don't like
+   it, you can revert it. An easy way to do this is to commit everything to your
+   version control system prior to running `liferay upgrade-project`.
+
+### Usage
+
+```sh
+$ cd /path/to/your/existing/project ↩
+$ liferay upgrade-project ↩
+```
 
 ## Internal architecture
 

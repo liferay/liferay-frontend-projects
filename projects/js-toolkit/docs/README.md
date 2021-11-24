@@ -50,7 +50,11 @@ Now, let's go with the documentation:
         2. [Related to adaptation technique](./caveats/adaptation.md)
     3. [Troubleshooting](./troubleshooting.md)
 
-2. Tool manuals:
+2. Less usual tasks:
+
+    1. [Upgrading an old project created with the Yeoman generator](./manuals/liferay-cli.md#project-upgrade)
+
+3. Tool manuals:
 
     1. [@liferay/cli](./manuals/liferay-cli.md)
     2. [liferay-npm-bundler v2](./manuals/liferay-npm-bundler.md)
@@ -59,7 +63,7 @@ Now, let's go with the documentation:
     4. [liferay-npm-imports-checker v2](./manuals/liferay-npm-imports-checker.md)
        (deprecated, its use is discouraged)
 
-3. Reference
+4. Reference
 
     1. [JavaScript portlet entry point](./reference/js-portlet-entry-point.md)
     2. [configuration.json file reference](./reference/configuration-json.md)
@@ -68,12 +72,12 @@ Now, let's go with the documentation:
     4. [liferay-npm-bundler v2 loader interface](./reference/liferay-npm-bundler-loader-spec.md)
        (may be deprecated in the future, when we switch to the new bundler)
 
-4. Low level topics:
+5. Low level topics:
 
     1. [Deployment architecture](./reference/deployment-architecture.md)
     2. [Runtime architecture](./reference/runtime-architecture.md)
 
-5. Other sources of documentation:
+6. Other sources of documentation:
 
     1. [Liferay Dev Site](https://dev.liferay.com)
     2. [Liferay Forums](https://liferay.dev/en/forums-redirect)
