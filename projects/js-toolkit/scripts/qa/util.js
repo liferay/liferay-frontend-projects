@@ -189,7 +189,14 @@ function writeLiferayJsonFile(projectDirName) {
 }
 
 function zapProjectDir(projectDirName) {
-	fs.rmdirSync(path.join(qaDir, projectDirName), {recursive: true});
+	try {
+		fs.rmdirSync(path.join(qaDir, projectDirName), {recursive: true});
+	}
+	catch (error) {
+		if (error.code !== 'ENOENT') {
+			throw error;
+		}
+	}
 }
 
 module.exports = {
