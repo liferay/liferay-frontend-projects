@@ -1,4 +1,6 @@
-This page contains the whole reference for `liferay-npm-bundler` options. See [How to use liferay-npm-bundler](How-to-use-liferay-npm-bundler.md) for a more detailed explanation on how to use the tool.
+This page contains the whole reference for `liferay-npm-bundler` options. See
+[liferay-npm-bundler manual](../manuals/liferay-npm-bundler.md) for a more
+detailed explanation on how to use the tool.
 
 The options in this page are sorted alphabetically.
 
@@ -240,7 +242,7 @@ $ liferay-npm-bundler
     -   `features/configuration.json` if a file with that name exists
     -   `undefined` otherwise
 -   **See also**:
-    -   See [configuration.json-file-reference](configuration.json-file-reference.md) for more information on the file format
+    -   See [configuration.json file reference](../reference/configuration-json.md) for more information on the file format
 -   **Example**:
 
 ```json
@@ -565,7 +567,7 @@ $ liferay-npm-bundler
 
 ## rules
 
--   **Description**: Defines rules to apply to source files in order to generate output. See [How to configure rules and loaders](./How-to-use-liferay-npm-bundler.md#How-to-configure-rules-and-loaders) for more on this field.
+-   **Description**: Defines rules to apply to source files in order to generate output. See [How to configure rules and loaders](../manuals/liferay-npm-bundler.md#How-to-configure-rules-and-loaders) for more on this field.
 -   **Category**: `.npmbundlerrc`
 -   **Type**: `array`
 -   **Default**: `[]`
@@ -600,7 +602,7 @@ $ liferay-npm-bundler
 
 ## sources
 
--   **Description**: Defines directories in the project that contain source files. The directories can be nested (f.e: 'src/main/resources') and must be written using POSIX path separators (i.e: use `/` in place of `\` in win32 systems). The files in those directories are subject to rule appliance (see [Loader rules](./How-to-use-liferay-npm-bundler.md#Loader-rules)).
+-   **Description**: Defines directories in the project that contain source files. The directories can be nested (f.e: 'src/main/resources') and must be written using POSIX path separators (i.e: use `/` in place of `\` in win32 systems). The files in those directories are subject to rule appliance (see [Loader rules](../manuals/liferay-npm-bundler.md#Loader-rules)).
 -   **Category**: `.npmbundlerrc`
 -   **Type**: `array`
 -   **Default**: `[]`

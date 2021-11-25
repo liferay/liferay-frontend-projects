@@ -53,7 +53,3 @@ After that, depending on what you choose, you may be prompted with more question
 ## Running npm scripts in your project
 
 Once the project is generated, all actions are run by using npm scripts. You can see all available commands [here](./Running-build-npm-scripts.md).
-
-## Further configuration of the project
-
-Once the project is generated, you can configure some of its features following [these guidelines](./Configuring-pure-JavaScript-projects.md).

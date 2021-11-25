@@ -19,4 +19,4 @@ This page is a compilation of miscellaneous external resources related to the pr
 
 ## Phylosophical discussions
 
--   [Implications of integrating the bundler on top of different frameworks](Implications-of-integrating-the-bundler-on-top-of-different-frameworks.md)
+-   [Implications of integrating the bundler on top of different frameworks](./resources/Implications-of-integrating-the-bundler-on-top-of-different-frameworks.md)
