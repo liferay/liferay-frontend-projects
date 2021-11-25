@@ -57,14 +57,14 @@ function deploy(projectDirName) {
 	});
 }
 
-function generate(projectDirName, platform, framework) {
+function generate(projectDirName, platform, projectType) {
 	logStep(`GENERATE: ${projectDirName}`);
 
 	zapProjectDir(projectDirName);
 
 	runLiferayCli(qaDir, ['new', projectDirName], {
-		framework,
 		platform,
+		projectType,
 	});
 
 	writeLiferayJsonFile(projectDirName);
