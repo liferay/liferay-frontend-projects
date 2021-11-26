@@ -1,3 +1,15 @@
+## [liferay-js-toolkit/v2.28.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.28.0) (2021-11-26)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.27.0...liferay-js-toolkit/v2.28.0)
+
+### :new: Features
+
+-   feat(generator-liferay-js): encourage users to use @liferay/cli ([\#771](https://github.com/liferay/liferay-frontend-projects/pull/771))
+
+### :book: Documentation
+
+-   docs(js-toolkit): migrate docs from toolkit v2 to v3 ([\#757](https://github.com/liferay/liferay-frontend-projects/pull/757))
+
 ## [liferay-js-toolkit/v2.27.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.27.0) (2021-10-18)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.26.0...liferay-js-toolkit/v2.27.0)
