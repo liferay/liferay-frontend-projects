@@ -23,6 +23,7 @@ import {
 	getSDKVersion,
 	promptWithConfig,
 	validateLiferayDir,
+	warnAboutLiferayCli,
 } from '../utils';
 import ProjectAnalyzer from '../utils/ProjectAnalyzer';
 import LanguagePropertiesModifier from '../utils/modifier/features/localization/Language.properties';
@@ -123,6 +124,8 @@ export default class extends Generator {
 	 */
 	initializing() {
 		this.sourceRoot(path.join(__dirname, 'templates'));
+
+		warnAboutLiferayCli();
 
 		print(msg.welcome);
 

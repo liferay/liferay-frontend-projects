@@ -8,7 +8,7 @@ import path from 'path';
 import {argv} from 'yargs';
 import Generator from 'yeoman-generator';
 
-import {promptWithConfig} from '../utils';
+import {promptWithConfig, warnAboutLiferayCli} from '../utils';
 
 // If --which parameter is given show path to generator and exit
 
@@ -26,6 +26,8 @@ export default class extends Generator {
 	 * Standard Yeoman initialization function
 	 */
 	async initializing() {
+		warnAboutLiferayCli();
+
 		const targets = this._findTargets();
 
 		const answers = await promptWithConfig(this, 'app', [
