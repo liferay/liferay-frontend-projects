@@ -1,7 +1,7 @@
 {
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"dependencies": {
-		"liferay-npm-build-tools-common": "2.27.0"
+		"liferay-npm-build-tools-common": "2.28.0"
 	},
 	"description": "A liferay-npm-bundler plugin to force injection of declared imports as dependencies.",
 	"main": "lib/index.js",
@@ -16,5 +16,5 @@
 		"copyfiles": "node ../../scripts/copyfiles.js",
 		"prepublish": "yarn build"
 	},
-	"version": "2.27.0"
+	"version": "2.28.0"
 }
