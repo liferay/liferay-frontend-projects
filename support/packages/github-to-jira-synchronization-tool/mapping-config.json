@@ -1,0 +1,33 @@
+{
+	"labelMappings": {
+		"default": "Task",
+		"type:bug": "Bug",
+		"type:chore": "Task",
+		"type:enhancement": "Story",
+		"type:regression": "Bug"
+	},
+	"userMappings": {
+		"brunofernandezg": "bruno.fernandez",
+		"bryceosterhaus": "bryce.osterhaus",
+		"carloslancha": "carlos.lancha",
+		"default": "support-lep@liferay.com",
+		"diegonvs": "diego.nascimento",
+		"dsanz": "daniel.sanz",
+		"eduardoallegrini": "Eduardo.allegrini",
+		"izaera": "ivan.zaera",
+		"javierdearcos": "javier.dearcos",
+		"jbalsas": "jose.balsas",
+		"julien": "julien.castelain",
+		"kresimir-coko": "kresimir.coko",
+		"LuismiBarcos": "luismiguel.barco",
+		"marcoscv-work": "marcos.castro",
+		"markocikos": "marko.cikos",
+		"matuzalemsteles": "matuzalem.teles",
+		"nhpatt": "javier.gamarra",
+		"pablo-agulla": "pablo.agulla",
+		"pat270": "patrick.yeo",
+		"sergiojimcos": "sergio.jdelcoso",
+		"tinycarol": "carolina.alonso",
+		"victorg1991": "victor.galan"
+	}
+}
