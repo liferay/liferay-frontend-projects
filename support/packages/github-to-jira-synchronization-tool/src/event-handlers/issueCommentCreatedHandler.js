@@ -18,8 +18,16 @@ module.exports = {
 			githubIssueId: issue.html_url,
 		});
 
+		const commentBody = `
+		 ${issue?.user?.login} commented
+
+		 {quote}
+		 	${comment.body}
+		 {quote}
+		`;
+
 		return await jiraClient.createComment({
-			comment: addGithubIssueToBody(comment.html_url, comment.body),
+			comment: addGithubIssueToBody(comment.html_url, commentBody),
 			issueId: jiraIssue.key,
 		});
 	},
