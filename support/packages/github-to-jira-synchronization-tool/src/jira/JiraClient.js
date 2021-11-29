@@ -21,9 +21,7 @@ module.exports = class JiraClient {
 	}
 
 	async searchIssueWithGithubIssueId({fields = [], githubIssueId}) {
-		const query = `project=${PROJECT} AND description ~ "${getGithubMarking(
-			githubIssueId
-		)}"`;
+		const query = `project=${PROJECT} AND "Git Issue URL" = "${githubIssueId}"`;
 
 		const response = await this.client.searchJira(query, {
 			fields,
@@ -53,9 +51,17 @@ module.exports = class JiraClient {
 		};
 	}
 
-	createIssue({assignee, description, milestone, title, type = 'Task'}) {
+	createIssue({
+		assignee,
+		description,
+		githubIssueId,
+		milestone,
+		title,
+		type = 'Task',
+	}) {
 		const fields = {
 			customfield_12821: milestone,
+			customfield_22421: githubIssueId,
 			description,
 			issuetype: {
 				name: type,

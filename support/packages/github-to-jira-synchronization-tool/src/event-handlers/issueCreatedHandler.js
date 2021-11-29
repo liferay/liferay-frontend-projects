@@ -4,7 +4,6 @@
  */
 
 const JiraClient = require('../jira/JiraClient');
-const {addGithubIssueToBody} = require('../jira/github-jira-mapping');
 
 module.exports = {
 	canHandleEvent(name, payload) {
@@ -15,7 +14,8 @@ module.exports = {
 		const jiraClient = new JiraClient();
 
 		return jiraClient.createIssue({
-			description: addGithubIssueToBody(issue.html_url, issue.body),
+			description: issue.body,
+			githubIssueId: issue.html_url,
 			title: issue.title,
 		});
 	},
