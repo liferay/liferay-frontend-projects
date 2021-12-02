@@ -1,0 +1,41 @@
+name: New Portal Release
+
+on:
+    schedule:
+        # This happens daily
+        - cron: '0 0 * * *'
+    workflow_dispatch:
+
+jobs:
+    check-for-liferay-release:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Fetch latest release version
+              id: fetch-latest
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                  gh release view --repo "liferay/liferay-portal" --json "tagName" --jq ".tagName" |
+                  xargs -I {} echo "::set-output name=LATEST_RELEASE::{}"
+
+            - name: Write Cache file
+              run: echo "${{ steps.fetch-latest.outputs.LATEST_RELEASE }}" > portal-release.txt
+
+            - name: Cache Latest Portal Release Version
+              uses: actions/cache@v2
+              id: cache-version
+              with:
+                  path: ./portal-release.txt
+                  key: ${{ steps.fetch-latest.outputs.LATEST_RELEASE }}
+
+            - name: Create Issue
+              if: ${{ steps.cache-version.outputs.cache-hit != 'true' }}
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                  gh issue create --repo $GITHUB_REPOSITORY \
+                  --title "Update dependencies for Liferay ${{ steps.fetch-latest.outputs.LATEST_RELEASE }}" \
+                  --body \
+                  "Make sure to check the following dependencies to ensure they are updated for latest liferay-portal release.
+                  - [ ] Check [Liferay Theme Tasks](https://github.com/liferay/liferay-frontend-projects/blob/master/projects/js-themes-toolkit/packages/liferay-theme-tasks/lib/devDependencies.js#L27)
+                  - [ ] Create/Update target-platform for ${{ steps.fetch-latest.outputs.LATEST_RELEASE }}"
