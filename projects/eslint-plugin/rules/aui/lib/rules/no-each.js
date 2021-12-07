@@ -3,13 +3,19 @@
  * SPDX-License-Identifier: MIT
  */
 
+const checkAUIScope = require('../utils/checkAUIScope');
+
 const message = 'use the native Array class methods instead';
 
 module.exports = {
 	create(context) {
 		return {
 			MemberExpression(node) {
-				if (node.object.name === 'A' && node.property.name === 'each') {
+				if (
+					node.object.name === 'A' &&
+					node.property.name === 'each' &&
+					!checkAUIScope(node)
+				) {
 					context.report({
 						message,
 						node,

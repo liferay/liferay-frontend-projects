@@ -3,13 +3,19 @@
  * SPDX-License-Identifier: MIT
  */
 
+const checkAUIScope = require('../utils/checkAUIScope');
+
 const message = 'use document.querySelector instead';
 
 module.exports = {
 	create(context) {
 		return {
 			MemberExpression(node) {
-				if (node.object.name === 'A' && node.property.name === 'one') {
+				if (
+					node.object.name === 'A' &&
+					node.property.name === 'one' &&
+					!checkAUIScope(node)
+				) {
 					context.report({
 						message,
 						node,

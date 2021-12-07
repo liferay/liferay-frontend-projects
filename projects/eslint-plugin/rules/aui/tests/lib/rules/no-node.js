@@ -32,5 +32,15 @@ ruleTester.run('no-node', rule, {
 		{
 			code: `const newButton = document.createElement('button');`,
 		},
+		{
+			code: `
+				AUI.add(
+					'liferay-test',
+					function (A) {
+						A.Node.create('button');
+					}
+				);
+			`,
+		},
 	],
 });
