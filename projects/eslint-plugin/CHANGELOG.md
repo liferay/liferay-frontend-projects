@@ -1,3 +1,12 @@
+## [eslint-plugin/v1.2.0](https://github.com/liferay/liferay-frontend-projects/tree/eslint-plugin/v1.2.0) (2021-12-08)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-plugin/v1.1.0...eslint-plugin/v1.2.0)
+
+### :wrench: Bug fixes
+
+-   fix(eslint-plugin): update aui rules to only error if used outside of an aui module ([\#781](https://github.com/liferay/liferay-frontend-projects/pull/781))
+-   fix(eslint-plugin): dataset uses camelCased keys instead of kebab-case. ([\#754](https://github.com/liferay/liferay-frontend-projects/pull/754))
+
 ## [eslint-plugin/v1.1.0](https://github.com/liferay/liferay-frontend-projects/tree/eslint-plugin/v1.1.0) (2021-11-04)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-plugin/v1.0.0...eslint-plugin/v1.1.0)
