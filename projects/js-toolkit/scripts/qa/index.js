@@ -43,11 +43,11 @@ if (argv['generate']) {
 	generate('agnostic-shared-bundle', 'portal-agnostic', 'Shared bundle');
 	generate('agnostic-vuejs-portlet', 'portal-agnostic', 'Vue.js');
 
-	generate('master-angular-portlet', 'portal-master', 'Angular');
-	generate('master-plain-js-portlet', 'portal-master', 'Plain JavaScript');
-	generate('master-react-portlet', 'portal-master', 'React');
-	generate('master-shared-bundle', 'portal-master', 'Shared bundle');
-	generate('master-vuejs-portlet', 'portal-master', 'Vue.js');
+	//	generate('master-angular-portlet', 'portal-master', 'Angular');
+	//	generate('master-plain-js-portlet', 'portal-master', 'Plain JavaScript');
+	//	generate('master-react-portlet', 'portal-master', 'React');
+	//	generate('master-shared-bundle', 'portal-master', 'Shared bundle');
+	//	generate('master-vuejs-portlet', 'portal-master', 'Vue.js');
 
 	generateAngularCli('angular-cli-portlet');
 	generateCreateReactApp('create-react-app-portlet');
