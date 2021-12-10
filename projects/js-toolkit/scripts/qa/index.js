@@ -5,7 +5,7 @@
 
 const fs = require('fs');
 
-const {qaDir} = require('./resources');
+const {jsToolkitPath, qaDir} = require('./resources');
 const {
 	deploy,
 	generate,
@@ -17,6 +17,12 @@ const {
 } = require('./util');
 
 const argv = getTargets();
+
+['', 'clean', 'build'].forEach((target) =>
+	spawn('yarn', [target], {
+		cwd: jsToolkitPath,
+	})
+);
 
 if (argv['clean']) {
 	logStep('Cleaning qa directory');
