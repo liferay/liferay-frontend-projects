@@ -29,6 +29,12 @@ module.exports = class JiraClient {
 
 		const {issues} = response;
 
+		if (!issues.length) {
+			throw new Error(
+				`Cannot find jira issue with github issue ${githubIssueId}`
+			);
+		}
+
 		return issues[0];
 	}
 
@@ -43,10 +49,18 @@ module.exports = class JiraClient {
 
 		const {comments = []} = commentsResponse;
 
+		const comment = comments.find((comment) =>
+			comment.body.includes(getGithubMarking(githubCommentId))
+		);
+
+		if (!comment) {
+			throw new Error(
+				`Cannot find jira comment with github comment id ${githubIssueId}`
+			);
+		}
+
 		return {
-			comment: comments.find((comment) =>
-				comment.body.includes(getGithubMarking(githubCommentId))
-			),
+			comment,
 			issueId: issue.key,
 		};
 	}
