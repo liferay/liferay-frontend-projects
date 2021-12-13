@@ -27,7 +27,7 @@ module.exports = {
 		const [assignee = {}] = issue.assignees;
 
 		log(
-			`Assigning issue ${jiraClient.key} to ${getUserMapping(
+			`Assigning issue ${jiraIssue.key} to ${getUserMapping(
 				assignee.login
 			)}`
 		);
@@ -41,20 +41,24 @@ module.exports = {
 
 		log(`Transitioning issue ${jiraClient.key} to in-progress`);
 
-		if (assignee.login && jiraStatusNames !== JIRA_STATUS.inProgress) {
-			return jiraClient.transitionIssue({
-				issueId: jiraIssue.key,
-				transition: JIRA_TRANSITIONS.startProgress,
-			});
+		if (jiraStatusNames === JIRA_STATUS.inProgress) {
+			return;
 		}
-		else if (
-			jiraStatusNames !== JIRA_STATUS.open &&
-			jiraStatusNames !== JIRA_STATUS.onHold
-		) {
-			return jiraClient.transitionIssue({
+
+		if (jiraStatusNames === JIRA_STATUS.closed) {
+			await jiraClient.transitionIssue({
 				issueId: jiraIssue.key,
 				transition: JIRA_TRANSITIONS.reopen,
 			});
+
+			// Let jira process the previous transition before doing the next one
+
+			await new Promise((resolve) => setTimeout(resolve, 200));
 		}
+
+		return jiraClient.transitionIssue({
+			issueId: jiraIssue.key,
+			transition: JIRA_TRANSITIONS.startProgress,
+		});
 	},
 };
