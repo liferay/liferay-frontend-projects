@@ -97,6 +97,14 @@ function configureTypeScript(graph) {
 
 	const overrides = previousConfig[OVERRIDES] || {};
 
+	const include = [...BASE_CONFIG.include];
+
+	const globalDefinitionFile = path.join(root, 'global.d.ts');
+
+	if (fs.existsSync(globalDefinitionFile)) {
+		include.push(toPosix(path.relative('', globalDefinitionFile)));
+	}
+
 	const updatedConfig = deepMerge([
 		{
 			...BASE_CONFIG,
@@ -118,6 +126,7 @@ function configureTypeScript(graph) {
 					'./node_modules/@types',
 				].filter(Boolean),
 			},
+			include,
 			references: [...BASE_CONFIG.references, ...references],
 		},
 		overrides,
