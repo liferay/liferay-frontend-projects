@@ -5,6 +5,7 @@
 
 const JiraClient = require('../jira/JiraClient');
 const {addGithubIssueToBody} = require('../jira/github-jira-mapping');
+const log = require('../utils/log');
 
 module.exports = {
 	canHandleEvent(name, payload) {
@@ -25,6 +26,8 @@ module.exports = {
 		 	${comment.body}
 		 {quote}
 		`;
+
+		log(`Creating comment for issue ${jiraIssue.key}`);
 
 		return await jiraClient.createComment({
 			comment: addGithubIssueToBody(comment.html_url, commentBody),

@@ -6,6 +6,7 @@
 const {getUserMapping} = require('../config/config');
 const JiraClient = require('../jira/JiraClient');
 const {JIRA_STATUS, JIRA_TRANSITIONS} = require('../jira/jiraTransitions');
+const log = require('../utils/log');
 
 module.exports = {
 	canHandleEvent(name, payload) {
@@ -25,12 +26,20 @@ module.exports = {
 
 		const [assignee = {}] = issue.assignees;
 
+		log(
+			`Assigning issue ${jiraClient.key} to ${getUserMapping(
+				assignee.login
+			)}`
+		);
+
 		await jiraClient.updateIssue({
 			assignee: getUserMapping(assignee.login),
 			issueId: jiraIssue.key,
 		});
 
 		const jiraStatusNames = jiraIssue.fields.status.name;
+
+		log(`Transitioning issue ${jiraClient.key} to in-progress`);
 
 		if (assignee.login && jiraStatusNames !== JIRA_STATUS.inProgress) {
 			return jiraClient.transitionIssue({

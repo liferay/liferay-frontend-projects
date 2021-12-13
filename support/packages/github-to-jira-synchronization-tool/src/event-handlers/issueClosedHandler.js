@@ -5,6 +5,7 @@
 
 const JiraClient = require('../jira/JiraClient');
 const {JIRA_STATUS, JIRA_TRANSITIONS} = require('../jira/jiraTransitions');
+const log = require('../utils/log');
 
 module.exports = {
 	canHandleEvent(name, payload) {
@@ -20,6 +21,8 @@ module.exports = {
 		});
 
 		const jiraStatusNames = jiraIssue.fields.status.name;
+
+		log(`Transitioning issue ${jiraIssue.key} to close`);
 
 		if (jiraStatusNames !== JIRA_STATUS.closed) {
 			return await jiraClient.transitionIssue({

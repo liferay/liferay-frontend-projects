@@ -14,5 +14,5 @@ module.exports = function log(message) {
 		});
 	}
 
-	logFile.write(`${message}\n`);
+	logFile.write(`${new Date().toISOString()}: ${message}\n`);
 };

@@ -5,6 +5,7 @@
 
 const JiraClient = require('../jira/JiraClient');
 const {addGithubIssueToBody} = require('../jira/github-jira-mapping');
+const log = require('../utils/log');
 
 module.exports = {
 	canHandleEvent(name, payload) {
@@ -21,6 +22,8 @@ module.exports = {
 			githubCommentId: comment.html_url,
 			githubIssueId: issue.html_url,
 		});
+
+		log(`Deleting comment ${jiraComment.id}`);
 
 		return await jiraClient.deleteComment({
 			comment: addGithubIssueToBody(comment.html_url, comment.body),

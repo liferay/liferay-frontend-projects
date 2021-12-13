@@ -5,6 +5,7 @@
 
 const {getLabelMapping} = require('../config/config');
 const JiraClient = require('../jira/JiraClient');
+const log = require('../utils/log');
 
 module.exports = {
 	canHandleEvent(name, payload) {
@@ -24,6 +25,9 @@ module.exports = {
 		const [firstLabel = {}] = issue.labels;
 
 		const type = getLabelMapping(firstLabel.name);
+
+		log(`Label ${firstLabel.name} added`);
+		log(`Updating jira issue ${jiraIssue.key} to type ${type}`);
 
 		return jiraClient.updateIssue({issueId: jiraIssue.key, type});
 	},

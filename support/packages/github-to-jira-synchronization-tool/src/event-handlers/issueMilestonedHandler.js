@@ -6,6 +6,7 @@
 const JiraClient = require('../jira/JiraClient');
 const getJiraMilestoneId = require('../utils/getJiraMilestoneId');
 const isValidMilestone = require('../utils/isValidMilestone');
+const log = require('../utils/log');
 
 module.exports = {
 	canHandleEvent(name, payload) {
@@ -24,6 +25,8 @@ module.exports = {
 		});
 
 		if (action === 'demilestoned') {
+			log(`Removing milestone for issue ${jiraIssue.key}`);
+
 			return jiraClient.updateIssueEpic({
 				epic: null,
 				issueId: jiraIssue.key,
@@ -35,6 +38,8 @@ module.exports = {
 		const jiraMilestoneId = getJiraMilestoneId(milestone.title);
 
 		if (isValidMilestone(jiraMilestoneId, jiraClient)) {
+			log(`Adding milestone for issue ${jiraIssue.key}`);
+
 			return jiraClient.updateIssueEpic({
 				epic: jiraMilestoneId,
 				issueId: jiraIssue.key,

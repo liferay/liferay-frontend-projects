@@ -4,6 +4,7 @@
  */
 
 const JiraClient = require('../jira/JiraClient');
+const log = require('../utils/log');
 
 module.exports = {
 	canHandleEvent(name, payload) {
@@ -12,6 +13,8 @@ module.exports = {
 
 	handleEvent({issue}) {
 		const jiraClient = new JiraClient();
+
+		log(`Creating jira issue for github issue ${issue.html_url}`);
 
 		return jiraClient.createIssue({
 			description: issue.body,
