@@ -32,7 +32,8 @@ module.exports = {
 				assignee: getUserMapping(assignee.login),
 				issueId: jiraIssue.key,
 			});
-		} catch (_error) {
+		}
+		catch (_error) {
 			log(`Cannot assign issue to${getUserMapping(assignee.login)}`);
 		}
 

@@ -35,7 +35,8 @@ async function main() {
 				);
 				try {
 					await eventHandler.handleEvent(payload);
-				} catch (error) {
+				}
+				catch (error) {
 					log(
 						`Error while processing ${name} ${payload.action} webhook: ${error.message}`
 					);
