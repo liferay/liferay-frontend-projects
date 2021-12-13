@@ -37,7 +37,7 @@ function getLabelMapping(label) {
 
 	const labelMappings = mappingConfig.labelMappings;
 
-	return labelMappings[label] || labelMappings.default;
+	return labelMappings[label?.replace('type:', '')] || labelMappings.default;
 }
 
 module.exports = {getLabelMapping, getUserMapping, loadConfig};

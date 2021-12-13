@@ -1,10 +1,10 @@
 {
 	"labelMappings": {
 		"default": "Task",
-		"type:bug": "Bug",
-		"type:chore": "Task",
-		"type:enhancement": "Story",
-		"type:regression": "Bug"
+		"bug": "Bug",
+		"chore": "Task",
+		"enhancement": "Story",
+		"regression": "Bug"
 	},
 	"userMappings": {
 		"brunofernandezg": "bruno.fernandez",
