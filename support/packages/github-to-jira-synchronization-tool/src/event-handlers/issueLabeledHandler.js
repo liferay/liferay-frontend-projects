@@ -5,6 +5,7 @@
 
 const {getDefaultLabelMapping, getLabelMapping} = require('../config/config');
 const JiraClient = require('../jira/JiraClient');
+const getOrCreateIssue = require('../utils/getOrCreateIssue');
 const log = require('../utils/log');
 
 module.exports = {
@@ -18,9 +19,7 @@ module.exports = {
 	async handleEvent({issue}) {
 		const jiraClient = new JiraClient();
 
-		const jiraIssue = await jiraClient.searchIssueWithGithubIssueId({
-			githubIssueId: issue.html_url,
-		});
+		const jiraIssue = await getOrCreateIssue(issue);
 
 		let type = getDefaultLabelMapping();
 

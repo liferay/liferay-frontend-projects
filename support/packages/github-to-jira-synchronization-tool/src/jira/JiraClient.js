@@ -20,32 +20,18 @@ module.exports = class JiraClient {
 		});
 	}
 
-	async searchIssueWithGithubIssueId({fields = [], githubIssueId}) {
+	async searchIssueWithGithubIssueId({githubIssueId}) {
 		const query = `project=${PROJECT} AND "Git Issue URL" = "${githubIssueId}"`;
 
-		const response = await this.client.searchJira(query, {
-			fields,
-		});
+		const response = await this.client.searchJira(query);
 
 		const {issues} = response;
-
-		if (!issues.length) {
-			throw new Error(
-				`Cannot find jira issue with github issue ${githubIssueId}`
-			);
-		}
 
 		return issues[0];
 	}
 
-	async searchCommentWithGithubCommentId({githubCommentId, githubIssueId}) {
-		const issue = await this.searchIssueWithGithubIssueId({githubIssueId});
-
-		if (!issue) {
-			return null;
-		}
-
-		const commentsResponse = await this.client.getComments(issue.key);
+	async searchCommentWithGithubCommentId({githubCommentId, issueId}) {
+		const commentsResponse = await this.client.getComments(issueId);
 
 		const {comments = []} = commentsResponse;
 
@@ -53,16 +39,7 @@ module.exports = class JiraClient {
 			comment.body.includes(getGithubMarking(githubCommentId))
 		);
 
-		if (!comment) {
-			throw new Error(
-				`Cannot find jira comment with github comment id ${githubIssueId}`
-			);
-		}
-
-		return {
-			comment,
-			issueId: issue.key,
-		};
+		return comment;
 	}
 
 	createIssue({

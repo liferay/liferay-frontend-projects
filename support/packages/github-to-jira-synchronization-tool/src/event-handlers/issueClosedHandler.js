@@ -5,6 +5,7 @@
 
 const JiraClient = require('../jira/JiraClient');
 const {JIRA_STATUS, JIRA_TRANSITIONS} = require('../jira/jiraTransitions');
+const getOrCreateIssue = require('../utils/getOrCreateIssue');
 const log = require('../utils/log');
 
 module.exports = {
@@ -15,10 +16,7 @@ module.exports = {
 	async handleEvent({issue}) {
 		const jiraClient = new JiraClient();
 
-		const jiraIssue = await jiraClient.searchIssueWithGithubIssueId({
-			fields: ['status'],
-			githubIssueId: issue.html_url,
-		});
+		const jiraIssue = await getOrCreateIssue(issue);
 
 		const jiraStatusNames = jiraIssue.fields.status.name;
 

@@ -5,6 +5,7 @@
 
 const JiraClient = require('../jira/JiraClient');
 const {addGithubIssueToBody} = require('../jira/github-jira-mapping');
+const getOrCreateComment = require('../utils/getOrCreateComment');
 const log = require('../utils/log');
 
 module.exports = {
@@ -15,12 +16,9 @@ module.exports = {
 	async handleEvent({comment, issue}) {
 		const jiraClient = new JiraClient();
 
-		const {
-			comment: jiraComment,
-			issueId,
-		} = await jiraClient.searchCommentWithGithubCommentId({
-			githubCommentId: comment.html_url,
-			githubIssueId: issue.html_url,
+		const {comment: jiraComment, issueId} = await getOrCreateComment({
+			comment,
+			issue,
 		});
 
 		log(`Deleting comment ${jiraComment.id}`);

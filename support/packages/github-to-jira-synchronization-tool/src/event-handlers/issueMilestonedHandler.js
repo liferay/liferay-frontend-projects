@@ -5,6 +5,7 @@
 
 const JiraClient = require('../jira/JiraClient');
 const getJiraMilestoneId = require('../utils/getJiraMilestoneId');
+const getOrCreateIssue = require('../utils/getOrCreateIssue');
 const isValidMilestone = require('../utils/isValidMilestone');
 const log = require('../utils/log');
 
@@ -20,9 +21,7 @@ module.exports = {
 	async handleEvent({action, issue}) {
 		const jiraClient = new JiraClient();
 
-		const jiraIssue = await jiraClient.searchIssueWithGithubIssueId({
-			githubIssueId: issue.html_url,
-		});
+		const jiraIssue = await getOrCreateIssue(issue);
 
 		if (action === 'demilestoned') {
 			log(`Removing milestone for issue ${jiraIssue.key}`);
