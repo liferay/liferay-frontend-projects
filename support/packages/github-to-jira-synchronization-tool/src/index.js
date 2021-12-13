@@ -16,6 +16,7 @@ const eventHandlers = [
 	require('./event-handlers/issueLabeledHandler'),
 	require('./event-handlers/issueMilestonedHandler'),
 	require('./event-handlers/issueReopenedHandler'),
+	require('./event-handlers/issueUnassignedHandler'),
 	require('./event-handlers/issueCommentCreatedHandler'),
 	require('./event-handlers/issueCommentEditedHandler'),
 	require('./event-handlers/issueCommentDeletedHandler'),

@@ -11,10 +11,7 @@ const log = require('../utils/log');
 
 module.exports = {
 	canHandleEvent(name, payload) {
-		return (
-			name === 'issues' &&
-			(payload.action === 'assigned' || payload.action === 'unassigned')
-		);
+		return name === 'issues' && payload.action === 'assigned';
 	},
 
 	async handleEvent({issue}) {
@@ -39,15 +36,15 @@ module.exports = {
 			log(`Cannot assign issue to${getUserMapping(assignee.login)}`);
 		}
 
-		const jiraStatusNames = jiraIssue.fields.status.name;
+		const jiraStatusName = jiraIssue.fields.status.name;
 
 		log(`Transitioning issue ${jiraIssue.key} to in-progress`);
 
-		if (jiraStatusNames === JIRA_STATUS.inProgress) {
+		if (jiraStatusName === JIRA_STATUS.inProgress) {
 			return;
 		}
 
-		if (jiraStatusNames === JIRA_STATUS.closed) {
+		if (jiraStatusName === JIRA_STATUS.closed) {
 			await jiraClient.transitionIssue({
 				issueId: jiraIssue.key,
 				transition: JIRA_TRANSITIONS.reopen,
