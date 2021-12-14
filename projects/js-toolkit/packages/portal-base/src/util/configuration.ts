@@ -5,6 +5,8 @@
 
 import fs from 'fs';
 import project from 'liferay-npm-build-tools-common/lib/project';
+import os from 'os';
+import path from 'path';
 
 export type Command = 'deploy';
 export type ConfigurationValue = boolean | number | object | string;
@@ -27,19 +29,22 @@ export function get(command: Command, key: string): ConfigurationValue {
 function load(): Configuration {
 	let configuration: Configuration = {};
 
-	try {
-		configuration = JSON.parse(
-			fs.readFileSync(
-				project.dir.join(CONFIGURATION_FILE).asNative,
-				'utf8'
-			)
-		);
-	}
-	catch (error) {
-		if (error.code !== 'ENOENT') {
-			throw error;
+	[
+		project.dir.join(CONFIGURATION_FILE).asNative,
+		path.join(os.homedir(), '.liferay.json'),
+	].forEach((liferayJsonPath) => {
+		try {
+			configuration = {
+				...configuration,
+				...JSON.parse(fs.readFileSync(liferayJsonPath, 'utf8')),
+			};
 		}
-	}
+		catch (error) {
+			if (error.code !== 'ENOENT') {
+				throw error;
+			}
+		}
+	});
 
 	return configuration;
 }
