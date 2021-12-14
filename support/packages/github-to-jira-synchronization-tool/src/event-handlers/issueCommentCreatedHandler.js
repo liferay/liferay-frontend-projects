@@ -18,8 +18,17 @@ module.exports = {
 
 		const jiraIssue = await getOrCreateIssue(issue);
 
+		const jiraComment = await jiraClient.searchCommentWithGithubCommentId({
+			githubCommentId: comment.html_url,
+			issueId: jiraIssue.key,
+		});
+
+		if (jiraComment) {
+			return;
+		}
+
 		const commentBody = `
-		 ${issue?.user?.login} commented
+		 ${comment?.user?.login} commented
 
 		 {quote}
 		 	${comment.body}

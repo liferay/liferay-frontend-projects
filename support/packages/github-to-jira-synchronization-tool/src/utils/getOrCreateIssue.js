@@ -16,11 +16,9 @@ module.exports = async function getOrCreateIssue(issue) {
 		return jiraIssue;
 	}
 
-	const a = await jiraClient.createIssue({
+	return jiraClient.createIssue({
 		description: issue.body || '',
 		githubIssueId: issue.html_url,
 		title: issue.title,
 	});
-
-	return a;
 };
