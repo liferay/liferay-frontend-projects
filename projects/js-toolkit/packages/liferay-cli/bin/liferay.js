@@ -5,6 +5,12 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+if (process.argv[2] === '--which') {
+	/* eslint-disable-next-line no-console */
+	console.log(__filename);
+	process.exit(0);
+}
+
 const {argv} = require('yargs')
 	.command('adapt', 'Adapt the project in the current directory', (yargs) =>
 		yargs
