@@ -1,3 +1,16 @@
+## [npm-scripts/v46.7.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v46.7.0) (2021-12-14)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v46.6.0...npm-scripts/v46.7.0)
+
+### :new: Features
+
+-   feat(npm-scripts): add path to global type definition file in liferay-portal ([\#790](https://github.com/liferay/liferay-frontend-projects/pull/790))
+-   feat(npm-scripts): update liferay-theme-tasks version ([\#768](https://github.com/liferay/liferay-frontend-projects/pull/768))
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): update eslint-plugin dependency ([\#782](https://github.com/liferay/liferay-frontend-projects/pull/782))
+
 ## [npm-scripts/v46.6.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v46.6.0) (2021-11-18)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v46.5.0...npm-scripts/v46.6.0)
