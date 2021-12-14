@@ -63,7 +63,7 @@ function getLabelMapping(label) {
 
 	const labelMappings = mappingConfig.labelMappings;
 
-	return labelMappings[label?.replace('type:', '')];
+	return labelMappings[label?.replace('type:', '')?.trim()];
 }
 
 function getDefaultLabelMapping() {
