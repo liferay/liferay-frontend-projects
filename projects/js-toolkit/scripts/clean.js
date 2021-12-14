@@ -41,7 +41,7 @@ function clean(dir) {
 
 		assertValidOutDir(json);
 
-		fs.rmdirSync(json.compilerOptions.outDir, {recursive: true});
+		fs.rmSync(json.compilerOptions.outDir, {recursive: true});
 		fs.unlinkSync(path.resolve(dir, 'tsconfig.tsbuildinfo'));
 	}
 	catch (error) {
