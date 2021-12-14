@@ -28,6 +28,13 @@ async function main() {
 	const server = new Server(SECRET, PORT);
 
 	server.start(['issues', 'issue_comment'], async ({name, payload}) => {
+
+		// Don't handle comments in pull requests
+
+		if (name === 'issue_comment' && payload.issue?.pull_request) {
+			return;
+		}
+
 		for (const eventHandler of eventHandlers) {
 			if (eventHandler.canHandleEvent(name, payload)) {
 				log(
