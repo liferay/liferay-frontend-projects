@@ -7,6 +7,7 @@ const Server = require('./Server');
 const {loadConfig} = require('./config/config');
 const {PORT, SECRET} = require('./constants');
 const log = require('./utils/log');
+const runSequentially = require('./utils/runSequentially');
 
 const eventHandlers = [
 	require('./event-handlers/issueAssignedHandler'),
@@ -37,17 +38,19 @@ async function main() {
 
 		for (const eventHandler of eventHandlers) {
 			if (eventHandler.canHandleEvent(name, payload)) {
-				log(
-					`Handling event ${name} ${payload.action} for issue: ${payload.issue?.html_url}`
-				);
-				try {
-					await eventHandler.handleEvent(payload);
-				}
-				catch (error) {
+				runSequentially(async () => {
 					log(
-						`Error while processing ${name} ${payload.action} webhook: ${error.message}`
+						`Handling event ${name} ${payload.action} for issue: ${payload.issue?.html_url}`
 					);
-				}
+					try {
+						await eventHandler.handleEvent(payload);
+					}
+					catch (error) {
+						log(
+							`Error while processing ${name} ${payload.action} webhook: ${error.message}`
+						);
+					}
+				});
 			}
 		}
 	});
