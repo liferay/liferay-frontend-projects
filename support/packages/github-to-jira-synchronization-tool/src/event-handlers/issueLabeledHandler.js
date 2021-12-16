@@ -3,8 +3,10 @@
  * SPDX-License-Identifier: MIT
  */
 
-const {getLabelMapping} = require('../config/config');
+const {getDefaultLabelMapping, getLabelMapping} = require('../config/config');
 const JiraClient = require('../jira/JiraClient');
+const getOrCreateIssue = require('../utils/getOrCreateIssue');
+const log = require('../utils/log');
 
 module.exports = {
 	canHandleEvent(name, payload) {
@@ -17,14 +19,25 @@ module.exports = {
 	async handleEvent({issue}) {
 		const jiraClient = new JiraClient();
 
-		const jiraIssue = await jiraClient.searchIssueWithGithubIssueId({
-			githubIssueId: issue.html_url,
-		});
+		const jiraIssue = await getOrCreateIssue(issue);
 
-		const [firstLabel = {}] = issue.labels;
+		let type = getDefaultLabelMapping();
 
-		const type = getLabelMapping(firstLabel.name);
+		for (const label of issue.labels ?? []) {
+			if (getLabelMapping(label.name)) {
+				type = getLabelMapping(label.name);
 
-		return jiraClient.updateIssue({issueId: jiraIssue.key, type});
+				break;
+			}
+		}
+
+		log(`Updating jira issue ${jiraIssue?.key} to type ${type}`);
+
+		if (jiraIssue.fields?.issueType !== type) {
+			return jiraClient.updateIssue({
+				issueId: jiraIssue.key,
+				type: type || getDefaultLabelMapping(),
+			});
+		}
 	},
 };

@@ -10,7 +10,7 @@ const log = require('../utils/log');
 
 module.exports = {
 	canHandleEvent(name, payload) {
-		return name === 'issues' && payload.action === 'reopened';
+		return name === 'issues' && payload.action === 'unassigned';
 	},
 
 	async handleEvent({issue}) {
@@ -18,15 +18,20 @@ module.exports = {
 
 		const jiraIssue = await getOrCreateIssue(issue);
 
-		const jiraStatusNames = jiraIssue.fields.status.name;
+		const jiraStatusName = jiraIssue.fields.status.name;
 
-		log(`Transition issue ${jiraIssue.key} to open`);
+		log(`Transitioning issue ${jiraIssue.key} to open`);
 
-		if (jiraStatusNames !== JIRA_STATUS.open) {
-			return await jiraClient.transitionIssue({
-				issueId: jiraIssue.key,
-				transition: JIRA_TRANSITIONS.reopen,
-			});
+		if (
+			jiraStatusName === JIRA_STATUS.open ||
+			jiraStatusName === JIRA_STATUS.onHold
+		) {
+			return;
 		}
+
+		return jiraClient.transitionIssue({
+			issueId: jiraIssue.key,
+			transition: JIRA_TRANSITIONS.reopen,
+		});
 	},
 };
