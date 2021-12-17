@@ -169,9 +169,22 @@ describe('project.jar.outputFilename', () => {
 });
 
 describe('project.jar.requireJsExtender', () => {
-	it('returns true when create-jar config present and features/js-extender missing', () => {
+	it('returns false when features/js-extender missing and no portlet in package.json', () => {
 		const project = new Project(
-			path.join(__dirname, '__fixtures__', 'project', 'create-jar-empty')
+			path.join(__dirname, '__fixtures__', 'project', 'empty')
+		);
+
+		expect(project.jar.requireJsExtender).toBe(false);
+	});
+
+	it('returns true when features/js-extender missing and there is portlet in package.json', () => {
+		const project = new Project(
+			path.join(
+				__dirname,
+				'__fixtures__',
+				'project',
+				'empty-with-portlet'
+			)
 		);
 
 		expect(project.jar.requireJsExtender).toBe(true);
