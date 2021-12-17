@@ -1,3 +1,12 @@
+## [js-toolkit-core/v4.1.0](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v4.1.0) (2021-12-17)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v4.0.1...js-toolkit-core/v4.1.0)
+
+### :new: Features
+
+-   feat(js-toolkit-core): don't warn user when loading old bundler projects ([\#763](https://github.com/liferay/liferay-frontend-projects/pull/763))
+-   feat(js-toolkit-core): add more transformations and LiferayJson schema ([\#763](https://github.com/liferay/liferay-frontend-projects/pull/763))
+
 ## [js-toolkit-core/v4.0.1](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v4.0.1) (2021-10-05)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v4.0.0...js-toolkit-core/v4.0.1)
