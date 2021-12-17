@@ -264,7 +264,7 @@ $ liferay-npm-bundler
         -   A semantic version number specifying the minimum required version
         -   The string `any` to let the bundle deploy in any version of the Extender
     -   If `true` is provided, the bundler automatically determines the minimum vesion of the Extender needed, based on the features used by the bundle.
--   **Default**: `true`
+-   **Default**: `true` if the `package.json` has a `portlet` entry, `false` otherwise
 -   **Example**:
 
 ```json

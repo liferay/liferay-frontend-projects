@@ -159,7 +159,11 @@ export default class Jar {
 
 			// TODO: deprecated 'auto-deploy-portlet', remove for the next major version
 
-			prop.get(npmbundlerrc, 'create-jar.auto-deploy-portlet', true)
+			prop.get(
+				npmbundlerrc,
+				'create-jar.auto-deploy-portlet',
+				!!this._project.pkgJson['portlet']
+			)
 		);
 	}
 
