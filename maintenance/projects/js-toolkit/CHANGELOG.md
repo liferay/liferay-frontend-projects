@@ -1,3 +1,11 @@
+## [liferay-js-toolkit/v2.28.1](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.28.1) (2021-12-17)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.28.0...liferay-js-toolkit/v2.28.1)
+
+### :wrench: Bug fixes
+
+-   fix: don't break deployment for shared bundle projects ([\#793](https://github.com/liferay/liferay-frontend-projects/pull/793))
+
 ## [liferay-js-toolkit/v2.28.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.28.0) (2021-11-26)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.27.0...liferay-js-toolkit/v2.28.0)
