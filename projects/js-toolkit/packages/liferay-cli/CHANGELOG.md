@@ -1,3 +1,15 @@
+## [liferay-cli/v1.0.1](https://github.com/liferay/liferay-frontend-projects/tree/liferay-cli/v1.0.1) (2021-12-17)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-cli/v1.0.0...liferay-cli/v1.0.1)
+
+### :wrench: Bug fixes
+
+-   fix(js-toolkit): fix dependencies of Angular projects ([\#787](https://github.com/liferay/liferay-frontend-projects/pull/787))
+
+### :book: Documentation
+
+-   docs(js-toolkit): migrate docs from toolkit v2 to v3 ([\#757](https://github.com/liferay/liferay-frontend-projects/pull/757))
+
 ## [liferay-cli/v1.0.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-cli/v1.0.0) (2021-11-25)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-cli/v1.0.0-pre.2...liferay-cli/v1.0.0)
