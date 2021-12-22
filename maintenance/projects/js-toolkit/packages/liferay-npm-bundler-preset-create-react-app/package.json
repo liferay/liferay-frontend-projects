@@ -1,10 +1,10 @@
 {
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"dependencies": {
-		"babel-preset-liferay-standard": "2.28.1",
-		"liferay-npm-bundler-loader-babel-loader": "2.28.1",
-		"liferay-npm-bundler-loader-copy-loader": "2.28.1",
-		"liferay-npm-bundler-plugin-resolve-linked-dependencies": "2.28.1"
+		"babel-preset-liferay-standard": "2.28.2",
+		"liferay-npm-bundler-loader-babel-loader": "2.28.2",
+		"liferay-npm-bundler-loader-copy-loader": "2.28.2",
+		"liferay-npm-bundler-plugin-resolve-linked-dependencies": "2.28.2"
 	},
 	"description": "Configuration for liferay-npm-bundler to integrate with create-react-app projects",
 	"main": "config.json",
@@ -14,5 +14,5 @@
 		"type": "git",
 		"url": "https://github.com/liferay/liferay-frontend-projects.git"
 	},
-	"version": "2.28.1"
+	"version": "2.28.2"
 }
