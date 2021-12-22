@@ -1,3 +1,11 @@
+## [liferay-js-toolkit/v2.28.2](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.28.2) (2021-12-22)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.28.1...liferay-js-toolkit/v2.28.2)
+
+### :new: Features
+
+-   feat(generator-liferay-js): remove @liferay/cli spam ([\#800](https://github.com/liferay/liferay-frontend-projects/pull/800))
+
 ## [liferay-js-toolkit/v2.28.1](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.28.1) (2021-12-17)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.28.0...liferay-js-toolkit/v2.28.1)
