@@ -4,7 +4,6 @@
  */
 
 import fs from 'fs';
-import {print, warn} from 'liferay-npm-build-tools-common/lib/format';
 import path from 'path';
 
 import pkgJson from '../../package.json';
@@ -256,40 +255,4 @@ export function validateLiferayDir(input) {
 	}
 
 	return true;
-}
-
-/**
- * Encourage users to switch to @liferay/cli
- */
-export function warnAboutLiferayCli() {
-	print(
-		'',
-		warn`
-WARNING !!!!
-
-The Liferay JavaScript Toolkit Yeoman generator has been discontinued
-and replaced by {@liferay/cli}.
-
-You can still use this generator, but we encourage you to switch to
-{@liferay/cli} as soon as possible so that you can continue using the
-Liferay JavaScript Toolkit normally.
-
-Please check the documentation in the following URL for more information
-on how to use {@liferay/cli}:
-
-· https://bit.ly/liferay-cli-manual
-
-If you have any project already generated with this Yeoman generator,
-consider upgrading it to {@liferay/cli} as explained in the following
-documentation:
-
-· https://bit.ly/liferay-cli-manual-upgrade
-
-Finally, if you have any problem with this, don't hesitate to file an
-issue in our GitHub repository:
-
-· https://github.com/liferay/liferay-frontend-projects/issues
-
-	`
-	);
 }
