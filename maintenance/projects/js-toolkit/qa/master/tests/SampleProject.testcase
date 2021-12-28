@@ -1,0 +1,70 @@
+@component-name = "portal-collaboration"
+definition {
+	property portal.release = "true";
+	property portal.upstream = "true";
+	property testray.main.component.name = "Frontend Infrastructure";
+	var pageName = "Samples Page";
+
+	setUp {
+		TestCase.setUpPortalInstance();
+
+		User.firstLoginPG();
+	}
+
+    @priority = "5"
+	test AddSamplePortlet {
+		Navigator.gotoPage(pageName = "Welcome");
+
+		Portlet.addPG(portletName = "angular-portlet-l10n-cfg-sample");
+
+        Portlet.viewTitle(portletName = "angular-portlet-l10n-cfg-sample");
+
+		Portlet.viewBody(
+			portletBody = "angular-portlet-l10n-cfg-sample",
+			portletName = "angular-portlet-l10n-cfg-sample"
+		);
+
+		Navigator.gotoPage(pageName = "Welcome");
+
+        Portlet.addPG(portletName = "angular-portlet-l10n-cfg-nosample");
+
+        Portlet.viewTitle(portletName = "angular-portlet-l10n-cfg-nosample");
+
+        Portlet.viewBody(
+			portletBody = "",
+			portletName = "angular-portlet-l10n-cfg-sample"
+		);
+	}
+
+    @priority = "5"
+	test AddAllSamplePortlets {
+        var fileContent = FileUtil.read("poshi/dependencies/sample_list.txt");
+
+		for (var sampleProjectName : list "${fileContent}") {
+			echo("${sampleProjectName}");
+
+			Navigator.gotoPage(pageName = "Welcome");
+
+			Portlet.addPG(portletName = "${sampleProjectName}");
+
+			Portlet.viewTitle(portletName = "${sampleProjectName}");
+
+			if (contains("${sampleProjectName}", "nosample")) {
+				var key_portletName = "${sampleProjectName}";
+
+				AssertTextNotEquals.assertNotPartialText(
+					locator1 = "Portlet#BODY",
+					value1 = "${sampleProjectName}"
+				);
+			}
+			else {
+				Portlet.viewBody(
+					portletBody = "${sampleProjectName}",
+					portletName = "${sampleProjectName}"
+				);
+			}
+
+			Portlet.deletePG(portletName = "${sampleProjectName}");
+        }
+	}
+}

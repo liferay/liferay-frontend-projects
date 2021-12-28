@@ -5,12 +5,12 @@ configurations {
 }
 
 dependencies {
-	poshiRunner "com.liferay:com.liferay.poshi.runner:1.0.210"
+	poshiRunner "com.liferay:com.liferay.poshi.runner:1.0.324"
 
 //      OPTIONAL the following adds a poshi-resource jar into the classpath during execution
 //      To execute any testcase or macro from this jar, use 'Portal' as the namespace, (i.e Portal.PortalSmoke#Smoke)
 
-    poshiRunner "com.liferay.poshi.runner.resources:portal-7.1.x:7.1.1-ga2"
+    poshiRunner "com.liferay.poshi.runner.resources:portal-master:20211208-f009fea"
 }
 
 repositories {

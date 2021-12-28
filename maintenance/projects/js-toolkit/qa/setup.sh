@@ -3,7 +3,7 @@
 # Globals
 QA_DIR=`pwd`
 LOG_FILE="$QA_DIR/logs/$1.log"
-POSHI_FILE="portal-7.1.x-20190110-e3c1b50.jar"
+POSHI_FILE="portal-master-20211208-f009fea.jar"
 
 # Check pre-requisites
 SEVENZIP=7z
@@ -116,7 +116,7 @@ elif [ "$1" = "sync-master-poshi-tests" ] ; then
     rm -rf poshi/standalone
     mkdir -p poshi/standalone
     cd poshi/standalone
-    wget https://repository.liferay.com/nexus/content/repositories/liferay-public-releases/com/liferay/poshi/runner/resources/portal-7.1.x/20190110-e3c1b50/$POSHI_FILE >> $LOG_FILE 2>&1
+    wget https://repository.liferay.com/nexus/content/repositories/liferay-public-releases/com/liferay/poshi/runner/resources/portal-master/20211208-f009fea/$POSHI_FILE >> $LOG_FILE 2>&1
 
     echo Extracting $POSHI_FILE
     jar xvf $POSHI_FILE >> $LOG_FILE
@@ -127,11 +127,11 @@ elif [ "$1" = "sync-master-poshi-tests" ] ; then
     rsync -a -v . ../standalone/testFunctional >> $LOG_FILE
     cd ../..
 
-    echo Updating Firefox path in poshi config files
-    git checkout poshi-runner.properties
-    SUBST=`echo $FIREFOX | sed 's/\//\\\\\//g'`
-    sed -i -e "s/\/opt\/firefox45\/firefox/$SUBST/g" poshi-runner.properties
-    rm poshi-runner.properties-e > /dev/null 2>&1
+   # echo Updating Firefox path in poshi config files
+   # git checkout poshi-runner.properties
+   # SUBST=`echo $FIREFOX | sed 's/\//\\\\\//g'`
+   # sed -i -e "s/\/opt\/firefox45\/firefox/$SUBST/g" poshi-runner.properties
+   # rm poshi-runner.properties-e > /dev/null 2>&1
 
 elif [ "$1" = "sample-list" ] ; then
     task sample-list

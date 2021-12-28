@@ -1,0 +1,140 @@
+<html>
+<head>
+<title>SitePages</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">SitePages</td></tr>
+</thead>
+<tbody>
+<tr>
+	<td>SITE_NAME</td>
+	<td>//span[contains(@class,'site-name') and contains(.,'${key_siteName}')] | //div[contains(@class,'site-name') and contains(.,'${key_siteName}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+<!--DISPLAY_STYLE-->
+<tr>
+	<td>DISPLAY_STYLE</td>
+	<td>//button[@data-title='Display Style' or @title='Display Style']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>DISPLAY_STYLE_ITEM</td>
+	<td>//a[contains(@class,'dropdown-item') and contains(.,'${key_displayStyle}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>DISPLAY_STYLE_ITEM_ACTIVE</td>
+	<td>//a[contains(@class,'dropdown-item') and contains(@class,'active') and contains(.,'${key_displayStyle}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+<!--LIST_GROUP_ITEM-->
+<tr>
+	<td>LIST_GROUP_ITEM</td>
+	<td>//li[contains(@class,'list-group-item')][contains(.,'${key_itemName}')]/button</td>
+	<td></td>
+</tr>
+<tr>
+	<td>LIST_GROUP_ITEM_CARET_ICON</td>
+	<td>//ul[${key_depth}]/li//*[*[name()='svg'][contains(@class,'icon-caret-right')]]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>LIST_GROUP_ITEM_CARET_ICON_SPECIFIC</td>
+	<td>//li[contains(.,'${key_pageName}')]//*[*[name()='svg'][contains(@class,'icon-caret-right')]]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>LIST_GROUP_ITEM_ELLIPSIS_ICON</td>
+	<td>//li[contains(.,'${key_pageName}')]//*[*[name()='svg'][contains(@class,'ellipsis-v')]]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>LIST_GROUP_ITEM_PLUS_ICON</td>
+	<td>//li[contains(.,'${key_pageName}')]//*[*[name()='svg'][contains(@class,'icon-plus')]]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>LIST_GROUP_ITEM_ROW_ENTRY</td>
+	<td>xpath=(//li[contains(@class,'list-group-item')])[${key_index}]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>LIST_GROUP_ITEM_ROW_ELLIPSIS</td>
+	<td>xpath=(//li[contains(@class,'list-group-item')])[${key_index}]//button[*[name()='svg'][contains(@class,'icon-ellipsis-v')]]</td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+<!--DETAILS-->
+<tr>
+	<td>DETAILS_FRIENDLY_BASE_URL</td>
+	<td>//span[contains(@id,'friendlyURL')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+<!--DETAILS_PAGE_TYPE_PANEL-->
+<tr>
+	<td>DETAILS_PAGE_TYPE_PANEL_COMPONENT_TREE_ARROW</td>
+	<td>//div[contains(@id,'selectPortletsTree')]//span[contains(.,'${key_componentName}')]/../span[contains(@class,'tree-hitarea glyphicon-plus')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>DETAILS_PAGE_TYPE_PANEL_CHECKBOX_INPUT</td>
+	<td>//li[contains(@id,'selectPortletsRootNode')]//span[contains(.,'${key_componentOrPortletName}')]/../span[contains(@class,'tree-node-checkbox')]/input</td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+<!--LOGO-->
+<tr>
+	<td>LOGO_UPLOAD_IMAGE_IFRAME</td>
+	<td>//iframe[contains(@id,'changeLogo_iframe_')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>LOGO_UPLOAD_IMAGE_BUTTON</td>
+	<td>//label[contains(@for,'ImageUploaderPortlet')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+<!--JAVASCRIPT-->
+<tr>
+	<td>JAVASCRIPT_TEXTAREA</td>
+	<td>//textarea[contains(@id,'javascript')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>JAVASCRIPT_LABEL</td>
+	<td>//label[contains(@for,'javascript')]</td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>
