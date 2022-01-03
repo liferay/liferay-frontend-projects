@@ -1,3 +1,11 @@
+## [npm-scripts/v47.0.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.0.0) (2022-01-03)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v46.7.0...npm-scripts/v47.0.0)
+
+### :boom: Breaking changes
+
+-   chore(npm-scripts)!: Update @testing-library/react and @testing-library/dom ([\#801](https://github.com/liferay/liferay-frontend-projects/pull/801))
+
 ## [npm-scripts/v46.7.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v46.7.0) (2021-12-14)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v46.6.0...npm-scripts/v46.7.0)
