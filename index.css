@@ -1,0 +1,28 @@
+body {
+	display: flex;
+	flex-direction: column;
+	font-family: sans-serif;
+	margin: 0;
+	min-height: 100vh;
+}
+
+footer {
+	background-color: peach-puff;
+	border-top: 1px solid #ccc;
+	padding: 16px;
+}
+
+header {
+	background-color: azure;
+	border-bottom: 1px solid #ccc;
+}
+
+li {
+	line-height: 1.5;
+	margin-bottom: 1em;
+}
+
+#content {
+	flex: 1;
+	padding: 16px;
+}
