@@ -25,6 +25,7 @@ module.exports = {
 	'no-require-and-call': require('./lib/rules/no-require-and-call'),
 	'no-use-strict-in-module': require('./lib/rules/no-use-strict-in-module'),
 	'padded-test-blocks': require('./lib/rules/padded-test-blocks'),
+	'prefer-length-check': require('./lib/rules/prefer-length-check'),
 	'ref-name-suffix': require('./lib/rules/ref-name-suffix'),
 	'sort-class-names': require('./lib/rules/sort-class-names'),
 	'sort-import-destructures': require('./lib/rules/sort-import-destructures'),

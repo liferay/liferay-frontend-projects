@@ -207,6 +207,7 @@ The bundled `@liferay` plugin includes the following [rules](./rules/general/doc
 -   [@liferay/sort-imports](./rules/general/docs/rules/sort-imports.md): Enforces (and autofixes) `import` and `require` ordering.
 -   [@liferay/sort-import-destructures](./rules/general/docs/rules/sort-import-destructures.md): Enforces (and autofixes) ordering of destructured names in `import` statements.
 -   [@liferay/trim-class-names](./rules/general/docs/rules/trim-class-names.md): Enforces (and autofixes) that class names inside JSX `className` attributes do not have leading or trailing whitespace.
+-   [@liferay/prefer-length-check](./rules/general/docs/rules/prefer-length-check.md): Enforces (and autofixes) that class names inside JSX `className` attributes do not have leading or trailing whitespace.
 
 #### `@liferay/portal`
 
