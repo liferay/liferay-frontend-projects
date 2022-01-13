@@ -8,6 +8,6 @@
 	</tear-down>
 
 	<command name="Hello" priority="5" >
-		<execute function="Open#open" locator1="https://www.youtube.com" />
+		<execute function="Portal.Open#open" locator1="https://www.youtube.com" />
 	</command>
 </definition>

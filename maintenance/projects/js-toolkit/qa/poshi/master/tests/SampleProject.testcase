@@ -6,31 +6,31 @@ definition {
 	var pageName = "Samples Page";
 
 	setUp {
-		TestCase.setUpPortalInstance();
+		Portal.TestCase.setUpPortalInstance();
 
-		User.firstLoginPG();
+		Portal.User.firstLoginPG();
 	}
 
     @priority = "5"
 	test AddSamplePortlet {
-		Navigator.gotoPage(pageName = "Welcome");
+		Portal.Navigator.gotoPage(pageName = "Welcome");
 
-		Portlet.addPG(portletName = "angular-portlet-l10n-cfg-sample");
+		Portal.Portlet.addPG(portletName = "angular-portlet-l10n-cfg-sample");
 
-        Portlet.viewTitle(portletName = "angular-portlet-l10n-cfg-sample");
+        Portal.Portlet.viewTitle(portletName = "angular-portlet-l10n-cfg-sample");
 
-		Portlet.viewBody(
+		Portal.Portlet.viewBody(
 			portletBody = "angular-portlet-l10n-cfg-sample",
 			portletName = "angular-portlet-l10n-cfg-sample"
 		);
 
-		Navigator.gotoPage(pageName = "Welcome");
+		Portal.Navigator.gotoPage(pageName = "Welcome");
 
-        Portlet.addPG(portletName = "angular-portlet-l10n-cfg-nosample");
+        Portal.Portlet.addPG(portletName = "angular-portlet-l10n-cfg-nosample");
 
-        Portlet.viewTitle(portletName = "angular-portlet-l10n-cfg-nosample");
+        Portal.Portlet.viewTitle(portletName = "angular-portlet-l10n-cfg-nosample");
 
-        Portlet.viewBody(
+        Portal.Portlet.viewBody(
 			portletBody = "",
 			portletName = "angular-portlet-l10n-cfg-sample"
 		);
@@ -43,28 +43,28 @@ definition {
 		for (var sampleProjectName : list "${fileContent}") {
 			echo("${sampleProjectName}");
 
-			Navigator.gotoPage(pageName = "Welcome");
+			Portal.Navigator.gotoPage(pageName = "Welcome");
 
-			Portlet.addPG(portletName = "${sampleProjectName}");
+			Portal.Portlet.addPG(portletName = "${sampleProjectName}");
 
-			Portlet.viewTitle(portletName = "${sampleProjectName}");
+			Portal.Portlet.viewTitle(portletName = "${sampleProjectName}");
 
 			if (contains("${sampleProjectName}", "nosample")) {
 				var key_portletName = "${sampleProjectName}";
 
-				AssertTextNotEquals.assertNotPartialText(
+				Portal.AssertTextNotEquals.assertNotPartialText(
 					locator1 = "Portlet#BODY",
 					value1 = "${sampleProjectName}"
 				);
 			}
 			else {
-				Portlet.viewBody(
+				Portal.Portlet.viewBody(
 					portletBody = "${sampleProjectName}",
 					portletName = "${sampleProjectName}"
 				);
 			}
 
-			Portlet.deletePG(portletName = "${sampleProjectName}");
+			Portal.Portlet.deletePG(portletName = "${sampleProjectName}");
         }
 	}
 }
