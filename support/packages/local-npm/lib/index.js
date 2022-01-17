@@ -65,18 +65,36 @@ function install(packageName) {
 
 	console.log('');
 
-	const dir = path.join('node_modules', packageName);
-
-	console.log(`  ⛔ Removing ${packageName} from node_modules`);
-	if (fs.existsSync(dir)) {
-		fs.rmdirSync(dir, {recursive: true});
-	}
-
 	console.log(`  ⛔ Removing ${packageName} from yarn cache`);
 	run('yarn', 'cache', 'clean', packageName);
 
-	console.log(`  👊 Forcing reinstallation of ${packageName}\n`);
-	run('yarn', 'add', packageName, '--force', '-O', {stdio: 'inherit'});
+	const nodeModulesDir = path.join('node_modules', packageName);
+
+	console.log(`  ⛔ Removing ${packageName} from node_modules`);
+	if (fs.existsSync(nodeModulesDir)) {
+		fs.rmdirSync(nodeModulesDir, {recursive: true});
+	}
+
+	if (fs.existsSync('source-formatter.properties')) {
+		const nodeModulesCacheDir = path.join('node_modules_cache');
+
+		console.log(`  ⛔ Removing ${packageName} from node_modules_cache`);
+		fs.readdirSync(nodeModulesCacheDir)
+			.filter((fileName) =>
+				fileName.startsWith(packageName.replace('/', '-'))
+			)
+			.forEach((fileName) =>
+				fs.unlinkSync(path.join(nodeModulesCacheDir, fileName))
+			);
+
+		console.log(`  👊 Forcing reinstallation of ${packageName}\n`);
+		run('git', 'checkout', 'yarn.lock', {stdio: 'inherit'});
+		run('yarn', 'install', '--update-checksums');
+	}
+	else {
+		console.log(`  👊 Forcing reinstallation of ${packageName}\n`);
+		run('yarn', 'add', packageName, '--force', '-O', {stdio: 'inherit'});
+	}
 
 	console.log('\n  🎉 All work done (exquisitely, we could say)\n');
 }
