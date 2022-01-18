@@ -43,8 +43,8 @@
 				{
 					"loader": "liferay-npm-build-support/lib/loader/replace-regexp",
 					"options": {
-						"pattern": "\"#app\"",
-						"replacement": "\"#\"+_LIFERAY_PARAMS_.portletElementId"
+						"pattern": "'#app'",
+						"replacement": "'#'+_LIFERAY_PARAMS_.portletElementId"
 					}
 				},
 				{
@@ -63,22 +63,10 @@
 		{
 			"description": "Remove content hash from webpack bundles and CSS",
 			"test": "",
-			"include": ["^dist/css/app\\..*\\.css$", "^dist/js/.*\\.js$"],
+			"include": ["^dist/js/.*\\.js$"],
 			"use": [
 				{
 					"loader": "liferay-npm-build-support/lib/loader/remove-webpack-hash"
-				}
-			]
-		},
-		{
-			"description": "Add CSS portlet header to package.json",
-			"test": "^package\\.json$",
-			"use": [
-				{
-					"loader": "liferay-npm-build-support/lib/loader/add-css-portlet-header",
-					"options": {
-						"css": "/css/app.css"
-					}
 				}
 			]
 		}
