@@ -97,7 +97,7 @@
 				{
 					"loader": "liferay-npm-build-support/lib/loader/add-css-portlet-header",
 					"options": {
-						"css": "/static/css/main.chunk.css"
+						"css": "/static/css/main.css"
 					}
 				}
 			]

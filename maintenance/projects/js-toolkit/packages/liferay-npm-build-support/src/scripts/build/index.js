@@ -68,8 +68,16 @@ function buildWith(script, args = []) {
 		renderer.render('adapt-rt.js', {
 			project,
 		});
+
+		const splitFile = fs
+			.readdirSync(project.dir.join('build', 'static', 'js').asNative)
+			.filter((fileName) => fileName.endsWith('.chunk.js'))[0];
+
+		const splitId = splitFile.split('.')[0];
+
 		renderer.render('index.js', {
 			project,
+			splitId,
 		});
 
 		runNodeModulesBin('liferay-npm-bundler');
