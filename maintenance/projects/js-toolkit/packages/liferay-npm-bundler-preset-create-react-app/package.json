@@ -1,6 +1,7 @@
 {
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"dependencies": {
+		"@liferay/portal-adapt-base": "^1.0.0",
 		"babel-preset-liferay-standard": "2.28.2",
 		"liferay-npm-bundler-loader-babel-loader": "2.28.2",
 		"liferay-npm-bundler-loader-copy-loader": "2.28.2",
