@@ -180,6 +180,10 @@ function generateCreateReactAppSample() {
 
 	spawn('npx', ['create-react-app', 'create-react-app'], {cwd: tmpDir});
 
+	spawn('yarn', ['add', 'eslint-config-react-app', '-D'], {
+		cwd: tmpPrjDir,
+	});
+
 	fs.removeSync(path.join(tmpPrjDir, 'yarn.lock'));
 	fs.removeSync(path.join(tmpPrjDir, 'node_modules'));
 
