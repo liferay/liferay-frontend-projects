@@ -148,7 +148,7 @@ async function lint(options = {}) {
 					return quiet ? message.severity === 2 : true;
 				});
 
-				if (result.messages.length === 0) {
+				if (!result.messages.length) {
 					return null;
 				}
 

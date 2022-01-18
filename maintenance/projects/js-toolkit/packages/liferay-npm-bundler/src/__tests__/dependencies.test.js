@@ -63,7 +63,7 @@ expect.extend({
 						`${dep.dir} ` + `(expected: ${expectedDepDir})`;
 				}
 
-				if (Object.keys(invalidFields).length > 0) {
+				if (Object.keys(invalidFields).length) {
 					invalidDepFields[pkgId] = invalidFields;
 				}
 			}
@@ -78,17 +78,17 @@ expect.extend({
 		let pass = true;
 		let message = '';
 
-		if (missingDeps.length > 0) {
+		if (missingDeps.length) {
 			message += `\nRequired dependencies missing: ${missingDeps}\n`;
 			pass = false;
 		}
 
-		if (extraDeps.length > 0) {
+		if (extraDeps.length) {
 			message += `\nNot required dependencies found: ${extraDeps}\n`;
 			pass = false;
 		}
 
-		if (Object.keys(invalidDepFields).length > 0) {
+		if (Object.keys(invalidDepFields).length) {
 			message += `\nInvalid dependency fields: ${JSON.stringify(
 				invalidDepFields,
 				'',

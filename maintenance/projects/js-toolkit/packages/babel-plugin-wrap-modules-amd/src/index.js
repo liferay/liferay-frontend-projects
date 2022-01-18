@@ -113,7 +113,7 @@ export default function ({types: t}) {
 
 					const buildDeps = template(`[
                          'module', 'exports', 'require' 
-                         ${dependencies.length > 0 ? ',' : ''} 
+                         ${dependencies.length ? ',' : ''} 
                          ${dependencies.join()}
 					 ]`);
 
@@ -134,7 +134,7 @@ export default function ({types: t}) {
 
 					node.body = defineNode;
 
-					if (dependencies.length === 0) {
+					if (!dependencies.length) {
 						log.info(
 							'wrap-modules-amd',
 							'No dependencies detected'

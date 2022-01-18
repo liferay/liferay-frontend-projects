@@ -121,7 +121,7 @@ function getPostCSSOptions(config) {
 
 	const rc = getPostCSSRC();
 
-	if (_.isArray(config) && config.length > 0) {
+	if (_.isArray(config) && !!config.length) {
 		if (rc) {
 			throw new Error(
 				'PostCSS must be configured in only one place but it was ' +

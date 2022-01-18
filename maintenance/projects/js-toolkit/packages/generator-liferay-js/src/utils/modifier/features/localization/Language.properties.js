@@ -39,7 +39,7 @@ export default class {
 
 		let content = fs.read(this._path).toString();
 
-		if (content.length > 0 && content.charAt(content.length - 1) !== '\n') {
+		if (!!content.length && content.charAt(content.length - 1) !== '\n') {
 			content += '\n';
 		}
 

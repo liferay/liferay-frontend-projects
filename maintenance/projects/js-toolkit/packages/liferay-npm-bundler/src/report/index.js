@@ -49,7 +49,7 @@ export class Report {
 	 * @return {boolean} true if warnings exist
 	 */
 	get warningsPresent() {
-		return this._warnings.length > 0;
+		return !!this._warnings.length;
 	}
 
 	/**

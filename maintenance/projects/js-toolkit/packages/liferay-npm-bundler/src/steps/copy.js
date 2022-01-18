@@ -72,7 +72,7 @@ function copyPackage(srcPkg) {
 
 	report.packageCopy(srcPkg, srcPkgRelPaths, srcPkgRelPathsToCopy);
 
-	if (srcPkgRelPathsToCopy.length === 0) {
+	if (!srcPkgRelPathsToCopy.length) {
 		srcPkg.clean = true;
 	}
 

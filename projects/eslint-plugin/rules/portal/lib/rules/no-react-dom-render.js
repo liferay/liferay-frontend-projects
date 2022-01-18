@@ -157,7 +157,7 @@ module.exports = {
 					node.init.type === 'CallExpression' &&
 					node.init.callee.type === 'Identifier' &&
 					node.init.callee.name === 'require' &&
-					node.init.arguments.length > 0 &&
+					!!node.init.arguments.length &&
 					node.init.arguments[0].type === 'Literal' &&
 					node.init.arguments[0].value === 'react-dom'
 				) {

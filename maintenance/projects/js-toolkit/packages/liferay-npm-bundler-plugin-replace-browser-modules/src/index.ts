@@ -186,7 +186,7 @@ export function reportAndResolveCollisions(
 	// Remove empty aliases
 
 	Object.keys(unrolledAliasesMap).forEach((absFromPath) => {
-		if (unrolledAliasesMap[absFromPath].length === 0) {
+		if (!unrolledAliasesMap[absFromPath].length) {
 			delete unrolledAliasesMap[absFromPath];
 		}
 	});

@@ -95,7 +95,7 @@ async function generate({date, from, remote, to, version}) {
 		[header, comparisonLink, changeList].filter(Boolean).join('\n\n') +
 		'\n';
 
-	const breaking = sections.get('breaking').length > 0;
+	const breaking = !!sections.get('breaking').length;
 
 	return [contents, breaking];
 }

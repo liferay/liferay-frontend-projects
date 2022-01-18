@@ -36,7 +36,7 @@ module.exports = {
 					else if (
 						argument &&
 						argument.type === 'TemplateLiteral' &&
-						argument.expressions.length === 0 &&
+						!argument.expressions.length &&
 						argument.quasis[0] &&
 						argument.quasis[0].type === 'TemplateElement'
 					) {

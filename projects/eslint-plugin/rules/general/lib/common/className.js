@@ -27,7 +27,7 @@ function checkJSXAttribute(node, callback, context = null, options = {}) {
 		else if (node.value.expression.type === 'TemplateLiteral') {
 			const {expression} = node.value;
 
-			if (expression.expressions.length === 0) {
+			if (!expression.expressions.length) {
 				const {raw} = expression.quasis[0].value;
 
 				callback(expression, raw, '`');

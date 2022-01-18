@@ -35,7 +35,7 @@ export default class ScriptLoader {
 	loadModules(moduleNames) {
 		const urlBuilder = this._urlBuilder;
 
-		if (moduleNames.length === 0) {
+		if (!moduleNames.length) {
 			return Promise.resolve();
 		}
 

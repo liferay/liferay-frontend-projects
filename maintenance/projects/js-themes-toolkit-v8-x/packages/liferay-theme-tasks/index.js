@@ -57,8 +57,10 @@ function register(options) {
 		}
 	});
 
-	const haltOnMissingDeps =
-		_.intersection(['build', 'deploy', 'watch'], options.argv._).length > 0;
+	const haltOnMissingDeps = !!_.intersection(
+		['build', 'deploy', 'watch'],
+		options.argv._
+	).length;
 
 	const tasks = options.insideTests ? [] : options.argv._;
 

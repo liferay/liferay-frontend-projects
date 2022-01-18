@@ -270,7 +270,7 @@ function findRealFileName(
 
 	const candidateFiles = findFiles(adaptBuildDir, [glob]);
 
-	if (candidateFiles.length === 0) {
+	if (!candidateFiles.length) {
 		if (failIfNotFound) {
 			throw new Error(
 				`Framework's build did not produce any ${file} artifact`

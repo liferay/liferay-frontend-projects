@@ -31,7 +31,7 @@ export function htmlDump(report: Report): string {
 		),
 	]);
 
-	const warnings = htmlIf(_warnings.length > 0, () =>
+	const warnings = htmlIf(!!_warnings.length, () =>
 		htmlSection('Warnings', htmlList(..._warnings))
 	);
 
@@ -334,7 +334,7 @@ function htmlTable(...args: unknown[]): string {
 		content = content.join('\n');
 	}
 
-	if (columns.length === 0) {
+	if (!columns.length) {
 		return `
 			<table>
 				${content}

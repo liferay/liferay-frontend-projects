@@ -617,7 +617,7 @@ class Lexer {
 
 		let remaining = input;
 
-		const atEnd = () => remaining.length === 0;
+		const atEnd = () => !remaining.length;
 
 		/**
 		 * Convenience function for building simple lexers from a map of token

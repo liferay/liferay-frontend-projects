@@ -511,7 +511,7 @@ export default class Loader {
 	 * @param {object} resolution the resolution object
 	 */
 	_logServerMessages(moduleNames, resolution) {
-		if (resolution.errors && resolution.errors.length > 0) {
+		if (resolution.errors && !!resolution.errors.length) {
 			this._log.error(
 				'Errors returned from server for require(',
 				moduleNames,
@@ -520,7 +520,7 @@ export default class Loader {
 			);
 		}
 
-		if (resolution.warnings && resolution.warnings.length > 0) {
+		if (resolution.warnings && !!resolution.warnings.length) {
 			this._log.warn(
 				'Warnings returned from server for require(',
 				moduleNames,
@@ -585,7 +585,7 @@ export default class Loader {
 			.filter((dep) => dep.indexOf(':ERROR:') === 0)
 			.map((dep) => dep.substr(7));
 
-		if (resolutionErrors.length > 0) {
+		if (resolutionErrors.length) {
 			throw Object.assign(
 				new Error(
 					'The following problems where detected while ' +
@@ -746,7 +746,7 @@ export default class Loader {
 		const config = this._config;
 
 		const localRequire = (moduleName, ...rest) => {
-			if (rest.length > 0) {
+			if (rest.length) {
 				return this.require(moduleName, ...rest);
 			}
 			else {
