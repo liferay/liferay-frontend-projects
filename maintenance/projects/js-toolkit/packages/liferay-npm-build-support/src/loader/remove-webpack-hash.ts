@@ -16,6 +16,8 @@ import {removeWebpackHash} from './util';
  * @remarks
  * A webpack hash is defined as the rightmost hex number surrounded by dots in a
  * file name.
+ *
+ * @deprecated Use the loader from @liferay/portal-adapt-base instead
  */
 export default function (context: BundlerLoaderContext): BundlerLoaderReturn {
 	const {content, extraArtifacts, filePath, log} = context;

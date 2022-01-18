@@ -37,6 +37,8 @@ export interface Options {
  * The web context path is taken from property
  * [create-jar.features.web-context](https://github.com/liferay/liferay-frontend-projects/tree/master/maintenance/projects/js-toolkit/docs/.npmbundlerrc-file-reference.md#create-jarfeaturesweb-context).
  * inside `.npmbundlerrc`.
+ *
+ * @deprecated Use the loader from @liferay/portal-adapt-base instead
  */
 export default function (
 	context: BundlerLoaderContext,

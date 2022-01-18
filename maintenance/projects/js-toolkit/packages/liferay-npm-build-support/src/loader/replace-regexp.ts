@@ -23,6 +23,8 @@ export interface Options {
 
 /**
  * A loader that replaces regular expressions inside a file.
+ *
+ * @deprecated Use the loader from @liferay/portal-adapt-base instead
  */
 export default function (
 	context: BundlerLoaderContext,
