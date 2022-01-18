@@ -101,7 +101,7 @@ function generateCreateReactApp(projectDirName) {
 
 	zapProjectDir(projectDirName);
 
-	spawn('npx', ['create-react-app@4.0.3', projectDirName], {
+	spawn('npx', ['create-react-app@5.0.0', projectDirName], {
 		cwd: qaDir,
 	});
 
