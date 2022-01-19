@@ -23,11 +23,29 @@ const IGNORED_PROVIDES = ['/'];
 
 const platformsDir = path.resolve(__dirname, '..', '..');
 
-async function main([portalTagOrDir, platformName]) {
+async function main([isEE, portalTagOrDir, platformName]) {
+
+	// Parse CLI arguments
+
+	if (isEE === '-ee') {
+		isEE = true;
+
+		if (!process.env['CP_TOKEN']) {
+			console.error(
+				'Please provide a valid GitHub personal access token in the GH_TOKEN environment variable'
+			);
+			process.exit(1);
+		}
+	}
+	else {
+		platformName = portalTagOrDir;
+		portalTagOrDir = isEE;
+		isEE = false;
+	}
 
 	// Find out bundler imports
 
-	const imports = await getBundlerImports(portalTagOrDir);
+	const imports = await getBundlerImports(portalTagOrDir, isEE);
 
 	// Initialize output config.json
 
@@ -59,7 +77,7 @@ async function main([portalTagOrDir, platformName]) {
 
 	const packageJson = getBasePackageJson(platformName, portalVersion);
 
-	const portalYarnLock = await getPortalYarnLock(portalTagOrDir);
+	const portalYarnLock = await getPortalYarnLock(portalTagOrDir, isEE);
 
 	const dependencies = Object.entries(imports).reduce(
 		(dependencies, [provider, provides]) => {
@@ -124,10 +142,16 @@ async function main([portalTagOrDir, platformName]) {
 
 const args = process.argv.slice(2);
 
-if (args.length !== 2) {
-	console.log(
-		'\nUsage: create-plaform <liferay-portal tag/dir> <target platform name>\n'
-	);
+if (args.length < 2) {
+	console.log(`
+Usage: create-plaform [--ee] <liferay-portal tag/dir> <target platform name>
+
+    If you specify the -ee flag, you need to provide a GitHub Personal Access
+    Token using the CP_TOKEN environment variable.
+
+    You can create Personal Access Tokens in the Developer Settings of your 
+    GitHub account.
+`);
 	process.exit(1);
 }
 
