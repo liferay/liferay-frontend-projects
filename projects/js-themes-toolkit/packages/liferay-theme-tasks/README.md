@@ -252,6 +252,33 @@ Determines the themelets that are implemented by this theme. This property is se
 
 Version of Liferay Portal this theme is intended for.
 
+## Disabling Dart Sass
+
+Liferay Theme Tasks 11.x uses Dart Sass by default. Dart Sass has introduced some [breaking changes](https://sass-lang.com/documentation/breaking-changes) that causes builds of older themes (e.g., 7.3) to fail. The workaround to this is to revert back to using Libsass.
+
+Node Version 12+
+
+In `package.json`:
+
+```
+{
+	"liferayTheme": {
+		"sassOptions": {
+			"dartSass": false
+		}
+	},
+	"devDependencies": {
+		"node-sass": "7.0.1"
+	}
+}
+```
+
+Then in the terminal:
+
+```
+npm install
+```
+
 ## Additional Theme Dependencies
 
 In order for themes to successfully build, they must declare additional dependencies in their `package.json` file such as [liferay-frontend-theme-unstyled](https://www.npmjs.com/package/liferay-frontend-theme-unstyled) and [liferay-frontend-theme-styled](https://www.npmjs.com/package/liferay-frontend-theme-styled).
