@@ -3,41 +3,58 @@
  * SPDX-License-Identifier: MIT
  */
 
-const message = 'prefer using .length instead of .length === 0 or .length > 0';
+const message = 'prefer using .length';
+const STRICT_EQUALITY = '===';
+const MORE_THAN = '>';
+const LESS_THAN = '<';
+const LENGTH = 'length';
 
 module.exports = {
 	create(context) {
 		return {
 			BinaryExpression(node) {
 				const {left, operator, right} = node;
-				const STRICT_EQUALITY = '===';
-				const MORE_THAN = '>';
-				const LENGTH = 'length';
 
 				if (
 					operator &&
-					left.property &&
-					left.property.name === LENGTH &&
-					right.value === 0
+					(operator === STRICT_EQUALITY ||
+						operator === MORE_THAN ||
+						operator === LESS_THAN)
 				) {
-					if (
-						operator === STRICT_EQUALITY ||
-						operator === MORE_THAN
-					) {
-						const source = context.getSourceCode();
-						let replacement;
+					const source = context.getSourceCode();
+					let replacement;
 
-						if (operator === STRICT_EQUALITY) {
-							replacement = `!${source.getText(left)}`;
-						}
-						else {
-							replacement = `!!${source.getText(left)}`;
-						}
+					if (
+						right.property &&
+						right.property.name === LENGTH &&
+						left.value === 0
+					) {
+						replacement =
+							operator === STRICT_EQUALITY
+								? `!${source.getText(right)}`
+								: `!!${source.getText(right)}`;
 
 						context.report({
-							fix: (fixer) => {
-								return fixer.replaceText(node, replacement);
-							},
+							fix: (fixer) =>
+								fixer.replaceText(node, replacement),
+							message,
+							node,
+						});
+					}
+
+					if (
+						left.property &&
+						left.property.name === LENGTH &&
+						right.value === 0
+					) {
+						replacement =
+							operator === STRICT_EQUALITY
+								? `!${source.getText(left)}`
+								: `!!${source.getText(left)}`;
+
+						context.report({
+							fix: (fixer) =>
+								fixer.replaceText(node, replacement),
 							message,
 							node,
 						});

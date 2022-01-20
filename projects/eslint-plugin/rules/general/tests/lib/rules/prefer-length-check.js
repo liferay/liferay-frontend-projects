@@ -15,7 +15,7 @@ const parserOptions = {
 
 const ruleTester = new MultiTester(parserOptions);
 
-const message = 'prefer using .length instead of .length === 0 or .length > 0';
+const message = 'prefer using .length';
 
 ruleTester.run('prefer-length-check', rule, {
 	invalid: [
@@ -38,6 +38,26 @@ ruleTester.run('prefer-length-check', rule, {
 				},
 			],
 			output: `if (!!foo.length) {}`,
+		},
+		{
+			code: `if (0 < foo.length) {}`,
+			errors: [
+				{
+					message,
+					type: 'BinaryExpression',
+				},
+			],
+			output: `if (!!foo.length) {}`,
+		},
+		{
+			code: `if (0 === foo.length) {}`,
+			errors: [
+				{
+					message,
+					type: 'BinaryExpression',
+				},
+			],
+			output: `if (!foo.length) {}`,
 		},
 	],
 	valid: [
