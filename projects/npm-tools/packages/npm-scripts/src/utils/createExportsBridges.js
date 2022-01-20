@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+/* eslint-disable @liferay/no-dynamic-require */
+
 const {
 	addNamespace,
 	joinModuleName,
@@ -11,8 +13,6 @@ const {
 const fs = require('fs');
 const path = require('path');
 const resolve = require('resolve');
-
-/* eslint-disable @liferay/no-dynamic-require */
 
 /**
  * Create .js files to make Liferay-AMD modules available as browser ESM
