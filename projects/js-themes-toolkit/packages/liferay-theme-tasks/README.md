@@ -207,7 +207,7 @@ Specifies a list of [PostCSS](https://postcss.org/) plugins to run on the compil
 
 type: `object`
 
-Whatever properties are set in sassOptions get passed to [gulp-sass](https://www.npmjs.com/package/gulp-sass#options).
+Whatever properties are set in sassOptions get passed to [node-sass](https://github.com/sass/node-sass/tree/99242d756d746c6f3c01f39ff081b08f979d3975#options).
 
 ## liferayTheme
 
@@ -302,11 +302,11 @@ npm install --save-dev --save-exact liferay-frontend-theme-styled@latest
 ### Get the Right Dependency Version for Your Theme
 
 | Liferay | [liferay-frontend-theme-unstyled](https://www.npmjs.com/package/liferay-frontend-theme-unstyled) | [liferay-frontend-theme-styled](https://www.npmjs.com/package/liferay-frontend-theme-styled) |
-| ------- | ------------------------------- | ----------------------------- |
-| 7.4.x   | 6.x.x                           | 6.x.x                         |
-| 7.3.x   | 5.x.x                           | 5.x.x                         |
-| 7.2.x   | 4.x.x                           | 4.x.x                         |
-| 7.1.x   | 3.x.x                           | 3.x.x                         |
-| 7.0.x   | 2.x.x                           | 2.x.x                         |
+| ------- | ------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------- |
+| 7.4.x   | 6.x.x                                                                                            | 6.x.x                                                                                        |
+| 7.3.x   | 5.x.x                                                                                            | 5.x.x                                                                                        |
+| 7.2.x   | 4.x.x                                                                                            | 4.x.x                                                                                        |
+| 7.1.x   | 3.x.x                                                                                            | 3.x.x                                                                                        |
+| 7.0.x   | 2.x.x                                                                                            | 2.x.x                                                                                        |
 
 MIT
