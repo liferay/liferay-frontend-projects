@@ -8,6 +8,7 @@ const path = require('path');
 
 let buildSass = require('../sass/build');
 let runTSC = require('../typescript/runTSC');
+const createExportsBridges = require('../utils/createExportsBridges');
 const createTempFile = require('../utils/createTempFile');
 const getMergedConfig = require('../utils/getMergedConfig');
 const instrument = require('../utils/instrument');
@@ -132,6 +133,14 @@ module.exports = async function (...args) {
 
 		if (fs.existsSync(path.join(CWD, '.npmbridgerc'))) {
 			runBridge();
+		}
+
+		if (BUILD_CONFIG.exports) {
+			createExportsBridges(
+				CWD,
+				BUILD_CONFIG.output,
+				BUILD_CONFIG.exports
+			);
 		}
 
 		if (useSoy) {
