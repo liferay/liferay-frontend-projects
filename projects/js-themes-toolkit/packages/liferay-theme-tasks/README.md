@@ -274,11 +274,12 @@ npm install --save-dev --save-exact liferay-frontend-theme-styled@latest
 
 ### Get the Right Dependency Version for Your Theme
 
-| Liferay | liferay-theme-unstyled | liferay-theme-styled |
-| ------- | ---------------------- | -------------------- |
-| 7.3.x   | 5.x.x                  | 5.x.x                |
-| 7.2.x   | 4.x.x                  | 4.x.x                |
-| 7.1.x   | 3.x.x                  | 3.x.x                |
-| 7.0.x   | 2.x.x                  | 2.x.x                |
+| Liferay | [liferay-frontend-theme-unstyled](https://www.npmjs.com/package/liferay-frontend-theme-unstyled) | [liferay-frontend-theme-styled](https://www.npmjs.com/package/liferay-frontend-theme-styled) |
+| ------- | ------------------------------- | ----------------------------- |
+| 7.4.x   | 6.x.x                           | 6.x.x                         |
+| 7.3.x   | 5.x.x                           | 5.x.x                         |
+| 7.2.x   | 4.x.x                           | 4.x.x                         |
+| 7.1.x   | 3.x.x                           | 3.x.x                         |
+| 7.0.x   | 2.x.x                           | 2.x.x                         |
 
 MIT
