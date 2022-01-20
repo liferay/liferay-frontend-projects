@@ -9,6 +9,7 @@
 /maintenance/projects/js-toolkit/**/generators
 /maintenance/projects/js-toolkit/**/lib
 /maintenance/projects/js-toolkit/packages/liferay-npm-build-tools-common/src/__tests__/__fixtures__/alias/invalid.json
+/maintenance/projects/js-toolkit/qa/**/*
 
 /maintenance/projects/senna/build
 /maintenance/projects/senna/lib
