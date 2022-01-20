@@ -1,3 +1,11 @@
+## [npm-scripts/v47.1.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.1.0) (2022-01-20)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.0.0...npm-scripts/v47.1.0)
+
+### :new: Features
+
+-   feat: create a tool to be able to generate the AMD to ESM bridges automatically ([\#820](https://github.com/liferay/liferay-frontend-projects/pull/820))
+
 ## [npm-scripts/v47.0.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.0.0) (2022-01-03)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v46.7.0...npm-scripts/v47.0.0)
