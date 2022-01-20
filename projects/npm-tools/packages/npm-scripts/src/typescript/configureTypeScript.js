@@ -66,8 +66,21 @@ function configureTypeScript(graph) {
 		// Note that "main" fields usually end with ".js" so that the loader can
 		// find built files at runtime, but we actually care about source files
 		// (which will have a ".ts" extension instead).
+		//
+		// If the ".ts" file is not found, we fall back using "index.d.ts"
 
 		const main = dependency.main.replace(/\.js$/, '.ts');
+
+		const resourceDirectory = path.join(
+			dependency.directory,
+			'src',
+			'main',
+			'resources',
+			'META-INF',
+			'resources'
+		);
+
+		const mainPath = path.join(resourceDirectory, main);
 
 		paths[name] = [
 
@@ -77,15 +90,13 @@ function configureTypeScript(graph) {
 			toPosix(
 				path.relative(
 					'',
-					path.join(
-						dependency.directory,
-						'src',
-						'main',
-						'resources',
-						'META-INF',
-						'resources',
-						main
-					)
+					fs.existsSync(mainPath)
+						? mainPath
+						: path.join(
+								resourceDirectory,
+								path.dirname(main),
+								'index.d.ts'
+						  )
 				)
 			),
 		];
