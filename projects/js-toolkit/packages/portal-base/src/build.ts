@@ -78,6 +78,10 @@ function runBabel(): void {
 				}
 			);
 
+			fs.mkdirSync(buildDir.join(srcDirRelJsFile).dirname().asNative, {
+				recursive: true,
+			});
+
 			fs.writeFileSync(
 				buildDir.join(srcDirRelJsFile).asNative,
 				code,
