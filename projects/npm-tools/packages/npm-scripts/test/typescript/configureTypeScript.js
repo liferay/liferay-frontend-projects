@@ -310,7 +310,7 @@ describe('configureTypeScript()', () => {
 					...BASE_CONFIG.compilerOptions,
 					paths: {
 						'@liferay/frontend-js-state-web': [
-							'../frontend-js-state-web/src/main/resources/META-INF/resources/index.ts',
+							'../frontend-js-state-web/src/main/resources/META-INF/resources/js/index.ts',
 						],
 					},
 					typeRoots: [
@@ -340,10 +340,10 @@ describe('configureTypeScript()', () => {
 					...BASE_CONFIG.compilerOptions,
 					paths: {
 						'@liferay/frontend-js-react-web': [
-							'../frontend-js-react-web/src/main/resources/META-INF/resources/js/index.ts',
+							'../frontend-js-react-web/src/main/resources/META-INF/resources/index.d.ts',
 						],
 						'@liferay/frontend-js-state-web': [
-							'../frontend-js-state-web/src/main/resources/META-INF/resources/index.ts',
+							'../frontend-js-state-web/src/main/resources/META-INF/resources/js/index.ts',
 						],
 					},
 					typeRoots: [

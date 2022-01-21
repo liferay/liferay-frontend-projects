@@ -1,4 +1,4 @@
 {
-	"main": "index.js",
+	"main": "js/index.js",
 	"name": "@liferay/frontend-js-state-web"
 }
