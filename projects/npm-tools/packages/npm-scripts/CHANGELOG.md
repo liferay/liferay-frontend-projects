@@ -1,3 +1,12 @@
+## [npm-scripts/v47.2.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.2.0) (2022-01-21)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.1.0...npm-scripts/v47.2.0)
+
+### :new: Features
+
+-   feat(npm-scripts): fall back to checking for index.d.ts if \*.ts does not exist ([\#826](https://github.com/liferay/liferay-frontend-projects/pull/826))
+-   feat(eslint-plugin): Add new rule that preferes length checks ([\#815](https://github.com/liferay/liferay-frontend-projects/pull/815))
+
 ## [npm-scripts/v47.1.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.1.0) (2022-01-20)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.0.0...npm-scripts/v47.1.0)
