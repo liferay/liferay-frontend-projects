@@ -26,6 +26,15 @@ ruleTester.run('no-url', rule, {
 				},
 			],
 		},
+		{
+			code: `var url = A.Url('url');`,
+			errors: [
+				{
+					message: 'use the vanilla URL class instead of A.Url',
+					type: 'CallExpression',
+				},
+			],
+		},
 	],
 	valid: [
 		{

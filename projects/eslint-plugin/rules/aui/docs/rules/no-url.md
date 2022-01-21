@@ -7,6 +7,10 @@ This rule warns against using `A.Url`, and suggests use of the native `URL` clas
 Examples of **incorrect** code for this rule:
 
 ```js
+var url = new A.Url('url');
+```
+
+```js
 var url = A.Url('url');
 ```
 

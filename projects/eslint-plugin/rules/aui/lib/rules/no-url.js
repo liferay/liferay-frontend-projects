@@ -8,11 +8,29 @@ const message = 'use the vanilla URL class instead of A.Url';
 module.exports = {
 	create(context) {
 		return {
-			NewExpression(node) {
+			CallExpression(node) {
+				const {callee} = node;
+
 				if (
-					node.callee.object &&
-					node.callee.object.name === 'A' &&
-					node.callee.property.name === 'Url'
+					callee &&
+					callee.property &&
+					callee.object.name === 'A' &&
+					callee.property.name === 'Url'
+				) {
+					context.report({
+						message,
+						node,
+					});
+				}
+			},
+			NewExpression(node) {
+				const {callee} = node;
+
+				if (
+					callee &&
+					callee.object &&
+					callee.object.name === 'A' &&
+					callee.property.name === 'Url'
 				) {
 					context.report({
 						message,
