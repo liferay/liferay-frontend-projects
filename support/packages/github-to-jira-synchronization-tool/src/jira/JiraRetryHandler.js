@@ -67,7 +67,7 @@ module.exports = class JiraRetryHandler {
 	}
 
 	async _getNextPendingWebhook() {
-		if (this.pendingWebhooks.length === 0) {
+		if (!this.pendingWebhooks.length) {
 			return null;
 		}
 

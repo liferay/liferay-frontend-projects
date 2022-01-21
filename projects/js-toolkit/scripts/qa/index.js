@@ -75,7 +75,7 @@ if (argv['deploy']) {
 function getTargets() {
 	let argv = process.argv.slice(2);
 
-	if (argv.length === 0) {
+	if (!argv.length) {
 		argv = ['clean', 'generate', 'deploy'];
 	}
 

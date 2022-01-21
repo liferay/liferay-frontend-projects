@@ -52,7 +52,7 @@ export default function () {
 		(locale) => locale !== 'default'
 	);
 
-	if (locales.length === 0) {
+	if (!locales.length) {
 		console.log(
 			'No locales found: nothing to translate.\n\n' +
 				'You can edit your .npmbuildrc file to add new supported ' +
@@ -231,7 +231,7 @@ function showMissingSupportedLocales() {
 		(locale) => supportedLocales.indexOf(locale) === -1
 	);
 
-	if (missingLocales.length > 0) {
+	if (missingLocales.length) {
 		console.log(`Found ${missingLocales.length} unsupported locale files:`);
 
 		missingLocales.forEach((locale) =>
@@ -255,7 +255,7 @@ function createMissingSupportedLocalesFiles() {
 		(locale) => project.l10n.availableLocales.indexOf(locale) === -1
 	);
 
-	if (missingLocales.length > 0) {
+	if (missingLocales.length) {
 		const languageFileBaseName = project.l10n.languageFileBaseName;
 
 		missingLocales.forEach((locale) =>

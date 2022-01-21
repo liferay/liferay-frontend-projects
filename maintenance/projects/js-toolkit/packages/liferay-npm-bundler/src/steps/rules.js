@@ -73,7 +73,7 @@ function processPackage(srcPkg) {
 function processFile(srcPkg, destPkg, prjRelPath) {
 	const loaders = project.rules.loadersForFile(prjRelPath);
 
-	if (loaders.length === 0) {
+	if (!loaders.length) {
 		return Promise.resolve();
 	}
 

@@ -119,7 +119,7 @@ export default class Manifest {
 function capabilities(header: string, capabilities: object): string {
 	const entries = Object.entries(capabilities);
 
-	if (entries.length === 0) {
+	if (!entries.length) {
 		return '';
 	}
 

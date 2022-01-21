@@ -73,8 +73,8 @@ module.exports = function () {
 					});
 
 					if (
-						Object.keys(deleted.dependencies).length > 0 ||
-						Object.keys(deleted.devDependencies).length > 0
+						!!Object.keys(deleted.dependencies).length ||
+						!!Object.keys(deleted.devDependencies).length
 					) {
 						pkgJson['link-js-toolkit'] = {
 							deleted,

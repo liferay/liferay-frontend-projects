@@ -75,7 +75,7 @@ export default class extends Socket {
 
 			// Normalize arguments
 
-			if (args.length > 0) {
+			if (args.length) {
 				command += ` ${args.join(' ')}`;
 			}
 

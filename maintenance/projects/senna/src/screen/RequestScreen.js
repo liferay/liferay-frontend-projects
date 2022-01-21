@@ -332,7 +332,7 @@ class RequestScreen extends Screen {
 			);
 			for (let index = 0; index < inputs.length; index++) {
 				const input = inputs[index];
-				if (input.files.length > 0) {
+				if (input.files.length) {
 					return;
 				}
 				input.setAttribute('data-safari-temp-disabled', 'true');

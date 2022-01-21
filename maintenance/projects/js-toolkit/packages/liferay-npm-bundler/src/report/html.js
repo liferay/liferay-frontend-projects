@@ -35,7 +35,7 @@ export function htmlDump(report) {
 		),
 	]);
 
-	const warnings = htmlIf(_warnings.length > 0, () =>
+	const warnings = htmlIf(!!_warnings.length, () =>
 		htmlSection('Warnings', htmlList(..._warnings))
 	);
 
@@ -131,10 +131,10 @@ export function htmlDump(report) {
 			const postKeys = Object.keys(post);
 			const babelKeys = Object.keys(babel.files);
 
-			found |= copyKeys.length > 0;
-			found |= preKeys.length > 0;
-			found |= postKeys.length > 0;
-			found |= babelKeys.length > 0;
+			found |= !!copyKeys.length;
+			found |= !!preKeys.length;
+			found |= !!postKeys.length;
+			found |= !!babelKeys.length;
 
 			return found;
 		},
@@ -161,19 +161,19 @@ export function htmlDump(report) {
 					const babelKeys = Object.keys(babel.files);
 
 					const copyNotice = htmlIf(
-						copyKeys.length > 0,
+						!!copyKeys.length,
 						() => `${copyKeys.length} plugins applied`
 					);
 					const preNotice = htmlIf(
-						preKeys.length > 0,
+						!!preKeys.length,
 						() => `${preKeys.length} plugins applied`
 					);
 					const babelNotice = htmlIf(
-						babelKeys.length > 0,
+						!!babelKeys.length,
 						() => `${babelKeys.length} files processed`
 					);
 					const postNotice = htmlIf(
-						postKeys.length > 0,
+						!!postKeys.length,
 						() => `${postKeys.length} plugins applied`
 					);
 
@@ -217,9 +217,7 @@ export function htmlDump(report) {
 				const postKeys = Object.keys(post);
 
 				return htmlIf(
-					copyKeys.length > 0 ||
-						preKeys.length > 0 ||
-						postKeys.length > 0,
+					!!copyKeys.length || !!preKeys.length || !!postKeys.length,
 					() =>
 						htmlSubsection(
 							`
@@ -227,7 +225,7 @@ export function htmlDump(report) {
 								${pkg.name}@${pkg.version}
 							</a>
 						`,
-							...htmlIf(copyKeys.length > 0, () =>
+							...htmlIf(!!copyKeys.length, () =>
 								copyKeys
 									.sort()
 									.map((pluginName) =>
@@ -247,7 +245,7 @@ export function htmlDump(report) {
 										)
 									)
 							),
-							...htmlIf(preKeys.length > 0, () =>
+							...htmlIf(!!preKeys.length, () =>
 								preKeys
 									.sort()
 									.map((pluginName) =>
@@ -267,7 +265,7 @@ export function htmlDump(report) {
 										)
 									)
 							),
-							...htmlIf(postKeys.length > 0, () =>
+							...htmlIf(!!postKeys.length, () =>
 								postKeys
 									.sort()
 									.map((pluginName) =>
@@ -301,7 +299,7 @@ export function htmlDump(report) {
 				const {babel} = pkg.process;
 				const babelKeys = Object.keys(babel.files);
 
-				return htmlIf(babelKeys.length > 0, () =>
+				return htmlIf(!!babelKeys.length, () =>
 					htmlSubsection(
 						`
 						<a name="${pkgId}-babel">
@@ -556,7 +554,7 @@ function htmlTable(...args) {
 		content = content.join('\n');
 	}
 
-	if (columns.length === 0) {
+	if (!columns.length) {
 		return `
 			<table>
 				${content}
@@ -620,7 +618,7 @@ function htmlLogOutput(
 
 		const msgs = rowLoggers[i].messages;
 
-		if (msgs.length === 0) {
+		if (!msgs.length) {
 			rows.push(
 				htmlRow(`
 					${cells.map((cell) => `<td>${cell}</td>`).join(' ')}

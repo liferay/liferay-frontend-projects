@@ -682,7 +682,7 @@ class App extends EventEmitter {
 	 * @return {boolean}
 	 */
 	hasRoutes() {
-		return this.routes.length > 0;
+		return !!this.routes.length;
 	}
 
 	/**

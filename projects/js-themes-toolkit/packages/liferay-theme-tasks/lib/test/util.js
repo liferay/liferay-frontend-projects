@@ -27,7 +27,7 @@ expect.extend({
 					pass = false;
 					message = `Path '${path}' is not a folder`;
 				}
-				else if (fs.readdirSync(path).length === 0) {
+				else if (!fs.readdirSync(path).length) {
 					pass = false;
 					message = `Folder '${path}' is empty`;
 				}

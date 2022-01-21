@@ -49,7 +49,7 @@ export default function configure(): webpack.Configuration {
 		{}
 	);
 
-	if (Object.keys(webpackConfig.entry).length === 0) {
+	if (!Object.keys(webpackConfig.entry).length) {
 		abort(
 			'Please configure at least one export in the project ' +
 				`(or add a 'main' entry to your package.json, or create an ` +

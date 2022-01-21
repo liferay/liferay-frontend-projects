@@ -239,7 +239,7 @@ export default class Config {
 			moduleName = this._mapMatches(moduleName, contextMap);
 		}
 
-		if (Object.keys(this._maps).length > 0) {
+		if (Object.keys(this._maps).length) {
 			moduleName = this._mapMatches(moduleName, this._maps);
 		}
 

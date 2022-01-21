@@ -111,6 +111,7 @@ const config = {
 		'@liferay/no-require-and-call': 'error',
 		'@liferay/no-use-strict-in-module': 'error',
 		'@liferay/padded-test-blocks': 'error',
+		'@liferay/prefer-length-check': 'error',
 		'@liferay/ref-name-suffix': 'error',
 		'@liferay/sort-import-destructures': 'error',
 		'@liferay/sort-imports': 'error',

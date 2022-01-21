@@ -157,7 +157,7 @@ function getTrailingComments(node, context) {
  */
 function hasSideEffects(node) {
 	if (node.type === 'ImportDeclaration') {
-		return node.specifiers.length === 0;
+		return !node.specifiers.length;
 	}
 	else {
 

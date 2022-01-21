@@ -116,7 +116,7 @@ export default class PluginLogger {
 	 * @return true if at least one warn message is registered in the logger
 	 */
 	get warnsPresent(): boolean {
-		return this._msgs.filter((msg) => msg.level === 'warn').length > 0;
+		return !!this._msgs.filter((msg) => msg.level === 'warn').length;
 	}
 
 	/**
@@ -124,7 +124,7 @@ export default class PluginLogger {
 	 * @return true if at least one error message is registered in the logger
 	 */
 	get errorsPresent(): boolean {
-		return this._msgs.filter((msg) => msg.level === 'error').length > 0;
+		return !!this._msgs.filter((msg) => msg.level === 'error').length;
 	}
 
 	/**
