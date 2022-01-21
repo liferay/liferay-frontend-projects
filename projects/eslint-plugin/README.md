@@ -234,6 +234,7 @@ The bundled `@liferay/aui` plugin includes the following [rules](./rules/aui/doc
 -   [@liferay/aui/no-node](./rules/aui/docs/rules/no-node.md): Prevents usage of `A.Node()`
 -   [@liferay/aui/no-object](./rules/aui/docs/rules/no-object.md): Prevents usage of `A.Object`
 -   [@liferay/aui/no-one](./rules/aui/docs/rules/no-one.md): Prevents usage of `A.one()`
+-   [@liferay/aui/no-url](./rules/aui/docs/rules/no-url.md): Prevents usage of `A.Url()`
 
 ## License
 

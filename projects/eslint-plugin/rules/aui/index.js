@@ -14,4 +14,5 @@ module.exports = {
 	'aui/no-node': require('./lib/rules/no-node'),
 	'aui/no-object': require('./lib/rules/no-object'),
 	'aui/no-one': require('./lib/rules/no-one'),
+	'aui/no-url': require('./lib/rules/no-url'),
 };
