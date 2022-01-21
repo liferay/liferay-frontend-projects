@@ -78,11 +78,11 @@ function runBabel(): void {
 				}
 			);
 
-			fs.writeFileSync(
-				buildDir.join(srcDirRelJsFile).asNative,
-				code,
-				'utf8'
-			);
+			const filePath = buildDir.join(srcDirRelJsFile).asNative;
+
+			fs.mkdirSync(path.dirname(filePath), {recursive: true});
+
+			fs.writeFileSync(filePath, code, 'utf8');
 
 			fs.writeFileSync(
 				buildDir.join(`${srcDirRelJsFile}.map`).asNative,
