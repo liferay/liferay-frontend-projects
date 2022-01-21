@@ -10,7 +10,7 @@ const path = require('path');
 const getPortalVersion = require('./getPortalVersion');
 const isPortalDir = require('./isPortalDir');
 
-module.exports = function getPortalYarnLock(tagOrDir) {
+module.exports = function getPortalYarnLock(tagOrDir, isEE) {
 	if (isPortalDir(tagOrDir)) {
 		try {
 			return fs
@@ -40,6 +40,16 @@ module.exports = function getPortalYarnLock(tagOrDir) {
 				path: `/liferay/liferay-portal/${portalVersion}/modules/yarn.lock`,
 				port: 443,
 			};
+
+			if (isEE) {
+				options.path = options.path.replace(
+					'/liferay-portal/',
+					'/liferay-portal-ee/'
+				);
+				options['headers'] = {
+					Authorization: `token ${process.env['CP_TOKEN']}`,
+				};
+			}
 
 			const request = https.request(options, (response) => {
 				if (response.statusCode !== 200) {

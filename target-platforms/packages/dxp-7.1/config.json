@@ -1,0 +1,85 @@
+{
+	"*": {
+		".babelrc": {
+			"presets": ["liferay-standard"]
+		},
+		"copy-plugins": ["exclude-imports"],
+		"plugins": ["replace-browser-modules"],
+		"post-plugins": [
+			"namespace-packages",
+			"inject-imports-dependencies",
+			"inject-peer-dependencies"
+		]
+	},
+	"/": {
+		".babelrc": {
+			"presets": ["liferay-standard"]
+		},
+		"plugins": ["resolve-linked-dependencies"],
+		"post-plugins": ["namespace-packages", "inject-imports-dependencies"]
+	},
+	"config": {
+		"imports": {
+			"frontend-js-metal-web": {
+				"metal": "*",
+				"metal-ajax": "*",
+				"metal-debounce": "*",
+				"metal-dom": "*",
+				"metal-events": "*",
+				"metal-path-parser": "*",
+				"metal-promise": "*",
+				"metal-structs": "*",
+				"metal-uri": "*",
+				"metal-useragent": "*",
+				"metal-anim": "*",
+				"metal-component": "*",
+				"metal-drag-drop": "*",
+				"metal-keyboard-focus": "*",
+				"metal-position": "*",
+				"metal-soy": "*",
+				"metal-state": "*",
+				"metal-web-component": "*"
+			},
+			"frontend-js-react-web": {
+				"react": "*",
+				"react-dom": "*"
+			},
+			"frontend-js-spa-web": {
+				"senna": "*"
+			},
+			"frontend-js-web": {
+				"/": "*"
+			},
+			"frontend-taglib-clay": {
+				"@clayui/icon": "*",
+				"clay-alert": "*"
+			},
+			"map-common": {
+				"/": "*"
+			}
+		}
+	},
+	"create-jar": {
+		"output-dir": "dist"
+	},
+	"rules": [
+		{
+			"test": "\\.css$",
+			"use": ["css-loader"]
+		},
+		{
+			"exclude": "node_modules",
+			"test": ".*/[^_][^/]+\\.scss$",
+			"use": [
+				{
+					"loader": "css-loader",
+					"options": {
+						"emitCssFile": false,
+						"extension": ".css"
+					}
+				}
+			]
+		}
+	],
+	"sources": ["src"]
+}

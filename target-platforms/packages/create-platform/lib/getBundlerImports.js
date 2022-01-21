@@ -12,7 +12,7 @@ const getPortalConfig = require('./getPortalConfig');
 const getPortalVersion = require('./getPortalVersion');
 const isPortalDir = require('./isPortalDir');
 
-module.exports = async function getBundlerImports(tagOrDir) {
+module.exports = async function getBundlerImports(tagOrDir, isEE) {
 	let imports;
 
 	if (isPortalDir(tagOrDir)) {
@@ -50,7 +50,7 @@ module.exports = async function getBundlerImports(tagOrDir) {
 	}
 	else {
 		const portalVersion = await getPortalVersion(tagOrDir);
-		const portalConfig = await getPortalConfig(portalVersion);
+		const portalConfig = await getPortalConfig(portalVersion, isEE);
 
 		imports = portalConfig.build.bundler.config.imports;
 	}

@@ -5,7 +5,7 @@
 
 const https = require('https');
 
-module.exports = function getPortalConfig(portalVersion) {
+module.exports = function getPortalConfig(portalVersion, isEE) {
 	return new Promise((resolve, reject) => {
 		const options = {
 			hostname: 'raw.githubusercontent.com',
@@ -13,6 +13,16 @@ module.exports = function getPortalConfig(portalVersion) {
 			path: `/liferay/liferay-portal/${portalVersion}/modules/npmscripts.config.js`,
 			port: 443,
 		};
+
+		if (isEE) {
+			options.path = options.path.replace(
+				'/liferay-portal/',
+				'/liferay-portal-ee/'
+			);
+			options['headers'] = {
+				Authorization: `token ${process.env['CP_TOKEN']}`,
+			};
+		}
 
 		const request = https.request(options, (response) => {
 			if (response.statusCode !== 200) {
