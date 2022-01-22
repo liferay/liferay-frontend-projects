@@ -55,6 +55,9 @@ function findPortalRoot(directory: string): string {
 			if (base === 'modules') {
 				return join(directory, '..');
 			}
+			else {
+				return directory;
+			}
 		}
 
 		if (dirname(directory) === directory) {
