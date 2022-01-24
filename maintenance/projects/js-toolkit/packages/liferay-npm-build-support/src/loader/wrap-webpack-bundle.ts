@@ -36,6 +36,8 @@ export interface Options {
  * If `honorWebpackHash` is set to `true` and the file name contains a webpack
  * hash, it is used to compute the module name. The default value of
  * `honorWebpackHash` is false.
+ *
+ * @deprecated Use the loader from @liferay/portal-adapt-base instead
  */
 export default function (
 	context: BundlerLoaderContext,

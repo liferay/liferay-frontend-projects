@@ -34,20 +34,20 @@
 			"test": "^dist/[^/]+/.*\\.js$",
 			"use": [
 				{
-					"loader": "liferay-npm-build-support/lib/loader/wrap-webpack-bundle",
+					"loader": "@liferay/portal-adapt-base/lib/loader/wrapWebpackBundle",
 					"options": {
 						"removePrefix": "dist/"
 					}
 				},
 				{
-					"loader": "liferay-npm-build-support/lib/loader/replace-regexp",
+					"loader": "@liferay/portal-adapt-base/lib/loader/replaceRegExp",
 					"options": {
 						"pattern": "\"app-root\"",
 						"replacement": "\"#\"+_LIFERAY_PARAMS_.portletElementId"
 					}
 				},
 				{
-					"loader": "liferay-npm-build-support/lib/loader/adapt-static-urls-at-runtime",
+					"loader": "@liferay/portal-adapt-base/lib/loader/adaptStaticURLsAtRuntime",
 					"options": {
 						"docroot": "dist/${project.name}",
 						"include": ["^assets/.*"],
@@ -55,11 +55,10 @@
 					}
 				},
 				{
-					"loader": "liferay-npm-build-support/lib/loader/namespace-webpack",
-					"options": {}
+					"loader": "@liferay/portal-adapt-base/lib/loader/namespaceWebpack"
 				},
 				{
-					"loader": "liferay-npm-build-support/lib/loader/remove-webpack-hash"
+					"loader": "@liferay/portal-adapt-base/lib/loader/removeWebpackHash"
 				},
 				{
 					"loader": "liferay-npm-build-support/lib/loader/normalize-angular-output"
@@ -70,14 +69,18 @@
 			"description": "Remove content hash from webpack bundles and CSS",
 			"test": "",
 			"include": ["^dist/[^/]+/styles.*\\.css$"],
-			"use": ["liferay-npm-build-support/lib/loader/remove-webpack-hash"]
+			"use": [
+				{
+					"loader": "@liferay/portal-adapt-base/lib/loader/removeWebpackHash"
+				}
+			]
 		},
 		{
 			"description": "Add CSS portlet header to package.json",
 			"test": "^package\\.json$",
 			"use": [
 				{
-					"loader": "liferay-npm-build-support/lib/loader/add-css-portlet-header",
+					"loader": "@liferay/portal-adapt-base/lib/loader/addCSSPortletHeader",
 					"options": {
 						"css": "/${project.dir.basename}/styles.css"
 					}

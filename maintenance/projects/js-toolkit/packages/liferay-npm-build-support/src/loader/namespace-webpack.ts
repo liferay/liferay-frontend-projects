@@ -20,6 +20,8 @@ import project from 'liferay-npm-build-tools-common/lib/project';
  * It simply replaces all occurrences of `webpackJsonp` by
  * `webpackJsonp_${uuid}` where the `uuid` is derived from the project's name
  * and version.
+ *
+ * @deprecated Use the loader from @liferay/portal-adapt-base instead
  */
 export default function (context: BundlerLoaderContext): BundlerLoaderReturn {
 	const {content, log} = context;

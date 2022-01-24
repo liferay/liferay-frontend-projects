@@ -20,6 +20,8 @@ import {
  * This is because Angular version <=10 produce artifacts for ES5 and ES2015
  * targets, while Angular versions >=10 only produce one type of artifact, not
  * differentiated by file name.
+ *
+ * @deprecated Use the loader from @liferay/portal-adapt-base instead
  */
 export default function (context: BundlerLoaderContext): BundlerLoaderReturn {
 	const {filePath, log} = context;

@@ -45,7 +45,7 @@ export interface Options {
  * [create-jar.features.web-context](https://github.com/liferay/liferay-frontend-projects/tree/master/maintenance/projects/js-toolkit/docs/.npmbundlerrc-file-reference.md#create-jarfeaturesweb-context).
  * inside `.npmbundlerrc`.
  *
- * @deprecated use `adapt-static-urls-at-runtime.ts` instead
+ * @deprecated Use the loader from @liferay/portal-adapt-base instead
  */
 export default function (
 	context: BundlerLoaderContext,
