@@ -3,14 +3,18 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+/* eslint-disable @liferay/no-dynamic-require, @typescript-eslint/no-var-requires */
+
 import {FilePath, TemplateRenderer, format} from '@liferay/js-toolkit-core';
 import fs from 'fs';
 import * as project from 'liferay-npm-build-tools-common/lib/project';
+import resolve from 'resolve';
+import semver from 'semver';
 
 import runNodeModulesBin from './util/runNodeModulesBin';
 import runPkgJsonScript from './util/runPkgJsonScript';
 
-const {fail, info, print} = format;
+const {fail, info, print, warn} = format;
 const {ANGULAR_CLI, CREATE_REACT_APP, VUE_CLI} = project.ProjectType;
 
 interface TemplateVarsProvider {
@@ -26,10 +30,16 @@ export default async function build(): Promise<void> {
 			break;
 
 		case CREATE_REACT_APP:
+			checkReactScriptsVersion(
+				new FilePath(project.default.dir.asNative)
+			);
 			await buildWith('build', [], createReactAppTemplateVarsProvider);
 			break;
 
 		case VUE_CLI:
+			checkVueCliServiceVersion(
+				new FilePath(project.default.dir.asNative)
+			);
 			await buildWith('build', ['--prod=true']);
 			break;
 
@@ -76,6 +86,44 @@ project types and how they are detected.`
 	);
 
 	process.exit(1);
+}
+
+function checkReactScriptsVersion(projectDir: FilePath): void {
+	const pkgJsonPath = resolve.sync('react-scripts/package.json', {
+		basedir: projectDir.asNative,
+	});
+	const pkgJson = require(pkgJsonPath);
+	const version = pkgJson.version;
+
+	if (!semver.satisfies(version, '^5.0.0')) {
+		print(
+			'',
+			warn`
+The adaptation process is currently designed to be used with {react-scripts}
+version {5.x} series but your project is using version {${version}}. Be aware that
+this may make adaptation fail.
+`
+		);
+	}
+}
+
+function checkVueCliServiceVersion(projectDir: FilePath): void {
+	const pkgJsonPath = resolve.sync('@vue/cli-service/package.json', {
+		basedir: projectDir.asNative,
+	});
+	const pkgJson = require(pkgJsonPath);
+	const version = pkgJson.version;
+
+	if (!semver.satisfies(version, '^4.0.0')) {
+		print(
+			'',
+			warn`
+The adaptation process is currently designed to be used with {@vue/cli-service}
+version {4.x} series but your project is using version {${version}}. Be aware that
+this may make adaptation fail.
+`
+		);
+	}
 }
 
 function createReactAppTemplateVarsProvider(): object {
