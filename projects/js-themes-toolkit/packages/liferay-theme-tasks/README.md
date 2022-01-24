@@ -207,7 +207,7 @@ Specifies a list of [PostCSS](https://postcss.org/) plugins to run on the compil
 
 type: `object`
 
-Whatever properties are set in sassOptions get passed to [gulp-sass](https://www.npmjs.com/package/gulp-sass#options).
+Whatever properties are set in sassOptions get passed to [node-sass](https://github.com/sass/node-sass/tree/99242d756d746c6f3c01f39ff081b08f979d3975#options).
 
 ## liferayTheme
 
@@ -252,6 +252,33 @@ Determines the themelets that are implemented by this theme. This property is se
 
 Version of Liferay Portal this theme is intended for.
 
+## Disabling Dart Sass
+
+Liferay Theme Tasks 11.x uses Dart Sass by default. Dart Sass has introduced some [breaking changes](https://sass-lang.com/documentation/breaking-changes) that causes builds of older themes (e.g., 7.3) to fail. The workaround to this is to revert back to using Libsass.
+
+Node Version 12+
+
+In `package.json`:
+
+```
+{
+	"liferayTheme": {
+		"sassOptions": {
+			"dartSass": false
+		}
+	},
+	"devDependencies": {
+		"node-sass": "7.0.1"
+	}
+}
+```
+
+Then in the terminal:
+
+```
+npm install
+```
+
 ## Additional Theme Dependencies
 
 In order for themes to successfully build, they must declare additional dependencies in their `package.json` file such as [liferay-frontend-theme-unstyled](https://www.npmjs.com/package/liferay-frontend-theme-unstyled) and [liferay-frontend-theme-styled](https://www.npmjs.com/package/liferay-frontend-theme-styled).
@@ -274,11 +301,12 @@ npm install --save-dev --save-exact liferay-frontend-theme-styled@latest
 
 ### Get the Right Dependency Version for Your Theme
 
-| Liferay | liferay-theme-unstyled | liferay-theme-styled |
-| ------- | ---------------------- | -------------------- |
-| 7.3.x   | 5.x.x                  | 5.x.x                |
-| 7.2.x   | 4.x.x                  | 4.x.x                |
-| 7.1.x   | 3.x.x                  | 3.x.x                |
-| 7.0.x   | 2.x.x                  | 2.x.x                |
+| Liferay | [liferay-frontend-theme-unstyled](https://www.npmjs.com/package/liferay-frontend-theme-unstyled) | [liferay-frontend-theme-styled](https://www.npmjs.com/package/liferay-frontend-theme-styled) |
+| ------- | ------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------- |
+| 7.4.x   | 6.x.x                                                                                            | 6.x.x                                                                                        |
+| 7.3.x   | 5.x.x                                                                                            | 5.x.x                                                                                        |
+| 7.2.x   | 4.x.x                                                                                            | 4.x.x                                                                                        |
+| 7.1.x   | 3.x.x                                                                                            | 3.x.x                                                                                        |
+| 7.0.x   | 2.x.x                                                                                            | 2.x.x                                                                                        |
 
 MIT
