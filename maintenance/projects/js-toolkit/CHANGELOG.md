@@ -1,3 +1,11 @@
+## [liferay-js-toolkit/v2.28.3](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.28.3) (2022-01-24)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.28.2...liferay-js-toolkit/v2.28.3)
+
+### :new: Features
+
+-   feat: make adaptations work with create-react-app 5.0.0 ([\#821](https://github.com/liferay/liferay-frontend-projects/pull/821))
+
 ## [liferay-js-toolkit/v2.28.2](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.28.2) (2021-12-22)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.28.1...liferay-js-toolkit/v2.28.2)
