@@ -182,7 +182,7 @@ module.exports = function () {
 		npmInstall.on('close', callback);
 	});
 
-	gulp.task('upgrade:css', () => {
+	gulp.task('upgrade:css', (callback) => {
 		if (addBootstrapCompat) {
 			if (!fs.existsSync('src/css/clay.scss')) {
 				if (themeConfig.baseTheme === 'styled') {
@@ -228,6 +228,9 @@ module.exports = function () {
 					})
 				)
 				.pipe(gulp.dest('src/css'));
+		}
+		else {
+			callback();
 		}
 	});
 };
