@@ -1,3 +1,15 @@
+## [liferay-theme-tasks/v11.2.1](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v11.2.1) (2022-01-25)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v11.2.0...liferay-theme-tasks/v11.2.1)
+
+### :wrench: Bug fixes
+
+-   fix(js-themes-toolkit): mark completion of upgrade:css ([\#833](https://github.com/liferay/liferay-frontend-projects/pull/833))
+
+### :book: Documentation
+
+-   docs(liferay-theme-tasks): Update the readme.md ([\#824](https://github.com/liferay/liferay-frontend-projects/pull/824))
+
 ## [liferay-theme-tasks/v11.2.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v11.2.0) (2021-11-23)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v11.1.0...liferay-theme-tasks/v11.2.0)
