@@ -129,22 +129,33 @@ If we were to provide configuration by default, then if `bottom-level/.eslintrc.
 | [@liferay/portal/no-side-navigation](./rules/portal/docs/rules/no-side-navigation.md)                                                   | @liferay/portal                | [\#44](https://github.com/liferay/eslint-config-liferay/pull/44)                                                                   |
 | [@liferay/array-is-array](./rules/general/docs/rules/array-is-array.md)                                                                 | @liferay                       | [\#139](https://github.com/liferay/eslint-config-liferay/issues/139)                                                               |
 | [@liferay/destructure-requires](./rules/general/docs/rules/destructure-requires.md)                                                     | @liferay                       | [\#94](https://github.com/liferay/eslint-config-liferay/issues/94)                                                                 |
+| [@liferay/empty-line-between-elements](./rules/general/docs/rules/empty-line-between-elements.md)                                       | @liferay                       | [\#94](https://github.com/liferay/eslint-config-liferay/issues/94)                                                                 |
+| [@liferay/expect-assert](./rules/general/docs/rules/expect-assert.md)                                                                   | @liferay                       | [\#94](https://github.com/liferay/eslint-config-liferay/issues/94)                                                                 |
 | [@liferay/group-imports](./rules/general/docs/rules/group-imports.md)                                                                   | @liferay                       | [\#60](https://github.com/liferay/liferay-frontend-guidelines/issues/60)                                                           |
 | [@liferay/import-extensions](./rules/general/docs/rules/import-extensions.md)                                                           | @liferay                       | [\#137](https://github.com/liferay/eslint-config-liferay/issues/137)                                                               |
 | [@liferay/imports-first](./rules/general/docs/rules/imports-first.md)                                                                   | @liferay                       | [\#60](https://github.com/liferay/liferay-frontend-guidelines/issues/60)                                                           |
 | [@liferay/no-abbreviations](./rules/general/docs/rules/no-abbreviations.md)                                                             | @liferay                       | [\#437](https://github.com/liferay/liferay-frontend-projects/issues/437)                                                           |
 | [@liferay/no-absolute-import](./rules/general/docs/rules/no-absolute-import.md)                                                         | @liferay                       | [\#60](https://github.com/liferay/liferay-frontend-guidelines/issues/60)                                                           |
+| [@liferay/no-anonymous-exports](./rules/general/docs/rules/no-anonymous-exports.md)                                                     | @liferay                       | [\#60](https://github.com/liferay/liferay-frontend-guidelines/issues/60)                                                           |
 | [@liferay/no-arrow](./rules/general/docs/rules/no-arrow.md)                                                                             | @liferay                       | [\#179](https://github.com/liferay/eslint-config-liferay/issues/179)                                                               |
+| [@liferay/no-conditional-object-keys](./rules/general/docs/rules/no-conditional-object-keys.md)                                         | @liferay                       | [\#108](https://github.com/liferay/eslint-config-liferay/issues/108)                                                               |
 | [@liferay/no-duplicate-class-names](./rules/general/docs/rules/no-duplicate-class-names.md)                                             | @liferay                       | [\#108](https://github.com/liferay/eslint-config-liferay/issues/108)                                                               |
 | [@liferay/no-duplicate-imports](./rules/general/docs/rules/no-duplicate-imports.md)                                                     | @liferay                       | [\#60](https://github.com/liferay/liferay-frontend-guidelines/issues/60)                                                           |
 | [@liferay/no-dynamic-require](./rules/general/docs/rules/no-dynamic-require.md)                                                         | @liferay                       | [\#60](https://github.com/liferay/liferay-frontend-guidelines/issues/60)                                                           |
+| [@liferay/no-get-data-attribute](./rules/general/docs/rules/no-get-data-attribute.md)                                                   | @liferay                       | [\#60](https://github.com/liferay/liferay-frontend-guidelines/issues/60)                                                           |
 | [@liferay/no-it-should](./rules/general/docs/rules/no-it-should.md)                                                                     | @liferay                       | [\#43](https://github.com/liferay/eslint-config-liferay/pull/43)                                                                   |
+| [@liferay/no-length-jsx-expression](./rules/general/docs/rules/no-length-jsx-expression.md)                                             | @liferay                       | [\#94](https://github.com/liferay/eslint-config-liferay/issues/94)                                                                 |
 | [@liferay/no-require-and-call](./rules/general/docs/rules/no-require-and-call.md)                                                       | @liferay                       | [\#94](https://github.com/liferay/eslint-config-liferay/issues/94)                                                                 |
+| [@liferay/no-typeof-object](./rules/general/docs/rules/no-typeof-object.md)                                                             | @liferay                       | [\#94](https://github.com/liferay/eslint-config-liferay/issues/94)                                                                 |
+| [@liferay/no-use-strict-in-module](./rules/general/docs/rules/no-use-strict-in-module.md)                                               | @liferay                       | [\#94](https://github.com/liferay/eslint-config-liferay/issues/94)                                                                 |
 | [@liferay/padded-test-blocks](./rules/general/docs/rules/padded-test-blocks.md)                                                         | @liferay                       | [\#75](https://github.com/liferay/eslint-config-liferay/pull/75)                                                                   |
-| [@liferay/sort-imports](./rules/general/docs/rules/sort-imports.md)                                                                     | @liferay                       | [\#60](https://github.com/liferay/liferay-frontend-guidelines/issues/60)                                                           |
-| [@liferay/sort-import-destructures](./rules/general/docs/rules/sort-import-destructures.md)                                             | @liferay                       | [\#124](https://github.com/liferay/eslint-config-liferay/issues/124)                                                               |
+| [@liferay/prefer-length-check](./rules/general/docs/rules/prefer-length-check.md)                                                       | @liferay                       | [\#75](https://github.com/liferay/eslint-config-liferay/pull/75)                                                                   |
+| [@liferay/ref-name-suffix](./rules/general/docs/rules/ref-name-suffix.md)                                                               | @liferay                       | [\#60](https://github.com/liferay/liferay-frontend-guidelines/issues/60)                                                           |
 | [@liferay/sort-class-names](./rules/general/docs/rules/sort-class-names.md)                                                             | @liferay                       | [\#108](https://github.com/liferay/eslint-config-liferay/issues/108)                                                               |
+| [@liferay/sort-import-destructures](./rules/general/docs/rules/sort-import-destructures.md)                                             | @liferay                       | [\#124](https://github.com/liferay/eslint-config-liferay/issues/124)                                                               |
+| [@liferay/sort-imports](./rules/general/docs/rules/sort-imports.md)                                                                     | @liferay                       | [\#60](https://github.com/liferay/liferay-frontend-guidelines/issues/60)                                                           |
 | [@liferay/trim-class-names](./rules/general/docs/rules/trim-class-names.md)                                                             | @liferay                       | [\#108](https://github.com/liferay/eslint-config-liferay/issues/108)                                                               |
+| [@liferay/use-state-naming-pattern](./rules/general/docs/rules/use-state-naming-pattern.md)                                             | @liferay                       | [\#108](https://github.com/liferay/eslint-config-liferay/issues/108)                                                               |
 | [no-console](https://eslint.org/docs/rules/no-console)                                                                                  | @liferay                       | [\#79](https://github.com/liferay/eslint-config-liferay/pull/79)                                                                   |
 | [no-eval](https://eslint.org/docs/rules/no-eval)                                                                                        | @liferay                       | [\#432](https://github.com/liferay/liferay-frontend-projects/issues/432)                                                           |
 | [no-for-of-loops/no-for-of-loops](https://www.npmjs.com/package/eslint-plugin-no-for-of-loops) (default: off)                           | @liferay                       | [\#30](https://github.com/liferay/eslint-config-liferay/pull/30)                                                                   |
@@ -191,33 +202,45 @@ The bundled `@liferay` plugin includes the following [rules](./rules/general/doc
 
 -   [@liferay/array-is-array](./rules/general/docs/rules/array-is-array.md): Enforces (and autofixes) the use of `Array.isArray()` over `instanceof Array`.
 -   [@liferay/destructure-requires](./rules/general/docs/rules/destructure-requires.md): Enforces (and autofixes) that `require` statements use destructuring.
+-   [@liferay/empty-line-between-elements](./rules/general/docs/rules/empty-line-between-elements.md): Enforces (and autofixes) a missing empty line between sibling elements.
+-   [@liferay/expect-assert](./rules/general/docs/rules/expect-assert.md): Enforces that every `expect()` should assert something.
 -   [@liferay/group-imports](./rules/general/docs/rules/group-imports.md): Enforces (and autofixes) `import` and `require` grouping.
 -   [@liferay/import-extensions](./rules/general/docs/rules/import-extensions.md): Enforces consistent usage/omission of file extensions in imports.
 -   [@liferay/imports-first](./rules/general/docs/rules/imports-first.md): Enforces that imports come first in the file.
+-   [@liferay/no-abbreviations](./rules/general/docs/rules/no-abbreviations.md): Enforces the use of the expanded word if it finds a registered abbreviation in an identifier.
 -   [@liferay/no-absolute-import](./rules/general/docs/rules/no-absolute-import.md): Enforces that imports do not use absolute paths.
+-   [@liferay/no-anonymous-exports](./rules/general/docs/rules/no-anonymous-exports.md): Enforce the use of named function for export instead of arrow function.
 -   [@liferay/no-arrow](./rules/general/docs/rules/no-arrow.md): Bans arrow functions (for IE; not on by default).
+-   [@liferay/no-conditional-object-keys](./rules/general/docs/rules/no-conditional-object-keys.md): Enforces that engineers don't use a truthy or falsy value that `Object.keys()` can return.
 -   [@liferay/no-duplicate-class-names](./rules/general/docs/rules/no-duplicate-class-names.md): Enforces (and autofixes) uniqueness of class names inside JSX `className` attributes.
 -   [@liferay/no-duplicate-imports](./rules/general/docs/rules/no-duplicate-imports.md): Enforces at most one `import` of any given module per file.
 -   [@liferay/no-dynamic-require](./rules/general/docs/rules/no-dynamic-require.md): Enforces that `require()` calls use static arguments.
+-   [@liferay/no-get-data-attribute](./rules/general/docs/rules/no-get-data-attribute.md): Enforces the use of `dataset` instead of `getAttribute()`.
 -   [@liferay/no-it-should](./rules/general/docs/rules/no-it-should.md): Enforces that `it()` descriptions start with a verb, not with "should".
 -   [@liferay/no-length-jsx-expression](./rules/general/docs/rules/no-it-should.md): Enforces that JSX expressions that check against length should make sure 0 isn't rendered".
 -   [@liferay/no-require-and-call](./rules/general/docs/rules/no-require-and-call.md): Enforces that the result of a `require()` call at the top level is not immediately called.
+-   [@liferay/no-typeof-object](./rules/general/docs/rules/no-typeof-object.md): Enforces the explicit check against `null` instead of checking for type.
+-   [@liferay/no-use-strict-in-module](./rules/general/docs/rules/no-use-strict-in-module.md): Bans the use of `'use strict';` inside modules.
 -   [@liferay/padded-test-blocks](./rules/general/docs/rules/padded-test-blocks.md): Enforces blank lines between test blocks (`it()` etc).
+-   [@liferay/prefer-length-check](./rules/general/docs/rules/prefer-length-check.md): Bans the use of binary expressions, and instead enforces using member expression.
+-   [@liferay/ref-name-suffix](./rules/general/docs/rules/ref-name-suffix.md): This rule enforces (and autofixes) `useRef` hooks from React so that the variable name is suffixed with `Ref`.
 -   [@liferay/sort-class-names](./rules/general/docs/rules/sort-class-names.md): Enforces (and autofixes) ordering of class names inside JSX `className` attributes.
--   [@liferay/sort-imports](./rules/general/docs/rules/sort-imports.md): Enforces (and autofixes) `import` and `require` ordering.
 -   [@liferay/sort-import-destructures](./rules/general/docs/rules/sort-import-destructures.md): Enforces (and autofixes) ordering of destructured names in `import` statements.
+-   [@liferay/sort-imports](./rules/general/docs/rules/sort-imports.md): Enforces (and autofixes) `import` and `require` ordering.
 -   [@liferay/trim-class-names](./rules/general/docs/rules/trim-class-names.md): Enforces (and autofixes) that class names inside JSX `className` attributes do not have leading or trailing whitespace.
--   [@liferay/prefer-length-check](./rules/general/docs/rules/prefer-length-check.md): Enforces (and autofixes) that class names inside JSX `className` attributes do not have leading or trailing whitespace.
+-   [@liferay/use-state-naming-pattern](./rules/general/docs/rules/use-state-naming-pattern.md): Enforces (and autofixes) that destructured values from useState follow the pattern `[val, setVal]`(val can be anything).
 
 #### `@liferay/portal`
 
 The bundled `@liferay/portal` plugin includes the following [rules](./rules/portal/docs/rules):
 
 -   [@liferay/portal/deprecation](./rules/portal/docs/rules/deprecation.md): Enforces standard formatting of `@deprecated` annotations.
--   [@liferay/portal/no-global-fetch](./rules/portal/docs/rules/no-global-fetch.md): Prevents usage of unwrapped fetch to avoid possible issues related to security misconfiguration.
 -   [@liferay/portal/no-explicit-extend](./rules/portal/docs/rules/no-explicit-extend.md): Prevents unnecessary extensions in ESLint and Babel configuration files.
+-   [@liferay/portal/no-global-fetch](./rules/portal/docs/rules/no-global-fetch.md): Prevents usage of unwrapped fetch to avoid possible issues related to security misconfiguration.
 -   [@liferay/portal/no-loader-import-specifier](./rules/portal/docs/rules/no-loader-import-specifier.md): Ensures that ".scss" files imported via the loader are used only for side-effects.
+-   [@liferay/portal/no-localhost-reference](./rules/portal/docs/rules/no-localhost-reference.md): Enforces that no code should explicitly reference `localhost` as a literal value.
 -   [@liferay/portal/no-metal-plugins](./rules/portal/docs/rules/no-metal-plugins.md): Prevents usage of deprecated `metal-*` plugins and utilities.
+-   [@liferay/portal/no-react-dom-create-portal](./rules/portal/docs/rules/no-react-dom-create-portal.md): Prevents the direct use of the `ReactDOM.createPortal` API.
 -   [@liferay/portal/no-react-dom-render](./rules/portal/docs/rules/no-react-dom-render.md): Prevents direct usage of `ReactDOM.render` in favor of our wrapper.
 -   [@liferay/portal/no-side-navigation](./rules/portal/docs/rules/no-side-navigation.md): Guards against the use of the legacy jQuery `sideNavigation` plugin.
 
@@ -225,16 +248,17 @@ The bundled `@liferay/portal` plugin includes the following [rules](./rules/port
 
 The bundled `@liferay/aui` plugin includes the following [rules](./rules/aui/docs/rules):
 
--   [@liferay/aui/no-all](./rules/aui/docs/rules/no-all.md): Prevents usage of `A.all()`
--   [@liferay/aui/no-array](./rules/aui/docs/rules/no-array.md): Prevents usage of `A.Array`
--   [@liferay/aui/no-each](./rules/aui/docs/rules/no-each.md): Prevents usage of `A.each()`
--   [@liferay/aui/no-get-body](./rules/aui/docs/rules/no-get-body.md): Prevents usage of `A.getBody()`
--   [@liferay/aui/no-io](./rules/aui/docs/rules/no-io.md): Prevents usage of `A.io()`
--   [@liferay/aui/no-modal](./rules/aui/docs/rules/no-modal.md): Prevents usage of `A.Modal()`
--   [@liferay/aui/no-node](./rules/aui/docs/rules/no-node.md): Prevents usage of `A.Node()`
--   [@liferay/aui/no-object](./rules/aui/docs/rules/no-object.md): Prevents usage of `A.Object`
--   [@liferay/aui/no-one](./rules/aui/docs/rules/no-one.md): Prevents usage of `A.one()`
--   [@liferay/aui/no-url](./rules/aui/docs/rules/no-url.md): Prevents usage of `A.Url()`
+-   [@liferay/aui/no-all](./rules/aui/docs/rules/no-all.md): Prevents usage of `A.all()`.
+-   [@liferay/aui/no-array](./rules/aui/docs/rules/no-array.md): Prevents usage of `A.Array`.
+-   [@liferay/aui/no-each](./rules/aui/docs/rules/no-each.md): Prevents usage of `A.each()`.
+-   [@liferay/aui/no-get-body](./rules/aui/docs/rules/no-get-body.md): Prevents usage of `A.getBody()`.
+-   [@liferay/aui/no-io](./rules/aui/docs/rules/no-io.md): Prevents usage of `A.io()`.
+-   [@liferay/aui/no-merge](./rules/aui/docs/rules/no-merge.md): Prevents usage of `A.merge()`.
+-   [@liferay/aui/no-modal](./rules/aui/docs/rules/no-modal.md): Prevents usage of `A.Modal()`.
+-   [@liferay/aui/no-node](./rules/aui/docs/rules/no-node.md): Prevents usage of `A.Node()`.
+-   [@liferay/aui/no-object](./rules/aui/docs/rules/no-object.md): Prevents usage of `A.Object`.
+-   [@liferay/aui/no-one](./rules/aui/docs/rules/no-one.md): Prevents usage of `A.one()`.
+-   [@liferay/aui/no-url](./rules/aui/docs/rules/no-url.md): Prevents usage of `A.Url()`.
 
 ## License
 
