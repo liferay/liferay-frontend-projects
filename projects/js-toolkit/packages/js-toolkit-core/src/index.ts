@@ -28,6 +28,13 @@ export {ProjectType as B3ProjectType} from './project/bundler3/Probe';
 export {LogLevel as B3LogLevel} from './project/bundler3/Misc';
 export {default as B3VersionInfo} from './project/bundler3/VersionInfo';
 
+// Liferay CLI Project descriptor class and types
+
+export {default as Project} from './project/liferayCli/Project';
+export {
+	Bundler2BuildOptions,
+	CustomElementBuildOptions,
+} from './project/liferayCli/Build';
 
 // Format library
 
