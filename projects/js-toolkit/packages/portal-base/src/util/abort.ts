@@ -9,10 +9,10 @@ const {fail, print} = format;
 
 export default function abort(error: Error | string): void {
 	if (error['stack']) {
-		print(error['stack']);
+		print('', error['stack'], '');
 	}
 	else {
-		print(error.toString());
+		print('', error.toString(), '');
 	}
 
 	print(fail`Build failed`);
