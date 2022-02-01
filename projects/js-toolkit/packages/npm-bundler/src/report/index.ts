@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {PkgDesc, VersionInfo} from '@liferay/js-toolkit-core';
+import {PkgDesc, B3VersionInfo as VersionInfo} from '@liferay/js-toolkit-core';
 
 import {htmlDump} from './html';
 import ReportLogger from './logger';
