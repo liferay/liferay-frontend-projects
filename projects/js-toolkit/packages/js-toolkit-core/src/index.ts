@@ -52,7 +52,12 @@ export type {
 	ConfigurationJsonField,
 } from './schema/ConfigurationJson';
 
-export type {default as LiferayJson} from './schema/LiferayJson';
+export type {
+	default as LiferayJson,
+	BuildConfig,
+	Bundler2BuildConfig,
+	CustomElementBuildConfig,
+} from './schema/LiferayJson';
 
 export type {
 	default as ManifestJson,
@@ -70,6 +75,8 @@ export type {
 	PkgJsonPortletProperties,
 	PkgJsonScripts,
 } from './schema/PkgJson';
+
+export type {default as RemoteAppManifestJson} from './schema/RemoteAppManifestJson';
 
 // JavaScript source code transformation
 

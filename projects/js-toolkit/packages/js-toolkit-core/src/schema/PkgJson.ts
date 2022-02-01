@@ -13,6 +13,7 @@ export default interface PkgJson {
 	peerDependencies?: PkgJsonDependencies;
 	portlet?: PkgJsonPortletProperties;
 	scripts?: PkgJsonScripts;
+	type?: string;
 	version: string;
 }
 
