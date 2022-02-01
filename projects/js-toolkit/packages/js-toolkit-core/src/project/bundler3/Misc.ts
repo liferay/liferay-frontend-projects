@@ -5,8 +5,8 @@
 
 import prop from 'dot-prop';
 
-import FilePath from '../file/FilePath';
-import {print, warn} from '../format';
+import FilePath from '../../file/FilePath';
+import {print, warn} from '../../format';
 import Project from './Project';
 
 /** Valid log levels for console and report */

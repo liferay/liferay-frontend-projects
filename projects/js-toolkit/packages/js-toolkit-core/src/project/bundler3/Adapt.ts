@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import FilePath from '../file/FilePath';
+import FilePath from '../../file/FilePath';
 import {ProjectType} from './Probe';
 import Project from './Project';
 

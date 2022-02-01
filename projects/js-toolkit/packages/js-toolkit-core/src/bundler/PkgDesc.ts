@@ -6,7 +6,7 @@
 import path from 'path';
 
 import FilePath from '../file/FilePath';
-import Project from '../project/Project';
+import Project from '../project/bundler3/Project';
 
 // TODO: this shouldn't be instantiated here
 

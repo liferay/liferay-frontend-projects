@@ -18,22 +18,16 @@ export * from './node/namespace';
 
 export {default as PkgDesc} from './bundler/PkgDesc';
 
-// Project descriptor class and types
+// Bundler 3 Project descriptor class and types
 
-export {default as Adapt} from './project/Adapt';
-export * from './project/Adapt';
-export {default as Jar} from './project/Jar';
-export * from './project/Jar';
-export {default as Localization} from './project/Localization';
-export * from './project/Localization';
-export {default as Misc} from './project/Misc';
-export * from './project/Misc';
-export {default as Probe} from './project/Probe';
-export * from './project/Probe';
-export {default as Project} from './project/Project';
-export * from './project/Project';
-export {default as VersionInfo} from './project/VersionInfo';
-export * from './project/VersionInfo';
+export {
+	default as B3Project,
+	Imports as B3Imports,
+} from './project/bundler3/Project';
+export {ProjectType as B3ProjectType} from './project/bundler3/Probe';
+export {LogLevel as B3LogLevel} from './project/bundler3/Misc';
+export {default as B3VersionInfo} from './project/bundler3/VersionInfo';
+
 
 // Format library
 

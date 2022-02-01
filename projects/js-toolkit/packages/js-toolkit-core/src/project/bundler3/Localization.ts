@@ -7,7 +7,7 @@ import fs from 'fs';
 import path from 'path';
 import properties from 'properties';
 
-import FilePath from '../file/FilePath';
+import FilePath from '../../file/FilePath';
 import Project from './Project';
 import {getFeaturesFilePath} from './getFeaturesFilePath';
 

@@ -7,8 +7,8 @@ import prop from 'dot-prop';
 import fs from 'fs-extra';
 import readJsonSync from 'read-json-sync';
 
-import FilePath from '../file/FilePath';
-import {print, warn} from '../format';
+import FilePath from '../../file/FilePath';
+import {print, warn} from '../../format';
 import Project from './Project';
 import {getFeaturesFilePath} from './getFeaturesFilePath';
 
