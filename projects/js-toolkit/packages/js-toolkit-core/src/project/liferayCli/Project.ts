@@ -13,6 +13,7 @@ import PkgJson from '../../schema/PkgJson';
 import Build from './Build';
 import Deploy from './Deploy';
 import Dist from './Dist';
+import Start from './Start';
 
 export default class Project {
 	readonly assetsDir: FilePath | null;
@@ -24,6 +25,7 @@ export default class Project {
 	readonly mainModuleFile: FilePath;
 	readonly pkgJson: PkgJson;
 	readonly srcDir: FilePath;
+	readonly start: Start;
 
 	constructor(projectPath: string) {
 		this.dir = new FilePath(projectPath).resolve();
@@ -52,6 +54,7 @@ export default class Project {
 		this.build = new Build(this);
 		this.deploy = new Deploy(this);
 		this.dist = new Dist(this);
+		this.start = new Start(this);
 	}
 
 	private _loadLiferayJson(): LiferayJson {

@@ -11,6 +11,9 @@ export default interface LiferayJson {
 	deploy?: {
 		path?: string;
 	};
+	start?: {
+		port?: number;
+	};
 }
 
 export type BuildConfig = Bundler2BuildConfig | CustomElementBuildConfig;

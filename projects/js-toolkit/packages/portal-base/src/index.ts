@@ -9,6 +9,7 @@ import path from 'path';
 import build from './build';
 import clean from './clean';
 import deploy from './deploy';
+import start from './start';
 
 const {fail, print, title} = format;
 
@@ -16,6 +17,7 @@ export interface Tasks {
 	build?: {(): Promise<void>};
 	clean?: {(): Promise<void>};
 	deploy?: {(): Promise<void>};
+	start?: {(): Promise<void>};
 }
 
 export default async function run(
@@ -31,7 +33,13 @@ export default async function run(
 
 	/* eslint-disable-next-line */
 	const pkgJson = require(path.join(platformPath, 'package.json'));
-	const tasks: Tasks = {build, clean, deploy, ...(taskOverrides || {})};
+	const tasks: Tasks = {
+		build,
+		clean,
+		deploy,
+		start,
+		...(taskOverrides || {}),
+	};
 
 	switch (cmd) {
 		case 'build':
@@ -49,6 +57,11 @@ export default async function run(
 		case 'deploy':
 			print(title`Deploying project to Liferay local installation`);
 			await tasks.deploy();
+			break;
+
+		case 'start':
+			print(title`Starting project live development server`);
+			await tasks.start();
 			break;
 
 		default:
