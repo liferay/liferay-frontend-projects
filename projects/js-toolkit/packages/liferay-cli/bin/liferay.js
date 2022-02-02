@@ -46,6 +46,7 @@ const {argv} = require('yargs')
 					type: 'string',
 				})
 	)
+	.command('start', 'Start a live development server for a project')
 	.command(
 		'upgrade-project',
 		'Upgrade a project created with the old Yeoman generator'
