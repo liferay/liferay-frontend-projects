@@ -19,5 +19,8 @@
 		"lint:fix": "liferay-workspace-scripts lint:fix",
 		"qa": "node scripts/qa.js",
 		"test": "liferay-workspace-scripts test"
-	}
+	},
+	"workspaces": [
+		"packages/*"
+	]
 }
