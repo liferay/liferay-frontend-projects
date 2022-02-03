@@ -26,16 +26,16 @@ const facet: Facet = {
 	},
 
 	async render(options: Options): Promise<void> {
-		print(info`Configuring build...`);
+		print(info`Configuring deployment...`);
 
-		print(info`  Adding build artifacts to {.gitignore}`);
+		print(info`  Adding dist directory to {.gitignore}`);
 
 		const gitignoreFile = ensureOutputFile(options, '.gitignore');
 
 		await transformTextFile(
 			gitignoreFile,
 			gitignoreFile,
-			appendLines('/build')
+			appendLines('/dist')
 		);
 
 		print(info`  Configuring npm build scripts`);
@@ -46,8 +46,7 @@ const facet: Facet = {
 			pkgJsonFile,
 			pkgJsonFile,
 			addScripts({
-				build: 'liferay build',
-				clean: 'liferay clean',
+				deploy: 'liferay deploy',
 			})
 		);
 	},

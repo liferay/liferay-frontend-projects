@@ -4,7 +4,9 @@
  */
 
 import {
+	FilePath,
 	TRANSFORM_OPERATIONS,
+	TemplateRenderer,
 	format,
 	transformJsonFile,
 } from '@liferay/js-toolkit-core';
@@ -12,42 +14,31 @@ import {
 import dependencies from '../../dependencies.json';
 import ensureOutputFile from '../../util/ensureOutputFile';
 import prompt from '../../util/prompt';
-import facetAngular from '../facet-angular';
 import facetBuildable from '../facet-buildable';
-import facetConfiguration from '../facet-configuration';
-import facetDeployable from '../facet-deployable';
-import facetLocalization from '../facet-localization';
 import facetPlainJs from '../facet-plain-js';
-import facetPortlet from '../facet-portlet';
 import facetProject from '../facet-project';
-import facetReact from '../facet-react';
-import facetSampleConfiguration from '../facet-sample-configuration';
-import facetSampleStyles from '../facet-sample-styles';
-import facetSharedBundle from '../facet-shared-bundle';
-import facetVuejs from '../facet-vuejs';
+import facetRemoteAppReact from '../facet-remote-app-react';
+import facetStartable from '../facet-startable';
 
 import type {Facet, Options, Target} from '..';
 
-export interface LiferayTargetFacet extends Facet {
-	isPortlet: boolean;
-}
+export type RemoteAppTargetFacet = Facet;
 
 const {
 	PkgJson: {addDependencies},
 } = TRANSFORM_OPERATIONS;
 const {info, print} = format;
 
-const projectTypeFacets: {[name: string]: LiferayTargetFacet} = {
-	'Angular': facetAngular,
+const TARGET_ID = 'target-remote-app';
+
+const projectTypeFacets: {[name: string]: RemoteAppTargetFacet} = {
 	'Plain JavaScript': facetPlainJs,
-	'React': facetReact,
-	'Shared bundle': facetSharedBundle,
-	'Vue.js': facetVuejs,
+	'React': facetRemoteAppReact,
 };
-const platforms = dependencies['target-liferay']['platforms'];
+const platforms = dependencies[TARGET_ID]['platforms'];
 
 const target: Target = {
-	name: 'Liferay Platform Project',
+	name: 'Liferay Remote App Project',
 
 	async prompt(useDefaults: boolean, options: Options): Promise<Options> {
 		options = await facetProject.prompt(useDefaults, options);
@@ -79,34 +70,22 @@ const target: Target = {
 		const projectTypeFacet =
 			projectTypeFacets[options.projectType as string];
 
-		options = await facetLocalization.prompt(
-			useDefaults || projectTypeFacet.isPortlet,
-			options
-		);
-		options = await facetConfiguration.prompt(
-			useDefaults || projectTypeFacet.isPortlet,
-			options
-		);
-
-		if (projectTypeFacet.isPortlet) {
-			options = await facetPortlet.prompt(useDefaults, options);
-		}
-
 		options = await facetBuildable.prompt(true, options);
-		options = await facetDeployable.prompt(true, options);
+		options = await facetStartable.prompt(true, options);
 		options = await projectTypeFacet.prompt(useDefaults, options);
-
-		if (projectTypeFacet.isPortlet) {
-			options = await facetSampleStyles.prompt(true, options);
-		}
-
-		options = await facetSampleConfiguration.prompt(true, options);
 
 		return options;
 	},
 
 	async render(options: Options): Promise<void> {
 		await facetProject.render(options);
+
+		const renderer = new TemplateRenderer(
+			new FilePath(__dirname).join('templates'),
+			options.outputPath
+		);
+
+		await renderer.render('liferay.json', options);
 
 		print(info`Configuring target platform...`);
 
@@ -127,22 +106,9 @@ const target: Target = {
 		const projectTypeFacet =
 			projectTypeFacets[options.projectType as string];
 
-		await facetLocalization.render(options);
-		await facetConfiguration.render(options);
-
-		if (projectTypeFacet.isPortlet) {
-			await facetPortlet.render(options);
-		}
-
 		await facetBuildable.render(options);
-		await facetDeployable.render(options);
+		await facetStartable.render(options);
 		await projectTypeFacet.render(options);
-
-		if (projectTypeFacet.isPortlet) {
-			await facetSampleStyles.render(options);
-		}
-
-		await facetSampleConfiguration.render(options);
 	},
 };
 

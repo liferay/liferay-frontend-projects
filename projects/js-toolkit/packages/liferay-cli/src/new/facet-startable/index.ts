@@ -7,7 +7,6 @@ import {
 	TRANSFORM_OPERATIONS,
 	format,
 	transformJsonFile,
-	transformTextFile,
 } from '@liferay/js-toolkit-core';
 
 import ensureOutputFile from '../../util/ensureOutputFile';
@@ -16,7 +15,6 @@ import type {Facet, Options} from '../index';
 
 const {
 	PkgJson: {addScripts},
-	Text: {appendLines},
 } = TRANSFORM_OPERATIONS;
 const {info, print} = format;
 
@@ -26,17 +24,7 @@ const facet: Facet = {
 	},
 
 	async render(options: Options): Promise<void> {
-		print(info`Configuring build...`);
-
-		print(info`  Adding build artifacts to {.gitignore}`);
-
-		const gitignoreFile = ensureOutputFile(options, '.gitignore');
-
-		await transformTextFile(
-			gitignoreFile,
-			gitignoreFile,
-			appendLines('/build')
-		);
+		print(info`Configuring live development...`);
 
 		print(info`  Configuring npm build scripts`);
 
@@ -46,8 +34,7 @@ const facet: Facet = {
 			pkgJsonFile,
 			pkgJsonFile,
 			addScripts({
-				build: 'liferay build',
-				clean: 'liferay clean',
+				start: 'liferay start',
 			})
 		);
 	},
