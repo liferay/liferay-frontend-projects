@@ -4,15 +4,14 @@
  */
 
 import FilePath from '../../file/FilePath';
+import LiferayJson from '../../schema/LiferayJson';
 import Project from './Project';
 
 export default class Dist {
 	readonly dir: FilePath | null;
 	readonly file: FilePath | null;
 
-	constructor(project: Project) {
-		const {liferayJson} = project;
-
+	constructor(_project: Project, liferayJson: LiferayJson) {
 		switch (liferayJson.build.type) {
 			case 'customElement':
 				this.dir = null;

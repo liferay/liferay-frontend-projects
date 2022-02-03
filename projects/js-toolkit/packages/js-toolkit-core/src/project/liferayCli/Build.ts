@@ -3,8 +3,10 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import fs from 'fs';
+
 import FilePath from '../../file/FilePath';
-import {
+import LiferayJson, {
 	BuildConfig,
 	Bundler2BuildConfig,
 	CustomElementBuildConfig,
@@ -27,9 +29,7 @@ export default class Build {
 	readonly type: BuildType;
 	readonly options: BuildOptions;
 
-	constructor(project: Project) {
-		const {liferayJson} = project;
-
+	constructor(project: Project, liferayJson: LiferayJson) {
 		const config: BuildConfig = liferayJson.build?.options || {};
 
 		switch (liferayJson.build.type) {
@@ -37,6 +37,7 @@ export default class Build {
 				this.type = 'customElement';
 				this.dir = project.dir.join('build');
 				this.options = this._toCustomElementBuildOptions(
+					project,
 					config as CustomElementBuildConfig
 				);
 				break;
@@ -59,21 +60,46 @@ export default class Build {
 	}
 
 	private _toCustomElementBuildOptions(
+		project: Project,
 		config: CustomElementBuildConfig
 	): CustomElementBuildOptions {
-		const options: CustomElementBuildOptions = {
-			externals: {},
-			htmlElementName: null,
-		};
+
+		// Turn arrays coming from liferay.json into objects
 
 		if (Array.isArray(config['externals'])) {
-			options.externals = config.externals.reduce(
+			config.externals = config.externals.reduce(
 				(map, bareIdentifier) => {
 					map[bareIdentifier] = bareIdentifier;
 
 					return map;
 				},
 				{}
+			);
+		}
+
+		const options: CustomElementBuildOptions = {
+			externals: config.externals,
+			htmlElementName: config.htmlElementName,
+		};
+
+		// Remove externals mapped to null
+
+		options.externals = Object.entries(options.externals).reduce(
+			(externals, entry) => {
+				if (entry[1] !== null) {
+					externals[entry[0]] = entry[1];
+				}
+
+				return externals;
+			},
+			{}
+		);
+
+		// Infer htmlElementName from source code if needed
+
+		if (!options.htmlElementName) {
+			options.htmlElementName = findHtmlElementName(
+				project.mainModuleFile
 			);
 		}
 
@@ -85,4 +111,31 @@ export default class Build {
 	): Bundler2BuildOptions {
 		return {};
 	}
+}
+
+function findHtmlElementName(file: FilePath): string | undefined {
+	const source = fs.readFileSync(file.asNative, 'utf8');
+	const regex = /customElements.define\(([^(]*)\)/;
+
+	const match = regex.exec(source);
+
+	if (!match) {
+		return undefined;
+	}
+
+	const args = match[1].trim();
+
+	if (!["'", '"'].includes(args[0])) {
+		return undefined;
+	}
+
+	const quote = args[0];
+
+	const i = args.indexOf(quote, 1);
+
+	if (i < 0) {
+		return undefined;
+	}
+
+	return args.substring(1, i);
 }

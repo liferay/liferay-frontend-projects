@@ -12,10 +12,8 @@ import Project from './Project';
 export default class Deploy {
 	readonly dir: FilePath | null;
 
-	constructor(project: Project) {
+	constructor(project: Project, liferayJson: LiferayJson) {
 		this._project = project;
-
-		const {liferayJson} = project;
 
 		if (
 			liferayJson.deploy === undefined ||
