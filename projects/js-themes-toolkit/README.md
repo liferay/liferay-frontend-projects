@@ -33,14 +33,16 @@ Other differences between the major versions:
 | [v7.x]          | deprecated         |
 | [v8.x]          | maintenance        |
 | [v9.x]          | maintenance        |
-| [v10.x]         | active development |
+| [v10.x]         | maintenance        |
+| [v11.x]         | active development |
 
 Notes:
 
 -   The 7.x series of the toolkit is unlikely to receive any further development, so is effectively deprecated.
--   Most active development is taking place on in the 10.x series of releases, but the 8.x and 9.x series are still valid for existing themes. You may wish to continue using v8 (because you need to target DXP 7.0 or 7.1) or v9 (because you want to avoid the breaking changes involved in updating to v10; specifically, moving from Gulp v3 to Gulp v4, which may require custom theme tasks to be updated).
+-   Most active development is taking place on in the 11.x series of releases, but the 8.x and 9.x series are still valid for existing themes. You may wish to continue using v8 (because you need to target DXP 7.0 or 7.1) or v9 (because you want to avoid the breaking changes involved in updating to v10; specifically, moving from Gulp v3 to Gulp v4, which may require custom theme tasks to be updated).
 
 [v7.x]: https://github.com/liferay/liferay-js-themes-toolkit/tree/archive/7.0.x
 [v8.x]: https://github.com/liferay/liferay-frontend-projects/maintenance/projects/js-themes-toolkit-v8-x
 [v9.x]: https://github.com/liferay/liferay-frontend-projects/maintenance/projects/js-themes-toolkit-v9-x
-[v10.x]: https://github.com/liferay/liferay-frontend-projects/projects/js-themes-toolkit
+[v10.x]: https://github.com/liferay/liferay-frontend-projects/maintenance/projects/js-themes-toolkit-v10-x
+[v11.x]: https://github.com/liferay/liferay-frontend-projects/projects/js-themes-toolkit
