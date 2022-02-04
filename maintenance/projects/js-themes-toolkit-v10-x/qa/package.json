@@ -1,0 +1,18 @@
+{
+	"dependencies": {
+		"lerna": "^3.20.2",
+		"yo": "^3.1.1"
+	},
+	"private": true,
+	"scripts": {
+		"deploy": "lerna run deploy"
+	},
+	"workspaces": {
+		"nohoist": [
+			"**/liferay-font-awesome"
+		],
+		"packages": [
+			"packages/*"
+		]
+	}
+}

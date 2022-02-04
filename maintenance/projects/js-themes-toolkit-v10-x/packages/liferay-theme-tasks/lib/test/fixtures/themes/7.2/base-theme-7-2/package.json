@@ -1,0 +1,42 @@
+{
+	"name": "base-theme-7-2",
+	"version": "0.0.0",
+	"keywords": [
+		"liferay-theme"
+	],
+	"liferayTheme": {
+		"baseTheme": {
+			"liferayTheme": {
+				"baseTheme": "styled",
+				"screenshot": "",
+				"templateLanguage": "ftl",
+				"version": "7.1"
+			},
+			"name": "parent-theme",
+			"publishConfig": {
+				"tag": "7_1_x"
+			},
+			"version": "1.0.0"
+		},
+		"templateLanguage": "ftl",
+		"themeletDependencies": {
+			"test-themelet": {
+				"liferayTheme": {
+					"themelet": true,
+					"version": "7.1"
+				},
+				"name": "test-themelet",
+				"version": "0.0.0"
+			}
+		},
+		"version": "7.2"
+	},
+	"dependencies": {
+		"gulp": "3.9.1",
+		"liferay-theme-tasks": "^9.5.0",
+		"compass-mixins": "0.12.10",
+		"liferay-frontend-common-css": "^1.0.4",
+		"liferay-frontend-theme-styled": "^4.0.0-alpha.1552930087997",
+		"liferay-frontend-theme-unstyled": "^4.0.0-alpha.1552930030671"
+	}
+}

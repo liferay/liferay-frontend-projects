@@ -1,0 +1,54 @@
+{
+	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
+	"dependencies": {
+		"async": "^2.6.1",
+		"chalk": "^3.0.0",
+		"extract-zip": "^1.6.7",
+		"fs-extra": "^8.1.0",
+		"got": "^10.2.2",
+		"gulp": "^4.0.0",
+		"inquirer": "^0.12.0",
+		"liferay-npm-build-tools-common": "^2.17.1",
+		"liferay-theme-tasks": "^10.0.0",
+		"lodash": "^4.17.11",
+		"rimraf": "^3.0.0",
+		"semver": "^7.1.1",
+		"xml2js": "^0.4.23",
+		"yargs": "^15.1.0",
+		"yeoman-generator": "^3.2.0"
+	},
+	"description": "Yeoman generator for creating Liferay themes",
+	"engines": {
+		"node": ">=8.0.0"
+	},
+	"files": [
+		"generators",
+		"lib"
+	],
+	"keywords": [
+		"yeoman-generator",
+		"liferay",
+		"theme"
+	],
+	"license": "MIT",
+	"main": "generators/app/index.js",
+	"name": "generator-liferay-theme",
+	"repository": {
+		"directory": "projects/js-themes-toolkit/packages/generator-liferay-theme",
+		"type": "git",
+		"url": "https://github.com/liferay/liferay-frontend-projects.git"
+	},
+	"scripts": {
+		"build": "true",
+		"changelog": "npx liferay-changelog-generator",
+		"ci": "liferay-workspace-scripts ci",
+		"format": "liferay-workspace-scripts format",
+		"format:check": "liferay-workspace-scripts format:check",
+		"lint": "liferay-workspace-scripts lint",
+		"lint:fix": "liferay-workspace-scripts lint:fix",
+		"postversion": "liferay-workspace-scripts publish",
+		"preversion": "liferay-workspace-scripts ci",
+		"test": "liferay-workspace-scripts test"
+	},
+	"version": "10.1.0"
+}

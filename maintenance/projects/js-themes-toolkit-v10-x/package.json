@@ -1,0 +1,26 @@
+{
+	"devDependencies": {
+		"chalk": "^3.0.0",
+		"cross-spawn": "^7.0.1",
+		"fs-extra": "^8.1.0",
+		"yargs": "^15.1.0"
+	},
+	"keywords": [
+		"yeoman-generator"
+	],
+	"name": "liferay-js-themes-toolkit",
+	"private": true,
+	"scripts": {
+		"build": true,
+		"ci": "liferay-workspace-scripts ci",
+		"format": "liferay-workspace-scripts format",
+		"format:check": "liferay-workspace-scripts format:check",
+		"lint": "liferay-workspace-scripts lint",
+		"lint:fix": "liferay-workspace-scripts lint:fix",
+		"qa": "node scripts/qa.js",
+		"test": "liferay-workspace-scripts test"
+	},
+	"workspaces": [
+		"packages/*"
+	]
+}
