@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {Manifest, B3Project as Project} from '@liferay/js-toolkit-core';
+import {B3Project as Project, Manifest} from '@liferay/js-toolkit-core';
 import fs from 'fs-extra';
 
 export const manifest = new Manifest();

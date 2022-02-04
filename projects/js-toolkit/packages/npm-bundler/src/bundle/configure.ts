@@ -4,8 +4,8 @@
  */
 
 import {
-	FilePath,
 	B3ProjectType as ProjectType,
+	FilePath,
 	isLocalModule,
 } from '@liferay/js-toolkit-core';
 import fs from 'fs-extra';
