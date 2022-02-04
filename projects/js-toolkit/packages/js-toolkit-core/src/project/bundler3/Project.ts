@@ -333,7 +333,7 @@ export default class Project {
 			// Get bundler and me versions
 
 			putInMap('@liferay/npm-bundler');
-			putInMap(path.join(__dirname, '../..'));
+			putInMap(path.join(__dirname, '../../..'));
 
 			// Get preset version
 

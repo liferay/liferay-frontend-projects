@@ -6,7 +6,7 @@
 import child_process from 'child_process';
 import path from 'path';
 
-import FilePath from '../../file/FilePath';
+import FilePath from '../../../file/FilePath';
 import Project from '../Project';
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -367,16 +367,25 @@ describe('project.versionsInfo', () => {
 				[
 					'@liferay/js-toolkit-core',
 					{
-						version: require('../../../package.json').version,
-						path: path.join('..', '..', '..', '..', '..', '..'),
+						version: require('../../../../package.json').version,
+						path: path.join(
+							'..',
+							'..',
+							'..',
+							'..',
+							'..',
+							'..',
+							'..'
+						),
 					},
 				],
 				[
 					'@liferay/npm-bundler',
 					{
-						version: require(`../../../../../../../node_modules/@liferay/npm-bundler/package.json`)
+						version: require(`../../../../../../../../node_modules/@liferay/npm-bundler/package.json`)
 							.version,
 						path: path.join(
+							'..',
 							'..',
 							'..',
 							'..',
