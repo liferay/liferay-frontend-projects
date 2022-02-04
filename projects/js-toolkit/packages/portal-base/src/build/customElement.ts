@@ -7,7 +7,6 @@
 
 import {
 	CustomElementBuildOptions,
-	FilePath,
 	Project,
 	RemoteAppManifestJson,
 	format,
@@ -74,16 +73,14 @@ function createManifest(project: Project): void {
 	print(info`Creating {manifest.json}...`);
 
 	const options = project.build.options as CustomElementBuildOptions;
-
-	const htmlElementName =
-		options.htmlElementName || findHtmlElementName(project.mainModuleFile);
+	const {htmlElementName} = options;
 
 	if (!htmlElementName) {
 		abort(
 			`
 Custom element name is not configured and cannot be inferred from the source code.
 
-Please configure it using {htmlElementName} in the {liferay.json} file.`
+Please configure it using {build.options.htmlElementName} in the {liferay.json} file.`
 		);
 	}
 
@@ -110,31 +107,4 @@ Please configure it using {htmlElementName} in the {liferay.json} file.`
 		JSON.stringify(manifest, null, '\t'),
 		'utf8'
 	);
-}
-
-function findHtmlElementName(file: FilePath): string | undefined {
-	const source = fs.readFileSync(file.asNative, 'utf8');
-	const regex = /customElements.define\(([^(]*)\)/;
-
-	const match = regex.exec(source);
-
-	if (!match) {
-		return undefined;
-	}
-
-	const args = match[1].trim();
-
-	if (!["'", '"'].includes(args[0])) {
-		return undefined;
-	}
-
-	const quote = args[0];
-
-	const i = args.indexOf(quote, 1);
-
-	if (i < 0) {
-		return undefined;
-	}
-
-	return args.substring(1, i);
 }
