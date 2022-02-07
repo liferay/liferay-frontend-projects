@@ -42,8 +42,7 @@ export default class Build {
 				);
 				break;
 
-			case 'bundler2':
-			default: {
+			case 'bundler2': {
 				/* eslint-disable-next-line @typescript-eslint/no-var-requires */
 				const bundler2Project = require('liferay-npm-build-tools-common/lib/project');
 
@@ -56,6 +55,11 @@ export default class Build {
 				);
 				break;
 			}
+
+			default:
+				throw new Error(
+					`Unknown project build type type: ${liferayJson.build.type}`
+				);
 		}
 	}
 

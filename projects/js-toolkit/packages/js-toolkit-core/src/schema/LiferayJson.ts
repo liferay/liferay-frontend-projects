@@ -6,7 +6,7 @@
 export default interface LiferayJson {
 	build?: {
 		options?: BuildConfig;
-		type: 'bundler2' | 'customElement';
+		type?: 'bundler2' | 'customElement';
 	};
 	deploy?: {
 		path?: string;

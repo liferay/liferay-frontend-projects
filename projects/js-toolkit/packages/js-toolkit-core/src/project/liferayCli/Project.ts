@@ -148,6 +148,9 @@ export default class Project {
 	}
 
 	private _normalizeLiferayJson(liferayJson: LiferayJson): LiferayJson {
+		liferayJson.build = liferayJson.build || {};
+		liferayJson.build.type = liferayJson.build.type || 'bundler2';
+
 		const options = liferayJson.build?.options;
 
 		if (options && options['externals']) {
