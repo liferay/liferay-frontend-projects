@@ -20,8 +20,12 @@ export default async function build(): Promise<void> {
 				await customElement(project);
 				break;
 
-			default:
+			case 'bundler2':
 				await bundler2(project);
+				break;
+
+			default:
+				abort(`Unknown project build type: ${project.build.type}`);
 				break;
 		}
 
