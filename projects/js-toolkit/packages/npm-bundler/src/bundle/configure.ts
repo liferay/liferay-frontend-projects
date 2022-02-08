@@ -3,7 +3,11 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {FilePath, ProjectType, isLocalModule} from '@liferay/js-toolkit-core';
+import {
+	B3ProjectType as ProjectType,
+	FilePath,
+	isLocalModule,
+} from '@liferay/js-toolkit-core';
 import fs from 'fs-extra';
 import webpack from 'webpack';
 

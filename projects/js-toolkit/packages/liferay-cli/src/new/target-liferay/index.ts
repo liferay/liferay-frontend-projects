@@ -15,6 +15,7 @@ import prompt from '../../util/prompt';
 import facetAngular from '../facet-angular';
 import facetBuildable from '../facet-buildable';
 import facetConfiguration from '../facet-configuration';
+import facetDeployable from '../facet-deployable';
 import facetLocalization from '../facet-localization';
 import facetPlainJs from '../facet-plain-js';
 import facetPortlet from '../facet-portlet';
@@ -57,8 +58,10 @@ const target: Target = {
 					name,
 					value,
 				})),
-				default: Object.entries(platforms)[0][1],
-				defaultDescription: `Using target platform: {${platforms[0]}`,
+				default: Object.entries(platforms)[0][0],
+				defaultDescription: `Using target platform: {${
+					Object.entries(platforms)[0][0]
+				}}`,
 				message: 'Which will be your target platform?',
 				name: 'platform',
 				type: 'list',
@@ -90,6 +93,7 @@ const target: Target = {
 		}
 
 		options = await facetBuildable.prompt(true, options);
+		options = await facetDeployable.prompt(true, options);
 		options = await projectTypeFacet.prompt(useDefaults, options);
 
 		if (projectTypeFacet.isPortlet) {
@@ -131,6 +135,7 @@ const target: Target = {
 		}
 
 		await facetBuildable.render(options);
+		await facetDeployable.render(options);
 		await projectTypeFacet.render(options);
 
 		if (projectTypeFacet.isPortlet) {

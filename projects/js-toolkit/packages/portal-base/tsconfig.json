@@ -3,6 +3,7 @@
 	"compilerOptions": {
 		"composite": true,
 		"declaration": true,
+		"lib": ["DOM"],
 		"outDir": "./lib",
 		"rootDir": "./src"
 	},

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {PkgDesc, ProjectType} from '@liferay/js-toolkit-core';
+import {B3ProjectType as ProjectType, PkgDesc} from '@liferay/js-toolkit-core';
 import fs from 'fs-extra';
 import pretty from 'pretty-time';
 

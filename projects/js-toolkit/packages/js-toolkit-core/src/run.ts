@@ -6,7 +6,7 @@
 import childProcess from 'child_process';
 import spawn from 'cross-spawn';
 
-import Project from './project/Project';
+import Project from './project/bundler3/Project';
 
 export interface RunResult {
 	signal?: NodeJS.Signals;

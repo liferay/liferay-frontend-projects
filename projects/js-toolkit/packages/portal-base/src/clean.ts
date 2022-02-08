@@ -13,12 +13,14 @@ const buildDir = new FilePath(project.buildDir.asNative);
 const distDir = new FilePath(project.jar.outputDir.asNative);
 
 export default async function clean(): Promise<void> {
+	const rmSync = fs['rmSync'] || fs.rmdirSync;
+
 	if (fs.existsSync(buildDir.asNative)) {
-		fs.rmdirSync(buildDir.asNative, {recursive: true});
+		rmSync(buildDir.asNative, {recursive: true});
 	}
 
 	if (fs.existsSync(distDir.asNative)) {
-		fs.rmdirSync(distDir.asNative, {recursive: true});
+		rmSync(distDir.asNative, {recursive: true});
 	}
 
 	print(success`{Removed output directories}`);

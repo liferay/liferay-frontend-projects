@@ -4,7 +4,7 @@
  */
 
 import {
-	Imports,
+	B3Imports as Imports,
 	JsSourceTransform,
 	addNamespace,
 	replaceJsSource,

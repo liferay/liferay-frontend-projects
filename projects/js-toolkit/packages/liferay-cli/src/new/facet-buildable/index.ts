@@ -28,14 +28,14 @@ const facet: Facet = {
 	async render(options: Options): Promise<void> {
 		print(info`Configuring build...`);
 
-		print(info`  Adding build directories to {.gitignore}`);
+		print(info`  Adding build artifacts to {.gitignore}`);
 
 		const gitignoreFile = ensureOutputFile(options, '.gitignore');
 
 		await transformTextFile(
 			gitignoreFile,
 			gitignoreFile,
-			appendLines('/build', '/dist', 'liferay-npm-bundler-report.html')
+			appendLines('/build')
 		);
 
 		print(info`  Configuring npm build scripts`);
@@ -48,7 +48,6 @@ const facet: Facet = {
 			addScripts({
 				build: 'liferay build',
 				clean: 'liferay clean',
-				deploy: 'liferay deploy',
 			})
 		);
 	},

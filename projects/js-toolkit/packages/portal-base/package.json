@@ -5,7 +5,9 @@
 		"@babel/preset-env": "^7.14.2",
 		"@babel/preset-react": "^7.13.13",
 		"@liferay/js-toolkit-core": "^4.0.1",
+		"babel-loader": "^8.2.3",
 		"babel-preset-liferay-standard": "^2.27.0",
+		"css-loader": "^6.6.0",
 		"liferay-npm-build-tools-common": "^2.27.0",
 		"liferay-npm-bundler": "^2.27.0",
 		"liferay-npm-bundler-loader-babel-loader": "^2.27.0",
@@ -20,8 +22,15 @@
 		"liferay-npm-bundler-plugin-namespace-packages": "^2.27.0",
 		"liferay-npm-bundler-plugin-replace-browser-modules": "^2.27.0",
 		"liferay-npm-bundler-plugin-resolve-linked-dependencies": "^2.27.0",
+		"mini-css-extract-plugin": "^2.5.3",
 		"resolve": "^1.20.0",
-		"sass": "^1.35.1"
+		"sass": "^1.35.1",
+		"sass-loader": "^12.4.0",
+		"terser-webpack-plugin": "^5.3.1",
+		"webpack": "^5.65.0",
+		"webpack-cli": "^4.9.1",
+		"webpack-dev-server": "^4.7.2",
+		"webpack-remove-empty-scripts": "^0.7.3"
 	},
 	"description": "Target Platform Base Code",
 	"license": "LGPL-3.0",
@@ -45,5 +54,8 @@
 		"preversion": "liferay-workspace-scripts ci",
 		"test": "liferay-workspace-scripts test"
 	},
-	"version": "1.0.0"
+	"version": "1.0.0",
+	"devDependencies": {
+		"@types/node": "^16.0.0"
+	}
 }

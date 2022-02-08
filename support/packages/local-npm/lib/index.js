@@ -72,7 +72,7 @@ function install(packageName) {
 
 	console.log(`  ⛔ Removing ${packageName} from node_modules`);
 	if (fs.existsSync(nodeModulesDir)) {
-		fs.rmdirSync(nodeModulesDir, {recursive: true});
+		fs.rmSync(nodeModulesDir, {recursive: true});
 	}
 
 	if (fs.existsSync('source-formatter.properties')) {
@@ -93,7 +93,9 @@ function install(packageName) {
 	}
 	else {
 		console.log(`  👊 Forcing reinstallation of ${packageName}\n`);
-		run('yarn', 'add', packageName, '--force', '-O', {stdio: 'inherit'});
+		run('yarn', 'add', packageName, '--force', '-O', '--update-checksums', {
+			stdio: 'inherit',
+		});
 	}
 
 	console.log('\n  🎉 All work done (exquisitely, we could say)\n');

@@ -4,7 +4,23 @@
  */
 
 export default interface LiferayJson {
+	build?: {
+		options?: BuildConfig;
+		type?: 'bundler2' | 'customElement';
+	};
 	deploy?: {
 		path?: string;
 	};
+	start?: {
+		port?: number;
+	};
+}
+
+export type BuildConfig = Bundler2BuildConfig | CustomElementBuildConfig;
+
+export type Bundler2BuildConfig = {};
+
+export interface CustomElementBuildConfig {
+	externals: {[bareIdentifier: string]: string} | string[];
+	htmlElementName?: string;
 }
