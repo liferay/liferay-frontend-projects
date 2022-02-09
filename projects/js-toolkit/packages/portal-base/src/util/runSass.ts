@@ -14,11 +14,11 @@ import findFiles from './findFiles';
 const {info, print} = format;
 
 export default function runSass(project: Project): FilePath[] {
-	if (!project.assetsDir) {
+	if (!project.srcDir) {
 		return;
 	}
 
-	const scssFiles = findFiles(project.assetsDir, (dirent) => {
+	const scssFiles = findFiles(project.srcDir, (dirent) => {
 		const lowerCaseName = dirent.name.toLowerCase();
 
 		return (
@@ -31,7 +31,7 @@ export default function runSass(project: Project): FilePath[] {
 	const cssFiles: FilePath[] = [];
 
 	scssFiles.forEach((scssFile) => {
-		const assetsDirRelScssFile = project.assetsDir.relative(scssFile);
+		const assetsDirRelScssFile = project.srcDir.relative(scssFile);
 		const outFile = project.build.dir.join(
 			assetsDirRelScssFile.asNative.replace(/\.scss$/, '.css')
 		);
