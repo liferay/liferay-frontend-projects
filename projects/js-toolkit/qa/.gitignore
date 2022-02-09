@@ -4,6 +4,8 @@
 /agnostic-shared-bundle
 /agnostic-vuejs-portlet
 
+/agnostic-remote-app
+
 /master-angular-portlet
 /master-plain-js-portlet
 /master-react-portlet

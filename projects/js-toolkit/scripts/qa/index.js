@@ -5,12 +5,15 @@
 
 const fs = require('fs');
 
+const check = require('./check');
 const {jsToolkitPath, qaDir} = require('./resources');
 const {
+	build,
 	deploy,
-	generate,
 	generateAngularCli,
 	generateCreateReactApp,
+	generatePortlet,
+	generateRemoteApp,
 	generateVueCli,
 	logStep,
 	spawn,
@@ -18,11 +21,15 @@ const {
 
 const argv = getTargets();
 
-['', 'clean', 'build'].forEach((target) =>
-	spawn('yarn', [target], {
-		cwd: jsToolkitPath,
-	})
-);
+if (argv['prepare']) {
+	logStep('Preparing things');
+
+	['', 'clean', 'build'].forEach((target) =>
+		spawn('yarn', [target], {
+			cwd: jsToolkitPath,
+		})
+	);
+}
 
 if (argv['clean']) {
 	logStep('Cleaning qa directory');
@@ -31,7 +38,7 @@ if (argv['clean']) {
 		cwd: qaDir,
 	});
 
-	spawn('git', ['clean', '-dxf'], {
+	spawn('git', ['clean', '-dxf', '-e', 'expected'], {
 		cwd: qaDir,
 	});
 }
@@ -39,36 +46,68 @@ if (argv['clean']) {
 if (argv['generate']) {
 	logStep('Generating test projects');
 
-	generate('agnostic-angular-portlet', 'portal-agnostic', 'Angular');
-	generate(
+	// Portlets
+
+	generatePortlet('agnostic-angular-portlet', 'portal-agnostic', 'Angular');
+	generatePortlet(
 		'agnostic-plain-js-portlet',
 		'portal-agnostic',
 		'Plain JavaScript'
 	);
-	generate('agnostic-react-portlet', 'portal-agnostic', 'React');
-	generate('agnostic-shared-bundle', 'portal-agnostic', 'Shared bundle');
-	generate('agnostic-vuejs-portlet', 'portal-agnostic', 'Vue.js');
+	generatePortlet('agnostic-react-portlet', 'portal-agnostic', 'React');
+	generatePortlet(
+		'agnostic-shared-bundle',
+		'portal-agnostic',
+		'Shared bundle'
+	);
+	generatePortlet('agnostic-vuejs-portlet', 'portal-agnostic', 'Vue.js');
 
-	//	generate('master-angular-portlet', 'portal-master', 'Angular');
-	//	generate('master-plain-js-portlet', 'portal-master', 'Plain JavaScript');
-	//	generate('master-react-portlet', 'portal-master', 'React');
-	//	generate('master-shared-bundle', 'portal-master', 'Shared bundle');
-	//	generate('master-vuejs-portlet', 'portal-master', 'Vue.js');
+	//	generatePortlet('master-angular-portlet', 'portal-master', 'Angular');
+	//	generatePortlet('master-plain-js-portlet', 'portal-master', 'Plain JavaScript');
+	//	generatePortlet('master-react-portlet', 'portal-master', 'React');
+	//	generatePortlet('master-shared-bundle', 'portal-master', 'Shared bundle');
+	//	generatePortlet('master-vuejs-portlet', 'portal-master', 'Vue.js');
+
+	// Remote Apps
+
+	generateRemoteApp('agnostic-remote-app', 'portal-agnostic');
+
+	// Adaptations
 
 	generateAngularCli('angular-cli-portlet');
 	generateCreateReactApp('create-react-app-portlet');
 	generateVueCli('vue-cli-portlet');
 }
 
+if (argv['build']) {
+	logStep('Building test projects');
+
+	forEachProject(build);
+}
+
+if (argv['check']) {
+	logStep('Checking test projects');
+
+	forEachProject(check);
+}
+
 if (argv['deploy']) {
 	logStep('Deploying test projects');
 
+	forEachProject(deploy);
+}
+
+function forEachProject(fn) {
 	fs.readdirSync(qaDir, {withFileTypes: true}).forEach((dirent) => {
 		if (!dirent.isDirectory()) {
 			return;
 		}
 
-		deploy(dirent.name);
+		if (dirent.name === 'expected') {
+			return;
+		}
+
+		fn(dirent.name);
 	});
 }
 
@@ -76,7 +115,7 @@ function getTargets() {
 	let argv = process.argv.slice(2);
 
 	if (!argv.length) {
-		argv = ['clean', 'generate', 'deploy'];
+		argv = ['prepare', 'clean', 'generate', 'build', 'check', 'deploy'];
 	}
 
 	argv = argv.reduce((hash, val) => {
