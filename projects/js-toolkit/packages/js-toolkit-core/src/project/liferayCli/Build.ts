@@ -82,7 +82,7 @@ export default class Build {
 		}
 
 		const options: CustomElementBuildOptions = {
-			externals: config.externals,
+			externals: config.externals || {},
 			htmlElementName: config.htmlElementName,
 		};
 

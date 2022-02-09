@@ -124,7 +124,14 @@ export default class Project {
 		const autopreset = this._getAutopreset();
 
 		if (autopreset) {
-			items.push(this.require(`${autopreset}/liferay.json`));
+			try {
+				items.push(this.require(`${autopreset}/liferay.json`));
+			}
+			catch (error) {
+
+				// ignore
+
+			}
 		}
 
 		[
