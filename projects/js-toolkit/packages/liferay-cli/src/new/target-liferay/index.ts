@@ -8,6 +8,7 @@ import {
 	format,
 	transformJsonFile,
 } from '@liferay/js-toolkit-core';
+import path from 'path';
 
 import dependencies from '../../dependencies.json';
 import ensureOutputFile from '../../util/ensureOutputFile';
@@ -35,7 +36,7 @@ export interface LiferayTargetFacet extends Facet {
 const {
 	PkgJson: {addDependencies},
 } = TRANSFORM_OPERATIONS;
-const {info, print} = format;
+const {info, print, success, text} = format;
 
 const projectTypeFacets: {[name: string]: LiferayTargetFacet} = {
 	'Angular': facetAngular,
@@ -143,6 +144,24 @@ const target: Target = {
 		}
 
 		await facetSampleConfiguration.render(options);
+
+		const {name} = options;
+
+		print(
+			'',
+			success`{Project has been generated successfully!}`,
+			'',
+			text`
+You can now run the following commands to build your project:
+
+    $ {cd ${name}| ↩|}
+    $ {npm install| ↩|} 
+    $ {npm run build| ↩|} 
+
+This will create a {${name}.jar} file in your {${path.join(name, 'dist')}}
+folder that you can deploy to your local Liferay server.
+`
+		);
 	},
 };
 
