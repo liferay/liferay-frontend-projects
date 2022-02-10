@@ -15,7 +15,6 @@ import dependencies from '../../dependencies.json';
 import ensureOutputFile from '../../util/ensureOutputFile';
 import prompt from '../../util/prompt';
 import facetBuildable from '../facet-buildable';
-import facetPlainJs from '../facet-plain-js';
 import facetProject from '../facet-project';
 import facetRemoteAppReact from '../facet-remote-app-react';
 import facetStartable from '../facet-startable';
@@ -32,8 +31,7 @@ const {info, print, success, text} = format;
 const TARGET_ID = 'target-remote-app';
 
 const projectTypeFacets: {[name: string]: RemoteAppTargetFacet} = {
-	'Plain JavaScript': facetPlainJs,
-	'React': facetRemoteAppReact,
+	React: facetRemoteAppReact,
 };
 const platforms = dependencies[TARGET_ID]['platforms'];
 
