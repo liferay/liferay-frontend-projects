@@ -1,3 +1,11 @@
+## [npm-bundler/v3.2.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-bundler/v3.2.0) (2022-02-10)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-bundler/v3.1.0...npm-bundler/v3.2.0)
+
+### :woman_juggling: Refactoring
+
+-   feat(js-toolkit-core)!: reorganize exported API to support liferay-cli projects ([\#842](https://github.com/liferay/liferay-frontend-projects/pull/842))
+
 ## [npm-bundler/v3.1.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-bundler/v3.1.0) (2021-03-16)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-bundler/v3.1.0-pre.0...npm-bundler/v3.1.0)
