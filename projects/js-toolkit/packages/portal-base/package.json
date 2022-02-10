@@ -4,7 +4,7 @@
 		"@babel/core": "^7.14.3",
 		"@babel/preset-env": "^7.14.2",
 		"@babel/preset-react": "^7.13.13",
-		"@liferay/js-toolkit-core": "^4.0.1",
+		"@liferay/js-toolkit-core": "^5.0.1",
 		"babel-loader": "^8.2.3",
 		"babel-preset-liferay-standard": "^2.27.0",
 		"css-loader": "^6.6.0",
