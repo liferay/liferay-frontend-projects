@@ -1,6 +1,6 @@
-## [npm-bundler/v3.2.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-bundler/v3.2.0) (2022-02-10)
+## [npm-bundler/v3.3.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-bundler/v3.3.0) (2022-02-10)
 
-[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-bundler/v3.1.0...npm-bundler/v3.2.0)
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-bundler/v3.1.0...npm-bundler/v3.3.0)
 
 ### :woman_juggling: Refactoring
 
