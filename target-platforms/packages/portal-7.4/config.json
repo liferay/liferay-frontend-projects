@@ -26,6 +26,9 @@
 			"@liferay/fragment-renderer-collection-filter-impl": {
 				"/": "*"
 			},
+			"@liferay/frontend-data-set-web": {
+				"/": "*"
+			},
 			"@liferay/frontend-js-a11y-web": {
 				"/": "*"
 			},
@@ -43,6 +46,9 @@
 				"/": "*"
 			},
 			"@liferay/frontend-taglib": {
+				"/": "*"
+			},
+			"@liferay/layout-content-page-editor-web": {
 				"/": "*"
 			},
 			"@liferay/map-common": {
