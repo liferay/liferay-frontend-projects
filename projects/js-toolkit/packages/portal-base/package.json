@@ -54,7 +54,7 @@
 		"preversion": "liferay-workspace-scripts ci",
 		"test": "liferay-workspace-scripts test"
 	},
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"devDependencies": {
 		"@types/node": "^16.0.0"
 	}
