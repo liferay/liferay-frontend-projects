@@ -1,3 +1,11 @@
+## [portal-base/v1.1.1](https://github.com/liferay/liferay-frontend-projects/tree/portal-base/v1.1.1) (2022-02-10)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/portal-base/v1.1.0...portal-base/v1.1.1)
+
+### :wrench: Bug fixes
+
+-   fix(portal-base): fix dependency version ([\#849](https://github.com/liferay/liferay-frontend-projects/pull/849))
+
 ## [portal-base/v1.1.0](https://github.com/liferay/liferay-frontend-projects/tree/portal-base/v1.1.0) (2022-02-10)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/portal-base/v1.0.0...portal-base/v1.1.0)
