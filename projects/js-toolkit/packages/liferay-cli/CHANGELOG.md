@@ -1,3 +1,12 @@
+## [liferay-cli/v1.1.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-cli/v1.1.0) (2022-02-10)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-cli/v1.0.1...liferay-cli/v1.1.0)
+
+### :new: Features
+
+-   feat: add JS Toolkit generator and build for Remote Apps ([\#842](https://github.com/liferay/liferay-frontend-projects/pull/842))
+-   feat: add DXP target platforms ([\#823](https://github.com/liferay/liferay-frontend-projects/pull/823))
+
 ## [liferay-cli/v1.0.1](https://github.com/liferay/liferay-frontend-projects/tree/liferay-cli/v1.0.1) (2021-12-17)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-cli/v1.0.0...liferay-cli/v1.0.1)
