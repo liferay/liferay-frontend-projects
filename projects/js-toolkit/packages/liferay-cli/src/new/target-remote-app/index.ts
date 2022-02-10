@@ -27,7 +27,7 @@ export type RemoteAppTargetFacet = Facet;
 const {
 	PkgJson: {addDependencies},
 } = TRANSFORM_OPERATIONS;
-const {info, print} = format;
+const {info, print, success, text} = format;
 
 const TARGET_ID = 'target-remote-app';
 
@@ -109,6 +109,31 @@ const target: Target = {
 		await facetBuildable.render(options);
 		await facetStartable.render(options);
 		await projectTypeFacet.render(options);
+
+		const {name} = options;
+
+		print(
+			'',
+			success`{Project has been generated successfully!}`,
+			'',
+			text`
+You can now run the following commands to build your project:
+
+    $ {cd ${name}| ↩|}
+    $ {npm install| ↩|} 
+    $ {npm run start| ↩|} 
+
+This will start a live development server that you can use to register and test
+your Remote App with Liferay DXP.
+
+Once you are finished with the development you can run:
+
+    $ {npm run build| ↩|}
+
+That will create a {build} directory inside the project with all the contents
+needed to deploy your Remote App to your production servers.
+`
+		);
 	},
 };
 

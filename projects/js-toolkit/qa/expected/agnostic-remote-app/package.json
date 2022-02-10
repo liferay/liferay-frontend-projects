@@ -1,0 +1,16 @@
+{
+  "name": "agnostic-remote-app",
+  "version": "1.0.0",
+  "description": "Agnostic Remote App",
+  "dependencies": {
+    "@liferay/portal-agnostic": "*",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0"
+  },
+  "scripts": {
+    "build": "liferay build",
+    "clean": "liferay clean",
+    "start": "liferay start"
+  },
+  "devDependencies": {}
+}

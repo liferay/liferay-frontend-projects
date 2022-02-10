@@ -43,8 +43,10 @@ export default class Build {
 				break;
 
 			case 'bundler2': {
-				/* eslint-disable-next-line @typescript-eslint/no-var-requires */
-				const bundler2Project = require('liferay-npm-build-tools-common/lib/project');
+				const {
+					default: bundler2Project,
+					/* eslint-disable-next-line @typescript-eslint/no-var-requires */
+				} = require('liferay-npm-build-tools-common/lib/project');
 
 				this.type = 'bundler2';
 				this.dir = new FilePath(
@@ -82,7 +84,7 @@ export default class Build {
 		}
 
 		const options: CustomElementBuildOptions = {
-			externals: config.externals,
+			externals: config.externals || {},
 			htmlElementName: config.htmlElementName,
 		};
 

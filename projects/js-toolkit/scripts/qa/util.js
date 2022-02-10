@@ -11,63 +11,12 @@ const path = require('path');
 
 const {liferayCliPath, liferayDir, qaDir, tmpDir} = require('./resources');
 
-function deploy(projectDirName) {
-	logStep(`DEPLOY: ${projectDirName}`);
-
-	const projectDir = path.join(qaDir, projectDirName);
-
-	const pkgJson = JSON.parse(
-		fs.readFileSync(path.join(projectDir, 'package.json'), 'utf8')
-	);
-
-	const {scripts} = pkgJson;
-
-	if (!scripts) {
-		return;
-	}
-
-	let buildScript;
-	let deployScript;
-
-	if (scripts['deploy']) {
-		deployScript = 'deploy';
-		buildScript = 'build';
-	}
-	else if (scripts['deploy:liferay']) {
-		deployScript = 'deploy:liferay';
-		buildScript = 'build:liferay';
-	}
-
-	if (!deployScript) {
-		return;
-	}
-
-	spawn('yarn', [], {
-		cwd: projectDir,
-	});
-
-	if (buildScript) {
-		spawn('yarn', [buildScript], {
-			cwd: projectDir,
-		});
-	}
-
-	spawn('yarn', [deployScript], {
-		cwd: projectDir,
-	});
+function build(projectDirName) {
+	runScript(projectDirName, 'build');
 }
 
-function generate(projectDirName, platform, projectType) {
-	logStep(`GENERATE: ${projectDirName}`);
-
-	zapProjectDir(projectDirName);
-
-	runLiferayCli(qaDir, ['new', projectDirName], {
-		platform,
-		projectType,
-	});
-
-	writeLiferayJsonFile(projectDirName);
+function deploy(projectDirName) {
+	runScript(projectDirName, 'deploy');
 }
 
 function generateAngularCli(projectDirName) {
@@ -118,6 +67,33 @@ function generateCreateReactApp(projectDirName) {
 	);
 }
 
+function generatePortlet(projectDirName, platform, projectType) {
+	logStep(`GENERATE: ${projectDirName}`);
+
+	zapProjectDir(projectDirName);
+
+	runLiferayCli(qaDir, ['new', projectDirName], {
+		platform,
+		projectType,
+		target: 'Liferay Platform Project',
+	});
+
+	writeLiferayJsonFile(projectDirName);
+}
+
+function generateRemoteApp(projectDirName, platform) {
+	logStep(`GENERATE: ${projectDirName}`);
+
+	zapProjectDir(projectDirName);
+
+	runLiferayCli(qaDir, ['new', projectDirName], {
+		platform,
+		target: 'Liferay Remote App Project',
+	});
+
+	writeLiferayJsonFile(projectDirName);
+}
+
 function generateVueCli(projectDirName) {
 	logStep(`GENERATE: ${projectDirName}`);
 
@@ -164,6 +140,42 @@ function runLiferayCli(dir, args, options) {
 	});
 }
 
+function runScript(projectDirName, baseScriptName) {
+	const projectDir = path.join(qaDir, projectDirName);
+
+	const pkgJson = JSON.parse(
+		fs.readFileSync(path.join(projectDir, 'package.json'), 'utf8')
+	);
+
+	const {scripts} = pkgJson;
+
+	if (!scripts) {
+		return;
+	}
+
+	let script;
+
+	if (scripts[`${baseScriptName}:liferay`]) {
+		script = `${baseScriptName}:liferay`;
+	}
+	else if (scripts[baseScriptName]) {
+		script = baseScriptName;
+	}
+
+	if (!script) {
+		return;
+	}
+
+	logStep(`${baseScriptName.toUpperCase()}: ${projectDirName}`);
+
+	spawn('yarn', [], {
+		cwd: projectDir,
+	});
+
+	spawn('yarn', [script], {
+		cwd: projectDir,
+	});
+}
 function spawn(cmd, args, options = {}) {
 	const proc = childProcess.spawnSync(cmd, args, {
 		cwd: path.join('..', '..'),
@@ -189,8 +201,10 @@ function writeLiferayJsonFile(projectDirName) {
 }
 
 function zapProjectDir(projectDirName) {
+	const rmdirSync = fs.rmSync || fs.rmdirSync;
+
 	try {
-		fs.rmdirSync(path.join(qaDir, projectDirName), {recursive: true});
+		rmdirSync(path.join(qaDir, projectDirName), {recursive: true});
 	}
 	catch (error) {
 		if (error.code !== 'ENOENT') {
@@ -200,10 +214,12 @@ function zapProjectDir(projectDirName) {
 }
 
 module.exports = {
+	build,
 	deploy,
-	generate,
 	generateAngularCli,
 	generateCreateReactApp,
+	generatePortlet,
+	generateRemoteApp,
 	generateVueCli,
 	logStep,
 	spawn,

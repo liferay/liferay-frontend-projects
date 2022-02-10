@@ -5,11 +5,10 @@
 
 import {FilePath, format} from '@liferay/js-toolkit-core';
 import fs from 'fs';
-import path from 'path';
 
 import prompt from '../util/prompt';
 
-const {fail, info, print, success, text, title} = format;
+const {fail, info, print, text, title} = format;
 
 export type OptionValue = FilePath | boolean | number | string;
 
@@ -105,22 +104,6 @@ export default async function newProject(
 		print('', text`⚙ Generating project...`);
 
 		await target.render(options);
-
-		print(
-			'',
-			success`{Project has been generated successfully!}`,
-			'',
-			text`
-You can now run the following commands to build your project:
-
-    $ {cd ${name}| ↩|}
-    $ {npm install| ↩|} 
-    $ {npm run build| ↩|} 
-
-This will create a {${name}.jar} file in your {${path.join(name, 'dist')}}
-folder that you can deploy to your local Liferay server.
-`
-		);
 	}
 	catch (error) {
 		print(fail`Could not generate project due to error:`);
