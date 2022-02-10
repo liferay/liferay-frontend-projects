@@ -5,13 +5,13 @@
 		"chalk": "^2.4.2",
 		"clone": "^2.1.2",
 		"cross-spawn": "^7.0.0",
-		"dot-prop": "^5.0.1",
 		"deepmerge": "^4.0.0",
+		"dot-prop": "^5.0.1",
 		"ejs": "^2.6.1",
 		"escodegen": "^1.14.1",
 		"estraverse": "^4.3.0",
-		"liferay-npm-build-tools-common": "^2.0.0",
 		"fs-extra": "^8.1.0",
+		"liferay-npm-build-tools-common": "^2.0.0",
 		"properties": "^1.2.1",
 		"read-json-sync": "^2.0.1",
 		"resolve": "^1.8.1",
@@ -40,5 +40,5 @@
 		"preversion": "liferay-workspace-scripts ci",
 		"test": "liferay-workspace-scripts test"
 	},
-	"version": "4.1.0"
+	"version": "5.0.0"
 }
