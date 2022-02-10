@@ -1,3 +1,11 @@
+## [js-toolkit-core/v5.0.0](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v5.0.0) (2022-02-10)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v4.1.0...js-toolkit-core/v5.0.0)
+
+### :boom: Breaking changes
+
+-   feat(js-toolkit-core)!: reorganize exported API to support liferay-cli projects ([\#842](https://github.com/liferay/liferay-frontend-projects/pull/842))
+
 ## [js-toolkit-core/v4.1.0](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v4.1.0) (2021-12-17)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v4.0.1...js-toolkit-core/v4.1.0)
