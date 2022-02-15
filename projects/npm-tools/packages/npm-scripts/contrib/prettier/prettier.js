@@ -992,6 +992,33 @@ module.exports = {
 	version: '2.1.2',
 };
 
+function getWorkspaceRoot(filepath) {
+	let current = filepath;
+
+	while (true) {
+		const parent = path.dirname(current);
+
+		const candidate = path.join(parent, 'settings.gradle');
+
+		if (fs.existsSync(candidate)) {
+			current = candidate;
+
+			break;
+		}
+		else if (parent === current) {
+
+			// Can't go any higher.
+
+			return null;
+		}
+		else {
+			current = parent;
+		}
+	}
+
+	return path.dirname(current);
+}
+
 /**
  * Returns the root directory if `filepath` is inside a liferay-portal
  * checkout, otherwise returns null.
@@ -1080,10 +1107,10 @@ function prepare(filepath) {
 
 	let file = 'prettier';
 
-	let root = getPortalRoot(filepath);
+	const workspaceRoot = getWorkspaceRoot(filepath);
 
-	if (root) {
-		const modules = path.join(root, 'modules/node_modules');
+	if (workspaceRoot) {
+		const modules = path.join(workspaceRoot, 'node_modules');
 
 		let scripts = path.join(modules, '@liferay/npm-scripts');
 
@@ -1106,12 +1133,40 @@ function prepare(filepath) {
 			file = fallback;
 		}
 	}
-	else {
-		root = getFrontendProjectsRoot(filepath);
 
-		if (root) {
+	const portalRoot = getPortalRoot(filepath);
+
+	if (portalRoot) {
+		const modules = path.join(portalRoot, 'modules/node_modules');
+
+		let scripts = path.join(modules, '@liferay/npm-scripts');
+
+		let wrapper = path.join(scripts, 'src/scripts/prettier.js');
+
+		if (!fs.existsSync(wrapper)) {
+			scripts = path.join(modules, 'liferay-npm-scripts');
+
+			wrapper = path.join(scripts, 'src/scripts/prettier.js');
+		}
+
+		const fallback = path.join(modules, 'prettier/bin-prettier.js');
+
+		if (fs.existsSync(wrapper)) {
+			dir = scripts;
+			file = wrapper;
+		}
+		else if (fs.existsSync(fallback)) {
+			dir = modules;
+			file = fallback;
+		}
+	}
+
+	const frontendProjectsRoot = getFrontendProjectsRoot(filepath);
+
+	if (frontendProjectsRoot) {
+		if (frontendProjectsRoot) {
 			const scripts = path.join(
-				root,
+				frontendProjectsRoot,
 				'projects/npm-tools/packages/npm-scripts'
 			);
 
