@@ -1164,28 +1164,26 @@ function prepare(filepath) {
 	const frontendProjectsRoot = getFrontendProjectsRoot(filepath);
 
 	if (frontendProjectsRoot) {
-		if (frontendProjectsRoot) {
-			const scripts = path.join(
-				frontendProjectsRoot,
-				'projects/npm-tools/packages/npm-scripts'
-			);
+		const scripts = path.join(
+			frontendProjectsRoot,
+			'projects/npm-tools/packages/npm-scripts'
+		);
 
-			const wrapper = path.join(scripts, 'src/scripts/prettier.js');
+		const wrapper = path.join(scripts, 'src/scripts/prettier.js');
 
-			if (fs.existsSync(wrapper)) {
-				dir = scripts;
-				file = wrapper;
-			}
+		if (fs.existsSync(wrapper)) {
+			dir = scripts;
+			file = wrapper;
 		}
-		else {
-			const extension = require('vscode').extensions.getExtension(
-				'esbenp.prettier-vscode'
-			);
+	}
+	else {
+		const extension = require('vscode').extensions.getExtension(
+			'esbenp.prettier-vscode'
+		);
 
-			if (extension) {
-				dir = path.join(extension.extensionPath);
-				file = path.join(dir, 'node_modules/prettier');
-			}
+		if (extension) {
+			dir = path.join(extension.extensionPath);
+			file = path.join(dir, 'node_modules/prettier');
 		}
 	}
 
