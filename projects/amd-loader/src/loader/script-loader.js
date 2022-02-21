@@ -67,6 +67,7 @@ export default class ScriptLoader {
 
 			script.src = modulesURL.url;
 			script.async = false;
+			script.type = 'module';
 
 			script.onload = script.onreadystatechange = () => {
 				if (
