@@ -47,17 +47,22 @@ function createExportsBridges(projectDir, outDir, exportsMap) {
 
 		const module = require(resolve.sync(moduleName, {basedir: projectDir}));
 		const fields = Object.keys(module)
+			.filter((field) => field !== 'default')
 			.map((field) => `	${field}`)
 			.join(',\n');
 
-		const bridgeSource = `const amdModule = await new Promise((resolve, reject) => {
+		let bridgeSource = `
+const amdModule = await new Promise((resolve, reject) => {
 	Liferay.Loader.require(
 		'${nsModuleName}',
 		resolve,
 		reject
 	);
 });
+`;
 
+		if (fields.length) {
+			bridgeSource += `
 const {
 ${fields}
 } = amdModule;
@@ -65,7 +70,10 @@ ${fields}
 export {
 ${fields}
 };
+`;
+		}
 
+		bridgeSource += `
 export default amdModule;
 `;
 
