@@ -114,7 +114,7 @@ function publish(projects) {
 
 		console.log(`       ${pkgId}`);
 
-		run('npm', 'unpublish', pkgId, {lenient: true});
+		run('npm', 'unpublish', pkgId, '--force', {lenient: true});
 		run('yarn', 'cache', 'clean', pkgId);
 	});
 
