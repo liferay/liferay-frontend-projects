@@ -89,6 +89,7 @@ function install(packageName) {
 
 		console.log(`  👊 Forcing reinstallation of ${packageName}\n`);
 		run('git', 'checkout', 'yarn.lock', {stdio: 'inherit'});
+		run('yarn', 'add', packageName, '--force', '-O', '-W');
 		run('yarn', 'install', '--update-checksums');
 	}
 	else {
