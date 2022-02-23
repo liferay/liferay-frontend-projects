@@ -24,7 +24,7 @@ const resolve = require('resolve');
  * Map of ESM exports, where keys are bare identifiers, and values are a valid
  * npm module path.
  */
-function createExportsBridges(projectDir, outDir, exportsMap) {
+function createAmd2EsmExportsBridges(projectDir, outDir, exportsMap) {
 	Object.entries(exportsMap).forEach(([bareIdentifier, moduleName]) => {
 		const {modulePath, pkgName, scope} = splitModuleName(moduleName);
 
@@ -74,13 +74,15 @@ ${fields}
 		}
 
 		bridgeSource += `
-export default amdModule;
+const {default: amdDefault} = amdModule;
+
+export default amdDefault;
 `;
 
 		const bridgePath = path.join(
 			outDir,
 			'__liferay__',
-			'amd2esm',
+			'exports',
 			`${bareIdentifier}.js`
 		);
 
@@ -90,4 +92,4 @@ export default amdModule;
 	});
 }
 
-module.exports = createExportsBridges;
+module.exports = createAmd2EsmExportsBridges;
