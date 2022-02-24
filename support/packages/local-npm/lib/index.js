@@ -89,7 +89,19 @@ function install(packageName) {
 
 		console.log(`  👊 Forcing reinstallation of ${packageName}\n`);
 		run('git', 'checkout', 'yarn.lock', {stdio: 'inherit'});
-		run('yarn', 'add', packageName, '--force', '-O', '-W');
+
+		const pkgJson = require(path.resolve('./package.json'));
+
+		pkgJson.dependencies = pkgJson.dependencies || {};
+		pkgJson.devDependencies = pkgJson.devDependencies || {};
+
+		const version =
+			pkgJson.dependencies[packageName] ||
+			pkgJson.devDependencies[packageName] ||
+			'latest';
+
+		run('yarn', 'add', `${packageName}@${version}`, '--force', '-O', '-W');
+
 		run('yarn', 'install', '--update-checksums');
 	}
 	else {
