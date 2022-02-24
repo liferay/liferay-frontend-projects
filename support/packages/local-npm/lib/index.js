@@ -89,6 +89,7 @@ function install(packageName) {
 
 		console.log(`  👊 Forcing reinstallation of ${packageName}\n`);
 		run('git', 'checkout', 'yarn.lock', {stdio: 'inherit'});
+		run('yarn', 'add', packageName, '--force', '-O', '-W');
 		run('yarn', 'install', '--update-checksums');
 	}
 	else {
@@ -114,7 +115,7 @@ function publish(projects) {
 
 		console.log(`       ${pkgId}`);
 
-		run('npm', 'unpublish', pkgId, {lenient: true});
+		run('npm', 'unpublish', pkgId, '--force', {lenient: true});
 		run('yarn', 'cache', 'clean', pkgId);
 	});
 
