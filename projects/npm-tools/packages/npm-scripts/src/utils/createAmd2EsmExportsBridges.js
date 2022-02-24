@@ -45,39 +45,45 @@ function createAmd2EsmExportsBridges(projectDir, outDir, exportsMap) {
 			rootPkgJson
 		);
 
+		let source = '';
+
+		source +=
+			'const amdModule = await new Promise((resolve, reject) => {\n';
+		source += `	Liferay.Loader.require('${nsModuleName}', resolve, reject);\n`;
+		source += '});\n';
+
 		const module = require(resolve.sync(moduleName, {basedir: projectDir}));
-		const fields = Object.keys(module)
+
+		const nonDefaultFields = Object.keys(module)
 			.filter((field) => field !== 'default')
 			.map((field) => `	${field}`)
 			.join(',\n');
 
-		let bridgeSource = `
-const amdModule = await new Promise((resolve, reject) => {
-	Liferay.Loader.require(
-		'${nsModuleName}',
-		resolve,
-		reject
-	);
-});
-`;
+		// Extract relevant values from AMD module
 
-		if (fields.length) {
-			bridgeSource += `
-const {
-${fields}
-} = amdModule;
-
-export {
-${fields}
-};
-`;
+		if (nonDefaultFields.length) {
+			source += 'const {\n';
+			source += `${nonDefaultFields}\n`;
+			source += '} = amdModule;\n';
 		}
 
-		bridgeSource += `
-const {default: amdDefault} = amdModule;
+		// Export named values
 
-export default amdDefault;
-`;
+		source += 'const __esModule = true;\n';
+		source += 'export {\n';
+		source += '	__esModule,\n';
+
+		if (nonDefaultFields.length) {
+			source += `${nonDefaultFields}\n`;
+		}
+
+		source += '};\n';
+
+		// Export default value
+
+		source += `export default amdModule;\n`;
+
+		// Write the file
 
 		const bridgePath = path.join(
 			outDir,
@@ -88,7 +94,7 @@ export default amdDefault;
 
 		fs.mkdirSync(path.dirname(bridgePath), {recursive: true});
 
-		fs.writeFileSync(bridgePath, bridgeSource);
+		fs.writeFileSync(bridgePath, source);
 	});
 }
 

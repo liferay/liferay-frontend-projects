@@ -75,5 +75,10 @@ function getWebpackConfig(config) {
 			path: path.resolve(config.output),
 		},
 		plugins: [],
+		resolve: {
+			fallback: {
+				path: false,
+			},
+		},
 	};
 }

@@ -207,6 +207,17 @@ function getMergedConfig(type, property) {
 					deepMerge.MODE.NPMSCRIPTS
 				);
 			}
+
+			if (Array.isArray(mergedConfig.build?.exports)) {
+				mergedConfig.build = mergedConfig.build || {};
+				mergedConfig.build.bundler = mergedConfig.build.bundler || {};
+				mergedConfig.build.bundler.exclude =
+					mergedConfig.build.bundler.exclude || {};
+
+				mergedConfig.build.exports.forEach((pkgName) => {
+					mergedConfig.build.bundler.exclude[pkgName] = true;
+				});
+			}
 			break;
 		}
 

@@ -3,7 +3,10 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+/* eslint-disable no-console */
+
 const {joinModuleName, splitModuleName} = require('@liferay/js-toolkit-core');
+const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const WebpackError = require('webpack/lib/WebpackError');
@@ -29,7 +32,7 @@ module.exports = async function runWebpack(config) {
 	if (stats.hasErrors()) {
 		abortWithErrors(stats);
 	}
-	else {
+	else if (config.report) {
 		console.log(`Successfully bundled project with webpack.`);
 		console.log(`  Created assets:`);
 
