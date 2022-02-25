@@ -1,3 +1,12 @@
+## [npm-scripts/v47.3.0-pre.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.3.0-pre.0) (2022-02-25)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.2.0...npm-scripts/v47.3.0-pre.0)
+
+### :new: Features
+
+-   feat(npm-scripts): add a webpack based build leveraging ESM ([\#868](https://github.com/liferay/liferay-frontend-projects/pull/868))
+-   feat(npm-scripts): Add "extra" to the list of folders to check with yarn format ([\#839](https://github.com/liferay/liferay-frontend-projects/pull/839))
+
 ## [npm-scripts/v47.2.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.2.0) (2022-01-21)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.1.0...npm-scripts/v47.2.0)
