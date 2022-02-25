@@ -24,7 +24,7 @@ const resolve = require('resolve');
  * Map of ESM exports, where keys are bare identifiers, and values are a valid
  * npm module path.
  */
-function createExportsBridges(projectDir, outDir, exportsMap) {
+function createAmd2EsmExportsBridges(projectDir, outDir, exportsMap) {
 	Object.entries(exportsMap).forEach(([bareIdentifier, moduleName]) => {
 		const {modulePath, pkgName, scope} = splitModuleName(moduleName);
 
@@ -45,41 +45,57 @@ function createExportsBridges(projectDir, outDir, exportsMap) {
 			rootPkgJson
 		);
 
+		let source = '';
+
+		source +=
+			'const amdModule = await new Promise((resolve, reject) => {\n';
+		source += `	Liferay.Loader.require('${nsModuleName}', resolve, reject);\n`;
+		source += '});\n';
+
 		const module = require(resolve.sync(moduleName, {basedir: projectDir}));
-		const fields = Object.keys(module)
+
+		const nonDefaultFields = Object.keys(module)
+			.filter((field) => field !== 'default')
 			.map((field) => `	${field}`)
 			.join(',\n');
 
-		const bridgeSource = `const amdModule = await new Promise((resolve, reject) => {
-	Liferay.Loader.require(
-		'${nsModuleName}',
-		resolve,
-		reject
-	);
-});
+		// Extract relevant values from AMD module
 
-const {
-${fields}
-} = amdModule;
+		if (nonDefaultFields.length) {
+			source += 'const {\n';
+			source += `${nonDefaultFields}\n`;
+			source += '} = amdModule;\n';
+		}
 
-export {
-${fields}
-};
+		// Export named values
 
-export default amdModule;
-`;
+		source += 'const __esModule = true;\n';
+		source += 'export {\n';
+		source += '	__esModule,\n';
+
+		if (nonDefaultFields.length) {
+			source += `${nonDefaultFields}\n`;
+		}
+
+		source += '};\n';
+
+		// Export default value
+
+		source += `export default amdModule;\n`;
+
+		// Write the file
 
 		const bridgePath = path.join(
 			outDir,
 			'__liferay__',
-			'amd2esm',
+			'exports',
 			`${bareIdentifier}.js`
 		);
 
 		fs.mkdirSync(path.dirname(bridgePath), {recursive: true});
 
-		fs.writeFileSync(bridgePath, bridgeSource);
+		fs.writeFileSync(bridgePath, source);
 	});
 }
 
-module.exports = createExportsBridges;
+module.exports = createAmd2EsmExportsBridges;

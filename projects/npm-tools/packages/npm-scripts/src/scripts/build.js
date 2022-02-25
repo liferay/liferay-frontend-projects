@@ -8,7 +8,8 @@ const path = require('path');
 
 let buildSass = require('../sass/build');
 let runTSC = require('../typescript/runTSC');
-const createExportsBridges = require('../utils/createExportsBridges');
+const createAmd2EsmExportsBridges = require('../utils/createAmd2EsmExportsBridges');
+const createEsm2AmdExportsBridges = require('../utils/createEsm2AmdExportsBridges');
 const createTempFile = require('../utils/createTempFile');
 const getMergedConfig = require('../utils/getMergedConfig');
 const instrument = require('../utils/instrument');
@@ -16,6 +17,7 @@ let minify = require('../utils/minify');
 let runBabel = require('../utils/runBabel');
 let runBridge = require('../utils/runBridge');
 let runBundler = require('../utils/runBundler');
+let runWebpackAsBundler = require('../utils/runWebpackAsBundler');
 const setEnv = require('../utils/setEnv');
 let {buildSoy, cleanSoy, soyExists, translateSoy} = require('../utils/soy');
 const validateConfig = require('../utils/validateConfig');
@@ -32,6 +34,7 @@ const CWD = process.cwd();
 	runBridge,
 	runBundler,
 	runTSC,
+	runWebpackAsBundler,
 	soyExists,
 	translateSoy,
 	webpack,
@@ -44,6 +47,7 @@ const CWD = process.cwd();
 	runBridge,
 	runBundler,
 	runTSC,
+	runWebpackAsBundler,
 	soyExists,
 	translateSoy,
 	webpack,
@@ -129,18 +133,27 @@ module.exports = async function (...args) {
 			runBundler();
 		}
 
-		translateSoy(BUILD_CONFIG.output);
+		if (Array.isArray(BUILD_CONFIG.exports)) {
+			await runWebpackAsBundler(BUILD_CONFIG);
 
-		if (fs.existsSync(path.join(CWD, '.npmbridgerc'))) {
-			runBridge();
-		}
-
-		if (BUILD_CONFIG.exports) {
-			createExportsBridges(
+			createEsm2AmdExportsBridges(
 				CWD,
 				BUILD_CONFIG.output,
 				BUILD_CONFIG.exports
 			);
+		}
+		else if (BUILD_CONFIG.exports) {
+			createAmd2EsmExportsBridges(
+				CWD,
+				BUILD_CONFIG.output,
+				BUILD_CONFIG.exports
+			);
+		}
+
+		translateSoy(BUILD_CONFIG.output);
+
+		if (fs.existsSync(path.join(CWD, '.npmbridgerc'))) {
+			runBridge();
 		}
 
 		if (useSoy) {
