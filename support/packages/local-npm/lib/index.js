@@ -100,9 +100,15 @@ function install(packageName) {
 			pkgJson.devDependencies[packageName] ||
 			'latest';
 
-		run('yarn', 'add', `${packageName}@${version}`, '--force', '-O', '-W');
-
-		run('yarn', 'install', '--update-checksums');
+		run(
+			'yarn',
+			'add',
+			`${packageName}@${version}`,
+			'--force',
+			'-O',
+			'-W',
+			'--update-checksums'
+		);
 	}
 	else {
 		console.log(`  👊 Forcing reinstallation of ${packageName}\n`);
