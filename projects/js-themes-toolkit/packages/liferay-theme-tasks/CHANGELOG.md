@@ -1,3 +1,11 @@
+## [liferay-theme-tasks/v11.2.2](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v11.2.2) (2022-03-01)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v11.2.1...liferay-theme-tasks/v11.2.2)
+
+### :wrench: Bug fixes
+
+-   fix(theme-tasks): update liferay-font-awesome version reference ([\#872](https://github.com/liferay/liferay-frontend-projects/pull/872))
+
 ## [liferay-theme-tasks/v11.2.1](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v11.2.1) (2022-01-25)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v11.2.0...liferay-theme-tasks/v11.2.1)
