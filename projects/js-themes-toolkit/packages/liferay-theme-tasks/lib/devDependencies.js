@@ -56,7 +56,7 @@ module.exports = {
 				'liferay-theme-tasks': themeTasksVersion,
 			},
 			optional: {
-				'liferay-font-awesome': strict('3.5.0'),
+				'liferay-font-awesome': strict('3.5.1'),
 			},
 		},
 		7.3: {
@@ -69,7 +69,7 @@ module.exports = {
 				'liferay-theme-tasks': themeTasksVersion,
 			},
 			optional: {
-				'liferay-font-awesome': strict('3.5.0'),
+				'liferay-font-awesome': strict('3.5.1'),
 			},
 		},
 		7.4: {
@@ -82,7 +82,7 @@ module.exports = {
 				'liferay-theme-tasks': themeTasksVersion,
 			},
 			optional: {
-				'liferay-font-awesome': strict('3.5.0'),
+				'liferay-font-awesome': strict('3.5.1'),
 			},
 		},
 
