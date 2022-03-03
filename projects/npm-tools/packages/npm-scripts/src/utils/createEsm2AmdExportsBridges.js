@@ -21,11 +21,11 @@ const flattenPkgName = require('./flattenPkgName');
  *
  * @param {string} projectDir path to project's directory
  * @param {string} outDir path to output directory
- * @param {string[]} exports
+ * @param {{bridge: boolean, package: string}[]} exports
  */
 function createEsm2AmdExportsBridges(projectDir, outDir, exports) {
-	exports.forEach((exportPkgName) => {
-		const {pkgName, scope} = splitModuleName(exportPkgName);
+	exports.forEach((exportItem) => {
+		const {pkgName, scope} = splitModuleName(exportItem.package);
 
 		const scopedPkgName = joinModuleName(scope, pkgName, '');
 
@@ -66,30 +66,23 @@ function createEsm2AmdExportsBridges(projectDir, outDir, exports) {
 			'utf8'
 		);
 
-		let bridgeSource = '';
+		const webContextPath = getBndWebContextPath() || `/${rootPkgJson.name}`;
 
-		const flattenedPkgName = flattenPkgName(exportPkgName);
+		const rootDir = `../../../..${webContextPath}`;
 
-		// TODO: use Web-ContextPath instead of rootPkgJson.name
+		const flattenedPkgName = flattenPkgName(exportItem.package);
 
-		bridgeSource += `import * as esModule from `;
-		bridgeSource += `"../../../../${rootPkgJson.name}`;
-		bridgeSource += `/__liferay__/exports/${flattenedPkgName}.js";`;
+		const bridgeSource = `
+import * as esModule from "${rootDir}/__liferay__/exports/${flattenedPkgName}.js";
 
-		bridgeSource += '\n';
-		bridgeSource += '\n';
-
-		bridgeSource += `Liferay.Loader.define(`;
-		bridgeSource += `"${namespacedScopedPkgName}@${pkgJson.version}/index"`;
-		bridgeSource += `, ['module'], function (module) {`;
-
-		bridgeSource += '\n';
-
-		bridgeSource += `  module.exports = esModule;`;
-
-		bridgeSource += '\n';
-
-		bridgeSource += `});`;
+Liferay.Loader.define(
+	"${namespacedScopedPkgName}@${pkgJson.version}/index",
+	['module'], 
+	function (module) {
+		module.exports = esModule;
+	}
+);
+`;
 
 		fs.writeFileSync(
 			path.join(packageDir, 'index.js'),
@@ -109,6 +102,26 @@ function getPackageTargetDir(pkgJson) {
 	}
 
 	return targetFolder;
+}
+
+function getBndWebContextPath() {
+	const bndFile = path.resolve('bnd.bnd');
+
+	if (fs.existsSync(bndFile)) {
+		const bnd = fs.readFileSync(bndFile, 'utf8');
+
+		const lines = bnd.split('\n');
+
+		const webContextPathLine = lines.find((line) =>
+			line.startsWith('Web-ContextPath:')
+		);
+
+		if (webContextPathLine !== undefined) {
+			return webContextPathLine.substring(16).trim();
+		}
+	}
+
+	return undefined;
 }
 
 module.exports = createEsm2AmdExportsBridges;

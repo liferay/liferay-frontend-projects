@@ -13,7 +13,7 @@ const WebpackError = require('webpack/lib/WebpackError');
 
 const findRoot = require('./findRoot');
 
-module.exports = async function runWebpack(config) {
+module.exports = async function runWebpack(config, report = false) {
 	const stats = await new Promise((resolve, reject) => {
 		try {
 			const compiler = webpack(config);
@@ -32,7 +32,7 @@ module.exports = async function runWebpack(config) {
 	if (stats.hasErrors()) {
 		abortWithErrors(stats);
 	}
-	else if (config.report) {
+	else if (report) {
 		console.log(`Successfully bundled project with webpack.`);
 		console.log(`  Created assets:`);
 
