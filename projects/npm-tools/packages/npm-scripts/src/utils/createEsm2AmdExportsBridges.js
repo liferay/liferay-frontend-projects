@@ -66,10 +66,11 @@ function createEsm2AmdExportsBridges(projectDir, outDir, exports) {
 			'utf8'
 		);
 
-		const flattenedPkgName = flattenPkgName(exportItem.package);
-		const rootDir = `../../../../${rootPkgJson.name}`;
+		const webContextPath = getBndWebContextPath() || `/${rootPkgJson.name}`;
 
-		// TODO: use Web-ContextPath instead of rootPkgJson.name
+		const rootDir = `../../../..${webContextPath}`;
+
+		const flattenedPkgName = flattenPkgName(exportItem.package);
 
 		const bridgeSource = `
 import * as esModule from "${rootDir}/__liferay__/exports/${flattenedPkgName}.js";
@@ -101,6 +102,26 @@ function getPackageTargetDir(pkgJson) {
 	}
 
 	return targetFolder;
+}
+
+function getBndWebContextPath() {
+	const bndFile = path.resolve('bnd.bnd');
+
+	if (fs.existsSync(bndFile)) {
+		const bnd = fs.readFileSync(bndFile, 'utf8');
+
+		const lines = bnd.split('\n');
+
+		const webContextPathLine = lines.find((line) =>
+			line.startsWith('Web-ContextPath:')
+		);
+
+		if (webContextPathLine !== undefined) {
+			return webContextPathLine.substring(16).trim();
+		}
+	}
+
+	return undefined;
 }
 
 module.exports = createEsm2AmdExportsBridges;
