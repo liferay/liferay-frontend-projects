@@ -1,3 +1,11 @@
+## [npm-scripts/v47.3.0-pre.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.3.0-pre.1) (2022-03-03)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.3.0-pre.0...npm-scripts/v47.3.0-pre.1)
+
+### :new: Features
+
+-   feat(npm-scripts): support bridged exports ([\#875](https://github.com/liferay/liferay-frontend-projects/pull/875))
+
 ## [npm-scripts/v47.3.0-pre.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.3.0-pre.0) (2022-02-25)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.2.0...npm-scripts/v47.3.0-pre.0)
