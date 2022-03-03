@@ -66,30 +66,22 @@ function createEsm2AmdExportsBridges(projectDir, outDir, exports) {
 			'utf8'
 		);
 
-		let bridgeSource = '';
-
-		const flattenedPkgName = flattenPkgName(exportPkgName);
+		const flattenedPkgName = flattenPkgName(exportItem.package);
+		const rootDir = `../../../../${rootPkgJson.name}`;
 
 		// TODO: use Web-ContextPath instead of rootPkgJson.name
 
-		bridgeSource += `import * as esModule from `;
-		bridgeSource += `"../../../../${rootPkgJson.name}`;
-		bridgeSource += `/__liferay__/exports/${flattenedPkgName}.js";`;
+		const bridgeSource = `
+import * as esModule from "${rootDir}/__liferay__/exports/${flattenedPkgName}.js";
 
-		bridgeSource += '\n';
-		bridgeSource += '\n';
-
-		bridgeSource += `Liferay.Loader.define(`;
-		bridgeSource += `"${namespacedScopedPkgName}@${pkgJson.version}/index"`;
-		bridgeSource += `, ['module'], function (module) {`;
-
-		bridgeSource += '\n';
-
-		bridgeSource += `  module.exports = esModule;`;
-
-		bridgeSource += '\n';
-
-		bridgeSource += `});`;
+Liferay.Loader.define(
+	"${namespacedScopedPkgName}@${pkgJson.version}/index",
+	['module'], 
+	function (module) {
+		module.exports = esModule;
+	}
+);
+`;
 
 		fs.writeFileSync(
 			path.join(packageDir, 'index.js'),
