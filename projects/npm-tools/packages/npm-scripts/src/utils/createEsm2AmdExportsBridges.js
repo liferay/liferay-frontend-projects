@@ -21,11 +21,11 @@ const flattenPkgName = require('./flattenPkgName');
  *
  * @param {string} projectDir path to project's directory
  * @param {string} outDir path to output directory
- * @param {string[]} exports
+ * @param {{bridge: boolean, package: string}[]} exports
  */
 function createEsm2AmdExportsBridges(projectDir, outDir, exports) {
-	exports.forEach((exportPkgName) => {
-		const {pkgName, scope} = splitModuleName(exportPkgName);
+	exports.forEach((exportItem) => {
+		const {pkgName, scope} = splitModuleName(exportItem.package);
 
 		const scopedPkgName = joinModuleName(scope, pkgName, '');
 
