@@ -1108,37 +1108,22 @@ function prepare(filepath) {
 	let file = 'prettier';
 
 	const workspaceRoot = getWorkspaceRoot(filepath);
-
-	if (workspaceRoot) {
-		const modules = path.join(workspaceRoot, 'node_modules');
-
-		let scripts = path.join(modules, '@liferay/npm-scripts');
-
-		let wrapper = path.join(scripts, 'src/scripts/prettier.js');
-
-		if (!fs.existsSync(wrapper)) {
-			scripts = path.join(modules, 'liferay-npm-scripts');
-
-			wrapper = path.join(scripts, 'src/scripts/prettier.js');
-		}
-
-		const fallback = path.join(modules, 'prettier/bin-prettier.js');
-
-		if (fs.existsSync(wrapper)) {
-			dir = scripts;
-			file = wrapper;
-		}
-		else if (fs.existsSync(fallback)) {
-			dir = modules;
-			file = fallback;
-		}
-	}
-
 	const portalRoot = getPortalRoot(filepath);
 
-	if (portalRoot) {
-		const modules = path.join(portalRoot, 'modules/node_modules');
+	const portalOrWorkspaceRoot =
+		getPortalRoot(filepath) || getWorkspaceRoot(filepath);
 
+	let modules;
+
+	if (workspaceRoot) {
+		modules = path.join(workspaceRoot, 'node_modules');
+	}
+
+	if (portalRoot) {
+		modules = path.join(portalRoot, 'modules/node_modules');
+	}
+
+	if (portalOrWorkspaceRoot) {
 		let scripts = path.join(modules, '@liferay/npm-scripts');
 
 		let wrapper = path.join(scripts, 'src/scripts/prettier.js');
