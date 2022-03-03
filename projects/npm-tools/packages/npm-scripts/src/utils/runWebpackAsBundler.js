@@ -37,7 +37,7 @@ function getEntryImportDescriptor(exportsItem) {
 	const flatPkgName = flattenPkgName(pkgName);
 	let importPath = pkgName;
 
-	if (exportsItem.bridge) {
+	if (exportsItem.rewriteExports) {
 		const exportObject = require(resolve.sync(pkgName, {basedir: '.'}));
 
 		const nonDefaultFields = Object.keys(exportObject)

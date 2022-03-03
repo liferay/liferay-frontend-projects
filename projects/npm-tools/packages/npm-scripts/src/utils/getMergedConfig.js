@@ -242,8 +242,8 @@ function normalizeNpmscriptsConfig(mergedConfig) {
 			(exportItem) => {
 				if (typeof exportItem === 'string') {
 					exportItem = {
-						bridge: false,
 						package: exportItem,
+						rewriteExports: false,
 					};
 				}
 
