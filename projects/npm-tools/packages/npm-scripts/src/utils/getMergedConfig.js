@@ -208,16 +208,7 @@ function getMergedConfig(type, property) {
 				);
 			}
 
-			if (Array.isArray(mergedConfig.build?.exports)) {
-				mergedConfig.build = mergedConfig.build || {};
-				mergedConfig.build.bundler = mergedConfig.build.bundler || {};
-				mergedConfig.build.bundler.exclude =
-					mergedConfig.build.bundler.exclude || {};
-
-				mergedConfig.build.exports.forEach((pkgName) => {
-					mergedConfig.build.bundler.exclude[pkgName] = true;
-				});
-			}
+			normalizeNpmscriptsConfig(mergedConfig);
 			break;
 		}
 
@@ -240,6 +231,37 @@ function getMergedConfig(type, property) {
 	}
 
 	return pluck(mergedConfig, property);
+}
+
+function normalizeNpmscriptsConfig(mergedConfig) {
+	if (Array.isArray(mergedConfig.build?.exports)) {
+
+		// Normalize exports
+
+		mergedConfig.build.exports = mergedConfig.build.exports.map(
+			(exportItem) => {
+				if (typeof exportItem === 'string') {
+					exportItem = {
+						bridge: false,
+						package: exportItem,
+					};
+				}
+
+				return exportItem;
+			}
+		);
+
+		// Auto-generate liferay-npm-bundler excludes based on exports
+
+		mergedConfig.build = mergedConfig.build || {};
+		mergedConfig.build.bundler = mergedConfig.build.bundler || {};
+		mergedConfig.build.bundler.exclude =
+			mergedConfig.build.bundler.exclude || {};
+
+		mergedConfig.build.exports.forEach((exportItem) => {
+			mergedConfig.build.bundler.exclude[exportItem.package] = true;
+		});
+	}
 }
 
 module.exports = getMergedConfig;
