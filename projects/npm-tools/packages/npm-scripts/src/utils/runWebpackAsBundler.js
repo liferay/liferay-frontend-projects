@@ -80,7 +80,7 @@ function getWebpackConfigs(config) {
 			exportsItem
 		);
 
-		const externals = {
+		let externals = {
 			...allExternals,
 		};
 
