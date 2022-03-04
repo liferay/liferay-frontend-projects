@@ -1115,19 +1115,12 @@ function prepare(filepath) {
 	const workspaceRoot = getWorkspaceRoot(filepath);
 	const portalRoot = getPortalRoot(filepath);
 
-	const portalOrWorkspaceRoot = portalRoot || workspaceRoot;
-
-	let modules;
-
-	if (workspaceRoot) {
-		modules = path.join(workspaceRoot, 'node_modules');
-	}
-
-	if (portalRoot) {
-		modules = path.join(portalRoot, 'modules/node_modules');
-	}
+	const portalOrWorkspaceRoot =
+		getPortalRoot(filepath) || getWorkspaceRoot(filepath);
 
 	if (portalOrWorkspaceRoot) {
+		const modules = path.join(portalRoot || workspaceRoot, 'node_modules');
+
 		let scripts = path.join(modules, '@liferay/npm-scripts');
 
 		let wrapper = path.join(scripts, 'src/scripts/prettier.js');
