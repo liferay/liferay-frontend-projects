@@ -73,12 +73,16 @@ ${nonDefaultFields}
 function getWebpackConfigs(config) {
 	const {exports, imports} = config;
 
+	const allExternals = convertImportsToExternals(imports);
+
 	return exports.reduce((webpackConfigs, exportsItem) => {
 		const {flatPkgName, importPath, pkgName} = getEntryImportDescriptor(
 			exportsItem
 		);
 
-		const externals = convertImportsToExternals(imports);
+		const externals = {
+			...allExternals,
+		};
 
 		delete externals[pkgName];
 
