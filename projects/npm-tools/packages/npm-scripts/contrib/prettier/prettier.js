@@ -992,6 +992,38 @@ module.exports = {
 	version: '2.1.2',
 };
 
+function getWorkspaceRoot(filepath) {
+	let current = filepath;
+
+	while (true) {
+		const parent = path.dirname(current);
+
+		const candidate = path.join(parent, 'settings.gradle');
+
+		if (
+			fs.existsSync(candidate) &&
+			fs
+				.readFileSync(candidate)
+				.includes('apply plugin: "com.liferay.workspace"')
+		) {
+			current = candidate;
+
+			break;
+		}
+		else if (parent === current) {
+
+			// Can't go any higher.
+
+			return null;
+		}
+		else {
+			current = parent;
+		}
+	}
+
+	return path.dirname(current);
+}
+
 /**
  * Returns the root directory if `filepath` is inside a liferay-portal
  * checkout, otherwise returns null.
@@ -1080,10 +1112,14 @@ function prepare(filepath) {
 
 	let file = 'prettier';
 
-	let root = getPortalRoot(filepath);
+	const workspaceRoot = getWorkspaceRoot(filepath);
+	const portalRoot = getPortalRoot(filepath);
 
-	if (root) {
-		const modules = path.join(root, 'modules/node_modules');
+	const portalOrWorkspaceRoot =
+		getPortalRoot(filepath) || getWorkspaceRoot(filepath);
+
+	if (portalOrWorkspaceRoot) {
+		const modules = path.join(portalRoot || workspaceRoot, 'node_modules');
 
 		let scripts = path.join(modules, '@liferay/npm-scripts');
 
@@ -1107,11 +1143,11 @@ function prepare(filepath) {
 		}
 	}
 	else {
-		root = getFrontendProjectsRoot(filepath);
+		const frontendProjectsRoot = getFrontendProjectsRoot(filepath);
 
-		if (root) {
+		if (frontendProjectsRoot) {
 			const scripts = path.join(
-				root,
+				frontendProjectsRoot,
 				'projects/npm-tools/packages/npm-scripts'
 			);
 
