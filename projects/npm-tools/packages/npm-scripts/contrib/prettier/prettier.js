@@ -1000,7 +1000,12 @@ function getWorkspaceRoot(filepath) {
 
 		const candidate = path.join(parent, 'settings.gradle');
 
-		if (fs.existsSync(candidate)) {
+		if (
+			fs.existsSync(candidate) &&
+			fs
+				.readFileSync(candidate)
+				.includes('apply plugin: "com.liferay.workspace"')
+		) {
 			current = candidate;
 
 			break;
@@ -1110,8 +1115,7 @@ function prepare(filepath) {
 	const workspaceRoot = getWorkspaceRoot(filepath);
 	const portalRoot = getPortalRoot(filepath);
 
-	const portalOrWorkspaceRoot =
-		getPortalRoot(filepath) || getWorkspaceRoot(filepath);
+	const portalOrWorkspaceRoot = portalRoot || workspaceRoot;
 
 	let modules;
 
@@ -1145,30 +1149,31 @@ function prepare(filepath) {
 			file = fallback;
 		}
 	}
-
-	const frontendProjectsRoot = getFrontendProjectsRoot(filepath);
-
-	if (frontendProjectsRoot) {
-		const scripts = path.join(
-			frontendProjectsRoot,
-			'projects/npm-tools/packages/npm-scripts'
-		);
-
-		const wrapper = path.join(scripts, 'src/scripts/prettier.js');
-
-		if (fs.existsSync(wrapper)) {
-			dir = scripts;
-			file = wrapper;
-		}
-	}
 	else {
-		const extension = require('vscode').extensions.getExtension(
-			'esbenp.prettier-vscode'
-		);
+		const frontendProjectsRoot = getFrontendProjectsRoot(filepath);
 
-		if (extension) {
-			dir = path.join(extension.extensionPath);
-			file = path.join(dir, 'node_modules/prettier');
+		if (frontendProjectsRoot) {
+			const scripts = path.join(
+				frontendProjectsRoot,
+				'projects/npm-tools/packages/npm-scripts'
+			);
+
+			const wrapper = path.join(scripts, 'src/scripts/prettier.js');
+
+			if (fs.existsSync(wrapper)) {
+				dir = scripts;
+				file = wrapper;
+			}
+		}
+		else {
+			const extension = require('vscode').extensions.getExtension(
+				'esbenp.prettier-vscode'
+			);
+
+			if (extension) {
+				dir = path.join(extension.extensionPath);
+				file = path.join(dir, 'node_modules/prettier');
+			}
 		}
 	}
 
