@@ -1,3 +1,15 @@
+## [npm-scripts/v47.3.0-pre.2](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.3.0-pre.2) (2022-03-08)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.3.0-pre.1...npm-scripts/v47.3.0-pre.2)
+
+### :new: Features
+
+-   feat(@liferay/npm-scripts): Give Liferay Workspaces ability to use our Prettier setup with the VSC extension ([\#853](https://github.com/liferay/liferay-frontend-projects/pull/853))
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): fix ESM to AMD bridges ([\#877](https://github.com/liferay/liferay-frontend-projects/pull/877))
+
 ## [npm-scripts/v47.3.0-pre.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.3.0-pre.1) (2022-03-03)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.3.0-pre.0...npm-scripts/v47.3.0-pre.1)
