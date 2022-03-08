@@ -68,7 +68,9 @@ function createEsm2AmdExportsBridges(projectDir, outDir, exports) {
 
 		const webContextPath = getBndWebContextPath() || `/${rootPkgJson.name}`;
 
-		const rootDir = `../../../..${webContextPath}`;
+		const rootDir = exportItem.package.startsWith('@')
+			? `../../../..${webContextPath}`
+			: `../../..${webContextPath}`;
 
 		const flattenedPkgName = flattenPkgName(exportItem.package);
 
