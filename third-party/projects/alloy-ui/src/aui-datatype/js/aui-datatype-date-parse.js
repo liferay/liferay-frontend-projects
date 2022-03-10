@@ -727,11 +727,15 @@ DateParser.HINTS = {
         setter: function(calendar, val, compiled) {
             var year = _parseInt(val);
 
-            if ((compiled.token === 'y') && Lang.isValue(year)) {
-                year += year < 0 ? -DateParser.TWO_DIGIT_YEAR_BASE : +DateParser.TWO_DIGIT_YEAR_BASE;
-            }
-
             if (Lang.isNumber(year)) {
+                if ((compiled.token === 'y')) {
+                    year += year < 0 ? -DateParser.TWO_DIGIT_YEAR_BASE : +DateParser.TWO_DIGIT_YEAR_BASE;
+                }    
+
+                if ((compiled.token === 'Y') && year < 100) {
+                    year += +DateParser.TWO_DIGIT_YEAR_BASE;
+                }
+
                 calendar.year = year;
             }
         },
