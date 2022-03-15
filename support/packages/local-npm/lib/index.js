@@ -49,8 +49,8 @@ module.exports = function main(argv) {
 };
 
 function assertLocalRepo() {
-	const npmUrl = run('npm', 'get', 'registry');
-	const yarnUrl = run('yarn', 'config', 'get', 'registry');
+	const npmUrl = run('npm', 'get', 'registry', {log: false});
+	const yarnUrl = run('yarn', 'config', 'get', 'registry', {log: false});
 
 	if (npmUrl === NPM_REGISTRY || yarnUrl === YARN_REGISTRY) {
 		console.log(
@@ -72,23 +72,28 @@ function install(packageName) {
 
 	console.log(`  ⛔ Removing ${packageName} from node_modules`);
 	if (fs.existsSync(nodeModulesDir)) {
+		console.log(`       > rm -rf ${nodeModulesDir}`);
 		fs.rmSync(nodeModulesDir, {recursive: true});
 	}
 
 	if (fs.existsSync('source-formatter.properties')) {
 		const nodeModulesCacheDir = path.join('node_modules_cache');
 
+		const particle = packageName.startsWith('@')
+			? packageName.split('/')[1]
+			: packageName;
+
 		console.log(`  ⛔ Removing ${packageName} from node_modules_cache`);
 		fs.readdirSync(nodeModulesCacheDir)
-			.filter((fileName) =>
-				fileName.startsWith(packageName.replace('/', '-'))
-			)
-			.forEach((fileName) =>
-				fs.unlinkSync(path.join(nodeModulesCacheDir, fileName))
-			);
+			.filter((fileName) => fileName.includes(particle))
+			.forEach((fileName) => {
+				console.log(`       > rm ${fileName}`);
+				fs.unlinkSync(path.join(nodeModulesCacheDir, fileName));
+			});
 
-		console.log(`  👊 Forcing reinstallation of ${packageName}\n`);
-		run('git', 'checkout', 'yarn.lock', {stdio: 'inherit'});
+		console.log(`  👊 Forcing reinstallation of ${packageName}`);
+
+		run('git', 'checkout', 'yarn.lock');
 
 		const pkgJson = require(path.resolve('./package.json'));
 
@@ -133,8 +138,8 @@ function publish(projects) {
 
 		console.log(`       ${pkgId}`);
 
-		run('npm', 'unpublish', pkgId, '--force', {lenient: true});
-		run('yarn', 'cache', 'clean', pkgId);
+		run('npm', 'unpublish', pkgId, '--force', {lenient: true, log: false});
+		run('yarn', 'cache', 'clean', pkgId, {log: false});
 	});
 
 	console.log('\n  🚀 Publishing:');
@@ -145,7 +150,7 @@ function publish(projects) {
 
 		console.log(`       ${pkgId}`);
 
-		run('npm', 'publish', {cwd: dir});
+		run('npm', 'publish', {cwd: dir, log: false});
 	});
 
 	console.log('');
@@ -190,6 +195,7 @@ function registrySet(which) {
 function run(cmd, ...args) {
 	let options = {
 		lenient: false, // set to true to ignore error return codes
+		log: true, // show a console.log of execution
 		shell: true,
 		stdio: 'pipe',
 	};
@@ -200,6 +206,10 @@ function run(cmd, ...args) {
 			...args[args.length - 1],
 		};
 		args = args.slice(0, args.length - 1);
+	}
+
+	if (options.log) {
+		console.log('       >', cmd, ...args);
 	}
 
 	const result = childProcess.spawnSync(cmd, args, options);
