@@ -132,12 +132,26 @@ class ExplainedError extends Error {
 		let filePath = options.filePath;
 		let sourceCode = options.sourceCode;
 		let line;
+		let msg;
 
 		if (error instanceof WebpackError) {
+			msg = error.toString();
 			filePath = error['module'] && error['module']['userRequest'];
 		}
 		else if (error instanceof SyntaxError) {
+			msg = error.toString();
 			line = error['loc']['line'];
+		}
+		else if (
+			error.loaderSource &&
+			error.loaderSource.startsWith('ts-loader')
+		) {
+			msg = error.message;
+			filePath = error.file;
+			line = error.location?.line;
+		}
+		else {
+			msg = JSON.stringify(error, null, 2);
 		}
 
 		if (filePath) {
@@ -157,7 +171,7 @@ class ExplainedError extends Error {
 		const contextLines =
 			sourceCode && line ? this._getContextLines(sourceCode, line) : '';
 
-		return `${error.toString()}${contextLines}\n...at ${filePath}`;
+		return `${msg}${contextLines}\n...at ${filePath}`;
 	}
 
 	_getContextLines(sourceCode, aroundLine) {
