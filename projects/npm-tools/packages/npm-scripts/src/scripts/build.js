@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+/* eslint-disable @liferay/no-dynamic-require */
+
 const fs = require('fs');
 const path = require('path');
 
@@ -10,6 +12,7 @@ let buildSass = require('../sass/build');
 let runTSC = require('../typescript/runTSC');
 const createAmd2EsmExportsBridges = require('../utils/createAmd2EsmExportsBridges');
 const createEsm2AmdExportsBridges = require('../utils/createEsm2AmdExportsBridges');
+const createEsm2AmdIndexBridge = require('../utils/createEsm2AmdIndexBridge');
 const createTempFile = require('../utils/createTempFile');
 const getMergedConfig = require('../utils/getMergedConfig');
 const instrument = require('../utils/instrument');
@@ -134,15 +137,75 @@ module.exports = async function (...args) {
 		}
 
 		if (Array.isArray(BUILD_CONFIG.exports)) {
-			await runWebpackAsBundler(BUILD_CONFIG);
+			fs.mkdirSync(BUILD_CONFIG.output, {recursive: true});
 
-			createEsm2AmdExportsBridges(
+			let pkgJson = require(path.resolve('package.json'));
+
+			if (!BUILD_CONFIG.bundler) {
+				pkgJson = {
+					...pkgJson,
+				};
+
+				pkgJson.main = 'index.js';
+				delete pkgJson.dependencies;
+				delete pkgJson.devDependencies;
+
+				fs.writeFileSync(
+					path.join(BUILD_CONFIG.output, 'package.json'),
+					JSON.stringify(pkgJson, null, '\t'),
+					'utf8'
+				);
+			}
+
+			await runWebpackAsBundler(
 				CWD,
-				BUILD_CONFIG.output,
-				BUILD_CONFIG.exports
+				BUILD_CONFIG,
+				getMergedConfig('babel')
+			);
+
+			let manifest;
+
+			try {
+				manifest = require(path.resolve(
+					BUILD_CONFIG.output,
+					'manifest.json'
+				));
+			}
+			catch (error) {
+				manifest = {
+					packages: {
+						'/': {
+							dest: {
+								dir: '.',
+								id: '/',
+								name: pkgJson.name,
+								version: pkgJson.version,
+							},
+							modules: {},
+							src: {
+								id: '/',
+								name: pkgJson.name,
+								version: pkgJson.version,
+							},
+						},
+					},
+				};
+			}
+
+			createEsm2AmdIndexBridge(CWD, BUILD_CONFIG, manifest);
+
+			createEsm2AmdExportsBridges(CWD, BUILD_CONFIG, manifest);
+
+			fs.writeFileSync(
+				path.join(BUILD_CONFIG.output, 'manifest.json'),
+				JSON.stringify(manifest, null, '\t'),
+				'utf8'
 			);
 		}
 		else if (BUILD_CONFIG.exports) {
+
+			// TODO: remove this once migration to webpack is done
+
 			createAmd2EsmExportsBridges(
 				CWD,
 				BUILD_CONFIG.output,

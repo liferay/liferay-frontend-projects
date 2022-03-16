@@ -15,82 +15,108 @@ const path = require('path');
 const resolve = require('resolve');
 
 const flattenPkgName = require('./flattenPkgName');
+const getBndWebContextPath = require('./getBndWebContextPath');
 
 /**
  * Create .js files to make ES modules available as Liferay-AMD modules.
  *
  * @param {string} projectDir path to project's directory
- * @param {string} outDir path to output directory
- * @param {{bridge: boolean, package: string}[]} exports
+ * @param {object} buildConfig
+ * @param {object} manifest
  */
-function createEsm2AmdExportsBridges(projectDir, outDir, exports) {
+function createEsm2AmdExportsBridges(projectDir, buildConfig, manifest) {
+	const rootPkgJson = require(path.join(projectDir, 'package.json'));
+
+	const webContextPath = getBndWebContextPath() || `/${rootPkgJson.name}`;
+
+	const {exports, output} = buildConfig;
+
 	exports.forEach((exportItem) => {
 		const {pkgName, scope} = splitModuleName(exportItem.package);
 
 		const scopedPkgName = joinModuleName(scope, pkgName, '');
 
-		const rootPkgJson = require(path.join(projectDir, 'package.json'));
+		const srcPkgJson = require(resolve.sync(
+			`${scopedPkgName}/package.json`,
+			{
+				basedir: projectDir,
+			}
+		));
+		const srcPkgId = `${srcPkgJson.name}@${srcPkgJson.version}`;
 
-		const namespacedScopedPkgName = addNamespace(
-			scopedPkgName,
-			rootPkgJson
-		);
-
-		const pkgJson = require(resolve.sync(`${scopedPkgName}/package.json`, {
-			basedir: projectDir,
-		}));
+		const pkgJson = {
+			dependencies: {},
+			main: './index.js',
+			name: addNamespace(scopedPkgName, rootPkgJson),
+			version: srcPkgJson.version,
+		};
+		const pkgId = `${pkgJson.name}@${pkgJson.version}`;
 
 		const packageDir = path.join(
-			outDir,
+			output,
 			'node_modules',
 			getPackageTargetDir({
-				name: namespacedScopedPkgName,
+				name: pkgJson.name,
 				version: pkgJson.version,
 			})
 		);
-
-		fs.mkdirSync(packageDir, {recursive: true});
-
-		fs.writeFileSync(
-			path.join(packageDir, 'package.json'),
-			JSON.stringify(
-				{
-					dependencies: {},
-					main: './index.js',
-					name: namespacedScopedPkgName,
-					version: pkgJson.version,
-				},
-				null,
-				'\t'
-			),
-			'utf8'
-		);
-
-		const webContextPath = getBndWebContextPath() || `/${rootPkgJson.name}`;
 
 		const rootDir = exportItem.package.startsWith('@')
 			? `../../../..${webContextPath}`
 			: `../../..${webContextPath}`;
 
-		const flattenedPkgName = flattenPkgName(exportItem.package);
-
 		const bridgeSource = `
-import * as esModule from "${rootDir}/__liferay__/exports/${flattenedPkgName}.js";
+import * as esModule from "${rootDir}/__liferay__/exports/${flattenPkgName(
+			exportItem.package
+		)}.js";
 
 Liferay.Loader.define(
-	"${namespacedScopedPkgName}@${pkgJson.version}/index",
+	"${pkgId}/index",
 	['module'], 
 	function (module) {
-		module.exports = esModule;
+		module.exports = {
+			__esModule: true,
+			default: esModule,
+			...esModule,
+		};
 	}
 );
 `;
+
+		fs.mkdirSync(packageDir, {recursive: true});
+
+		fs.writeFileSync(
+			path.join(packageDir, 'package.json'),
+			JSON.stringify(pkgJson, null, '\t'),
+			'utf8'
+		);
 
 		fs.writeFileSync(
 			path.join(packageDir, 'index.js'),
 			bridgeSource,
 			'utf8'
 		);
+
+		manifest.packages[srcPkgId] = manifest.packages[srcPkgId] || {
+			dest: {
+				dir: '.',
+				id: pkgId,
+				name: pkgJson.name,
+				version: pkgJson.version,
+			},
+			modules: {},
+			src: {
+				id: srcPkgId,
+				name: srcPkgJson.name,
+				version: srcPkgJson.version,
+			},
+		};
+
+		manifest.packages[srcPkgId].modules['index.js'] = {
+			flags: {
+				esModule: true,
+			},
+		};
 	});
 }
 
@@ -104,26 +130,6 @@ function getPackageTargetDir(pkgJson) {
 	}
 
 	return targetFolder;
-}
-
-function getBndWebContextPath() {
-	const bndFile = path.resolve('bnd.bnd');
-
-	if (fs.existsSync(bndFile)) {
-		const bnd = fs.readFileSync(bndFile, 'utf8');
-
-		const lines = bnd.split('\n');
-
-		const webContextPathLine = lines.find((line) =>
-			line.startsWith('Web-ContextPath:')
-		);
-
-		if (webContextPathLine !== undefined) {
-			return webContextPathLine.substring(16).trim();
-		}
-	}
-
-	return undefined;
 }
 
 module.exports = createEsm2AmdExportsBridges;
