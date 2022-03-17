@@ -265,6 +265,15 @@ function normalizeNpmscriptsConfig(mergedConfig) {
 			});
 		}
 	}
+
+	if (mergedConfig.build?.main) {
+		mergedConfig.build.babel = false;
+		mergedConfig.build.bundler = false;
+
+		if (mergedConfig.build.exports === undefined) {
+			mergedConfig.build.exports = [];
+		}
+	}
 }
 
 module.exports = getMergedConfig;

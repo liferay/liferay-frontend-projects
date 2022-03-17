@@ -148,7 +148,7 @@ module.exports = async function (...args) {
 			runBundler();
 		}
 
-		if (Array.isArray(BUILD_CONFIG.exports)) {
+		if (Array.isArray(BUILD_CONFIG.exports) || BUILD_CONFIG.main) {
 			fs.mkdirSync(BUILD_CONFIG.output, {recursive: true});
 
 			let pkgJson = require(path.resolve('package.json'));
