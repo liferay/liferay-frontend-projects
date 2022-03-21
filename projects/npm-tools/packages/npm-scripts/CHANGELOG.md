@@ -1,3 +1,11 @@
+## [npm-scripts/v47.3.0-pre.3](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.3.0-pre.3) (2022-03-21)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.3.0-pre.2...npm-scripts/v47.3.0-pre.3)
+
+### :new: Features
+
+-   feat(npm-scripts): webpack based build ([\#883](https://github.com/liferay/liferay-frontend-projects/pull/883))
+
 ## [npm-scripts/v47.3.0-pre.2](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.3.0-pre.2) (2022-03-08)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.3.0-pre.1...npm-scripts/v47.3.0-pre.2)
