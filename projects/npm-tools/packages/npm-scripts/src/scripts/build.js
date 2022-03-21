@@ -114,18 +114,30 @@ module.exports = async function (...args) {
 		if (inputPathExists) {
 			const isTypeScript = fs.existsSync('tsconfig.json');
 
-			if (isTypeScript) {
+			if (isTypeScript && BUILD_CONFIG.tsc !== false) {
 				await runTSC();
 			}
 
-			runBabel(
-				BUILD_CONFIG.input,
-				'--out-dir',
-				BUILD_CONFIG.output,
-				'--source-maps',
-				'--extensions',
-				'.cjs,.es,.es6,.js,.jsx,.mjs,.ts,.tsx'
-			);
+			if (BUILD_CONFIG.babel !== false) {
+				const ignores = [];
+
+				if (BUILD_CONFIG.babel?.ignores) {
+					BUILD_CONFIG.babel.ignores.forEach((ignore) => {
+						ignores.push('--ignore');
+						ignores.push(ignore);
+					});
+				}
+
+				runBabel(
+					BUILD_CONFIG.input,
+					'--out-dir',
+					BUILD_CONFIG.output,
+					'--source-maps',
+					'--extensions',
+					'.cjs,.es,.es6,.js,.jsx,.mjs,.ts,.tsx',
+					...ignores
+				);
+			}
 		}
 
 		if (fs.existsSync('webpack.config.js')) {
