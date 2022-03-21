@@ -5,14 +5,28 @@
 
 const flattenPkgName = require('./flattenPkgName');
 
-module.exports = function convertImportsToExternals(imports) {
+module.exports = function convertImportsToExternals(imports, backDirCount) {
 	return Object.entries(imports).reduce((externals, [provider, packages]) => {
-		packages.forEach((pkgName) => {
-			const flatPkgName = flattenPkgName(pkgName);
+		let backDirs = '';
 
+		for (let i = 0; i < backDirCount; i++) {
+			backDirs += '../';
+		}
+
+		const webContextPath = provider.startsWith('@liferay')
+			? provider.split('/')[1]
+			: provider;
+
+		externals[
+			provider
+		] = `${backDirs}${webContextPath}/__liferay__/index.js`;
+
+		packages.forEach((pkgName) => {
 			externals[
 				pkgName
-			] = `../../../${provider}/__liferay__/exports/${flatPkgName}.js`;
+			] = `${backDirs}${provider}/__liferay__/exports/${flattenPkgName(
+				pkgName
+			)}.js`;
 		});
 
 		return externals;

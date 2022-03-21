@@ -234,6 +234,15 @@ function getMergedConfig(type, property) {
 }
 
 function normalizeNpmscriptsConfig(mergedConfig) {
+	if (mergedConfig.build?.main) {
+		mergedConfig.build.babel = false;
+		mergedConfig.build.bundler = false;
+
+		if (mergedConfig.build.exports === undefined) {
+			mergedConfig.build.exports = [];
+		}
+	}
+
 	if (Array.isArray(mergedConfig.build?.exports)) {
 
 		// Normalize exports
@@ -242,8 +251,7 @@ function normalizeNpmscriptsConfig(mergedConfig) {
 			(exportItem) => {
 				if (typeof exportItem === 'string') {
 					exportItem = {
-						package: exportItem,
-						rewriteExports: false,
+						name: exportItem,
 					};
 				}
 
@@ -253,14 +261,11 @@ function normalizeNpmscriptsConfig(mergedConfig) {
 
 		// Auto-generate liferay-npm-bundler excludes based on exports
 
-		mergedConfig.build = mergedConfig.build || {};
-		mergedConfig.build.bundler = mergedConfig.build.bundler || {};
-		mergedConfig.build.bundler.exclude =
-			mergedConfig.build.bundler.exclude || {};
-
-		mergedConfig.build.exports.forEach((exportItem) => {
-			mergedConfig.build.bundler.exclude[exportItem.package] = true;
-		});
+		if (mergedConfig.build.bundler !== false) {
+			mergedConfig.build.bundler.exclude = {
+				'*': true,
+			};
+		}
 	}
 }
 
