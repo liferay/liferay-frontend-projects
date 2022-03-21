@@ -254,13 +254,16 @@ function normalizeNpmscriptsConfig(mergedConfig) {
 		// Auto-generate liferay-npm-bundler excludes based on exports
 
 		mergedConfig.build = mergedConfig.build || {};
-		mergedConfig.build.bundler = mergedConfig.build.bundler || {};
-		mergedConfig.build.bundler.exclude =
-			mergedConfig.build.bundler.exclude || {};
 
-		mergedConfig.build.exports.forEach((exportItem) => {
-			mergedConfig.build.bundler.exclude[exportItem.package] = true;
-		});
+		if (mergedConfig.build.bundler !== false) {
+			mergedConfig.build.bundler = mergedConfig.build.bundler || {};
+			mergedConfig.build.bundler.exclude =
+				mergedConfig.build.bundler.exclude || {};
+
+			mergedConfig.build.exports.forEach((exportItem) => {
+				mergedConfig.build.bundler.exclude[exportItem.package] = true;
+			});
+		}
 	}
 }
 
