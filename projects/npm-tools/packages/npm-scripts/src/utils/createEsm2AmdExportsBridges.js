@@ -32,7 +32,7 @@ function createEsm2AmdExportsBridges(projectDir, buildConfig, manifest) {
 	const {exports, output} = buildConfig;
 
 	exports.forEach((exportItem) => {
-		const {pkgName, scope} = splitModuleName(exportItem.package);
+		const {pkgName, scope} = splitModuleName(exportItem.name);
 
 		const scopedPkgName = joinModuleName(scope, pkgName, '');
 
@@ -61,13 +61,13 @@ function createEsm2AmdExportsBridges(projectDir, buildConfig, manifest) {
 			})
 		);
 
-		const rootDir = exportItem.package.startsWith('@')
+		const rootDir = exportItem.name.startsWith('@')
 			? `../../../..${webContextPath}`
 			: `../../..${webContextPath}`;
 
 		const bridgeSource = `
 import * as esModule from "${rootDir}/__liferay__/exports/${flattenPkgName(
-			exportItem.package
+			exportItem.name
 		)}.js";
 
 Liferay.Loader.define(
