@@ -61,6 +61,17 @@ function createEsm2AmdExportsBridges(projectDir, buildConfig, manifest) {
 			})
 		);
 
+		//
+		// Compute the relative position of the bridge related to the real ES
+		// module.
+		//
+		// Note that AMD modules are server under `/o/js/resolved-module/...`
+		// whereas ESM are under `/o/my-context-path/__liferay__/exports/...`.
+		//
+		// Also, depending for npm-scoped scoped packages, and additional folder
+		// level appears under `/o/js/resolved-module/...`.
+		//
+
 		const rootDir = exportItem.name.startsWith('@')
 			? `../../../..${webContextPath}`
 			: `../../..${webContextPath}`;
