@@ -31,8 +31,6 @@ In order for sass to compile correctly, you must import them correctly so that i
 -   [`_components.scss`](scss/_components_.scss): This file imports all component specific style overrides.
 -   [`_variables.scss`](scss/_variables.scss): This file contains variables for toggling specific compat components off.
 
-_Note: all three compat files are imported into main.scss in that specific order._
-
 ### Adding to a Theme
 
 You need to import the `.scss` files into your theme. Below is an example of adding it to the styled and classic themes in DXP.
