@@ -94,6 +94,19 @@ function getIndexWebpackConfig(projectDir, buildConfig, babelConfig) {
 				},
 				{
 					exclude: /node_modules/,
+					test: /\.scss$/,
+					use: [
+						{
+							loader: require.resolve('./webpackScssLoader'),
+							options: {
+								buildConfig,
+								projectDir,
+							},
+						},
+					],
+				},
+				{
+					exclude: /node_modules/,
 					test: /\.tsx?/,
 					use: {
 						loader: require.resolve('babel-loader'),
