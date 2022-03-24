@@ -27,7 +27,7 @@ const getBndWebContextPath = require('./getBndWebContextPath');
 function createEsm2AmdExportsBridges(projectDir, buildConfig, manifest) {
 	const rootPkgJson = require(path.join(projectDir, 'package.json'));
 
-	const webContextPath = getBndWebContextPath() || `/${rootPkgJson.name}`;
+	const webContextPath = getBndWebContextPath(projectDir);
 
 	const {exports, output} = buildConfig;
 
