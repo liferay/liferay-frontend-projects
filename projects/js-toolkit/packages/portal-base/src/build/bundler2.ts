@@ -97,15 +97,7 @@ function runBabel(project: Project): void {
 }
 
 function runCompiler(project: Project): void {
-	const dependencies = project.pkgJson['dependencies'] || {};
-	const devDependencies = project.pkgJson['devDependencies'] || {};
-
-	if (devDependencies['typescript'] || dependencies['typescript']) {
-		runTsc();
-	}
-	else {
-		runBabel(project);
-	}
+	runBabel(project);
 }
 
 function runBundler(): void {
@@ -124,10 +116,4 @@ function runBundler(): void {
 	print(info`Running {liferay-npm-bundler}...`);
 
 	spawn('node', [bundlerPath]);
-}
-
-function runTsc(): void {
-	print(info`Running {tsc} compiler...`);
-
-	spawn('npx', ['tsc']);
 }
