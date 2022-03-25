@@ -127,11 +127,20 @@ this may make adaptation fail.
 }
 
 function createReactAppTemplateVarsProvider(): object {
-	const splitFile = fs
+	const splitFiles = fs
 		.readdirSync(project.default.dir.join('build', 'static', 'js').asNative)
-		.filter((fileName) => fileName.endsWith('.chunk.js'))[0];
+		.filter((fileName) => fileName.endsWith('.chunk.js'));
+
+	if (!splitFiles.length) {
+		return {};
+	}
+
+	const chunkIds = [];
+	for (let i = 0; i < splitFiles.length; i++) {
+		chunkIds.push(splitFiles[i].split('.')[0]);
+	}
 
 	return {
-		splitId: splitFile.split('.')[0],
+		splitIds: chunkIds,
 	};
 }
