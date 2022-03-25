@@ -128,19 +128,20 @@ Liferay.fire('someEvent', {
 ```
 
 ## Full Example
+
 Let's say you have two modules on the same page, A & B. In module A, you have the following code in your Javascript.
 
 ```jsx
 // Module A
 Liferay.on('my-custom-event', (data) => {
-    alert(data);
+	alert(data);
 });
 ```
 
 And then, in module B, we render a button with the code below
 
 ```jsx
-// JSX in Module B 
+// JSX in Module B
 <button onClick={() => Liferay.fire('my-custom-event', 'Hello!')}>
 	Say Hello!
 </button>
