@@ -23,7 +23,17 @@ const {argv} = yargs
 		'Set/get the current npm and yarn configured registries',
 		(yargs) =>
 			yargs
-				.command(['get', 'g'], 'Print current npm/yarn registry')
+				.command(
+					['get', 'g'],
+					'Print current npm/yarn registry',
+					(yargs) =>
+						yargs.option('bash-prompt', {
+							default: false,
+							describe:
+								'Get registry in a bash prompt friendly manner',
+							type: 'boolean',
+						})
+				)
 				.command(
 					['set', 's'],
 					'Set the npm/yarn repo to use',
