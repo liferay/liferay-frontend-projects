@@ -191,6 +191,22 @@ async function main() {
 	}
 }
 
+function npx(...args) {
+	print(`Running: npx ${args.join(' ')}`);
+
+	const {error, signal, status} = child_process.spawnSync('npx', args, {
+		shell: true,
+		stdio: 'inherit',
+	});
+
+	if (status !== 0) {
+		throw new Error(
+			`npx ${args.join(
+				' '
+			)} exited with status: ${status}, error: ${error}, signal: ${signal}`
+		);
+	}
+}
 function parseArgs(args) {
 	const subcommands = [];
 
@@ -228,7 +244,7 @@ function publish() {
 		throw new Error('Cannot publish from root level');
 	}
 
-	yarn('run', 'liferay-js-publish');
+	npx('liferay-js-publish');
 }
 
 function test(...args) {
