@@ -7,6 +7,7 @@
 
 const childProcess = require('child_process');
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
 
 const LOCAL_REGISTRY = 'http://localhost:4873';
@@ -30,7 +31,7 @@ module.exports = function main(argv) {
 			switch (argv._[1]) {
 				case 'get':
 				case 'g':
-					registryGet();
+					registryGet(argv.bashPrompt);
 					break;
 
 				case 'set':
@@ -156,25 +157,73 @@ function publish(projects) {
 	console.log('');
 }
 
-function registryGet() {
-	const npmUrl = run('npm', 'get', 'registry');
-	const yarnUrl = run('yarn', 'config', 'get', 'registry');
+function registryGet(bashPrompt) {
+	let npmUrl;
+	let yarnUrl;
 
-	if (npmUrl === NPM_REGISTRY && yarnUrl === YARN_REGISTRY) {
-		console.log('\n  🌍 Using PUBLIC registry\n');
-	}
-	else if (npmUrl === NPM_REGISTRY) {
-		console.log(
-			"\n  🔴 Using public npm registry, but local yarn (that's bad)\n"
+	if (bashPrompt) {
+		const npmrc = fs.readFileSync(
+			path.join(os.homedir(), '.npmrc'),
+			'utf8'
 		);
-	}
-	else if (yarnUrl === YARN_REGISTRY) {
-		console.log(
-			"\n  🔴 Using local npm registry, but remote yarn (that's bad)\n"
+
+		npmUrl = npmrc
+			.split('\n')
+			.find((line) => line.startsWith('registry='))
+			.substring(9);
+
+		const yarnrc = fs.readFileSync(
+			path.join(os.homedir(), '.yarnrc'),
+			'utf8'
 		);
+
+		yarnUrl = yarnrc
+			.split('\n')
+			.find((line) => line.startsWith('registry'))
+			.substring(8)
+			.trim()
+			.replace(/"|'/g, '');
 	}
 	else {
-		console.log('\n  🏠 Using LOCAL registry\n');
+		npmUrl = run('npm', 'get', 'registry', {log: false});
+		yarnUrl = run('yarn', 'config', 'get', 'registry', {log: false});
+	}
+
+	if (npmUrl === NPM_REGISTRY && yarnUrl === YARN_REGISTRY) {
+		if (bashPrompt) {
+			process.stdout.write('🌍');
+		}
+		else {
+			console.log('\n  🌍 Using PUBLIC registry\n');
+		}
+	}
+	else if (npmUrl === NPM_REGISTRY) {
+		if (bashPrompt) {
+			process.stdout.write('😱');
+		}
+		else {
+			console.log(
+				"\n  🔴 Using public npm registry, but local yarn (that's bad)\n"
+			);
+		}
+	}
+	else if (yarnUrl === YARN_REGISTRY) {
+		if (bashPrompt) {
+			process.stdout.write('😱');
+		}
+		else {
+			console.log(
+				"\n  🔴 Using local npm registry, but remote yarn (that's bad)\n"
+			);
+		}
+	}
+	else {
+		if (bashPrompt) {
+			process.stdout.write('🏠');
+		}
+		else {
+			console.log('\n  🏠 Using LOCAL registry\n');
+		}
 	}
 }
 
@@ -186,8 +235,8 @@ function registrySet(which) {
 		npmUrl = yarnUrl = LOCAL_REGISTRY;
 	}
 
-	run('npm', 'set', 'registry', npmUrl);
-	run('yarn', 'config', 'set', 'registry', yarnUrl);
+	run('npm', 'set', 'registry', npmUrl, {log: false});
+	run('yarn', 'config', 'set', 'registry', yarnUrl, {log: false});
 
 	registryGet();
 }
