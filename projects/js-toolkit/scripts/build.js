@@ -14,7 +14,7 @@ const spawn = require('./util/spawn');
 
 function compile(dir) {
 	try {
-		spawn('yarn', ['run', 'tsc'], {cwd: dir});
+		spawn('npx', ['tsc'], {cwd: dir});
 	}
 	catch (error) {
 		throw new Error(

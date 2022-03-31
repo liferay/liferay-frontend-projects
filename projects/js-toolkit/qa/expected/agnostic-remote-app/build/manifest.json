@@ -1,0 +1,11 @@
+{
+	"cssURLs": [
+		"./css/styles.css"
+	],
+	"htmlElementName": "agnostic-remote-app-element",
+	"type": "customElement",
+	"urls": [
+		"./index.js"
+	],
+	"useESM": true
+}
