@@ -1,0 +1,25 @@
+name: Weekly Triage assignment
+
+on:
+    schedule:
+        # This happens weekly on Monday
+        - cron: '0 0 * * 1'
+
+jobs:
+    create-issue:
+        runs-on: ubuntu-latest
+        if: github.repository_owner == 'liferay'
+        steps:
+            - id: get-day
+              run: echo "::set-output name=DAY::$(date +%d)"
+
+            - name: Create Issue
+              env:
+                  ASSIGNEE: ${{ (steps.get-day.outputs.DAY < 10 &&  '@kresimir-coko') || (steps.get-day.outputs.DAY < 20 && '@izaera') || 'bryceosterhaus' }}
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                  gh issue create --repo $GITHUB_REPOSITORY \
+                  --title "Weekly Issue Triage" \
+                  --assignee $ASSIGNEE \
+                  --body \
+                  "It's that time of the week. Go through our issue backlog and triage by closing and adding labels."
