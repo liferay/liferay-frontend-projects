@@ -21,7 +21,7 @@ function createEsm2AmdIndexBridge(projectDir, buildConfig, manifest) {
 
 	const {output} = buildConfig;
 
-	const webContextPath = getBndWebContextPath() || `/${pkgJson.name}`;
+	const webContextPath = getBndWebContextPath(projectDir);
 
 	//
 	// Compute the relative position of the bridge related to the real ES

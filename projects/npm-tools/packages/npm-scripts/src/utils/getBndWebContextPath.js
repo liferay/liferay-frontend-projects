@@ -6,8 +6,8 @@
 const fs = require('fs');
 const path = require('path');
 
-function getBndWebContextPath() {
-	const bndFile = path.resolve('bnd.bnd');
+function getBndWebContextPath(projectDir) {
+	const bndFile = path.resolve(projectDir, 'bnd.bnd');
 
 	if (fs.existsSync(bndFile)) {
 		const bnd = fs.readFileSync(bndFile, 'utf8');

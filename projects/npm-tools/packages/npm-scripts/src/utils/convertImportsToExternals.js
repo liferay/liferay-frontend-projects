@@ -24,7 +24,7 @@ module.exports = function convertImportsToExternals(imports, backDirCount) {
 		packages.forEach((pkgName) => {
 			externals[
 				pkgName
-			] = `${backDirs}${provider}/__liferay__/exports/${flattenPkgName(
+			] = `${backDirs}${webContextPath}/__liferay__/exports/${flattenPkgName(
 				pkgName
 			)}.js`;
 		});
