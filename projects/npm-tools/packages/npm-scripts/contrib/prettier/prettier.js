@@ -1119,7 +1119,13 @@ function prepare(filepath) {
 		getPortalRoot(filepath) || getWorkspaceRoot(filepath);
 
 	if (portalOrWorkspaceRoot) {
-		const modules = path.join(portalRoot || workspaceRoot, 'node_modules');
+		const nodeModulesRoot = portalRoot ? 'modules' : '';
+
+		const modules = path.join(
+			portalRoot || workspaceRoot,
+			nodeModulesRoot,
+			'node_modules'
+		);
 
 		let scripts = path.join(modules, '@liferay/npm-scripts');
 
