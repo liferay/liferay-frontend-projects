@@ -53,6 +53,7 @@ Liferay.Loader.define(
 	manifest.packages['/'].modules['index.js'] = {
 		flags: {
 			esModule: true,
+			useESM: true,
 		},
 	};
 }
