@@ -22,4 +22,4 @@ jobs:
                   --title "Weekly Issue Triage" \
                   --assignee $ASSIGNEE \
                   --body \
-                  "It's that time of the week. Go through our issue backlog and triage by closing and adding labels."
+                  "Hey @$ASSIGNEE, It's that time of the week. Go through our issue backlog and triage by closing and adding labels."
