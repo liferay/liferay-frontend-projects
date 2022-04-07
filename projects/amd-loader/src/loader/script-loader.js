@@ -53,6 +53,7 @@ export default class ScriptLoader {
 	 * @param {object} modulesURL an object with two properties:
 	 * 					- modules: list of the modules which should be loaded
 	 * 					- url: the URL from which the modules should be loaded
+	 * 					- useESM: whether to use ESM semantics in the <script>
 	 * @return {Promise} a Promise which will be resolved as soon as the script
 	 * 						is loaded
 	 */
@@ -67,7 +68,10 @@ export default class ScriptLoader {
 
 			script.src = modulesURL.url;
 			script.async = false;
-			script.type = 'module';
+
+			if (modulesURL.useESM) {
+				script.type = 'module';
+			}
 
 			script.onload = script.onreadystatechange = () => {
 				if (

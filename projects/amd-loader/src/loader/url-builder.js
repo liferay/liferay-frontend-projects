@@ -26,6 +26,41 @@ export default class URLBuilder {
 	build(moduleNames) {
 		const config = this._config;
 
+		let result = [];
+
+		const jsModuleNames = moduleNames.filter((moduleName) => {
+			const module = config.getModule(moduleName);
+
+			return !module.useESM;
+		});
+
+		result = result.concat(this._build(jsModuleNames));
+
+		const esModuleNames = moduleNames.filter((moduleName) => {
+			const module = config.getModule(moduleName);
+
+			return module.useESM;
+		});
+
+		const esModulesURLs = this._build(esModuleNames).map((modulesURL) => ({
+			...modulesURL,
+			useESM: true,
+		}));
+
+		result = result.concat(esModulesURLs);
+
+		return result;
+	}
+
+	/**
+	 * Same as build() but doesn't split moduleNames into JS and ES modules.
+	 * @param {array} moduleNames list of modules for which URLs should be
+	 * 								created
+	 * @return {array} list of URLs
+	 */
+	_build(moduleNames) {
+		const config = this._config;
+
 		const bufferURL = [];
 		const modulesURL = [];
 		let result = [];
