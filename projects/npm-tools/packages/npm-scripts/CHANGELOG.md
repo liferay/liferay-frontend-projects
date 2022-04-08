@@ -1,3 +1,16 @@
+## [npm-scripts/v47.3.0-pre.4](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.3.0-pre.4) (2022-04-08)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.3.0-pre.3...npm-scripts/v47.3.0-pre.4)
+
+### :new: Features
+
+-   feat: bring ESM support to AMD loader ([\#909](https://github.com/liferay/liferay-frontend-projects/pull/909))
+-   feat(npm-scripts): support .scss files ([\#894](https://github.com/liferay/liferay-frontend-projects/pull/894))
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): update path to node_modules in prettier script ([\#905](https://github.com/liferay/liferay-frontend-projects/pull/905))
+
 ## [npm-scripts/v47.3.0-pre.3](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.3.0-pre.3) (2022-03-21)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.3.0-pre.2...npm-scripts/v47.3.0-pre.3)
