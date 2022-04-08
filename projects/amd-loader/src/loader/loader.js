@@ -361,6 +361,10 @@ export default class Loader {
 						moduleProperties.esModule = true;
 					}
 
+					if (moduleFlags.useESM) {
+						moduleProperties.useESM = true;
+					}
+
 					config.addModule(moduleName, moduleProperties);
 				});
 

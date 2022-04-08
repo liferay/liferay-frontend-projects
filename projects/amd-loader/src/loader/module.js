@@ -18,6 +18,7 @@ export default class Module {
 		this._dependencies = undefined;
 		this._factory = undefined;
 		this._implementation = {};
+		this._useESM = false;
 
 		this._map = undefined;
 
@@ -129,6 +130,16 @@ export default class Module {
 	}
 
 	/**
+	 * Flag informing that this module needs to be loaded using
+	 * <script type="module"> as opposed to plain <script>.
+	 *
+	 * This is necessary mainly for liferay-portal's ESM -> AMD bridges.
+	 */
+	get useESM() {
+		return this._useESM;
+	}
+
+	/**
 	 * Name of module
 	 * @param {string} name
 	 */
@@ -196,5 +207,15 @@ export default class Module {
 			value: esModule,
 			writable: true,
 		});
+	}
+
+	/**
+	 * Whether to load the module using <script type="module"> or plain regular
+	 * <script>.
+	 *
+	 * @param {useESM} boolean
+	 */
+	set useESM(useESM) {
+		this._useESM = useESM;
 	}
 }

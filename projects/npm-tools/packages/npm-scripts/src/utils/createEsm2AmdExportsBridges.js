@@ -108,24 +108,25 @@ Liferay.Loader.define(
 			'utf8'
 		);
 
-		manifest.packages[srcPkgId] = manifest.packages[srcPkgId] || {
+		manifest.packages[pkgId] = manifest.packages[pkgId] || {
 			dest: {
 				dir: '.',
 				id: pkgId,
 				name: pkgJson.name,
 				version: pkgJson.version,
 			},
-			modules: {},
+			modules: {
+				'index.js': {
+					flags: {
+						esModule: true,
+						useESM: true,
+					},
+				},
+			},
 			src: {
 				id: srcPkgId,
 				name: srcPkgJson.name,
 				version: srcPkgJson.version,
-			},
-		};
-
-		manifest.packages[srcPkgId].modules['index.js'] = {
-			flags: {
-				esModule: true,
 			},
 		};
 	});
