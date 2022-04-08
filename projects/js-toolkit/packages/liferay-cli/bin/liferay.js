@@ -28,6 +28,16 @@ const {argv} = require('yargs')
 	)
 	.command('build', 'Build a project created with @liferay/cli')
 	.command('clean', 'Remove output directories')
+	.command(
+		'deploy',
+		'Build the project, then deploy it to your local Liferay installation',
+		(yargs) =>
+			yargs.option('only', {
+				default: false,
+				describe: `Deploy only: don't build project before`,
+				type: 'boolean',
+			})
+	)
 	.command('docs', 'Browse Liferay JavaScript Toolkit documentation')
 	.command(
 		'new <name>',
