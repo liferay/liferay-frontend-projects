@@ -55,6 +55,12 @@ export default async function run(
 			break;
 
 		case 'deploy':
+			if (!isSwitchEnabled('only')) {
+				print(
+					title`Building project for target platform: {${pkgJson.name}}`
+				);
+				await tasks.build();
+			}
 			print(title`Deploying project to Liferay local installation`);
 			await tasks.deploy();
 			break;
@@ -68,4 +74,8 @@ export default async function run(
 			print(fail`Unknown command: {${cmd}}`);
 			process.exit(1);
 	}
+}
+
+function isSwitchEnabled(name: string): boolean {
+	return !!process.argv.find((arg) => arg === `--${name}`);
 }

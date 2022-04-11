@@ -65,9 +65,8 @@ function filterStaticFiles(filename) {
 // Watch changes to TypeScript files to trigger `tsc`
 
 childProcess.spawn(
-	'yarn',
+	'npx',
 	[
-		'run',
 		'tsc',
 		'--build',
 		...getProjectDirectories().map((dir) =>
