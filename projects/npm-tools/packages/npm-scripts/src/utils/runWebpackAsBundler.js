@@ -70,7 +70,6 @@ function getIndexWebpackConfig(projectDir, buildConfig, babelConfig) {
 	const externals = convertImportsToExternals(imports, 2);
 
 	const webpackConfig = {
-		devtool: 'cheap-source-map',
 		entry: {
 			[`__liferay__/index`]: {
 				import: mainFilePath,
@@ -81,7 +80,6 @@ function getIndexWebpackConfig(projectDir, buildConfig, babelConfig) {
 		},
 		externals,
 		externalsType: 'module',
-		mode: 'development',
 		module: {
 			rules: [
 				{
@@ -134,6 +132,15 @@ function getIndexWebpackConfig(projectDir, buildConfig, babelConfig) {
 			},
 		},
 	};
+
+	if (process.env.NODE_ENV === 'development') {
+		webpackConfig.devtool = 'cheap-source-map';
+		webpackConfig.mode = 'development';
+	}
+	else {
+		webpackConfig.devtool = false;
+		webpackConfig.mode = 'production';
+	}
 
 	return webpackConfig;
 }
@@ -258,7 +265,6 @@ function getImportsWebpackConfigs(buildConfig) {
 		delete externals[pkgName];
 
 		const webpackConfig = {
-			devtool: 'cheap-source-map',
 			entry: {
 				[`__liferay__/exports/${flatPkgName}`]: {
 					import: importPath,
@@ -269,7 +275,6 @@ function getImportsWebpackConfigs(buildConfig) {
 			},
 			externals,
 			externalsType: 'module',
-			mode: 'development',
 			module: {
 				rules: [
 					{
@@ -304,6 +309,15 @@ function getImportsWebpackConfigs(buildConfig) {
 				},
 			},
 		};
+
+		if (process.env.NODE_ENV === 'development') {
+			webpackConfig.devtool = 'cheap-source-map';
+			webpackConfig.mode = 'development';
+		}
+		else {
+			webpackConfig.devtool = false;
+			webpackConfig.mode = 'production';
+		}
 
 		if (buildConfig.report) {
 			createTempFile(
