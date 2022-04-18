@@ -11,6 +11,7 @@ const path = require('path');
 let buildSass = require('../sass/build');
 let runTSC = require('../typescript/runTSC');
 const createAmd2EsmExportsBridges = require('../utils/createAmd2EsmExportsBridges');
+const createEsm2AmdCustomBridges = require('../utils/createEsm2AmdCustomBridges');
 const createEsm2AmdExportsBridges = require('../utils/createEsm2AmdExportsBridges');
 const createEsm2AmdIndexBridge = require('../utils/createEsm2AmdIndexBridge');
 const createTempFile = require('../utils/createTempFile');
@@ -207,6 +208,8 @@ module.exports = async function (...args) {
 			createEsm2AmdIndexBridge(CWD, BUILD_CONFIG, manifest);
 
 			createEsm2AmdExportsBridges(CWD, BUILD_CONFIG, manifest);
+
+			createEsm2AmdCustomBridges(CWD, BUILD_CONFIG, manifest);
 
 			fs.writeFileSync(
 				path.join(BUILD_CONFIG.output, 'manifest.json'),
