@@ -1,3 +1,16 @@
+## [npm-scripts/v47.3.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.3.0) (2022-04-26)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.3.0-pre.4...npm-scripts/v47.3.0)
+
+### :new: Features
+
+-   feat(npm-scripts): add customBridges support ([\#916](https://github.com/liferay/liferay-frontend-projects/pull/916))
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): create output dir for custom bridges ([\#921](https://github.com/liferay/liferay-frontend-projects/pull/921))
+-   fix(npm-scripts): honor NODE_ENV setting when invoking webpack ([\#915](https://github.com/liferay/liferay-frontend-projects/pull/915))
+
 ## [npm-scripts/v47.3.0-pre.4](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.3.0-pre.4) (2022-04-08)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.3.0-pre.3...npm-scripts/v47.3.0-pre.4)
