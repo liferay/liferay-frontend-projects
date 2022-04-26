@@ -37,15 +37,15 @@ Liferay.Loader.define(
 );
 `;
 
-		const jsFilePath = amdModule + '.js';
+		const jsModulePath = amdModule + '.js';
 
-		fs.writeFileSync(
-			path.resolve(output, ...jsFilePath.split('/')),
-			bridgeSource,
-			'utf8'
-		);
+		const jsFilePath = path.resolve(output, ...jsModulePath.split('/'));
 
-		manifest.packages['/'].modules[jsFilePath] = {
+		fs.mkdirSync(path.dirname(jsFilePath), {recursive: true});
+
+		fs.writeFileSync(jsFilePath, bridgeSource, 'utf8');
+
+		manifest.packages['/'].modules[jsModulePath] = {
 			flags: {
 				esModule: true,
 				useESM: true,
