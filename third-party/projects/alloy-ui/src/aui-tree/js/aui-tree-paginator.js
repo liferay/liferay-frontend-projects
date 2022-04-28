@@ -13,7 +13,7 @@ var Lang = A.Lang,
 
     CSS_TREE_NODE_PAGINATOR = getCN('tree', 'node', 'paginator'),
 
-    TPL_PAGINATOR = '<a class="' + CSS_TREE_NODE_PAGINATOR + '" hrsef="javascript:void(0);">{moreResultsLabel}</a>';
+    TPL_PAGINATOR = '<a class="' + CSS_TREE_NODE_PAGINATOR + '" href="javascript:void(0);">{moreResultsLabel}</a>';
 
 /**
  * A base class for TreeViewPaginator.
