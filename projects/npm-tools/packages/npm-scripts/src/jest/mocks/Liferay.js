@@ -108,7 +108,7 @@ const ThemeDisplay = {
 	/**
 	 * https://github.com/liferay/liferay-portal/blob/a4866af62eb89c69ee00d0e69dbe7ff092b50048/portal-web/docroot/html/common/themes/top_js.jspf#L226
 	 */
-	getPathContext: jest.fn(() => '/'),
+	getPathContext: jest.fn(() => ''),
 
 	/**
 	 * https://github.com/liferay/liferay-portal/blob/31073fb75fb0d3b309f9e0f921cb7a469aa2703d/portal-web/docroot/html/common/themes/top_js.jspf#L235
