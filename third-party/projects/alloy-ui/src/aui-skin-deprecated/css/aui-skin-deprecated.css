@@ -32,9 +32,6 @@
     -webkit-transform: scale(0);
     -webkit-transform-origin-x: 0px;
     -webkit-transform-origin-y: 0px;
-    /*Change IE7 to using fixed*/
-    *position: fixed !important;
-    /*...And reset back to absolute for IE6*/
     _position: absolute !important;
 }
 .helper-force-offset {
@@ -414,10 +411,6 @@
     cursor: pointer;
     font-weight: bold;
     padding: 5px 10px 6px 7px;
-}
-/* IE7 and below */
- .button-input {
-    *padding: 4px 10px 3px 7px;
 }
 .field-content:after, .button-holder:after {
     clear: both;
