@@ -27,12 +27,10 @@
     position: absolute !important;
     /* IE11 */
     -ms-transform: scale(0);
-    /*Webkit and IE7 let clipped content change the scroll height of the page*/
     /*Scale webkit to 0*/
     -webkit-transform: scale(0);
     -webkit-transform-origin-x: 0px;
     -webkit-transform-origin-y: 0px;
-    _position: absolute !important;
 }
 .helper-force-offset {
     display: block !important;
@@ -54,10 +52,6 @@
     display: block;
     height: 0;
 }
-.helper-clearfix {
-    /* IE7/IE6 */
-    zoom: 1;
-}
 .helper-zfix {
     width: 100%;
     height: 100%;
@@ -65,10 +59,6 @@
     left: 0;
     position: absolute;
     opacity: 0;
-    /* IE8 */
-    -ms-filter: alpha(opacity=0);
-    /* IE7/IE8(quirks) */
-    filter: alpha(opacity=0);
 }
 /* unselectable */
  .helper-unselectable, .helper-unselectable * {
@@ -89,9 +79,6 @@
 .layout {
     width: 100%;
 }
-.ie6 .layout-content, .ie7 .layout-content {
-    display: block;
-}
 .ltr .column, .rtl .column-last {
     float: left;
 }
@@ -109,10 +96,6 @@
     content:"";
     display: block;
     height: 0;
-}
-.layout-content {
-    /* IE7/IE6 */
-    zoom: 1;
 }
 .w1-20, .w5 {
     width: 5%;
@@ -395,10 +378,6 @@
     content:"";
     display: block;
     height: 0;
-}
-.field-row {
-    /* IE7/IE6 */
-    zoom: 1;
 }
 .button-holder {
     display: block;

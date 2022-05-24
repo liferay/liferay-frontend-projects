@@ -17,7 +17,3 @@
 .scroller-horizontal .scroller-item {
     display: inline-block;
 }
-.ie7 .scroller-horizontal .scroller-item, .ie6 .scroller-horizontal .scroller-item {
-    display: inline;
-    zoom: 1;
-}
