@@ -29,6 +29,7 @@ Currently `@liferay/cli` supports the following features:
 -   [Project deployment](#project-deployment)
 -   [Project clean](#project-clean)
 -   [Project upgrade](#project-upgrade)
+-   [Live development](#live-development)
 
 ## Project generation
 
@@ -38,6 +39,9 @@ frameworks[^1]:
 -   [React](https://reactjs.org/)
 -   [Angular](https://angular.io/)
 -   [Vue.js](https://vuejs.org/)
+
+Additionally, there are different [types of project](#project-types) that define
+the artifact you want to generate (a Widget, a Remote App, ...).
 
 ### Usage
 
@@ -52,6 +56,52 @@ and let the generator do its duties.
 Once the project is created, you may change to its folder and run
 `npm|yarn install` to install the dependencies, then invoke the supported
 actions (like `build`, `deploy`, etc.) with `npm|yarn run <command>`.
+
+#### Project types
+
+Currently the following project types are supported.
+
+##### Liferay Platform Project
+
+The typical project from JS Toolkit that creates a deployable JAR file
+implementing a Widget (portlet) that can be added to any page.
+
+The project may support different features like
+[localization](./features/localization.md) and
+[configuration](./features/configuration.md), and it follows the
+[JavaScript portlet entry point](./reference/js-portlet-entry-point.md)
+contract.
+
+##### Liferay Remote App
+
+Remote Apps implement a
+[Custom Element](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements)
+that can be registered with Liferay DXP in the Remote Apps configuration. This
+generates a new Widget that is rendered using the custom element, instead of
+the old [JavaScript portlet entry point](./reference/js-portlet-entry-point.md)
+method.
+
+Currently only [React](https://reactjs.org/) framework is supported[^1], and you
+can decide whether to use the React copy Liferay DXP uses at runtime, or bring
+your own copy inside the generated JavaScript file. You can do so when selecting
+the target platform when asked:
+
+```sh
+? Which will be your target platform? (Use arrow keys)
+❯ Liferay Portal CE (not sharing platform's packages)
+  Liferay Portal CE 7.4
+  Liferay DXP 7.4
+```
+
+For example, if you select `Liferay Portal CE (not sharing platform's packages)`
+your own copy of React will be bundled inside the generated JavaScript file
+which will be completely isolated from the one Liferay DXP uses.
+
+On the other hand, if you select `Liferay Portal CE 7.4`, your project will
+import the React copy that Liferay DXP is using, at runtime. This has the
+benefit of lower footprint and better interoperability, however you will need to
+make sure that your code is compatible with Liferay DXP's version of React
+before deploying it. Otherwise, it may be subject to failure at runtime.
 
 #### Target platform
 
@@ -122,6 +172,52 @@ $ yarn build ↩
 ```
 
 Note that `npm|yarn run build` is an alias to `liferay build` (you can see that
+by inspecting your project's `package.json` file).
+
+## Live Development
+
+The `start` command will serve the current project from a local development
+server for project types that support it (currently only `Liferay Remote App`).
+This has the benefit that you can change your source code and immediately see
+the changes without redeploying or restarting the server.
+
+When you run the command it will start a Webpack development server that lets
+you consume the Remote App `index.js` file from
+`http://localhost:8081/index.js`[^3].
+
+Then you simply need to go to Liferay DXP's Remote App configuration and create
+a Remote App pointing to that URL. You may also point to the CSS file if you are
+using it (usually at `http://localhost:8081/css/styles.css`[^3]).
+
+If at any moment you are unsure on how to configure the Remote App, you can
+[build the project](#project-build) and look for a `manifest.json` file in
+the `build` directory. It describes how to configure the Remote App, like this:
+
+```json
+{
+	"cssURLs": ["./css/styles.css"],
+	"htmlElementName": "my-custom-element",
+	"type": "customElement",
+	"urls": ["./index.js"],
+	"useESM": true
+}
+```
+
+### Usage
+
+```sh
+$ liferay start ↩
+
+# or
+
+$ npm run start ↩
+
+# or
+
+$ yarn start ↩
+```
+
+Note that `npm|yarn run start` is an alias to `liferay start` (you can see that
 by inspecting your project's `package.json` file).
 
 ## Project deployment
@@ -243,3 +339,7 @@ may have a look at
     frameworks' application model (they assume a SPA deployed as a single
     webapp) and the one of Liferay, that assumes that many unrelated portlets
     cooperate together to produce a single HTML page.
+
+[^3]:
+    Note that the `8081` port may change, but right after running the `start`
+    command, you will be informed of the base server address and port.
