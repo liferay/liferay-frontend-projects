@@ -3,16 +3,6 @@
 */
 
 /* foundational CSS */
-.table-scrollable-x {
-    _overflow-x: hidden;
-    _position: relative;
-}
-
-.table-scrollable-y, .table-scrollable-y .table-x-scroller {
-    _overflow-y: hidden;
-    _position: relative;
-}
-
 .table-y-scroller-container {
     overflow-x: hidden;
     position: relative;
