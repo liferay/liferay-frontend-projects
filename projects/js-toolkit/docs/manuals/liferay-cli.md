@@ -63,14 +63,14 @@ Currently the following project types are supported.
 
 ##### Liferay Platform Project
 
-The typical project from JS Toolkit that creates a deployable JAR file
-implementing a Widget (portlet) that can be added to any page.
+The typical project from JS Toolkit creates a deployable JAR file implementing a
+Widget (portlet) that can be added to any page.
 
-The project may support different features like
-[localization](./features/localization.md) and
-[configuration](./features/configuration.md), and it follows the
-[JavaScript portlet entry point](./reference/js-portlet-entry-point.md)
-contract.
+The project may support different features like:
+
+-   [Localization](./features/localization.md) and
+-   [Configuration](./features/configuration.md), and it follows the
+-   Follows the [JavaScript portlet entry point](./reference/js-portlet-entry-point.md) contract.
 
 ##### Liferay Remote App
 
@@ -78,8 +78,8 @@ Remote Apps implement a
 [Custom Element](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements)
 that can be registered with Liferay DXP in the Remote Apps configuration. This
 generates a new Widget that is rendered using the custom element, instead of
-the old [JavaScript portlet entry point](./reference/js-portlet-entry-point.md)
-method.
+using the
+[JavaScript portlet entry point](./reference/js-portlet-entry-point.md) method.
 
 Currently only [React](https://reactjs.org/) framework is supported[^1], and you
 can decide whether to use the React copy Liferay DXP uses at runtime, or bring
@@ -181,8 +181,8 @@ server for project types that support it (currently only `Liferay Remote App`).
 This has the benefit that you can change your source code and immediately see
 the changes without redeploying or restarting the server.
 
-When you run the command it will start a Webpack development server that lets
-you consume the Remote App `index.js` file from
+When you run the `start` command it will launch a Webpack development server
+that will let you consume the Remote App `index.js` file from
 `http://localhost:8081/index.js`[^3].
 
 Then you simply need to go to Liferay DXP's Remote App configuration and create
