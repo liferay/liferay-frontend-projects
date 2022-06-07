@@ -8,6 +8,11 @@
 const authToken = 'default-mocked-auth-token';
 
 /**
+ * https://github.com/liferay/liferay-portal/blob/efc53b8a82e3afff06aacc26118fbe7231acffff/portal-web/docroot/html/common/themes/top_js.jspf#L157
+ */
+const FeatureFlags = {};
+
+/**
  * Event support APIs on the `Liferay` object inherited from `A.Attributes`
  *
  * https://github.com/liferay/liferay-portal/blob/31073fb75fb0d3b309f9e0f921cb7a469aa2703d/modules/apps/frontend-js/frontend-js-web/src/main/resources/META-INF/resources/liferay/events.js#L66
@@ -162,10 +167,11 @@ const Util = {
 
 module.exports = {
 	...events,
+	authToken,
+	FeatureFlags,
 	Language,
 	PropsValues,
 	Session,
 	ThemeDisplay,
 	Util,
-	authToken,
 };
