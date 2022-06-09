@@ -7,7 +7,7 @@ import chalk from 'chalk';
 import {spawn} from 'child_process';
 import chokidar from 'chokidar';
 import {Command} from 'commander';
-import {existsSync} from 'fs';
+import {existsSync, readFileSync} from 'fs';
 import {mkdir, readFile, writeFile} from 'fs/promises';
 import glob from 'glob';
 import http from 'http';
@@ -38,6 +38,38 @@ function isHTMLResponse(response: http.IncomingMessage): boolean {
 		response.headers &&
 		response.headers['content-type']?.includes('text/html')
 	);
+}
+
+function getWorkspaceRoot(filepath) {
+	let current = filepath;
+
+	while (true) {
+		const parent = dirname(current);
+
+		const candidate = join(parent, 'settings.gradle');
+
+		if (
+			existsSync(candidate) &&
+			readFileSync(candidate).includes(
+				'apply plugin: "com.liferay.workspace"'
+			)
+		) {
+			current = candidate;
+
+			break;
+		}
+		else if (parent === current) {
+
+			// Can't go any higher.
+
+			return null;
+		}
+		else {
+			current = parent;
+		}
+	}
+
+	return dirname(current);
 }
 
 function findPortalRoot(directory: string): string {
@@ -134,7 +166,7 @@ export default async function (): Promise<void> {
 		)
 		.option('-v, --verbose', 'Output verbose', false)
 		.action((path) => {
-			WD = findPortalRoot(path);
+			WD = findPortalRoot(path) || getWorkspaceRoot(path);
 		});
 
 	const {port, regenerate, url, verbose} = program.parse(process.argv).opts();
