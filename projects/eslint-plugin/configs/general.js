@@ -145,6 +145,7 @@ const config = {
 		'no-return-assign': ['error', 'always'],
 		'no-unused-expressions': 'error',
 		'no-unused-vars': ['error', {argsIgnorePattern: '^_'}],
+		'no-var': 'error',
 		'object-shorthand': 'error',
 		'one-var': ['error', 'never'],
 		'padding-line-between-statements': [
