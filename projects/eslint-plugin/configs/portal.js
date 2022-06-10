@@ -17,6 +17,7 @@ const config = {
 		'@liferay/portal/no-react-dom-create-portal': 'error',
 		'@liferay/portal/no-react-dom-render': 'error',
 		'@liferay/portal/no-side-navigation': 'error',
+		'@liferay/portal/unexecuted-ismounted': 'error',
 		'no-restricted-globals': ['error', 'event'],
 	},
 };

@@ -13,4 +13,5 @@ module.exports = {
 	'portal/no-react-dom-create-portal': require('./lib/rules/no-react-dom-create-portal'),
 	'portal/no-react-dom-render': require('./lib/rules/no-react-dom-render'),
 	'portal/no-side-navigation': require('./lib/rules/no-side-navigation'),
+	'portal/unexecuted-ismounted': require('./lib/rules/unexecuted-ismounted'),
 };
