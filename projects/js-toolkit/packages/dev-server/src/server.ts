@@ -40,7 +40,7 @@ function isHTMLResponse(response: http.IncomingMessage): boolean {
 	);
 }
 
-function getWorkspaceRoot(filepath) {
+function getWorkspaceRoot(filepath): string {
 	let current = filepath;
 
 	while (true) {

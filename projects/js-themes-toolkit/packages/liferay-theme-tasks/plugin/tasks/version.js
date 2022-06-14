@@ -10,19 +10,19 @@ const gutil = require('gulp-util');
 
 const project = require('../../lib/project');
 
-var chalk = gutil.colors;
+const chalk = gutil.colors;
 
-var REGEX_MODULE_VERSION = /module-version=([0-9.]+)/;
+const REGEX_MODULE_VERSION = /module-version=([0-9.]+)/;
 
 module.exports = function () {
 	const {gulp} = project;
 
 	gulp.task('plugin:version', (done) => {
-		var npmPackageVersion = JSON.parse(
+		const npmPackageVersion = JSON.parse(
 			fs.readFileSync('package.json', 'utf8')
 		).version;
 
-		var pluginPackagePropertiesPath = project.options.rootDir.join(
+		const pluginPackagePropertiesPath = project.options.rootDir.join(
 			'WEB-INF',
 			'liferay-plugin-package.properties'
 		).asNative;
@@ -37,7 +37,7 @@ module.exports = function () {
 					throw error;
 				}
 
-				var moduleVersion = result.match(REGEX_MODULE_VERSION);
+				const moduleVersion = result.match(REGEX_MODULE_VERSION);
 
 				if (moduleVersion && moduleVersion[1] !== npmPackageVersion) {
 					result = result.replace(

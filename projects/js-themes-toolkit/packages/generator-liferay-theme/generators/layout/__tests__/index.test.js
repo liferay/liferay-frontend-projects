@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: MIT
  */
 
-var chai = require('chai');
-var chaiFs = require('chai-fs');
+const chai = require('chai');
+const chaiFs = require('chai-fs');
 
 chai.use(chaiFs);
 

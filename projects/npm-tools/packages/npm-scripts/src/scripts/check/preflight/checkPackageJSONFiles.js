@@ -4,6 +4,7 @@
  */
 
 const fs = require('fs');
+const path = require('path');
 
 const getMergedConfig = require('../../../utils/getMergedConfig');
 const getPaths = require('../../../utils/getPaths');
@@ -42,7 +43,7 @@ function checkPackageJSONFiles() {
 		const bad = (message) => errors.push(`${pkg}: BAD - ${message}`);
 
 		try {
-			const {dependencies, name} = JSON.parse(
+			const {dependencies, main, name} = JSON.parse(
 				fs.readFileSync(pkg),
 				'utf8'
 			);
@@ -74,6 +75,41 @@ function checkPackageJSONFiles() {
 					}
 				});
 			});
+
+			// Check for main entry point
+
+			if (!main) {
+				const moduleDir = path.join(pkg, '..');
+
+				const indexExists = [
+					'index.js',
+					'index.es.js',
+					'index.ts',
+					'index.tsx',
+				].find(
+					(file) =>
+						fs.existsSync(
+							path.join(
+								moduleDir,
+								'src/main/resources/META-INF/resources',
+								file
+							)
+						) ||
+						fs.existsSync(
+							path.join(
+								moduleDir,
+								'src/main/resources/META-INF/resources/js',
+								file
+							)
+						)
+				);
+
+				if (indexExists) {
+					bad(
+						`package.json doesn't contain a "main" entry point when you have an ${indexExists} file - https://github.com/liferay/liferay-frontend-projects/issues/719`
+					);
+				}
+			}
 		}
 		catch (error) {
 			bad(`error thrown during checks: ${error}`);

@@ -23,6 +23,8 @@ module.exports = {
 		'/maintenance/projects/js-toolkit/**/__fixtures__',
 		'/maintenance/projects/senna/build',
 		'/projects/amd-loader/build',
+		'/projects/amd-loader/src/demo/modules',
+		'/projects/js-themes-toolkit/packages/liferay-theme-tasks/lib/r2',
 		'/projects/js-themes-toolkit/qa',
 		'/projects/js-toolkit/qa',
 		'/projects/js-toolkit/**/generators',

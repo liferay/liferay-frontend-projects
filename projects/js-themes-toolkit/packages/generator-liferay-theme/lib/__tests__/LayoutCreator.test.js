@@ -20,7 +20,7 @@ describe('LayoutCreator', () => {
 
 	let inquirer;
 
-	var prototype;
+	let prototype;
 
 	beforeEach(() => {
 		FORCE_COLOR = process.env.FORCE_COLOR;
@@ -47,11 +47,11 @@ describe('LayoutCreator', () => {
 
 	describe('constructor', () => {
 		it('sets options as instance properties', () => {
-			var init = LayoutCreator.prototype.init;
+			const init = LayoutCreator.prototype.init;
 
 			LayoutCreator.prototype.init = sinon.spy();
 
-			var layoutCreator = new LayoutCreator({
+			const layoutCreator = new LayoutCreator({
 				className: 'class-name',
 			});
 
@@ -98,11 +98,11 @@ describe('LayoutCreator', () => {
 
 	describe('prompt', () => {
 		it('passes arguments to inquirer.prompt', () => {
-			var prompt = inquirer.prompt;
+			const prompt = inquirer.prompt;
 
 			inquirer.prompt = sinon.spy();
 
-			var callback = sinon.spy();
+			const callback = sinon.spy();
 
 			prototype.prompt(
 				[
@@ -136,7 +136,7 @@ describe('LayoutCreator', () => {
 			prototype._printLayoutPreview = sinon.spy();
 			prototype.rows = [];
 
-			var rowData = {
+			const rowData = {
 				data: 'data',
 			};
 
@@ -158,7 +158,7 @@ describe('LayoutCreator', () => {
 
 	describe('_addWhiteSpace', () => {
 		it('adds whitespace', () => {
-			var choices = [];
+			const choices = [];
 
 			prototype._addWhiteSpace(choices);
 
@@ -194,11 +194,11 @@ describe('LayoutCreator', () => {
 
 	describe('_afterPromptColumnCount', () => {
 		it('passes columnCount to cb function', () => {
-			var answers = {
+			const answers = {
 				columnCount: 3,
 			};
 
-			var callback = sinon.spy();
+			const callback = sinon.spy();
 
 			prototype._afterPromptColumnCount(answers, callback);
 
@@ -212,12 +212,12 @@ describe('LayoutCreator', () => {
 			prototype._addRow = sinon.spy();
 			prototype.rows = [1];
 
-			var answers = {
+			const answers = {
 				0: 6,
 				1: 6,
 			};
 
-			var callback = sinon.spy();
+			const callback = sinon.spy();
 
 			prototype._afterPromptColumnWidths(answers, callback);
 
@@ -228,7 +228,7 @@ describe('LayoutCreator', () => {
 
 	describe('_afterPromptFinishRow', () => {
 		it('follows correct workflow based on selection', () => {
-			var cbSpy = sinon.spy();
+			const cbSpy = sinon.spy();
 			prototype.rows = [1];
 
 			prototype._promptInsertRow = sinon.spy();
@@ -280,7 +280,7 @@ describe('LayoutCreator', () => {
 		});
 
 		it('does not call anything if invalid value', () => {
-			var cbSpy = sinon.spy();
+			const cbSpy = sinon.spy();
 			prototype.rows = [1];
 
 			prototype._promptInsertRow = sinon.spy();
@@ -303,7 +303,7 @@ describe('LayoutCreator', () => {
 
 	describe('_afterPromptInsertRow', () => {
 		it('sets rowInserIndex based on answers and pass cb to _promptRow', () => {
-			var callback = _.noop;
+			const callback = _.noop;
 
 			prototype._promptRow = sinon.spy();
 
@@ -325,7 +325,7 @@ describe('LayoutCreator', () => {
 			prototype._removeRow = sinon.spy();
 			prototype.rows = [2];
 
-			var callback = _.noop;
+			const callback = _.noop;
 
 			prototype._afterPromptRemoveRow(
 				{
@@ -341,7 +341,7 @@ describe('LayoutCreator', () => {
 
 	describe('_formatInlineChoicePreview', () => {
 		it('returns formatted preview', () => {
-			var preview = prototype._formatInlineChoicePreview(2, 2);
+			let preview = prototype._formatInlineChoicePreview(2, 2);
 
 			assert.match(preview, /\S+\s{2}\S+\s{2}\S+\s{8}/);
 
@@ -361,7 +361,7 @@ describe('LayoutCreator', () => {
 				.stub()
 				.returns('preview');
 
-			var labels = [
+			const labels = [
 				'1/12 - 8.33%',
 				'2/12 - 16.66%',
 				'3/12 - 25%',
@@ -388,7 +388,7 @@ describe('LayoutCreator', () => {
 			sinonAssert.notCalled(prototype._formatInlineChoicePreview);
 
 			_.forEach(labels, (label, index) => {
-				var formattedLabel = prototype._formatPercentageValue(
+				const formattedLabel = prototype._formatPercentageValue(
 					index + 1,
 					0,
 					true
@@ -410,7 +410,7 @@ describe('LayoutCreator', () => {
 
 	describe('_getColumnClassNames', () => {
 		it('returns appropriate column classes', () => {
-			var classNames = prototype._getColumnClassNames(1, 1);
+			let classNames = prototype._getColumnClassNames(1, 1);
 
 			assert.equal(classNames[0], 'portlet-column-only');
 			assert.equal(classNames[1], 'portlet-column-content-only');
@@ -433,7 +433,7 @@ describe('LayoutCreator', () => {
 
 	describe('_getColumnWidthChoices', () => {
 		it('returns limited width choices based on columnIndex, columnCount, and available row width', () => {
-			var choices = prototype._getColumnWidthChoices(0, 1, {});
+			let choices = prototype._getColumnWidthChoices(0, 1, {});
 
 			assert.equal(choices.length, 1);
 			assert.equal(choices[0].value, 12);
@@ -462,9 +462,9 @@ describe('LayoutCreator', () => {
 
 	describe('_getFinishRowChoices', () => {
 		it('only returns add option if rows property is empty', () => {
-			var rows = [];
+			let rows = [];
 
-			var choices = prototype._getFinishRowChoices(rows);
+			let choices = prototype._getFinishRowChoices(rows);
 
 			assert.equal(choices.length, 1);
 			assert.deepEqual(choices[0], {
@@ -600,7 +600,7 @@ describe('LayoutCreator', () => {
 		it('returns next row number for labels and messages', () => {
 			prototype.rows = [1, 2];
 
-			var rowNumber = prototype._getRowNumber();
+			let rowNumber = prototype._getRowNumber();
 
 			assert.equal(rowNumber, 3);
 
@@ -614,7 +614,7 @@ describe('LayoutCreator', () => {
 
 	describe('_preprocessLayoutTemplateData', () => {
 		it('converts prompt data to data that template can easily process', () => {
-			var rows = [
+			let rows = [
 				{
 					0: 2,
 					1: 10,
@@ -629,13 +629,13 @@ describe('LayoutCreator', () => {
 				},
 			];
 
-			var rowDataFromObjects = prototype._preprocessLayoutTemplateData(
+			const rowDataFromObjects = prototype._preprocessLayoutTemplateData(
 				rows
 			);
 
 			rows = [[2, 10], [2, 1, 9], [12]];
 
-			var rowDataFromArray = prototype._preprocessLayoutTemplateData(
+			const rowDataFromArray = prototype._preprocessLayoutTemplateData(
 				rows
 			);
 
@@ -646,7 +646,7 @@ describe('LayoutCreator', () => {
 				'that it returns the same data when passing in objects or arrays'
 			);
 
-			var number = 0;
+			let number = 0;
 
 			_.forEach(rowDataFromObjects, (row) => {
 				assert(_.isArray(row), 'each row is an array');
@@ -664,7 +664,7 @@ describe('LayoutCreator', () => {
 				});
 			});
 
-			var json = JSON.parse(
+			const json = JSON.parse(
 				fs.readFileSync(
 					path.join(
 						__dirname,
@@ -689,7 +689,7 @@ describe('LayoutCreator', () => {
 
 			prototype._printLayoutPreview();
 
-			var preview =
+			const preview =
 				'\n  Here is what your layout looks like so far\n' +
 				'  -------------------------------------\n' +
 				'  |6                |6                |\n' +
@@ -699,7 +699,7 @@ describe('LayoutCreator', () => {
 				'  |        |        |                 |\n' +
 				'  -------------------------------------\n\n';
 
-			var strippedPreview = stripAnsi(
+			const strippedPreview = stripAnsi(
 				prototype._stdoutWrite.getCall(0).args[0]
 			);
 
@@ -715,7 +715,7 @@ describe('LayoutCreator', () => {
 
 			prototype._promptColumnCount(_.noop);
 
-			var question = prototype.prompt.args[0][0][0];
+			let question = prototype.prompt.args[0][0][0];
 
 			sinonAssert.calledWithMatch(
 				prototype.prompt.getCall(0),
@@ -752,7 +752,7 @@ describe('LayoutCreator', () => {
 
 			sinonAssert.calledOnce(prototype.prompt);
 
-			var questions = prototype.prompt.args[0][0];
+			const questions = prototype.prompt.args[0][0];
 
 			sinonAssert.calledWithMatch(
 				prototype.prompt.getCall(0),
@@ -766,7 +766,7 @@ describe('LayoutCreator', () => {
 			);
 
 			_.forEach(questions, (question, index) => {
-				var columnNumber = index + 1;
+				const columnNumber = index + 1;
 
 				assert.equal(index, question.name, 'name is index');
 				assert.match(
@@ -807,9 +807,9 @@ describe('LayoutCreator', () => {
 
 	describe('_promptRow', () => {
 		it('removes last row and print layout', (done) => {
-			var waterfallSpy = sinon.spy();
+			const waterfallSpy = sinon.spy();
 
-			var getWaterfallFunction = function (name) {
+			const getWaterfallFunction = function (name) {
 				return function (data, callback) {
 					if (!callback) {
 						callback = data;
@@ -871,7 +871,7 @@ describe('LayoutCreator', () => {
 
 	describe('_renderPreviewLine', () => {
 		it('renders preview line', () => {
-			var line = prototype._renderPreviewLine({
+			let line = prototype._renderPreviewLine({
 				0: 4,
 				1: 8,
 			});
@@ -900,11 +900,11 @@ describe('LayoutCreator', () => {
 
 	describe('_renderLayoutTemplate', () => {
 		it('compiles data into valid template', () => {
-			var fileOptions = {
+			const fileOptions = {
 				encoding: 'utf8',
 			};
 
-			var json = JSON.parse(
+			const json = JSON.parse(
 				fs.readFileSync(
 					path.join(
 						__dirname,
@@ -917,12 +917,12 @@ describe('LayoutCreator', () => {
 
 			prototype.liferayVersion = '7.0';
 
-			var tplContent = prototype._renderLayoutTemplate({
+			const tplContent = prototype._renderLayoutTemplate({
 				className: 'my-class-name',
 				rowData: json,
 			});
 
-			var tplFileContent = fs.readFileSync(
+			const tplFileContent = fs.readFileSync(
 				path.join(__dirname, '__fixtures__', 'layout_template.tpl'),
 				fileOptions
 			);
@@ -951,9 +951,9 @@ describe('LayoutCreator', () => {
 
 	describe('_validateColumnCount', () => {
 		it('validates column count', () => {
-			var errMessage = 'Please enter a number between 1 and 12!';
+			const errMessage = 'Please enter a number between 1 and 12!';
 
-			var retVal = prototype._validateColumnCount(1);
+			let retVal = prototype._validateColumnCount(1);
 
 			assert(retVal, '1 is valid');
 

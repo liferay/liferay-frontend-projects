@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: MIT
  */
 
-var sinon = require('sinon');
+const sinon = require('sinon');
 
-var spy = sinon.spy();
+const spy = sinon.spy();
 
 module.exports = function () {
 	spy.apply(this, arguments);

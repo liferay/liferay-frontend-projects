@@ -5,7 +5,7 @@
 
 'use strict';
 
-var zip = require('gulp-zip');
+const zip = require('gulp-zip');
 
 const project = require('../../lib/project');
 

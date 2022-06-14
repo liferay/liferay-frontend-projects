@@ -23,6 +23,7 @@ module.exports = {
 		'no-unused-expressions': 'warn',
 		'no-unused-vars': 'warn',
 		'no-useless-escape': 'warn',
+		'no-var': 'off',
 		'notice/notice': [
 			'error',
 			{

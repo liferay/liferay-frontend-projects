@@ -5,8 +5,8 @@
 
 'use strict';
 
-var {Gulp} = require('gulp');
-var path = require('path');
+const {Gulp} = require('gulp');
+const path = require('path');
 
 const project = require('../../../lib/project');
 const {cleanTempPlugin, setupTempPlugin} = require('../../../lib/test/util');

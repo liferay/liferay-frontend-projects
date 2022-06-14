@@ -9,6 +9,7 @@ const config = {
 	extends: [require.resolve('./react')],
 	rules: {
 		'@liferay/portal/deprecation': 'error',
+		'@liferay/portal/no-default-export-from-frontend-js-web': 'error',
 		'@liferay/portal/no-explicit-extend': 'error',
 		'@liferay/portal/no-global-fetch': 'error',
 		'@liferay/portal/no-loader-import-specifier': 'error',
@@ -17,6 +18,7 @@ const config = {
 		'@liferay/portal/no-react-dom-create-portal': 'error',
 		'@liferay/portal/no-react-dom-render': 'error',
 		'@liferay/portal/no-side-navigation': 'error',
+		'@liferay/portal/unexecuted-ismounted': 'error',
 		'no-restricted-globals': ['error', 'event'],
 	},
 };

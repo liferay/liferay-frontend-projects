@@ -51,7 +51,7 @@ test('registerTasks should invoke extension functions', (done) => {
 		return;
 	}
 
-	var extFunction = function (options) {
+	const extFunction = function (options) {
 		expect(options).toEqual({
 			argv: getArgv(),
 			distName: 'test-plugin-layouttpl',
@@ -75,7 +75,7 @@ test('registerTasks should invoke extension functions', (done) => {
 });
 
 test('registerTasks should accept array of extension function', (done) => {
-	var extFunction = function (options) {
+	const extFunction = function (options) {
 		expect(options.gulp).toBe(gulp);
 
 		done();
@@ -88,9 +88,9 @@ test('registerTasks should accept array of extension function', (done) => {
 });
 
 test('registerTasks should register hooks', (done) => {
-	var hookSpy = sinon.spy();
+	const hookSpy = sinon.spy();
 
-	var hookFn = function (gulp) {
+	const hookFn = function (gulp) {
 		gulp.hook('before:plugin:war', (callback) => {
 			hookSpy('before:plugin:war');
 
@@ -131,9 +131,9 @@ test('registerTasks should register hooks', (done) => {
 });
 
 test('registerTasks should register hooks for extension tasks', (done) => {
-	var hookSpy = sinon.spy();
+	const hookSpy = sinon.spy();
 
-	var hookFn = function (gulp) {
+	const hookFn = function (gulp) {
 		gulp.hook('before:plugin:war', (callback) => {
 			hookSpy('before:plugin:war');
 
@@ -171,9 +171,9 @@ test('registerTasks should register hooks for extension tasks', (done) => {
 });
 
 test('registerTasks should overwrite task', (done) => {
-	var hookSpy = sinon.spy();
+	const hookSpy = sinon.spy();
 
-	var hookFn = function (gulp) {
+	const hookFn = function (gulp) {
 		gulp.hook('before:plugin:war', (callback) => {
 			hookSpy('before:plugin:war');
 

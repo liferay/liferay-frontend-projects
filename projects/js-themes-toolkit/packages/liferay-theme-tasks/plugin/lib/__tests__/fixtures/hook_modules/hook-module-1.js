@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: MIT
  */
 
-var {EventEmitter} = require('events');
+const {EventEmitter} = require('events');
 
 module.exports = function (gulp) {
 	gulp.hook('before:build', () => {
-		var eventEmitter = new EventEmitter();
+		const eventEmitter = new EventEmitter();
 
 		// Simulates the end of an async gulp stream
 

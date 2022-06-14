@@ -15,6 +15,7 @@ module.exports = {
 		'@liferay/no-dynamic-require': 'off',
 		'no-console': 'off',
 		'no-return-assign': ['error', 'except-parens'],
+		'no-var': 'off',
 		'notice/notice': [
 			'error',
 			{
