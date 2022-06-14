@@ -20,13 +20,13 @@ const registerTaskWar = require('./tasks/war');
 checkNodeVersion();
 
 function processOptions(options) {
-	var argv = getArgv();
+	const argv = getArgv();
 
-	var distName =
+	let distName =
 		options.distName || project.pkgJson.name || path.basename(project.dir);
 
 	if (/\${/.test(distName) && project.pkgJson) {
-		var distNameTemplate = _.template(distName);
+		const distNameTemplate = _.template(distName);
 
 		distName = distNameTemplate(project.pkgJson);
 	}

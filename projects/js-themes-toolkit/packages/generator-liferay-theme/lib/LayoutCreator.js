@@ -5,28 +5,28 @@
 
 'use strict';
 
-var async = require('async');
-var chalk = require('chalk');
-var fs = require('fs');
-var inquirer = require('inquirer');
-var _ = require('lodash');
-var path = require('path');
+const async = require('async');
+const chalk = require('chalk');
+const fs = require('fs');
+const inquirer = require('inquirer');
+const _ = require('lodash');
+const path = require('path');
 
-var templateString = fs.readFileSync(
+const templateString = fs.readFileSync(
 	path.join(__dirname, 'templates', 'layout_template.jst'),
 	{
 		encoding: 'utf8',
 	}
 );
 
-var layoutTemplateTpl = _.template(templateString);
+const layoutTemplateTpl = _.template(templateString);
 
-var listRender = inquirer.prompt.prompts.list.prototype.render;
+const listRender = inquirer.prompt.prompts.list.prototype.render;
 
 inquirer.prompt.prompts.list.prototype.render = function () {
-	var index = this.selected;
+	const index = this.selected;
 
-	var choices = _.reduce(
+	const choices = _.reduce(
 		this.opt.choices.choices,
 		(result, item) => {
 			if (item.type !== 'separator') {
@@ -38,11 +38,11 @@ inquirer.prompt.prompts.list.prototype.render = function () {
 		[]
 	);
 
-	var choice = choices[index];
+	const choice = choices[index];
 
 	this.opt.pageSize = 14;
 
-	var originalName = choice.name;
+	const originalName = choice.name;
 
 	if (choice.selectedName) {
 		choice.name = choice.selectedName;
@@ -53,7 +53,7 @@ inquirer.prompt.prompts.list.prototype.render = function () {
 	choice.name = originalName;
 };
 
-var LayoutCreator = function (options) {
+const LayoutCreator = function (options) {
 	this.className = options.className;
 	this.liferayVersion = options.liferayVersion || '7.1';
 	this.rowData = options.rowData;
@@ -61,7 +61,7 @@ var LayoutCreator = function (options) {
 
 LayoutCreator.prototype = {
 	_addRow(data) {
-		var rowInsertIndex = this.rowInsertIndex;
+		const rowInsertIndex = this.rowInsertIndex;
 
 		if (_.isNumber(rowInsertIndex)) {
 			this.rows.splice(rowInsertIndex, 0, data);
@@ -76,16 +76,16 @@ LayoutCreator.prototype = {
 	},
 
 	_addWhiteSpace(choicesArray) {
-		var separator = new inquirer.Separator(' ');
+		const separator = new inquirer.Separator(' ');
 
 		choicesArray.push(separator);
 		choicesArray.push(separator);
 	},
 
 	_afterPrompt(_err) {
-		var rowData = this._preprocessLayoutTemplateData(this.rows);
+		const rowData = this._preprocessLayoutTemplateData(this.rows);
 
-		var templateContent = this._renderLayoutTemplate({
+		const templateContent = this._renderLayoutTemplate({
 			className: this.className,
 			rowData,
 		});
@@ -104,7 +104,7 @@ LayoutCreator.prototype = {
 	},
 
 	_afterPromptFinishRow(answers, callback) {
-		var finish = answers.finish;
+		const finish = answers.finish;
 
 		if (finish === 'add') {
 			this._promptRow(callback);
@@ -133,11 +133,11 @@ LayoutCreator.prototype = {
 	},
 
 	_formatInlineChoicePreview(spanValue, takenWidth) {
-		var remainingWidth = 12 - (spanValue + takenWidth);
+		const remainingWidth = 12 - (spanValue + takenWidth);
 
-		var takenString = chalk.black.bgWhite(_.repeat(' ', takenWidth));
-		var spanString = chalk.bgCyan(_.repeat(' ', spanValue));
-		var remainingString = _.repeat(' ', remainingWidth);
+		const takenString = chalk.black.bgWhite(_.repeat(' ', takenWidth));
+		const spanString = chalk.bgCyan(_.repeat(' ', spanValue));
+		const remainingString = _.repeat(' ', remainingWidth);
 
 		return (
 			chalk.reset('|') +
@@ -149,15 +149,15 @@ LayoutCreator.prototype = {
 	},
 
 	_formatPercentageValue(spanValue, takenWidth, preview) {
-		var percentage = Math.floor((spanValue / 12) * 10000) / 100;
+		const percentage = Math.floor((spanValue / 12) * 10000) / 100;
 
-		var value = _.padEnd(
+		let value = _.padEnd(
 			spanValue + '/12 - ' + percentage.toString() + '%',
 			14
 		);
 
 		if (preview) {
-			var inlinePreview =
+			const inlinePreview =
 				' - ' + this._formatInlineChoicePreview(spanValue, takenWidth);
 
 			value = value + inlinePreview;
@@ -167,7 +167,7 @@ LayoutCreator.prototype = {
 	},
 
 	_getColumnClassNames(number, total) {
-		var classNames;
+		let classNames;
 
 		if (total <= 1) {
 			classNames = ['portlet-column-only', 'portlet-column-content-only'];
@@ -186,10 +186,10 @@ LayoutCreator.prototype = {
 	},
 
 	_getColumnWidthChoices(columnIndex, columnCount, answers) {
-		var instance = this;
+		const instance = this;
 
-		var takenWidth = 0;
-		var totalWidth = 12;
+		let takenWidth = 0;
+		const totalWidth = 12;
 
 		_.forEach(answers, (item) => {
 			item = _.parseInt(item);
@@ -197,12 +197,12 @@ LayoutCreator.prototype = {
 			takenWidth = takenWidth + item;
 		});
 
-		var availableWidth = totalWidth - takenWidth;
+		let availableWidth = totalWidth - takenWidth;
 
 		// if it's the last column, give remaining width as the only choice
 
 		if (columnIndex + 1 >= columnCount) {
-			var selectedName = instance._formatPercentageValue(
+			const selectedName = instance._formatPercentageValue(
 				availableWidth,
 				takenWidth,
 				true
@@ -222,14 +222,14 @@ LayoutCreator.prototype = {
 			];
 		}
 		else {
-			var remainingColumns = columnCount - (columnIndex + 1);
+			const remainingColumns = columnCount - (columnIndex + 1);
 
 			availableWidth = availableWidth - remainingColumns;
 
-			var choices = _.times(availableWidth, (index) => {
-				var spanValue = index + 1;
+			const choices = _.times(availableWidth, (index) => {
+				const spanValue = index + 1;
 
-				var selectedName = instance._formatPercentageValue(
+				const selectedName = instance._formatPercentageValue(
 					spanValue,
 					takenWidth,
 					true
@@ -251,7 +251,7 @@ LayoutCreator.prototype = {
 	},
 
 	_getFinishRowChoices(rows) {
-		var choices = [
+		const choices = [
 			{
 				name: 'Add row',
 				value: 'add',
@@ -279,14 +279,14 @@ LayoutCreator.prototype = {
 	},
 
 	_getInsertRowChoices() {
-		var instance = this;
+		const instance = this;
 
-		var rows = this.rows;
+		const rows = this.rows;
 
-		var insertName = '  ' + _.repeat('-', 37);
-		var insertSelectedName = '  ' + _.repeat('=', 37);
+		const insertName = '  ' + _.repeat('-', 37);
+		const insertSelectedName = '  ' + _.repeat('=', 37);
 
-		var choicesArray = _.reduce(
+		const choicesArray = _.reduce(
 			this.rows,
 			(choices, row, index) => {
 				choices.push({
@@ -331,11 +331,11 @@ LayoutCreator.prototype = {
 	},
 
 	_getRemoveRowChoices() {
-		var instance = this;
+		const instance = this;
 
-		var seperator = '  ' + _.repeat('-', 37);
+		const seperator = '  ' + _.repeat('-', 37);
 
-		var choicesArray = _.reduce(
+		const choicesArray = _.reduce(
 			this.rows,
 			(choices, row, index) => {
 				choices.push(new inquirer.Separator(seperator));
@@ -376,8 +376,8 @@ LayoutCreator.prototype = {
 	},
 
 	_getRowNumber() {
-		var rowInsertIndex = this.rowInsertIndex;
-		var rowNumber = this.rows.length;
+		const rowInsertIndex = this.rowInsertIndex;
+		let rowNumber = this.rows.length;
 
 		if (_.isNumber(rowInsertIndex)) {
 			rowNumber = rowInsertIndex;
@@ -389,24 +389,24 @@ LayoutCreator.prototype = {
 	},
 
 	_preprocessLayoutTemplateData(rows) {
-		var instance = this;
+		const instance = this;
 
-		var totalColumnCount = 0;
+		let totalColumnCount = 0;
 
-		var rowData = _.map(rows, (row) => {
-			var columnCount = _.size(row);
+		const rowData = _.map(rows, (row) => {
+			const columnCount = _.size(row);
 
 			return _.map(row, (size, index) => {
-				var columnNumber = _.parseInt(index) + 1;
+				const columnNumber = _.parseInt(index) + 1;
 
 				totalColumnCount++;
 
-				var columnData = {
+				const columnData = {
 					number: totalColumnCount,
 					size,
 				};
 
-				var classNames = instance._getColumnClassNames(
+				const classNames = instance._getColumnClassNames(
 					columnNumber,
 					columnCount
 				);
@@ -430,11 +430,11 @@ LayoutCreator.prototype = {
 	},
 
 	_printLayoutPreview() {
-		var instance = this;
+		const instance = this;
 
-		var rowSeperator = chalk.bold('  ' + _.repeat('-', 37) + '\n');
+		const rowSeperator = chalk.bold('  ' + _.repeat('-', 37) + '\n');
 
-		var preview =
+		const preview =
 			rowSeperator +
 			_.map(this.rows, (item) => {
 				return (
@@ -456,7 +456,7 @@ LayoutCreator.prototype = {
 	},
 
 	_promptColumnCount(callback) {
-		var instance = this;
+		const instance = this;
 
 		this.prompt(
 			[
@@ -475,12 +475,12 @@ LayoutCreator.prototype = {
 	},
 
 	_promptColumnWidths(columnCount, callback) {
-		var instance = this;
+		const instance = this;
 
-		var rowNumber = instance._getRowNumber();
+		const rowNumber = instance._getRowNumber();
 
-		var questions = _.times(columnCount, (index) => {
-			var columnNumber = index + 1;
+		const questions = _.times(columnCount, (index) => {
+			const columnNumber = index + 1;
 
 			return {
 				choices: instance._getColumnWidthChoices.bind(
@@ -571,18 +571,18 @@ LayoutCreator.prototype = {
 	},
 
 	_renderPreviewLine(column, config) {
-		var instance = this;
+		const instance = this;
 
 		config = config || {};
 
-		var label = config.label;
+		const label = config.label;
 
-		var line = _.repeat(' ', 35);
+		let line = _.repeat(' ', 35);
 
-		var width = 0;
+		let width = 0;
 
 		_.forEach(column, (columnWidth) => {
-			var prevWidth = width;
+			const prevWidth = width;
 
 			width = width + columnWidth * 3;
 
@@ -631,7 +631,7 @@ LayoutCreator.prototype = {
 	_validateColumnCount(value) {
 		value = _.parseInt(value);
 
-		var retVal = 'Please enter a number between 1 and 12!';
+		let retVal = 'Please enter a number between 1 and 12!';
 
 		if (_.isNumber(value) && value > 0 && value < 13) {
 			retVal = true;

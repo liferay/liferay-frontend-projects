@@ -8,6 +8,7 @@ const path = require('path');
 module.exports = {
 	rules: {
 		'@liferay/no-abbreviations': 'off',
+		'no-var': 'off',
 		'notice/notice': [
 			'error',
 			{

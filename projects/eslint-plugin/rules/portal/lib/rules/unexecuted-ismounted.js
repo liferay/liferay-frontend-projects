@@ -23,15 +23,6 @@ module.exports = {
 		let useIsMountedIsCalled = false;
 
 		return {
-			ImportDeclaration(node) {
-				if (
-					node.source &&
-					node.source.type === 'Literal' &&
-					node.source.value === '@liferay/frontend-js-react-web'
-				) {
-					foundFrontendJSReactWebImport = true;
-				}
-			},
 			CallExpression(node) {
 				if (
 					node.callee.name === 'useIsMounted' &&
@@ -51,6 +42,15 @@ module.exports = {
 						message: DESCRIPTION,
 						node,
 					});
+				}
+			},
+			ImportDeclaration(node) {
+				if (
+					node.source &&
+					node.source.type === 'Literal' &&
+					node.source.value === '@liferay/frontend-js-react-web'
+				) {
+					foundFrontendJSReactWebImport = true;
 				}
 			},
 		};

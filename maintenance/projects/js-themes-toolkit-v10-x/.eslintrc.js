@@ -7,6 +7,7 @@ const path = require('path');
 
 module.exports = {
 	rules: {
+		'no-var': 'off',
 		'notice/notice': [
 			'error',
 			{

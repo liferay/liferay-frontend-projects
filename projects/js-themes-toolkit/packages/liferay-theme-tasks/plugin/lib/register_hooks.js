@@ -5,12 +5,12 @@
 
 'use strict';
 
-var gutil = require('gulp-util');
-var _ = require('lodash');
+const gutil = require('gulp-util');
+const _ = require('lodash');
 
-var chalk = gutil.colors;
+const chalk = gutil.colors;
 
-var RegisterHooks = function (gulp, config) {
+const RegisterHooks = function (gulp, config) {
 	this.gulp = gulp;
 	this.hookFn = config.hookFn;
 	this.hookModules = config.hookModules;
@@ -26,22 +26,22 @@ RegisterHooks.hook = function (gulp, config) {
 
 RegisterHooks.prototype = {
 	_applyHooks() {
-		var instance = this;
+		const instance = this;
 
-		var taskHookMap = this._getTaskHookMap();
+		const taskHookMap = this._getTaskHookMap();
 
-		var gulp = this.gulp;
+		const gulp = this.gulp;
 
-		var tasks = gulp.registry().tasks();
+		const tasks = gulp.registry().tasks();
 
 		_.forEach(taskHookMap, (hooks, taskName) => {
 			if (!tasks[taskName]) {
 				return;
 			}
 
-			var task = tasks[taskName];
+			const task = tasks[taskName];
 
-			var sequence = instance._createGulpSeries(task, hooks);
+			const sequence = instance._createGulpSeries(task, hooks);
 
 			gulp.task(taskName, sequence);
 		});
@@ -66,17 +66,17 @@ RegisterHooks.prototype = {
 	},
 
 	_getTaskHookMap() {
-		var instance = this;
+		const instance = this;
 
-		var hooks = this.hooks;
+		const hooks = this.hooks;
 
 		return _.reduce(
 			hooks,
 			(taskHookMap, hook, name) => {
-				var data = instance._getTaskName(name);
+				const data = instance._getTaskName(name);
 
-				var when = data[0];
-				var taskName = data[1];
+				const when = data[0];
+				const taskName = data[1];
 
 				if (when !== 'after' && when !== 'before') {
 					return taskHookMap;
@@ -95,7 +95,7 @@ RegisterHooks.prototype = {
 	},
 
 	_getTaskName(hookName) {
-		var data = hookName.split(/:(.+)?/);
+		const data = hookName.split(/:(.+)?/);
 
 		return data;
 	},
@@ -118,7 +118,7 @@ RegisterHooks.prototype = {
 	_registerHookModule(moduleName) {
 		try {
 			// eslint-disable-next-line @liferay/no-dynamic-require
-			var hookFn = require(moduleName);
+			const hookFn = require(moduleName);
 
 			if (_.isFunction(hookFn)) {
 				hookFn(this.gulp, this.options);
@@ -138,7 +138,7 @@ RegisterHooks.prototype = {
 	},
 
 	_registerHookModules() {
-		var hookModules = this.hookModules;
+		let hookModules = this.hookModules;
 
 		if (hookModules) {
 			if (!_.isArray(hookModules)) {
@@ -150,10 +150,10 @@ RegisterHooks.prototype = {
 	},
 
 	_registerHooks() {
-		var instance = this;
+		const instance = this;
 
 		this.gulp.hook = function (name, fn) {
-			var hooks = instance.hooks;
+			const hooks = instance.hooks;
 
 			if (!hooks[name]) {
 				hooks[name] = [];

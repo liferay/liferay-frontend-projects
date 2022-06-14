@@ -29,7 +29,7 @@ function isDocker(answers) {
 }
 
 function InitPrompt(options, callback) {
-	var instance = this;
+	const instance = this;
 
 	instance.done = callback;
 	instance.store = options.store;
@@ -60,17 +60,17 @@ InitPrompt.prototype = {
 			return true;
 		}
 
-		var appServerPath = answers.appServerPath;
+		const appServerPath = answers.appServerPath;
 
 		if (appServerPath) {
-			var deployPath = path.resolve(
+			const deployPath = path.resolve(
 				path.join(appServerPath, '..', 'deploy')
 			);
 
-			var done = this.async();
+			const done = this.async();
 
 			fs.stat(deployPath, (error, stats) => {
-				var ask = error || !stats.isDirectory();
+				const ask = error || !stats.isDirectory();
 
 				if (!ask) {
 					answers.deployPath = deployPath;
@@ -90,7 +90,7 @@ InitPrompt.prototype = {
 	},
 
 	_prompt(options) {
-		var instance = this;
+		const instance = this;
 
 		inquirer.prompt(
 
@@ -158,7 +158,7 @@ InitPrompt.prototype = {
 	_validateAppServerPath(appServerPath, answers) {
 		appServerPath = _.trim(appServerPath);
 
-		var retVal = false;
+		let retVal = false;
 
 		if (appServerPath) {
 			retVal = true;
@@ -174,13 +174,13 @@ InitPrompt.prototype = {
 				retVal = '"%s" is not a directory';
 			}
 			else {
-				var glassfishPath = path.join(appServerPath, 'domains');
-				var jbossPath = path.join(
+				const glassfishPath = path.join(appServerPath, 'domains');
+				const jbossPath = path.join(
 					appServerPath,
 					'standalone',
 					'deployments'
 				);
-				var tomcatPath = path.join(appServerPath, 'webapps');
+				const tomcatPath = path.join(appServerPath, 'webapps');
 
 				if (
 					(fs.existsSync(glassfishPath) &&

@@ -12,7 +12,8 @@ const through = require('through2');
 const PLUGIN_NAME = 'sass';
 
 function replaceExtension(filePath, newExt) {
-	var newFileName = path.basename(filePath, path.extname(filePath)) + newExt;
+	const newFileName =
+		path.basename(filePath, path.extname(filePath)) + newExt;
 
 	return path.join(path.dirname(filePath), newFileName);
 }

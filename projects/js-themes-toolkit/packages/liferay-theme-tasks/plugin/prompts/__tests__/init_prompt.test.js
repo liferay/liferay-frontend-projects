@@ -47,7 +47,7 @@ beforeEach(() => {
 test('_afterPrompt should store normalized answers', () => {
 	const store = (prototype.store = {});
 
-	var defaultAnswers = getDefaultAnswers();
+	const defaultAnswers = getDefaultAnswers();
 
 	prototype.done = sinon.spy();
 
@@ -65,9 +65,9 @@ test('_afterPrompt should store normalized answers', () => {
 });
 
 test('_deployPathWhen should return false and add deployPath to answers', (done) => {
-	var defaultAnswers = getDefaultAnswers();
+	const defaultAnswers = getDefaultAnswers();
 
-	var answers = {
+	const answers = {
 		appServerPath: defaultAnswers.appServerPath,
 	};
 
@@ -84,9 +84,9 @@ test('_deployPathWhen should return false and add deployPath to answers', (done)
 });
 
 test('_deployPathWhen should return true when deploy path is not a sibling with provided appServerPath', (done) => {
-	var defaultAnswers = getDefaultAnswers();
+	const defaultAnswers = getDefaultAnswers();
 
-	var answers = {
+	const answers = {
 		appServerPath: path.join(defaultAnswers.appServerPath, '..'),
 	};
 
@@ -103,7 +103,7 @@ test('_deployPathWhen should return true when deploy path is not a sibling with 
 });
 
 test('_getDefaultDeployPath should return defualy deploy path value based on answers', () => {
-	var defaultPath = prototype._getDefaultDeployPath({
+	const defaultPath = prototype._getDefaultDeployPath({
 		appServerPath: '/path-to/appserver/tomcat',
 	});
 
@@ -111,15 +111,15 @@ test('_getDefaultDeployPath should return defualy deploy path value based on ans
 });
 
 test('_prompt should invoke inquirer.prompt with correct args', () => {
-	var inquirer = require('inquirer');
+	const inquirer = require('inquirer');
 
-	var prompt = inquirer.prompt;
+	const prompt = inquirer.prompt;
 
 	inquirer.prompt = sinon.spy();
 
 	prototype._prompt({});
 
-	var args = inquirer.prompt.args[0];
+	const args = inquirer.prompt.args[0];
 
 	_.forEach(args[0], (item) => {
 		expect(_.isObject(item)).toBe(true);
@@ -131,9 +131,9 @@ test('_prompt should invoke inquirer.prompt with correct args', () => {
 });
 
 test('_validateAppServerPath should properly validate path and return appropriate messages if invalid', () => {
-	var defaultAnswers = getDefaultAnswers();
+	const defaultAnswers = getDefaultAnswers();
 
-	var retVal = prototype._validateAppServerPath();
+	let retVal = prototype._validateAppServerPath();
 
 	expect(!retVal).toBe(true);
 

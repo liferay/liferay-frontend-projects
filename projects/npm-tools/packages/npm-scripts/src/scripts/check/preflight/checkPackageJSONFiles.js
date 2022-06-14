@@ -6,7 +6,6 @@
 const fs = require('fs');
 const path = require('path');
 
-const expandGlobs = require('../../../utils/expandGlobs');
 const getMergedConfig = require('../../../utils/getMergedConfig');
 const getPaths = require('../../../utils/getPaths');
 
@@ -44,7 +43,7 @@ function checkPackageJSONFiles() {
 		const bad = (message) => errors.push(`${pkg}: BAD - ${message}`);
 
 		try {
-			const {dependencies, name, main} = JSON.parse(
+			const {dependencies, main, name} = JSON.parse(
 				fs.readFileSync(pkg),
 				'utf8'
 			);

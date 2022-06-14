@@ -5,17 +5,17 @@
 
 'use strict';
 
-var {Gulp} = require('gulp');
-var gutil = require('gulp-util');
-var _ = require('lodash');
-var path = require('path');
-var sinon = require('sinon');
+const {Gulp} = require('gulp');
+const gutil = require('gulp-util');
+const _ = require('lodash');
+const path = require('path');
+const sinon = require('sinon');
 
-var RegisterHooks = require('../../lib/register_hooks');
+const RegisterHooks = require('../../lib/register_hooks');
 
-var STR_NOT_A_FUNCTION = 'not a function';
+const STR_NOT_A_FUNCTION = 'not a function';
 
-var prototype;
+let prototype;
 
 beforeEach(() => {
 	prototype = _.create(RegisterHooks.prototype);
@@ -93,7 +93,7 @@ test('_getTaskHookMap should create valid taskHookMap', () => {
 		'somethingbuild:build': _.noop,
 	};
 
-	var taskHookMap = prototype._getTaskHookMap();
+	const taskHookMap = prototype._getTaskHookMap();
 
 	expect(taskHookMap).toEqual({
 		build: {
@@ -106,7 +106,7 @@ test('_getTaskHookMap should create valid taskHookMap', () => {
 });
 
 test('_getTaskName should split hook name into correct sections', () => {
-	var array = prototype._getTaskName('after:build');
+	let array = prototype._getTaskName('after:build');
 
 	expect(array[0]).toBe('after');
 	expect(array[1]).toBe('build');
@@ -193,7 +193,7 @@ test('_registerHookModule should register hook or log appropriate log messages',
 });
 
 test('_registerHookModule should pass correct arguments to hook modules', () => {
-	var hookModulePath = path.join(
+	const hookModulePath = path.join(
 		__dirname,
 		'fixtures',
 		'hook_modules',
@@ -201,7 +201,7 @@ test('_registerHookModule should pass correct arguments to hook modules', () => 
 	);
 
 	// eslint-disable-next-line @liferay/no-dynamic-require
-	var moduleHook = require(hookModulePath)().resetHistory();
+	const moduleHook = require(hookModulePath)().resetHistory();
 
 	prototype.gulp = 'gulp';
 	prototype.options = 'options';
@@ -213,19 +213,19 @@ test('_registerHookModule should pass correct arguments to hook modules', () => 
 });
 
 test('_registerHookModules should accept single or multiple hook modules and register them', () => {
-	var hookModule1Path = path.join(
+	const hookModule1Path = path.join(
 		__dirname,
 		'fixtures',
 		'hook_modules',
 		'hook-module-1'
 	);
-	var hookModule2Path = path.join(
+	const hookModule2Path = path.join(
 		__dirname,
 		'fixtures',
 		'hook_modules',
 		'hook-module-2'
 	);
-	var hookModule3Path = path.join(
+	const hookModule3Path = path.join(
 		__dirname,
 		'fixtures',
 		'hook_modules',

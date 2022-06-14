@@ -10,6 +10,7 @@ const parserOptions = {
 	ecmaVersion: 6,
 	sourceType: 'module',
 };
+
 const ruleTester = new MultiTester({parserOptions});
 
 ruleTester.run('no-default-export-from-frontend-js-web', rule, {

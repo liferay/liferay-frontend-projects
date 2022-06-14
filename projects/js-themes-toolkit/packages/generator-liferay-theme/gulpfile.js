@@ -5,8 +5,8 @@
 
 'use strict';
 
-var gulp = require('gulp');
-var coveralls = require('gulp-coveralls');
+const gulp = require('gulp');
+const coveralls = require('gulp-coveralls');
 
 gulp.task('coveralls', () => {
 	gulp.src('coverage/**/lcov.info').pipe(coveralls());
