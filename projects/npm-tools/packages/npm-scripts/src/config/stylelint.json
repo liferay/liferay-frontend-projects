@@ -44,7 +44,14 @@
 		"number-leading-zero": "always",
 		"number-no-trailing-zeros": true,
 		"property-case": "lower",
-		"property-no-unknown": true,
+		"property-no-unknown": [
+			true,
+			{
+				"ignoreProperties": [
+					"aspect-ratio"
+				]
+			}
+		],
 		"selector-pseudo-class-no-unknown": true,
 		"selector-pseudo-element-no-unknown": true,
 		"selector-type-no-unknown": true,
