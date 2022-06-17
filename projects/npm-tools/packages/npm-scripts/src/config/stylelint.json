@@ -47,9 +47,7 @@
 		"property-no-unknown": [
 			true,
 			{
-				"ignoreProperties": [
-					"aspect-ratio"
-				]
+				"ignoreProperties": ["aspect-ratio"]
 			}
 		],
 		"selector-pseudo-class-no-unknown": true,
