@@ -1,3 +1,17 @@
+## [eslint-plugin/v1.3.0](https://github.com/liferay/liferay-frontend-projects/tree/eslint-plugin/v1.3.0) (2022-06-15)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-plugin/v1.2.0...eslint-plugin/v1.3.0)
+
+### :new: Features
+
+-   feat(eslint-plugin): handful of additions ([\#949](https://github.com/liferay/liferay-frontend-projects/pull/949))
+-   feat(eslint-plugin): add new rule against A.Url ([\#807](https://github.com/liferay/liferay-frontend-projects/pull/807))
+-   feat(eslint-plugin): Add new rule that preferes length checks ([\#815](https://github.com/liferay/liferay-frontend-projects/pull/815))
+
+### :book: Documentation
+
+-   docs(eslint-plugin): Update eslint docs ([\#835](https://github.com/liferay/liferay-frontend-projects/pull/835))
+
 ## [eslint-plugin/v1.2.0](https://github.com/liferay/liferay-frontend-projects/tree/eslint-plugin/v1.2.0) (2021-12-08)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-plugin/v1.1.0...eslint-plugin/v1.2.0)
