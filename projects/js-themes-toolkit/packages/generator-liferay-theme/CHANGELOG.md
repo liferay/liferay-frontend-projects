@@ -1,3 +1,11 @@
+## [generator-liferay-theme/v10.2.1](https://github.com/liferay/liferay-frontend-projects/tree/generator-liferay-theme/v10.2.1) (2022-06-17)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/generator-liferay-theme/v10.2.0...generator-liferay-theme/v10.2.1)
+
+### :wrench: Bug fixes
+
+-   fix(js-themes-toolkit): fix minor bugs ([\#953](https://github.com/liferay/liferay-frontend-projects/pull/953))
+
 ## [generator-liferay-theme/v10.2.0](https://github.com/liferay/liferay-frontend-projects/tree/generator-liferay-theme/v10.2.0) (2021-11-18)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/generator-liferay-theme/v10.1.0...generator-liferay-theme/v10.2.0)
