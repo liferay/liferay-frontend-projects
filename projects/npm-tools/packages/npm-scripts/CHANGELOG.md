@@ -1,3 +1,16 @@
+## [npm-scripts/v47.4.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.4.0) (2022-06-20)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.3.0...npm-scripts/v47.4.0)
+
+### :new: Features
+
+-   feat(eslint-plugin): handful of additions ([\#949](https://github.com/liferay/liferay-frontend-projects/pull/949))
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): add aspect-ratio as known property to stylelint ([\#954](https://github.com/liferay/liferay-frontend-projects/pull/954))
+-   fix(npm-scripts): Updates getPathContext to DXP's default value ([\#928](https://github.com/liferay/liferay-frontend-projects/pull/928))
+
 ## [npm-scripts/v47.3.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.3.0) (2022-04-26)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.3.0-pre.4...npm-scripts/v47.3.0)
