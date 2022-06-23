@@ -91,7 +91,7 @@ A.ImageViewer = A.Base.create(
                     thumbnailsConfigChange: this._afterThumbnailsConfigChange
                 }),
                 this._closeEl.after('click', A.bind(this._afterCloseClicked, this)),
-                A.getDoc().on('keydown', A.bind(this._onKeydown, this)),
+                this.on('keydown', A.bind(this._onKeydown, this)),
                 A.after(this._afterFillHeight, this, 'fillHeight')
             );
 
@@ -395,13 +395,13 @@ A.ImageViewer = A.Base.create(
                 return false;
             }
 
-            if (event.isKey('LEFT')) {
+            if (event.domEvent.isKey('LEFT')) {
                 this.prev();
             }
-            else if (event.isKey('RIGHT')) {
+            else if (event.domEvent.isKey('RIGHT')) {
                 this.next();
             }
-            else if (event.isKey('ESC')) {
+            else if (event.domEvent.isKey('ESC')) {
                 this.hide();
             }
         },
