@@ -1,3 +1,15 @@
+## [liferay-font-awesome/v3.5.2](https://github.com/liferay/liferay-frontend-projects/tree/liferay-font-awesome/v3.5.2) (2022-06-24)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-font-awesome/v3.5.1...liferay-font-awesome/v3.5.2)
+
+### :wrench: Bug fixes
+
+-   fix(liferay-font-awesome): Updates content property values to conform to what is allowed by OAW Tracker ([\#951](https://github.com/liferay/liferay-frontend-projects/pull/951))
+
+### :book: Documentation
+
+-   docs(liferay-font-awesome): Update readme and contributing pages ([\#864](https://github.com/liferay/liferay-frontend-projects/pull/864))
+
 ## [liferay-font-awesome/v3.5.1](https://github.com/liferay/liferay-frontend-projects/tree/liferay-font-awesome/v3.5.1) (2022-02-25)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-font-awesome/v3.5.0...liferay-font-awesome/v3.5.1)
