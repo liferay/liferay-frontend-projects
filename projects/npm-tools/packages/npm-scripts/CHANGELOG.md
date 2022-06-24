@@ -1,3 +1,11 @@
+## [npm-scripts/v47.5.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.5.0) (2022-06-24)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.4.0...npm-scripts/v47.5.0)
+
+### :new: Features
+
+-   feat(npm-scripts): add more default values for our mocks in DXP ([\#948](https://github.com/liferay/liferay-frontend-projects/pull/948))
+
 ## [npm-scripts/v47.4.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.4.0) (2022-06-20)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.3.0...npm-scripts/v47.4.0)
