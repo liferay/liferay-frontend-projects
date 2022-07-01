@@ -1,3 +1,11 @@
+## [npm-scripts/v47.6.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.6.0) (2022-07-01)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.5.1...npm-scripts/v47.6.0)
+
+### :new: Features
+
+-   feat(npm-scripts): add minification when NODE_ENV is production ([\#964](https://github.com/liferay/liferay-frontend-projects/pull/964))
+
 ## [npm-scripts/v47.5.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.5.1) (2022-07-01)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.5.0...npm-scripts/v47.5.1)
