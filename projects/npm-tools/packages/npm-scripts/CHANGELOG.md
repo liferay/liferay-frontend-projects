@@ -1,3 +1,11 @@
+## [npm-scripts/v47.5.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.5.1) (2022-07-01)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.5.0...npm-scripts/v47.5.1)
+
+### :new: Features
+
+-   feat(npm-scripts): Add more commonly used jest mocks to our exported mocks ([\#962](https://github.com/liferay/liferay-frontend-projects/pull/962))
+
 ## [npm-scripts/v47.5.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.5.0) (2022-06-24)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.4.0...npm-scripts/v47.5.0)
