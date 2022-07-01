@@ -256,10 +256,6 @@ A.mix(DatePickerBase.prototype, {
 
         popover.set('trigger', node);
 
-        if (node._node) {
-            popover.render(node._node.parentElement);
-        }
-
         if (!popover.get('visible')) {
             instance.set('activeInput', node);
 
