@@ -1,3 +1,12 @@
+## [liferay-theme-tasks/v11.3.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v11.3.0) (2022-07-01)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v11.2.2...liferay-theme-tasks/v11.3.0)
+
+### :new: Features
+
+-   feat(npm-scripts): add minification when NODE_ENV is production ([\#964](https://github.com/liferay/liferay-frontend-projects/pull/964))
+-   feat(eslint-plugin): handful of additions ([\#949](https://github.com/liferay/liferay-frontend-projects/pull/949))
+
 ## [liferay-theme-tasks/v11.2.2](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v11.2.2) (2022-03-01)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v11.2.1...liferay-theme-tasks/v11.2.2)
