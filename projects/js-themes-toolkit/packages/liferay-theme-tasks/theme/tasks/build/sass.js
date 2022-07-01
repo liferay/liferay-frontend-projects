@@ -52,6 +52,10 @@ module.exports = (options) =>
 				file: file.path,
 				includePaths,
 				outFile,
+				outputStyle:
+					process.env.NODE_ENV === 'production'
+						? 'compressed'
+						: 'expanded',
 				sourceMap: options.sourceMap,
 			});
 
