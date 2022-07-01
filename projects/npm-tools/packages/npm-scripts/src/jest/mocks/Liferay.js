@@ -193,7 +193,7 @@ const ThemeDisplay = {
 	/**
 	 * https://github.com/liferay/liferay-portal/blob/a4866af62eb89c69ee00d0e69dbe7ff092b50048/portal-web/docroot/html/common/themes/top_js.jspf#L226
 	 */
-	getPathContext: jest.fn(() => ''),
+	getPathContext: jest.fn(() => '/'),
 
 	/**
 	 * https://github.com/liferay/liferay-portal/blob/31073fb75fb0d3b309f9e0f921cb7a469aa2703d/portal-web/docroot/html/common/themes/top_js.jspf#L235
@@ -203,7 +203,9 @@ const ThemeDisplay = {
 	/**
 	 * https://github.com/liferay/liferay-portal/blob/31073fb75fb0d3b309f9e0f921cb7a469aa2703d/portal-web/docroot/html/common/themes/top_js.jspf#L238
 	 */
-	getPathThemeImages: jest.fn(() => ''),
+	getPathThemeImages: jest.fn(
+		() => 'http://localhost:8080/o/admin-theme/images'
+	),
 
 	getPlid: jest.fn(() => 'plid'),
 
@@ -212,7 +214,7 @@ const ThemeDisplay = {
 	 */
 	getPortalURL: jest.fn(() => 'http://localhost:8080'),
 
-	getScopeGroupId: jest.fn(() => 'scopeGroupId'),
+	getScopeGroupId: jest.fn(() => '20126'),
 
 	isSignedIn: jest.fn(() => true),
 };
