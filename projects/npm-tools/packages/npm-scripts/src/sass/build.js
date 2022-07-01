@@ -57,6 +57,8 @@ function buildSass(file, outputDir, includePaths) {
 		file,
 		includePaths,
 		outFile: outputFile,
+		outputStyle:
+			process.env.NODE_ENV === 'production' ? 'compressed' : 'expanded',
 		sourceMap: true,
 	});
 
