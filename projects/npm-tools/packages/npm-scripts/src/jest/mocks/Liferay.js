@@ -16,7 +16,9 @@ const languageMap = {
 	'mmm-dd-lt': 'MMM DD, LT',
 	'mmm-dd-yyyy': 'MMM DD, YYYY',
 	'mmm-dd-yyyy-lt': 'MMM DD, YYYY, LT',
+	'option': 'Option',
 	'thousand-abbreviation': 'K',
+	'x-of-x-characters': '{0}/{1} characters',
 };
 
 const after = jest.fn(() => ({
@@ -259,11 +261,16 @@ const Util = {
 	/**
 	 * https://github.com/liferay/liferay-portal/blob/31073fb75fb0d3b309f9e0f921cb7a469aa2703d/modules/apps/frontend-js/frontend-js-aui-web/src/main/resources/META-INF/resources/liferay/util.js#L999
 	 */
-	sub: jest.fn((string, args) => {
+	sub: jest.fn((string, ...args) => {
 		const matchX = new RegExp('(^x-)|(-x-)|(-x$)', 'gm');
 
 		if (string.match(matchX) && args) {
 			return string.replace('x', args);
+		}
+		else if (args.length > 1) {
+			args.forEach((arg, index) => {
+				string = string.replace(`{${index}}`, arg);
+			});
 		}
 
 		return string;
