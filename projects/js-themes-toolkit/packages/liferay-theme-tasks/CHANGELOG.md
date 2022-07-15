@@ -1,3 +1,11 @@
+## [liferay-theme-tasks/v11.4.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v11.4.0) (2022-07-06)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v11.3.0...liferay-theme-tasks/v11.4.0)
+
+### :wrench: Bug fixes
+
+-   fix(theme-tasks): update liferay-frontend-theme-styled, liferay-front… ([\#970](https://github.com/liferay/liferay-frontend-projects/pull/970))
+
 ## [liferay-theme-tasks/v11.3.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v11.3.0) (2022-07-01)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v11.2.2...liferay-theme-tasks/v11.3.0)
