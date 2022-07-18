@@ -191,7 +191,12 @@ A.mix(DatePickerBase.prototype, {
 
             // Initialize the popover instance before calendar renders since it
             // will use popover.bodyNode as render node.
-            instance.getPopover();
+            var popover = instance.getPopover();
+            var activeInput = instance.get('activeInput');
+
+            if (!popover._getAttr('rendered') && activeInput && activeInput._node) {
+                popover.render(activeInput._node.parentElement);
+            }
 
             calendar = new A.Calendar(instance.get('calendar'));
             calendar.render(instance.popover.bodyNode);
