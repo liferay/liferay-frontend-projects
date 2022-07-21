@@ -48,6 +48,7 @@ var Lang = A.Lang,
     CSS_SCHEDULER_EVENT_ICON_REPEATED = getCN('scheduler-event', 'icon', 'repeated'),
     CSS_SCHEDULER_EVENT_ICONS = getCN('scheduler-event', 'icons'),
     CSS_SCHEDULER_EVENT_MEETING = getCN('scheduler-event', 'meeting'),
+    CSS_SCHEDULER_EVENT_NAME = getCN('scheduler-event', 'name'),
     CSS_SCHEDULER_EVENT_PAST = getCN('scheduler-event', 'past'),
     CSS_SCHEDULER_EVENT_REMINDER = getCN('scheduler-event', 'reminder'),
     CSS_SCHEDULER_EVENT_REPEATED = getCN('scheduler-event', 'repeated'),
@@ -359,6 +360,7 @@ var SchedulerEvent = A.Component.create({
         EVENT_NODE_TEMPLATE: '<div class="' + CSS_SCHEDULER_EVENT + '" tabindex="0">' + '<div class="' +
             CSS_SCHEDULER_EVENT_TITLE +
             '"></div>' + '<div class="' + CSS_SCHEDULER_EVENT_CONTENT + '"></div>' +
+            '<div class="' + CSS_SCHEDULER_EVENT_NAME + '"></div>' +
             '<div class="' + CSS_SCHEDULER_EVENT_ICONS + '">' + '<span class="' + [
             CSS_ICON, CSS_SCHEDULER_EVENT_ICON_DISABLED].join(' ') + '"></span>' + '<span class="' + [CSS_ICON,
             CSS_SCHEDULER_EVENT_ICON_MEETING].join(' ') + '"></span>' + '<span class="' + [CSS_ICON,
@@ -438,6 +440,7 @@ var SchedulerEvent = A.Component.create({
 
             instance.syncNodeTitleUI();
             instance.syncNodeContentUI();
+            instance.syncNodeResourceNameUI();
         },
 
         /**
@@ -774,6 +777,22 @@ var SchedulerEvent = A.Component.create({
         },
 
         /**
+         * Replaces each node's current name with the `content`.
+         *
+         * @method setResourceName
+         * @param content
+         */
+        setResourceName: function(content) {
+            var instance = this;
+
+            instance.get('node').each(function(node) {
+                var contentNode = node.one('.' + CSS_SCHEDULER_EVENT_NAME);
+
+                contentNode.setContent(content);
+            });
+        },
+
+        /**
          * Replaces each node's current title with the `content`.
          *
          * @method setTitle
@@ -799,6 +818,18 @@ var SchedulerEvent = A.Component.create({
             var instance = this;
 
             instance.setContent(instance.get('content'));
+        },
+
+        /**
+         * Sets the name of the Scheduler event to the resource name attribute
+         * value.
+         *
+         * @method syncNodeResourceNameUI
+         */
+        syncNodeResourceNameUI: function() {
+            var instance = this;
+
+            instance.setResourceName(instance.get('calendarResourceName'));
         },
 
         /**

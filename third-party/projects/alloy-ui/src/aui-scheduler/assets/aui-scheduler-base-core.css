@@ -127,7 +127,8 @@
     text-decoration: underline;
 }
 
-.scheduler-event-short .scheduler-event-content {
+.scheduler-event-short .scheduler-event-content,
+.scheduler-event-short .scheduler-event-name {
     display: inline;
     white-space: nowrap;
 }
