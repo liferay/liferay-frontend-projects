@@ -1,3 +1,19 @@
+## [portal-base/v1.2.0](https://github.com/liferay/liferay-frontend-projects/tree/portal-base/v1.2.0) (2022-07-22)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/portal-base/v1.1.1...portal-base/v1.2.0)
+
+### :new: Features
+
+-   feat(js-toolkit): add --only option to @liferay/cli ([\#911](https://github.com/liferay/liferay-frontend-projects/pull/911))
+
+### :wrench: Bug fixes
+
+-   fix(portal-base): remove logic that checks for typescript ([\#893](https://github.com/liferay/liferay-frontend-projects/pull/893))
+
+### :woman_juggling: Refactoring
+
+-   refactor(portal-base): don't rely on bundler2 Project for clean task ([\#861](https://github.com/liferay/liferay-frontend-projects/pull/861))
+
 ## [portal-base/v1.1.1](https://github.com/liferay/liferay-frontend-projects/tree/portal-base/v1.1.1) (2022-02-10)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/portal-base/v1.1.0...portal-base/v1.1.1)
