@@ -7,6 +7,7 @@
 		"@liferay/js-toolkit-core": "^5.0.0",
 		"babel-loader": "^8.2.3",
 		"babel-preset-liferay-standard": "^2.27.0",
+		"babel-preset-minify": "^0.5.2",
 		"css-loader": "^6.6.0",
 		"liferay-npm-build-tools-common": "^2.27.0",
 		"liferay-npm-bundler": "^2.27.0",
