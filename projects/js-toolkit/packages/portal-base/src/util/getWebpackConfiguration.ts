@@ -19,7 +19,18 @@ export default function getWebpackConfiguration(
 		.relative(project.mainModuleFile)
 		.asNative.replace(/\.js$/i, '');
 
-	const {externals} = project.build.options as CustomElementBuildOptions;
+	const {externals, minify} = project.build
+		.options as CustomElementBuildOptions;
+
+	const minimizer = [];
+
+	if (minify) {
+		minimizer.push(
+			new TerserPlugin({
+				extractComments: false,
+			})
+		);
+	}
 
 	return {
 		entry: {
@@ -61,11 +72,7 @@ export default function getWebpackConfiguration(
 			],
 		},
 		optimization: {
-			minimizer: [
-				new TerserPlugin({
-					extractComments: false,
-				}),
-			],
+			minimizer,
 		},
 		output: {
 			environment: {

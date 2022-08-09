@@ -24,6 +24,7 @@ export interface Bundler2BuildOptions {
 export interface CustomElementBuildOptions {
 	externals: {[bareIdentifier: string]: string};
 	htmlElementName: string | null;
+	minify: boolean;
 }
 
 export default class Build {
@@ -88,6 +89,7 @@ export default class Build {
 		const options: CustomElementBuildOptions = {
 			externals: config.externals || {},
 			htmlElementName: config.htmlElementName,
+			minify: process.env.NODE_ENV !== 'development',
 		};
 
 		// Remove externals mapped to null
