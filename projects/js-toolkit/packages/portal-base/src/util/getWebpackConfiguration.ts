@@ -66,7 +66,16 @@ export default function getWebpackConfiguration(
 					use: [
 						MiniCssExtractPlugin.loader,
 						require.resolve('css-loader'),
-						require.resolve('sass-loader'),
+						{
+							loader: require.resolve('sass-loader'),
+							options: {
+								sassOptions: {
+									outputStyle: minify
+										? 'compressed'
+										: 'expanded',
+								},
+							},
+						},
 					],
 				},
 			],
