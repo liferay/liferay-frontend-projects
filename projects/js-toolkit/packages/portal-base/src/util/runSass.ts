@@ -18,6 +18,8 @@ export default function runSass(project: Project): FilePath[] {
 		return;
 	}
 
+	const options = project.build.options;
+
 	const scssFiles = findFiles(project.srcDir, (dirent) => {
 		const lowerCaseName = dirent.name.toLowerCase();
 
@@ -43,6 +45,7 @@ export default function runSass(project: Project): FilePath[] {
 				file: scssFile.asNative,
 				importer: sassImporter,
 				outFile: outFile.asNative,
+				outputStyle: options.minify ? 'compressed' : 'expanded',
 				sourceMap: true,
 			});
 
