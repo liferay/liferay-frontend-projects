@@ -17,7 +17,9 @@ type BuildType = 'bundler2' | 'customElement';
 
 type BuildOptions = Bundler2BuildOptions | CustomElementBuildOptions;
 
-export type Bundler2BuildOptions = {};
+export interface Bundler2BuildOptions {
+	minify: boolean;
+}
 
 export interface CustomElementBuildOptions {
 	externals: {[bareIdentifier: string]: string};
@@ -115,7 +117,9 @@ export default class Build {
 	private _toBundler2BuildOptions(
 		_config: Bundler2BuildConfig
 	): Bundler2BuildOptions {
-		return {};
+		return {
+			minify: process.env.NODE_ENV !== 'development',
+		};
 	}
 }
 
