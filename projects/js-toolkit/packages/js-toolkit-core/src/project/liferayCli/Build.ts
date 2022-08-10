@@ -17,11 +17,14 @@ type BuildType = 'bundler2' | 'customElement';
 
 type BuildOptions = Bundler2BuildOptions | CustomElementBuildOptions;
 
-export type Bundler2BuildOptions = {};
+export interface Bundler2BuildOptions {
+	minify: boolean;
+}
 
 export interface CustomElementBuildOptions {
 	externals: {[bareIdentifier: string]: string};
 	htmlElementName: string | null;
+	minify: boolean;
 }
 
 export default class Build {
@@ -86,6 +89,7 @@ export default class Build {
 		const options: CustomElementBuildOptions = {
 			externals: config.externals || {},
 			htmlElementName: config.htmlElementName,
+			minify: process.env.NODE_ENV !== 'development',
 		};
 
 		// Remove externals mapped to null
@@ -115,7 +119,9 @@ export default class Build {
 	private _toBundler2BuildOptions(
 		_config: Bundler2BuildConfig
 	): Bundler2BuildOptions {
-		return {};
+		return {
+			minify: process.env.NODE_ENV !== 'development',
+		};
 	}
 }
 

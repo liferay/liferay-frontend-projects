@@ -6,7 +6,8 @@
 import * as babel from '@babel/core';
 import babelPresetEnv from '@babel/preset-env';
 import babelPresetReact from '@babel/preset-react';
-import {Project, format} from '@liferay/js-toolkit-core';
+import {Bundler2BuildOptions, Project, format} from '@liferay/js-toolkit-core';
+import babelPresetMinify from 'babel-preset-minify';
 import fs from 'fs';
 import path from 'path';
 
@@ -52,9 +53,17 @@ function copyAssets(project: Project): void {
 }
 
 function runBabel(project: Project): void {
+	const options = project.build.options as Bundler2BuildOptions;
+
 	const jsFiles = findFiles(project.srcDir, (dirent) =>
 		dirent.name.toLowerCase().endsWith('.js')
 	);
+
+	const presets = [babelPresetEnv, babelPresetReact];
+
+	if (options.minify) {
+		presets.push(babelPresetMinify);
+	}
 
 	print(info`Running {babel} on ${jsFiles.length} files...`);
 
@@ -66,7 +75,7 @@ function runBabel(project: Project): void {
 				fs.readFileSync(jsFile.asNative, 'utf8'),
 				{
 					filename: jsFile.asNative,
-					presets: [babelPresetEnv, babelPresetReact],
+					presets,
 					sourceMaps: true,
 				}
 			);

@@ -7,7 +7,6 @@
 
 const childProcess = require('child_process');
 const fs = require('fs');
-const os = require('os');
 const path = require('path');
 
 const LOCAL_REGISTRY = 'http://localhost:4873';
@@ -50,7 +49,7 @@ module.exports = function main(argv) {
 };
 
 function assertLocalRepo() {
-	const npmUrl = run('npm', 'get', 'registry', {log: false});
+	const npmUrl = run('npm', 'get', '-g', 'registry', {log: false});
 	const yarnUrl = run('yarn', 'config', 'get', 'registry', {log: false});
 
 	if (npmUrl === NPM_REGISTRY || yarnUrl === YARN_REGISTRY) {
@@ -158,36 +157,10 @@ function publish(projects) {
 }
 
 function registryGet(bashPrompt) {
-	let npmUrl;
-	let yarnUrl;
-
-	if (bashPrompt) {
-		const npmrc = fs.readFileSync(
-			path.join(os.homedir(), '.npmrc'),
-			'utf8'
-		);
-
-		npmUrl = npmrc
-			.split('\n')
-			.find((line) => line.startsWith('registry='))
-			.substring(9);
-
-		const yarnrc = fs.readFileSync(
-			path.join(os.homedir(), '.yarnrc'),
-			'utf8'
-		);
-
-		yarnUrl = yarnrc
-			.split('\n')
-			.find((line) => line.startsWith('registry'))
-			.substring(8)
-			.trim()
-			.replace(/"|'/g, '');
-	}
-	else {
-		npmUrl = run('npm', 'get', 'registry', {log: false});
-		yarnUrl = run('yarn', 'config', 'get', 'registry', {log: false});
-	}
+	const npmUrl = run('npm', 'get', '-g', 'registry', {
+		log: false,
+	});
+	const yarnUrl = run('yarn', 'config', 'get', 'registry', {log: false});
 
 	if (npmUrl === NPM_REGISTRY && yarnUrl === YARN_REGISTRY) {
 		if (bashPrompt) {
@@ -228,15 +201,16 @@ function registryGet(bashPrompt) {
 }
 
 function registrySet(which) {
-	let npmUrl = NPM_REGISTRY;
-	let yarnUrl = YARN_REGISTRY;
-
 	if (['local', 'l'].includes(which)) {
-		npmUrl = yarnUrl = LOCAL_REGISTRY;
+		run('npm', 'set', '-g', 'registry', LOCAL_REGISTRY, {
+			log: false,
+		});
+		run('yarn', 'config', 'set', 'registry', LOCAL_REGISTRY, {log: false});
 	}
-
-	run('npm', 'set', 'registry', npmUrl, {log: false});
-	run('yarn', 'config', 'set', 'registry', yarnUrl, {log: false});
+	else {
+		run('npm', 'config', 'rm', '-g', 'registry', {log: false});
+		run('yarn', 'config', 'delete', 'registry', {log: false});
+	}
 
 	registryGet();
 }

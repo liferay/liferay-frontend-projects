@@ -19,7 +19,18 @@ export default function getWebpackConfiguration(
 		.relative(project.mainModuleFile)
 		.asNative.replace(/\.js$/i, '');
 
-	const {externals} = project.build.options as CustomElementBuildOptions;
+	const {externals, minify} = project.build
+		.options as CustomElementBuildOptions;
+
+	const minimizer = [];
+
+	if (minify) {
+		minimizer.push(
+			new TerserPlugin({
+				extractComments: false,
+			})
+		);
+	}
 
 	return {
 		entry: {
@@ -55,17 +66,22 @@ export default function getWebpackConfiguration(
 					use: [
 						MiniCssExtractPlugin.loader,
 						require.resolve('css-loader'),
-						require.resolve('sass-loader'),
+						{
+							loader: require.resolve('sass-loader'),
+							options: {
+								sassOptions: {
+									outputStyle: minify
+										? 'compressed'
+										: 'expanded',
+								},
+							},
+						},
 					],
 				},
 			],
 		},
 		optimization: {
-			minimizer: [
-				new TerserPlugin({
-					extractComments: false,
-				}),
-			],
+			minimizer,
 		},
 		output: {
 			environment: {
