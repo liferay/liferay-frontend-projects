@@ -1,3 +1,11 @@
+## [js-toolkit-core/v5.1.0](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v5.1.0) (2022-08-10)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v5.0.0...js-toolkit-core/v5.1.0)
+
+### :new: Features
+
+-   feat(js-toolkit): minify output (code and CSS) in @liferay/cli projects ([\#984](https://github.com/liferay/liferay-frontend-projects/pull/984))
+
 ## [js-toolkit-core/v5.0.0](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v5.0.0) (2022-02-10)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v4.1.0...js-toolkit-core/v5.0.0)
