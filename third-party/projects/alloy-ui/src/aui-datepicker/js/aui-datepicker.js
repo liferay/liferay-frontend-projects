@@ -144,7 +144,7 @@ A.mix(DatePickerBase.prototype, {
 
         instance.getCalendar()._clearSelection(silent);
 
-        if (Lang.trim(activeInput.val()) === '') {
+        if (Lang.trim(activeInput.val()) == '') {
             instance._defSelectionChangeFn(
                 {
                     newSelection: null
@@ -260,10 +260,6 @@ A.mix(DatePickerBase.prototype, {
             popover = instance.getPopover();
 
         popover.set('trigger', node);
-
-        if (node._node) {
-            popover.render(node._node.parentElement);
-        }
 
         if (!popover.get('visible')) {
             instance.set('activeInput', node);

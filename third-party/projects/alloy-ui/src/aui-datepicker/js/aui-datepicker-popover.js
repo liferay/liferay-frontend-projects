@@ -200,6 +200,7 @@ A.mix(DatePickerPopover.prototype, {
                 }
             ],
             position: 'bottom',
+            render: true,
             triggerShowEvent: 'click',
             triggerToggleEvent: null,
             visible: false
