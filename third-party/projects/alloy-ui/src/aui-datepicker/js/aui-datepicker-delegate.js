@@ -168,12 +168,6 @@ DatePickerDelegate.prototype = {
     useInputNodeOnce: function(node) {
         var instance = this;
 
-        var popover = instance.getPopover();
-
-        if (!popover._getAttr('rendered') && node._node) {
-            popover.render(node._node.parentElement);
-        }
-
         if (!instance._userInteractionInProgress) {
             instance.useInputNode(node);
         }

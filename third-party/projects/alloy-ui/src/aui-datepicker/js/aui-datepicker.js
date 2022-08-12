@@ -144,7 +144,7 @@ A.mix(DatePickerBase.prototype, {
 
         instance.getCalendar()._clearSelection(silent);
 
-        if (Lang.trim(activeInput.val()) === '') {
+        if (Lang.trim(activeInput.val()) == '') {
             instance._defSelectionChangeFn(
                 {
                     newSelection: null
