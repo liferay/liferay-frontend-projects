@@ -5,8 +5,17 @@
 
 /* eslint-disable @liferay/no-dynamic-require */
 
-import {Project, format} from '@liferay/js-toolkit-core';
+import {
+	ClientExtensionConfigJson,
+	FilePath,
+	Project,
+	RemoteAppManifestJson,
+	format,
+} from '@liferay/js-toolkit-core';
 import fs from 'fs';
+import globby from 'globby';
+import JSZip from 'jszip';
+import path from 'path';
 
 import abort from '../util/abort';
 import findFiles from '../util/findFiles';
@@ -25,6 +34,42 @@ export default async function customElement(project: Project): Promise<void> {
 	const configuration = getWebpackConfiguration(project);
 
 	await runWebpack(project, configuration);
+
+	await makeZip(project);
+}
+
+/**
+ * Add several files to a ZIP folder.
+ * @param srcDirPath source folder
+ * @param srcGlobs array of globs describing files to include (in
+ * 						globby, i.e. POSIX, format)
+ * @param destFolder the destination folder in the ZIP file
+ */
+function addFiles(
+	srcDirPath: string,
+	srcGlobs: string[],
+	destFolder: JSZip
+): void {
+	const filePaths = globby
+		.sync(srcGlobs, {
+			cwd: srcDirPath,
+			expandDirectories: false,
+		})
+		.map((posixPath) => new FilePath(posixPath, {posix: true}))
+		.map((file) => file.asNative);
+
+	filePaths.forEach((filePath) => {
+		const parts = filePath.split(path.sep);
+		const dirs = parts.slice(0, parts.length - 1);
+		const name = parts[parts.length - 1];
+
+		const folder = dirs.reduce(
+			(folder, dir) => folder.folder(dir),
+			destFolder
+		);
+
+		folder.file(name, fs.readFileSync(path.join(srcDirPath, filePath)));
+	});
 }
 
 function checkConfiguration(project: Project): void {
@@ -59,4 +104,59 @@ function copyAssets(project: Project): void {
 			fs.readFileSync(assetFile.asNative)
 		);
 	});
+}
+
+async function makeZip(project: Project): Promise<void> {
+	const manifestJson: RemoteAppManifestJson = JSON.parse(
+		fs
+			.readFileSync(project.build.dir.join('manifest.json').asNative)
+			.toString()
+	);
+
+	const configurationPid =
+		'com.liferay.client.extension.type.configuration.CETConfiguration~' +
+		project.pkgJson.name;
+
+	const clientExtensionConfigJson: ClientExtensionConfigJson = {
+		[configurationPid]: {
+			baseURL: `\${portalURL}/o/${project.pkgJson.name}`,
+			description: project.pkgJson.description || '',
+			name: project.pkgJson.name,
+			sourceCodeURL: '',
+			type: 'customElement',
+			typeSettings: [
+				`cssURLs=${manifestJson.cssURLs.join('\n')}`,
+				`htmlElementName=${manifestJson.htmlElementName}`,
+				'instanceable=true',
+				'portletCategoryName=category.remote-apps',
+				`urls=${manifestJson.urls.join('\n')}`,
+				`useESM=${manifestJson.useESM}`,
+			],
+		},
+	};
+
+	const zip = new JSZip();
+
+	zip.file(
+		`${project.pkgJson.name}.client-extension-config.json`,
+		JSON.stringify(clientExtensionConfigJson, null, '\t')
+	);
+
+	addFiles(
+		project.build.dir.asNative,
+		['**/*', '!manifest.json'],
+		zip.folder('static')
+	);
+
+	const buffer = await zip.generateAsync({
+		compression: 'DEFLATE',
+		compressionOptions: {
+			level: 6,
+		},
+		type: 'nodebuffer',
+	});
+
+	fs.mkdirSync(project.dist.dir.asNative, {recursive: true});
+
+	fs.writeFileSync(project.dist.file.asNative, buffer);
 }
