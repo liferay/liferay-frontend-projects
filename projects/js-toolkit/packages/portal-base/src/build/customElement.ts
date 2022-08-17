@@ -9,7 +9,6 @@ import {
 	ClientExtensionConfigJson,
 	FilePath,
 	Project,
-	RemoteAppManifestJson,
 	format,
 } from '@liferay/js-toolkit-core';
 import fs from 'fs';
@@ -18,6 +17,7 @@ import JSZip from 'jszip';
 import path from 'path';
 
 import abort from '../util/abort';
+import createManifest from '../util/createManifest';
 import findFiles from '../util/findFiles';
 import getWebpackConfiguration from '../util/getWebpackConfiguration';
 import runWebpack from '../util/runWebpack';
@@ -107,11 +107,7 @@ function copyAssets(project: Project): void {
 }
 
 async function makeZip(project: Project): Promise<void> {
-	const manifestJson: RemoteAppManifestJson = JSON.parse(
-		fs
-			.readFileSync(project.build.dir.join('manifest.json').asNative)
-			.toString()
-	);
+	const manifest = createManifest(project);
 
 	const configurationPid =
 		'com.liferay.client.extension.type.configuration.CETConfiguration~' +
@@ -125,12 +121,12 @@ async function makeZip(project: Project): Promise<void> {
 			sourceCodeURL: '',
 			type: 'customElement',
 			typeSettings: [
-				`cssURLs=${manifestJson.cssURLs.join('\n')}`,
-				`htmlElementName=${manifestJson.htmlElementName}`,
+				`cssURLs=${manifest.cssURLs.join('\n')}`,
+				`htmlElementName=${manifest.htmlElementName}`,
 				'instanceable=true',
 				'portletCategoryName=category.remote-apps',
-				`urls=${manifestJson.urls.join('\n')}`,
-				`useESM=${manifestJson.useESM}`,
+				`urls=${manifest.urls.join('\n')}`,
+				`useESM=${manifest.useESM}`,
 			],
 		},
 	};
