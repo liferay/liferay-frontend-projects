@@ -9,7 +9,7 @@ const {createHash} = require('crypto');
 const fs = require('fs');
 const path = require('path');
 
-const {qaDir} = require('./resources');
+const {qaDir, testDir} = require('./resources');
 const {logStep} = require('./util');
 
 const IGNORED_ITEMS = ['.liferay.json', 'node_modules', 'yarn.lock'];
@@ -23,7 +23,7 @@ function check(projectDirName) {
 
 	logStep(`CHECK: ${projectDirName}`);
 
-	const actualDir = path.join(qaDir, projectDirName);
+	const actualDir = path.join(testDir, projectDirName);
 
 	const failed = diff(expectedDir, actualDir, {});
 
@@ -116,11 +116,13 @@ function readExpected(file, tokens) {
 		file += '.TOKENIZE';
 	}
 
-	let content = fs.readFileSync(file).toString();
+	let content = fs.readFileSync(file);
 
 	if (!tokenized) {
 		return content;
 	}
+
+	content = content.toString();
 
 	Object.entries(tokens).forEach(([key, value]) => {
 		content = content.replace(new RegExp(`{{${key}}}`, 'g'), value);

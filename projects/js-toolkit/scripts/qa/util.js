@@ -9,14 +9,18 @@ const childProcess = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
-const {liferayCliPath, liferayDir, qaDir, tmpDir} = require('./resources');
+const {liferayCliPath, liferayDir, testDir, tmpDir} = require('./resources');
 
 function build(projectDirName) {
-	runScript(projectDirName, 'build');
+	withNodeEnv('production', () => {
+		runScript(projectDirName, 'build');
+	});
 }
 
 function deploy(projectDirName) {
-	runScript(projectDirName, 'deploy');
+	withNodeEnv('production', () => {
+		runScript(projectDirName, 'deploy');
+	});
 }
 
 function generateAngularCli(projectDirName) {
@@ -31,14 +35,17 @@ function generateAngularCli(projectDirName) {
 			'new',
 			projectDirName,
 			'--defaults',
+			'--skip-git',
 			'--skip-install',
+			'--directory',
+			projectDirName,
 		],
 		{
-			cwd: qaDir,
+			cwd: testDir,
 		}
 	);
 
-	const projectDir = path.join(qaDir, projectDirName);
+	const projectDir = path.join(testDir, projectDirName);
 
 	runLiferayCli(projectDir, ['adapt'], {});
 
@@ -50,11 +57,11 @@ function generateCreateReactApp(projectDirName) {
 
 	zapProjectDir(projectDirName);
 
-	spawn('npx', ['create-react-app@5.0.0', projectDirName], {
-		cwd: qaDir,
+	spawn('npx', ['create-react-app@^5.0.0', projectDirName], {
+		cwd: testDir,
 	});
 
-	const projectDir = path.join(qaDir, projectDirName);
+	const projectDir = path.join(testDir, projectDirName);
 
 	runLiferayCli(projectDir, ['adapt'], {});
 
@@ -72,7 +79,7 @@ function generatePortlet(projectDirName, platform, projectType) {
 
 	zapProjectDir(projectDirName);
 
-	runLiferayCli(qaDir, ['new', projectDirName], {
+	runLiferayCli(testDir, ['new', projectDirName], {
 		platform,
 		projectType,
 		target: 'Liferay Platform Project',
@@ -86,7 +93,7 @@ function generateRemoteApp(projectDirName, platform) {
 
 	zapProjectDir(projectDirName);
 
-	runLiferayCli(qaDir, ['new', projectDirName], {
+	runLiferayCli(testDir, ['new', projectDirName], {
 		platform,
 		target: 'Liferay Remote App Project',
 	});
@@ -101,13 +108,13 @@ function generateVueCli(projectDirName) {
 
 	spawn(
 		'npx',
-		['@vue/cli@4.5.14', 'create', projectDirName, '-d', '-m', 'yarn'],
+		['@vue/cli@4.5.14', 'create', projectDirName, '-d', '-n', '-m', 'yarn'],
 		{
-			cwd: qaDir,
+			cwd: testDir,
 		}
 	);
 
-	const projectDir = path.join(qaDir, projectDirName);
+	const projectDir = path.join(testDir, projectDirName);
 
 	runLiferayCli(projectDir, ['adapt'], {});
 
@@ -141,7 +148,7 @@ function runLiferayCli(dir, args, options) {
 }
 
 function runScript(projectDirName, baseScriptName) {
-	const projectDir = path.join(qaDir, projectDirName);
+	const projectDir = path.join(testDir, projectDirName);
 
 	const pkgJson = JSON.parse(
 		fs.readFileSync(path.join(projectDir, 'package.json'), 'utf8')
@@ -168,14 +175,17 @@ function runScript(projectDirName, baseScriptName) {
 
 	logStep(`${baseScriptName.toUpperCase()}: ${projectDirName}`);
 
-	spawn('yarn', [], {
-		cwd: projectDir,
+	withNodeEnv('development', () => {
+		spawn('yarn', [], {
+			cwd: projectDir,
+		});
 	});
 
 	spawn('yarn', [script], {
 		cwd: projectDir,
 	});
 }
+
 function spawn(cmd, args, options = {}) {
 	const proc = childProcess.spawnSync(cmd, args, {
 		cwd: path.join('..', '..'),
@@ -189,9 +199,21 @@ function spawn(cmd, args, options = {}) {
 	}
 }
 
+function withNodeEnv(nodeEnv, callback) {
+	const oldNODE_ENV = process.env.NODE_ENV;
+
+	try {
+		process.env.NODE_ENV = nodeEnv;
+		callback();
+	}
+	finally {
+		process.env.NODE_ENV = oldNODE_ENV;
+	}
+}
+
 function writeLiferayJsonFile(projectDirName) {
 	fs.writeFileSync(
-		path.join(qaDir, projectDirName, '.liferay.json'),
+		path.join(testDir, projectDirName, '.liferay.json'),
 		JSON.stringify({
 			deploy: {
 				path: liferayDir,
@@ -204,7 +226,7 @@ function zapProjectDir(projectDirName) {
 	const rmdirSync = fs.rmSync || fs.rmdirSync;
 
 	try {
-		rmdirSync(path.join(qaDir, projectDirName), {recursive: true});
+		rmdirSync(path.join(testDir, projectDirName), {recursive: true});
 	}
 	catch (error) {
 		if (error.code !== 'ENOENT') {
@@ -223,4 +245,5 @@ module.exports = {
 	generateVueCli,
 	logStep,
 	spawn,
+	withNodeEnv,
 };

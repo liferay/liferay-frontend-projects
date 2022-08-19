@@ -6,7 +6,7 @@
 const fs = require('fs');
 
 const check = require('./check');
-const {jsToolkitPath, qaDir} = require('./resources');
+const {jsToolkitPath, qaDir, testDir} = require('./resources');
 const {
 	build,
 	deploy,
@@ -20,6 +20,46 @@ const {
 } = require('./util');
 
 const argv = getTargets();
+
+console.log(`
+
+
+  🔔 🔔 🔔 🔔 🔔 🔔 🔔 🔔 🔔 🔔  W A R N I N G  🔔 🔔 🔔 🔔 🔔 🔔 🔔 🔔 🔔 🔔  
+
+
+  THIS SCRIPT USES THE LATEST VERSIONS FOR @liferay PACKAGES FROM THE CONFIGURED
+
+  npm REPOSITORY IN THE SYSTEM, NOT THE ONES FROM THE SOURCE TREE.
+
+
+  IF YOU NEED TO TEST PRE-RELEASES, LEVERAGE THE local-npm TOOL TO CONFIGURE A
+
+  LOCAL npm REPOSITORY AND PUBLISH THE PRE-RELEASES THERE.
+
+
+  USING TEST DIRECTORY:
+
+
+	   ${testDir}
+
+
+`);
+
+process.on('exit', () => {
+	console.log(`
+
+  REMEMBER WE USED TEST DIRECTORY:
+
+
+	   ${testDir}
+
+
+`);
+});
+
+// Set environment to development so that yarn does download devDependencies
+
+process.env.NODE_ENV = 'development';
 
 if (argv['prepare']) {
 	logStep('Preparing things');
@@ -98,12 +138,12 @@ if (argv['deploy']) {
 }
 
 function forEachProject(fn) {
-	fs.readdirSync(qaDir, {withFileTypes: true}).forEach((dirent) => {
+	fs.readdirSync(testDir, {withFileTypes: true}).forEach((dirent) => {
 		if (!dirent.isDirectory()) {
 			return;
 		}
 
-		if (dirent.name === 'expected') {
+		if (dirent.name === 'tmp') {
 			return;
 		}
 
