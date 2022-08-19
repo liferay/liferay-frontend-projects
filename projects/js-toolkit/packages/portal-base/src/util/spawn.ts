@@ -9,6 +9,7 @@ import abort from './abort';
 
 export default function spawn(bin: string, args: string[]): void {
 	const {error, signal, status} = childProcess.spawnSync(bin, args, {
+		shell: true,
 		stdio: 'inherit',
 	});
 
