@@ -21,9 +21,10 @@ const {
 	spawn,
 } = require('./util');
 
-const argv = getTargets();
+async function main() {
+	const argv = getTargets();
 
-console.log(`
+	console.log(`
 
 
   🔔 🔔 🔔 🔔 🔔 🔔 🔔 🔔 🔔 🔔  W A R N I N G  🔔 🔔 🔔 🔔 🔔 🔔 🔔 🔔 🔔 🔔  
@@ -47,8 +48,8 @@ console.log(`
 
 `);
 
-process.on('exit', () => {
-	console.log(`
+	process.on('exit', () => {
+		console.log(`
 
   REMEMBER WE USED TEST DIRECTORY:
 
@@ -57,90 +58,99 @@ process.on('exit', () => {
 
 
 `);
-});
-
-// Set environment to development so that yarn does download devDependencies
-
-process.env.NODE_ENV = 'development';
-
-if (argv['prepare']) {
-	logStep('Preparing things');
-
-	['', 'clean', 'build'].forEach((target) =>
-		spawn('yarn', [target], {
-			cwd: jsToolkitPath,
-		})
-	);
-}
-
-if (argv['clean']) {
-	logStep('Cleaning qa directory');
-
-	spawn('git', ['checkout', '.'], {
-		cwd: qaDir,
 	});
 
-	spawn('git', ['clean', '-dxf', '-e', 'expected'], {
-		cwd: qaDir,
-	});
+	// Set environment to development so that yarn does download devDependencies
+
+	process.env.NODE_ENV = 'development';
+
+	if (argv['prepare']) {
+		logStep('Preparing things');
+
+		['', 'clean', 'build'].forEach((target) =>
+			spawn('yarn', [target], {
+				cwd: jsToolkitPath,
+			})
+		);
+	}
+
+	if (argv['clean']) {
+		logStep('Cleaning qa directory');
+
+		spawn('git', ['checkout', '.'], {
+			cwd: qaDir,
+		});
+
+		spawn('git', ['clean', '-dxf', '-e', 'expected'], {
+			cwd: qaDir,
+		});
+	}
+
+	if (argv['generate']) {
+		logStep('Generating test projects');
+
+		// Portlets
+
+		generatePortlet(
+			'agnostic-angular-portlet',
+			'portal-agnostic',
+			'Angular'
+		);
+		generatePortlet(
+			'agnostic-plain-js-portlet',
+			'portal-agnostic',
+			'Plain JavaScript'
+		);
+		generatePortlet('agnostic-react-portlet', 'portal-agnostic', 'React');
+		generatePortlet(
+			'agnostic-shared-bundle',
+			'portal-agnostic',
+			'Shared bundle'
+		);
+		generatePortlet('agnostic-vuejs-portlet', 'portal-agnostic', 'Vue.js');
+
+		//	generatePortlet('master-angular-portlet', 'portal-master', 'Angular');
+		//	generatePortlet('master-plain-js-portlet', 'portal-master', 'Plain JavaScript');
+		//	generatePortlet('master-react-portlet', 'portal-master', 'React');
+		//	generatePortlet('master-shared-bundle', 'portal-master', 'Shared bundle');
+		//	generatePortlet('master-vuejs-portlet', 'portal-master', 'Vue.js');
+
+		// Remote Apps
+
+		generateRemoteApp('agnostic-remote-app', 'portal-agnostic');
+
+		// Adaptations
+
+		generateAngularCli('angular-cli-portlet');
+		generateCreateReactApp('create-react-app-portlet');
+		generateVueCli('vue-cli-portlet');
+	}
+
+	if (argv['build']) {
+		logStep('Building test projects');
+
+		forEachProject(build);
+	}
+
+	if (argv['check']) {
+		logStep('Checking test projects');
+
+		await forEachProject(check);
+	}
+
+	if (argv['deploy']) {
+		logStep('Deploying test projects');
+
+		forEachProject(deploy);
+	}
 }
 
-if (argv['generate']) {
-	logStep('Generating test projects');
+main();
 
-	// Portlets
+async function forEachProject(fn) {
+	const dirents = fs.readdirSync(testDir, {withFileTypes: true});
 
-	generatePortlet('agnostic-angular-portlet', 'portal-agnostic', 'Angular');
-	generatePortlet(
-		'agnostic-plain-js-portlet',
-		'portal-agnostic',
-		'Plain JavaScript'
-	);
-	generatePortlet('agnostic-react-portlet', 'portal-agnostic', 'React');
-	generatePortlet(
-		'agnostic-shared-bundle',
-		'portal-agnostic',
-		'Shared bundle'
-	);
-	generatePortlet('agnostic-vuejs-portlet', 'portal-agnostic', 'Vue.js');
-
-	//	generatePortlet('master-angular-portlet', 'portal-master', 'Angular');
-	//	generatePortlet('master-plain-js-portlet', 'portal-master', 'Plain JavaScript');
-	//	generatePortlet('master-react-portlet', 'portal-master', 'React');
-	//	generatePortlet('master-shared-bundle', 'portal-master', 'Shared bundle');
-	//	generatePortlet('master-vuejs-portlet', 'portal-master', 'Vue.js');
-
-	// Remote Apps
-
-	generateRemoteApp('agnostic-remote-app', 'portal-agnostic');
-
-	// Adaptations
-
-	generateAngularCli('angular-cli-portlet');
-	generateCreateReactApp('create-react-app-portlet');
-	generateVueCli('vue-cli-portlet');
-}
-
-if (argv['build']) {
-	logStep('Building test projects');
-
-	forEachProject(build);
-}
-
-if (argv['check']) {
-	logStep('Checking test projects');
-
-	forEachProject(check);
-}
-
-if (argv['deploy']) {
-	logStep('Deploying test projects');
-
-	forEachProject(deploy);
-}
-
-function forEachProject(fn) {
-	fs.readdirSync(testDir, {withFileTypes: true}).forEach((dirent) => {
+	for (const dirent of dirents) {
 		if (!dirent.isDirectory()) {
 			return;
 		}
@@ -149,8 +159,8 @@ function forEachProject(fn) {
 			return;
 		}
 
-		fn(dirent.name);
-	});
+		await fn(dirent.name);
+	}
 }
 
 function getTargets() {
