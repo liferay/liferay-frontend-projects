@@ -27,7 +27,7 @@
 		"@types/vfile-message": "2.0.0",
 		"babel-eslint": "^10.0.3",
 		"babel-jest": "^25.1.0",
-		"babel-loader": "^8.1.0",
+		"babel-loader": "^8.2.5",
 		"babel-plugin-transform-react-remove-prop-types": "0.4.24",
 		"babel-preset-liferay-standard": "2.24.2",
 		"bourbon": "4.2.3",
