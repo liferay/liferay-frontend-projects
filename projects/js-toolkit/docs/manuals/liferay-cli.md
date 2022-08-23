@@ -152,10 +152,10 @@ Learn more about project adaptation in the
 
 ## Project build
 
-The `build` command will build your project and leave the resulting JAR file in
-the `dist` directory. You may then deploy it to a Liferay Portal instance
-copying the file by hand, or using the [Liferay deployment](#project-deployment)
-feature.
+The `build` command will build your project and leave the resulting JAR or ZIP
+file in the `dist` directory. You may then deploy it to a Liferay Portal
+instance copying the file by hand, or using the
+[Liferay deployment](#project-deployment) feature.
 
 ### Usage
 
@@ -181,27 +181,23 @@ server for project types that support it (currently only `Liferay Remote App`).
 This has the benefit that you can change your source code and immediately see
 the changes without redeploying or restarting the server.
 
-When you run the `start` command it will launch a Webpack development server
-that will let you consume the Remote App `index.js` file from
-`http://localhost:8081/index.js`[^3].
+When you run the `start` command it will:
 
-Then you simply need to go to Liferay DXP's Remote App configuration and create
-a Remote App pointing to that URL. You may also point to the CSS file if you are
-using it (usually at `http://localhost:8081/css/styles.css`[^3]).
+1. Launch a Webpack development server that will let you consume the Remote App
+   `index.js` file from `http://localhost:8081/index.js`[^3].
+2. Deploy a live Remote App to your local Liferay instance that can be used to
+   easily see your project in action[^4].
 
-If at any moment you are unsure on how to configure the Remote App, you can
-[build the project](#project-build) and look for a `manifest.json` file in
-the `build` directory. It describes how to configure the Remote App, like this:
+Note that step 2 will overwrite any version of your Remote App you may have
+deployed before with [the `deploy` command](#project-deployment).
 
-```json
-{
-	"cssURLs": ["./css/styles.css"],
-	"htmlElementName": "my-custom-element",
-	"type": "customElement",
-	"urls": ["./index.js"],
-	"useESM": true
-}
-```
+Also, note that the `start` command uses the same deployment directory as [the
+`deploy` command](#project-deployment).
+
+Once you finish your live development session, you may want to consider
+deploying the final version of it with
+[the `deploy` command](#project-deployment) so that it remains available after
+stopping the live development server.
 
 ### Usage
 
@@ -222,7 +218,7 @@ by inspecting your project's `package.json` file).
 
 ## Project deployment
 
-The `deploy` command will copy the JAR file created by the
+The `deploy` command will copy the JAR or ZIP file created by the
 [project build](#project-build), in the `dist` directory, to your local Liferay
 Portal instance.
 
@@ -343,3 +339,8 @@ may have a look at
 [^3]:
     Note that the `8081` port may change, but right after running the `start`
     command, you will be informed of the base server address and port.
+
+[^4]:
+    The live development deployment configures a Remote App, pointing to the
+    started live development server, so that you don't need to bother about
+    configuring the Remote App (as happened in older `@liferay/cli` versions).
