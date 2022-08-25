@@ -41,8 +41,8 @@ export default async function customElement(project: Project): Promise<void> {
 /**
  * Add several files to a ZIP folder.
  * @param srcDirPath source folder
- * @param srcGlobs array of globs describing files to include (in
- * 						globby, i.e. POSIX, format)
+ * @param srcGlobs array of globs describing files to include (in globby, i.e.
+ *			POSIX, format)
  * @param destFolder the destination folder in the ZIP file
  */
 function addFiles(
