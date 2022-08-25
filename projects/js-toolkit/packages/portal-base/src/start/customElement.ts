@@ -71,32 +71,28 @@ async function checkForOldZipFile(zipFile: FilePath): Promise<void> {
 		return;
 	}
 
-	const stats = fs.statSync(zipFile.asNative);
+	print(warn`
+There is an older version of this project in your Liferay server.`);
 
-	if (Date.now() - stats.mtimeMs > 1000 * 60 * 120) {
-		const lines = createInterface({
-			input: process.stdin,
-		});
-
-		print(warn`
-There is an older than 2 hours version of this project in your Liferay server.`);
-
-		print(info`
+	print(info`
 Continuing with the 'start' command will redeploy the project and the older
 version will be overwritten.`);
 
-		print(question`
+	print(question`
 Are you sure you want to continue (y/N)?`);
 
-		for await (const line of lines) {
-			if (line.toLowerCase() === 'y') {
-				break;
-			}
+	const lines = createInterface({
+		input: process.stdin,
+	});
 
-			print(fail`Deployment aborted by user`);
-
-			process.exit(2);
+	for await (const line of lines) {
+		if (line.toLowerCase() === 'y') {
+			break;
 		}
+
+		print(fail`Deployment aborted by user`);
+
+		process.exit(2);
 	}
 }
 
