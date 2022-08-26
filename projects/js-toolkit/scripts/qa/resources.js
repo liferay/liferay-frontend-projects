@@ -19,12 +19,24 @@ const liferayCliPath = path.join(
 	'liferay.js'
 );
 const qaDir = path.join(jsToolkitPath, 'qa');
-const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'js-toolkit-qa'));
+
+const testDir = path.join(os.tmpdir(), 'js-toolkit-qa');
+
+fs.mkdirSync(testDir, {recursive: true});
+
+const tmpDir = path.join(testDir, 'tmp');
+
+if (fs.existsSync(tmpDir)) {
+	fs.rmSync(tmpDir, {recursive: true});
+}
+fs.mkdirSync(tmpDir, {recursive: true});
 
 module.exports = {
+	jsToolkitPath,
 	liferayCliPath,
 	liferayDir: findLiferayDir(),
 	qaDir,
+	testDir,
 	tmpDir,
 };
 

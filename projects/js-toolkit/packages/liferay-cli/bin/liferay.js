@@ -56,7 +56,16 @@ const {argv} = require('yargs')
 					type: 'string',
 				})
 	)
-	.command('start', 'Start a live development server for a project')
+	.command(
+		'start',
+		'Start a live development server for a project',
+		(yargs) =>
+			yargs.option('only', {
+				default: false,
+				describe: `Start only: don't deploy live project before`,
+				type: 'boolean',
+			})
+	)
 	.command(
 		'upgrade-project',
 		'Upgrade a project created with the old Yeoman generator'

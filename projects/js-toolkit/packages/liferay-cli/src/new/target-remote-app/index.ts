@@ -15,6 +15,7 @@ import dependencies from '../../dependencies.json';
 import ensureOutputFile from '../../util/ensureOutputFile';
 import prompt from '../../util/prompt';
 import facetBuildable from '../facet-buildable';
+import facetDeployable from '../facet-deployable';
 import facetProject from '../facet-project';
 import facetRemoteAppReact from '../facet-remote-app-react';
 import facetStartable from '../facet-startable';
@@ -69,6 +70,7 @@ const target: Target = {
 			projectTypeFacets[options.projectType as string];
 
 		options = await facetBuildable.prompt(true, options);
+		options = await facetDeployable.prompt(true, options);
 		options = await facetStartable.prompt(true, options);
 		options = await projectTypeFacet.prompt(useDefaults, options);
 
@@ -105,6 +107,7 @@ const target: Target = {
 			projectTypeFacets[options.projectType as string];
 
 		await facetBuildable.render(options);
+		await facetDeployable.render(options);
 		await facetStartable.render(options);
 		await projectTypeFacet.render(options);
 

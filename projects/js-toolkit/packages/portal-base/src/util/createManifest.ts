@@ -12,7 +12,9 @@ import {
 import abort from '../util/abort';
 import findScssFiles from './findScssFiles';
 
-export default function createManifest(project: Project): string {
+export default function createManifest(
+	project: Project
+): RemoteAppManifestJson {
 	const options = project.build.options as CustomElementBuildOptions;
 	const {htmlElementName} = options;
 
@@ -41,5 +43,5 @@ Please configure it using {build.options.htmlElementName} in the {liferay.json} 
 		useESM: true,
 	};
 
-	return JSON.stringify(manifest, null, '\t');
+	return manifest;
 }

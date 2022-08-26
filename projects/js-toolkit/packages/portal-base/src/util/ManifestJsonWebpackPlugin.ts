@@ -22,7 +22,11 @@ export default class ManifestJsonWebpackPlugin {
 				compilation.emitAsset(
 					'manifest.json',
 					new webpack.sources.RawSource(
-						createManifest(this._project),
+						JSON.stringify(
+							createManifest(this._project),
+							null,
+							'\t'
+						),
 						false
 					)
 				);

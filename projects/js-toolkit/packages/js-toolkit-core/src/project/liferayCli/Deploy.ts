@@ -15,10 +15,7 @@ export default class Deploy {
 	constructor(project: Project, liferayJson: LiferayJson) {
 		this._project = project;
 
-		if (
-			liferayJson.deploy === undefined ||
-			liferayJson.deploy.path === undefined
-		) {
+		if (liferayJson.deploy?.path === undefined) {
 			this.dir = null;
 		}
 		else {
@@ -31,6 +28,10 @@ export default class Deploy {
 	storeDir(deployDir: FilePath): void {
 		(this as object)['dir'] = deployDir.resolve();
 
+		this._store('dir');
+	}
+
+	_store(property: string): void {
 		const file = this._project.dir.join('.liferay.json');
 
 		const liferayJson = JSON.parse(
@@ -38,7 +39,7 @@ export default class Deploy {
 		) as LiferayJson;
 
 		liferayJson.deploy = liferayJson.deploy || {};
-		liferayJson.deploy.path = this.dir.asPosix;
+		liferayJson.deploy[property] = this[property].toString();
 
 		fs.writeFileSync(
 			file.asNative,

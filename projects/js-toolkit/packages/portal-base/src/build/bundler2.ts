@@ -106,7 +106,14 @@ function runBabel(project: Project): void {
 }
 
 function runCompiler(project: Project): void {
-	runBabel(project);
+	const dependencies = project.pkgJson.dependencies || {};
+
+	if (dependencies['@angular/core']) {
+		runTsc();
+	}
+	else {
+		runBabel(project);
+	}
 }
 
 function runBundler(): void {
@@ -125,4 +132,10 @@ function runBundler(): void {
 	print(info`Running {liferay-npm-bundler}...`);
 
 	spawn('node', [bundlerPath]);
+}
+
+function runTsc(): void {
+	print(info`Running {tsc} compiler...`);
+
+	spawn('npx', ['tsc']);
 }

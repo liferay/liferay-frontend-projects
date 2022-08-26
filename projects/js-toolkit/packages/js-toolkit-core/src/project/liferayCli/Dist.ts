@@ -11,11 +11,11 @@ export default class Dist {
 	readonly dir: FilePath | null;
 	readonly file: FilePath | null;
 
-	constructor(_project: Project, liferayJson: LiferayJson) {
+	constructor(project: Project, liferayJson: LiferayJson) {
 		switch (liferayJson.build.type) {
 			case 'customElement':
-				this.dir = null;
-				this.file = null;
+				this.dir = project.dir.join('dist');
+				this.file = this.dir.join(`${project.dir.basename()}.zip`);
 				break;
 
 			case 'bundler2': {

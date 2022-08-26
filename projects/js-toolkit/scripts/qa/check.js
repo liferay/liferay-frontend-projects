@@ -7,14 +7,15 @@
 
 const {createHash} = require('crypto');
 const fs = require('fs');
+const JSZip = require('jszip');
 const path = require('path');
 
-const {qaDir} = require('./resources');
+const {qaDir, testDir} = require('./resources');
 const {logStep} = require('./util');
 
 const IGNORED_ITEMS = ['.liferay.json', 'node_modules', 'yarn.lock'];
 
-function check(projectDirName) {
+async function check(projectDirName) {
 	const expectedDir = path.join(qaDir, 'expected', projectDirName);
 
 	if (!fs.existsSync(expectedDir)) {
@@ -23,9 +24,9 @@ function check(projectDirName) {
 
 	logStep(`CHECK: ${projectDirName}`);
 
-	const actualDir = path.join(qaDir, projectDirName);
+	const actualDir = path.join(testDir, projectDirName);
 
-	const failed = diff(expectedDir, actualDir, {});
+	const failed = await diff(expectedDir, actualDir, {});
 
 	if (failed) {
 		console.log('');
@@ -40,7 +41,7 @@ function check(projectDirName) {
 	}
 }
 
-function diff(expectedDir, actualDir, tokens) {
+async function diff(expectedDir, actualDir, tokens) {
 	let somethingChanged = false;
 
 	if (!fs.existsSync(actualDir)) {
@@ -66,7 +67,7 @@ function diff(expectedDir, actualDir, tokens) {
 		const expectedFile = path.resolve(expectedDir, expectedItem);
 
 		if (fs.statSync(expectedFile).isDirectory()) {
-			const somethingInsideChanged = diff(
+			const somethingInsideChanged = await diff(
 				expectedFile,
 				actualFile,
 				tokens
@@ -79,34 +80,110 @@ function diff(expectedDir, actualDir, tokens) {
 			console.log('-', path.join(actualDir, expectedItem));
 		}
 		else {
-			const expectedContent = readExpected(expectedFile, tokens);
-			const actualContent = fs.readFileSync(actualFile);
+			if (
+				expectedFile.endsWith('.zip') ||
+				expectedFile.endsWith('.jar')
+			) {
+				const somethingInsideChanged = await diffZip(
+					expectedFile,
+					actualFile,
+					tokens
+				);
 
-			const expectedHash = createHash('sha256')
-				.update(expectedContent)
-				.digest('hex');
-			const actualHash = createHash('sha256')
-				.update(actualContent)
-				.digest('hex');
-
-			if (expectedHash !== actualHash) {
-				somethingChanged = true;
-				console.log('*', path.join(actualDir, expectedItem));
+				somethingChanged = somethingChanged || somethingInsideChanged;
 			}
+			else {
+				const somethingInsideChanged = diffText(
+					expectedFile,
+					actualFile,
+					tokens
+				);
 
-			/*
-
-			console.log('<<<<<<<<<<<<<<<<<<');
-			console.log(expectedContent);
-			console.log('==================');
-			console.log(actualContent.toString());
-			console.log('>>>>>>>>>>>>>>>>>>');
-
-			*/
+				somethingChanged = somethingChanged || somethingInsideChanged;
+			}
 		}
 	}
 
 	return somethingChanged;
+}
+
+function diffText(expectedFile, actualFile, tokens) {
+	const expectedContent = readExpected(expectedFile, tokens);
+	const actualContent = fs.readFileSync(actualFile);
+
+	const expectedHash = createHash('sha256')
+		.update(expectedContent)
+		.digest('hex');
+	const actualHash = createHash('sha256').update(actualContent).digest('hex');
+
+	if (expectedHash !== actualHash) {
+		console.log('*', actualFile);
+
+		return true;
+	}
+
+	/*
+	console.log('<<<<<<<<<<<<<<<<<<');
+	console.log(expectedContent);
+	console.log('==================');
+	console.log(actualContent.toString());
+	console.log('>>>>>>>>>>>>>>>>>>');
+	*/
+
+	return false;
+}
+
+async function diffZip(expectedFile, actualFile) {
+	const expectedZip = await JSZip.loadAsync(fs.readFileSync(expectedFile));
+	const actualZip = await JSZip.loadAsync(fs.readFileSync(actualFile));
+
+	const expectedItems = readZipItems(expectedZip);
+	const actualItems = readZipItems(actualZip);
+
+	const result = {};
+
+	for (const path of Object.keys(expectedItems)) {
+		if (!actualItems[path]) {
+			result[path] = '-';
+		}
+	}
+
+	for (const path of Object.keys(actualItems)) {
+		if (!expectedItems[path]) {
+			result[path] = '+';
+		}
+	}
+
+	for (const path of Object.keys(expectedItems)) {
+		const expectedContent = await expectedItems[path].async('string');
+		const actualContent = await actualItems[path].async('string');
+
+		if (expectedContent !== actualContent) {
+			result[path] = '*';
+		}
+	}
+
+	if (Object.keys(result).length) {
+		console.log('*', `${actualFile}:`);
+
+		for (const path of Object.keys(result)) {
+			console.log(`    ${result[path]} ${path}`);
+		}
+
+		return true;
+	}
+
+	return false;
+}
+
+function readZipItems(zip) {
+	const items = {};
+
+	zip.forEach((relativePath, item) => {
+		items[relativePath] = item;
+	});
+
+	return items;
 }
 
 function readExpected(file, tokens) {
@@ -116,11 +193,13 @@ function readExpected(file, tokens) {
 		file += '.TOKENIZE';
 	}
 
-	let content = fs.readFileSync(file).toString();
+	let content = fs.readFileSync(file);
 
 	if (!tokenized) {
 		return content;
 	}
+
+	content = content.toString();
 
 	Object.entries(tokens).forEach(([key, value]) => {
 		content = content.replace(new RegExp(`{{${key}}}`, 'g'), value);

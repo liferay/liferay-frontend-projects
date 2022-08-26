@@ -9,6 +9,7 @@ import path from 'path';
 import build from './build';
 import clean from './clean';
 import deploy from './deploy';
+import prepareStart from './prepareStart';
 import start from './start';
 
 const {fail, print, title} = format;
@@ -17,6 +18,7 @@ export interface Tasks {
 	build?: {(): Promise<void>};
 	clean?: {(): Promise<void>};
 	deploy?: {(): Promise<void>};
+	prepareStart?: {(): Promise<void>};
 	start?: {(): Promise<void>};
 }
 
@@ -37,6 +39,7 @@ export default async function run(
 		build,
 		clean,
 		deploy,
+		prepareStart,
 		start,
 		...(taskOverrides || {}),
 	};
@@ -66,6 +69,12 @@ export default async function run(
 			break;
 
 		case 'start':
+			if (!isSwitchEnabled('only')) {
+				print(
+					title`Deploying live project to Liferay local installation`
+				);
+				await tasks.prepareStart();
+			}
 			print(title`Starting project live development server`);
 			await tasks.start();
 			break;
