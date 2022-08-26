@@ -218,7 +218,7 @@ by inspecting your project's `package.json` file).
 
 ## Project deployment
 
-The `deploy` command will copy the JAR or ZIP file created by the
+The `deploy` command will build[^5] and copy the JAR or ZIP file created by the
 [project build](#project-build), in the `dist` directory, to your local Liferay
 Portal instance.
 
