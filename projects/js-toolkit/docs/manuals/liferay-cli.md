@@ -345,10 +345,10 @@ may have a look at
     started live development server, so that you don't need to bother about
     configuring the Remote App (as happened in older `@liferay/cli` versions).
     Alternatively, you can pass `--only` to `yarn start` if you want to prevent
-	that from happening. In that case, you must make sure you have configured
-	your Remote App correctly, making it point to your live development server.
+    that from happening. In that case, you must make sure you have configured
+    your Remote App correctly, making it point to your live development server.
 
 [^5]:
     You can pass `--only` to `yarn deploy` if you want to prevent the task from
-	invoking `yarn build` before deploying. In that case you must make sure that
-	the desired deployable file has been placed in the output directory.
+    invoking `yarn build` before deploying. In that case you must make sure that
+    the desired deployable file has been placed in the output directory.
