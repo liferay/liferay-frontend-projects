@@ -121,8 +121,6 @@ module.exports = async function getBundlerImports(
 };
 
 function saveSummary(platformName, summary) {
-	console.log(platformName);
-
 	const file = path.join(platformsDir, platformName, 'summary.json');
 
 	const summaryJson = {};
