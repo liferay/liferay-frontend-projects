@@ -45,7 +45,7 @@ async function main([isEE, portalTagOrDir, platformName]) {
 
 	// Find out bundler imports
 
-	const imports = await getBundlerImports(portalTagOrDir, isEE);
+	const imports = await getBundlerImports(platformName, portalTagOrDir, isEE);
 
 	// Initialize output config.json
 
