@@ -26,9 +26,6 @@
 			"asset-taglib": {
 				"/": "*"
 			},
-			"commerce-frontend-js": {
-				"/": "*"
-			},
 			"data-engine-taglib": {
 				"/": "*"
 			},
@@ -83,14 +80,7 @@
 				"senna": "*"
 			},
 			"frontend-js-web": {
-				"/": "*",
-				"@liferay/amd-loader": "*",
-				"lodash.escape": "*",
-				"lodash.groupby": "*",
-				"lodash.isequal": "*",
-				"lodash.memoize": "*",
-				"lodash.unescape": "*",
-				"uuid": "*"
+				"/": "*"
 			},
 			"frontend-taglib-chart": {
 				"billboard.js": "*",
@@ -158,9 +148,6 @@
 				"/": "*"
 			},
 			"map-openstreetmap": {
-				"/": "*"
-			},
-			"osb-commerce-provisioning-theme-impl": {
 				"/": "*"
 			}
 		}
