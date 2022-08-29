@@ -26,6 +26,9 @@
 			"asset-taglib": {
 				"/": "*"
 			},
+			"commerce-frontend-js": {
+				"/": "*"
+			},
 			"data-engine-taglib": {
 				"/": "*"
 			},
