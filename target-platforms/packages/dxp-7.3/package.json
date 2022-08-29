@@ -15,17 +15,17 @@
 		"billboard.js": "1.9.2",
 		"classnames": "2.2.6",
 		"clay": "2.18.1",
-		"clay-alert": "2.22.2",
-		"clay-autocomplete": "2.22.2",
-		"clay-button": "2.22.2",
-		"clay-component": "2.22.2",
-		"clay-data-provider": "2.22.2",
-		"clay-icon": "2.22.2",
-		"clay-label": "2.22.2",
-		"clay-link": "2.22.2",
-		"clay-multi-select": "2.22.2",
-		"clay-portal": "2.22.2",
-		"clay-radio": "2.22.2",
+		"clay-alert": "2.22.4",
+		"clay-autocomplete": "2.22.4",
+		"clay-button": "2.22.4",
+		"clay-component": "2.22.4",
+		"clay-data-provider": "2.22.4",
+		"clay-icon": "2.22.4",
+		"clay-label": "2.22.4",
+		"clay-link": "2.22.4",
+		"clay-multi-select": "2.22.4",
+		"clay-portal": "2.22.4",
+		"clay-radio": "2.22.4",
 		"d3": "5.0.0",
 		"d3-array": "1.2.4",
 		"d3-axis": "1.0.12",
@@ -87,7 +87,7 @@
 		"senna": "2.7.9",
 		"xss-filters": "1.2.7"
 	},
-	"description": "Target platform for Liferay Portal fix-pack-dxp-2-7310",
+	"description": "Target platform for Liferay Portal fix-pack-dxp-3-7310",
 	"main": "config.json",
 	"name": "@liferay/dxp-7.3",
 	"scripts": {
@@ -101,5 +101,5 @@
 		"preversion": "yarn ci",
 		"test": "cd ../.. && yarn test"
 	},
-	"version": "3.0.1"
+	"version": "4.0.1"
 }
