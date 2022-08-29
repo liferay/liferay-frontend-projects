@@ -152,6 +152,9 @@
 			},
 			"map-openstreetmap": {
 				"/": "*"
+			},
+			"osb-commerce-provisioning-theme-impl": {
+				"/": "*"
 			}
 		}
 	},
