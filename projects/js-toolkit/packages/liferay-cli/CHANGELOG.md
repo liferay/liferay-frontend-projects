@@ -1,3 +1,12 @@
+## [liferay-cli/v1.2.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-cli/v1.2.0) (2022-08-30)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-cli/v1.1.0...liferay-cli/v1.2.0)
+
+### :new: Features
+
+-   feat: support live development and deployment for Remote App projects ([\#990](https://github.com/liferay/liferay-frontend-projects/pull/990))
+-   feat(js-toolkit): add --only option to @liferay/cli ([\#911](https://github.com/liferay/liferay-frontend-projects/pull/911))
+
 ## [liferay-cli/v1.1.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-cli/v1.1.0) (2022-02-10)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-cli/v1.0.1...liferay-cli/v1.1.0)
