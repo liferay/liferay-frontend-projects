@@ -1,3 +1,11 @@
+## [js-toolkit-core/v5.3.0](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v5.3.0) (2022-08-30)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v5.2.0...js-toolkit-core/v5.3.0)
+
+### :new: Features
+
+-   feat: support live development and deployment for Remote App projects ([\#990](https://github.com/liferay/liferay-frontend-projects/pull/990))
+
 ## [js-toolkit-core/v5.1.0](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v5.1.0) (2022-08-10)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v5.0.0...js-toolkit-core/v5.1.0)
