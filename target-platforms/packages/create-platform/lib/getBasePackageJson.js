@@ -4,6 +4,17 @@
  */
 
 module.exports = function getBasePackageJson(platformName, portalVersion) {
+	let version = '0.0.0';
+
+	if (portalVersion.startsWith('fix-pack-base-')) {
+		version = '1.0.0';
+	}
+	else if (portalVersion.startsWith('fix-pack-dxp-')) {
+		const parts = portalVersion.split('-');
+
+		version = `${Number(parts[3]) + 1}.0.0`;
+	}
+
 	return {
 		bin: {
 			liferay: './liferay.js',
@@ -26,6 +37,6 @@ module.exports = function getBasePackageJson(platformName, portalVersion) {
 			'preversion': 'yarn ci',
 			'test': 'cd ../.. && yarn test',
 		},
-		version: '1.0.0',
+		version,
 	};
 };

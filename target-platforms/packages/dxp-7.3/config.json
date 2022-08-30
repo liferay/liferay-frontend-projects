@@ -83,14 +83,7 @@
 				"senna": "*"
 			},
 			"frontend-js-web": {
-				"/": "*",
-				"@liferay/amd-loader": "*",
-				"lodash.escape": "*",
-				"lodash.groupby": "*",
-				"lodash.isequal": "*",
-				"lodash.memoize": "*",
-				"lodash.unescape": "*",
-				"uuid": "*"
+				"/": "*"
 			},
 			"frontend-taglib-chart": {
 				"billboard.js": "*",
