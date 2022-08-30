@@ -1,3 +1,11 @@
+## [portal-base/v1.4.0](https://github.com/liferay/liferay-frontend-projects/tree/portal-base/v1.4.0) (2022-08-30)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/portal-base/v1.3.0...portal-base/v1.4.0)
+
+### :new: Features
+
+-   feat: support live development and deployment for Remote App projects ([\#990](https://github.com/liferay/liferay-frontend-projects/pull/990))
+
 ## [portal-base/v1.3.0](https://github.com/liferay/liferay-frontend-projects/tree/portal-base/v1.3.0) (2022-08-10)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/portal-base/v1.1.1...portal-base/v1.3.0)
