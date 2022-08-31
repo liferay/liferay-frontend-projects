@@ -22,7 +22,7 @@
     vertical-align: middle;
 }
 
-.basecelleditor-hidden, .datecelleditor-hidden, .dropdowncelleditor-hidden, .textcelleditor-hidden, .textareacelleditor-hidden, .checkboxcelleditor-hidden, .radiocelleditor-hidden {
+.basecelleditor-hidden, .datecelleditor-hidden, .dropdowncelleditor-hidden, .textcelleditor-hidden, .textareacelleditor-hidden, .checkboxcelleditor-hidden, .radiocelleditor-hidden, .color-cell-editor-hidden{
     display: none !important;
 }
 
