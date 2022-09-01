@@ -1,3 +1,11 @@
+## [js-toolkit-core/v5.3.1](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v5.3.1) (2022-09-01)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v5.3.0...js-toolkit-core/v5.3.1)
+
+### :wrench: Bug fixes
+
+-   fix(js-toolkit-core): fix "No such file or directory .liferay.json" error ([\#999](https://github.com/liferay/liferay-frontend-projects/pull/999))
+
 ## [js-toolkit-core/v5.3.0](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v5.3.0) (2022-08-30)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v5.2.0...js-toolkit-core/v5.3.0)
