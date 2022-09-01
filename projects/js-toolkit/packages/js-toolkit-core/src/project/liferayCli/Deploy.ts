@@ -28,18 +28,27 @@ export default class Deploy {
 	storeDir(deployDir: FilePath): void {
 		(this as object)['dir'] = deployDir.resolve();
 
-		this._store('dir');
+		this._store('dir', 'path');
 	}
 
-	_store(property: string): void {
+	_store(property: string, configProperty?: string): void {
+		configProperty = configProperty ?? property;
+
 		const file = this._project.dir.join('.liferay.json');
 
-		const liferayJson = JSON.parse(
-			fs.readFileSync(file.asNative, 'utf8')
-		) as LiferayJson;
+		let liferayJson: LiferayJson = {};
+
+		try {
+			liferayJson = JSON.parse(fs.readFileSync(file.asNative, 'utf8'));
+		}
+		catch (error) {
+			if (error.code !== 'ENOENT') {
+				throw error;
+			}
+		}
 
 		liferayJson.deploy = liferayJson.deploy || {};
-		liferayJson.deploy[property] = this[property].toString();
+		liferayJson.deploy[configProperty] = this[property].toString();
 
 		fs.writeFileSync(
 			file.asNative,
