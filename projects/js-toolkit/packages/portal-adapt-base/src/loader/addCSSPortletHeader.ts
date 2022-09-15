@@ -17,6 +17,12 @@ import replaceTokens from '../util/replaceTokens';
 export interface Options {
 
 	/**
+	 * Path to the CSS file to use as `header-portlet-css` property of the
+	 * portlet.
+	 */
+	css: string;
+
+	/**
 	 * A path that refers to a file inside the project that must exist for the
 	 * loader to be applied.
 	 *
@@ -24,12 +30,6 @@ export interface Options {
 	 * name (just once). This is useful to ignore webpack hashes.
 	 */
 	onlyIf?: string;
-
-	/**
-	 * Path to the CSS file to use as `header-portlet-css` property of the
-	 * portlet.
-	 */
-	css: string;
 }
 
 /**
