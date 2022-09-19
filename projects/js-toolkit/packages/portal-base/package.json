@@ -10,6 +10,7 @@
 		"babel-preset-minify": "^0.5.2",
 		"css-loader": "^6.6.0",
 		"globby": "^10.0.1",
+		"inquirer": "^7.3.1",
 		"jszip": "^3.1.5",
 		"liferay-npm-build-tools-common": "^2.27.0",
 		"liferay-npm-bundler": "^2.27.0",
