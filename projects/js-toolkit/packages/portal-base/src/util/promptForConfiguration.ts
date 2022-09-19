@@ -29,6 +29,7 @@ export default async function promptForConfiguration(
 ): Promise<Answers> {
 	const initialValues = prompts.reduce((values, prompt) => {
 		values[prompt.name] = prompt.default;
+
 		return values;
 	}, {});
 

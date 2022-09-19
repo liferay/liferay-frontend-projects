@@ -9,10 +9,10 @@ import {
 	format,
 } from '@liferay/js-toolkit-core';
 
-const {print, info} = format;
-
 import promptForConfiguration from './util/promptForConfiguration';
 import runConfigureWizard from './util/runConfigureWizard';
+
+const {info, print} = format;
 
 export default async function configureBuild(): Promise<void> {
 	await runConfigureWizard('build', async () => {

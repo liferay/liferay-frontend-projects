@@ -22,7 +22,7 @@ export default async function configureDeploy(): Promise<void> {
 				message: 'What is the path to your local Liferay installation?',
 				name: 'dir',
 				type: 'input',
-				validate: (dir) => {
+				validate: (dir): string | true => {
 					const deployDir = new FilePath(dir as string)
 						.join('osgi', 'modules')
 						.resolve();

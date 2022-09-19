@@ -14,8 +14,8 @@ import fs from 'fs';
 import JSZip from 'jszip';
 import {createInterface} from 'readline';
 
-import createManifest from './util/createManifest';
 import configureDeploy from './configureDeploy';
+import createManifest from './util/createManifest';
 
 const {fail, info, print} = format;
 
