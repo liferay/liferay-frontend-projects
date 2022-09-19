@@ -5,11 +5,22 @@
 
 import LiferayJson from '../../schema/LiferayJson';
 import Project from './Project';
+import persist from './persist';
 
 export default class Start {
 	readonly port: number;
 
-	constructor(_project: Project, liferayJson: LiferayJson) {
+	constructor(project: Project, liferayJson: LiferayJson) {
+		this._project = project;
+
 		this.port = liferayJson.start?.port || 8081;
 	}
+
+	storePort(port: number): void {
+		(this as object)['port'] = port;
+
+		persist(this._project, 'start', 'port');
+	}
+
+	private _project: Project;
 }
