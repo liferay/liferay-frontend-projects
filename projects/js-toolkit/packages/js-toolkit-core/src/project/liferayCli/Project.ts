@@ -20,6 +20,8 @@ import Deploy from './Deploy';
 import Dist from './Dist';
 import Start from './Start';
 
+type Writeable<T> = {-readonly [P in keyof T]: T[P]};
+
 export default class Project {
 	readonly assetsDir: FilePath | null;
 	readonly build: Build;
@@ -33,32 +35,38 @@ export default class Project {
 
 	constructor(projectPath: string) {
 		this.dir = new FilePath(projectPath).resolve();
-		this.assetsDir = this.dir.join('assets');
-		this.srcDir = this.dir.join('src');
+		this.reload();
+	}
+
+	reload(): void {
+		const self = this as Writeable<Project>;
+
+		self.assetsDir = this.dir.join('assets');
+		self.srcDir = this.dir.join('src');
 
 		if (!fs.existsSync(this.assetsDir.asNative)) {
-			this.assetsDir = null;
+			self.assetsDir = null;
 		}
 
-		this.pkgJson = JSON.parse(
+		self.pkgJson = JSON.parse(
 			fs.readFileSync(this.dir.join('package.json').asNative, 'utf8')
 		);
 
 		if (this.pkgJson.main) {
-			this.mainModuleFile = this.dir.join(
+			self.mainModuleFile = this.dir.join(
 				new FilePath(this.pkgJson.main, {posix: true})
 			);
 		}
 		else {
-			this.mainModuleFile = this.srcDir.join('index.js');
+			self.mainModuleFile = this.srcDir.join('index.js');
 		}
 
 		const liferayJson = this._loadLiferayJson();
 
-		this.build = new Build(this, liferayJson);
-		this.deploy = new Deploy(this, liferayJson);
-		this.dist = new Dist(this, liferayJson);
-		this.start = new Start(this, liferayJson);
+		self.build = new Build(this, liferayJson);
+		self.deploy = new Deploy(this, liferayJson);
+		self.dist = new Dist(this, liferayJson);
+		self.start = new Start(this, liferayJson);
 	}
 
 	/**
