@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import {FilePath} from '@liferay/js-toolkit-core';
+import fs from 'fs';
 import {
 	BundlerLoaderContext,
 	BundlerLoaderReturn,
@@ -19,6 +21,15 @@ export interface Options {
 	 * portlet.
 	 */
 	css: string;
+
+	/**
+	 * A path that refers to a file inside the project that must exist for the
+	 * loader to be applied.
+	 *
+	 * Note that it can make use of the '*' glob expression inside the file
+	 * name (just once). This is useful to ignore webpack hashes.
+	 */
+	onlyIf?: string;
 }
 
 /**
@@ -36,7 +47,11 @@ export default function addCSSPortletHeader(
 	options: Options
 ): BundlerLoaderReturn {
 	const {content, log} = context;
-	const {css} = replaceTokens(project.default, options);
+	const {css, onlyIf} = replaceTokens(project.default, options);
+
+	if (!isLoaderApplicable(onlyIf)) {
+		return;
+	}
 
 	const pkgJson = JSON.parse(content);
 
@@ -55,4 +70,44 @@ export default function addCSSPortletHeader(
 	log.info('add-css-portlet-header', `Added ${css} as portlet CSS file`);
 
 	return JSON.stringify(pkgJson, null, '\t');
+}
+
+function isLoaderApplicable(onlyIf?: string): boolean {
+	if (!onlyIf) {
+		return true;
+	}
+
+	const file = new FilePath(onlyIf, {posix: true});
+	const basename = file.basename().asNative;
+
+	if (basename.includes('*')) {
+		const dirname = file.dirname();
+
+		const outDir = project.default.dir.join(...dirname.asPosix.split('/'));
+
+		if (!fs.existsSync(outDir.asNative)) {
+			return false;
+		}
+
+		const [prefix, suffix] = basename.split('*');
+
+		const found = fs
+			.readdirSync(outDir.asNative)
+			.find((item) => item.startsWith(prefix) && item.endsWith(suffix));
+
+		if (!found) {
+			return false;
+		}
+	}
+	else {
+		if (
+			!fs.existsSync(
+				project.default.dir.join(...file.asPosix.split('/')).asNative
+			)
+		) {
+			return false;
+		}
+	}
+
+	return true;
 }

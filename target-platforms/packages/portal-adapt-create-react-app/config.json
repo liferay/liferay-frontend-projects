@@ -96,7 +96,8 @@
 				{
 					"loader": "@liferay/portal-adapt-base/lib/loader/addCSSPortletHeader",
 					"options": {
-						"css": "/static/css/main.css"
+						"css": "/static/css/main.css",
+						"onlyIf": "/build/static/css/main.*.css"
 					}
 				}
 			]
