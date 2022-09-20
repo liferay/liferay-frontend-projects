@@ -7,6 +7,8 @@ import LiferayJson from '../../schema/LiferayJson';
 import Project from './Project';
 import persist from './persist';
 
+import type {Writable} from './Writable';
+
 export default class Start {
 	readonly port: number;
 
@@ -17,7 +19,7 @@ export default class Start {
 	}
 
 	storePort(port: number): void {
-		(this as object)['port'] = port;
+		(this as Writable<Start>).port = port;
 
 		persist(this._project, 'start', 'port');
 	}
