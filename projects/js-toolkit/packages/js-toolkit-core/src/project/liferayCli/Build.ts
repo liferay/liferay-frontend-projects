@@ -110,7 +110,7 @@ export default class Build {
 
 		// Save the option
 
-		(this.options as object)[name] = value;
+		this.options[name] = value;
 
 		persist(this._project, 'build', `options.${name}`, {location});
 	}
