@@ -4,9 +4,8 @@
  */
 
 import {format} from '@liferay/js-toolkit-core';
-import {success} from '@liferay/js-toolkit-core/lib/format';
 
-const {print, text, title} = format;
+const {print, success, text, title} = format;
 
 interface Callback {
 	(): Promise<void>;
