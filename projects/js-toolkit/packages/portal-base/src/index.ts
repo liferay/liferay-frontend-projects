@@ -8,6 +8,9 @@ import path from 'path';
 
 import build from './build';
 import clean from './clean';
+import configureBuild from './configureBuild';
+import configureDeploy from './configureDeploy';
+import configureStart from './configureStart';
 import deploy from './deploy';
 import prepareStart from './prepareStart';
 import start from './start';
@@ -17,6 +20,9 @@ const {fail, print, title} = format;
 export interface Tasks {
 	build?: {(): Promise<void>};
 	clean?: {(): Promise<void>};
+	configureBuild?: {(): Promise<void>};
+	configureDeploy?: {(): Promise<void>};
+	configureStart?: {(): Promise<void>};
 	deploy?: {(): Promise<void>};
 	prepareStart?: {(): Promise<void>};
 	start?: {(): Promise<void>};
@@ -38,6 +44,9 @@ export default async function run(
 	const tasks: Tasks = {
 		build,
 		clean,
+		configureBuild,
+		configureDeploy,
+		configureStart,
 		deploy,
 		prepareStart,
 		start,
@@ -46,10 +55,15 @@ export default async function run(
 
 	switch (cmd) {
 		case 'build':
-			print(
-				title`Building project for target platform: {${pkgJson.name}}`
-			);
-			await tasks.build();
+			if (isSwitchEnabled('configure')) {
+				await tasks.configureBuild();
+			}
+			else {
+				print(
+					title`Building project for target platform: {${pkgJson.name}}`
+				);
+				await tasks.build();
+			}
 			break;
 
 		case 'clean':
@@ -58,25 +72,35 @@ export default async function run(
 			break;
 
 		case 'deploy':
-			if (!isSwitchEnabled('only')) {
-				print(
-					title`Building project for target platform: {${pkgJson.name}}`
-				);
-				await tasks.build();
+			if (isSwitchEnabled('configure')) {
+				await tasks.configureDeploy();
 			}
-			print(title`Deploying project to Liferay local installation`);
-			await tasks.deploy();
+			else {
+				if (!isSwitchEnabled('only')) {
+					print(
+						title`Building project for target platform: {${pkgJson.name}}`
+					);
+					await tasks.build();
+				}
+				print(title`Deploying project to Liferay local installation`);
+				await tasks.deploy();
+			}
 			break;
 
 		case 'start':
-			if (!isSwitchEnabled('only')) {
-				print(
-					title`Deploying live project to Liferay local installation`
-				);
-				await tasks.prepareStart();
+			if (isSwitchEnabled('configure')) {
+				await tasks.configureStart();
 			}
-			print(title`Starting project live development server`);
-			await tasks.start();
+			else {
+				if (!isSwitchEnabled('only')) {
+					print(
+						title`Deploying live project to Liferay local installation`
+					);
+					await tasks.prepareStart();
+				}
+				print(title`Starting project live development server`);
+				await tasks.start();
+			}
 			break;
 
 		default:

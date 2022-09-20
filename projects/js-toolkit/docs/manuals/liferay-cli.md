@@ -174,6 +174,14 @@ $ yarn build ↩
 Note that `npm|yarn run build` is an alias to `liferay build` (you can see that
 by inspecting your project's `package.json` file).
 
+You can configure some options of the `build` command (by means of a simple
+wizard) providing the parameter `--configure`, like this:
+
+```sh
+$ liferay build --configure ↩
+
+```
+
 ## Live Development
 
 The `start` command will serve the current project from a local development
@@ -216,6 +224,14 @@ $ yarn start ↩
 Note that `npm|yarn run start` is an alias to `liferay start` (you can see that
 by inspecting your project's `package.json` file).
 
+You can configure some options of the `start` command (by means of a simple
+wizard) providing the parameter `--configure`, like this:
+
+```sh
+$ liferay start --configure ↩
+
+```
+
 ## Project deployment
 
 The `deploy` command will build[^5] and copy the JAR or ZIP file created by the
@@ -242,6 +258,14 @@ $ yarn deploy ↩
 
 Note that `npm|yarn run deploy` is an alias to `liferay deploy` (you can see
 that by inspecting your project's `package.json` file).
+
+You can configure some options of the `deploy` command (by means of a simple
+wizard) providing the parameter `--configure`, like this:
+
+```sh
+$ liferay deploy --configure ↩
+
+```
 
 ## Project clean
 

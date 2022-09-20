@@ -12,6 +12,7 @@ import LiferayJson, {
 	CustomElementBuildConfig,
 } from '../../schema/LiferayJson';
 import Project from './Project';
+import persist, {Location} from './persist';
 
 type BuildType = 'bundler2' | 'customElement';
 
@@ -27,12 +28,16 @@ export interface CustomElementBuildOptions {
 	minify: boolean;
 }
 
+type OptionValue = boolean | number | string;
+
 export default class Build {
 	readonly dir: FilePath;
 	readonly type: BuildType;
 	readonly options: BuildOptions;
 
 	constructor(project: Project, liferayJson: LiferayJson) {
+		this._project = project;
+
 		const config: BuildConfig = liferayJson.build?.options || {};
 
 		switch (liferayJson.build.type) {
@@ -66,6 +71,48 @@ export default class Build {
 					`Unknown project build type type: ${liferayJson.build.type}`
 				);
 		}
+	}
+
+	storeOption(name: string, value: OptionValue): void {
+		let location: Location = 'user-project';
+
+		// Validate options and decide location
+
+		switch (this.type) {
+			case 'bundler2':
+				switch (name) {
+					case 'minify':
+						break;
+
+					default:
+						throw new Error(`Unknown option: ${name}`);
+				}
+				break;
+
+			case 'customElement':
+				switch (name) {
+					case 'externals':
+					case 'htmlElementName':
+						location = 'project';
+						break;
+
+					case 'minify':
+						break;
+
+					default:
+						throw new Error(`Unknown option: ${name}`);
+				}
+				break;
+
+			default:
+				throw new Error(`Unknown build type: ${this.type}`);
+		}
+
+		// Save the option
+
+		this.options[name] = value;
+
+		persist(this._project, 'build', `options.${name}`, {location});
 	}
 
 	private _toCustomElementBuildOptions(
@@ -123,6 +170,8 @@ export default class Build {
 			minify: process.env.NODE_ENV !== 'development',
 		};
 	}
+
+	private _project: Project;
 }
 
 function findHtmlElementName(file: FilePath): string | undefined {

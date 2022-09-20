@@ -6,18 +6,27 @@
 import {Project, format} from '@liferay/js-toolkit-core';
 import fs from 'fs';
 
-import promptForDeployPath from './util/promptForDeployPath';
+import configureDeploy from './configureDeploy';
 
-const {fail, print, success} = format;
+const {fail, info, print, success, warn} = format;
 
 export default async function deploy(): Promise<void> {
 	const project = new Project('.');
 
-	let deployDir = project.deploy.dir;
+	if (!project.deploy.dir) {
+		print(
+			'',
+			warn`There's no deploy configuration for the project yet`,
+			'',
+			info`The Deploy configuration wizard will be run before doing anything.`
+		);
 
-	if (!deployDir) {
-		deployDir = await promptForDeployPath(project);
+		await configureDeploy();
+
+		project.reload();
 	}
+
+	const deployDir = project.deploy.dir;
 
 	if (!deployDir) {
 		print(fail`No path to Liferay installation given: cannot deploy`);

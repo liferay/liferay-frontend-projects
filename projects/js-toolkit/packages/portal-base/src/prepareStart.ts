@@ -14,8 +14,8 @@ import fs from 'fs';
 import JSZip from 'jszip';
 import {createInterface} from 'readline';
 
+import configureDeploy from './configureDeploy';
 import createManifest from './util/createManifest';
-import promptForDeployPath from './util/promptForDeployPath';
 
 const {fail, info, print} = format;
 
@@ -66,11 +66,20 @@ Are you sure you want to continue (y/N)?`);
 }
 
 async function deployZip(project: Project): Promise<FilePath> {
-	let deployDir = project.deploy.dir;
+	if (!project.deploy.dir) {
+		print(
+			'',
+			warn`There's no deploy configuration for the project yet`,
+			'',
+			info`The Deploy configuration wizard will be run before doing anything.`
+		);
 
-	if (!deployDir) {
-		deployDir = await promptForDeployPath(project);
+		await configureDeploy();
+
+		project.reload();
 	}
+
+	const deployDir = project.deploy.dir;
 
 	if (!deployDir) {
 		print(fail`No path to Liferay installation given: cannot deploy`);
