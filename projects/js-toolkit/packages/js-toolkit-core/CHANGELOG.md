@@ -1,3 +1,11 @@
+## [js-toolkit-core/v5.4.0](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v5.4.0) (2022-09-20)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v5.3.1...js-toolkit-core/v5.4.0)
+
+### :new: Features
+
+-   feat: add --configure option to build, deploy and start command of @liferay/cli ([\#1004](https://github.com/liferay/liferay-frontend-projects/pull/1004))
+
 ## [js-toolkit-core/v5.3.1](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v5.3.1) (2022-09-01)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v5.3.0...js-toolkit-core/v5.3.1)
