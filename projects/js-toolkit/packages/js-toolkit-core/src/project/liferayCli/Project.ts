@@ -20,7 +20,7 @@ import Deploy from './Deploy';
 import Dist from './Dist';
 import Start from './Start';
 
-type Writeable<T> = {-readonly [P in keyof T]: T[P]};
+import type {Writable} from './Writable';
 
 export default class Project {
 	readonly assetsDir: FilePath | null;
@@ -39,7 +39,7 @@ export default class Project {
 	}
 
 	reload(): void {
-		const self = this as Writeable<Project>;
+		const self = this as Writable<Project>;
 
 		self.assetsDir = this.dir.join('assets');
 		self.srcDir = this.dir.join('src');
