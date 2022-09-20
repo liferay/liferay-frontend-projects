@@ -1,3 +1,15 @@
+## [portal-base/v1.5.0](https://github.com/liferay/liferay-frontend-projects/tree/portal-base/v1.5.0) (2022-09-20)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/portal-base/v1.4.0...portal-base/v1.5.0)
+
+### :new: Features
+
+-   feat: add --configure option to build, deploy and start command of @liferay/cli ([\#1004](https://github.com/liferay/liferay-frontend-projects/pull/1004))
+
+### :nail_care: Style
+
+-   style(portal-base): remove deep import ([\#1005](https://github.com/liferay/liferay-frontend-projects/pull/1005))
+
 ## [portal-base/v1.4.0](https://github.com/liferay/liferay-frontend-projects/tree/portal-base/v1.4.0) (2022-08-30)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/portal-base/v1.3.0...portal-base/v1.4.0)
