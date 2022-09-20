@@ -1,3 +1,11 @@
+## [liferay-cli/v1.3.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-cli/v1.3.0) (2022-09-20)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-cli/v1.2.0...liferay-cli/v1.3.0)
+
+### :new: Features
+
+-   feat: add --configure option to build, deploy and start command of @liferay/cli ([\#1004](https://github.com/liferay/liferay-frontend-projects/pull/1004))
+
 ## [liferay-cli/v1.2.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-cli/v1.2.0) (2022-08-30)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-cli/v1.1.0...liferay-cli/v1.2.0)
