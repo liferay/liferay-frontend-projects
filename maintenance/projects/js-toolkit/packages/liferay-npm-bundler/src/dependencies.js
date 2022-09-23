@@ -56,6 +56,17 @@ export function addPackageDependencies(
 	dependencies = Object.keys(dependencies);
 	dependencies = dependencies.concat(extraDependencies);
 
+	// Filter out dependencies that aren't defined in the global config.
+
+	if (project.npmbundlerrc?.config?.strictGlobalDependencies) {
+		const configuredDependencies =
+			project.npmbundlerrc?.config?.imports[packageJson.name] || {};
+
+		dependencies = dependencies.filter(
+			(dependency) => configuredDependencies[dependency]
+		);
+	}
+
 	const dependencyDirs = dependencies
 		.filter(
 			(dependency) =>

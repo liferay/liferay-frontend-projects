@@ -10,7 +10,7 @@ import path from 'path';
 import {addPackageDependencies} from '../dependencies';
 
 expect.extend({
-	toMatchDependencies(deps, ...pkgIds) {
+	toMatchDependencies(deps, pkgIds, projectBaseName) {
 		const missingDeps = [];
 		const extraDeps = [];
 		const invalidDepFields = {};
@@ -26,7 +26,7 @@ expect.extend({
 				let pkgVersion;
 
 				if (pkgId === PkgDesc.ROOT_ID) {
-					pkgName = 'test-project';
+					pkgName = 'test-' + projectBaseName;
 					pkgVersion = '1.0.0';
 				}
 				else {
@@ -104,31 +104,52 @@ expect.extend({
 	},
 });
 
-beforeAll(() => {
-	project.loadFrom(path.join(__dirname, '__fixtures__', 'project'));
-});
-
 it('loads project dependencies correctly', () => {
+	const projectName = 'project';
+	project.loadFrom(path.join(__dirname, '__fixtures__', projectName));
+
 	const deps = addPackageDependencies({}, project.dir.asNative);
 
 	expect(deps).toMatchDependencies(
-		PkgDesc.ROOT_ID,
-		'test-project-dep-0@1.0.0',
-		'test-project-dep-1@1.0.0',
-		'test-project-dep-0@0.1.0'
+		[
+			PkgDesc.ROOT_ID,
+			'test-project-dep-0@1.0.0',
+			'test-project-dep-1@1.0.0',
+			'test-project-dep-0@0.1.0',
+		],
+		projectName
 	);
 });
 
 it('appends extra dependencies correctly', () => {
+	const projectName = 'project';
+	project.loadFrom(path.join(__dirname, '__fixtures__', projectName));
+
 	const deps = addPackageDependencies({}, project.dir.asNative, [
 		'stale-package',
 	]);
 
 	expect(deps).toMatchDependencies(
-		'stale-package@1.0.0',
-		PkgDesc.ROOT_ID,
-		'test-project-dep-0@1.0.0',
-		'test-project-dep-1@1.0.0',
-		'test-project-dep-0@0.1.0'
+		[
+			'stale-package@1.0.0',
+			PkgDesc.ROOT_ID,
+			'test-project-dep-0@1.0.0',
+			'test-project-dep-1@1.0.0',
+			'test-project-dep-0@0.1.0',
+		],
+		projectName
+	);
+});
+
+it('only bundles dependencies defined in global config', () => {
+	const projectName = 'project-strict-dependencies';
+
+	project.loadFrom(path.join(__dirname, '__fixtures__', projectName));
+
+	const deps = addPackageDependencies({}, project.dir.asNative, []);
+
+	expect(deps).toMatchDependencies(
+		[PkgDesc.ROOT_ID, 'test-project-dep-0@1.0.0'],
+		projectName
 	);
 });
