@@ -18,6 +18,7 @@ const ruleTester = new MultiTester(parserOptions);
 ruleTester.run('no-document-cookie', rule, {
 	invalid: [
 		{
+
 			// Assignment expression.
 
 			code: `
@@ -33,6 +34,7 @@ ruleTester.run('no-document-cookie', rule, {
 			],
 		},
 		{
+
 			// Property access expression.
 
 			code: `
@@ -51,6 +53,7 @@ ruleTester.run('no-document-cookie', rule, {
 
 	valid: [
 		{
+
 			// Named import from frontend-js-web
 
 			code: `
@@ -62,6 +65,7 @@ ruleTester.run('no-document-cookie', rule, {
               `,
 		},
 		{
+
 			// Namespaced from Liferay.Util
 
 			code: `

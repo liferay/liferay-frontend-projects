@@ -8,11 +8,14 @@ Examples of **incorrect** code for this rule:
 
 ```js
 function doSomething(name) {
-	return document.cookie.split("; ").find(v => v.startsWith(name))?.split("=")[0];
+	return document.cookie
+		.split('; ')
+		.find((v) => v.startsWith(name))
+		?.split('=')[0];
 }
 
 function doSomethingElse(name, value) {
-    document.cookie += `${name}=${value}`;
+	document.cookie += `${name}=${value}`;
 }
 ```
 
@@ -27,11 +30,14 @@ function doSomething(name) {
 
 function doSomethingElse(name, value, expires) {
 	return setCookie(name, value, COOKIE_TYPES.FUNCTIONAL, {expires});
-
 }
 
 function doSomethingOther(name, value) {
-	return Liferay.Util.Cookie.set(name, value, Liferay.Util.Cookie.TYPES.PERSONALIZATION);
+	return Liferay.Util.Cookie.set(
+		name,
+		value,
+		Liferay.Util.Cookie.TYPES.PERSONALIZATION
+	);
 }
 ```
 
