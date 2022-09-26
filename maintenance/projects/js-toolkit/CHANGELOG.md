@@ -1,3 +1,12 @@
+## [liferay-js-toolkit/v2.29.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.29.0) (2022-09-26)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.28.3...liferay-js-toolkit/v2.29.0)
+
+### :new: Features
+
+-   feat(liferay-npm-bundler): add new configuration "strictGlobalDependencies" which looks at the global bundler config to determine what dependencies to bundle instead of just the module's package.json ([\#1009](https://github.com/liferay/liferay-frontend-projects/pull/1009))
+-   feat(eslint-plugin): handful of additions ([\#949](https://github.com/liferay/liferay-frontend-projects/pull/949))
+
 ## [liferay-js-toolkit/v2.28.3](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.28.3) (2022-01-24)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.28.2...liferay-js-toolkit/v2.28.3)
