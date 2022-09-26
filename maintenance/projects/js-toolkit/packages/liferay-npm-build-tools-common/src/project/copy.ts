@@ -82,5 +82,43 @@ export default class Copy {
 		return util.createBundlerPluginDescriptors(_project, pkgConfig);
 	}
 
+	/**
+	 * Filters out dependencies to bundle based on the global bundler config
+	 * @param dependencies array of dependency names
+	 * @return an array of dependency names
+	 */
+	filterDependencies(dependencies: string[]): string[] {
+		const {globalConfig, pkgJson} = this._project;
+
+		if (!globalConfig?.strictGlobalDependencies) {
+			return dependencies;
+		}
+
+		if (!this._globalDependencyMap) {
+			const dependencyMap = new Map();
+
+			Object.entries(globalConfig?.imports).forEach(
+				([pkgName, deps = {}]) => {
+					dependencyMap.set(pkgName, pkgName);
+
+					Object.keys(deps).forEach((dep) => {
+						dependencyMap.set(dep, pkgName);
+					});
+				}
+			);
+
+			this._globalDependencyMap = dependencyMap;
+		}
+
+		return dependencies.filter(
+			(dependency) =>
+				!this._globalDependencyMap.has(dependency) ||
+				(this._globalDependencyMap.has(dependency) &&
+					this._globalDependencyMap.get(dependency) === pkgJson.name)
+		);
+	}
+
+	private _globalDependencyMap: Map<string, string>;
+
 	private readonly _project: Project;
 }
