@@ -235,6 +235,7 @@ The bundled `@liferay` plugin includes the following [rules](./rules/general/doc
 The bundled `@liferay/portal` plugin includes the following [rules](./rules/portal/docs/rules):
 
 -   [@liferay/portal/deprecation](./rules/portal/docs/rules/deprecation.md): Enforces standard formatting of `@deprecated` annotations.
+-   [@liferay/portal/no-document-cookie](./rules/portal/docs/rules/no-document-cookie.md): Prevents saving and reading cookies without user consent.
 -   [@liferay/portal/no-explicit-extend](./rules/portal/docs/rules/no-explicit-extend.md): Prevents unnecessary extensions in ESLint and Babel configuration files.
 -   [@liferay/portal/no-global-fetch](./rules/portal/docs/rules/no-global-fetch.md): Prevents usage of unwrapped fetch to avoid possible issues related to security misconfiguration.
 -   [@liferay/portal/no-loader-import-specifier](./rules/portal/docs/rules/no-loader-import-specifier.md): Ensures that ".scss" files imported via the loader are used only for side-effects.
