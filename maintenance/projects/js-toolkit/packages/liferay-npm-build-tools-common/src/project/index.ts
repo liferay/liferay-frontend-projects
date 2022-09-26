@@ -33,6 +33,8 @@ export interface PresetInfo {
 	name: string;
 }
 
+type AnyObject = {[key: string]: any};
+
 /**
  * Describes a standard JS Toolkit project.
  */
@@ -103,7 +105,7 @@ export class Project {
 	/**
 	 * Get global plugins configuration.
 	 */
-	get globalConfig(): object {
+	get globalConfig(): AnyObject {
 		const {_npmbundlerrc} = this;
 
 		return prop.get(_npmbundlerrc, 'config', {});
@@ -119,7 +121,7 @@ export class Project {
 	/**
 	 * Get project's parsed package.json file
 	 */
-	get pkgJson(): object {
+	get pkgJson(): AnyObject {
 		return this._pkgJson;
 	}
 
@@ -538,7 +540,11 @@ export class Project {
 	private _configFile: FilePath;
 
 	private _npmbundlerrc: object;
-	private _pkgJson: {dependencies: object; devDependencies: object};
+	private _pkgJson: {
+		dependencies: object;
+		devDependencies: object;
+		name: string;
+	};
 	private _pkgManager: PkgManager;
 
 	/** Info about preset in use */

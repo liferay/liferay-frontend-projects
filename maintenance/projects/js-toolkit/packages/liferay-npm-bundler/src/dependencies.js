@@ -56,6 +56,8 @@ export function addPackageDependencies(
 	dependencies = Object.keys(dependencies);
 	dependencies = dependencies.concat(extraDependencies);
 
+	dependencies = project.copy.filterDependencies(dependencies);
+
 	const dependencyDirs = dependencies
 		.filter(
 			(dependency) =>

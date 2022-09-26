@@ -1,0 +1,13 @@
+{
+	"config": {
+		"imports": {
+			"test-project-strict-dependencies": {
+				"test-project-dep-0": "*"
+			},
+			"some-other-project": {
+				"test-project-dep-1": "*"
+			}
+		},
+		"strictGlobalDependencies": true
+	}
+}
