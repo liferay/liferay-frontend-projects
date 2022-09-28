@@ -1,3 +1,11 @@
+## [js-toolkit-core/v5.4.1](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v5.4.1) (2022-09-28)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v5.4.0...js-toolkit-core/v5.4.1)
+
+### :wrench: Bug fixes
+
+-   fix(js-toolkit-core): deployment wizard fails to persist Liferay's path ([\#1014](https://github.com/liferay/liferay-frontend-projects/pull/1014))
+
 ## [js-toolkit-core/v5.4.0](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v5.4.0) (2022-09-20)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v5.3.1...js-toolkit-core/v5.4.0)
