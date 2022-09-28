@@ -2,7 +2,7 @@
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"dependencies": {
 		"dot-prop": "^5.0.1",
-		"liferay-npm-build-tools-common": "2.30.0",
+		"liferay-npm-build-tools-common": "2.29.0",
 		"read-json-sync": "^2.0.1",
 		"yargs": "^14.0.0",
 		"yeoman-generator": "^3.2.0"
@@ -33,5 +33,5 @@
 		"copyfiles": "node ../../scripts/copyfiles.js",
 		"prepublish": "yarn build"
 	},
-	"version": "2.30.0"
+	"version": "2.29.0"
 }

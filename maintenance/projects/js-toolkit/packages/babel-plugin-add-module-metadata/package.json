@@ -1,7 +1,7 @@
 {
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"dependencies": {
-		"liferay-npm-build-tools-common": "2.30.0",
+		"liferay-npm-build-tools-common": "2.29.0",
 		"read-json-sync": "^2.0.1"
 	},
 	"description": "A Babel plugin to add AMD modules' metadata to the manifest.json file.",
@@ -17,5 +17,5 @@
 		"copyfiles": "node ../../scripts/copyfiles.js",
 		"prepublish": "yarn build"
 	},
-	"version": "2.30.0"
+	"version": "2.29.0"
 }
