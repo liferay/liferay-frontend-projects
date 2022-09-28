@@ -1,3 +1,11 @@
+## [liferay-js-toolkit/v2.30.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.30.0) (2022-09-28)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.29.0...liferay-js-toolkit/v2.30.0)
+
+### :wrench: Bug fixes
+
+-   fix: MVC portlet source maps point to a wrong place ([\#1012](https://github.com/liferay/liferay-frontend-projects/pull/1012))
+
 ## [liferay-js-toolkit/v2.29.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.29.0) (2022-09-26)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.28.3...liferay-js-toolkit/v2.29.0)
