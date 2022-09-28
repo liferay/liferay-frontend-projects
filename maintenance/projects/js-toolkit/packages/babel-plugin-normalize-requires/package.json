@@ -1,7 +1,7 @@
 {
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"dependencies": {
-		"liferay-npm-build-tools-common": "2.29.0"
+		"liferay-npm-build-tools-common": "2.30.0"
 	},
 	"description": "A Babel plugin that rewrites require() calls to normalize them (removing extensions and trailing slashes, for example).",
 	"main": "lib/index.js",
@@ -16,5 +16,5 @@
 		"copyfiles": "node ../../scripts/copyfiles.js",
 		"prepublish": "yarn build"
 	},
-	"version": "2.29.0"
+	"version": "2.30.0"
 }
