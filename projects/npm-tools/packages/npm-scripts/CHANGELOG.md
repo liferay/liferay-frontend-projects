@@ -1,3 +1,12 @@
+## [npm-scripts/v47.7.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.7.0) (2022-09-28)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.6.1...npm-scripts/v47.7.0)
+
+### :new: Features
+
+-   feat(npm-scripts): update to latest js-toolkit@v2 for new bundler process with globally defined dependencies ([\#1011](https://github.com/liferay/liferay-frontend-projects/pull/1011))
+-   feat(npm-scripts): update theme-tasks dependency ([\#971](https://github.com/liferay/liferay-frontend-projects/pull/971))
+
 ## [npm-scripts/v47.6.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.6.1) (2022-07-06)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.6.0...npm-scripts/v47.6.1)
