@@ -23,10 +23,10 @@ export default function persist(
 	property: string,
 	options: Options = {location: 'user-project'}
 ): void {
-	const {location} = options;
-	let {configProperty} = options;
+	let {configProperty, location} = options;
 
 	configProperty = configProperty ?? property;
+	location = location ?? 'user-project';
 
 	let file: FilePath;
 
