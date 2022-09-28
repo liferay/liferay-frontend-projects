@@ -4,7 +4,11 @@
 		".babelrc": {
 			"presets": ["liferay-standard"]
 		},
-		"post-plugins": ["namespace-packages", "inject-imports-dependencies"]
+		"post-plugins": [
+			"namespace-packages",
+			"inject-imports-dependencies",
+			"tweak-sourcemaps"
+		]
 	},
 	"*": {
 		"copy-plugins": ["exclude-imports"],
