@@ -7,7 +7,8 @@
 		"liferay-npm-bundler-plugin-inject-peer-dependencies": "2.29.0",
 		"liferay-npm-bundler-plugin-namespace-packages": "2.29.0",
 		"liferay-npm-bundler-plugin-replace-browser-modules": "2.29.0",
-		"liferay-npm-bundler-plugin-resolve-linked-dependencies": "2.29.0"
+		"liferay-npm-bundler-plugin-resolve-linked-dependencies": "2.29.0",
+		"liferay-npm-bundler-plugin-tweak-sourcemaps": "2.29.0"
 	},
 	"description": "Standard configuration for liferay-npm-bundler.",
 	"main": "config.json",
