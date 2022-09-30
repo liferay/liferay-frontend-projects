@@ -18,6 +18,7 @@ const ruleTester = new MultiTester(parserOptions);
 ruleTester.run('no-global-storage', rule, {
 	invalid: [
 		{
+
 			// As a global localStorage without an import.
 
 			code: `
@@ -33,6 +34,7 @@ ruleTester.run('no-global-storage', rule, {
 			],
 		},
 		{
+
 			// As a global sessionStorage without an import.
 
 			code: `
@@ -51,6 +53,7 @@ ruleTester.run('no-global-storage', rule, {
 
 	valid: [
 		{
+
 			// Named import from frontend-js-web
 
 			code: `
@@ -62,6 +65,7 @@ ruleTester.run('no-global-storage', rule, {
              `,
 		},
 		{
+
 			// Named import from frontend-js-web
 
 			code: `
@@ -73,6 +77,7 @@ ruleTester.run('no-global-storage', rule, {
              `,
 		},
 		{
+
 			// Unnamed import from '../local_storage'
 
 			code: `
@@ -84,6 +89,7 @@ ruleTester.run('no-global-storage', rule, {
              `,
 		},
 		{
+
 			// Unnamed import from '../session_storage'
 
 			code: `
@@ -95,6 +101,7 @@ ruleTester.run('no-global-storage', rule, {
              `,
 		},
 		{
+
 			// Unnamed import from './util/local_storage'
 
 			code: `
@@ -106,6 +113,7 @@ ruleTester.run('no-global-storage', rule, {
              `,
 		},
 		{
+
 			// Unnamed import from './util/session_storage'
 
 			code: `
@@ -117,6 +125,7 @@ ruleTester.run('no-global-storage', rule, {
              `,
 		},
 		{
+
 			// Namespaced from Liferay.Util
 
 			code: `
@@ -126,6 +135,7 @@ ruleTester.run('no-global-storage', rule, {
              `,
 		},
 		{
+
 			// Namespaced from Liferay.Util
 
 			code: `

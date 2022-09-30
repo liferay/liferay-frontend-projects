@@ -8,11 +8,11 @@ Examples of **incorrect** code for this rule:
 
 ```js
 function doSomething() {
-	return localStorage.setItem("key", "value");
+	return localStorage.setItem('key', 'value');
 }
 
 function doSomething() {
-	return sessionStorage.setItem("key", "value");
+	return sessionStorage.setItem('key', 'value');
 }
 ```
 
@@ -22,15 +22,19 @@ Examples of **correct** code for this rule:
 import {localStorage, sessionStorage} from 'frontend-js-web';
 
 function doSomething() {
-	return localStorage.setItem("key", "value", localStorage.TYPES.NECESSARY);
+	return localStorage.setItem('key', 'value', localStorage.TYPES.NECESSARY);
 }
 
 function doSomethingElse() {
-	return sessionStorage.getItem("key", sessionStorage.TYPES.FUNCTIONAL)
+	return sessionStorage.getItem('key', sessionStorage.TYPES.FUNCTIONAL);
 }
 
 function doSomethingElse() {
-	return Liferay.Util.LocalStorage.setItem("key", "value", Liferay.Util.LocalStorage.TYPES.NECESSARY);
+	return Liferay.Util.LocalStorage.setItem(
+		'key',
+		'value',
+		Liferay.Util.LocalStorage.TYPES.NECESSARY
+	);
 }
 ```
 
@@ -38,4 +42,3 @@ function doSomethingElse() {
 
 -   [LPS-155901 Manage local and session storage from the cookie manager](https://issues.liferay.com/browse/LPS-155901)
 -   [Technical Draft](https://liferay.atlassian.net/l/cp/sWhsAp11)
-

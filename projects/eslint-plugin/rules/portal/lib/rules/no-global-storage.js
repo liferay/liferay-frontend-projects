@@ -42,10 +42,7 @@ module.exports = {
 
 		return {
 			Identifier(node) {
-				if (
-					isStorageIdentifier(node) &&
-					!foundStorageImport
-				) {
+				if (isStorageIdentifier(node) && !foundStorageImport) {
 					context.report({
 						messageId: 'noGlobalStorage',
 						node,
