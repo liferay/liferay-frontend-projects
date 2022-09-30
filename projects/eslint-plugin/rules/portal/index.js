@@ -9,6 +9,7 @@ module.exports = {
 	'portal/no-document-cookie': require('./lib/rules/no-document-cookie'),
 	'portal/no-explicit-extend': require('./lib/rules/no-explicit-extend'),
 	'portal/no-global-fetch': require('./lib/rules/no-global-fetch'),
+	'portal/no-global-storage': require('./lib/rules/no-global-storage'),
 	'portal/no-loader-import-specifier': require('./lib/rules/no-loader-import-specifier'),
 	'portal/no-localhost-reference': require('./lib/rules/no-localhost-reference'),
 	'portal/no-metal-plugins': require('./lib/rules/no-metal-plugins'),

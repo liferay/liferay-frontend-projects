@@ -13,6 +13,7 @@ const config = {
 		'@liferay/portal/no-document-cookie': 'error',
 		'@liferay/portal/no-explicit-extend': 'error',
 		'@liferay/portal/no-global-fetch': 'error',
+		'@liferay/portal/no-global-storage': 'error',
 		'@liferay/portal/no-loader-import-specifier': 'error',
 		'@liferay/portal/no-localhost-reference': 'error',
 		'@liferay/portal/no-metal-plugins': 'error',
