@@ -137,9 +137,16 @@ var ParseContent = A.Component.create({
          * Global eval the <data>data</data> passed.
          *
          * @method globalEval
-         * @param {String} data JavaScript String.
+         * @param {Object|String} data JavaScript String.
          */
         globalEval: function(data) {
+            if (typeof data === 'string') {
+                data = {
+                    text: data,
+                    type: 'text/javascript',
+                };
+            }
+
             var doc = A.getDoc();
             var head = doc.one('head') || doc.get('documentElement');
 
@@ -147,11 +154,13 @@ var ParseContent = A.Component.create({
             // on Opera
             var newScript = DOC.createElement('script');
 
-            newScript.type = 'text/javascript';
+            newScript.type = data.type;
 
-            if (data) {
+            if (data.text) {
+
                 // NOTE: newScript.set(TEXT, data) breaks on IE, YUI BUG.
-                newScript.text = L.trim(data);
+
+                newScript.text = L.trim(data.text);
             }
 
             //removes the script node immediately after executing it
@@ -174,25 +183,6 @@ var ParseContent = A.Component.create({
             instance._dispatch(output);
 
             return output;
-        },
-
-        /**
-         * Add inline script data to the queue.
-         *
-         * @method _addInlineScript
-         * @param {String} data The script content which should be added to the
-         *     queue
-         * @protected
-         */
-        _addInlineScript: function(data) {
-            var instance = this;
-
-            instance.get('queue').add({
-                args: data,
-                context: instance,
-                fn: instance.globalEval,
-                timeout: 0
-            });
         },
 
         /**
@@ -300,18 +290,10 @@ var ParseContent = A.Component.create({
 
             var queue = instance.get('queue');
 
-            var scriptContent = [];
-
             output.js.each(function(node) {
                 var src = node.get('src');
 
                 if (src) {
-                    if (scriptContent.length) {
-                        instance._addInlineScript(scriptContent.join(';'));
-
-                        scriptContent.length = 0;
-                    }
-
                     queue.add({
                         autoContinue: false,
                         fn: function() {
@@ -330,13 +312,20 @@ var ParseContent = A.Component.create({
                 else {
                     var dom = node._node;
 
-                    scriptContent.push(dom.text || dom.textContent || dom.innerHTML || '');
+                    queue.add({
+                        args: {
+                            type: dom.type,
+                            text: dom.text ||
+                                dom.textContent ||
+                                dom.innerHTML ||
+                                '',
+                        },
+                        context: instance,
+                        fn: instance.globalEval,
+                        timeout: 0,
+                    });
                 }
             });
-
-            if (scriptContent.length) {
-                instance._addInlineScript(scriptContent.join(';'));
-            }
 
             queue.run();
         }
