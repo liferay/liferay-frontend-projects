@@ -68,9 +68,9 @@ Widget (portlet) that can be added to any page.
 
 The project may support different features like:
 
--   [Localization](./features/localization.md) and
--   [Configuration](./features/configuration.md), and it follows the
--   Follows the [JavaScript portlet entry point](./reference/js-portlet-entry-point.md) contract.
+-   [Localization](../features/localization.md) and
+-   [Configuration](../features/configuration.md), and it follows the
+-   Follows the [JavaScript portlet entry point](../reference/js-portlet-entry-point.md) contract.
 
 ##### Liferay Remote App
 
@@ -79,7 +79,7 @@ Remote Apps implement a
 that can be registered with Liferay DXP in the Remote Apps configuration. This
 generates a new Widget that is rendered using the custom element, instead of
 using the
-[JavaScript portlet entry point](./reference/js-portlet-entry-point.md) method.
+[JavaScript portlet entry point](../reference/js-portlet-entry-point.md) method.
 
 Currently only [React](https://reactjs.org/) framework is supported[^1], and you
 can decide whether to use the React copy Liferay DXP uses at runtime, or bring
@@ -148,7 +148,7 @@ Once the project is adapted you may use the `build:liferay`, `deploy:liferay`,
 Liferay project (ie: one that had been generated with `liferay new`).
 
 Learn more about project adaptation in the
-[adaptation process manual](../../docs/manuals/adaptation-process.md).
+[adaptation process manual](./adaptation-process.md).
 
 ## Project build
 
