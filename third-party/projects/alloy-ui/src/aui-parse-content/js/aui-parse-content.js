@@ -21,6 +21,7 @@ var L = A.Lang,
     SCRIPT_TYPES = {
         '': 1,
         'module': 1,
+        'module-shim': 1,
         'text/javascript': 1,
         'text/parsed': 1
     };
