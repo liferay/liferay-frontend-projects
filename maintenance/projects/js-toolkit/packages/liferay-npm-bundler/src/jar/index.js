@@ -12,7 +12,6 @@ import path from 'path';
 
 import * as ddm from './ddm';
 import Manifest from './manifest';
-import * as osgi from './osgi';
 import * as xml from './xml';
 
 const pkgJson = project.pkgJson;
@@ -106,12 +105,12 @@ function addLocalizationFiles(zip) {
  * @param {JSZip} zip the ZIP file
  */
 function addManifest(zip) {
-	const bundleVersion = osgi.getBundleVersionAndClassifier(pkgJson.version);
-
 	const manifest = new Manifest();
 
 	manifest.bundleSymbolicName = pkgJson.name;
-	manifest.bundleVersion = bundleVersion;
+	manifest.bundleVersion = pkgJson.version;
+	const bundleVersion = manifest.bundleVersion;
+
 	if (pkgJson.description) {
 		manifest.bundleName = pkgJson.description;
 	}
