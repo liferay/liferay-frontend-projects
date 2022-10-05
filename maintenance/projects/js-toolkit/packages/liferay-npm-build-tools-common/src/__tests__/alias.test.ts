@@ -75,10 +75,10 @@ describe('loadAliases', () => {
 		).not.toThrow();
 	});
 
-	it('throws when package.json is not valid JSON', () => {
-		expect(() =>
+	it('returns empty json when package.json is not valid JSON', () => {
+		expect(
 			loadAliases(fixturesDir.join('invalid.json'), ['browser'])
-		).toThrow();
+		).toMatchObject({});
 	});
 
 	it('caches calls correctly', () => {
