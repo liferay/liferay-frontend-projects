@@ -154,10 +154,9 @@ function safeReadJsonSync(pkgJsonFile: FilePath): object {
 		return readJsonSync(pkgJsonFile.asNative);
 	}
 	catch (err) {
-		if (err.code === 'ENOENT') {
-			return {};
-		}
 
-		throw err;
+		// Always return some sort of JSON if reading the file fails
+
+		return {};
 	}
 }
