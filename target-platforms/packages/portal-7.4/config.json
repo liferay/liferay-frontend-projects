@@ -20,13 +20,28 @@
 	},
 	"config": {
 		"imports": {
+			"@liferay/address-web": {
+				"/": "*"
+			},
+			"@liferay/content-dashboard-web": {
+				"/": "*"
+			},
 			"@liferay/document-library-preview-css": {
+				"/": "*"
+			},
+			"@liferay/document-library-web": {
+				"/": "*"
+			},
+			"@liferay/flags-taglib": {
 				"/": "*"
 			},
 			"@liferay/fragment-renderer-collection-filter-impl": {
 				"/": "*"
 			},
 			"@liferay/frontend-data-set-web": {
+				"/": "*"
+			},
+			"@liferay/frontend-icons-web": {
 				"/": "*"
 			},
 			"@liferay/frontend-js-a11y-web": {
@@ -45,6 +60,9 @@
 			"@liferay/frontend-js-state-web": {
 				"/": "*"
 			},
+			"@liferay/frontend-js-walkthrough-web": {
+				"/": "*"
+			},
 			"@liferay/frontend-taglib": {
 				"/": "*"
 			},
@@ -58,6 +76,9 @@
 				"/": "*"
 			},
 			"@liferay/map-openstreetmap": {
+				"/": "*"
+			},
+			"@liferay/object-js-components-web": {
 				"/": "*"
 			},
 			"asset-taglib": {
@@ -184,6 +205,7 @@
 				"@clayui/card": "*",
 				"@clayui/charts": "*",
 				"@clayui/color-picker": "*",
+				"@clayui/core": "*",
 				"@clayui/css": "*",
 				"@clayui/data-provider": "*",
 				"@clayui/date-picker": "*",
@@ -196,6 +218,7 @@
 				"@clayui/link": "*",
 				"@clayui/list": "*",
 				"@clayui/loading-indicator": "*",
+				"@clayui/localized-input": "*",
 				"@clayui/management-toolbar": "*",
 				"@clayui/modal": "*",
 				"@clayui/multi-select": "*",
@@ -213,6 +236,7 @@
 				"@clayui/table": "*",
 				"@clayui/tabs": "*",
 				"@clayui/time-picker": "*",
+				"@clayui/toolbar": "*",
 				"@clayui/tooltip": "*",
 				"@clayui/upper-toolbar": "*",
 				"clay": "*",
@@ -248,6 +272,9 @@
 				"clay-tooltip": "*"
 			},
 			"item-selector-taglib": {
+				"/": "*"
+			},
+			"social-bookmarks-taglib": {
 				"/": "*"
 			}
 		}
