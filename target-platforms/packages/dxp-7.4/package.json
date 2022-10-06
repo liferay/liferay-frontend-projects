@@ -156,7 +156,7 @@
 		"senna": "2.7.9",
 		"xss-filters": "1.2.7"
 	},
-	"description": "Target platform for Liferay Portal 7.4.13-u3",
+	"description": "Target platform for Liferay Portal 7.4.13-u4",
 	"main": "config.json",
 	"name": "@liferay/dxp-7.4",
 	"scripts": {
@@ -170,5 +170,5 @@
 		"preversion": "yarn ci",
 		"test": "cd ../.. && yarn test"
 	},
-	"version": "4.0.0"
+	"version": "5.0.0"
 }
