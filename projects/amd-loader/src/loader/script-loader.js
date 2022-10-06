@@ -70,7 +70,7 @@ export default class ScriptLoader {
 			script.async = false;
 
 			if (modulesURL.useESM) {
-				script.type = 'module';
+				script.type = config.moduleType;
 			}
 
 			script.onload = script.onreadystatechange = () => {

@@ -31,6 +31,7 @@ export default class Config {
 		this._parse(cfg, 'url', '');
 		this._parse(cfg, 'urlMaxLength', 2000);
 		this._parse(cfg, 'logLevel', 'error');
+		this._parse(cfg, 'moduleType', 'module');
 	}
 
 	/**
@@ -92,6 +93,13 @@ export default class Config {
 
 	get logLevel() {
 		return this._config.logLevel;
+	}
+
+	/**
+	 * The type to use for ESM <script> nodes.
+	 */
+	get moduleType() {
+		return this._config.moduleType;
 	}
 
 	/**
