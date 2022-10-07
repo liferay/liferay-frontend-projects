@@ -45,5 +45,5 @@
 		"proxyPortal": "webpack-dev-server --config webpack.proxyPortal.js",
 		"test": "liferay-workspace-scripts test"
 	},
-	"version": "5.1.0"
+	"version": "5.2.0"
 }

@@ -1,3 +1,11 @@
+## [amd-loader/v5.2.0](https://github.com/liferay/liferay-frontend-projects/tree/amd-loader/v5.2.0) (2022-10-07)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/amd-loader/v5.1.0...amd-loader/v5.2.0)
+
+### :new: Features
+
+-   feat(amd-loader): add moduleType configuration setting ([\#1025](https://github.com/liferay/liferay-frontend-projects/pull/1025))
+
 ## [amd-loader/v5.1.0](https://github.com/liferay/liferay-frontend-projects/tree/amd-loader/v5.1.0) (2022-04-08)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/amd-loader/v5.0.0...amd-loader/v5.1.0)
