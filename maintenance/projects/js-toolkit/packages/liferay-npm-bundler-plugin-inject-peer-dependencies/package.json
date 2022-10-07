@@ -2,7 +2,7 @@
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"dependencies": {
 		"globby": "^10.0.1",
-		"liferay-npm-build-tools-common": "2.30.0",
+		"liferay-npm-build-tools-common": "2.31.0",
 		"read-json-sync": "^2.0.1",
 		"resolve": "^1.8.1"
 	},
@@ -19,5 +19,5 @@
 		"copyfiles": "node ../../scripts/copyfiles.js",
 		"prepublish": "yarn build"
 	},
-	"version": "2.30.0"
+	"version": "2.31.0"
 }
