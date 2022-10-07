@@ -1,3 +1,11 @@
+## [liferay-js-toolkit/v2.31.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.31.0) (2022-10-07)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.30.0...liferay-js-toolkit/v2.31.0)
+
+### :wrench: Bug fixes
+
+-   fix(js-toolkit): stop throwing an error and instead return empty json ([\#1021](https://github.com/liferay/liferay-frontend-projects/pull/1021))
+
 ## [liferay-js-toolkit/v2.30.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.30.0) (2022-09-28)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.29.0...liferay-js-toolkit/v2.30.0)
