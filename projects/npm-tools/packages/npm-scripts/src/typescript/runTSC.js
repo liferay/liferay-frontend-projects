@@ -70,6 +70,40 @@ async function runTSC() {
 	return true;
 }
 
+/**
+ * Removes stale defintion files when the source file no longer exists.
+ * For example, if you rename or remove a file, we need to make sure and
+ * remove the old stale defintions.
+ */
+function removeStaleFile(filepath, baseDir) {
+	const relativePath = filepath.replace(path.normalize(baseDir) + '/', '');
+
+	// Remove .d.ts extension
+
+	const sourceFileNoExt = path
+		.join(process.cwd(), relativePath)
+		.replace('.d.ts', '');
+
+	const sourceFileTS = sourceFileNoExt + '.ts';
+	const sourceFileTSX = sourceFileNoExt + '.tsx';
+
+	const sourceFileTSExists = fs.existsSync(sourceFileTS);
+
+	if (!sourceFileTSExists && !fs.existsSync(sourceFileTSX)) {
+		const sourceFilePath = sourceFileTSExists
+			? sourceFileTS
+			: sourceFileTSX;
+
+		console.log('Source file does not exist. Removing: ', sourceFilePath);
+
+		fs.unlinkSync(sourceFilePath);
+
+		return true;
+	}
+
+	return false;
+}
+
 async function postProcess({compilerOptions: {outDir: baseDir}}) {
 	if (!fs.existsSync(baseDir)) {
 		return;
@@ -85,6 +119,12 @@ async function postProcess({compilerOptions: {outDir: baseDir}}) {
 
 	for (const filepath of paths) {
 		try {
+			const removed = removeStaleFile(filepath, baseDir);
+
+			if (removed) {
+				continue;
+			}
+
 			const source = fs.readFileSync(filepath, 'utf8');
 
 			const prettierOptions = {
