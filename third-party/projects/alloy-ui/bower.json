@@ -7,7 +7,7 @@
 	"keywords": ["alloy", "alloyui", "aui", "yui", "yui3"],
 	"license": "BSD",
 	"dependencies": {
-		"yui3": "liferay/yui3#patched-v3.18.4"
+		"yui3": "liferay/yui3#patched-v3.18.5"
 	},
 	"devDependencies": {
 		"ace-builds": "1.4.6",
