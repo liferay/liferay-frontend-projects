@@ -71,9 +71,9 @@ async function runTSC() {
 }
 
 /**
- * Removes stale defintion files when the source file no longer exists.
+ * Removes stale definition files when the source file no longer exists.
  * For example, if you rename or remove a file, we need to make sure and
- * remove the old stale defintions.
+ * remove the old stale definitions.
  */
 function removeStaleFile(filepath, baseDir) {
 	const relativePath = filepath.replace(path.normalize(baseDir) + '/', '');
@@ -94,6 +94,7 @@ function removeStaleFile(filepath, baseDir) {
 			? sourceFileTS
 			: sourceFileTSX;
 
+		// eslint-disable-next-line no-console
 		console.log('Source file does not exist. Removing: ', sourceFilePath);
 
 		fs.unlinkSync(sourceFilePath);

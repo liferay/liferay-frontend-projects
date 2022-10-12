@@ -18,7 +18,7 @@
 		"tsBuildInfoFile": "tmp/tsconfig.tsbuildinfo",
 		"typeRoots": []
 	},
-	"include": ["src/**/*"],
 	"exclude": ["test/**/*", "**/__tests__/**"],
+	"include": ["src/**/*"],
 	"references": []
 }
