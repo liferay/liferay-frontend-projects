@@ -1,3 +1,12 @@
+## [eslint-plugin/v1.4.0](https://github.com/liferay/liferay-frontend-projects/tree/eslint-plugin/v1.4.0) (2022-10-12)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-plugin/v1.3.0...eslint-plugin/v1.4.0)
+
+### :new: Features
+
+-   feat(eslint-plugin): add ESLint rule to disable non-wrapped web storage API ([\#1016](https://github.com/liferay/liferay-frontend-projects/pull/1016))
+-   feat(eslint-plugin): add ESLint rule to prevent usage of document.cookie ([\#1008](https://github.com/liferay/liferay-frontend-projects/pull/1008))
+
 ## [eslint-plugin/v1.3.0](https://github.com/liferay/liferay-frontend-projects/tree/eslint-plugin/v1.3.0) (2022-06-15)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-plugin/v1.2.0...eslint-plugin/v1.3.0)
