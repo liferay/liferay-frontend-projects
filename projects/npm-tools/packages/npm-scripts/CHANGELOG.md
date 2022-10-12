@@ -1,3 +1,12 @@
+## [npm-scripts/v47.8.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.8.0) (2022-10-12)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.7.0...npm-scripts/v47.8.0)
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): update to use latest eslint-plugin ([\#1029](https://github.com/liferay/liferay-frontend-projects/pull/1029))
+-   fix(npm-scripts): update ts generation ([\#1028](https://github.com/liferay/liferay-frontend-projects/pull/1028))
+
 ## [npm-scripts/v47.7.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.7.0) (2022-09-28)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.6.1...npm-scripts/v47.7.0)
