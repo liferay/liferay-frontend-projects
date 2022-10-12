@@ -165,7 +165,7 @@ describe('configureTypeScript()', () => {
 		it('returns the config', () => {
 			const config = {
 				...BASE_CONFIG,
-				'@generated': 'bcba4b119d3cf7bdcb52b5d3d5a71d24f5290ca2',
+				'@generated': '3d2807d09e607faff97806d68355e6f9a8c32674',
 				'compilerOptions': {
 					...BASE_CONFIG.compilerOptions,
 					typeRoots: [
