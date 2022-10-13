@@ -1,3 +1,11 @@
+## [npm-scripts/v47.8.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.8.1) (2022-10-13)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.8.0...npm-scripts/v47.8.1)
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): check config if tsc is disables for 'types' command ([\#1030](https://github.com/liferay/liferay-frontend-projects/pull/1030))
+
 ## [npm-scripts/v47.8.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.8.0) (2022-10-12)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.7.0...npm-scripts/v47.8.0)
