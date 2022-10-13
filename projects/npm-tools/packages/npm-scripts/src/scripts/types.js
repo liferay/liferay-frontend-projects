@@ -9,6 +9,7 @@ const getTypeScriptBuildOrder = require('../typescript/getTypeScriptBuildOrder')
 const getTypeScriptDependencyGraph = require('../typescript/getTypeScriptDependencyGraph');
 const runTSC = require('../typescript/runTSC');
 const findRoot = require('../utils/findRoot');
+const getMergedConfig = require('../utils/getMergedConfig');
 const log = require('../utils/log');
 
 async function types() {
@@ -37,12 +38,29 @@ async function types() {
 	for (let i = 0; i < projects.length; i++) {
 		const {directory, name} = projects[i];
 
-		log(`Generating types (${i + 1} of ${projects.length}): ${name}`);
-
 		try {
 			process.chdir(directory);
 
-			if (await runTSC()) {
+			const config = getMergedConfig('npmscripts');
+
+			const {build: BUILD_CONFIG} = config;
+
+			if (BUILD_CONFIG.tsc !== false) {
+				log(
+					`Generating types (${i + 1} of ${projects.length}): ${name}`
+				);
+
+				if (await runTSC()) {
+					upToDateCount++;
+				}
+			}
+			else {
+				log(
+					`Skipping types for (${i + 1} of ${
+						projects.length
+					}): ${name}(config.build.tsc=false)`
+				);
+
 				upToDateCount++;
 			}
 		}
