@@ -205,7 +205,9 @@ module.exports = async function (...args) {
 				};
 			}
 
-			createEsm2AmdIndexBridge(CWD, BUILD_CONFIG, manifest);
+			if (BUILD_CONFIG.main) {
+				createEsm2AmdIndexBridge(CWD, BUILD_CONFIG, manifest);
+			}
 
 			createEsm2AmdExportsBridges(CWD, BUILD_CONFIG, manifest);
 

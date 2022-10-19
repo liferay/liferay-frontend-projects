@@ -50,6 +50,10 @@ Liferay.Loader.define(
 
 	fs.writeFileSync(path.resolve(output, 'index.js'), bridgeSource, 'utf8');
 
+	manifest.packages = manifest.packages ?? {};
+	manifest.packages['/'] = manifest.packages['/'] ?? {};
+	manifest.packages['/'].modules = manifest.packages['/'].modules ?? {};
+
 	manifest.packages['/'].modules['index.js'] = {
 		flags: {
 			esModule: true,
