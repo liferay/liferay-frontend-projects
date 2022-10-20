@@ -1,3 +1,11 @@
+## [npm-scripts/v47.8.2](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.8.2) (2022-10-20)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.8.1...npm-scripts/v47.8.2)
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): don't fail when there's no main entry in build config ([\#1033](https://github.com/liferay/liferay-frontend-projects/pull/1033))
+
 ## [npm-scripts/v47.8.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.8.1) (2022-10-13)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.8.0...npm-scripts/v47.8.1)
