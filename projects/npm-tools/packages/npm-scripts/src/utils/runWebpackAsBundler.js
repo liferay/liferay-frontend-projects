@@ -180,6 +180,10 @@ function getEntryImportDescriptor(exportsItem) {
 
 				return module;
 			}, {});
+
+			if (exportsItem.format === 'esm') {
+				module.__esModule = true;
+			}
 		}
 
 		const nonDefaultFields = Object.keys(module)
@@ -207,10 +211,7 @@ const {
 ${nonDefaultFields}
 } = x;
 
-const __esModule = true;
-
 export {
-	__esModule,
 	def as default,
 ${nonDefaultFields}
 };
