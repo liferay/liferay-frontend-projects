@@ -1,3 +1,11 @@
+## [npm-scripts/v47.8.3](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.8.3) (2022-10-24)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.8.2...npm-scripts/v47.8.3)
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): fix exports when explicit symbols are used for ESM ([\#1035](https://github.com/liferay/liferay-frontend-projects/pull/1035))
+
 ## [npm-scripts/v47.8.2](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.8.2) (2022-10-20)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.8.1...npm-scripts/v47.8.2)
