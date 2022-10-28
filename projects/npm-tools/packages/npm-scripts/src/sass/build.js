@@ -85,31 +85,6 @@ function copyFile(filePath, baseDir, outputDir) {
 
 const SASS_DIR = '.sass-cache';
 
-function isModified(filePaths, buildDirectory, baseDir) {
-	for (const filePath of filePaths) {
-		const subDirectory = path.dirname(path.relative(baseDir, filePath));
-
-		const cachedFile = path.join(
-			buildDirectory,
-			subDirectory,
-			path.basename(filePath)
-		);
-
-		if (!fs.existsSync(cachedFile)) {
-			return true;
-		}
-
-		const cachedFileStats = fs.statSync(cachedFile);
-		const srcFileStats = fs.statSync(filePath);
-
-		if (cachedFileStats.mtime.getTime() !== srcFileStats.mtime.getTime()) {
-			return true;
-		}
-	}
-
-	return false;
-}
-
 function appendTimestamps(contentBuffer, timestamp) {
 	let contentString = contentBuffer.toString();
 
@@ -164,12 +139,6 @@ function main(
 
 	if (!entryFiles.length) {
 		log(`BUILD SASS: No scss files found.`);
-
-		return;
-	}
-
-	if (!isModified([...entryFiles, ...partials], outputDir, baseDir)) {
-		log(`BUILD SASS: Skipped, no changes detected.`);
 
 		return;
 	}

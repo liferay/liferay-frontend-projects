@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`caching build artifacts set build cache stores build artifacts in cache 1`] = `"{\\"builtFiles\\":{\\"build/packageRunBuild/index.js\\":\\"ee45f3714a404c5b444eae7cb0d68141389cf331\\"},\\"srcFiles\\":{\\"/Users/bryceosterhaus/repos/liferay-frontend-projects/projects/npm-tools/packages/npm-scripts/__fixtures__/utils/buildArtifacts/modules/apps/some/project/src/index.js\\":\\"b4258b676ee9dc8cbe9adbbbc1bb56efa11aa984\\"}}"`;
