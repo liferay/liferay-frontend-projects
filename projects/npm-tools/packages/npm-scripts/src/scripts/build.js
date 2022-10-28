@@ -122,13 +122,14 @@ module.exports = async function (...args) {
 
 	const srcFiles = expandGlobs(
 		[
+			path.join(BUILD_CONFIG.input, '**/*.css'),
 			path.join(BUILD_CONFIG.input, '**/*.js'),
+			path.join(BUILD_CONFIG.input, '**/*.json'),
 			path.join(BUILD_CONFIG.input, '**/*.jsx'),
+			path.join(BUILD_CONFIG.input, '**/*.scss'),
+			path.join(BUILD_CONFIG.input, '**/*.soy'),
 			path.join(BUILD_CONFIG.input, '**/*.ts'),
 			path.join(BUILD_CONFIG.input, '**/*.tsx'),
-			path.join(BUILD_CONFIG.input, '**/*.json'),
-			path.join(BUILD_CONFIG.input, '**/*.css'),
-			path.join(BUILD_CONFIG.input, '**/*.scss'),
 			...ROOT_CONFIGS,
 		],
 		[
