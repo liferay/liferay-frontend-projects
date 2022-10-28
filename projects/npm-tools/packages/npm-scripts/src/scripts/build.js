@@ -10,13 +10,16 @@ const path = require('path');
 
 let buildSass = require('../sass/build');
 let runTSC = require('../typescript/runTSC');
+const {isCacheValid, setCache} = require('../utils/buildArtifacts');
 const createAmd2EsmExportsBridges = require('../utils/createAmd2EsmExportsBridges');
 const createEsm2AmdCustomBridges = require('../utils/createEsm2AmdCustomBridges');
 const createEsm2AmdExportsBridges = require('../utils/createEsm2AmdExportsBridges');
 const createEsm2AmdIndexBridge = require('../utils/createEsm2AmdIndexBridge');
 const createTempFile = require('../utils/createTempFile');
+const expandGlobs = require('../utils/expandGlobs');
 const getMergedConfig = require('../utils/getMergedConfig');
 const instrument = require('../utils/instrument');
+const log = require('../utils/log');
 let minify = require('../utils/minify');
 let runBabel = require('../utils/runBabel');
 let runBridge = require('../utils/runBridge');
@@ -70,6 +73,17 @@ function pickItem(array, item) {
 	}
 }
 
+const ROOT_CONFIGS = [
+	'/.babelrc.js',
+	'/.npmbridgerc',
+	'/.npmbundlerrc',
+	'/liferay-npm-bundler.config.js',
+	'/npmscripts.config.js',
+	'/package.json',
+	'/tsconfig.json',
+	'/webpack.config.js',
+];
+
 /**
  * Main script that runs all all specified build tasks synchronously.
  *
@@ -82,6 +96,7 @@ function pickItem(array, item) {
 module.exports = async function (...args) {
 	const cssOnly = pickItem(args, '--css-only');
 	const jsOnly = pickItem(args, '--js-only');
+	const forceBuild = pickItem(args, '--force');
 
 	const config = getMergedConfig('npmscripts');
 
@@ -105,7 +120,48 @@ module.exports = async function (...args) {
 
 	const inputPathExists = fs.existsSync(BUILD_CONFIG.input);
 
-	if (!cssOnly) {
+	const srcFiles = expandGlobs(
+		[
+			path.join(BUILD_CONFIG.input, '**/*.js'),
+			path.join(BUILD_CONFIG.input, '**/*.jsx'),
+			path.join(BUILD_CONFIG.input, '**/*.ts'),
+			path.join(BUILD_CONFIG.input, '**/*.tsx'),
+			path.join(BUILD_CONFIG.input, '**/*.json'),
+			path.join(BUILD_CONFIG.input, '**/*.css'),
+			path.join(BUILD_CONFIG.input, '**/*.scss'),
+			...ROOT_CONFIGS,
+		],
+		[
+			'**/types/**',
+			'**/__tests__/**',
+			'/build/**',
+			'/classes/**',
+			'/node_modules/**',
+		]
+	);
+
+	const pkgJson = require(path.resolve('package.json'));
+
+	const skipBuild =
+		!forceBuild &&
+		!jsOnly &&
+		!cssOnly &&
+		isCacheValid(pkgJson.name, srcFiles);
+
+	if (skipBuild) {
+		log(
+			`BUILD JS: Skipped, no changes detected. (To force build, remove '.npmscripts/buildinfo.json')`
+		);
+	}
+	else if (!cssOnly) {
+		log(
+			`BUILD JS: ${
+				forceBuild
+					? 'Not using previous build.'
+					: 'No previous build detected.'
+			}`
+		);
+
 		const useSoy = soyExists();
 
 		if (useSoy) {
@@ -152,20 +208,18 @@ module.exports = async function (...args) {
 		if (Array.isArray(BUILD_CONFIG.exports) || BUILD_CONFIG.main) {
 			fs.mkdirSync(BUILD_CONFIG.output, {recursive: true});
 
-			let pkgJson = require(path.resolve('package.json'));
-
 			if (!BUILD_CONFIG.bundler) {
-				pkgJson = {
+				const newPkgJson = {
 					...pkgJson,
 				};
 
-				pkgJson.main = 'index.js';
-				delete pkgJson.dependencies;
-				delete pkgJson.devDependencies;
+				newPkgJson.main = 'index.js';
+				delete newPkgJson.dependencies;
+				delete newPkgJson.devDependencies;
 
 				fs.writeFileSync(
 					path.join(BUILD_CONFIG.output, 'package.json'),
-					JSON.stringify(pkgJson, null, '\t'),
+					JSON.stringify(newPkgJson, null, '\t'),
 					'utf8'
 				);
 			}
@@ -247,11 +301,30 @@ module.exports = async function (...args) {
 
 	if (!jsOnly) {
 		if (inputPathExists) {
-			buildSass(path.join(CWD, BUILD_CONFIG.input), {
-				imports: BUILD_CONFIG.sassIncludePaths,
-				outputDir: BUILD_CONFIG.output,
-				rtl: true,
-			});
+			if (skipBuild) {
+				log(
+					`BUILD SASS: Skipped, no changes detected. (To force build, remove '.npmscripts/buildinfo.json')`
+				);
+			}
+			else {
+				log(
+					`BUILD SASS: ${
+						forceBuild
+							? 'Not using previous build.'
+							: 'No previous build detected.'
+					}`
+				);
+
+				buildSass(path.join(CWD, BUILD_CONFIG.input), {
+					imports: BUILD_CONFIG.sassIncludePaths,
+					outputDir: BUILD_CONFIG.output,
+					rtl: true,
+				});
+			}
 		}
+	}
+
+	if (!skipBuild) {
+		setCache(pkgJson.name, srcFiles, BUILD_CONFIG.output);
 	}
 };
