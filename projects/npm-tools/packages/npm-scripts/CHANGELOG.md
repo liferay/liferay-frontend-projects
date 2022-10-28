@@ -1,3 +1,15 @@
+## [npm-scripts/v47.9.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.9.0) (2022-10-28)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.8.3...npm-scripts/v47.9.0)
+
+### :new: Features
+
+-   feat(npm-scripts): create caching mechanism for build script ([\#1036](https://github.com/liferay/liferay-frontend-projects/pull/1036))
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): add soy and sort ([\#1037](https://github.com/liferay/liferay-frontend-projects/pull/1037))
+
 ## [npm-scripts/v47.8.3](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.8.3) (2022-10-24)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.8.2...npm-scripts/v47.8.3)
