@@ -7,6 +7,7 @@
 
 const path = require('path');
 const resolve = require('resolve');
+const TerserPlugin = require('terser-webpack-plugin');
 
 const convertImportsToExternals = require('./convertImportsToExternals');
 const createTempFile = require('./createTempFile');
