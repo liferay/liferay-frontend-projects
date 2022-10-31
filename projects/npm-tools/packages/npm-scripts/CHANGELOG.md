@@ -1,3 +1,12 @@
+## [npm-scripts/v47.9.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.9.1) (2022-10-31)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.9.0...npm-scripts/v47.9.1)
+
+### :wrench: Bug fixes
+
+-   fix: import TerserPlugin correctly ([\#1039](https://github.com/liferay/liferay-frontend-projects/pull/1039))
+-   fix: don't mangle class/function names when minimizing ([\#1038](https://github.com/liferay/liferay-frontend-projects/pull/1038))
+
 ## [npm-scripts/v47.9.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.9.0) (2022-10-28)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.8.3...npm-scripts/v47.9.0)
