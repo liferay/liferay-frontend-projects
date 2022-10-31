@@ -7,6 +7,8 @@ module.exports = {
 	compress: {
 		defaults: true,
 	},
+	keep_classnames: true,
+	keep_fnames: true,
 	mangle: {
 		properties: false,
 	},

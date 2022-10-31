@@ -113,6 +113,17 @@ function getIndexWebpackConfig(projectDir, buildConfig, babelConfig) {
 				},
 			],
 		},
+		optimization: {
+			minimize: true,
+			minimizer: [
+				new TerserPlugin({
+					terserOptions: {
+						keep_classnames: true,
+						keep_fnames: true,
+					},
+				}),
+			],
+		},
 		output: {
 			environment: {
 				dynamicImport: true,
@@ -291,6 +302,17 @@ function getImportsWebpackConfigs(buildConfig) {
 							},
 						},
 					},
+				],
+			},
+			optimization: {
+				minimize: true,
+				minimizer: [
+					new TerserPlugin({
+						terserOptions: {
+							keep_classnames: true,
+							keep_fnames: true,
+						},
+					}),
 				],
 			},
 			output: {
