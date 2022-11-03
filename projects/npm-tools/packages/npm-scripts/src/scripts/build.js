@@ -10,13 +10,13 @@ const path = require('path');
 
 let buildSass = require('../sass/build');
 let runTSC = require('../typescript/runTSC');
-const {isCacheValid, setCache} = require('../utils/buildArtifacts');
+let {isCacheValid, setCache} = require('../utils/buildArtifacts');
 const createAmd2EsmExportsBridges = require('../utils/createAmd2EsmExportsBridges');
 const createEsm2AmdCustomBridges = require('../utils/createEsm2AmdCustomBridges');
 const createEsm2AmdExportsBridges = require('../utils/createEsm2AmdExportsBridges');
 const createEsm2AmdIndexBridge = require('../utils/createEsm2AmdIndexBridge');
 const createTempFile = require('../utils/createTempFile');
-const expandGlobs = require('../utils/expandGlobs');
+let expandGlobs = require('../utils/expandGlobs');
 const getMergedConfig = require('../utils/getMergedConfig');
 const instrument = require('../utils/instrument');
 const log = require('../utils/log');
@@ -36,12 +36,15 @@ const CWD = process.cwd();
 	buildSass,
 	buildSoy,
 	cleanSoy,
+	expandGlobs,
+	isCacheValid,
 	minify,
 	runBabel,
 	runBridge,
 	runBundler,
 	runTSC,
 	runWebpackAsBundler,
+	setCache,
 	soyExists,
 	translateSoy,
 	webpack,
@@ -49,12 +52,15 @@ const CWD = process.cwd();
 	buildSass,
 	buildSoy,
 	cleanSoy,
+	expandGlobs,
+	isCacheValid,
 	minify,
 	runBabel,
 	runBridge,
 	runBundler,
 	runTSC,
 	runWebpackAsBundler,
+	setCache,
 	soyExists,
 	translateSoy,
 	webpack,
