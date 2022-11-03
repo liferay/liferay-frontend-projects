@@ -1,3 +1,11 @@
+## [npm-scripts/v47.10.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.10.0) (2022-11-03)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.9.1...npm-scripts/v47.10.0)
+
+### :new: Features
+
+-   feat(npm-scripts): fix which files are added to cache and add new commands to interact with cache ([\#1040](https://github.com/liferay/liferay-frontend-projects/pull/1040))
+
 ## [npm-scripts/v47.9.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.9.1) (2022-10-31)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.9.0...npm-scripts/v47.9.1)
