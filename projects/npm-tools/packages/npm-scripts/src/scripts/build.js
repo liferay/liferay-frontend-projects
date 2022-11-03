@@ -30,6 +30,8 @@ let {buildSoy, cleanSoy, soyExists, translateSoy} = require('../utils/soy');
 const validateConfig = require('../utils/validateConfig');
 let webpack = require('./webpack');
 
+const CACHE_DISABLED =
+	process.env.LIFERAY_NPM_SCRIPTS_CACHE_DISABLED === 'true';
 const CWD = process.cwd();
 
 ({
@@ -104,7 +106,6 @@ const ROOT_CONFIGS = [
 module.exports = async function (...args) {
 	const cssOnly = pickItem(args, '--css-only');
 	const jsOnly = pickItem(args, '--js-only');
-	const forceBuild = pickItem(args, '--force');
 	const clean = pickItem(args, '--clean');
 
 	const config = getMergedConfig('npmscripts');
@@ -152,30 +153,28 @@ module.exports = async function (...args) {
 
 	const pkgJson = require(path.resolve('package.json'));
 
-	let isCacheValid = false;
-
 	if (clean) {
 		cleanCache(pkgJson.name);
-	}
-	else {
-		isCacheValid = isCacheValid(pkgJson.name, srcFiles);
+
+		log(`CLEAN: Cleaning build cache for '${pkgJson.name}'`);
 	}
 
-	const skipBuild = !forceBuild && !jsOnly && !cssOnly && isCacheValid;
+	const useCache =
+		!CACHE_DISABLED &&
+		!clean &&
+		!jsOnly &&
+		!cssOnly &&
+		isCacheValid(pkgJson.name, srcFiles);
 
-	if (!clean && skipBuild) {
+	if (useCache) {
 		log(
-			`BUILD JS: Skipped, no changes detected. (To force build, remove '.npmscripts/buildinfo.json')`
+			`BUILD JS: Using cache, no changes detected. (To remove cache, run 'yarn build --clean')`
 		);
 	}
 	else if (!cssOnly) {
-		log(
-			`BUILD JS: ${
-				forceBuild || clean
-					? 'Not using previous build.'
-					: 'No previous build detected.'
-			}`
-		);
+		if (!CACHE_DISABLED) {
+			log(`BUILD JS: No previous build detected.`);
+		}
 
 		const useSoy = soyExists();
 
@@ -316,20 +315,12 @@ module.exports = async function (...args) {
 
 	if (!jsOnly) {
 		if (inputPathExists) {
-			if (skipBuild) {
+			if (useCache) {
 				log(
-					`BUILD SASS: Skipped, no changes detected. (To force build, remove '.npmscripts/buildinfo.json')`
+					`BUILD SASS: Using cache, no changes detected. (To remove cache, run 'yarn build --clean')`
 				);
 			}
 			else {
-				log(
-					`BUILD SASS: ${
-						forceBuild
-							? 'Not using previous build.'
-							: 'No previous build detected.'
-					}`
-				);
-
 				buildSass(path.join(CWD, BUILD_CONFIG.input), {
 					imports: BUILD_CONFIG.sassIncludePaths,
 					outputDir: BUILD_CONFIG.output,
@@ -339,7 +330,7 @@ module.exports = async function (...args) {
 		}
 	}
 
-	if (!skipBuild) {
+	if (!useCache) {
 		setCache(pkgJson.name, srcFiles, BUILD_CONFIG.output);
 	}
 };
