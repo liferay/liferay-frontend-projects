@@ -116,7 +116,20 @@ function setCache(moduleName, srcFiles, output) {
 		fs.mkdirSync(moduleArtifactCachePath, {recursive: true});
 	}
 
-	const builtFiles = expandGlobs([output + '/**'], []);
+	const builtFiles = expandGlobs(
+		[
+			output + '/**/*.css',
+			output + '/**/*.js',
+			output + '/**/*.json',
+			output + '/**/*.jsx',
+			output + '/**/*.map',
+			output + '/**/*.scss',
+			output + '/**/*.soy',
+			output + '/**/*.ts',
+			output + '/**/*.tsx',
+		],
+		[]
+	);
 
 	const moduleBuildInfo = {
 		builtFiles: builtFiles.reduce(
