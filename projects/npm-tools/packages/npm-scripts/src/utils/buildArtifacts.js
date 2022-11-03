@@ -19,6 +19,18 @@ const artifactCache = path.join(npmScriptsCacheDir, 'artifacts');
 const BUILD_INFO_FILE_NAME = 'buildinfo.json';
 
 /**
+ * Util for removing the cache directory
+ * @param {string} moduleName name found in package.json of module
+ */
+const cleanCache = (moduleName) => {
+	const moduleCachePath = path.join(artifactCache, moduleName);
+
+	if (fs.existsSync(moduleCachePath)) {
+		fs.rmdirSync(moduleCachePath, {recursive: true});
+	}
+};
+
+/**
  * Creates a unique has for the content of a file
  *
  * @param {string} filePath path to file
@@ -199,6 +211,7 @@ function storeBuildArtifacts(files, moduleName) {
 }
 
 module.exports = {
+	cleanCache,
 	isCacheValid,
 	setCache,
 };

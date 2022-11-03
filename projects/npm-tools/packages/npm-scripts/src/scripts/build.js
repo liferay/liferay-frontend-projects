@@ -10,7 +10,7 @@ const path = require('path');
 
 let buildSass = require('../sass/build');
 let runTSC = require('../typescript/runTSC');
-let {isCacheValid, setCache} = require('../utils/buildArtifacts');
+let {cleanCache, isCacheValid, setCache} = require('../utils/buildArtifacts');
 const createAmd2EsmExportsBridges = require('../utils/createAmd2EsmExportsBridges');
 const createEsm2AmdCustomBridges = require('../utils/createEsm2AmdCustomBridges');
 const createEsm2AmdExportsBridges = require('../utils/createEsm2AmdExportsBridges');
@@ -35,6 +35,7 @@ const CWD = process.cwd();
 ({
 	buildSass,
 	buildSoy,
+	cleanCache,
 	cleanSoy,
 	expandGlobs,
 	isCacheValid,
@@ -51,6 +52,7 @@ const CWD = process.cwd();
 } = instrument({
 	buildSass,
 	buildSoy,
+	cleanCache,
 	cleanSoy,
 	expandGlobs,
 	isCacheValid,
@@ -103,6 +105,7 @@ module.exports = async function (...args) {
 	const cssOnly = pickItem(args, '--css-only');
 	const jsOnly = pickItem(args, '--js-only');
 	const forceBuild = pickItem(args, '--force');
+	const clean = pickItem(args, '--clean');
 
 	const config = getMergedConfig('npmscripts');
 
@@ -149,13 +152,18 @@ module.exports = async function (...args) {
 
 	const pkgJson = require(path.resolve('package.json'));
 
-	const skipBuild =
-		!forceBuild &&
-		!jsOnly &&
-		!cssOnly &&
-		isCacheValid(pkgJson.name, srcFiles);
+	let isCacheValid = false;
 
-	if (skipBuild) {
+	if (clean) {
+		cleanCache(pkgJson.name);
+	}
+	else {
+		isCacheValid = isCacheValid(pkgJson.name, srcFiles);
+	}
+
+	const skipBuild = !forceBuild && !jsOnly && !cssOnly && isCacheValid;
+
+	if (!clean && skipBuild) {
 		log(
 			`BUILD JS: Skipped, no changes detected. (To force build, remove '.npmscripts/buildinfo.json')`
 		);
@@ -163,7 +171,7 @@ module.exports = async function (...args) {
 	else if (!cssOnly) {
 		log(
 			`BUILD JS: ${
-				forceBuild
+				forceBuild || clean
 					? 'Not using previous build.'
 					: 'No previous build detected.'
 			}`
