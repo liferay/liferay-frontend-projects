@@ -277,8 +277,28 @@ function getImportsWebpackConfigs(buildConfig) {
 
 		delete externals[pkgName];
 
+		const entries = exportsItem.includeInternalPaths
+			? exportsItem.includeInternalPaths.reduce(
+					(acc, internalPath) => ({
+						...acc,
+						[`__liferay__/exports/${flatPkgName}${path.normalize(
+							internalPath
+						)}`]: {
+							import: path.join(
+								importPath,
+								internalPath.includes('.')
+									? internalPath
+									: internalPath + '.js'
+							),
+						},
+					}),
+					{}
+			  )
+			: {};
+
 		const webpackConfig = {
 			entry: {
+				...entries,
 				[`__liferay__/exports/${flatPkgName}`]: {
 					import: importPath,
 				},
@@ -302,6 +322,10 @@ function getImportsWebpackConfigs(buildConfig) {
 								],
 							},
 						},
+					},
+					{
+						test: /\.css$/i,
+						use: ['style-loader', 'css-loader'],
 					},
 				],
 			},

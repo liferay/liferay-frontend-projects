@@ -17,6 +17,23 @@ const resolve = require('resolve');
 const flattenPkgName = require('./flattenPkgName');
 const getBndWebContextPath = require('./getBndWebContextPath');
 
+function createBridgeSource(importPath, moduleName) {
+	return `
+import * as esModule from "${importPath}";
+
+Liferay.Loader.define(
+	"${moduleName}",
+	['module'], 
+	function (module) {
+		module.exports = {
+			__esModule: true,
+			default: esModule,
+			...esModule,
+		};
+	}
+);`;
+}
+
 /**
  * Create .js files to make ES modules available as Liferay-AMD modules.
  *
@@ -76,23 +93,11 @@ function createEsm2AmdExportsBridges(projectDir, buildConfig, manifest) {
 			? `../../../..${webContextPath}`
 			: `../../..${webContextPath}`;
 
-		const bridgeSource = `
-import * as esModule from "${rootDir}/__liferay__/exports/${flattenPkgName(
+		const importPath = `${rootDir}/__liferay__/exports/${flattenPkgName(
 			exportItem.name
-		)}.js";
+		)}.js`;
 
-Liferay.Loader.define(
-	"${pkgId}/index",
-	['module'], 
-	function (module) {
-		module.exports = {
-			__esModule: true,
-			default: esModule,
-			...esModule,
-		};
-	}
-);
-`;
+		const bridgeSource = createBridgeSource(importPath, `${pkgId}/index`);
 
 		fs.mkdirSync(packageDir, {recursive: true});
 
@@ -108,6 +113,50 @@ Liferay.Loader.define(
 			'utf8'
 		);
 
+		const modules = {};
+
+		if (exportItem.includeInternalPaths) {
+			for (const internalPath of exportItem.includeInternalPaths) {
+				const internalPathWithExtension = internalPath + '.js';
+
+				const internalBridgePath = path.join(
+					packageDir,
+					internalPathWithExtension
+				);
+
+				fs.mkdirSync(path.dirname(internalBridgePath), {
+					recursive: true,
+				});
+
+				const internalId = path.join(pkgId, internalPath);
+
+				let relativePathFromEntry = path.relative(
+					path.dirname(internalPath),
+					'/'
+				);
+
+				relativePathFromEntry = relativePathFromEntry
+					? relativePathFromEntry + `/${rootDir}`
+					: rootDir;
+
+				const importPath = `${relativePathFromEntry}/__liferay__/exports/${path.join(
+					flattenPkgName(exportItem.name),
+					internalPathWithExtension
+				)}`;
+
+				const bridgeSource = createBridgeSource(importPath, internalId);
+
+				fs.writeFileSync(internalBridgePath, bridgeSource, 'utf8');
+
+				modules[internalPathWithExtension.slice(1)] = {
+					flags: {
+						esModule: true,
+						useESM: true,
+					},
+				};
+			}
+		}
+
 		manifest.packages[pkgId] = manifest.packages[pkgId] || {
 			dest: {
 				dir: '.',
@@ -116,6 +165,7 @@ Liferay.Loader.define(
 				version: pkgJson.version,
 			},
 			modules: {
+				...modules,
 				'index.js': {
 					flags: {
 						esModule: true,
