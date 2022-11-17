@@ -146,7 +146,7 @@ function getIndexWebpackConfig(projectDir, buildConfig, babelConfig) {
 	};
 
 	if (process.env.NODE_ENV === 'development') {
-		webpackConfig.devtool = 'cheap-source-map';
+		webpackConfig.devtool = 'source-map';
 		webpackConfig.mode = 'development';
 	}
 	else {
@@ -335,7 +335,7 @@ function getImportsWebpackConfigs(buildConfig) {
 		};
 
 		if (process.env.NODE_ENV === 'development') {
-			webpackConfig.devtool = 'cheap-source-map';
+			webpackConfig.devtool = 'source-map';
 			webpackConfig.mode = 'development';
 		}
 		else {
