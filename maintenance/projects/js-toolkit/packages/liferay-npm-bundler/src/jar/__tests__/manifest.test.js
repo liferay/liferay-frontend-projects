@@ -45,34 +45,6 @@ Tool: liferay-npm-bundler-${version}
 	);
 });
 
-it('includes Bundle-Version with valid simple classifier when provided', () => {
-	const manifest = new Manifest();
-
-	manifest.bundleVersion = '1.0.0-classifier';
-
-	expect(manifest.content).toEqual(
-		`Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Bundle-Version: 1.0.0.classifier
-Tool: liferay-npm-bundler-${version}
-`
-	);
-});
-
-it('includes Bundle-Version with valid extended classifier when provided', () => {
-	const manifest = new Manifest();
-
-	manifest.bundleVersion = '1.0.0-classifier-1-2-3';
-
-	expect(manifest.content).toEqual(
-		`Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Bundle-Version: 1.0.0.classifier-1-2-3
-Tool: liferay-npm-bundler-${version}
-`
-	);
-});
-
 it('includes Bundle-Name when provided', () => {
 	const manifest = new Manifest();
 
