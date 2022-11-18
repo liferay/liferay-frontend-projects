@@ -15,8 +15,6 @@ import Manifest from './manifest';
 import * as osgi from './osgi';
 import * as xml from './xml';
 
-const pkgJson = project.pkgJson;
-
 /**
  * Create an OSGi bundle with build's output
  * @return {Promise}
@@ -168,6 +166,8 @@ export function addManifest(zip) {
  * @param {JSZip} zip the ZIP file
  */
 function addSystemConfigurationFiles(zip) {
+	const {pkgJson} = project;
+
 	const systemConfigJson = getSystemConfigurationJson();
 
 	if (!systemConfigJson) {
