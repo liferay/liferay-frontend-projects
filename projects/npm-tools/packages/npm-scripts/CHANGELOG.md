@@ -1,3 +1,11 @@
+## [npm-scripts/v47.10.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.10.1) (2022-11-18)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.10.0...npm-scripts/v47.10.1)
+
+### :wrench: Bug fixes
+
+-   fix: generate source maps correctly ([\#1044](https://github.com/liferay/liferay-frontend-projects/pull/1044))
+
 ## [npm-scripts/v47.10.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.10.0) (2022-11-03)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.9.1...npm-scripts/v47.10.0)
