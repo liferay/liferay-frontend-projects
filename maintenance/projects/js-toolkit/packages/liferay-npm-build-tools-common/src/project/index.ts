@@ -516,7 +516,7 @@ export class Project {
 			const linkTarget = fs.readlinkSync(this._toolsDir.asNative);
 
 			this._toolsDir = new FilePath(
-				linkTarget.startsWith('/')
+				path.isAbsolute(linkTarget)
 					? linkTarget
 					: this._toolsDir.dirname().join(linkTarget).asNative
 			);
