@@ -5,8 +5,6 @@
 
 import project from 'liferay-npm-build-tools-common/lib/project';
 
-import * as osgi from './osgi';
-
 const FORBIDDEN_CUSTOM_HEADERS = new Set([
 	'Bundle-ManifestVersion',
 	'Bundle-Name',
@@ -28,11 +26,20 @@ export default class Manifest {
 		this._bundleSymbolicName = bundleSymbolicName;
 	}
 
+	/**
+	 * Set `bundleVersion` field of manifest.
+	 *
+	 * @remarks
+	 * There are some differences in the ways OSGi and npm handle semver
+	 * classifiers, so you may want/need to pass any `package.json`'s `version`
+	 * field through `getBundleVersionAndClassifier()` in module `osgi.js`
+	 * before passing it to this function.
+	 */
 	set bundleVersion(bundleVersion: string) {
 		if (this._bundleVersion) {
 			throw new Error('BundleVersion can only be set once');
 		}
-		this._bundleVersion = osgi.getBundleVersionAndClassifier(bundleVersion);
+		this._bundleVersion = bundleVersion;
 	}
 
 	set bundleName(bundleName: string) {
