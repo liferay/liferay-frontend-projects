@@ -1,3 +1,16 @@
+## [liferay-js-toolkit/v2.31.1](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.31.1) (2022-11-18)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.31.0...liferay-js-toolkit/v2.31.1)
+
+### :wrench: Bug fixes
+
+-   fix: Bundle-Version incorrectly generated in JAR manifest if semver classifiers are used ([\#1046](https://github.com/liferay/liferay-frontend-projects/pull/1046))
+-   fix(liferay-npm-build-tools-common): check link target absoluteness for win platform correctly ([\#1043](https://github.com/liferay/liferay-frontend-projects/pull/1043))
+
+### :house: Chores
+
+-   chore: run format ([\#1027](https://github.com/liferay/liferay-frontend-projects/pull/1027))
+
 ## [liferay-js-toolkit/v2.31.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.31.0) (2022-10-07)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.30.0...liferay-js-toolkit/v2.31.0)
