@@ -1,6 +1,6 @@
-## [liferay-js-toolkit/v2.31.1](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.31.1) (2022-11-18)
+## [liferay-js-toolkit/v2.31.1](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.31.2) (2022-11-18)
 
-[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.31.0...liferay-js-toolkit/v2.31.1)
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.31.0...liferay-js-toolkit/v2.31.2)
 
 ### :wrench: Bug fixes
 

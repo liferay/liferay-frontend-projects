@@ -1,16 +1,16 @@
 {
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"dependencies": {
-		"babel-plugin-add-module-metadata": "2.31.1",
-		"babel-plugin-alias-modules": "2.31.1",
+		"babel-plugin-add-module-metadata": "2.31.2",
+		"babel-plugin-alias-modules": "2.31.2",
 		"babel-plugin-minify-dead-code-elimination": "0.5.1",
-		"babel-plugin-name-amd-modules": "2.31.1",
-		"babel-plugin-namespace-amd-define": "2.31.1",
-		"babel-plugin-namespace-modules": "2.31.1",
-		"babel-plugin-normalize-requires": "2.31.1",
+		"babel-plugin-name-amd-modules": "2.31.2",
+		"babel-plugin-namespace-amd-define": "2.31.2",
+		"babel-plugin-namespace-modules": "2.31.2",
+		"babel-plugin-normalize-requires": "2.31.2",
 		"babel-plugin-transform-node-env-inline": "0.4.3",
 		"babel-plugin-transform-object-rest-spread": "6.26.0",
-		"babel-plugin-wrap-modules-amd": "2.31.1"
+		"babel-plugin-wrap-modules-amd": "2.31.2"
 	},
 	"description": "Babel preset for bundling standard Liferay projects.",
 	"main": "lib/index.js",
@@ -25,5 +25,5 @@
 		"copyfiles": "node ../../scripts/copyfiles.js",
 		"prepublish": "yarn build"
 	},
-	"version": "2.31.1"
+	"version": "2.31.2"
 }
