@@ -208,6 +208,22 @@ export default class Config {
 	}
 
 	/**
+	 * Update the resolve path (usually as a consequence of a redirect being
+	 * received from the server when a module resolution is attempted).
+	 * @param {string} resolvePath the updated resolve path
+	 * @return {void}
+	 */
+	updateResolvePath(resolvePath) {
+		const prefix = `${window.location.protocol}//${window.location.host}`;
+
+		if (resolvePath.startsWith(prefix)) {
+			resolvePath = resolvePath.substr(prefix.length);
+		}
+
+		this._config.resolvePath = resolvePath;
+	}
+
+	/**
 	 * Parse a configuration property to store it in _config.
 	 * @param {object} cfg
 	 * @param {string} property
