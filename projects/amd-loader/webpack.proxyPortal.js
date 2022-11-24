@@ -10,8 +10,8 @@ module.exports = () => ({
 		contentBase: path.join(__dirname, 'build/proxyPortal'),
 		port: 9090,
 		proxy: {
-			'/o/frontend-js-web/loader/loader.js': {
-				pathRewrite: {'^/o/frontend-js-web/loader': ''},
+			'/o/frontend-js-loader-modules-extender/loader.js': {
+				pathRewrite: {'^/o/frontend-js-loader-modules-extender/': ''},
 				target: 'http://localhost:9090',
 			},
 
