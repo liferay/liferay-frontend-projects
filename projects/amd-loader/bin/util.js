@@ -13,18 +13,37 @@ const copy = (input, output) =>
 	});
 
 function run(binary, ...args) {
-	const {error, signal, status} = spawnSync(binary, args, {
+	return run.withEnv(null, binary, ...args);
+}
+
+run.withEnv = function (env, binary, ...args) {
+	const options = {
 		shell: true,
 		stdio: 'inherit',
-	});
+	};
+
+	if (env) {
+		options['env'] = env;
+	}
+
+	const {error, signal, status, stderr, stdout} = spawnSync(
+		binary,
+		args,
+		options
+	);
 
 	if (status !== 0) {
 		throw new Error(
 			`${binary} ${args.join(
 				' '
-			)} exited with status: ${status}, error: ${error}, signal: ${signal}`
+			)} exited with status ${status}, error ${error}, signal ${signal}, and output:
+
+${stdout}
+
+${stderr}
+			`
 		);
 	}
-}
+};
 
 module.exports = {copy, run};

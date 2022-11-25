@@ -44,22 +44,36 @@ export default class DependencyResolver {
 
 			const modulesParam = `modules=${encodeURIComponent(modules)}`;
 			let url = `${config.resolvePath}?${modulesParam}`;
-			let options = {};
+			let options = {
+				redirect: 'follow',
+			};
 
 			if (url.length > config.urlMaxLength) {
 				url = config.resolvePath;
 				options = {
+					...options,
 					body: modulesParam,
 					method: 'POST',
 				};
 			}
 
 			fetch(url, options)
-				.then((response) => response.text())
-				.then((text) => {
-					const resolution = JSON.parse(text);
-					this._cachedResolutions[modules] = resolution;
-					resolve(resolution);
+				.then((response) => {
+					if (response.redirected) {
+						this._config.updateResolvePath(response.url);
+
+						this.resolve(modules).then(resolve).catch(reject);
+					}
+					else {
+						response
+							.text()
+							.then((text) => {
+								const resolution = JSON.parse(text);
+								this._cachedResolutions[modules] = resolution;
+								resolve(resolution);
+							})
+							.catch(reject);
+					}
 				})
 				.catch(reject);
 		});
