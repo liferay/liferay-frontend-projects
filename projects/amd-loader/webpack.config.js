@@ -6,7 +6,9 @@
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 
-module.exports = ({flavor}) => {
+module.exports = () => {
+	const {flavor} = process.env;
+
 	const baseConfig = {
 		devtool: 'source-map',
 		entry: path.resolve(__dirname, 'src', 'loader', 'bootstrap.js'),

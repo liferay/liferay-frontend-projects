@@ -5,6 +5,6 @@
 
 const {run} = require('./util');
 
-run('webpack', '--env', 'flavor=debug');
-run('webpack', '--env', 'flavor=prod');
-run('webpack', '--env', 'flavor=min');
+run.withEnv({flavor: 'debug'}, 'webpack');
+run.withEnv({flavor: 'prod'}, 'webpack');
+run.withEnv({flavor: 'min'}, 'webpack');
