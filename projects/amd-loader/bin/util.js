@@ -23,10 +23,7 @@ run.withEnv = function (env, binary, ...args) {
 	};
 
 	if (env) {
-		options['env'] = {
-			...process.env,
-			...env,
-		};
+		options['env'] = env;
 	}
 
 	const {error, signal, status, stderr, stdout} = spawnSync(
