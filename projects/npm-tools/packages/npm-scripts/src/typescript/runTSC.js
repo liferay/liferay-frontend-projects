@@ -87,17 +87,11 @@ function removeStaleFile(filepath, baseDir) {
 	const sourceFileTS = sourceFileNoExt + '.ts';
 	const sourceFileTSX = sourceFileNoExt + '.tsx';
 
-	const sourceFileTSExists = fs.existsSync(sourceFileTS);
-
-	if (!sourceFileTSExists && !fs.existsSync(sourceFileTSX)) {
-		const sourceFilePath = sourceFileTSExists
-			? sourceFileTS
-			: sourceFileTSX;
-
+	if (!fs.existsSync(sourceFileTS) && !fs.existsSync(sourceFileTSX)) {
 		// eslint-disable-next-line no-console
-		console.log('Source file does not exist. Removing: ', sourceFilePath);
+		console.log('Source file does not exist. Removing: ', filepath);
 
-		fs.unlinkSync(sourceFilePath);
+		fs.unlinkSync(filepath);
 
 		return true;
 	}
