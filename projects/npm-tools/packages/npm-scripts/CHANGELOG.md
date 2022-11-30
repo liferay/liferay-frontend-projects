@@ -1,3 +1,11 @@
+## [npm-scripts/v47.10.2](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.10.2) (2022-11-30)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.10.1...npm-scripts/v47.10.2)
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): remove type file instead of source file, which didn't even exist in the first place ([\#1051](https://github.com/liferay/liferay-frontend-projects/pull/1051))
+
 ## [npm-scripts/v47.10.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.10.1) (2022-11-18)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.10.0...npm-scripts/v47.10.1)
