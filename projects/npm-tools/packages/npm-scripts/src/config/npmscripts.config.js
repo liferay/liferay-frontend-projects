@@ -396,6 +396,7 @@ module.exports = {
 			'portal-workflow-web',
 			'portlet-configuration-css-web',
 			'portlet-configuration-web',
+			'poshi-language-support',
 			'product-navigation-applications-menu',
 			'product-navigation-control-menu',
 			'product-navigation-control-menu-web',
