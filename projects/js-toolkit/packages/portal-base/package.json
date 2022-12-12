@@ -33,7 +33,7 @@
 		"terser-webpack-plugin": "^5.3.1",
 		"webpack": "^5.65.0",
 		"webpack-cli": "^4.9.1",
-		"webpack-dev-server": "^4.7.2",
+		"webpack-dev-server": "^4.11.1",
 		"webpack-remove-empty-scripts": "^0.7.3"
 	},
 	"description": "Target Platform Base Code",
