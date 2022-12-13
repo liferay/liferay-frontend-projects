@@ -955,7 +955,7 @@ var SchedulerDayView = A.Component.create({
                         var evtParentNode = evtNode.get('parentNode');
 
                         if (evtParentNode) {
-                            evtParentNode.insert(evtNode, i);
+                            evtParentNode.append(evtNode, i);
                         }
 
                         evt._filtered = true;
