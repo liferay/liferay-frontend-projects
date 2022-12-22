@@ -65,17 +65,24 @@ function getIndexWebpackConfig(projectDir, buildConfig, babelConfig) {
 		return;
 	}
 
-	const mainFilePath = path.resolve(projectDir, buildConfig.main);
+	const mainFilePaths = buildConfig.main.map((main) =>
+		path.resolve(projectDir, main)
+	);
 
 	const {imports} = buildConfig;
 	const externals = convertImportsToExternals(imports, 2);
 
-	const webpackConfig = {
-		entry: {
-			[`__liferay__/index`]: {
+	const entry = mainFilePaths.reduce((acc, mainFilePath) => {
+		return {
+			...acc,
+			[`__liferay__/${path.parse(mainFilePath).name}`]: {
 				import: mainFilePath,
 			},
-		},
+		};
+	}, {});
+
+	const webpackConfig = {
+		entry,
 		experiments: {
 			outputModule: true,
 		},

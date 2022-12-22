@@ -19,7 +19,7 @@ const getBndWebContextPath = require('./getBndWebContextPath');
 function createEsm2AmdIndexBridge(projectDir, buildConfig, manifest) {
 	const pkgJson = require(path.join(projectDir, 'package.json'));
 
-	const {output} = buildConfig;
+	const {main, output} = buildConfig;
 
 	const webContextPath = getBndWebContextPath(projectDir);
 
@@ -34,32 +34,42 @@ function createEsm2AmdIndexBridge(projectDir, buildConfig, manifest) {
 	// level appears under `/o/js/resolved-module/...`.
 	//
 
-	const rootDir = pkgJson.name.startsWith('@') ? '../../../..' : '../../..';
+	for (const fileName of main) {
+		const baseName = path.parse(fileName).name;
 
-	const bridgeSource = `
-import * as esModule from "${rootDir}${webContextPath}/__liferay__/index.js";
+		const rootDir = pkgJson.name.startsWith('@')
+			? '../../../..'
+			: '../../..';
 
-Liferay.Loader.define(
-	"${pkgJson.name}@${pkgJson.version}/index",
-	['module'], 
-	function (module) {
-		module.exports = esModule;
+		const bridgeSource = `
+	import * as esModule from "${rootDir}${webContextPath}/__liferay__/${baseName}.js";
+	
+	Liferay.Loader.define(
+		"${pkgJson.name}@${pkgJson.version}/${baseName}",
+		['module'], 
+		function (module) {
+			module.exports = esModule;
+		}
+	);
+	`;
+
+		fs.writeFileSync(
+			path.resolve(output, baseName + '.js'),
+			bridgeSource,
+			'utf8'
+		);
+
+		manifest.packages = manifest.packages ?? {};
+		manifest.packages['/'] = manifest.packages['/'] ?? {};
+		manifest.packages['/'].modules = manifest.packages['/'].modules ?? {};
+
+		manifest.packages['/'].modules['index.js'] = {
+			flags: {
+				esModule: true,
+				useESM: true,
+			},
+		};
 	}
-);
-`;
-
-	fs.writeFileSync(path.resolve(output, 'index.js'), bridgeSource, 'utf8');
-
-	manifest.packages = manifest.packages ?? {};
-	manifest.packages['/'] = manifest.packages['/'] ?? {};
-	manifest.packages['/'].modules = manifest.packages['/'].modules ?? {};
-
-	manifest.packages['/'].modules['index.js'] = {
-		flags: {
-			esModule: true,
-			useESM: true,
-		},
-	};
 }
 
 module.exports = createEsm2AmdIndexBridge;
