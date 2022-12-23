@@ -1,3 +1,11 @@
+## [npm-scripts/v47.11.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.11.0) (2022-12-23)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.10.2...npm-scripts/v47.11.0)
+
+### :new: Features
+
+-   feat(npm-scripts): add support for multiple entry points ([\#1054](https://github.com/liferay/liferay-frontend-projects/pull/1054))
+
 ## [npm-scripts/v47.10.2](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.10.2) (2022-11-30)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.10.1...npm-scripts/v47.10.2)
