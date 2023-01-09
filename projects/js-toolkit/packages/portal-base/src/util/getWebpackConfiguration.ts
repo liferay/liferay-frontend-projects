@@ -61,7 +61,7 @@ export default function getWebpackConfiguration(
 					},
 				},
 				{
-					include: new RegExp(`^${project.assetsDir.asNative}`),
+					include: project.assetsDir.asNative,
 					test: /\.(sass|scss)$/,
 					use: [
 						MiniCssExtractPlugin.loader,
