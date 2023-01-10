@@ -1,3 +1,11 @@
+## [portal-base/v1.5.1](https://github.com/liferay/liferay-frontend-projects/tree/portal-base/v1.5.1) (2023-01-10)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/portal-base/v1.5.0...portal-base/v1.5.1)
+
+### :wrench: Bug fixes
+
+-   fix(portal-base): make SCSS files work in Windows ([\#1059](https://github.com/liferay/liferay-frontend-projects/pull/1059))
+
 ## [portal-base/v1.5.0](https://github.com/liferay/liferay-frontend-projects/tree/portal-base/v1.5.0) (2022-09-20)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/portal-base/v1.4.0...portal-base/v1.5.0)
