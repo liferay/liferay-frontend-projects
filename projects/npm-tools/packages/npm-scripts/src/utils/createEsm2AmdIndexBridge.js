@@ -53,8 +53,10 @@ function createEsm2AmdIndexBridge(projectDir, buildConfig, manifest) {
 	);
 	`;
 
+		const baseNameWithExt = baseName + '.js';
+
 		fs.writeFileSync(
-			path.resolve(output, baseName + '.js'),
+			path.resolve(output, baseNameWithExt),
 			bridgeSource,
 			'utf8'
 		);
@@ -63,7 +65,7 @@ function createEsm2AmdIndexBridge(projectDir, buildConfig, manifest) {
 		manifest.packages['/'] = manifest.packages['/'] ?? {};
 		manifest.packages['/'].modules = manifest.packages['/'].modules ?? {};
 
-		manifest.packages['/'].modules['index.js'] = {
+		manifest.packages['/'].modules[baseNameWithExt] = {
 			flags: {
 				esModule: true,
 				useESM: true,

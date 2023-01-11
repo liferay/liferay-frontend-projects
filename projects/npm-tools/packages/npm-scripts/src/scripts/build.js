@@ -224,10 +224,10 @@ module.exports = async function (...args) {
 
 			if (!BUILD_CONFIG.bundler) {
 				const newPkgJson = {
+					main: 'index.js',
 					...pkgJson,
 				};
 
-				newPkgJson.main = 'index.js';
 				delete newPkgJson.dependencies;
 				delete newPkgJson.devDependencies;
 
