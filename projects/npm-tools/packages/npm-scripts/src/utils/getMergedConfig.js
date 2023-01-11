@@ -241,10 +241,6 @@ function normalizeNpmscriptsConfig(mergedConfig) {
 		if (mergedConfig.build.exports === undefined) {
 			mergedConfig.build.exports = [];
 		}
-
-		if (!Array.isArray(mergedConfig.build.main)) {
-			mergedConfig.build.main = [mergedConfig.build.main];
-		}
 	}
 
 	if (Array.isArray(mergedConfig.build?.exports)) {
