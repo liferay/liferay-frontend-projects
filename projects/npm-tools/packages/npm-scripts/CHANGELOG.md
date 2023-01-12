@@ -1,3 +1,11 @@
+## [npm-scripts/v47.11.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.11.1) (2023-01-12)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.11.0...npm-scripts/v47.11.1)
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): Revert "feat(npm-scripts): add support for multiple entry points" ([\#1061](https://github.com/liferay/liferay-frontend-projects/pull/1061))
+
 ## [npm-scripts/v47.11.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.11.0) (2022-12-23)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.10.2...npm-scripts/v47.11.0)
