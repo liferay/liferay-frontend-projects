@@ -6,12 +6,14 @@
 const fs = require('fs');
 const path = require('path');
 
+const collectDefinedDependencies = require('../../../utils/collectDefinedDependencies');
 const getMergedConfig = require('../../../utils/getMergedConfig');
 const getPaths = require('../../../utils/getPaths');
 
 const IGNORE_FILE = '.eslintignore';
 
 const ALLOWED_NAMED_SCOPE_EXCEPTIONS = 'allowed-named-scope-exceptions';
+const ALLOWED_NON_GLOBAL_DEPENDENCIES = 'allowed-non-global-dependencies';
 const BANNED_DEPENDENCY_PATTERNS = 'blacklisted-dependency-patterns';
 
 /**
@@ -33,11 +35,15 @@ function checkPackageJSONFiles() {
 		rules[ALLOWED_NAMED_SCOPE_EXCEPTIONS] || []
 	);
 
+	const allowedNonGlobalDependencies =
+		rules[ALLOWED_NON_GLOBAL_DEPENDENCIES] || [];
 	const bannedDependenies = (rules[BANNED_DEPENDENCY_PATTERNS] || []).map(
 		(pattern) => {
 			return new RegExp(pattern);
 		}
 	);
+
+	const definedDependenciesSet = collectDefinedDependencies();
 
 	packages.forEach((pkg) => {
 		const bad = (message) => errors.push(`${pkg}: BAD - ${message}`);
@@ -67,6 +73,15 @@ function checkPackageJSONFiles() {
 				: [];
 
 			dependencyNames.forEach((name) => {
+				if (
+					!definedDependenciesSet.has(name) &&
+					!allowedNonGlobalDependencies.includes(name)
+				) {
+					bad(
+						`dependency not provided by a specific module: ${name} - See https://issues.liferay.com/browse/LPS-168443`
+					);
+				}
+
 				bannedDependenies.forEach((pattern) => {
 					if (pattern.test(name)) {
 						bad(
