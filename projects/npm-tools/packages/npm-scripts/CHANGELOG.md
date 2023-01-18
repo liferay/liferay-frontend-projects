@@ -1,3 +1,15 @@
+## [npm-scripts/v47.12.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.12.0) (2023-01-18)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.11.1...npm-scripts/v47.12.0)
+
+### :new: Features
+
+-   feat(npm-scripts): add preflight check to validate if dependencies are located in the global npmscripts.config.js ([\#1063](https://github.com/liferay/liferay-frontend-projects/pull/1063))
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): temporary work around for grabbing rules config at both the root and module level ([\#1064](https://github.com/liferay/liferay-frontend-projects/pull/1064))
+
 ## [npm-scripts/v47.11.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.11.1) (2023-01-12)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.11.0...npm-scripts/v47.11.1)
