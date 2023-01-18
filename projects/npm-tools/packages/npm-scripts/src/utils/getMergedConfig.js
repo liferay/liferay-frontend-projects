@@ -201,6 +201,10 @@ function getMergedConfig(type, property) {
 				mergedConfig = deepMerge(
 					[
 						require('../config/npmscripts.config'),
+
+						// Temporary workaround until we re-evaluate global key
+
+						{rules: rootConfig.global?.rules || {}},
 						rootConfig,
 						getUserConfig('npmscripts'),
 					],
