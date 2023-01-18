@@ -3,10 +3,26 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const getUserConfig = require('./getUserConfig');
+const path = require('path');
+
+const findRoot = require('./findRoot');
 
 function collectDefinedDependencies() {
-	const rootConfig = getUserConfig('npmscripts');
+	const rootDir = findRoot();
+
+	let rootConfig = {};
+
+	if (!rootDir) {
+		return new Set();
+	}
+
+	try {
+		/* eslint-disable-next-line @liferay/no-dynamic-require */
+		rootConfig = require(path.join(rootDir, 'npmscripts.config'));
+	}
+	catch (error) {
+		return new Set();
+	}
 
 	const amdImports = new Set(
 		Object.entries(rootConfig.build.bundler.config.imports).reduce(
