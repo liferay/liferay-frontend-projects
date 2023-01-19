@@ -7,6 +7,7 @@
 export default interface RemoteAppManifestJson {
 	cssURLs: string[];
 	htmlElementName: string;
+	portletCategoryName?: string;
 	type: 'customElement';
 	urls: string[];
 	useESM: boolean;

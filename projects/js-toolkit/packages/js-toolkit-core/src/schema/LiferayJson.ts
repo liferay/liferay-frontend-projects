@@ -23,4 +23,5 @@ export type Bundler2BuildConfig = {};
 export interface CustomElementBuildConfig {
 	externals: {[bareIdentifier: string]: string} | string[];
 	htmlElementName?: string;
+	portletCategoryName?: string;
 }
