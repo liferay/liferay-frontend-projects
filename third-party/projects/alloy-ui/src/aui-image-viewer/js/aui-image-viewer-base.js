@@ -40,9 +40,9 @@ A.ImageViewerBase = A.Base.create(
         A.WidgetStack
     ], {
         TPL_CONTROL_LEFT: '<a href="#" class="' + CSS_CONTROL + ' ' + CSS_CONTROL_LEFT +
-            '"><span class="glyphicon glyphicon-chevron-left"></span></a>',
+            '"><span class="glyphicon glyphicon-chevron-left"><span class="sr-only">Previous Image</span></span></a>',
         TPL_CONTROL_RIGHT: '<a href="#" class="' + CSS_CONTROL + ' ' + CSS_CONTROL_RIGHT +
-            '"><span class="glyphicon glyphicon-chevron-right"></span></a>',
+            '"><span class="glyphicon glyphicon-chevron-right"><span class="sr-only">Next Image</span></span></a>',
         TPL_IMAGE: '<img class="' + CSS_IMAGE + '"/>',
         TPL_IMAGE_CONTAINER: '<div class="' + CSS_IMAGE_CONTAINER + '">' +
             '<span class="glyphicon glyphicon-time ' + CSS_LOADING_ICON + '"></span></div>',
@@ -444,7 +444,16 @@ A.ImageViewerBase = A.Base.create(
         _renderImage: function(index, container) {
             var group,
                 image = A.Node.create(this.TPL_IMAGE),
-                src = this.get('sources')[index];
+                src = this.get('sources')[index],
+                links = this.get('links');
+
+            if (links) {
+                var link = links._nodes[index];
+
+                var description = link.getAttribute('description');
+    
+                image.setAttribute('alt',description);    
+            }
 
             if (A.Lang.isString(src)) {
                 container.prepend(image);

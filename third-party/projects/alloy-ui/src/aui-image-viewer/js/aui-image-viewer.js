@@ -47,18 +47,18 @@ A.ImageViewer = A.Base.create(
         A.WidgetPositionConstrain,
         A.WidgetModality
     ], {
-        TPL_CAPTION: '<h4 class="' + CSS_CAPTION + '"></h4>',
+        TPL_CAPTION: '<span class="h4 ' + CSS_CAPTION + '"></span>',
         TPL_CLOSE: '<button class="close ' + CSS_CONTROL + ' ' + CSS_CLOSE + '" type="button">' +
             '<span class="glyphicon glyphicon-remove"></span></button>',
         TPL_CONTROL_LEFT: '<a href="#" class="carousel-control left ' +
             CSS_CONTROL + ' ' + CSS_CONTROL_LEFT +
-            '"><span class="glyphicon glyphicon-chevron-left"></span></a>',
+            '"><span class="glyphicon glyphicon-chevron-left"><span class="sr-only">Previous Image</span></span></a>',
         TPL_CONTROL_RIGHT: '<a href="#" class="carousel-control right ' +
             CSS_CONTROL + ' ' + CSS_CONTROL_RIGHT +
-            '"><span class="glyphicon glyphicon-chevron-right"></span></a>',
+            '"><span class="glyphicon glyphicon-chevron-right"><span class="sr-only">Next Image</span></span></a>',
         TPL_FOOTER_BUTTONS: '<span class="' + CSS_FOOTER_BUTTONS + '"></span>',
         TPL_FOOTER_CONTENT: '<div class="' + CSS_FOOTER_CONTENT + '"></div>',
-        TPL_INFO: '<h5 class="' + CSS_INFO + '"></h5>',
+        TPL_INFO: '<span class="h5 ' + CSS_INFO + '"></span>',
         TPL_PLAYER: '<span><span class="glyphicon glyphicon-play"></span></span>',
         TPL_THUMBNAILS: '<div class="' + CSS_THUMBNAILS + '"></div>',
 
@@ -447,6 +447,7 @@ A.ImageViewer = A.Base.create(
 
             this._captionEl = A.Node.create(this.TPL_CAPTION);
             this._captionEl.selectable();
+            this._captionEl.setStyle('display','block');
             container.append(this._captionEl);
 
             this._infoEl = A.Node.create(this.TPL_INFO);
