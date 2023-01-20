@@ -1,3 +1,11 @@
+## [liferay-cli/v1.4.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-cli/v1.4.0) (2023-01-20)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-cli/v1.3.0...liferay-cli/v1.4.0)
+
+### :new: Features
+
+-   feat: use portlet category "Client Extensions" by default, for new projects ([\#1066](https://github.com/liferay/liferay-frontend-projects/pull/1066))
+
 ## [liferay-cli/v1.3.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-cli/v1.3.0) (2022-09-20)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-cli/v1.2.0...liferay-cli/v1.3.0)
