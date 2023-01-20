@@ -1,3 +1,11 @@
+## [js-toolkit-core/v5.5.0](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v5.5.0) (2023-01-20)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v5.4.1...js-toolkit-core/v5.5.0)
+
+### :new: Features
+
+-   feat: use portlet category "Client Extensions" by default, for new projects ([\#1066](https://github.com/liferay/liferay-frontend-projects/pull/1066))
+
 ## [js-toolkit-core/v5.4.1](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v5.4.1) (2022-09-28)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v5.4.0...js-toolkit-core/v5.4.1)
