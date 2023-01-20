@@ -1,3 +1,11 @@
+## [portal-base/v1.6.0](https://github.com/liferay/liferay-frontend-projects/tree/portal-base/v1.6.0) (2023-01-20)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/portal-base/v1.5.1...portal-base/v1.6.0)
+
+### :new: Features
+
+-   feat: use portlet category "Client Extensions" by default, for new projects ([\#1066](https://github.com/liferay/liferay-frontend-projects/pull/1066))
+
 ## [portal-base/v1.5.1](https://github.com/liferay/liferay-frontend-projects/tree/portal-base/v1.5.1) (2023-01-10)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/portal-base/v1.5.0...portal-base/v1.5.1)
