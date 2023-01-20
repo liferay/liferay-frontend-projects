@@ -26,6 +26,7 @@ export interface CustomElementBuildOptions {
 	externals: {[bareIdentifier: string]: string};
 	htmlElementName: string | null;
 	minify: boolean;
+	portletCategoryName: string;
 }
 
 type OptionValue = boolean | number | string;
@@ -137,6 +138,8 @@ export default class Build {
 			externals: config.externals || {},
 			htmlElementName: config.htmlElementName,
 			minify: process.env.NODE_ENV !== 'development',
+			portletCategoryName:
+				config.portletCategoryName || 'category.remote-apps',
 		};
 
 		// Remove externals mapped to null

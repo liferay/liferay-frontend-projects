@@ -124,7 +124,7 @@ async function makeZip(project: Project): Promise<void> {
 				`cssURLs=${manifest.cssURLs.join('\n')}`,
 				`htmlElementName=${manifest.htmlElementName}`,
 				'instanceable=true',
-				'portletCategoryName=category.remote-apps',
+				`portletCategoryName=${manifest.portletCategoryName}`,
 				`urls=${manifest.urls.join('\n')}`,
 				`useESM=${manifest.useESM}`,
 			],

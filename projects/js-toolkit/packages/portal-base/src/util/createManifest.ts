@@ -16,7 +16,7 @@ export default function createManifest(
 	project: Project
 ): RemoteAppManifestJson {
 	const options = project.build.options as CustomElementBuildOptions;
-	const {htmlElementName} = options;
+	const {htmlElementName, portletCategoryName} = options;
 
 	if (!htmlElementName) {
 		abort(
@@ -35,6 +35,7 @@ Please configure it using {build.options.htmlElementName} in the {liferay.json} 
 				.asPosix.replace(/\.scss$/i, '.css')
 		),
 		htmlElementName,
+		portletCategoryName,
 		type: 'customElement',
 		urls: [
 			project.srcDir.relative(project.mainModuleFile).toDotRelative()
