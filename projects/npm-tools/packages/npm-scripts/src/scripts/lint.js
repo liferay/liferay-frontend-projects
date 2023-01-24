@@ -14,6 +14,7 @@ const getMergedConfig = require('../utils/getMergedConfig');
 const getPaths = require('../utils/getPaths');
 const inCurrentWorkingDirectory = require('../utils/inCurrentWorkingDirectory');
 const log = require('../utils/log');
+const resolvePluginsRelativeTo = require('../utils/resolveEslintPluginsRelativeTo');
 const {SpawnError} = require('../utils/spawnSync');
 const isSCSS = require('./lint/stylelint/isSCSS');
 const lintSCSS = require('./lint/stylelint/lintSCSS');
@@ -83,6 +84,7 @@ async function lint(options = {}) {
 			// default. Use a negated ignore pattern ... to override"
 
 			ignorePattern: '!*',
+			resolvePluginsRelativeTo,
 		});
 
 		const {default: jsPaths, jspPaths, scssPaths} = partitionArray(paths, {
