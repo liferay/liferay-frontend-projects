@@ -27,6 +27,7 @@ const {ID_END, ID_START} = require('../jsp/getPaddedReplacement');
 const {SCRIPTLET_CONTENT} = require('../jsp/substituteTags');
 const {BLOCK_CLOSE, BLOCK_OPEN} = require('../jsp/tagReplacements');
 const {FILLER_CHAR, SPACE_CHAR, TAB_CHAR} = require('../jsp/toFiller');
+const resolvePluginsRelativeTo = require('../utils/resolveEslintPluginsRelativeTo');
 const rule = require('./rules/newline-before-block-statements');
 
 const EXTENSIONS = {
@@ -67,6 +68,7 @@ const cli = new CLIEngine({
 		...eslintConfig.parserOptions,
 		sourceType: 'module',
 	},
+	resolvePluginsRelativeTo,
 	rules: {
 		'lines-around-comment': [
 			'error',
