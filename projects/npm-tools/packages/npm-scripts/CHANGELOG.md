@@ -1,3 +1,11 @@
+## [npm-scripts/v47.13.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.13.0) (2023-01-24)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.12.0...npm-scripts/v47.13.0)
+
+### :new: Features
+
+-   feat(npm-scripts): add --experimental-standalone flag when calling format and lint, this ensures that the eslint plugins are collected from root of @liferay/npm-scripts instead of where it is called. ([\#1067](https://github.com/liferay/liferay-frontend-projects/pull/1067))
+
 ## [npm-scripts/v47.12.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.12.0) (2023-01-18)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.11.1...npm-scripts/v47.12.0)
