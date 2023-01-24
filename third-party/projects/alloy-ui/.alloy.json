@@ -2,5 +2,5 @@
 	"alloycore": ["aui-base-core"],
 	"alloyregex": "(aui|yui(",
 	"yuiversion": "patched-v3.18.7",
-	"version": "3.1.0-deprecated.108"
+	"version": "3.1.0-deprecated.109"
 }
