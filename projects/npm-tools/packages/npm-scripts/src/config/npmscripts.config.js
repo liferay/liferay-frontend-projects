@@ -6,7 +6,7 @@
 const path = require('path');
 
 const CHECK_AND_FIX_GLOBS = [
-	'**/*.{html,js,jsx,json,css,scss,ts,tsx}',
+	'**/*.{html,js,jsx,css,scss,ts,tsx}',
 	'/*.{js,ts}',
 	'/{dev,extra,src,test}/**/*.{js,scss,ts,tsx}',
 	'/src/**/*.{jsp,jspf}',
