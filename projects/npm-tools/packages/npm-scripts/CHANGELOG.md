@@ -1,3 +1,11 @@
+## [npm-scripts/v47.13.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.13.1) (2023-01-25)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.13.0...npm-scripts/v47.13.1)
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): remove json from default fix/check glob ([\#1068](https://github.com/liferay/liferay-frontend-projects/pull/1068))
+
 ## [npm-scripts/v47.13.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.13.0) (2023-01-24)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.12.0...npm-scripts/v47.13.0)
