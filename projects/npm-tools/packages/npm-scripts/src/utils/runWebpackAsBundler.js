@@ -5,6 +5,7 @@
 
 /* eslint-disable @liferay/no-dynamic-require */
 
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 const resolve = require('resolve');
 const TerserPlugin = require('terser-webpack-plugin');
@@ -40,13 +41,16 @@ module.exports = async function runWebpackAsBundler(
 		await runWebpack(indexWebpackConfig, buildConfig.report);
 	}
 
-	const webpackConfigs = getImportsWebpackConfigs(buildConfig);
+	const exportsWebpackConfig = getExportsWebpackConfig(
+		projectDir,
+		buildConfig
+	);
 
 	let i = 0;
 
-	for (const webpackConfig of webpackConfigs) {
+	for (const webpackConfig of exportsWebpackConfig) {
 		createTempFile(
-			`webpackAsBundler.import[${i++}].config.json`,
+			`webpackAsBundler.export[${i++}].config.json`,
 			JSON.stringify(webpackConfig, null, 2),
 			{autoDelete: false}
 		);
@@ -261,7 +265,7 @@ ${nonDefaultFields}
 	};
 }
 
-function getImportsWebpackConfigs(buildConfig) {
+function getExportsWebpackConfig(projectDir, buildConfig) {
 	const {exports, imports} = buildConfig;
 
 	const allExternals = convertImportsToExternals(imports, 3);
@@ -277,9 +281,19 @@ function getImportsWebpackConfigs(buildConfig) {
 
 		delete externals[pkgName];
 
+		// Compute output file name: for the case of .css files, we want webpack
+		// to create a .js file with the same name as the CSS file and next to
+		// its output. That file is never used (as webpack leaves it empty), but
+		// it allows our exports CSS loader to put the valid .js stub in the
+		// proper place (__liferay__/exports).
+
+		const entryKey = importPath.endsWith('.css')
+			? `__liferay__/css/${flatPkgName.replace(/\.css$/, '')}`
+			: `__liferay__/exports/${flatPkgName}`;
+
 		const webpackConfig = {
 			entry: {
-				[`__liferay__/exports/${flatPkgName}`]: {
+				[entryKey]: {
 					import: importPath,
 				},
 			},
@@ -327,12 +341,39 @@ function getImportsWebpackConfigs(buildConfig) {
 				},
 				path: path.resolve(buildConfig.output),
 			},
+			plugins: [new MiniCssExtractPlugin()],
 			resolve: {
 				fallback: {
 					path: false,
 				},
 			},
 		};
+
+		// For CSS exports, add our loader so that the .js stub is created
+
+		if (importPath.endsWith('.css')) {
+			webpackConfig.module.rules.push({
+				include: /node_modules/,
+				test: new RegExp(`${importPath.replace('/', '\\/')}$`),
+				use: [
+					{
+						loader: require.resolve('./webpackExportCssLoader'),
+						options: {
+							filename:
+								entryKey.replace('/css/', '/exports/') + '.css',
+							projectDir,
+							url: entryKey + '.css',
+						},
+					},
+					{
+						loader: MiniCssExtractPlugin.loader,
+					},
+					{
+						loader: require.resolve('css-loader'),
+					},
+				],
+			});
+		}
 
 		if (process.env.NODE_ENV === 'development') {
 			webpackConfig.devtool = 'source-map';
