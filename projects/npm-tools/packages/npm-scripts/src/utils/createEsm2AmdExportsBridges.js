@@ -32,7 +32,11 @@ function createEsm2AmdExportsBridges(projectDir, buildConfig, manifest) {
 	const {exports, output} = buildConfig;
 
 	exports.forEach((exportItem) => {
-		const {pkgName, scope} = splitModuleName(exportItem.name);
+		const splittedModuleName = splitModuleName(exportItem.name);
+		const {pkgName, scope} = splittedModuleName;
+		let {modulePath} = splittedModuleName;
+
+		// Compute src and destination package.json objects
 
 		const scopedPkgName = joinModuleName(scope, pkgName, '');
 
@@ -42,15 +46,21 @@ function createEsm2AmdExportsBridges(projectDir, buildConfig, manifest) {
 				basedir: projectDir,
 			}
 		));
-		const srcPkgId = `${srcPkgJson.name}@${srcPkgJson.version}`;
 
 		const pkgJson = {
 			dependencies: {},
-			main: './index.js',
 			name: addNamespace(scopedPkgName, rootPkgJson),
 			version: srcPkgJson.version,
 		};
-		const pkgId = `${pkgJson.name}@${pkgJson.version}`;
+
+		// Tweak module path and package.json main's field
+
+		if (!modulePath) {
+			modulePath = '/index';
+			pkgJson.main = './index.js';
+		}
+
+		// Create output package dir
 
 		const packageDir = path.join(
 			output,
@@ -59,6 +69,16 @@ function createEsm2AmdExportsBridges(projectDir, buildConfig, manifest) {
 				name: pkgJson.name,
 				version: pkgJson.version,
 			})
+		);
+
+		fs.mkdirSync(packageDir, {recursive: true});
+
+		// Create/update output package.json file
+
+		fs.writeFileSync(
+			path.join(packageDir, 'package.json'),
+			JSON.stringify(pkgJson, null, '\t'),
+			'utf8'
 		);
 
 		//
@@ -71,10 +91,26 @@ function createEsm2AmdExportsBridges(projectDir, buildConfig, manifest) {
 		// Also, depending for npm-scoped scoped packages, and additional folder
 		// level appears under `/o/js/resolved-module/...`.
 		//
+		// Also, for internal module paths, we must add more `../`s.
+		//
 
-		const rootDir = exportItem.name.startsWith('@')
-			? `../../../..${webContextPath}`
-			: `../../..${webContextPath}`;
+		let rootDir = '../..';
+
+		if (exportItem.name.startsWith('@')) {
+			rootDir += '/..';
+		}
+
+		const hopsToAdd = modulePath.split('/').length - 1;
+
+		for (let i = 0; i < hopsToAdd; i++) {
+			rootDir += '/..';
+		}
+
+		rootDir += webContextPath;
+
+		// Create output bridge file
+
+		const pkgId = `${pkgJson.name}@${pkgJson.version}`;
 
 		const bridgeSource = `
 import * as esModule from "${rootDir}/__liferay__/exports/${flattenPkgName(
@@ -82,7 +118,7 @@ import * as esModule from "${rootDir}/__liferay__/exports/${flattenPkgName(
 		)}.js";
 
 Liferay.Loader.define(
-	"${pkgId}/index",
+	"${pkgId}${modulePath}",
 	['module'], 
 	function (module) {
 		module.exports = {
@@ -94,39 +130,40 @@ Liferay.Loader.define(
 );
 `;
 
-		fs.mkdirSync(packageDir, {recursive: true});
-
-		fs.writeFileSync(
-			path.join(packageDir, 'package.json'),
-			JSON.stringify(pkgJson, null, '\t'),
-			'utf8'
+		const outputFilePath = path.join(
+			packageDir,
+			`${modulePath.substr(1).replace('/', path.sep)}.js`
 		);
 
-		fs.writeFileSync(
-			path.join(packageDir, 'index.js'),
-			bridgeSource,
-			'utf8'
-		);
+		fs.mkdirSync(path.dirname(outputFilePath), {recursive: true});
 
-		manifest.packages[pkgId] = manifest.packages[pkgId] || {
-			dest: {
-				dir: '.',
-				id: pkgId,
-				name: pkgJson.name,
-				version: pkgJson.version,
-			},
-			modules: {
-				'index.js': {
-					flags: {
-						esModule: true,
-						useESM: true,
-					},
+		fs.writeFileSync(outputFilePath, bridgeSource, 'utf8');
+
+		// Update output manifest.json
+
+		if (!manifest.packages[pkgId]) {
+			const srcPkgId = `${srcPkgJson.name}@${srcPkgJson.version}`;
+
+			manifest.packages[pkgId] = {
+				dest: {
+					dir: '.',
+					id: pkgId,
+					name: pkgJson.name,
+					version: pkgJson.version,
 				},
-			},
-			src: {
-				id: srcPkgId,
-				name: srcPkgJson.name,
-				version: srcPkgJson.version,
+				modules: {},
+				src: {
+					id: srcPkgId,
+					name: srcPkgJson.name,
+					version: srcPkgJson.version,
+				},
+			};
+		}
+
+		manifest.packages[pkgId].modules[`${modulePath.substr(1)}.js`] = {
+			flags: {
+				esModule: true,
+				useESM: true,
 			},
 		};
 	});
