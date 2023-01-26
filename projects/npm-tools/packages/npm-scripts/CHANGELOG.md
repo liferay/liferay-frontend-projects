@@ -1,3 +1,11 @@
+## [npm-scripts/v47.14.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.14.0) (2023-01-26)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.13.1...npm-scripts/v47.14.0)
+
+### :new: Features
+
+-   feat: support internal path exports in npm-scripts ([\#1069](https://github.com/liferay/liferay-frontend-projects/pull/1069))
+
 ## [npm-scripts/v47.13.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.13.1) (2023-01-25)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.13.0...npm-scripts/v47.13.1)
