@@ -32,7 +32,9 @@ function createEsm2AmdExportsBridges(projectDir, buildConfig, manifest) {
 	const {exports, output} = buildConfig;
 
 	exports.forEach((exportItem) => {
-		let {modulePath, pkgName, scope} = splitModuleName(exportItem.name);
+		const splittedModuleName = splitModuleName(exportItem.name);
+		const {pkgName, scope} = splittedModuleName;
+		let {modulePath} = splittedModuleName;
 
 		// Compute src and destination package.json objects
 
