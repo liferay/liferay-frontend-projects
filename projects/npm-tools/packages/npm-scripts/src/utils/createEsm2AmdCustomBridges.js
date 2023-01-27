@@ -8,6 +8,8 @@
 const fs = require('fs');
 const path = require('path');
 
+const hashPathForVariable = require('./hashPathForVariable');
+
 /**
  * Create .js files to make ES modules available as Liferay-AMD modules.
  *
@@ -25,14 +27,16 @@ function createEsm2AmdCustomBridges(projectDir, buildConfig, manifest) {
 	const pkgJson = require(path.join(projectDir, 'package.json'));
 
 	Object.entries(customBridges).forEach(([amdModule, esModule]) => {
+		const hashedModulePath = hashPathForVariable(esModule);
+
 		const bridgeSource = `
-import * as esModule from "${esModule}";
+import * as ${hashedModulePath} from "${esModule}";
 
 Liferay.Loader.define(
 	"${pkgJson.name}@${pkgJson.version}/${amdModule}",
 	['module'], 
 	function (module) {
-		module.exports = esModule;
+		module.exports = ${hashedModulePath};
 	}
 );
 `;
