@@ -1,3 +1,11 @@
+## [npm-scripts/v47.14.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.14.1) (2023-01-27)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.14.0...npm-scripts/v47.14.1)
+
+### :new: Features
+
+-   feat(npm-scripts): create a unique hash for the variable name so that each item is unique when added to the combo loader in liferay portal ([\#1070](https://github.com/liferay/liferay-frontend-projects/pull/1070))
+
 ## [npm-scripts/v47.14.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.14.0) (2023-01-26)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.13.1...npm-scripts/v47.14.0)
