@@ -9,6 +9,7 @@ const fs = require('fs');
 const path = require('path');
 
 const getBndWebContextPath = require('./getBndWebContextPath');
+const hashPathForVariable = require('./hashPathForVariable');
 
 /**
  * Create a .js file to make ES index module available as a Liferay-AMD module.
@@ -36,14 +37,18 @@ function createEsm2AmdIndexBridge(projectDir, buildConfig, manifest) {
 
 	const rootDir = pkgJson.name.startsWith('@') ? '../../../..' : '../../..';
 
+	const importPath = `${rootDir}${webContextPath}/__liferay__/index.js`;
+
+	const hashedModulePath = hashPathForVariable(importPath);
+
 	const bridgeSource = `
-import * as esModule from "${rootDir}${webContextPath}/__liferay__/index.js";
+import * as ${hashedModulePath} from "${importPath}";
 
 Liferay.Loader.define(
 	"${pkgJson.name}@${pkgJson.version}/index",
 	['module'], 
 	function (module) {
-		module.exports = esModule;
+		module.exports = ${hashedModulePath};
 	}
 );
 `;

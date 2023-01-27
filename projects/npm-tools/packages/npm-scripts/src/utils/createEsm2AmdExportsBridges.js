@@ -16,6 +16,7 @@ const resolve = require('resolve');
 
 const flattenPkgName = require('./flattenPkgName');
 const getBndWebContextPath = require('./getBndWebContextPath');
+const hashPathForVariable = require('./hashPathForVariable');
 
 /**
  * Create .js files to make ES modules available as Liferay-AMD modules.
@@ -112,10 +113,14 @@ function createEsm2AmdExportsBridges(projectDir, buildConfig, manifest) {
 
 		const pkgId = `${pkgJson.name}@${pkgJson.version}`;
 
-		const bridgeSource = `
-import * as esModule from "${rootDir}/__liferay__/exports/${flattenPkgName(
+		const importPath = `${rootDir}/__liferay__/exports/${flattenPkgName(
 			exportItem.name
-		)}.js";
+		)}.js`;
+
+		const hashedModulePath = hashPathForVariable(importPath);
+
+		const bridgeSource = `
+import * as ${hashedModulePath} from "${importPath}";
 
 Liferay.Loader.define(
 	"${pkgId}${modulePath}",
@@ -123,8 +128,8 @@ Liferay.Loader.define(
 	function (module) {
 		module.exports = {
 			__esModule: true,
-			default: esModule,
-			...esModule,
+			default: ${hashedModulePath},
+			...${hashedModulePath},
 		};
 	}
 );
