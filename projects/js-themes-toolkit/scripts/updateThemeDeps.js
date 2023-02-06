@@ -1,3 +1,10 @@
+/**
+ * SPDX-FileCopyrightText: © 2017 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: MIT
+ */
+
+/* eslint-disable no-console, @liferay/no-dynamic-require */
+
 const fs = require('fs');
 const https = require('https');
 
