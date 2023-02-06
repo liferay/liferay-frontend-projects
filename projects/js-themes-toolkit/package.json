@@ -18,6 +18,8 @@
 		"lint": "liferay-workspace-scripts lint",
 		"lint:fix": "liferay-workspace-scripts lint:fix",
 		"qa": "node scripts/qa.js",
-		"test": "liferay-workspace-scripts test"
+		"test": "liferay-workspace-scripts test",
+		"themeDeps:check": "node scripts/updateThemeDeps.js --check",
+		"themeDeps:update": "node scripts/updateThemeDeps.js"
 	}
 }
