@@ -1,3 +1,11 @@
+## [npm-scripts/v47.14.2](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.14.2) (2023-02-08)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.14.1...npm-scripts/v47.14.2)
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): set getDoAsUserIdEncoded mock as empty string ([\#1075](https://github.com/liferay/liferay-frontend-projects/pull/1075))
+
 ## [npm-scripts/v47.14.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.14.1) (2023-01-27)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.14.0...npm-scripts/v47.14.1)
