@@ -179,7 +179,7 @@ const ThemeDisplay = {
 	/**
 	 * https://github.com/liferay/liferay-portal/blob/31073fb75fb0d3b309f9e0f921cb7a469aa2703d/portal-web/docroot/html/common/themes/top_js.jspf#L217
 	 */
-	getDoAsUserIdEncoded: jest.fn(() => 'default-mocked-do-as-user-id'),
+	getDoAsUserIdEncoded: jest.fn(() => ''),
 
 	/**
 	 * https://github.com/liferay/liferay-portal/blob/a4866af62eb89c69ee00d0e69dbe7ff092b50048/portal-web/docroot/html/common/themes/top_js.jspf#L220
