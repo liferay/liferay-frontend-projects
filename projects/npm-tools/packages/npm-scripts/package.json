@@ -35,7 +35,7 @@
 		"cross-env": "^7.0.0",
 		"cross-spawn": "^7.0.3",
 		"css-loader": "^3.0.0",
-		"deepmerge": "^4.0.0",
+		"deepmerge": "^4.3.0",
 		"eslint": "7.23.0",
 		"fs-extra": "^9.0.1",
 		"globby": "^11.0.0",
