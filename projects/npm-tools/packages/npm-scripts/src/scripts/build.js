@@ -31,7 +31,7 @@ const validateConfig = require('../utils/validateConfig');
 let webpack = require('./webpack');
 
 const CACHE_DISABLED =
-	process.env.LIFERAY_NPM_SCRIPTS_CACHE_DISABLED === 'true';
+	process.env.LIFERAY_NPM_SCRIPTS_CACHE_DISABLED === 'true' || process.env.NODE_ENV !== 'development';
 const CWD = process.cwd();
 
 ({
