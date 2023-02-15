@@ -112,8 +112,6 @@ const ROOT_CONFIGS = [
  * `minify()` is run unless `NODE_ENV` is `development`.
  */
 module.exports = async function (...args) {
-	const cssOnly = pickItem(args, '--css-only');
-	const jsOnly = pickItem(args, '--js-only');
 	const clean = pickItem(args, '--clean');
 
 	const config = getMergedConfig('npmscripts');
@@ -170,8 +168,6 @@ module.exports = async function (...args) {
 	const useCache =
 		!CACHE_DISABLED &&
 		!clean &&
-		!jsOnly &&
-		!cssOnly &&
 		!hasRootConfigChanged() &&
 		isCacheValid(pkgJson.name, srcFiles);
 
@@ -180,7 +176,7 @@ module.exports = async function (...args) {
 			`BUILD JS: Using cache, no changes detected. (To remove cache, run 'yarn build --clean')`
 		);
 	}
-	else if (!cssOnly) {
+	else {
 		if (!CACHE_DISABLED) {
 			log(`BUILD JS: No previous build detected.`);
 		}
@@ -322,20 +318,18 @@ module.exports = async function (...args) {
 		}
 	}
 
-	if (!jsOnly) {
-		if (inputPathExists) {
-			if (useCache) {
-				log(
-					`BUILD SASS: Using cache, no changes detected. (To remove cache, run 'yarn build --clean')`
-				);
-			}
-			else {
-				buildSass(path.join(CWD, BUILD_CONFIG.input), {
-					imports: BUILD_CONFIG.sassIncludePaths,
-					outputDir: BUILD_CONFIG.output,
-					rtl: true,
-				});
-			}
+	if (inputPathExists) {
+		if (useCache) {
+			log(
+				`BUILD SASS: Using cache, no changes detected. (To remove cache, run 'yarn build --clean')`
+			);
+		}
+		else {
+			buildSass(path.join(CWD, BUILD_CONFIG.input), {
+				imports: BUILD_CONFIG.sassIncludePaths,
+				outputDir: BUILD_CONFIG.output,
+				rtl: true,
+			});
 		}
 	}
 
