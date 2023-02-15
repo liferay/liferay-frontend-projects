@@ -10,7 +10,12 @@ const path = require('path');
 
 let buildSass = require('../sass/build');
 let runTSC = require('../typescript/runTSC');
-let {cleanCache, isCacheValid, setCache} = require('../utils/buildArtifacts');
+let {
+	cleanCache,
+	hasRootConfigChanged,
+	isCacheValid,
+	setCache,
+} = require('../utils/buildArtifacts');
 const createAmd2EsmExportsBridges = require('../utils/createAmd2EsmExportsBridges');
 const createEsm2AmdCustomBridges = require('../utils/createEsm2AmdCustomBridges');
 const createEsm2AmdExportsBridges = require('../utils/createEsm2AmdExportsBridges');
@@ -31,7 +36,8 @@ const validateConfig = require('../utils/validateConfig');
 let webpack = require('./webpack');
 
 const CACHE_DISABLED =
-	process.env.LIFERAY_NPM_SCRIPTS_CACHE_DISABLED === 'true' || process.env.NODE_ENV !== 'development';
+	process.env.LIFERAY_NPM_SCRIPTS_CACHE_DISABLED === 'true' ||
+	process.env.NODE_ENV !== 'development';
 const CWD = process.cwd();
 
 ({
@@ -40,6 +46,7 @@ const CWD = process.cwd();
 	cleanCache,
 	cleanSoy,
 	expandGlobs,
+	hasRootConfigChanged,
 	isCacheValid,
 	minify,
 	runBabel,
@@ -57,6 +64,7 @@ const CWD = process.cwd();
 	cleanCache,
 	cleanSoy,
 	expandGlobs,
+	hasRootConfigChanged,
 	isCacheValid,
 	minify,
 	runBabel,
@@ -164,6 +172,7 @@ module.exports = async function (...args) {
 		!clean &&
 		!jsOnly &&
 		!cssOnly &&
+		!hasRootConfigChanged() &&
 		isCacheValid(pkgJson.name, srcFiles);
 
 	if (useCache) {

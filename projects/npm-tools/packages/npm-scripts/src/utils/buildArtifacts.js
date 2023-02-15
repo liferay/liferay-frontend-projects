@@ -160,6 +160,7 @@ function setCache(moduleName, srcFiles, output) {
 	);
 
 	storeBuildArtifacts(builtFiles, moduleName);
+	setRootConfigInfo();
 }
 
 /**
@@ -210,8 +211,90 @@ function storeBuildArtifacts(files, moduleName) {
 	}
 }
 
+function hasRootConfigChanged() {
+	const rootBuildInfoPath = path.join(
+		npmScriptsCacheDir,
+		BUILD_INFO_FILE_NAME
+	);
+	const rootNpmScriptsConfigPath = path.join(root, 'npmscripts.config.js');
+	const rootPkgJsonPath = path.join(root, 'package.json');
+	const rootYarnLockPath = path.join(root, 'yarn.lock');
+
+	if (
+		!fs.existsSync(rootBuildInfoPath) ||
+		!fs.existsSync(rootNpmScriptsConfigPath) ||
+		!fs.existsSync(rootPkgJsonPath) ||
+		!fs.existsSync(rootYarnLockPath)
+	) {
+		return true;
+	}
+
+	const curNpmScriptsConfigModifiedTime = fs.statSync(
+		rootNpmScriptsConfigPath
+	).mtimeMs;
+	const curPkgJsonModifiedTime = fs.statSync(rootPkgJsonPath).mtimeMs;
+	const curYarnLockModifiedTime = fs.statSync(rootYarnLockPath).mtimeMs;
+
+	const {npmScriptsConfig, packageJson, yarnLock} = JSON.parse(
+		fs.readFileSync(rootBuildInfoPath)
+	);
+
+	if (
+		npmScriptsConfig.modifiedTime !== curNpmScriptsConfigModifiedTime ||
+		packageJson.modifiedTime !== curPkgJsonModifiedTime ||
+		yarnLock.modifiedTime !== curYarnLockModifiedTime
+	) {
+		return true;
+	}
+
+	return false;
+}
+
+function setRootConfigInfo() {
+	const rootNpmScriptsConfigPath = path.join(root, 'npmscripts.config.js');
+	const rootPkgJsonPath = path.join(root, 'package.json');
+	const rootYarnLockPath = path.join(root, 'yarn.lock');
+	const rootBuildInfoPath = path.join(
+		npmScriptsCacheDir,
+		BUILD_INFO_FILE_NAME
+	);
+
+	if (
+		!fs.existsSync(rootNpmScriptsConfigPath) ||
+		!fs.existsSync(rootPkgJsonPath) ||
+		!fs.existsSync(rootYarnLockPath)
+	) {
+		return;
+	}
+
+	if (!fs.existsSync(npmScriptsCacheDir)) {
+		fs.mkdirSync(npmScriptsCacheDir, {recursive: true});
+	}
+
+	const npmScriptsConfigModifiedTime = fs.statSync(rootNpmScriptsConfigPath)
+		.mtimeMs;
+	const pkgJsonModifiedTime = fs.statSync(rootPkgJsonPath).mtimeMs;
+	const yarnLockModifiedTime = fs.statSync(rootYarnLockPath).mtimeMs;
+
+	fs.writeFileSync(
+		rootBuildInfoPath,
+		JSON.stringify({
+			npmScriptsConfig: {
+				modifiedTime: npmScriptsConfigModifiedTime,
+			},
+			packageJson: {
+				modifiedTime: pkgJsonModifiedTime,
+			},
+			yarnLock: {
+				modifiedTime: yarnLockModifiedTime,
+			},
+		})
+	);
+}
+
 module.exports = {
 	cleanCache,
+	hasRootConfigChanged,
 	isCacheValid,
 	setCache,
 };
