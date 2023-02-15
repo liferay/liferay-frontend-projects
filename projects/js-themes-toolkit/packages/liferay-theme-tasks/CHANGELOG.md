@@ -1,3 +1,11 @@
+## [liferay-theme-tasks/v11.5.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v11.5.0) (2023-02-15)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v11.4.0...liferay-theme-tasks/v11.5.0)
+
+### :new: Features
+
+-   feat: update theme deps to latest version numbers ([\#1074](https://github.com/liferay/liferay-frontend-projects/pull/1074))
+
 ## [liferay-theme-tasks/v11.4.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v11.4.0) (2022-07-06)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v11.3.0...liferay-theme-tasks/v11.4.0)
