@@ -51,8 +51,8 @@ module.exports = {
 				'compass-mixins': strict('0.12.10'),
 				'gulp': gulpVersion,
 				'liferay-frontend-common-css': strict('1.0.4'),
-				'liferay-frontend-theme-styled': strict('4.0.42'),
-				'liferay-frontend-theme-unstyled': strict('4.0.46'),
+				'liferay-frontend-theme-styled': strict('4.0.47'),
+				'liferay-frontend-theme-unstyled': strict('4.0.51'),
 				'liferay-theme-tasks': themeTasksVersion,
 			},
 			optional: {
@@ -64,8 +64,8 @@ module.exports = {
 				'compass-mixins': strict('0.12.10'),
 				'gulp': gulpVersion,
 				'liferay-frontend-common-css': strict('1.0.4'),
-				'liferay-frontend-theme-styled': strict('5.0.40'),
-				'liferay-frontend-theme-unstyled': strict('5.0.38'),
+				'liferay-frontend-theme-styled': strict('5.0.46'),
+				'liferay-frontend-theme-unstyled': strict('5.0.42'),
 				'liferay-theme-tasks': themeTasksVersion,
 			},
 			optional: {
@@ -76,9 +76,9 @@ module.exports = {
 			default: {
 				'compass-mixins': strict('0.12.10'),
 				'gulp': gulpVersion,
-				'liferay-frontend-css-common': strict('6.0.4'),
-				'liferay-frontend-theme-styled': strict('6.0.38'),
-				'liferay-frontend-theme-unstyled': strict('6.0.33'),
+				'liferay-frontend-css-common': strict('6.0.8'),
+				'liferay-frontend-theme-styled': strict('6.0.54'),
+				'liferay-frontend-theme-unstyled': strict('6.0.45'),
 				'liferay-theme-tasks': themeTasksVersion,
 			},
 			optional: {
