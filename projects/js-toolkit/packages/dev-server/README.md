@@ -1,5 +1,11 @@
 # @liferay/dev-server
 
+**THIS PROJECT IS DEAD**
+
+This project was always experimental and after a year of non-use, we have decided to deprecate the npm package and delete the code in this project.
+
+If you wish to resurrect this project, please file an issue and we can discuss.
+
 **THIS PROJECT IS EXPERIMENTAL**
 
 This project is to be used in conjunction with the [liferay-portal](https://github.com/liferay/liferay-portal) repository. The goal of this project is to speed up frontend development speed.
