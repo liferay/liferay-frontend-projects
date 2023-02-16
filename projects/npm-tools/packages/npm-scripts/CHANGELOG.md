@@ -1,3 +1,11 @@
+## [npm-scripts/v47.14.3](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.14.3) (2023-02-16)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.14.2...npm-scripts/v47.14.3)
+
+### :wrench: Bug fixes
+
+-   fix: update npm-scripts cacheing and remove dev-server ([\#1077](https://github.com/liferay/liferay-frontend-projects/pull/1077))
+
 ## [npm-scripts/v47.14.2](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.14.2) (2023-02-08)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.14.1...npm-scripts/v47.14.2)
