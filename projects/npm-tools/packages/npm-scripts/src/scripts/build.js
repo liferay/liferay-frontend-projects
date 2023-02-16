@@ -10,7 +10,12 @@ const path = require('path');
 
 let buildSass = require('../sass/build');
 let runTSC = require('../typescript/runTSC');
-let {cleanCache, isCacheValid, setCache} = require('../utils/buildArtifacts');
+let {
+	cleanCache,
+	hasRootConfigChanged,
+	isCacheValid,
+	setCache,
+} = require('../utils/buildArtifacts');
 const createAmd2EsmExportsBridges = require('../utils/createAmd2EsmExportsBridges');
 const createEsm2AmdCustomBridges = require('../utils/createEsm2AmdCustomBridges');
 const createEsm2AmdExportsBridges = require('../utils/createEsm2AmdExportsBridges');
@@ -31,7 +36,8 @@ const validateConfig = require('../utils/validateConfig');
 let webpack = require('./webpack');
 
 const CACHE_DISABLED =
-	process.env.LIFERAY_NPM_SCRIPTS_CACHE_DISABLED === 'true';
+	process.env.LIFERAY_NPM_SCRIPTS_CACHE_DISABLED === 'true' ||
+	process.env.NODE_ENV !== 'development';
 const CWD = process.cwd();
 
 ({
@@ -40,6 +46,7 @@ const CWD = process.cwd();
 	cleanCache,
 	cleanSoy,
 	expandGlobs,
+	hasRootConfigChanged,
 	isCacheValid,
 	minify,
 	runBabel,
@@ -57,6 +64,7 @@ const CWD = process.cwd();
 	cleanCache,
 	cleanSoy,
 	expandGlobs,
+	hasRootConfigChanged,
 	isCacheValid,
 	minify,
 	runBabel,
@@ -104,8 +112,6 @@ const ROOT_CONFIGS = [
  * `minify()` is run unless `NODE_ENV` is `development`.
  */
 module.exports = async function (...args) {
-	const cssOnly = pickItem(args, '--css-only');
-	const jsOnly = pickItem(args, '--js-only');
 	const clean = pickItem(args, '--clean');
 
 	const config = getMergedConfig('npmscripts');
@@ -162,8 +168,7 @@ module.exports = async function (...args) {
 	const useCache =
 		!CACHE_DISABLED &&
 		!clean &&
-		!jsOnly &&
-		!cssOnly &&
+		!hasRootConfigChanged() &&
 		isCacheValid(pkgJson.name, srcFiles);
 
 	if (useCache) {
@@ -171,7 +176,7 @@ module.exports = async function (...args) {
 			`BUILD JS: Using cache, no changes detected. (To remove cache, run 'yarn build --clean')`
 		);
 	}
-	else if (!cssOnly) {
+	else {
 		if (!CACHE_DISABLED) {
 			log(`BUILD JS: No previous build detected.`);
 		}
@@ -313,20 +318,18 @@ module.exports = async function (...args) {
 		}
 	}
 
-	if (!jsOnly) {
-		if (inputPathExists) {
-			if (useCache) {
-				log(
-					`BUILD SASS: Using cache, no changes detected. (To remove cache, run 'yarn build --clean')`
-				);
-			}
-			else {
-				buildSass(path.join(CWD, BUILD_CONFIG.input), {
-					imports: BUILD_CONFIG.sassIncludePaths,
-					outputDir: BUILD_CONFIG.output,
-					rtl: true,
-				});
-			}
+	if (inputPathExists) {
+		if (useCache) {
+			log(
+				`BUILD SASS: Using cache, no changes detected. (To remove cache, run 'yarn build --clean')`
+			);
+		}
+		else {
+			buildSass(path.join(CWD, BUILD_CONFIG.input), {
+				imports: BUILD_CONFIG.sassIncludePaths,
+				outputDir: BUILD_CONFIG.output,
+				rtl: true,
+			});
 		}
 	}
 
