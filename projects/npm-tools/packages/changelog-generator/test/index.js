@@ -17,7 +17,7 @@ describe('getVersion()', () => {
 	function setPrefix(prefix = 'v') {
 		fs.writeFileSync(
 			path.join(project, '.yarnrc'),
-			`version-tag-prefix "${prefix}"\n`
+			`tag-version-prefix="${prefix}"\n`
 		);
 	}
 

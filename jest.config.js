@@ -27,7 +27,7 @@ module.exports = {
 	testPathIgnorePatterns: [
 
 		// Projects in maintenance mode which do not participate in the
-		// top-level set of Yarn workspaces.
+		// top-level set of NPM workspaces.
 
 		'<rootDir>/maintenance',
 

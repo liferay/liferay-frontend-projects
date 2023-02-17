@@ -365,7 +365,7 @@ async function getVersion(options) {
  * Returns a tag prefix that can be used to construct or find a version tag.
  *
  * -   If we're being run from a subdirectory in a monorepo and a ".yarnrc" file
- *     exists, we return its "version-tag-prefix".
+ *     exists, we return its "tag-version-prefix".
  *
  *     For example, given a prefix of "my-package/v", then we can find matching
  *     tags using `git describe --match='my-package/v*'.
@@ -376,7 +376,7 @@ async function getVersion(options) {
  *     For example, given a prefix of "v", then we can find matching tags using
  *     `git describe --match='v*'`.
  *
- * -   If we can't get a "version-tag-prefix", we use a fallback prefix of "".
+ * -   If we can't get a "tag-version-prefix", we use a fallback prefix of "".
  *
  *     With the fallback prefix of "", we can find matching tags using
  *     `git describe --match='*'`.
@@ -387,7 +387,7 @@ async function getVersion(options) {
 async function getVersionTagPrefix() {
 	const settings = await readYarnrc();
 
-	const setting = settings.get('version-tag-prefix');
+	const setting = settings.get('tag-version-prefix');
 
 	if (setting) {
 		const match = setting.match(/^"([^"]+)"$/);
