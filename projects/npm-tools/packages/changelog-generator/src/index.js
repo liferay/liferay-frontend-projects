@@ -10,7 +10,7 @@ const {cleanup, error, info, log, prompt, warn} = require('./console');
 const git = require('./git');
 const matchOption = require('./matchOption');
 const printBanner = require('./printBanner');
-const readYarnrc = require('./readYarnrc');
+const readNpmrc = require('./readNpmrc');
 const yarn = require('./yarn');
 
 const PLACEHOLDER_VERSION = '0.0.0-placeholder.0';
@@ -277,7 +277,7 @@ async function getVersion(options) {
 			preid = options.preid;
 		}
 		else {
-			const settings = await readYarnrc();
+			const settings = await readNpmrc();
 
 			preid = settings.get('--version.preid') || preid || 'pre';
 		}
@@ -385,9 +385,11 @@ async function getVersion(options) {
  * wrong directory), an error is thrown.
  */
 async function getVersionTagPrefix() {
-	const settings = await readYarnrc();
+	const settings = await readNpmrc();
 
 	const setting = settings.get('tag-version-prefix');
+
+	console.log('TEST: ', setting);
 
 	if (setting) {
 		const match = setting.match(/^"([^"]+)"$/);
