@@ -200,7 +200,15 @@ A.ImageViewerMultiple = A.Base.create('image-viewer-multiple', A.ImageViewerBase
          * @default 100
          * @type Number | String
          */
-        height: 100
+        height: 100,
+
+        /**
+        * @attribute links
+        * @type Object
+        */
+        links: {
+            validator: A.Lang.isObject
+        },
     },
 
     /**

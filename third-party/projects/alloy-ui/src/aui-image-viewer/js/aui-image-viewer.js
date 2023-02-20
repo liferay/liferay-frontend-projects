@@ -331,6 +331,7 @@ A.ImageViewer = A.Base.create(
 
             return A.merge({
                 height: 70,
+                links: this.get('links'),
                 showControls: false,
                 sources: this._getThumbnailImageSources(),
                 width: '100%'
