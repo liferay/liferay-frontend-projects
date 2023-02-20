@@ -33,7 +33,7 @@ function build(...args) {
 		);
 	}
 
-	yarn('--cwd', getRoot(), 'workspaces', 'run', 'build');
+	npm('--prefix', getRoot(), 'workspaces', 'run', 'build');
 }
 
 function format(...args) {
@@ -43,10 +43,10 @@ function format(...args) {
 		);
 	}
 
-	yarn(
-		'--cwd',
+	npm(
+		'--prefix',
 		getRoot(),
-		'run',
+		'exec',
 		'liferay-npm-scripts',
 		'prettier',
 		'--write',
@@ -63,10 +63,10 @@ function formatCheck(...args) {
 		);
 	}
 
-	yarn(
-		'--cwd',
+	npm(
+		'--prefix',
 		getRoot(),
-		'run',
+		'exec',
 		'liferay-npm-scripts',
 		'prettier',
 		'--list-different',
@@ -75,7 +75,7 @@ function formatCheck(...args) {
 }
 
 /**
- * Yarn may set the `cwd` to the top-level, but we can detect
+ * Npm may set the `cwd` to the top-level, but we can detect
  * subdirectory runs via `INIT_CWD`.
  */
 function getLocal() {
@@ -146,7 +146,7 @@ function lint(...args) {
 		);
 	}
 
-	yarn('--cwd', getRoot(), 'run', 'eslint', ...LINT_GLOBS);
+	npm('--prefix', getRoot(), 'exec', 'eslint', ...LINT_GLOBS);
 }
 
 function lintFix(...args) {
@@ -156,7 +156,7 @@ function lintFix(...args) {
 		);
 	}
 
-	yarn('--cwd', getRoot(), 'run', 'eslint', '--fix', ...LINT_GLOBS);
+	npm('--prefix', getRoot(), 'exec', 'eslint', '--fix', ...LINT_GLOBS);
 }
 
 async function main() {
@@ -253,10 +253,10 @@ function test(...args) {
 	const root = getRoot();
 
 	if (local !== root) {
-		yarn(
-			'--cwd',
+		npm(
+			'--prefix',
 			getRoot(),
-			'run',
+			'exec',
 			'jest',
 			'--passWithNoTests',
 			path.basename(local),
@@ -264,21 +264,28 @@ function test(...args) {
 		);
 	}
 	else {
-		yarn('--cwd', getRoot(), 'run', 'jest', '--passWithNoTests', ...args);
+		npm(
+			'--prefix',
+			getRoot(),
+			'exec',
+			'jest',
+			'--passWithNoTests',
+			...args
+		);
 	}
 }
 
-function yarn(...args) {
-	print(`Running: yarn ${args.join(' ')}`);
+function npm(...args) {
+	print(`Running: npm ${args.join(' ')}`);
 
-	const {error, signal, status} = child_process.spawnSync('yarn', args, {
+	const {error, signal, status} = child_process.spawnSync('npm', args, {
 		shell: true,
 		stdio: 'inherit',
 	});
 
 	if (status !== 0) {
 		throw new Error(
-			`yarn ${args.join(
+			`npm ${args.join(
 				' '
 			)} exited with status: ${status}, error: ${error}, signal: ${signal}`
 		);

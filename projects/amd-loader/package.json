@@ -29,7 +29,7 @@
 		"url": "https://github.com/liferay/liferay-frontend-projects.git"
 	},
 	"scripts": {
-		"build": "yarn build:loader && yarn build:demo",
+		"build": "npm run build:loader && npm run build:demo",
 		"build:demo": "node bin/build-demo.js",
 		"build:loader": "node bin/build-loader.js",
 		"ci": "liferay-workspace-scripts ci",
@@ -40,8 +40,8 @@
 		"lint": "liferay-workspace-scripts lint",
 		"lint:fix": "liferay-workspace-scripts lint:fix",
 		"postversion": "liferay-workspace-scripts publish",
-		"prepublishOnly": "yarn build",
-		"preversion": "yarn ci",
+		"prepublishOnly": "npm run build",
+		"preversion": "npm run ci",
 		"proxyPortal": "webpack-dev-server --config webpack.proxyPortal.js",
 		"test": "liferay-workspace-scripts test"
 	},

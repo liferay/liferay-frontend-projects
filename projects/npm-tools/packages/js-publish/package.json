@@ -6,7 +6,7 @@
 	"dependencies": {
 		"cross-spawn": "^7.0.3"
 	},
-	"description": "Publishes an NPM package via \"yarn version\"",
+	"description": "Publishes an NPM package via \"npm version\"",
 	"files": [
 		"bin",
 		"src"

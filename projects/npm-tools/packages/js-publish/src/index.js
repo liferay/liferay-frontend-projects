@@ -14,11 +14,11 @@ const run = require('./run');
  * whenever we update a package version by (effectively) running:
  *
  *     git push $REMOTE master &&
- *     yarn publish
+ *     npm run publish
  *
  * This is "safe" (enough) because:
  *
- * - We run `yarn ci` in the "preversion" script.
+ * - We run `npm run ci` in the "preversion" script.
  * - In general, "master" should always be in a releasable (green) state due to
  *   our use of Travis CI.
  * - The script includes a number of checks and prompts for confirmation.
@@ -38,7 +38,7 @@ async function main() {
 
 		checkCleanWorktree();
 
-		await checkYarnRc();
+		await checkNpmRc();
 
 		const pkg = JSON.parse(fs.readFileSync('package.json').toString());
 
@@ -50,7 +50,7 @@ async function main() {
 
 		git('push', remote, 'master', '--follow-tags');
 
-		await runYarnPublish(pkg);
+		await runNpmPublish(pkg);
 
 		const url = `https://www.npmjs.com/package/${pkg.name}`;
 
@@ -69,7 +69,7 @@ async function main() {
 			'git rev-parse --abbrev-ref HEAD # expect "master"\n' +
 				'git diff --quiet # expect no output\n' +
 				'git push $REMOTE master --follow-tags # you will need to supply $REMOTE\n' +
-				'yarn publish'
+				'npm run publish'
 		);
 
 		exitStatus = 1;
@@ -110,9 +110,9 @@ async function checkPackage(pkg) {
 	}
 }
 
-async function checkYarnRc() {
-	if (!fs.existsSync('.yarnrc')) {
-		await confirm('No .yarnrc file was found; proceed anyway?');
+async function checkNpmRc() {
+	if (!fs.existsSync('.npmrc')) {
+		await confirm('No .npmrc file was found; proceed anyway?');
 	}
 }
 
@@ -197,8 +197,8 @@ function printBanner(...lines) {
 	print(['', ...lines, ''].join('\n\n'));
 }
 
-async function runYarnPublish(pkg) {
-	await confirm('Run `yarn publish`?');
+async function runNpmPublish(pkg) {
+	await confirm('Run `npm publish`?');
 
 	const args = ['--non-interactive'];
 
@@ -224,14 +224,14 @@ async function runYarnPublish(pkg) {
 	}
 
 	try {
-		run('yarn', 'publish', ...args);
+		run('npm', 'run', 'publish', ...args);
 	}
 	catch (error) {
 		printBanner(
 			'Failed to publish package! ❌',
 			'',
 			`You've already pushed to remote.`,
-			`Try publishing with 'yarn publish ${args.join(' ')}'`
+			`Try publishing with 'npm run publish ${args.join(' ')}'`
 		);
 	}
 }
