@@ -389,8 +389,6 @@ async function getVersionTagPrefix() {
 
 	const setting = settings.get('tag-version-prefix');
 
-	console.log('TEST: ', setting);
-
 	if (setting) {
 		const match = setting.match(/^"([^"]+)"$/);
 
