@@ -14,7 +14,6 @@ const fs = require('fs');
 const path = require('path');
 const resolve = require('resolve');
 
-const flattenPkgName = require('./flattenPkgName');
 const getBndWebContextPath = require('./getBndWebContextPath');
 const hashPathForVariable = require('./hashPathForVariable');
 
@@ -32,94 +31,94 @@ function createEsm2AmdExportsBridges(projectDir, buildConfig, manifest) {
 
 	const {exports, output} = buildConfig;
 
-	exports.forEach((exportItem) => {
-		const splittedModuleName = splitModuleName(exportItem.name);
-		const {pkgName, scope} = splittedModuleName;
-		let {modulePath} = splittedModuleName;
+	exports
+		.filter((exportsItem) => !exportsItem.path.startsWith('.'))
+		.forEach((exportsItem) => {
+			const splittedModuleName = splitModuleName(exportsItem.path);
+			const {pkgName, scope} = splittedModuleName;
+			let {modulePath} = splittedModuleName;
 
-		// Compute src and destination package.json objects
+			// Compute src and destination package.json objects
 
-		const scopedPkgName = joinModuleName(scope, pkgName, '');
+			const scopedPkgName = joinModuleName(scope, pkgName, '');
 
-		const srcPkgJson = require(resolve.sync(
-			`${scopedPkgName}/package.json`,
-			{
-				basedir: projectDir,
+			const srcPkgJson = require(resolve.sync(
+				`${scopedPkgName}/package.json`,
+				{
+					basedir: projectDir,
+				}
+			));
+
+			const pkgJson = {
+				dependencies: {},
+				name: addNamespace(scopedPkgName, rootPkgJson),
+				version: srcPkgJson.version,
+			};
+
+			// Tweak module path and package.json main's field
+
+			if (!modulePath) {
+				modulePath = '/index';
+				pkgJson.main = './index.js';
 			}
-		));
 
-		const pkgJson = {
-			dependencies: {},
-			name: addNamespace(scopedPkgName, rootPkgJson),
-			version: srcPkgJson.version,
-		};
+			// Create output package dir
 
-		// Tweak module path and package.json main's field
+			const packageDir = path.join(
+				output,
+				'node_modules',
+				getPackageTargetDir({
+					name: pkgJson.name,
+					version: pkgJson.version,
+				})
+			);
 
-		if (!modulePath) {
-			modulePath = '/index';
-			pkgJson.main = './index.js';
-		}
+			fs.mkdirSync(packageDir, {recursive: true});
 
-		// Create output package dir
+			// Create/update output package.json file
 
-		const packageDir = path.join(
-			output,
-			'node_modules',
-			getPackageTargetDir({
-				name: pkgJson.name,
-				version: pkgJson.version,
-			})
-		);
+			fs.writeFileSync(
+				path.join(packageDir, 'package.json'),
+				JSON.stringify(pkgJson, null, '\t'),
+				'utf8'
+			);
 
-		fs.mkdirSync(packageDir, {recursive: true});
+			//
+			// Compute the relative position of the bridge related to the real ES
+			// module.
+			//
+			// Note that AMD modules are server under `/o/js/resolved-module/...`
+			// whereas ESM are under `/o/my-context-path/__liferay__/exports/...`.
+			//
+			// Also, depending for npm-scoped scoped packages, and additional folder
+			// level appears under `/o/js/resolved-module/...`.
+			//
+			// Also, for internal module paths, we must add more `../`s.
+			//
 
-		// Create/update output package.json file
+			let rootDir = '../..';
 
-		fs.writeFileSync(
-			path.join(packageDir, 'package.json'),
-			JSON.stringify(pkgJson, null, '\t'),
-			'utf8'
-		);
+			if (exportsItem.path.startsWith('@')) {
+				rootDir += '/..';
+			}
 
-		//
-		// Compute the relative position of the bridge related to the real ES
-		// module.
-		//
-		// Note that AMD modules are server under `/o/js/resolved-module/...`
-		// whereas ESM are under `/o/my-context-path/__liferay__/exports/...`.
-		//
-		// Also, depending for npm-scoped scoped packages, and additional folder
-		// level appears under `/o/js/resolved-module/...`.
-		//
-		// Also, for internal module paths, we must add more `../`s.
-		//
+			const hopsToAdd = modulePath.split('/').length - 1;
 
-		let rootDir = '../..';
+			for (let i = 0; i < hopsToAdd; i++) {
+				rootDir += '/..';
+			}
 
-		if (exportItem.name.startsWith('@')) {
-			rootDir += '/..';
-		}
+			rootDir += webContextPath;
 
-		const hopsToAdd = modulePath.split('/').length - 1;
+			// Create output bridge file
 
-		for (let i = 0; i < hopsToAdd; i++) {
-			rootDir += '/..';
-		}
+			const pkgId = `${pkgJson.name}@${pkgJson.version}`;
 
-		rootDir += webContextPath;
+			const importPath = `${rootDir}/${exportsItem.name}.js`;
 
-		// Create output bridge file
+			const hashedModulePath = hashPathForVariable(importPath);
 
-		const pkgId = `${pkgJson.name}@${pkgJson.version}`;
-
-		const importPath = `${rootDir}/__liferay__/exports/${flattenPkgName(
-			exportItem.name
-		)}.js`;
-
-		const hashedModulePath = hashPathForVariable(importPath);
-
-		const bridgeSource = `
+			const bridgeSource = `
 import * as ${hashedModulePath} from "${importPath}";
 
 Liferay.Loader.define(
@@ -135,43 +134,43 @@ Liferay.Loader.define(
 );
 `;
 
-		const outputFilePath = path.join(
-			packageDir,
-			`${modulePath.substr(1).replace('/', path.sep)}.js`
-		);
+			const outputFilePath = path.join(
+				packageDir,
+				`${modulePath.substr(1).replace('/', path.sep)}.js`
+			);
 
-		fs.mkdirSync(path.dirname(outputFilePath), {recursive: true});
+			fs.mkdirSync(path.dirname(outputFilePath), {recursive: true});
 
-		fs.writeFileSync(outputFilePath, bridgeSource, 'utf8');
+			fs.writeFileSync(outputFilePath, bridgeSource, 'utf8');
 
-		// Update output manifest.json
+			// Update output manifest.json
 
-		if (!manifest.packages[pkgId]) {
-			const srcPkgId = `${srcPkgJson.name}@${srcPkgJson.version}`;
+			if (!manifest.packages[pkgId]) {
+				const srcPkgId = `${srcPkgJson.name}@${srcPkgJson.version}`;
 
-			manifest.packages[pkgId] = {
-				dest: {
-					dir: '.',
-					id: pkgId,
-					name: pkgJson.name,
-					version: pkgJson.version,
-				},
-				modules: {},
-				src: {
-					id: srcPkgId,
-					name: srcPkgJson.name,
-					version: srcPkgJson.version,
+				manifest.packages[pkgId] = {
+					dest: {
+						dir: '.',
+						id: pkgId,
+						name: pkgJson.name,
+						version: pkgJson.version,
+					},
+					modules: {},
+					src: {
+						id: srcPkgId,
+						name: srcPkgJson.name,
+						version: srcPkgJson.version,
+					},
+				};
+			}
+
+			manifest.packages[pkgId].modules[`${modulePath.substr(1)}.js`] = {
+				flags: {
+					esModule: true,
+					useESM: true,
 				},
 			};
-		}
-
-		manifest.packages[pkgId].modules[`${modulePath.substr(1)}.js`] = {
-			flags: {
-				esModule: true,
-				useESM: true,
-			},
-		};
-	});
+		});
 }
 
 function getPackageTargetDir(pkgJson) {
