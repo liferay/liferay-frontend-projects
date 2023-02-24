@@ -132,7 +132,7 @@ function convertAndWriteRTL(cssContent, filePath, outputDir) {
 
 function main(
 	baseDir,
-	{appendImportTimestamps = true, excludes, imports = [], rtl, outputDir = ''}
+	{appendImportTimestamps = true, excludes, imports = [], outputDir = '', rtl}
 ) {
 	const {entryFiles, partials} = collectSassFiles(baseDir, excludes);
 	const cssFiles = expandGlobs(['**/*.css'], excludes, {baseDir});
