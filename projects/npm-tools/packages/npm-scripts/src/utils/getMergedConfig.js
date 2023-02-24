@@ -7,6 +7,7 @@ const path = require('path');
 
 const deepMerge = require('./deepMerge');
 const findRoot = require('./findRoot');
+const flattenPkgName = require('./flattenPkgName');
 const getDXPVersion = require('./getDXPVersion');
 const getUserConfig = require('./getUserConfig');
 
@@ -252,14 +253,47 @@ function normalizeNpmscriptsConfig(mergedConfig) {
 		// Normalize exports
 
 		mergedConfig.build.exports = mergedConfig.build.exports.map(
-			(exportItem) => {
-				if (typeof exportItem === 'string') {
-					exportItem = {
-						name: exportItem,
+			(exportsItem) => {
+				if (typeof exportsItem === 'string') {
+					exportsItem = {
+						path: exportsItem,
 					};
 				}
 
-				return exportItem;
+				// Compute output file name: for the case of .css files, we want webpack
+				// to create a .js file with the same name as the CSS file and next to
+				// its output. That file is never used (as webpack leaves it empty), but
+				// it allows our exports CSS loader to put the valid .js stub in the
+				// proper place (__liferay__/exports).
+
+				if (!exportsItem.name) {
+					if (exportsItem.path.startsWith('.')) {
+						throw new Error(
+							'Internal exports must specify name and path'
+						);
+					}
+
+					const flatPkgName = flattenPkgName(exportsItem.path);
+
+					exportsItem.name = exportsItem.path.endsWith('.css')
+						? `__liferay__/css/${flatPkgName.replace(/\.css$/, '')}`
+						: `__liferay__/exports/${flatPkgName}`;
+				}
+
+				// Prefix exports names with '__liferay__', since we don't want
+				// to force users to specify it in the configuration
+
+				if (!exportsItem.name.startsWith('__liferay__/')) {
+					exportsItem.name = `__liferay__/${exportsItem.name}`;
+				}
+				else {
+					throw new Error(
+						'Export names should not begin with __liferay__/ ' +
+							'since it is automatically added by the build.'
+					);
+				}
+
+				return exportsItem;
 			}
 		);
 
