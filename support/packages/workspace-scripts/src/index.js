@@ -33,7 +33,7 @@ function build(...args) {
 		);
 	}
 
-	npm('--prefix', getRoot(), 'workspaces', 'run', 'build');
+	npm('--prefix', getRoot(), 'run', 'build', '--workspaces', '--if-present');
 }
 
 function format(...args) {
