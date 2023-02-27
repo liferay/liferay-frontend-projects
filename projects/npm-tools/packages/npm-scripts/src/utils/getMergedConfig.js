@@ -290,6 +290,7 @@ function normalizeNpmscriptsConfig(mergedConfig) {
 				}
 				else if (exportsItem.name) {
 					exportsItem = {
+						...exportsItem,
 						name: getOutputFileName(exportsItem.name),
 						path: exportsItem.name,
 					};

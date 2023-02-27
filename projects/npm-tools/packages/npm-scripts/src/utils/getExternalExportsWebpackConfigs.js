@@ -232,7 +232,7 @@ ${nonDefaultFields}
 		}
 
 		const {filePath} = createTempFile(
-			`${exportsItem.name}.js`,
+			`${exportsItem.path}.js`,
 			bridgeSource,
 			{
 				autoDelete: false,
