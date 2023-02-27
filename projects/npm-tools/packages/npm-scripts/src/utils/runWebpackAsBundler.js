@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/* XXeslint-disable @liferay/no-dynamic-require */
+/* eslint-disable @liferay/no-dynamic-require */
 
 const createTempFile = require('./createTempFile');
 const getExternalExportsWebpackConfigs = require('./getExternalExportsWebpackConfigs');
