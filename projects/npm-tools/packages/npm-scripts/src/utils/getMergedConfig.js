@@ -238,6 +238,21 @@ function getMergedConfig(type, property) {
 	return pluck(mergedConfig, property);
 }
 
+function getOutputFileName(exportPath) {
+
+	// Compute output file name: for the case of .css files, we want webpack
+	// to create a .js file with the same name as the CSS file and next to
+	// its output. That file is never used (as webpack leaves it empty), but
+	// it allows our exports CSS loader to put the valid .js stub in the
+	// proper place (__liferay__/exports).
+
+	const flatPkgName = flattenPkgName(exportPath);
+
+	return exportPath.endsWith('.css')
+		? `css/${flatPkgName.replace(/\.css$/, '')}`
+		: `exports/${flatPkgName}`;
+}
+
 function normalizeNpmscriptsConfig(mergedConfig) {
 	if (mergedConfig.build?.main) {
 		mergedConfig.build.babel = false;
@@ -250,34 +265,40 @@ function normalizeNpmscriptsConfig(mergedConfig) {
 
 	if (Array.isArray(mergedConfig.build?.exports)) {
 
-		// Normalize exports
+		// Normalize exports, which can be:
+		//   1. A single string referencing an npm package
+		//   2. An object with name and path (starting with `./`) plus options
+		//      (if needed), for interal exports.
+		//   3. An object with just name (not path) plus options (eg: symbols:
+		//      'auto') referencing an npm package
 
 		mergedConfig.build.exports = mergedConfig.build.exports.map(
 			(exportsItem) => {
 				if (typeof exportsItem === 'string') {
 					exportsItem = {
+						name: getOutputFileName(exportsItem),
 						path: exportsItem,
 					};
 				}
-
-				// Compute output file name: for the case of .css files, we want webpack
-				// to create a .js file with the same name as the CSS file and next to
-				// its output. That file is never used (as webpack leaves it empty), but
-				// it allows our exports CSS loader to put the valid .js stub in the
-				// proper place (__liferay__/exports).
-
-				if (!exportsItem.name) {
-					if (exportsItem.path.startsWith('.')) {
+				else if (exportsItem.name && exportsItem.path) {
+					if (!exportsItem.path.startsWith('.')) {
 						throw new Error(
-							'Internal exports must specify name and path'
+							'External exports should only specify name: ' +
+								exportsItem
 						);
 					}
-
-					const flatPkgName = flattenPkgName(exportsItem.path);
-
-					exportsItem.name = exportsItem.path.endsWith('.css')
-						? `css/${flatPkgName.replace(/\.css$/, '')}`
-						: `exports/${flatPkgName}`;
+				}
+				else if (exportsItem.name) {
+					exportsItem = {
+						name: getOutputFileName(exportsItem.name),
+						path: exportsItem.name,
+					};
+				}
+				else {
+					throw new Error(
+						'Exports should specify name or (name + path): ' +
+							exportsItem
+					);
 				}
 
 				// Prefix exports names with '__liferay__', since we don't want
