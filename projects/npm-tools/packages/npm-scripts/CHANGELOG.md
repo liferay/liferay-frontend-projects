@@ -1,3 +1,11 @@
+## [npm-scripts/v47.15.2](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.15.2) (2023-02-27)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.15.1...npm-scripts/v47.15.2)
+
+### :wrench: Bug fixes
+
+-   fix: don't shadow {symbols: 'auto'} ([\#1090](https://github.com/liferay/liferay-frontend-projects/pull/1090))
+
 ## [npm-scripts/v47.15.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.15.1) (2023-02-27)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.15.0...npm-scripts/v47.15.1)
