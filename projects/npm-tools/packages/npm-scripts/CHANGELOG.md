@@ -1,3 +1,11 @@
+## [npm-scripts/v47.16.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.16.0) (2023-03-01)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.15.2...npm-scripts/v47.16.0)
+
+### :house: Chores
+
+-   chore(npm-scripts): evaluate npm-scripts config and simplify slightly ([\#1092](https://github.com/liferay/liferay-frontend-projects/pull/1092))
+
 ## [npm-scripts/v47.15.2](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.15.2) (2023-02-27)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.15.1...npm-scripts/v47.15.2)
