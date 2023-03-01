@@ -189,29 +189,16 @@ function getMergedConfig(type, property) {
 				}
 			}
 
-			if (process.cwd() === rootDir) {
-				mergedConfig = deepMerge(
-					[
-						require('../config/npmscripts.config'),
-						rootConfig.global || {},
-					],
-					deepMerge.MODE.NPMSCRIPTS
-				);
-			}
-			else {
-				mergedConfig = deepMerge(
-					[
-						require('../config/npmscripts.config'),
+			const configs = [
+				require('../config/npmscripts.config'),
+				rootConfig,
+			];
 
-						// Temporary workaround until we re-evaluate global key
-
-						{rules: rootConfig.global?.rules || {}},
-						rootConfig,
-						getUserConfig('npmscripts'),
-					],
-					deepMerge.MODE.NPMSCRIPTS
-				);
+			if (process.cwd() !== rootDir) {
+				configs.push(getUserConfig('npmscripts'));
 			}
+
+			mergedConfig = deepMerge(configs, deepMerge.MODE.NPMSCRIPTS);
 
 			normalizeNpmscriptsConfig(mergedConfig);
 			break;
