@@ -1,4 +1,257 @@
-// Flex mixin
+// Lexicon UX 1.x Alert
+
+@mixin color-alert-text($color, $bold-color) {
+	color: $color;
+
+	.alert-link,
+	.close,
+	.lead {
+		color: $bold-color;
+	}
+}
+
+// Lexicon UX 1.x Aspect Ratio
+
+@mixin aspect-ratio($width: 1, $height: 1) {
+	padding-bottom: percentage($height / $width);
+}
+
+// Lexicon UX 1.x Button
+
+@mixin color-btn($border) {
+	border-color: $border;
+}
+
+@mixin color-btn-hover($bg, $border) {
+	&:focus,
+	&:hover {
+		background-color: $bg;
+		border-color: $border;
+	}
+}
+
+@mixin color-btn-active($bg, $border) {
+	&:active,
+	&.active,
+	&:active:focus,
+	&:active:hover,
+	&.active:focus,
+	&.active:hover,
+	.open > &.dropdown-toggle,
+	.open > &.dropdown-toggle:focus,
+	.open > &.dropdown-toggle:hover {
+		background-color: $bg;
+		border-color: $border;
+	}
+}
+
+// Lexicon UX 1.x Dropdowns
+
+@mixin color-dropdown-toggle-link($color: $link-color, $focus-color: $link-hover-color, $hover-color: $link-hover-color) {
+	.dropdown-toggle {
+		color: $color;
+
+		&:focus {
+			color: $focus-color;
+		}
+
+		&:hover {
+			color: $hover-color;
+		}
+	}
+}
+
+@mixin color-dropdown-menu-links($color: $dropdown-link-color, $focus-color: $dropdown-link-active-color, $hover-color: $dropdown-link-hover-color) {
+	.dropdown-menu {
+		a {
+			color: $color;
+
+			&:focus {
+				color: $focus-color;
+			}
+
+			&:hover {
+				color: $hover-color;
+			}
+		}
+	}
+}
+
+// Lexicon UX 1.x Figures
+
+@mixin color-figcaption ($bgColor: #000, $alpha: 0.7, $color: #fff) {
+	background-color: $bgColor;
+	background-color: rgba($bgColor, $alpha);
+	color: $color;
+}
+
+@mixin style-figcaption($bgColor: #000, $alpha: 0.7, $color: #fff) {
+	@warn "Lexicon's `style-figcaption($bgColor: $figcaption-bg, $alpha: $figcaption-bg-alpha, $color: $figcaption-color)` mixin is deprecated as of v1.0.10 and will be removed in v2.0.0.";
+
+	@include color-figcaption($bgColor, $alpha, $color);
+
+	font-weight: 300;
+	padding: 10px 15px;
+	position: absolute;
+	width: 100%;
+}
+
+// Lexicon UX 1.x Forms
+
+@mixin color-placeholder($element, $color: null) {
+	@warn "Lexicon's `color-placeholder($element, $color: $input-color-placeholder)` mixin is deprecated as of v1.0.9 and will be removed in v2.0.0. Please use `placeholder($color: $input-color-placeholder)` instead.";
+
+	#{$element}::-webkit-input-placeholder {
+		color: $color;
+	}
+
+	#{$element}:-moz-placeholder {
+		color: $color;
+	}
+
+	#{$element}::-moz-placeholder {
+		color: $color;
+	}
+
+	#{$element}:-ms-input-placeholder {
+		color: $color;
+	}
+}
+
+@mixin select-box-icon($color) {
+	@warn "Lexicon's `select-box-icon($color)` mixin is deprecated as of v1.0.10 and will be removed in v2.0.0. Please use `background-image: lx-icon($name, $color)` instead.";
+
+	background-image: clay-icon(caret-double-l, $color);
+}
+
+// Lexicon UX 1.x List Group
+
+@mixin color-tabular-list-group-item($color, $active-bg: $list-group-active-bg) {
+	background-color: transparent;
+	border-left: 5px solid $color;
+
+	&,
+	&:focus,
+	&:hover {
+		color: $color;
+	}
+
+	&.active {
+		background-color: $active-bg;
+	}
+
+	.status {
+		color: $color;
+	}
+}
+
+// Lexicon UX 1.x Loaders
+
+@function to-list($value, $num: 5) {
+	$newList: ($value);
+
+	@for $i from 1 to $num {
+		$newList: append($newList, $value, 'comma');
+	}
+
+	@return $newList;
+}
+
+@mixin trailing-shadow($xOffset, $yOffset, $color: #93ccf5, $size: (-0.4em, -0.42em, -0.44em, -0.46em, -0.477em)) {
+	@if type-of($xOffset) != 'list' {
+		$xOffset: to-list($xOffset);
+	}
+
+	@if type-of($yOffset) != 'list' {
+		$yOffset: to-list($yOffset);
+	}
+
+	@if type-of($color) != 'list' {
+		$color: to-list($color);
+	}
+
+	@if type-of($size) != 'list' {
+		$size: to-list($size);
+	}
+
+	$len: length($color);
+
+	@for $i from $len * -1 through -2 {
+		$color: set-nth($color, $i, adjust-hue(nth($color, $i), (abs($i) - 1) * 5));
+	}
+
+	$box-shadow: nth($xOffset, 1) nth($yOffset, 1) 0 nth($size, 1) nth($color, 1),
+	nth($xOffset, 2) nth($yOffset, 2) 0 nth($size, 2) nth($color, 2),
+	nth($xOffset, 3) nth($yOffset, 3) 0 nth($size, 3) nth($color, 3),
+	nth($xOffset, 4) nth($yOffset, 4) 0 nth($size, 4) nth($color, 4),
+	nth($xOffset, 5) nth($yOffset, 5) 0 nth($size, 5) nth($color, 5);
+
+	box-shadow: $box-shadow;
+}
+
+// Lexicon UX 1.x Monospace
+
+@mixin monospace($size) {
+	height: $size;
+	line-height: $size;
+	width: $size;
+}
+
+// Lexicon UX 1.x Nameplates
+
+@mixin color-nameplate-label($bg, $color: $body-color) {
+	background-color: $bg;
+	color: $color;
+}
+
+@mixin nameplate-label-autofit($media-feature) {
+	@media ($media-feature) {
+		&,
+		.nameplate-label {
+			margin-right: 0;
+		}
+
+		.nameplate-field {
+			width: 1%;
+		}
+
+		.nameplate-label-text {
+			left: 5px;
+			max-width: none;
+			position: absolute;
+			right: 5px;
+			text-align: left;
+			top: auto;
+
+			-ms-transform: translateY(-50%);
+			transform: translateY(-50%);
+		}
+
+		.nameplate-label-more .nameplate-label-text {
+			text-align: center;
+		}
+	}
+}
+
+// Lexicon UX 1.x Nav Nested
+
+@mixin make-nav-nested($indent: 15px, $nest-level: 15, $nav-class: ".nav", $i: 1) {
+	@for $i from (1) through $nest-level {
+		#{$nav-class} > li {
+			> a {
+				padding-left: $indent * ($i + 1);
+			}
+
+			> .nav-equal-height-heading {
+				padding-left: $indent * $i;
+			}
+		}
+
+		$nav-class: "#{$nav-class} .nav";
+	}
+}
+
+// Lexicon UX 1.x Simple Flexbox Grid
 
 @mixin break-flex-item() {
 	flex-basis: auto;
@@ -11,6 +264,118 @@
 	.flex-item-full {
 		flex-basis: auto;
 	}
+}
+
+// Lexicon UX 1.x Timelines
+
+@mixin timeline-item-reverse() {
+	@include clay-timeline-item-reverse();
+}
+
+@mixin timeline-spacing($outer-spacing, $inner-spacing, $item-vertical-padding: 10px) {
+	@include clay-timeline-spacing($outer-spacing, $inner-spacing, $item-vertical-padding);
+}
+
+// Lexicon UX 1.x Toggle Switch
+
+@function set-data-label-text-position($toggle-switch-width, $toggle-switch-padding) {
+	@return clay-data-label-text-position($toggle-switch-width, $toggle-switch-padding);
+}
+
+@mixin color-toggle-switch-bar($off-bg, $off-border: $off-bg, $on-bg: $off-bg, $on-border: $off-border) {
+	@warn "Lexicon's `color-toggle-switch-bar($off-bg, $off-border: $off-bg, $on-bg: $off-bg, $on-border: $off-border)` mixin is deprecated as of v1.0.11 and will be removed in v2.0.0.";
+
+	&:empty ~ .toggle-switch-bar {
+		&:before {
+			background-color: $off-bg;
+			border: $toggle-switch-bar-border-width solid $off-border;
+		}
+	}
+
+	&:checked ~ .toggle-switch-bar {
+		&:before {
+			background-color: $on-bg;
+			border: $toggle-switch-bar-border-width solid $on-border;
+		}
+	}
+}
+
+@mixin color-toggle-switch-button($button-off-bg, $button-off-border: $button-off-bg, $button-on-bg: $button-off-bg, $button-on-border: $button-off-border) {
+	@warn "Lexicon's `color-toggle-switch-button($button-off-bg, $button-off-border: $button-off-bg, $button-on-bg: $button-off-bg, $button-on-border: $button-off-border)` mixin is deprecated as of v1.0.11 and will be removed in v2.0.0.";
+
+	&:empty ~ .toggle-switch-bar {
+		&:after {
+			background-color: $button-off-bg;
+			border: $toggle-switch-button-border-width solid $button-off-border;
+		}
+	}
+
+	&:checked ~ .toggle-switch-bar {
+		&:after {
+			background-color: $button-on-bg;
+			border: $toggle-switch-button-border-width solid $button-on-border;
+		}
+	}
+}
+
+@mixin color-toggle-switch-bar-icon($off-color, $on-color: $off-color) {
+	@warn "Lexicon's `color-toggle-switch-bar-icon($off-color, $on-color: $off-color)` mixin is deprecated as of v1.0.11 and will be removed in v2.0.0.";
+
+	&:empty ~ .toggle-switch-bar .toggle-switch-icon {
+		color: $off-color;
+	}
+
+	&:checked ~ .toggle-switch-bar .toggle-switch-icon {
+		color: $on-color;
+	}
+}
+
+@mixin color-toggle-switch-button-icon($off-color, $on-color: $off-color) {
+	@warn "Lexicon's `color-toggle-switch-button-icon($off-color, $on-color: $off-color)` mixin is deprecated as of v1.0.11 and will be removed in v2.0.0.";
+
+	&:empty ~ .toggle-switch-bar .toggle-switch-icon.button-icon {
+		color: $off-color;
+	}
+
+	&:checked ~ .toggle-switch-bar .toggle-switch-icon.button-icon {
+		color: $on-color;
+	}
+}
+
+// Lexicon UX 1.x Type
+
+@mixin color-blockquote ($color) {
+	border-color: $color;
+
+	footer, small, .small {
+		color: $color;
+	}
+}
+
+@mixin color-link($color, $hover-color) {
+	color: $color;
+
+	&:focus,
+	&:hover {
+		color: $hover-color;
+	}
+}
+
+@mixin highlight-text($bg-color, $color) {
+	@include clay-highlight-text($bg-color, $color);
+}
+
+// Lexicon UX 1.x User Icons
+
+@mixin color-user-icon($bg-color: #999, $color: #FFF) {
+	background-color: $bg-color;
+	color: $color;
+}
+
+@mixin size-user-icon($size: 32px) {
+	@warn "Lexicon's `size-user-icon($size)` mixin is deprecated as of v1.0.6 and will be removed in v2.0.0. Please use `monospace($size)` instead.";
+
+	@include monospace($size);
 }
 
 // BS3 Button Size mixin

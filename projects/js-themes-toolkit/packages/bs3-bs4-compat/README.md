@@ -33,13 +33,15 @@ In order for sass to compile correctly, you must import them correctly so that i
 
 ### Adding to a Theme
 
-You need to import the `.scss` files into your theme. Below is an example of adding it to the styled and classic themes in DXP.
+You need to import the `.scss` files into your theme. If you are using any Bootstrap 3 or Lexicon 1.x mixins in `_clay_custom.scss`, make sure to import it. Below is an example of adding it to the styled and classic themes in DXP.
 
 **Styled Theme**
 
 `modules/apps/frontend-theme/frontend-theme-styled/src/css/clay.scss`
 
 ```diff
++ @import '@liferay/bs3-bs4-compat/scss/mixins';
+
 @import 'clay/base';
 
 + @import '@liferay/bs3-bs4-compat/scss/variables';
@@ -52,6 +54,8 @@ You need to import the `.scss` files into your theme. Below is an example of add
 `modules/apps/frontend-theme/frontend-theme-classic/src/css/clay.scss`
 
 ```diff
++ @import '@liferay/bs3-bs4-compat/scss/mixins';
+
 @import 'clay/atlas';
 
 + @import '@liferay/bs3-bs4-compat/scss/variables';
@@ -61,4 +65,28 @@ You need to import the `.scss` files into your theme. Below is an example of add
 + @import '@liferay/bs3-bs4-compat/scss/components';
 ```
 
-After making this change and deploying to your DXP bundle, you should see the compatibility layer working.
+If your `_custom.scss` file relies on Liferay's media query mixins, Bootstrap 3, or Lexicon 1.x, the build may fail due to missing imports. You will need to change the imports like so:
+
+[7.1.x Classic Theme \_imports.scss](https://github.com/liferay/liferay-portal/blob/7.1.x/modules/apps/frontend-theme/frontend-theme-classic/src/css/_imports.scss)
+
+```diff
+- @import "clay_custom";
+
+@import "bourbon";
+
+- @import "mixins";
++ @import 'liferay-frontend-css-common/mixins';
+
+- @import "compat/mixins";
++ @import '@liferay/bs3-bs4-compat/scss/mixins';
+
+@import "clay/atlas-variables";
+
++ @import '@liferay/bs3-bs4-compat/scss/atlas_variables';
+
++ @import '@liferay/bs3-bs4-compat/scss/variables';
+
++ @import 'clay/_cadmin-variables';
+```
+
+After making these changes and deploying to your DXP bundle, you should see the compatibility layer working.
