@@ -1,3 +1,11 @@
+## [portal-base/v1.6.1](https://github.com/liferay/liferay-frontend-projects/tree/portal-base/v1.6.1) (2023-03-06)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/portal-base/v1.6.0...portal-base/v1.6.1)
+
+### :wrench: Bug fixes
+
+-   fix: fix source maps for liferay-npm-bundler v2 builds ([\#1097](https://github.com/liferay/liferay-frontend-projects/pull/1097))
+
 ## [portal-base/v1.6.0](https://github.com/liferay/liferay-frontend-projects/tree/portal-base/v1.6.0) (2023-01-20)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/portal-base/v1.5.1...portal-base/v1.6.0)
