@@ -89,7 +89,7 @@ function runBabel(project: Project): void {
 
 			fs.writeFileSync(
 				project.build.dir.join(srcDirRelJsFile).asNative,
-				code,
+				`${code}\n//# sourceMappingURL=${srcDirRelJsFile.basename()}.map`,
 				'utf8'
 			);
 
