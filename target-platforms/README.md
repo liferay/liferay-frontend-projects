@@ -30,8 +30,7 @@ are listed here:
 -   `portal-adapt-vue-cli`: a special target platform that is used when adapting
     native Vue.js projects for deployment to Liferay.
 -   `portal-agnostic`: a target platform to avoid coupling of the project with
--   any
-    specific Liferay version.
+    any specific Liferay version.
 -   `portal-master`: an internal target platform used by this project to be able
     to target current development version of Liferay Portal.
 
@@ -56,7 +55,7 @@ Among other things, target platforms contain:
 -   The npm dependencies: for example
     [these ones](https://github.com/izaera/liferay-frontend-projects/blob/doc-toolkit-3/target-platforms/packages/portal-7.4-ga1/package.json#L5-L131).
 -   The `liferay-npm-bundler` configuration used to build the project: for
--   example
+    example
     [this one](https://github.com/izaera/liferay-frontend-projects/blob/doc-toolkit-3/target-platforms/packages/portal-7.4-ga1/config.json).
 -   The `liferay.js` file that will be invoked by the `@liferay/cli` to delegate
     its tasks to the target platform: for example
