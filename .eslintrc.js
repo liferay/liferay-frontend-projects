@@ -26,6 +26,8 @@ module.exports = {
 		'/projects/amd-loader/src/demo/modules',
 		'/projects/js-themes-toolkit/packages/liferay-theme-tasks/lib/r2',
 		'/projects/js-themes-toolkit/qa',
+		'/projects/js-toolkit/packages/js-api/**/*.d.ts',
+		'/projects/js-toolkit/packages/js-api/**/*.js',
 		'/projects/js-toolkit/qa',
 		'/projects/js-toolkit/**/generators',
 		'/projects/js-toolkit/**/lib',
