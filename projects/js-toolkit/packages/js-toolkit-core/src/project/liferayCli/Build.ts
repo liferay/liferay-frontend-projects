@@ -8,15 +8,17 @@ import fs from 'fs';
 import FilePath from '../../file/FilePath';
 import LiferayJson, {
 	BuildConfig,
+	BuildType,
 	Bundler2BuildConfig,
 	CustomElementBuildConfig,
 } from '../../schema/LiferayJson';
 import Project from './Project';
 import persist, {Location} from './persist';
 
-type BuildType = 'bundler2' | 'customElement';
-
-type BuildOptions = Bundler2BuildOptions | CustomElementBuildOptions;
+type BuildOptions =
+	| Bundler2BuildOptions
+	| CustomElementBuildOptions
+	| ThemeSpritemapBuildOptions;
 
 export interface Bundler2BuildOptions {
 	minify: boolean;
@@ -27,6 +29,11 @@ export interface CustomElementBuildOptions {
 	htmlElementName: string | null;
 	minify: boolean;
 	portletCategoryName: string;
+}
+
+export interface ThemeSpritemapBuildOptions {
+	enableSVG4Everybody: boolean;
+	extendClay: boolean;
 }
 
 type OptionValue = boolean | number | string;
@@ -49,6 +56,11 @@ export default class Build {
 					project,
 					config as CustomElementBuildConfig
 				);
+				break;
+			case 'themeSpritemap':
+				this.type = 'themeSpritemap';
+				this.dir = project.dir.join('build');
+				this.options = config as ThemeSpritemapBuildOptions;
 				break;
 
 			case 'bundler2': {

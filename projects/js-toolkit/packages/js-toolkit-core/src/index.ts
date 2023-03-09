@@ -34,6 +34,7 @@ export {default as Project} from './project/liferayCli/Project';
 export {
 	Bundler2BuildOptions,
 	CustomElementBuildOptions,
+	ThemeSpritemapBuildOptions,
 } from './project/liferayCli/Build';
 
 // Format library

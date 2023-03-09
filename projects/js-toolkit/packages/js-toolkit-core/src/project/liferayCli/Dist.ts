@@ -30,6 +30,8 @@ export default class Dist {
 				this.file = this.dir.join(bundler2Project.jar.outputFilename);
 				break;
 			}
+			case 'themeSpritemap':
+				break;
 
 			default:
 				throw new Error(
