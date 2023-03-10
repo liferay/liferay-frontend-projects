@@ -8,6 +8,7 @@
 
 import merge from 'deepmerge';
 import fs from 'fs';
+import yaml from 'js-yaml';
 import os from 'os';
 import path from 'path';
 import resolve from 'resolve';
@@ -20,6 +21,7 @@ import Deploy from './Deploy';
 import Dist from './Dist';
 import Start from './Start';
 
+import type ClientExtensionYaml from '../../schema/ClientExtensionYaml';
 import type {Writable} from './Writable';
 
 export default class Project {
@@ -61,7 +63,31 @@ export default class Project {
 			self.mainModuleFile = this.srcDir.join('index.js');
 		}
 
-		const liferayJson = this._loadLiferayJson();
+		let liferayJson = this._loadLiferayJson();
+
+		const clientExtensionYamlPath = this.dir.join('client-extension.yaml')
+			.asNative;
+
+		if (fs.existsSync(clientExtensionYamlPath)) {
+			try {
+				const yamlConfig = yaml.load(
+					fs.readFileSync(
+						this.dir.join('client-extension.yaml').asNative,
+						'utf8'
+					)
+				);
+
+				liferayJson = merge.all([
+					liferayJson,
+					this._normalizeClientExtensionYaml(yamlConfig),
+				]);
+			}
+			catch (error) {
+				if (error.code !== 'ENOENT') {
+					throw error;
+				}
+			}
+		}
 
 		self.build = new Build(this, liferayJson);
 		self.deploy = new Deploy(this, liferayJson);
@@ -160,6 +186,19 @@ export default class Project {
 		});
 
 		return merge.all(items.map((item) => this._normalizeLiferayJson(item)));
+	}
+
+	private _normalizeClientExtensionYaml(
+		yamlConfig: ClientExtensionYaml
+	): LiferayJson {
+		const {type, ...otherConfig} = yamlConfig[this.pkgJson.name];
+
+		return {
+			build: {
+				options: otherConfig,
+				type,
+			},
+		};
 	}
 
 	private _normalizeLiferayJson(liferayJson: LiferayJson): LiferayJson {
