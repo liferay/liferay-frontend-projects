@@ -25,8 +25,8 @@ const HEADER_REGEXP = /<!--(.*)-->/s;
 
 const SPRITEMAP_FILE_NAME = 'spritemap.svg';
 
-export default async function customElement(project: Project): Promise<void> {
-	const {enableSVG4Everybody = false, extendClay = false} = project.build
+export default async function themeSpritemap(project: Project): Promise<void> {
+	const {enableSVG4Everybody, extendClay} = project.build
 		.options as ThemeSpritemapBuildOptions;
 
 	fs.mkdirSync(project.build.dir.asNative, {recursive: true});
@@ -43,15 +43,15 @@ export default async function customElement(project: Project): Promise<void> {
 		'<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">';
 
 	if (extendClay) {
-		const clayPath = require.resolve('@clayui/css');
+		const clayPath = project.resolve('@clayui/css');
 
-		if (!clayPath) {
+		if (!fs.existsSync(clayPath)) {
 			print(
 				error` @clay/css package not found. Add as a dependency to your client extension via npm.`
 			);
 		}
 
-		const claySpritemapPath = require.resolve(
+		const claySpritemapPath = project.resolve(
 			'@clayui/css/lib/images/icons/icons.svg'
 		);
 
