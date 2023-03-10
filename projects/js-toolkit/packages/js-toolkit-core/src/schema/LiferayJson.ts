@@ -3,12 +3,10 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-export type BuildType = 'bundler2' | 'customElement' | 'themeSpritemap';
-
 export default interface LiferayJson {
 	build?: {
 		options?: BuildConfig;
-		type?: BuildType;
+		type?: 'bundler2' | 'customElement' | 'themeSpritemap';
 	};
 	deploy?: {
 		path?: string;

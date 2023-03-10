@@ -8,12 +8,13 @@ import fs from 'fs';
 import FilePath from '../../file/FilePath';
 import LiferayJson, {
 	BuildConfig,
-	BuildType,
 	Bundler2BuildConfig,
 	CustomElementBuildConfig,
 } from '../../schema/LiferayJson';
 import Project from './Project';
 import persist, {Location} from './persist';
+
+type BuildType = 'bundler2' | 'customElement' | 'themeSpritemap';
 
 type BuildOptions =
 	| Bundler2BuildOptions
