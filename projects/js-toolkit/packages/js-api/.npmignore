@@ -1,0 +1,6 @@
+/.my.vim
+/tsconfig.json
+/tsconfig.tsbuildinfo
+/webpack.config.js
+
+/*.tgz

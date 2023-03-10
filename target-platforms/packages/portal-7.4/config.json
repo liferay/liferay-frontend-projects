@@ -23,7 +23,13 @@
 			"@liferay/address-web": {
 				"/": "*"
 			},
+			"@liferay/amd-loader": {
+				"/": "*"
+			},
 			"@liferay/content-dashboard-web": {
+				"/": "*"
+			},
+			"@liferay/cookies-banner-web": {
 				"/": "*"
 			},
 			"@liferay/document-library-preview-css": {
@@ -46,6 +52,23 @@
 			},
 			"@liferay/frontend-js-a11y-web": {
 				"/": "*"
+			},
+			"@liferay/frontend-js-dependencies-web": {
+				"/": "*",
+				"clipboard": "*",
+				"dagre": "*",
+				"date-fns": "*",
+				"dom-align": "*",
+				"fuzzy": "*",
+				"image-promise": "*",
+				"liferay-ckeditor": "*",
+				"qrcode": "*",
+				"qs": "*",
+				"react-text-mask": "*",
+				"react-transition-group": "*",
+				"text-mask-addons": "*",
+				"text-mask-core": "*",
+				"uuid": "*"
 			},
 			"@liferay/frontend-js-react-web": {
 				"/": "*",
@@ -78,7 +101,14 @@
 			"@liferay/map-openstreetmap": {
 				"/": "*"
 			},
+			"@liferay/multi-factor-authentication-fido2-web": {
+				"/": "*",
+				"base64-js": "*"
+			},
 			"@liferay/object-js-components-web": {
+				"/": "*"
+			},
+			"@liferay/template-web": {
 				"/": "*"
 			},
 			"asset-taglib": {
@@ -105,8 +135,13 @@
 			"dynamic-data-mapping-form-web": {
 				"/": "*"
 			},
+			"frontend-editor-alloyeditor-web": {
+				"/": "*",
+				"alloyeditor": "*"
+			},
 			"frontend-editor-ckeditor-web": {
-				"/": "*"
+				"/": "*",
+				"ckeditor4-react": "*"
 			},
 			"frontend-js-components-web": {
 				"/": "*"
@@ -230,6 +265,7 @@
 				"@clayui/panel": "*",
 				"@clayui/popover": "*",
 				"@clayui/progress-bar": "*",
+				"@clayui/provider": "*",
 				"@clayui/shared": "*",
 				"@clayui/slider": "*",
 				"@clayui/sticker": "*",
@@ -249,6 +285,7 @@
 				"clay-checkbox": "*",
 				"clay-collapse": "*",
 				"clay-component": "*",
+				"clay-css": "*",
 				"clay-data-provider": "*",
 				"clay-dataset-display": "*",
 				"clay-dropdown": "*",

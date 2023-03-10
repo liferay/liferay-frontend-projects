@@ -20,7 +20,25 @@
 	},
 	"config": {
 		"imports": {
+			"@liferay/address-web": {
+				"/": "*"
+			},
+			"@liferay/amd-loader": {
+				"/": "*"
+			},
+			"@liferay/content-dashboard-web": {
+				"/": "*"
+			},
+			"@liferay/cookies-banner-web": {
+				"/": "*"
+			},
 			"@liferay/document-library-preview-css": {
+				"/": "*"
+			},
+			"@liferay/document-library-web": {
+				"/": "*"
+			},
+			"@liferay/flags-taglib": {
 				"/": "*"
 			},
 			"@liferay/fragment-renderer-collection-filter-impl": {
@@ -29,8 +47,28 @@
 			"@liferay/frontend-data-set-web": {
 				"/": "*"
 			},
+			"@liferay/frontend-icons-web": {
+				"/": "*"
+			},
 			"@liferay/frontend-js-a11y-web": {
 				"/": "*"
+			},
+			"@liferay/frontend-js-dependencies-web": {
+				"/": "*",
+				"clipboard": "*",
+				"dagre": "*",
+				"date-fns": "*",
+				"dom-align": "*",
+				"fuzzy": "*",
+				"image-promise": "*",
+				"liferay-ckeditor": "*",
+				"qrcode": "*",
+				"qs": "*",
+				"react-text-mask": "*",
+				"react-transition-group": "*",
+				"text-mask-addons": "*",
+				"text-mask-core": "*",
+				"uuid": "*"
 			},
 			"@liferay/frontend-js-react-web": {
 				"/": "*",
@@ -45,7 +83,13 @@
 			"@liferay/frontend-js-state-web": {
 				"/": "*"
 			},
+			"@liferay/frontend-js-walkthrough-web": {
+				"/": "*"
+			},
 			"@liferay/frontend-taglib": {
+				"/": "*"
+			},
+			"@liferay/layout-content-page-editor-web": {
 				"/": "*"
 			},
 			"@liferay/map-common": {
@@ -55,6 +99,16 @@
 				"/": "*"
 			},
 			"@liferay/map-openstreetmap": {
+				"/": "*"
+			},
+			"@liferay/multi-factor-authentication-fido2-web": {
+				"/": "*",
+				"base64-js": "*"
+			},
+			"@liferay/object-js-components-web": {
+				"/": "*"
+			},
+			"@liferay/template-web": {
 				"/": "*"
 			},
 			"asset-taglib": {
@@ -81,8 +135,13 @@
 			"dynamic-data-mapping-form-web": {
 				"/": "*"
 			},
+			"frontend-editor-alloyeditor-web": {
+				"/": "*",
+				"alloyeditor": "*"
+			},
 			"frontend-editor-ckeditor-web": {
-				"/": "*"
+				"/": "*",
+				"ckeditor4-react": "*"
 			},
 			"frontend-js-components-web": {
 				"/": "*"
@@ -181,6 +240,7 @@
 				"@clayui/card": "*",
 				"@clayui/charts": "*",
 				"@clayui/color-picker": "*",
+				"@clayui/core": "*",
 				"@clayui/css": "*",
 				"@clayui/data-provider": "*",
 				"@clayui/date-picker": "*",
@@ -193,6 +253,7 @@
 				"@clayui/link": "*",
 				"@clayui/list": "*",
 				"@clayui/loading-indicator": "*",
+				"@clayui/localized-input": "*",
 				"@clayui/management-toolbar": "*",
 				"@clayui/modal": "*",
 				"@clayui/multi-select": "*",
@@ -204,12 +265,14 @@
 				"@clayui/panel": "*",
 				"@clayui/popover": "*",
 				"@clayui/progress-bar": "*",
+				"@clayui/provider": "*",
 				"@clayui/shared": "*",
 				"@clayui/slider": "*",
 				"@clayui/sticker": "*",
 				"@clayui/table": "*",
 				"@clayui/tabs": "*",
 				"@clayui/time-picker": "*",
+				"@clayui/toolbar": "*",
 				"@clayui/tooltip": "*",
 				"@clayui/upper-toolbar": "*",
 				"clay": "*",
@@ -222,6 +285,7 @@
 				"clay-checkbox": "*",
 				"clay-collapse": "*",
 				"clay-component": "*",
+				"clay-css": "*",
 				"clay-data-provider": "*",
 				"clay-dataset-display": "*",
 				"clay-dropdown": "*",
@@ -245,6 +309,9 @@
 				"clay-tooltip": "*"
 			},
 			"item-selector-taglib": {
+				"/": "*"
+			},
+			"social-bookmarks-taglib": {
 				"/": "*"
 			}
 		}
