@@ -11,7 +11,7 @@
 	"scripts": {
 		"build": "tsc",
 		"ci": "liferay-workspace-scripts ci",
-		"clean": "rm -rf dist",
+		"clean": "find . \\( -name '*.d.ts' -o -name '*.js' \\) -exec rm -v {} \\; && rm -v ./tsconfig.tsbuildinfo",
 		"format": "liferay-workspace-scripts format",
 		"format:check": "liferay-workspace-scripts format:check",
 		"lint": "liferay-workspace-scripts lint",
