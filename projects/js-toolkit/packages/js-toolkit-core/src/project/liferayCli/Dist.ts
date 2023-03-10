@@ -31,6 +31,8 @@ export default class Dist {
 				break;
 			}
 			case 'themeSpritemap':
+				this.dir = project.dir.join('dist');
+				this.file = this.dir.join(`${project.dir.basename()}.zip`);
 				break;
 
 			default:
