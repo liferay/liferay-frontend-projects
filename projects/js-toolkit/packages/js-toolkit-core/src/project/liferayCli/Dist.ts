@@ -30,6 +30,7 @@ export default class Dist {
 				this.file = this.dir.join(bundler2Project.jar.outputFilename);
 				break;
 			}
+
 			case 'themeSpritemap':
 				this.dir = project.dir.join('dist');
 				this.file = this.dir.join(`${project.dir.basename()}.zip`);

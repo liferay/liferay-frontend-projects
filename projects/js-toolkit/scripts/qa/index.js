@@ -16,6 +16,7 @@ const {
 	generateCreateReactApp,
 	generatePortlet,
 	generateRemoteApp,
+	generateThemeSpritemapClientExtension,
 	generateVueCli,
 	logStep,
 	spawn,
@@ -124,6 +125,11 @@ async function main() {
 		generateAngularCli('angular-cli-portlet');
 		generateCreateReactApp('create-react-app-portlet');
 		generateVueCli('vue-cli-portlet');
+		generateThemeSpritemapClientExtension('theme-spritemap-cet');
+		generateThemeSpritemapClientExtension(
+			'theme-spritemap-cet-extend-clay',
+			true
+		);
 	}
 
 	if (argv['build']) {
