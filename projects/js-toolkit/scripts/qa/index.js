@@ -158,11 +158,11 @@ async function forEachProject(fn) {
 
 	for (const dirent of dirents) {
 		if (!dirent.isDirectory()) {
-			return;
+			continue;
 		}
 
 		if (dirent.name === 'tmp') {
-			return;
+			continue;
 		}
 
 		await fn(dirent.name);
