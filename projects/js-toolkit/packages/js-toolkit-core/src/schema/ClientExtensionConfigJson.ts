@@ -9,7 +9,7 @@ export default interface ClientExtensionConfigJson {
 		description: string;
 		name: string;
 		sourceCodeURL: string;
-		type: 'customElement';
+		type: 'customElement' | 'themeSpritemap';
 		typeSettings: string[];
 	};
 }

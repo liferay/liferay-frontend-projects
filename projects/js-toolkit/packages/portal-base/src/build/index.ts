@@ -8,6 +8,7 @@ import {Project, format} from '@liferay/js-toolkit-core';
 import abort from '../util/abort';
 import bundler2 from './bundler2';
 import customElement from './customElement';
+import themeSpritemap from './themeSpritemap';
 
 const {print, success} = format;
 
@@ -22,6 +23,10 @@ export default async function build(): Promise<void> {
 
 			case 'bundler2':
 				await bundler2(project);
+				break;
+
+			case 'themeSpritemap':
+				await themeSpritemap(project);
 				break;
 
 			default:

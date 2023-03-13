@@ -3,7 +3,12 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {FilePath, Project, format} from '@liferay/js-toolkit-core';
+import {
+	Bundler2BuildOptions,
+	FilePath,
+	Project,
+	format,
+} from '@liferay/js-toolkit-core';
 import fs from 'fs';
 import {sync as resolve} from 'resolve';
 import sass from 'sass';
@@ -18,7 +23,7 @@ export default function runSass(project: Project): FilePath[] {
 		return;
 	}
 
-	const options = project.build.options;
+	const options = project.build.options as Bundler2BuildOptions;
 
 	const scssFiles = findFiles(project.srcDir, (dirent) => {
 		const lowerCaseName = dirent.name.toLowerCase();
