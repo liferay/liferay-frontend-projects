@@ -4,7 +4,6 @@
  */
 
 import type {
-	BuildType,
 	Bundler2BuildConfig,
 	CustomElementBuildConfig,
 	ThemeSpritemapBuildConfig,
@@ -18,5 +17,5 @@ export default interface ClientExtensionYaml
 	description: string;
 	name: string;
 	sourceCodeURL: string;
-	type: BuildType;
+	type: 'bundler2' | 'customElement' | 'themeSpritemap';
 }
