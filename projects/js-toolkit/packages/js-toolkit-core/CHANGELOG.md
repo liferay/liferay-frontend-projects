@@ -1,3 +1,15 @@
+## [js-toolkit-core/v5.6.0](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v5.6.0) (2023-03-14)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v5.5.0...js-toolkit-core/v5.6.0)
+
+### :new: Features
+
+-   feat(js-toolkit): adds support for building theme spritemap client extensions ([\#1101](https://github.com/liferay/liferay-frontend-projects/pull/1101))
+
+### :house: Chores
+
+-   chore(js-toolkit): add qa scripts for theme spritemap cet ([\#1102](https://github.com/liferay/liferay-frontend-projects/pull/1102))
+
 ## [js-toolkit-core/v5.5.0](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v5.5.0) (2023-01-20)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v5.4.1...js-toolkit-core/v5.5.0)
