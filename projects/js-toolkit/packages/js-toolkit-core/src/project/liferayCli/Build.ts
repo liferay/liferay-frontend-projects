@@ -58,6 +58,7 @@ export default class Build {
 					config as CustomElementBuildConfig
 				);
 				break;
+
 			case 'themeSpritemap':
 				this.type = 'themeSpritemap';
 				this.dir = project.dir.join('build');
