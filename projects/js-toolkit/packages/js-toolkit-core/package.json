@@ -16,7 +16,8 @@
 		"read-json-sync": "^2.0.1",
 		"resolve": "^1.8.1",
 		"source-map": "^0.7.3",
-		"webpack": "^5.11.1"
+		"webpack": "^5.11.1",
+		"js-yaml": "^4.1.0"
 	},
 	"description": "Utility library for Liferay NPM Build Tools.",
 	"license": "LGPL-3.0",
