@@ -1,3 +1,11 @@
+## [portal-base/v1.7.0](https://github.com/liferay/liferay-frontend-projects/tree/portal-base/v1.7.0) (2023-03-14)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/portal-base/v1.6.1...portal-base/v1.7.0)
+
+### :new: Features
+
+-   feat(js-toolkit): adds support for building theme spritemap client extensions ([\#1101](https://github.com/liferay/liferay-frontend-projects/pull/1101))
+
 ## [portal-base/v1.6.1](https://github.com/liferay/liferay-frontend-projects/tree/portal-base/v1.6.1) (2023-03-06)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/portal-base/v1.6.0...portal-base/v1.6.1)
