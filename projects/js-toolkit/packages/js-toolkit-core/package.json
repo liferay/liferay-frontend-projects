@@ -11,13 +11,13 @@
 		"escodegen": "^1.14.1",
 		"estraverse": "^4.3.0",
 		"fs-extra": "^8.1.0",
+		"js-yaml": "^4.1.0",
 		"liferay-npm-build-tools-common": "^2.0.0",
 		"properties": "^1.2.1",
 		"read-json-sync": "^2.0.1",
 		"resolve": "^1.8.1",
 		"source-map": "^0.7.3",
-		"webpack": "^5.11.1",
-		"js-yaml": "^4.1.0"
+		"webpack": "^5.11.1"
 	},
 	"description": "Utility library for Liferay NPM Build Tools.",
 	"license": "LGPL-3.0",
@@ -41,5 +41,5 @@
 		"preversion": "liferay-workspace-scripts ci",
 		"test": "liferay-workspace-scripts test"
 	},
-	"version": "5.6.0"
+	"version": "5.6.1"
 }

@@ -1,3 +1,11 @@
+## [js-toolkit-core/v5.6.1](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v5.6.1) (2023-03-14)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v5.6.0...js-toolkit-core/v5.6.1)
+
+### :wrench: Bug fixes
+
+-   fix(js-toolkit-core): add missing dependency ([\#1103](https://github.com/liferay/liferay-frontend-projects/pull/1103))
+
 ## [js-toolkit-core/v5.6.0](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v5.6.0) (2023-03-14)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v5.5.0...js-toolkit-core/v5.6.0)
