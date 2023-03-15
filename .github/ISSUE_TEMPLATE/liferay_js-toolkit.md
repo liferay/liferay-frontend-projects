@@ -4,7 +4,7 @@ about: Issues related to the Liferay JS Toolkit
 labels: js-toolkit
 ---
 
-> 👀 Please check the [troubleshooting guide](https://github.com/liferay/liferay-frontend-projects/blob/master/maintenance/projects/js-toolkit/docs/How-to-troubleshoot-your-setups.md) before reporting anything. It contains important information on how to fix or diagnose errors.
+> 👀 Please check the [troubleshooting guide](https://github.com/liferay/liferay-frontend-projects/blob/master/projects/js-toolkit/docs/troubleshooting.md) before reporting anything. It contains important information on how to fix or diagnose errors.
 
 ### Issue type (mark with `x`)
 
