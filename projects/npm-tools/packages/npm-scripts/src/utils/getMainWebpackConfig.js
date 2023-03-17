@@ -66,17 +66,6 @@ module.exports = function getMainWebpackConfig(
 				},
 			],
 		},
-		optimization: {
-			minimize: true,
-			minimizer: [
-				new TerserPlugin({
-					terserOptions: {
-						keep_classnames: true,
-						keep_fnames: true,
-					},
-				}),
-			],
-		},
 		output: {
 			environment: {
 				dynamicImport: true,
@@ -104,6 +93,18 @@ module.exports = function getMainWebpackConfig(
 	else {
 		webpackConfig.devtool = false;
 		webpackConfig.mode = 'production';
+		webpackConfig.optimization = {
+			...webpackConfig.optimization,
+			minimize: true,
+			minimizer: [
+				new TerserPlugin({
+					terserOptions: {
+						keep_classnames: true,
+						keep_fnames: true,
+					},
+				}),
+			],
+		};
 	}
 
 	return webpackConfig;
