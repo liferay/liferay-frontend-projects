@@ -67,5 +67,11 @@
 			"portal-7.4": "Liferay Portal CE 7.4",
 			"dxp-7.4": "Liferay DXP 7.4"
 		}
+	},
+	"target-theme-spritemap": {
+		"platforms": {
+			"portal-7.4": "Liferay Portal CE 7.4",
+			"dxp-7.4": "Liferay DXP 7.4"
+		}
 	}
 }
