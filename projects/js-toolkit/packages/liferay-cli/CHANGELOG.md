@@ -1,3 +1,12 @@
+## [liferay-cli/v1.5.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-cli/v1.5.0) (2023-03-17)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-cli/v1.4.0...liferay-cli/v1.5.0)
+
+### :new: Features
+
+-   feat(@liferay/cli): add a way to specify what version of dxp that the target project is supported ([\#1105](https://github.com/liferay/liferay-frontend-projects/pull/1105))
+-   feat(liferay-cli): add new 'theme spritemap' target type ([\#1104](https://github.com/liferay/liferay-frontend-projects/pull/1104))
+
 ## [liferay-cli/v1.4.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-cli/v1.4.0) (2023-01-20)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-cli/v1.3.0...liferay-cli/v1.4.0)
