@@ -32,7 +32,8 @@ const TARGET_ID = 'target-theme-spritemap';
 const platforms = dependencies[TARGET_ID]['platforms'];
 
 const target: Target = {
-	name: 'Liferay Theme Spritemap Client Extension (Experimental)',
+	dxpSupport: 'experimental',
+	name: 'Liferay Theme Spritemap Client Extension',
 
 	async prompt(useDefaults: boolean, options: Options): Promise<Options> {
 		options = await facetProject.prompt(useDefaults, options);
