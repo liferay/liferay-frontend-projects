@@ -25,6 +25,7 @@ export interface Facet {
 }
 
 export interface Target extends Facet {
+	dxpSupport?: string;
 	name: string;
 }
 
@@ -88,7 +89,14 @@ export default async function newProject(
 		else {
 			options = await prompt(batch, options, [
 				{
-					choices: targets.map((target) => target.name),
+					choices: targets.map((target) => ({
+						name: `${target.name} ${
+							target.dxpSupport
+								? `(Support: ${target.dxpSupport})`
+								: ''
+						}`,
+						value: target.name,
+					})),
 					default: targets[0].name,
 					message: 'What type of project do you want to create?',
 					name: 'target',
