@@ -2,7 +2,7 @@
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"dependencies": {
 		"ansi-colors": "^4.1.1",
-		"async": "^2.6.1",
+		"async": "^3.2.4",
 		"chalk": "^3.0.0",
 		"compass-mixins": "^0.12.8",
 		"cross-spawn": "^2.2.3",

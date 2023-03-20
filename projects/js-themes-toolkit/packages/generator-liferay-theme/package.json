@@ -1,7 +1,7 @@
 {
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"dependencies": {
-		"async": "^2.6.1",
+		"async": "^3.2.4",
 		"chalk": "^3.0.0",
 		"extract-zip": "^1.6.7",
 		"fs-extra": "^8.1.0",
