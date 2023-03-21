@@ -53,11 +53,15 @@ A.Popover = A.Base.create('popover', A.Widget, [
      * @protected
      */
     initializer: function() {
-        var instance = this;
+        var instance = this,
+            eventHandles;
 
-        A.after(instance._afterRenderBoxClassNames, instance, '_renderBoxClassNames');
+        eventHandles = [
+            instance.after('render', instance._afterRender),
+            A.on('windowresize', A.bind(this._onResize, this))
+        ];
 
-        this._resizeHandle = A.on('windowresize', A.bind(this._onResize, this));
+        instance._eventHandles = eventHandles;
     },
 
     /**
@@ -67,7 +71,9 @@ A.Popover = A.Base.create('popover', A.Widget, [
      * @protected
      */
     destructor: function() {
-        this._resizeHandle.detach();
+        var instance = this;
+
+        (new A.EventHandle(instance._eventHandles)).detach();
     },
 
     /**
@@ -83,6 +89,16 @@ A.Popover = A.Base.create('popover', A.Widget, [
         boundingBox.append(A.Popover.TEMPLATES.arrow);
 
         instance.suggestAlignment();
+    },
+
+    /**
+     * Fire after Render.
+     *
+     * @method _afterRender
+     * @protected
+     */
+    _afterRender: function() {
+        A.all('.yui3-widget-modal').setAttribute('aria-modal','true').setAttribute('role','dialog');
     },
 
     /**
