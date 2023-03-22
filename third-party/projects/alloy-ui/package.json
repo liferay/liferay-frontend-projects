@@ -22,6 +22,7 @@
 		"helpers"
 	],
 	"scripts": {
+        "gulp": "node_modules/.bin/gulp",
 		"prepublish": "gulp build-publish"
 	},
 	"files": [
