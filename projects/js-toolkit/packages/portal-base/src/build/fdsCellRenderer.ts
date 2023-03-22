@@ -23,7 +23,7 @@ export default async function fdsCellRenderer(project: Project): Promise<void> {
 
 	const typeSettings = {
 		url: project.srcDir.relative(project.mainModuleFile).toDotRelative()
-			.asPosix,
+			.asPosix.replace(/\.tsx?$/, '.js')
 	};
 
 	await makeZip(project, 'fdsCellRenderer', typeSettings);
