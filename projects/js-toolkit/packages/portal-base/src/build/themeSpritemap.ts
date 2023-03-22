@@ -6,7 +6,6 @@
 /* eslint-disable @liferay/no-dynamic-require */
 
 import {
-	ClientExtensionConfigJson,
 	FilePath,
 	Project,
 	ThemeSpritemapBuildOptions,
@@ -14,28 +13,42 @@ import {
 } from '@liferay/js-toolkit-core';
 import fs from 'fs';
 import globby from 'globby';
-import JSZip from 'jszip';
 import path from 'path';
 
 import abort from '../util/abort';
+import makeZip from '../util/makeZip';
 
-const {error, info, print} = format;
+const {info, print} = format;
 
 const HEADER_REGEXP = /<!--(.*)-->/s;
 
 const SPRITEMAP_FILE_NAME = 'spritemap.svg';
 
 export default async function themeSpritemap(project: Project): Promise<void> {
-	const {enableSVG4Everybody, extendClay} = project.build
-		.options as ThemeSpritemapBuildOptions;
+	const options = project.build.options as ThemeSpritemapBuildOptions;
 
-	fs.mkdirSync(project.build.dir.asNative, {recursive: true});
+	checkConfiguration(project);
+
+	await buildProject(project);
+
+	const typeSettings = {
+		enableSVG4Everybody: options.enableSVG4Everybody,
+		url: SPRITEMAP_FILE_NAME,
+	};
+
+	await makeZip(project, 'themeSpritemap', typeSettings);
+}
+
+function checkConfiguration(project: Project): void {
+	if (!fs.existsSync(project.srcDir.asNative)) {
+		abort(`Source directory ({${project.srcDir.asNative}}) doesn't exist.`);
+	}
+}
+
+async function buildProject(project: Project): Promise<void> {
+	const {extendClay} = project.build.options as ThemeSpritemapBuildOptions;
 
 	print(info` Generating Spritemap:`);
-
-	if (!fs.existsSync(project.srcDir.asNative)) {
-		abort(`Source directory, (${project.srcDir.asNative}), doesn't exist.`);
-	}
 
 	let svgContent =
 		'<?xml version="1.0" encoding="UTF-8"?>' +
@@ -128,45 +141,4 @@ export default async function themeSpritemap(project: Project): Promise<void> {
 		path.join(project.build.dir.asNative, SPRITEMAP_FILE_NAME),
 		svgContent
 	);
-
-	const configurationPid =
-		'com.liferay.client.extension.type.configuration.CETConfiguration~' +
-		project.pkgJson.name;
-
-	const clientExtensionConfigJson: ClientExtensionConfigJson = {
-		[configurationPid]: {
-			baseURL: `\${portalURL}/o/${project.pkgJson.name}`,
-			description: project.pkgJson.description || '',
-			name: project.pkgJson.name,
-			sourceCodeURL: '',
-			type: 'themeSpritemap',
-			typeSettings: [
-				`enableSVG4Everybody=${enableSVG4Everybody}`,
-				`url=${SPRITEMAP_FILE_NAME}`,
-			],
-		},
-	};
-
-	const zip = new JSZip();
-
-	zip.file(
-		`${project.pkgJson.name}.client-extension-config.json`,
-		JSON.stringify(clientExtensionConfigJson, null, '\t')
-	);
-
-	const staticFolder = zip.folder('static');
-
-	staticFolder.file(SPRITEMAP_FILE_NAME, svgContent);
-
-	const buffer = await zip.generateAsync({
-		compression: 'DEFLATE',
-		compressionOptions: {
-			level: 6,
-		},
-		type: 'nodebuffer',
-	});
-
-	fs.mkdirSync(project.dist.dir.asNative, {recursive: true});
-
-	fs.writeFileSync(project.dist.file.asNative, buffer);
 }

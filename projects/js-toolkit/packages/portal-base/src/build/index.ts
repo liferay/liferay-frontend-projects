@@ -4,6 +4,7 @@
  */
 
 import {Project, format} from '@liferay/js-toolkit-core';
+import fs from 'fs';
 
 import abort from '../util/abort';
 import bundler2 from './bundler2';
@@ -14,6 +15,8 @@ const {print, success} = format;
 
 export default async function build(): Promise<void> {
 	const project = new Project('.');
+
+	fs.mkdirSync(project.build.dir.asNative, {recursive: true});
 
 	try {
 		switch (project.build.type) {

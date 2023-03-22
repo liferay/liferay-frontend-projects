@@ -53,7 +53,10 @@ export {runNodeModulesBin, runPkgJsonScript} from './run';
 
 // JSON file structure definitions (schemas)
 
-export type {default as ClientExtensionConfigJson} from './schema/ClientExtensionConfigJson';
+export type {
+	default as ClientExtensionConfigJson,
+	ClientExtensionConfigJsonType,
+} from './schema/ClientExtensionConfigJson';
 
 export type {
 	default as ConfigurationJson,
