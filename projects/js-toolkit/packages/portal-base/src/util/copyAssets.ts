@@ -10,6 +10,10 @@ import findFiles from '../util/findFiles';
 const {info, print} = format;
 
 export default function copyAssets(project: Project): void {
+	if (!project.assetsDir) {
+		return;
+	}
+
 	const assetFiles = findFiles(
 		project.assetsDir,
 		(dirent) => !dirent.name.toLowerCase().endsWith('.scss')

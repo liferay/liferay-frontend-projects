@@ -8,6 +8,10 @@ import {FilePath, Project} from '@liferay/js-toolkit-core';
 import findFiles from '../util/findFiles';
 
 export default function findScssFiles(project: Project): FilePath[] {
+	if (!project.assetsDir) {
+		return [];
+	}
+
 	return findFiles(project.assetsDir, (dirent) => {
 		const lowerCaseName = dirent.name.toLowerCase();
 

@@ -32,7 +32,7 @@ export default function getWebpackConfiguration(
 		);
 	}
 
-	return {
+	const webpackConfig: webpack.Configuration = {
 		entry: {
 			[mainEntryName]: {
 				import: project.mainModuleFile.asNative,
@@ -60,24 +60,6 @@ export default function getWebpackConfiguration(
 						},
 					},
 				},
-				{
-					include: project.assetsDir.asNative,
-					test: /\.(sass|scss)$/,
-					use: [
-						MiniCssExtractPlugin.loader,
-						require.resolve('css-loader'),
-						{
-							loader: require.resolve('sass-loader'),
-							options: {
-								sassOptions: {
-									outputStyle: minify
-										? 'compressed'
-										: 'expanded',
-								},
-							},
-						},
-					],
-				},
 			],
 		},
 		optimization: {
@@ -100,6 +82,27 @@ export default function getWebpackConfiguration(
 			new RemoveEmptyScriptsPlugin(),
 		],
 	};
+
+	if (project.assetsDir) {
+		webpackConfig.module.rules.push({
+			include: project.assetsDir.asNative,
+			test: /\.(sass|scss)$/,
+			use: [
+				MiniCssExtractPlugin.loader,
+				require.resolve('css-loader'),
+				{
+					loader: require.resolve('sass-loader'),
+					options: {
+						sassOptions: {
+							outputStyle: minify ? 'compressed' : 'expanded',
+						},
+					},
+				},
+			],
+		});
+	}
+
+	return webpackConfig;
 }
 
 function getScssEntryPoints(project: Project): {} {
