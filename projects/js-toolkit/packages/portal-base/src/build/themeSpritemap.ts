@@ -18,7 +18,7 @@ import path from 'path';
 import abort from '../util/abort';
 import makeZip from '../util/makeZip';
 
-const {info, print} = format;
+const {info, print, warn} = format;
 
 const HEADER_REGEXP = /<!--(.*)-->/s;
 
@@ -60,7 +60,7 @@ async function buildProject(project: Project): Promise<void> {
 
 		if (!fs.existsSync(clayPath)) {
 			print(
-				error` @clay/css package not found. Add as a dependency to your client extension via npm.`
+				warn`@clay/css package not found. Add as a dependency to your client extension via npm.`
 			);
 		}
 

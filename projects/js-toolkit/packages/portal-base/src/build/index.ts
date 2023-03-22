@@ -9,6 +9,7 @@ import fs from 'fs';
 import abort from '../util/abort';
 import bundler2 from './bundler2';
 import customElement from './customElement';
+import fdsCellRenderer from './fdsCellRenderer';
 import themeSpritemap from './themeSpritemap';
 
 const {print, success} = format;
@@ -22,6 +23,10 @@ export default async function build(): Promise<void> {
 		switch (project.build.type) {
 			case 'customElement':
 				await customElement(project);
+				break;
+
+			case 'fdsCellRenderer':
+				await fdsCellRenderer(project);
 				break;
 
 			case 'bundler2':

@@ -14,11 +14,16 @@ import LiferayJson, {
 import Project from './Project';
 import persist, {Location} from './persist';
 
-type BuildType = 'bundler2' | 'customElement' | 'themeSpritemap';
+type BuildType =
+	| 'bundler2'
+	| 'customElement'
+	| 'fdsCellRenderer'
+	| 'themeSpritemap';
 
 type BuildOptions =
 	| Bundler2BuildOptions
 	| CustomElementBuildOptions
+	| FDSCellRendererBuildOptions
 	| ThemeSpritemapBuildOptions;
 
 export interface Bundler2BuildOptions {
@@ -31,6 +36,8 @@ export interface CustomElementBuildOptions {
 	minify: boolean;
 	portletCategoryName: string;
 }
+
+export interface FDSCellRendererBuildOptions {}
 
 export interface ThemeSpritemapBuildOptions {
 	enableSVG4Everybody: boolean;
@@ -57,6 +64,12 @@ export default class Build {
 					project,
 					config as CustomElementBuildConfig
 				);
+				break;
+
+			case 'fdsCellRenderer':
+				this.type = 'fdsCellRenderer';
+				this.dir = project.dir.join('build');
+				this.options = config as CustomElementBuildConfig;
 				break;
 
 			case 'themeSpritemap':
