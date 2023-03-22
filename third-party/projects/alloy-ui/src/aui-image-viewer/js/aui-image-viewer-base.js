@@ -447,12 +447,12 @@ A.ImageViewerBase = A.Base.create(
                 src = this.get('sources')[index],
                 links = this.get('links');
 
-            if (links) {
+            if (links && links.size() && links._nodes[index]) {
                 var link = links._nodes[index];
 
                 var description = link.getAttribute('description');
-    
-                image.setAttribute('alt',description);    
+
+                image.setAttribute('alt',description);
             }
 
             if (A.Lang.isString(src)) {

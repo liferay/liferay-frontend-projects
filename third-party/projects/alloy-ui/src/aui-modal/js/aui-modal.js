@@ -147,6 +147,8 @@ A.Modal = A.Base.create('modal', A.Widget, [
      * @protected
      */
     _afterRender: function() {
+        A.all('.yui3-widget-mask').setAttribute('aria-hidden','true');
+        A.all('.yui3-widget-modal').setAttribute('aria-modal','true').setAttribute('role','dialog');
         if (this.get('visible')) {
             A.all('body,html').addClass(CSS_MODAL_OPEN);
         }
