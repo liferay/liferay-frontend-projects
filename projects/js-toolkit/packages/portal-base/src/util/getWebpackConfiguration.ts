@@ -10,7 +10,6 @@ import webpack from 'webpack';
 import RemoveEmptyScriptsPlugin from 'webpack-remove-empty-scripts';
 
 import findScssFiles from '../util/findScssFiles';
-import ManifestJsonWebpackPlugin from './ManifestJsonWebpackPlugin';
 
 export default function getWebpackConfiguration(
 	project: Project
@@ -77,7 +76,6 @@ export default function getWebpackConfiguration(
 			path: project.build.dir.asNative,
 		},
 		plugins: [
-			new ManifestJsonWebpackPlugin(project),
 			new MiniCssExtractPlugin(),
 			new RemoveEmptyScriptsPlugin(),
 		],
