@@ -65,11 +65,13 @@ The changes should be described in `HISTORY.md` file which every module has, so 
 
 ### Setup
 
-Install NodeJS <= [v0.12.0](http://nodejs.org/dist/v0.12.0/), if you do not have it yet.
+Navigate to `liferay-frontend-projects/third-party/projects/alloy-ui`
+
+Install NodeJS <= [v0.12.0](http://nodejs.org/dist/v0.12.0/), if you do not have it yet. We recommend using [nvm](https://github.com/nvm-sh/nvm) for that.
 
 ```bash
 # Install global dependencies.
-[sudo] npm install -g gulp
+[sudo] npm install -g gulp # Now you can skip this and use `npm run gulp $command`
 
 # Install local dependencies.
 npm install
@@ -129,11 +131,11 @@ We typically release a deprecated version of AlloyUI, containg all deprecated mo
 
 ```bash
 # If releasing a deprecated version of AlloyUI, checkout latest `master-deprecated`.
-git checkout master-deprecated
+git checkout master
 
 # Update versions and commit.
 # The files containing versions are `.alloy.json`, `bower.json` and `package.json`. Update versions in files to $VERSION.
-git commit -a -m "chore: prepare $VERSION release"
+git commit -a -m "chore(alloy-ui): prepare $VERSION release"
 
 # Build Alloy UI
 gulp build
@@ -187,13 +189,13 @@ This should create a jar under this [folder](https://repository.liferay.com/nexu
 
 ```bash
 # Push the version update commit to upstream.
-git push upstream master-deprecated
+git push upstream master
 
 # Create tag.
-git tag $VERSION
+git tag "alloy-ui/v$VERSION"
 
 # Push tag to upstream.
-git push upstream $VERSION
+git push upstream alloy-ui/v$VERSION
 ```
 
 ### Release on Github
