@@ -82,7 +82,8 @@ const target: Target = {
 		await renderer.render('tsconfig.json', options);
 		if (options.useReact) {
 			await renderer.render('src/index.tsx', options);
-		} else {
+		}
+		else {
 			await renderer.render('src/index.ts', options);
 		}
 

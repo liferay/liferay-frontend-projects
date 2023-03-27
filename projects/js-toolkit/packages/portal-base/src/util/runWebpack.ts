@@ -62,16 +62,19 @@ export default async function runWebpack(
 			.filter((module) => module instanceof ExternalModule)
 			.map((module) => (module as ExternalModule).request);
 
-		externals = Object.entries(externals).reduce((externals, [bareIdentifier, url]) => {
-			if (
-				usedExternals.includes(bareIdentifier) ||
-				usedExternals.includes(url)
-			) {
-				externals[bareIdentifier] = url;
-			}
+		externals = Object.entries(externals).reduce(
+			(externals, [bareIdentifier, url]) => {
+				if (
+					usedExternals.includes(bareIdentifier) ||
+					usedExternals.includes(url)
+				) {
+					externals[bareIdentifier] = url;
+				}
 
-			return externals;
-		}, {});
+				return externals;
+			},
+			{}
+		);
 
 		if (!Object.keys(externals).length) {
 			print(text`    (none)`);

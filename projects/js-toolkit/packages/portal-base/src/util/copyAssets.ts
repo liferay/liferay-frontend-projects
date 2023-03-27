@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import fs from 'fs';
 import {Project, format} from '@liferay/js-toolkit-core';
+import fs from 'fs';
+
 import findFiles from '../util/findFiles';
 
 const {info, print} = format;

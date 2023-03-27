@@ -5,7 +5,7 @@
 
 /* eslint-disable @liferay/no-dynamic-require */
 
-import {Project, CustomElementBuildOptions} from '@liferay/js-toolkit-core';
+import {CustomElementBuildOptions, Project} from '@liferay/js-toolkit-core';
 
 import abort from '../util/abort';
 import copyAssets from '../util/copyAssets';

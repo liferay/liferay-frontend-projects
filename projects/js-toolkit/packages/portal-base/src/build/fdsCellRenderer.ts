@@ -13,23 +13,19 @@ import makeZip from '../util/makeZip';
 import runWebpack from '../util/runWebpack';
 
 export default async function fdsCellRenderer(project: Project): Promise<void> {
-	const options = project.build.options as FDSCellRendererBuildOptions;
-
-	checkConfiguration(project);
-
 	copyAssets(project);
 
 	await buildProject(project);
 
 	const typeSettings = {
-		url: project.srcDir.relative(project.mainModuleFile).toDotRelative()
-			.asPosix.replace(/\.tsx?$/, '.js')
+		url: project.srcDir
+			.relative(project.mainModuleFile)
+			.toDotRelative()
+			.asPosix.replace(/\.tsx?$/, '.js'),
 	};
 
 	await makeZip(project, 'fdsCellRenderer', typeSettings);
 }
-
-function checkConfiguration(project: Project): void {}
 
 async function buildProject(project: Project): Promise<void> {
 	await runWebpack(project, getWebpackConfiguration(project));

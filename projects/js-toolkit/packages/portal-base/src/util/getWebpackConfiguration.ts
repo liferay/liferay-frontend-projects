@@ -82,13 +82,10 @@ export default function getWebpackConfiguration(
 			},
 			path: project.build.dir.asNative,
 		},
-		plugins: [
-			new MiniCssExtractPlugin(),
-			new RemoveEmptyScriptsPlugin(),
-		],
+		plugins: [new MiniCssExtractPlugin(), new RemoveEmptyScriptsPlugin()],
 		resolve: {
 			extensions: ['.tsx', '.ts', '.js'],
-		}
+		},
 	};
 
 	if (project.assetsDir) {

@@ -5,16 +5,14 @@
 
 import {JsonTransform} from '..';
 
-import PkgJson, {PkgJsonDependencies} from '../../../schema/PkgJson';
+import PkgJson from '../../../schema/PkgJson';
 
 /**
  * Set the main entry of the package.json file
  *
  * @param main
  */
-export default function setPkgJsonMain(
-	main: string
-): JsonTransform<PkgJson> {
+export default function setPkgJsonMain(main: string): JsonTransform<PkgJson> {
 	return (async (pkgJson) => {
 		pkgJson['main'] = main;
 
