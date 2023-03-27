@@ -5,7 +5,7 @@
 
 /* eslint-disable @liferay/no-dynamic-require */
 
-import {FDSCellRendererBuildOptions, Project} from '@liferay/js-toolkit-core';
+import {Project} from '@liferay/js-toolkit-core';
 
 import copyAssets from '../util/copyAssets';
 import getWebpackConfiguration from '../util/getWebpackConfiguration';

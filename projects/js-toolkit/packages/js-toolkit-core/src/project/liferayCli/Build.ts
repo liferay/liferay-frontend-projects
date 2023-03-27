@@ -23,8 +23,8 @@ type BuildType =
 type BuildOptions =
 	| Bundler2BuildOptions
 	| CustomElementBuildOptions
-	| FDSCellRendererBuildOptions
-	| ThemeSpritemapBuildOptions;
+	| ThemeSpritemapBuildOptions
+	| {};
 
 export interface Bundler2BuildOptions {
 	minify: boolean;
@@ -36,8 +36,6 @@ export interface CustomElementBuildOptions {
 	minify: boolean;
 	portletCategoryName: string;
 }
-
-export interface FDSCellRendererBuildOptions {}
 
 export interface ThemeSpritemapBuildOptions {
 	enableSVG4Everybody: boolean;
@@ -69,7 +67,7 @@ export default class Build {
 			case 'fdsCellRenderer':
 				this.type = 'fdsCellRenderer';
 				this.dir = project.dir.join('build');
-				this.options = config as CustomElementBuildConfig;
+				this.options = {};
 				break;
 
 			case 'themeSpritemap':

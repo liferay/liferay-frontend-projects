@@ -34,7 +34,6 @@ export {default as Project} from './project/liferayCli/Project';
 export {
 	Bundler2BuildOptions,
 	CustomElementBuildOptions,
-	FDSCellRendererBuildOptions,
 	ThemeSpritemapBuildOptions,
 } from './project/liferayCli/Build';
 
