@@ -114,13 +114,14 @@ export default async function runWebpack(
 function abortWithErrors(stats: webpack.Stats): void {
 	const {errors} = stats.compilation;
 
+	print(fail`Build failed (webpack build finished with errors):\n`);
+
 	errors.forEach((error) => {
 		const webpackError = new ExplainedError(error);
 
-		print(fail`${webpackError.toString()}\n`);
+		console.error(`${webpackError.toString()}\n`);
 	});
 
-	print(fail`Build failed: webpack build finished with errors`);
 	process.exit(1);
 }
 
