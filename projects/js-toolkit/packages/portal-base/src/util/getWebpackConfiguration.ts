@@ -16,7 +16,7 @@ export default function getWebpackConfiguration(
 ): webpack.Configuration {
 	const mainEntryName = project.srcDir
 		.relative(project.mainModuleFile)
-		.asNative.replace(/\.js$/i, '');
+		.asNative.replace(/\.[^.]*$/i, '');
 
 	const {externals, minify} = project.build
 		.options as CustomElementBuildOptions;
@@ -59,6 +59,13 @@ export default function getWebpackConfiguration(
 						},
 					},
 				},
+				{
+					exclude: /node_modules/,
+					test: /\.tsx?$/,
+					use: {
+						loader: require.resolve('ts-loader'),
+					},
+				},
 			],
 		},
 		optimization: {
@@ -79,6 +86,9 @@ export default function getWebpackConfiguration(
 			new MiniCssExtractPlugin(),
 			new RemoveEmptyScriptsPlugin(),
 		],
+		resolve: {
+			extensions: ['.tsx', '.ts', '.js'],
+		}
 	};
 
 	if (project.assetsDir) {
