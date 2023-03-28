@@ -3,7 +3,11 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-module.exports = function getBasePackageJson(platformName, portalVersion) {
+module.exports = function getBasePackageJson(
+	platformName,
+	portalVersion,
+	createPlatformConfig
+) {
 	let version = '0.0.0';
 
 	if (portalVersion.startsWith('fix-pack-base-')) {
@@ -15,7 +19,7 @@ module.exports = function getBasePackageJson(platformName, portalVersion) {
 		version = `${Number(parts[3]) + 1}.0.0`;
 	}
 
-	return {
+	const basePackageJson = {
 		bin: {
 			liferay: './liferay.js',
 		},
@@ -39,4 +43,11 @@ module.exports = function getBasePackageJson(platformName, portalVersion) {
 		},
 		version,
 	};
+
+	if (createPlatformConfig['@liferay/js-api']) {
+		basePackageJson.dependencies['@liferay/js-api'] =
+			createPlatformConfig['@liferay/js-api'];
+	}
+
+	return basePackageJson;
 };
