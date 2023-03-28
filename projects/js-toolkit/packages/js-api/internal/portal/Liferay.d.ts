@@ -5,8 +5,6 @@
 
 /// Types from liferay-portal version: 8ff7610f429b67e0484e3a90cc88993fee3bb68a
 
-
-
 declare module Liferay {
 	namespace Address {
 
@@ -762,8 +760,7 @@ declare module Liferay {
 	): void;
 }
 
-interface ThemeDisplay {
-}
+interface ThemeDisplay {}
 
 interface Window {
 	cancelIdleCallback(handle: number): void;
