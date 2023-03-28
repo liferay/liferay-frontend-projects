@@ -1,4 +1,7 @@
 /.my.vim
+/.yarnrc
+/CONTRIBUTING.md
+/scripts
 /tsconfig.json
 /tsconfig.tsbuildinfo
 /webpack.config.js

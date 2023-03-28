@@ -3,3 +3,5 @@
 
 /*·tgz
 /tsconfig.tsbuildinfo
+
+!/internal/portal/*.d.ts
