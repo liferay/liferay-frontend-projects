@@ -10,13 +10,13 @@
 const {spawnSync} = require('child_process');
 const path = require('path');
 
-const addTypeDependencies = require('../lib/addTypeDependencies');
 const getBaseConfigJson = require('../lib/getBaseConfigJson');
 const getBasePackageJson = require('../lib/getBasePackageJson');
 const getBundlerImports = require('../lib/getBundlerImports');
 const getDependencyVersion = require('../lib/getDependencyVersion');
 const getPortalVersion = require('../lib/getPortalVersion');
 const getPortalYarnLock = require('../lib/getPortalYarnLock');
+const loadCreatePlatformConfig = require('../lib/loadCreatePlatformConfig');
 const writePlatform = require('../lib/writePlatform');
 
 const IGNORED_PROVIDERS = ['frontend-js-node-shims'];
@@ -43,6 +43,8 @@ async function main([isEE, portalTagOrDir, platformName]) {
 		portalTagOrDir = isEE;
 		isEE = false;
 	}
+
+	const createPlatformConfig = loadCreatePlatformConfig(platformName);
 
 	// Find out bundler imports
 
@@ -76,7 +78,11 @@ async function main([isEE, portalTagOrDir, platformName]) {
 
 	const portalVersion = getPortalVersion(portalTagOrDir);
 
-	const packageJson = getBasePackageJson(platformName, portalVersion);
+	const packageJson = getBasePackageJson(
+		platformName,
+		portalVersion,
+		createPlatformConfig
+	);
 
 	const portalYarnLock = await getPortalYarnLock(portalTagOrDir, isEE);
 
@@ -123,8 +129,6 @@ async function main([isEE, portalTagOrDir, platformName]) {
 				return sortedDependencies;
 			}, {}),
 	};
-
-	addTypeDependencies(packageJson);
 
 	// Produce output
 
