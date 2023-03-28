@@ -13,11 +13,6 @@ export default class Dist {
 
 	constructor(project: Project, liferayJson: LiferayJson) {
 		switch (liferayJson.build.type) {
-			case 'customElement':
-				this.dir = project.dir.join('dist');
-				this.file = this.dir.join(`${project.dir.basename()}.zip`);
-				break;
-
 			case 'bundler2': {
 				const {
 					default: bundler2Project,
@@ -31,6 +26,8 @@ export default class Dist {
 				break;
 			}
 
+			case 'customElement':
+			case 'fdsCellRenderer':
 			case 'themeSpritemap':
 				this.dir = project.dir.join('dist');
 				this.file = this.dir.join(`${project.dir.basename()}.zip`);

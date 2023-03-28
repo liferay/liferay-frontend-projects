@@ -12,6 +12,14 @@ import {
 import abort from '../util/abort';
 import findScssFiles from './findScssFiles';
 
+/**
+ * @deprecated
+ * This function was used to create a remote app manifest.json file that could
+ * be used to deploy the client extension but since an equivalent OSGi file
+ * exists now, it is not used any more.
+ *
+ * It should be removed in the future.
+ */
 export default function createManifest(
 	project: Project
 ): RemoteAppManifestJson {

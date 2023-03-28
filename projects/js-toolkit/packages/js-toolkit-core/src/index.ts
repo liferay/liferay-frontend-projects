@@ -53,7 +53,10 @@ export {runNodeModulesBin, runPkgJsonScript} from './run';
 
 // JSON file structure definitions (schemas)
 
-export type {default as ClientExtensionConfigJson} from './schema/ClientExtensionConfigJson';
+export type {
+	default as ClientExtensionConfigJson,
+	ClientExtensionConfigJsonType,
+} from './schema/ClientExtensionConfigJson';
 
 export type {
 	default as ConfigurationJson,
@@ -128,6 +131,7 @@ import addPkgJsonPortletProperties from './transform/json/operation/addPkgJsonPo
 import deletePkgJsonDependencies from './transform/json/operation/deletePkgJsonDependencies';
 import deletePkgJsonScripts from './transform/json/operation/deletePkgJsonScripts';
 import setLiferayJsonDeployPath from './transform/json/operation/setLiferayJsonDeployPath';
+import setPkgJsonMain from './transform/json/operation/setPkgJsonMain';
 
 import appendLines from './transform/text/operation/appendLines';
 import removeLines from './transform/text/operation/removeLines';
@@ -150,6 +154,7 @@ export const TRANSFORM_OPERATIONS = {
 		addScripts: addOrSetPkgJsonScripts,
 		deleteDependencies: deletePkgJsonDependencies,
 		deleteScripts: deletePkgJsonScripts,
+		setMain: setPkgJsonMain,
 		setScripts: addOrSetPkgJsonScripts,
 	},
 	Text: {

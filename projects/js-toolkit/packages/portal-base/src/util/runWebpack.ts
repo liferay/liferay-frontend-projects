@@ -62,13 +62,19 @@ export default async function runWebpack(
 			.filter((module) => module instanceof ExternalModule)
 			.map((module) => (module as ExternalModule).request);
 
-		externals = Object.entries(externals).reduce((externals, entry) => {
-			if (usedExternals.includes(entry[0])) {
-				externals[entry[0]] = entry[1];
-			}
+		externals = Object.entries(externals).reduce(
+			(externals, [bareIdentifier, url]) => {
+				if (
+					usedExternals.includes(bareIdentifier) ||
+					usedExternals.includes(url)
+				) {
+					externals[bareIdentifier] = url;
+				}
 
-			return externals;
-		}, {});
+				return externals;
+			},
+			{}
+		);
 
 		if (!Object.keys(externals).length) {
 			print(text`    (none)`);
@@ -114,13 +120,14 @@ export default async function runWebpack(
 function abortWithErrors(stats: webpack.Stats): void {
 	const {errors} = stats.compilation;
 
+	print(fail`Build failed (webpack build finished with errors):\n`);
+
 	errors.forEach((error) => {
 		const webpackError = new ExplainedError(error);
 
-		print(fail`${webpackError.toString()}\n`);
+		console.error(`${webpackError.toString()}\n`);
 	});
 
-	print(fail`Build failed: webpack build finished with errors`);
 	process.exit(1);
 }
 

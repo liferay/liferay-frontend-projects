@@ -6,7 +6,11 @@
 export default interface LiferayJson {
 	build?: {
 		options?: BuildConfig;
-		type?: 'bundler2' | 'customElement' | 'themeSpritemap';
+		type?:
+			| 'bundler2'
+			| 'customElement'
+			| 'fdsCellRenderer'
+			| 'themeSpritemap';
 	};
 	deploy?: {
 		path?: string;
