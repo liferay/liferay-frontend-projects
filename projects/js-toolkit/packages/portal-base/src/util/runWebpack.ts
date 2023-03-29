@@ -9,9 +9,7 @@ import {
 	joinModuleName,
 	splitModuleName,
 } from '@liferay/js-toolkit-core';
-import fs from 'fs';
 import webpack, {ExternalModule} from 'webpack';
-import WebpackError from 'webpack/lib/WebpackError';
 
 const {debug, fail, info, print, text} = format;
 

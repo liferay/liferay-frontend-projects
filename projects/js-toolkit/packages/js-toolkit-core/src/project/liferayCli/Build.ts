@@ -7,9 +7,10 @@ import fs from 'fs';
 
 import FilePath from '../../file/FilePath';
 import LiferayJson, {
-	BuildConfig,
 	Bundler2BuildConfig,
 	CustomElementBuildConfig,
+	FDSCellRendererBuildConfig,
+	ThemeSpritemapBuildConfig,
 } from '../../schema/LiferayJson';
 import Project from './Project';
 import persist, {Location} from './persist';
@@ -23,23 +24,29 @@ type BuildType =
 type BuildOptions =
 	| Bundler2BuildOptions
 	| CustomElementBuildOptions
-	| ThemeSpritemapBuildOptions
-	| {};
+	| FDSCellRendererBuildOptions
+	| ThemeSpritemapBuildOptions;
 
-export interface Bundler2BuildOptions {
-	minify: boolean;
-}
+export type Bundler2BuildOptions = MinifiableBuildOptions;
 
-export interface CustomElementBuildOptions {
-	externals: {[bareIdentifier: string]: string};
+export interface CustomElementBuildOptions extends WebpackBuildOptions {
 	htmlElementName: string | null;
-	minify: boolean;
 	portletCategoryName: string;
 }
+
+export type FDSCellRendererBuildOptions = WebpackBuildOptions;
 
 export interface ThemeSpritemapBuildOptions {
 	enableSVG4Everybody: boolean;
 	extendClay: boolean;
+}
+
+export interface MinifiableBuildOptions {
+	minify: boolean;
+}
+
+export interface WebpackBuildOptions extends MinifiableBuildOptions {
+	externals: {[bareIdentifier: string]: string};
 }
 
 type OptionValue = boolean | number | string;
@@ -52,28 +59,30 @@ export default class Build {
 	constructor(project: Project, liferayJson: LiferayJson) {
 		this._project = project;
 
-		const config: BuildConfig = liferayJson.build?.options || {};
-
 		switch (liferayJson.build.type) {
 			case 'customElement':
 				this.type = 'customElement';
 				this.dir = project.dir.join('build');
 				this.options = this._toCustomElementBuildOptions(
 					project,
-					config as CustomElementBuildConfig
+					liferayJson.build?.options
 				);
 				break;
 
 			case 'fdsCellRenderer':
 				this.type = 'fdsCellRenderer';
 				this.dir = project.dir.join('build');
-				this.options = {};
+				this.options = this._toFDSCellRendererBuildOptions(
+					liferayJson.build?.options
+				);
 				break;
 
 			case 'themeSpritemap':
 				this.type = 'themeSpritemap';
 				this.dir = project.dir.join('build');
-				this.options = config as ThemeSpritemapBuildOptions;
+				this.options = this._toThemeSpriteMapBuildOptions(
+					liferayJson.build?.options
+				);
 				break;
 
 			case 'bundler2': {
@@ -87,14 +96,16 @@ export default class Build {
 					bundler2Project.buildDir.asNative
 				).resolve();
 				this.options = this._toBundler2BuildOptions(
-					config as Bundler2BuildConfig
+					liferayJson.build?.options
 				);
 				break;
 			}
 
 			default:
 				throw new Error(
-					`Unknown project build type type: ${liferayJson.build.type}`
+					`Unknown project build type type: ${
+						(liferayJson.build as unknown)['type']
+					}`
 				);
 		}
 	}
@@ -146,10 +157,68 @@ export default class Build {
 		config: CustomElementBuildConfig
 	): CustomElementBuildOptions {
 
+		// Infer htmlElementName from source code if needed
+
+		if (!config.htmlElementName) {
+			config.htmlElementName = findHtmlElementName(
+				project.mainModuleFile
+			);
+		}
+
+		if (!config.portletCategoryName) {
+			config.portletCategoryName = 'category.remote-apps';
+		}
+
+		const webpackOptions = this._toWebpackBuildOptions(config);
+
+		return {
+			externals: webpackOptions.externals,
+			htmlElementName: config.htmlElementName,
+			minify: webpackOptions.minify,
+			portletCategoryName: config.portletCategoryName,
+		};
+	}
+
+	private _toFDSCellRendererBuildOptions(
+		config: FDSCellRendererBuildConfig
+	): FDSCellRendererBuildOptions {
+		const webpackOptions = this._toWebpackBuildOptions(config);
+
+		return {
+			externals: webpackOptions.externals,
+			minify: webpackOptions.minify,
+		};
+	}
+
+	private _toThemeSpriteMapBuildOptions(
+		config: ThemeSpritemapBuildConfig
+	): ThemeSpritemapBuildOptions {
+		return {
+			enableSVG4Everybody: !!config.enableSVG4Everybody,
+			extendClay: !!config.extendClay,
+		};
+	}
+
+	private _toBundler2BuildOptions(
+		_config: Bundler2BuildConfig
+	): Bundler2BuildOptions {
+		return {
+			minify: process.env.NODE_ENV !== 'development',
+		};
+	}
+
+	private _toWebpackBuildOptions(
+		config: CustomElementBuildConfig | FDSCellRendererBuildConfig
+	): WebpackBuildOptions {
+		const options: WebpackBuildOptions = {
+			externals: {},
+			minify: process.env.NODE_ENV !== 'development',
+		};
+
 		// Turn arrays coming from liferay.json into objects
 
-		if (Array.isArray(config['externals'])) {
-			config.externals = config.externals.reduce(
+		if (Array.isArray(config.externals)) {
+			options.externals = config.externals.reduce(
 				(map, bareIdentifier) => {
 					map[bareIdentifier] = bareIdentifier;
 
@@ -158,14 +227,9 @@ export default class Build {
 				{}
 			);
 		}
-
-		const options: CustomElementBuildOptions = {
-			externals: config.externals || {},
-			htmlElementName: config.htmlElementName,
-			minify: process.env.NODE_ENV !== 'development',
-			portletCategoryName:
-				config.portletCategoryName || 'category.remote-apps',
-		};
+		else if (config.externals) {
+			options.externals = config.externals;
+		}
 
 		// Remove externals mapped to null
 
@@ -180,23 +244,7 @@ export default class Build {
 			{}
 		);
 
-		// Infer htmlElementName from source code if needed
-
-		if (!options.htmlElementName) {
-			options.htmlElementName = findHtmlElementName(
-				project.mainModuleFile
-			);
-		}
-
 		return options;
-	}
-
-	private _toBundler2BuildOptions(
-		_config: Bundler2BuildConfig
-	): Bundler2BuildOptions {
-		return {
-			minify: process.env.NODE_ENV !== 'development',
-		};
 	}
 
 	private _project: Project;

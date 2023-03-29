@@ -35,7 +35,9 @@ export default class Dist {
 
 			default:
 				throw new Error(
-					`Unknown project build type type: ${liferayJson.build.type}`
+					`Unknown project build type type: ${
+						(liferayJson.build as unknown)['type']
+					}`
 				);
 		}
 	}

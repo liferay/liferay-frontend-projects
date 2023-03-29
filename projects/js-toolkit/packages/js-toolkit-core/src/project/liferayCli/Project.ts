@@ -14,7 +14,7 @@ import path from 'path';
 import resolve from 'resolve';
 
 import FilePath from '../../file/FilePath';
-import LiferayJson, {CustomElementBuildConfig} from '../../schema/LiferayJson';
+import LiferayJson from '../../schema/LiferayJson';
 import PkgJson from '../../schema/PkgJson';
 import Build from './Build';
 import Deploy from './Deploy';
@@ -63,7 +63,7 @@ export default class Project {
 			self.mainModuleFile = this.srcDir.join('index.js');
 		}
 
-		let liferayJson = this._loadLiferayJson();
+		let liferayJson: LiferayJson = this._loadLiferayJson();
 
 		const clientExtensionYamlPath = this.dir.join('client-extension.yaml')
 			.asNative;
@@ -153,7 +153,7 @@ export default class Project {
 	}
 
 	private _loadLiferayJson(): LiferayJson {
-		const items: LiferayJson[] = [{}];
+		const items: unknown[] = [{}];
 
 		const autopreset = this._getAutopreset();
 
@@ -185,7 +185,19 @@ export default class Project {
 			}
 		});
 
-		return merge.all(items.map((item) => this._normalizeLiferayJson(item)));
+		const liferayJson: LiferayJson = merge.all(
+			items.map((item) => this._normalizeLiferayJson(item))
+		);
+
+		// Default project type is 'bundler2'
+
+		liferayJson.build = liferayJson.build || {
+			options: {},
+			type: 'bundler2',
+		};
+		liferayJson.build.type = liferayJson.build.type || 'bundler2';
+
+		return liferayJson;
 	}
 
 	private _normalizeClientExtensionYaml(
@@ -201,18 +213,16 @@ export default class Project {
 		};
 	}
 
-	private _normalizeLiferayJson(liferayJson: LiferayJson): LiferayJson {
-		liferayJson.build = liferayJson.build || {};
-		liferayJson.build.type = liferayJson.build.type || 'bundler2';
+	private _normalizeLiferayJson(liferayJson: any): LiferayJson {
+
+		// Normalize externals if they exist
 
 		const options = liferayJson.build?.options;
 
-		if (options && options['externals']) {
-			const typeOptions = options as CustomElementBuildConfig;
-
-			if (Array.isArray(typeOptions.externals)) {
-				typeOptions.externals = typeOptions.externals.reduce(
-					(map, bareIdentifier) => {
+		if (options && options.externals) {
+			if (Array.isArray(options.externals)) {
+				options.externals = options.externals.reduce(
+					(map: string, bareIdentifier: string) => {
 						map[bareIdentifier] = bareIdentifier;
 
 						return map;
