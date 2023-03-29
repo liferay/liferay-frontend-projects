@@ -1,3 +1,11 @@
+## [portal-base/v1.8.0](https://github.com/liferay/liferay-frontend-projects/tree/portal-base/v1.8.0) (2023-03-29)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/portal-base/v1.7.0...portal-base/v1.8.0)
+
+### :new: Features
+
+-   feat: add a FDS cell renderer project type to @liferay/cli ([\#1114](https://github.com/liferay/liferay-frontend-projects/pull/1114))
+
 ## [portal-base/v1.7.0](https://github.com/liferay/liferay-frontend-projects/tree/portal-base/v1.7.0) (2023-03-14)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/portal-base/v1.6.1...portal-base/v1.7.0)
