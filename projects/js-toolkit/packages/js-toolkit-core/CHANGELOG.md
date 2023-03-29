@@ -1,3 +1,11 @@
+## [js-toolkit-core/v5.7.0](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v5.7.0) (2023-03-28)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v5.6.1...js-toolkit-core/v5.7.0)
+
+### :new: Features
+
+-   feat: add a FDS cell renderer project type to @liferay/cli ([\#1114](https://github.com/liferay/liferay-frontend-projects/pull/1114))
+
 ## [js-toolkit-core/v5.6.1](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v5.6.1) (2023-03-14)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v5.6.0...js-toolkit-core/v5.6.1)
