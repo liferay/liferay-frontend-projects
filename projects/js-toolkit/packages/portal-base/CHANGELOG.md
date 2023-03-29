@@ -1,3 +1,11 @@
+## [portal-base/v1.8.3](https://github.com/liferay/liferay-frontend-projects/tree/portal-base/v1.8.3) (2023-03-29)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/portal-base/v1.8.1...portal-base/v1.8.3)
+
+### :wrench: Bug fixes
+
+-   fix(portal-base): add missing typescript dependency ([\#1118](https://github.com/liferay/liferay-frontend-projects/pull/1118))
+
 ## [portal-base/v1.8.2](https://github.com/liferay/liferay-frontend-projects/tree/portal-base/v1.8.2) (2023-03-29)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/portal-base/v1.8.1...portal-base/v1.8.2)
