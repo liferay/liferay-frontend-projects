@@ -30,6 +30,7 @@ export default class Project {
 	readonly deploy: Deploy;
 	readonly dir: FilePath;
 	readonly dist: Dist;
+	readonly isWorkspace: boolean;
 	readonly mainModuleFile: FilePath;
 	readonly pkgJson: PkgJson;
 	readonly srcDir: FilePath;
@@ -42,6 +43,8 @@ export default class Project {
 
 	reload(): void {
 		const self = this as Writable<Project>;
+
+		self.isWorkspace = this._isWorkspace();
 
 		self.assetsDir = this.dir.join('assets');
 		self.srcDir = this.dir.join('src');
@@ -150,6 +153,34 @@ export default class Project {
 		}
 
 		return autopresets.length ? autopresets[0] : null;
+	}
+
+	private _isWorkspace(): boolean {
+		let isWorkspace = false;
+		let dir = this.dir.resolve().asNative;
+
+		while (!isWorkspace) {
+			try {
+				isWorkspace = fs
+					.readFileSync(path.join(dir, 'settings.gradle'), 'utf-8')
+					.includes('"com.liferay.gradle.plugins.workspace"');
+			}
+			catch (error) {
+
+				// ignore
+
+			}
+
+			const newDir = path.dirname(dir);
+
+			if (newDir === dir) {
+				break;
+			}
+
+			dir = newDir;
+		}
+
+		return isWorkspace;
 	}
 
 	private _loadLiferayJson(): LiferayJson {
