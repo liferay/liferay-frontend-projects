@@ -7,11 +7,14 @@ import {Project} from '@liferay/js-toolkit-core';
 
 import promptForConfiguration from './util/promptForConfiguration';
 import runConfigureWizard from './util/runConfigureWizard';
+import {ensureProjectIsStartable} from './util/startableProjectTypes';
 
 export default async function configureStart(): Promise<void> {
-	await runConfigureWizard('start', async () => {
-		const project = new Project('.');
+	const project = new Project('.');
 
+	ensureProjectIsStartable(project);
+
+	await runConfigureWizard('start', async () => {
 		const {port} = await promptForConfiguration([
 			{
 				default: project.start.port,
