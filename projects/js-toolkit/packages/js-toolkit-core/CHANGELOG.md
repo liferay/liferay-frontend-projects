@@ -1,3 +1,11 @@
+## [js-toolkit-core/v5.8.0](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v5.8.0) (2023-03-30)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v5.7.0...js-toolkit-core/v5.8.0)
+
+### :wrench: Bug fixes
+
+-   fix: build and start for FDS Cell Renderer projects ([\#1120](https://github.com/liferay/liferay-frontend-projects/pull/1120))
+
 ## [js-toolkit-core/v5.7.0](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v5.7.0) (2023-03-28)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v5.6.1...js-toolkit-core/v5.7.0)
