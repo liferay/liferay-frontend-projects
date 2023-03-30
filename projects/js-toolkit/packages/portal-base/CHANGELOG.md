@@ -1,3 +1,12 @@
+## [portal-base/v1.9.0](https://github.com/liferay/liferay-frontend-projects/tree/portal-base/v1.9.0) (2023-03-30)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/portal-base/v1.8.2...portal-base/v1.9.0)
+
+### :wrench: Bug fixes
+
+-   fix: build and start for FDS Cell Renderer projects ([\#1120](https://github.com/liferay/liferay-frontend-projects/pull/1120))
+-   fix(portal-base): show better error message for webpack build ([\#1119](https://github.com/liferay/liferay-frontend-projects/pull/1119))
+
 ## [portal-base/v1.8.3](https://github.com/liferay/liferay-frontend-projects/tree/portal-base/v1.8.3) (2023-03-29)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/portal-base/v1.8.1...portal-base/v1.8.3)
