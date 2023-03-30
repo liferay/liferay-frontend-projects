@@ -23,24 +23,26 @@ export default async function customElement(project: Project): Promise<void> {
 
 	await buildProject(project);
 
-	const typeSettings = {
-		cssURLs: findScssFiles(project).map((file) =>
-			project.assetsDir
-				.relative(file)
-				.toDotRelative()
-				.asPosix.replace(/\.scss$/i, '.css')
-		),
-		htmlElementName: options.htmlElementName,
-		instanceable: true,
-		portletCategoryName: options.portletCategoryName,
-		urls: [
-			project.srcDir.relative(project.mainModuleFile).toDotRelative()
-				.asPosix,
-		],
-		useESM: true,
-	};
+	if (!project.isWorkspace) {
+		const typeSettings = {
+			cssURLs: findScssFiles(project).map((file) =>
+				project.assetsDir
+					.relative(file)
+					.toDotRelative()
+					.asPosix.replace(/\.scss$/i, '.css')
+			),
+			htmlElementName: options.htmlElementName,
+			instanceable: true,
+			portletCategoryName: options.portletCategoryName,
+			urls: [
+				project.srcDir.relative(project.mainModuleFile).toDotRelative()
+					.asPosix,
+			],
+			useESM: true,
+		};
 
-	await makeZip(project, 'customElement', typeSettings);
+		await makeZip(project, 'customElement', typeSettings);
+	}
 }
 
 function checkConfiguration(project: Project): void {

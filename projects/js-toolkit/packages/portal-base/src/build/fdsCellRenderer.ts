@@ -17,14 +17,16 @@ export default async function fdsCellRenderer(project: Project): Promise<void> {
 
 	await buildProject(project);
 
-	const typeSettings = {
-		url: project.srcDir
-			.relative(project.mainModuleFile)
-			.toDotRelative()
-			.asPosix.replace(/\.tsx?$/, '.js'),
-	};
+	if (!project.isWorkspace) {
+		const typeSettings = {
+			url: project.srcDir
+				.relative(project.mainModuleFile)
+				.toDotRelative()
+				.asPosix.replace(/\.tsx?$/, '.js'),
+		};
 
-	await makeZip(project, 'fdsCellRenderer', typeSettings);
+		await makeZip(project, 'fdsCellRenderer', typeSettings);
+	}
 }
 
 async function buildProject(project: Project): Promise<void> {
