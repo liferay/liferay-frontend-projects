@@ -16,11 +16,14 @@ import {createInterface} from 'readline';
 
 import configureDeploy from './configureDeploy';
 import createManifest from './util/createManifest';
+import {ensureProjectIsStartable} from './util/startableProjectTypes';
 
 const {fail, info, print} = format;
 
 export default async function prepareStart(): Promise<void> {
 	const project = new Project('.');
+
+	ensureProjectIsStartable(project);
 
 	const zipFile = await deployZip(project);
 

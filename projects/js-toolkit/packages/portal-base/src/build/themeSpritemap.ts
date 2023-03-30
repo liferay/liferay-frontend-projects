@@ -31,12 +31,14 @@ export default async function themeSpritemap(project: Project): Promise<void> {
 
 	await buildProject(project);
 
-	const typeSettings = {
-		enableSVG4Everybody: options.enableSVG4Everybody,
-		url: SPRITEMAP_FILE_NAME,
-	};
+	if (!project.isWorkspace) {
+		const typeSettings = {
+			enableSVG4Everybody: options.enableSVG4Everybody,
+			url: SPRITEMAP_FILE_NAME,
+		};
 
-	await makeZip(project, 'themeSpritemap', typeSettings);
+		await makeZip(project, 'themeSpritemap', typeSettings);
+	}
 }
 
 function checkConfiguration(project: Project): void {

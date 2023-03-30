@@ -7,9 +7,11 @@ import {Project} from '@liferay/js-toolkit-core';
 import webpack from 'webpack';
 import webpackDevServer from 'webpack-dev-server';
 
-import getWebpackConfiguration from '../util/getWebpackConfiguration';
+import getWebpackConfiguration from './getWebpackConfiguration';
 
-export default async function customElement(project: Project): Promise<void> {
+export default async function startWebpackDevServer(
+	project: Project
+): Promise<void> {
 	const config = getWebpackConfiguration(project);
 
 	config.devtool = 'cheap-source-map';
@@ -29,10 +31,13 @@ export default async function customElement(project: Project): Promise<void> {
 			},
 		],
 		port: project.start.port,
-		static: {
-			directory: project.assetsDir.asNative,
-		},
 	};
+
+	if (project.assetsDir) {
+		devServerOptions.static = {
+			directory: project.assetsDir.asNative,
+		};
+	}
 
 	const server = new webpackDevServer(devServerOptions, compiler);
 

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {CustomElementBuildOptions, Project} from '@liferay/js-toolkit-core';
+import {Project, WebpackBuildOptions} from '@liferay/js-toolkit-core';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import webpack from 'webpack';
@@ -18,8 +18,7 @@ export default function getWebpackConfiguration(
 		.relative(project.mainModuleFile)
 		.asNative.replace(/\.[^.]*$/i, '');
 
-	const {externals, minify} = project.build
-		.options as CustomElementBuildOptions;
+	const {externals, minify} = project.build.options as WebpackBuildOptions;
 
 	const minimizer = [];
 

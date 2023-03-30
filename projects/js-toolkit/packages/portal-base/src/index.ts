@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {format} from '@liferay/js-toolkit-core';
+import {Project, format} from '@liferay/js-toolkit-core';
 import path from 'path';
 
 import build from './build';
@@ -53,6 +53,8 @@ export default async function run(
 		...(taskOverrides || {}),
 	};
 
+	const project = new Project('.');
+
 	switch (cmd) {
 		case 'build':
 			if (isSwitchEnabled('configure')) {
@@ -72,34 +74,54 @@ export default async function run(
 			break;
 
 		case 'deploy':
-			if (isSwitchEnabled('configure')) {
-				await tasks.configureDeploy();
+			if (project.isWorkspace) {
+				print(
+					fail`
+Your project cannot be deployed from npm because it is inside a Liferay
+workspace.
+
+Please use Gradle's command {gw deploy} instead.
+`
+				);
 			}
 			else {
-				if (!isSwitchEnabled('only')) {
-					print(
-						title`Building project for target platform: {${pkgJson.name}}`
-					);
-					await tasks.build();
+				if (isSwitchEnabled('configure')) {
+					await tasks.configureDeploy();
 				}
-				print(title`Deploying project to Liferay local installation`);
-				await tasks.deploy();
+				else {
+					if (!isSwitchEnabled('only')) {
+						print(
+							title`Building project for target platform: {${pkgJson.name}}`
+						);
+						await tasks.build();
+					}
+					print(
+						title`Deploying project to Liferay local installation`
+					);
+					await tasks.deploy();
+				}
 			}
 			break;
 
 		case 'start':
-			if (isSwitchEnabled('configure')) {
-				await tasks.configureStart();
-			}
-			else {
-				if (!isSwitchEnabled('only')) {
-					print(
-						title`Deploying live project to Liferay local installation`
-					);
-					await tasks.prepareStart();
-				}
+			if (project.isWorkspace) {
 				print(title`Starting project live development server`);
 				await tasks.start();
+			}
+			else {
+				if (isSwitchEnabled('configure')) {
+					await tasks.configureStart();
+				}
+				else {
+					if (!isSwitchEnabled('only')) {
+						print(
+							title`Deploying live project to Liferay local installation`
+						);
+						await tasks.prepareStart();
+					}
+					print(title`Starting project live development server`);
+					await tasks.start();
+				}
 			}
 			break;
 
