@@ -1,3 +1,11 @@
+## [js-toolkit-core/v5.9.0](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v5.9.0) (2023-03-31)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v5.8.0...js-toolkit-core/v5.9.0)
+
+### :new: Features
+
+-   feat(js-toolkit-core): use PORT env var for `npm run start` when present ([\#1121](https://github.com/liferay/liferay-frontend-projects/pull/1121))
+
 ## [js-toolkit-core/v5.8.0](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v5.8.0) (2023-03-30)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v5.7.0...js-toolkit-core/v5.8.0)
