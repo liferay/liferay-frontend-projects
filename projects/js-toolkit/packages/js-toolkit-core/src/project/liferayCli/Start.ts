@@ -15,7 +15,13 @@ export default class Start {
 	constructor(project: Project, liferayJson: LiferayJson) {
 		this._project = project;
 
-		this.port = liferayJson.start?.port || 8081;
+		let envPort = Number(process.env['PORT']);
+
+		if (Number.isNaN(envPort)) {
+			envPort = undefined;
+		}
+
+		this.port = envPort || liferayJson.start?.port || 8081;
 	}
 
 	storePort(port: number): void {
