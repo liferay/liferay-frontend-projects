@@ -1,3 +1,11 @@
+## [js-toolkit-core/v5.9.1](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v5.9.1) (2023-04-03)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v5.9.0...js-toolkit-core/v5.9.1)
+
+### :wrench: Bug fixes
+
+-   fix(js-toolkit-core): if run from a workspace, traverse up tree to find client-extension.yaml ([\#1122](https://github.com/liferay/liferay-frontend-projects/pull/1122))
+
 ## [js-toolkit-core/v5.9.0](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v5.9.0) (2023-03-31)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v5.8.0...js-toolkit-core/v5.9.0)
