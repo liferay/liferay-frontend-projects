@@ -68,26 +68,24 @@ export default class Project {
 
 		let liferayJson: LiferayJson = this._loadLiferayJson();
 
-		const clientExtensionYamlPath = this.dir.join('client-extension.yaml')
-			.asNative;
+		if (self.isWorkspace) {
+			const clientExtensionYamlPath = this._getClientExtensionYamlPath();
 
-		if (fs.existsSync(clientExtensionYamlPath)) {
-			try {
-				const yamlConfig = yaml.load(
-					fs.readFileSync(
-						this.dir.join('client-extension.yaml').asNative,
-						'utf8'
-					)
-				);
+			if (fs.existsSync(clientExtensionYamlPath)) {
+				try {
+					const yamlConfig = yaml.load(
+						fs.readFileSync(clientExtensionYamlPath, 'utf8')
+					);
 
-				liferayJson = merge.all([
-					liferayJson,
-					this._normalizeClientExtensionYaml(yamlConfig),
-				]);
-			}
-			catch (error) {
-				if (error.code !== 'ENOENT') {
-					throw error;
+					liferayJson = merge.all([
+						liferayJson,
+						this._normalizeClientExtensionYaml(yamlConfig),
+					]);
+				}
+				catch (error) {
+					if (error.code !== 'ENOENT') {
+						throw error;
+					}
 				}
 			}
 		}
@@ -181,6 +179,34 @@ export default class Project {
 		}
 
 		return isWorkspace;
+	}
+
+	private _getClientExtensionYamlPath(): string {
+		let dir = this.dir.resolve().asNative;
+
+		while (true) {
+			const clientExtensionYamlPath = path.join(
+				dir,
+				'client-extension.yaml'
+			);
+
+			if (fs.existsSync(clientExtensionYamlPath)) {
+				return clientExtensionYamlPath;
+			}
+
+			const newDir = path.dirname(dir);
+
+			if (
+				newDir === dir ||
+				fs.existsSync(path.join(dir, 'settings.gradle'))
+			) {
+				break;
+			}
+
+			dir = newDir;
+		}
+
+		return '';
 	}
 
 	private _loadLiferayJson(): LiferayJson {
