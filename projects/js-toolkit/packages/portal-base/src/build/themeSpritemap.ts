@@ -116,7 +116,7 @@ async function buildProject(project: Project): Promise<void> {
 			.replace(/<svg/gm, '<symbol')
 			.replace(
 				/xmlns="http:\/\/www\.w3\.org\/2000\/svg"/gm,
-				`id="${fileName}"`
+				` id="${fileName}" `
 			)
 			.replace(/<\/svg/gm, '</symbol')
 			.replace(/\n/gm, '')
