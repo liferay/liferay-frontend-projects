@@ -1,3 +1,11 @@
+## [portal-base/v1.9.1](https://github.com/liferay/liferay-frontend-projects/tree/portal-base/v1.9.1) (2023-04-04)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/portal-base/v1.9.0...portal-base/v1.9.1)
+
+### :wrench: Bug fixes
+
+-   fix(portal-base): ensure that there is whitespace surrounding the svg attribute ([\#1125](https://github.com/liferay/liferay-frontend-projects/pull/1125))
+
 ## [portal-base/v1.9.0](https://github.com/liferay/liferay-frontend-projects/tree/portal-base/v1.9.0) (2023-03-30)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/portal-base/v1.8.2...portal-base/v1.9.0)
