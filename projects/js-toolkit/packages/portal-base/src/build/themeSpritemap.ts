@@ -111,13 +111,15 @@ async function buildProject(project: Project): Promise<void> {
 			}
 		}
 
+		let svgAttributes = /<svg\s+([^>]+)>/gm.exec(data)[1] || '';
+
+		svgAttributes = svgAttributes
+			.replace(/id=".*"?/, '')
+			.replace(/xmlns="http:\/\/www\.w3\.org\/2000\/svg"/gm, ``);
+
 		svgContent += data
 			.replace(HEADER_REGEXP, '')
-			.replace(/<svg/gm, '<symbol')
-			.replace(
-				/xmlns="http:\/\/www\.w3\.org\/2000\/svg"/gm,
-				`id="${fileName}"`
-			)
+			.replace(/<svg.*?>/gm, `<symbol id="${fileName}" ${svgAttributes}>`)
 			.replace(/<\/svg/gm, '</symbol')
 			.replace(/\n/gm, '')
 			.replace(/\t/gm, '');
