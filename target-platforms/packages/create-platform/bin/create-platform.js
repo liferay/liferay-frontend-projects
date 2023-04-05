@@ -147,7 +147,7 @@ const args = process.argv.slice(2);
 
 if (args.length < 2) {
 	console.log(`
-Usage: create-plaform [--ee] <liferay-portal tag/dir> <target platform name>
+Usage: create-plaform [-ee] <liferay-portal tag/dir> <target platform name>
 
     If you specify the -ee flag, you need to provide a GitHub Personal Access
     Token using the CP_TOKEN environment variable.
