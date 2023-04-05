@@ -10,6 +10,7 @@
 const {spawnSync} = require('child_process');
 const path = require('path');
 
+const addTypeDependencies = require('../lib/addTypeDependencies');
 const getBaseConfigJson = require('../lib/getBaseConfigJson');
 const getBasePackageJson = require('../lib/getBasePackageJson');
 const getBundlerImports = require('../lib/getBundlerImports');
@@ -122,6 +123,8 @@ async function main([isEE, portalTagOrDir, platformName]) {
 				return sortedDependencies;
 			}, {}),
 	};
+
+	addTypeDependencies(packageJson);
 
 	// Produce output
 

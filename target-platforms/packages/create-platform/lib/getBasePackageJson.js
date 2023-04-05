@@ -24,6 +24,7 @@ module.exports = function getBasePackageJson(platformName, portalVersion) {
 			'liferay-npm-bundler': '*',
 		},
 		description: `Target platform for Liferay Portal ${portalVersion}`,
+		devDependencies: {},
 		main: 'config.json',
 		name: `@liferay/${platformName}`,
 		scripts: {
