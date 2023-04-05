@@ -10,9 +10,7 @@ module.exports = function addTypeDependencies(packageJson) {
 		return;
 	}
 
-	packageJson.devDependencies = packageJson.devDependencies || {};
-
-	const {dependencies, devDependencies} = packageJson;
+	const {dependencies} = packageJson;
 
 	const versions = {};
 
@@ -22,7 +20,7 @@ module.exports = function addTypeDependencies(packageJson) {
 
 	Object.entries(versions).forEach(([packageName, version]) => {
 		if (version) {
-			devDependencies[`@types/${packageName}`] = version;
+			dependencies[`@types/${packageName}`] = version;
 		}
 	});
 };
