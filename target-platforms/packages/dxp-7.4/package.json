@@ -5,6 +5,8 @@
 	"dependencies": {
 		"@liferay/portal-base": "^1.0.0",
 		"liferay-npm-bundler": "*",
+		"@types/react": "^16.0.0",
+		"@types/react-dom": "^16.0.0",
 		"@clayui/alert": "3.85.0",
 		"@clayui/autocomplete": "3.90.0",
 		"@clayui/badge": "3.56.0",
@@ -176,9 +178,7 @@
 		"text-mask-addons": "3.8.0",
 		"text-mask-core": "5.1.2",
 		"uuid": "9.0.0",
-		"xss-filters": "1.2.7",
-		"@types/react": "16.12.0",
-		"@types/react-dom": "16.12.0"
+		"xss-filters": "1.2.7"
 	},
 	"description": "Target platform for Liferay Portal 7.4.13-u70",
 	"main": "config.json",
@@ -194,5 +194,5 @@
 		"preversion": "yarn ci",
 		"test": "cd ../.. && yarn test"
 	},
-	"version": "71.0.1"
+	"version": "71.0.2"
 }

@@ -3,7 +3,11 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-module.exports = function getBasePackageJson(platformName, portalVersion) {
+module.exports = function getBasePackageJson(
+	platformName,
+	portalVersion,
+	createPlatformConfig
+) {
 	let version = '0.0.0';
 
 	if (portalVersion.startsWith('fix-pack-base-')) {
@@ -22,6 +26,7 @@ module.exports = function getBasePackageJson(platformName, portalVersion) {
 		dependencies: {
 			'@liferay/portal-base': '^1.0.0',
 			'liferay-npm-bundler': '*',
+			...createPlatformConfig.dependencies,
 		},
 		description: `Target platform for Liferay Portal ${portalVersion}`,
 		main: 'config.json',
