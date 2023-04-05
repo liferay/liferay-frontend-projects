@@ -158,6 +158,13 @@ Usage: create-plaform [-ee] <liferay-portal tag/dir> <target platform name>
 
     You can create Personal Access Tokens in the Developer Settings of your 
     GitHub account.
+
+    For versions without a root npmscripts.config.js file you need to specify a
+    directory (you cannot use a tag) because the script needs to traverse the
+    whole directory structure to find .npmbundlerrc files.
+
+    To create a target platform for master, simply specify 'master' as the tag
+    name.
 `);
 	process.exit(1);
 }
