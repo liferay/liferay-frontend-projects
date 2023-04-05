@@ -176,13 +176,11 @@
 		"text-mask-addons": "3.8.0",
 		"text-mask-core": "5.1.2",
 		"uuid": "9.0.0",
-		"xss-filters": "1.2.7"
-	},
-	"description": "Target platform for Liferay Portal 7.4.13-u70",
-	"devDependencies": {
+		"xss-filters": "1.2.7",
 		"@types/react": "16.12.0",
 		"@types/react-dom": "16.12.0"
 	},
+	"description": "Target platform for Liferay Portal 7.4.13-u70",
 	"main": "config.json",
 	"name": "@liferay/dxp-7.4",
 	"scripts": {
