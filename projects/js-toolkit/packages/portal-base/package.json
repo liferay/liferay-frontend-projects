@@ -15,7 +15,7 @@
 		"liferay-npm-build-tools-common": "^2.27.0",
 		"liferay-npm-bundler": "^2.27.0",
 		"liferay-npm-bundler-loader-babel-loader": "^2.27.0",
-		"liferay-npm-bundler-loader-copy-loader": "^2.27.0",
+		"liferay-npm-bundler-loader-copy-loader": "^2.31.2",
 		"liferay-npm-bundler-loader-css-loader": "^2.27.0",
 		"liferay-npm-bundler-loader-json-loader": "^2.27.0",
 		"liferay-npm-bundler-loader-sass-loader": "^2.27.0",
