@@ -31,6 +31,12 @@ function createTempFile(filename, content, {autoDelete = true} = {}) {
 
 	const tempFilePath = path.resolve(path.join(tempDirPath, filename));
 
+	const dirname = path.dirname(tempFilePath);
+
+	if (!fs.existsSync(dirname)) {
+		fs.mkdirSync(dirname, {recursive: true});
+	}
+
 	fs.writeFileSync(tempFilePath, content);
 
 	const {dispose} = SignalHandler.onExit(() => {
