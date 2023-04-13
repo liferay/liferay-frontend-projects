@@ -114,7 +114,14 @@ function createEsm2AmdExportsBridges(projectDir, buildConfig, manifest) {
 
 			const pkgId = `${pkgJson.name}@${pkgJson.version}`;
 
-			const importPath = `${rootDir}/${exportsItem.name}.js`;
+			let importPath = `${rootDir}/${exportsItem.name}.js`;
+
+			if (exportsItem.name.includes('/css/')) {
+				importPath = `${rootDir}/${exportsItem.name.replace(
+					'/css/',
+					'/exports/'
+				)}.css.js`;
+			}
 
 			const hashedModulePath = hashPathForVariable(importPath);
 
