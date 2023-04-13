@@ -1,3 +1,12 @@
+## [npm-scripts/v47.17.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.17.0) (2023-04-13)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.16.0...npm-scripts/v47.17.0)
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): reference the correct path for css files ([\#1129](https://github.com/liferay/liferay-frontend-projects/pull/1129))
+-   fix: don't minify when NODE_ENV=development ([\#1106](https://github.com/liferay/liferay-frontend-projects/pull/1106))
+
 ## [npm-scripts/v47.16.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.16.0) (2023-03-01)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.15.2...npm-scripts/v47.16.0)
