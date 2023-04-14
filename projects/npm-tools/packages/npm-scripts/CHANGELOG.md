@@ -1,3 +1,11 @@
+## [npm-scripts/v47.18.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.18.0) (2023-04-14)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.17.0...npm-scripts/v47.18.0)
+
+### :new: Features
+
+-   feat(npm-scripts): ignore dependency check for modules that have their own yarn.lock ([\#1130](https://github.com/liferay/liferay-frontend-projects/pull/1130))
+
 ## [npm-scripts/v47.17.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.17.0) (2023-04-13)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.16.0...npm-scripts/v47.17.0)
