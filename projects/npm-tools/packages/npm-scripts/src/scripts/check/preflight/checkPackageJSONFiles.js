@@ -25,7 +25,22 @@ const BANNED_DEPENDENCY_PATTERNS = 'blacklisted-dependency-patterns';
  * Returns a (possibly empty) array of error messages.
  */
 function checkPackageJSONFiles() {
-	const packages = getPaths(['package.json'], [], IGNORE_FILE);
+	let packages = getPaths(['package.json'], [], IGNORE_FILE);
+
+	// Filters out packages that have their own yarn.lock
+
+	packages = packages.filter((packagePath) => {
+
+		// Ignore root level package.json
+
+		if (packagePath === 'package.json') {
+			return true;
+		}
+
+		return !fs.existsSync(
+			path.join(path.dirname(packagePath), 'yarn.lock')
+		);
+	});
 
 	const {rules} = getMergedConfig('npmscripts') || {};
 
