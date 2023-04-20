@@ -22,7 +22,7 @@ afterEach(() => {
 	process.chdir(savedCwd);
 });
 
-describe('tweakWebpackConfig() without federation', () => {
+describe('tweakWebpackConfig()', () => {
 	it('returns unchanged config when it doesn\'t include a "module" field', async () => {
 		const webpackConfigPath = getFixturePath(
 			'webpack',
