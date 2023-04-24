@@ -1,7 +1,7 @@
 {
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"dependencies": {
-		"acorn": "^6.2.1",
+		"acorn": "^8.8.2",
 		"chalk": "^2.4.2",
 		"clone": "^2.1.2",
 		"cross-spawn": "^7.0.0",

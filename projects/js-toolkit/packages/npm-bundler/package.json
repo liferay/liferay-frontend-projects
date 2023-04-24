@@ -5,7 +5,7 @@
 	},
 	"dependencies": {
 		"@liferay/js-toolkit-core": "^5.0.0",
-		"acorn": "^6.2.1",
+		"acorn": "^8.8.2",
 		"cross-spawn": "^7.0.0",
 		"ejs": "^2.6.1",
 		"escodegen": "^1.14.1",
