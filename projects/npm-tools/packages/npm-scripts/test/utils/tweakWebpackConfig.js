@@ -6,7 +6,7 @@
 const path = require('path');
 
 const getMergedConfig = require('../../src/utils/getMergedConfig');
-const tweakWebpackConfig = require('../../src/webpack/tweakWebpackConfig');
+const tweakWebpackConfig = require('../../src/utils/tweakWebpackConfig');
 const getFixturePath = require('../../support/getFixturePath');
 
 const BABEL_CONFIG = getMergedConfig('babel');
@@ -22,7 +22,7 @@ afterEach(() => {
 	process.chdir(savedCwd);
 });
 
-describe('tweakWebpackConfig() without federation', () => {
+describe('tweakWebpackConfig()', () => {
 	it('returns unchanged config when it doesn\'t include a "module" field', async () => {
 		const webpackConfigPath = getFixturePath(
 			'webpack',
