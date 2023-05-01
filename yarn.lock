@@ -10786,10 +10786,10 @@ liferay-frontend-common-css@^1.0.4:
   resolved "https://registry.yarnpkg.com/liferay-frontend-common-css/-/liferay-frontend-common-css-1.0.4.tgz#e4d73e406020d907c909bcacb2700a52fa1c7f16"
   integrity sha1-5Nc+QGAg2QfJCbyssnAKUvocfxY=
 
-liferay-frontend-theme-styled@6.0.6:
-  version "6.0.6"
-  resolved "https://registry.yarnpkg.com/liferay-frontend-theme-styled/-/liferay-frontend-theme-styled-6.0.6.tgz#bb6fe947be0fd4753a07b89304464b548c2df6d4"
-  integrity sha512-uzIOXiJyelvas0WqTiga4tUL8PZA9kP8iV9nd96QJBy8UrNz5Hz2AV/oEJBeQ87whnNVPWvZXQ7JqEp9Dg6L4w==
+liferay-frontend-theme-styled@6.0.61:
+  version "6.0.61"
+  resolved "https://registry.yarnpkg.com/liferay-frontend-theme-styled/-/liferay-frontend-theme-styled-6.0.61.tgz#387d20d4f9ac06ae3e7ea6e9b3783215dfab3b11"
+  integrity sha512-2VxFz2XugbCGZ0fQCN1KUgmf52lNfmk5MgRq82YRQcr5+F1AEV/Poy8kysZO9XY9TMB0AUsPnPpbSp0ZCkUwHA==
 
 liferay-frontend-theme-unstyled@6.0.6:
   version "6.0.6"

@@ -45,7 +45,7 @@
 	},
 	"description": "A set of tasks for building and deploying Liferay Portal themes.",
 	"devDependencies": {
-		"liferay-frontend-theme-styled": "6.0.6",
+		"liferay-frontend-theme-styled": "6.0.61",
 		"liferay-frontend-theme-unstyled": "6.0.6",
 		"node-sass": "^6.0.1"
 	},
