@@ -84,7 +84,10 @@ module.exports = function getExternalExportsWebpackConfigs(
 			if (importPath.endsWith('.css')) {
 				webpackConfig.module.rules.push({
 					include: /node_modules/,
-					test: new RegExp(`${importPath.replace('/', '\\/')}$`),
+					test: (filePath) =>
+						new RegExp(`${importPath.replace('/', '\\/')}$`).test(
+							filePath.split(path.sep).join(path.posix.sep)
+						),
 					use: [
 						{
 							loader: require.resolve('./webpackExportCssLoader'),
