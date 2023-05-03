@@ -1,3 +1,15 @@
+## [npm-scripts/v47.18.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.18.1) (2023-05-03)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.18.0...npm-scripts/v47.18.1)
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): fix path so that it works in windows ([\#1136](https://github.com/liferay/liferay-frontend-projects/pull/1136))
+
+### :woman_juggling: Refactoring
+
+-   refactor(npm-scripts): remove webpack federation code ([\#1133](https://github.com/liferay/liferay-frontend-projects/pull/1133))
+
 ## [npm-scripts/v47.18.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.18.0) (2023-04-14)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.17.0...npm-scripts/v47.18.0)
