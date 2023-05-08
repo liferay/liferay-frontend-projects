@@ -10,7 +10,7 @@
 		"cli-progress": "^3.1.0",
 		"cli-table": "0.3.1",
 		"find-up": "^5.0.0",
-		"globby": "^11.0.0"
+		"globby": "^13.1.4"
 	},
 	"description": "Tool that analyzes Liferay's JS code base to produce valuable insights about usages, dependencies, features...",
 	"keywords": [

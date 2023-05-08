@@ -4,7 +4,7 @@
 		"@liferay/portal-base": "^1.0.0",
 		"cross-spawn": "^7.0.0",
 		"escape-string-regexp": "^2.0.0",
-		"globby": "^10.0.1",
+		"globby": "^13.1.4",
 		"resolve": "1.20.0",
 		"semver": "^7.3.5"
 	},
