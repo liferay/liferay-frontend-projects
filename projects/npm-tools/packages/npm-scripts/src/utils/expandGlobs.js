@@ -197,9 +197,8 @@ function expandGlobs(matchGlobs, ignoreGlobs = [], options = {}) {
 				if (type === 'directory' && match()) {
 					results.push(file);
 				}
-				else {
-					traverse(file);
-				}
+
+				traverse(file);
 			}
 			else if (type === 'file' && match()) {
 				results.push(file);

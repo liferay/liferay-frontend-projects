@@ -26,6 +26,7 @@ const FIXTURES = `
 	apps/frontend-js/frontend-js-web/src/main/resources/META-INF/resources/misc/swfobject.js
 	apps/frontend-theme-porygon/frontend-theme-porygon/build/css/_clay_custom.scss
 	apps/frontend-theme-porygon/frontend-theme-porygon/build/css/clay/components/_input-groups.scss
+	apps/headless/headless-builder/headless-builder-web/src/main/resources/META-INF/resources/js/main.js
 	apps/journal/journal-web/build/npm/npmRunBuild/outputs/META-INF/resources/js/DDMTemplatesManagementToolbarDefaultEventHandler.es.js
 	apps/journal/journal-web/classes/META-INF/resources/node_modules/journal-web$lodash.escape@4.0.1/index.js
 	apps/journal/journal-web/src/main/resources/META-INF/resources/js/DDMStructuresManagementToolbarDefaultEventHandler.es.js
@@ -150,11 +151,17 @@ describe('expandGlobs()', () => {
 
 		expect(matches).toEqual([
 			'apps/change-tracking',
+			'apps/change-tracking/change-tracking-change-lists-configuration-web',
+			'apps/change-tracking/change-tracking-change-lists-indicator-web',
 			'apps/document-library/document-library-preview-image',
 			'apps/fragment',
+			'apps/fragment/fragment-demo-data-creator-impl',
+			'apps/fragment/fragment-test',
 			'apps/frontend-theme-porygon',
+			'apps/frontend-theme-porygon/frontend-theme-porygon',
 			'apps/layout/layout-content-page-editor-web',
 			'apps/portal-portlet-bridge',
+			'apps/portal-portlet-bridge/portal-portlet-bridge-soy-impl',
 			'sdk/gradle-plugins-theme-builder',
 		]);
 	});
@@ -239,5 +246,15 @@ describe('expandGlobs()', () => {
 		files = expand(['*'], [], {baseDir: randomTempDir});
 
 		expect(files).toEqual([tempFilePath]);
+	});
+
+	it('can match deeply nested directories when a previous glob matches', () => {
+		const matches = expand(['apps/*/*', 'apps/*/*/*'], [], {
+			type: 'directory',
+		});
+
+		expect(matches).toContain(
+			'apps/headless/headless-builder/headless-builder-web'
+		);
 	});
 });

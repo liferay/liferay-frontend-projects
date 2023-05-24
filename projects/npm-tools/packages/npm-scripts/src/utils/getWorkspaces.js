@@ -10,8 +10,6 @@ const expandGlobs = require('./expandGlobs');
 const findRoot = require('./findRoot');
 const log = require('./log');
 
-const IGNORE_GLOBS = ['node_modules/**'];
-
 /**
  * Returns a list of workspaces.
  *
@@ -32,8 +30,8 @@ function getWorkspaces() {
 				fs.readFileSync('package.json', 'utf8')
 			);
 
-			const projects = expandGlobs(workspaces.packages, IGNORE_GLOBS, {
-				maxDepth: 3,
+			const projects = expandGlobs(workspaces.packages, [], {
+				maxDepth: 4,
 				type: 'directory',
 			});
 
