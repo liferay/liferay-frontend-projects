@@ -104,7 +104,7 @@ async function postProcess({compilerOptions: {outDir: baseDir}}) {
 		return;
 	}
 
-	const paths = expandGlobs(['**/*.d.ts'], [], {baseDir});
+	const paths = expandGlobs(['**/types/**/*.d.ts'], [], {baseDir});
 
 	if (!paths.length) {
 		return;

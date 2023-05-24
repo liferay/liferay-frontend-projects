@@ -30,10 +30,22 @@ function getWorkspaces() {
 				fs.readFileSync('package.json', 'utf8')
 			);
 
-			const projects = expandGlobs(workspaces.packages, [], {
-				maxDepth: 4,
-				type: 'directory',
-			});
+			const projects = expandGlobs(
+				workspaces.packages,
+				[
+					'**/node_modules/**',
+					'**/.releng/**',
+					'**/.npmscripts/**',
+					'**/build',
+					'**/classes',
+					'**/src',
+					'**/test',
+				],
+				{
+					maxDepth: 4,
+					type: 'directory',
+				}
+			);
 
 			return projects
 				.filter((project) => {
