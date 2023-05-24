@@ -1,3 +1,11 @@
+## [npm-scripts/v47.18.2](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.18.2) (2023-05-24)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.18.1...npm-scripts/v47.18.2)
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): glob pattern isn't greedy enough if there are other patterns that want to look deeper in the directory ([\#1139](https://github.com/liferay/liferay-frontend-projects/pull/1139))
+
 ## [npm-scripts/v47.18.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.18.1) (2023-05-03)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.18.0...npm-scripts/v47.18.1)
