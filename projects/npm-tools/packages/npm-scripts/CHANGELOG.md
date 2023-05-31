@@ -1,3 +1,11 @@
+## [npm-scripts/v47.19.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.19.0) (2023-05-31)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.18.2...npm-scripts/v47.19.0)
+
+### :new: Features
+
+-   feat(npm-scripts): support SVG exports ([\#1140](https://github.com/liferay/liferay-frontend-projects/pull/1140))
+
 ## [npm-scripts/v47.18.2](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.18.2) (2023-05-24)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.18.1...npm-scripts/v47.18.2)
