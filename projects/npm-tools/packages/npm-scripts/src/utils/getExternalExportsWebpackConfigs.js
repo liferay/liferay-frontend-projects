@@ -79,6 +79,27 @@ module.exports = function getExternalExportsWebpackConfigs(
 				},
 			};
 
+			if (process.env.NODE_ENV === 'development') {
+				webpackConfig.devtool = 'source-map';
+				webpackConfig.mode = 'development';
+			}
+			else {
+				webpackConfig.devtool = false;
+				webpackConfig.mode = 'production';
+				webpackConfig.optimization = {
+					...webpackConfig.optimization,
+					minimize: true,
+					minimizer: [
+						new TerserPlugin({
+							terserOptions: {
+								keep_classnames: true,
+								keep_fnames: true,
+							},
+						}),
+					],
+				};
+			}
+
 			// For CSS exports, add our loader so that the .js stub is created
 
 			if (importPath.endsWith('.css')) {
@@ -111,25 +132,23 @@ module.exports = function getExternalExportsWebpackConfigs(
 				});
 			}
 
-			if (process.env.NODE_ENV === 'development') {
-				webpackConfig.devtool = 'source-map';
-				webpackConfig.mode = 'development';
-			}
-			else {
+			// For SVG exports, add our loader so that the .js stub is created
+
+			if (importPath.endsWith('.svg')) {
 				webpackConfig.devtool = false;
-				webpackConfig.mode = 'production';
-				webpackConfig.optimization = {
-					...webpackConfig.optimization,
-					minimize: true,
-					minimizer: [
-						new TerserPlugin({
-							terserOptions: {
-								keep_classnames: true,
-								keep_fnames: true,
-							},
-						}),
+
+				webpackConfig.module.rules.push({
+					include: /node_modules/,
+					test: (filePath) =>
+						new RegExp(`${importPath.replace('/', '\\/')}$`).test(
+							filePath.split(path.sep).join(path.posix.sep)
+						),
+					use: [
+						{
+							loader: require.resolve('./webpackExportSvgLoader'),
+						},
 					],
-				};
+				});
 			}
 
 			if (buildConfig.report) {
