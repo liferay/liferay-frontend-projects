@@ -10,3 +10,18 @@ export interface FDSCellRendererArgs {
 export interface FDSCellRenderer {
 	(args: FDSCellRendererArgs): HTMLElement;
 }
+
+export interface FDSFilterData {
+	id: string;
+	odataFilterString: string;
+	selectedData: string;
+}
+
+export interface FDSFilterArgs {
+	filter: FDSFilterData;
+	setFilter: (val: Partial<FDSFilterData>) => void;
+}
+
+export interface FDSFilter {
+	(args: FDSFilterArgs): HTMLElement;
+}
