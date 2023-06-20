@@ -7,11 +7,13 @@ const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 
 const convertImportsToExternals = require('./convertImportsToExternals');
+const getBndWebContextPath = require('./getBndWebContextPath');
 
 module.exports = function getMainWebpackConfig(
 	projectDir,
 	buildConfig,
-	babelConfig
+	babelConfig,
+	langKeys = {}
 ) {
 	if (!buildConfig.main) {
 		return;
@@ -21,6 +23,14 @@ module.exports = function getMainWebpackConfig(
 
 	const {imports} = buildConfig;
 	const externals = convertImportsToExternals(imports, 2);
+
+	// Add language resources as externals
+
+	const languageResourcesModule = `@liferay/lang${getBndWebContextPath(
+		projectDir
+	)}.js`;
+
+	externals[languageResourcesModule] = languageResourcesModule;
 
 	const webpackConfig = {
 		entry: {
@@ -38,10 +48,19 @@ module.exports = function getMainWebpackConfig(
 				{
 					exclude: /node_modules/,
 					test: /\.jsx?$/,
-					use: {
-						loader: require.resolve('babel-loader'),
-						options: babelConfig,
-					},
+					use: [
+						{
+							loader: require.resolve('babel-loader'),
+							options: babelConfig,
+						},
+						{
+							loader: require.resolve('./webpackLanguageLoader'),
+							options: {
+								langKeys,
+								projectDir,
+							},
+						},
+					],
 				},
 				{
 					exclude: /node_modules/,
@@ -59,10 +78,19 @@ module.exports = function getMainWebpackConfig(
 				{
 					exclude: /node_modules/,
 					test: /\.tsx?/,
-					use: {
-						loader: require.resolve('babel-loader'),
-						options: babelConfig,
-					},
+					use: [
+						{
+							loader: require.resolve('babel-loader'),
+							options: babelConfig,
+						},
+						{
+							loader: require.resolve('./webpackLanguageLoader'),
+							options: {
+								langKeys,
+								projectDir,
+							},
+						},
+					],
 				},
 			],
 		},
