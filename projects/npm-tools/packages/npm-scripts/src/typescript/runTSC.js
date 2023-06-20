@@ -33,6 +33,18 @@ async function runTSC() {
 
 	const config = configureTypeScript(graph);
 
+	const buildInfoPath = path.join(
+		process.cwd(),
+		'tmp',
+		'tsconfig.tsbuildinfo'
+	);
+
+	// Remove previous type information to ensure a consistent build
+
+	if (fs.existsSync(buildInfoPath)) {
+		fs.unlinkSync(buildInfoPath);
+	}
+
 	spawnSync('tsc', ['--emitDeclarationOnly']);
 
 	// Format the generated files, because: https://git.io/JYNZp

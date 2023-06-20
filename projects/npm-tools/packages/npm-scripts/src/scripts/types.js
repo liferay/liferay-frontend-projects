@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-const fs = require('fs');
 const path = require('path');
 
 const getTypeScriptBuildOrder = require('../typescript/getTypeScriptBuildOrder');
@@ -41,18 +40,6 @@ async function types() {
 
 		try {
 			process.chdir(directory);
-
-			const buildInfoPath = path.join(
-				process.cwd(),
-				'tmp',
-				'tsconfig.tsbuildinfo'
-			);
-
-			// Remove previous type information to ensure a consistent build
-
-			if (fs.existsSync(buildInfoPath)) {
-				fs.unlinkSync(buildInfoPath);
-			}
 
 			const config = getMergedConfig('npmscripts');
 
