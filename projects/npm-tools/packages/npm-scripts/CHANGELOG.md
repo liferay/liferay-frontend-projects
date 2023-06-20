@@ -1,3 +1,11 @@
+## [npm-scripts/v47.21.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.21.0) (2023-06-20)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.20.0...npm-scripts/v47.21.0)
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): wipe the tsbuildinfo file to ensure consistent types ([\#1143](https://github.com/liferay/liferay-frontend-projects/pull/1143))
+
 ## [npm-scripts/v47.20.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.20.0) (2023-06-20)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.19.0...npm-scripts/v47.20.0)
