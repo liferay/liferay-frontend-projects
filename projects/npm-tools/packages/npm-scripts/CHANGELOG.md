@@ -1,3 +1,15 @@
+## [npm-scripts/v48.0.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v48.0.0) (2023-06-22)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.21.0...npm-scripts/v48.0.0)
+
+### :boom: Breaking changes
+
+-   feat(npm-scripts)!: Revert "generate \_\_liferay\_\_/lang.json file" ([\#1145](https://github.com/liferay/liferay-frontend-projects/pull/1145))
+
+### :new: Features
+
+-   feat(npm-scripts)!: Revert "generate \_\_liferay\_\_/lang.json file" ([\#1145](https://github.com/liferay/liferay-frontend-projects/pull/1145))
+
 ## [npm-scripts/v47.21.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v47.21.0) (2023-06-20)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.20.0...npm-scripts/v47.21.0)
