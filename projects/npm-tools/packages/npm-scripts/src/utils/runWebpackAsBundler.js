@@ -5,9 +5,6 @@
 
 /* eslint-disable @liferay/no-dynamic-require */
 
-const fs = require('fs');
-const path = require('path');
-
 const createTempFile = require('./createTempFile');
 const getExternalExportsWebpackConfigs = require('./getExternalExportsWebpackConfigs');
 const getInternalExportsWebpackConfigs = require('./getInternalExportsWebpackConfigs');
@@ -24,13 +21,10 @@ module.exports = async function runWebpackAsBundler(
 ) {
 	const start = Date.now();
 
-	const langKeys = {};
-
 	const mainWebpackConfig = getMainWebpackConfig(
 		projectDir,
 		buildConfig,
-		babelConfig,
-		langKeys
+		babelConfig
 	);
 
 	if (mainWebpackConfig) {
@@ -75,16 +69,6 @@ module.exports = async function runWebpackAsBundler(
 
 		await runWebpack(webpackConfig, buildConfig.report);
 	}
-
-	// Write lang.json
-
-	fs.writeFileSync(
-		path.join(buildConfig.output, '__liferay__', 'lang.json'),
-		JSON.stringify({
-			keys: Object.keys(langKeys),
-		}),
-		'utf-8'
-	);
 
 	const lapse = Math.floor((Date.now() - start) / 1000);
 
