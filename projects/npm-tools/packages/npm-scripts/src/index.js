@@ -62,7 +62,7 @@ module.exports = async function () {
 		},
 
 		async types() {
-			await require('./scripts/types')();
+			await require('./scripts/types')(...ARGS_ARRAY.slice(1));
 		},
 
 		webpack() {

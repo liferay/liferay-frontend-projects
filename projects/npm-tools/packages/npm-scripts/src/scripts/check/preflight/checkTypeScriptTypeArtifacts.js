@@ -4,6 +4,7 @@
  */
 
 const getTypeScriptDependencyGraph = require('../../../typescript/getTypeScriptDependencyGraph');
+const getLiferayWorkingBranch = require('../../../utils/getLiferayWorkingBranch');
 const git = require('../../../utils/git');
 const types = require('../../types');
 
@@ -14,7 +15,7 @@ const types = require('../../types');
  * LIFERAY_NPM_SCRIPTS_WORKING_BRANCH_NAME is set).
  */
 async function checkTypeScriptTypeArtifacts() {
-	const upstream = process.env.LIFERAY_NPM_SCRIPTS_WORKING_BRANCH_NAME;
+	const upstream = getLiferayWorkingBranch();
 
 	const errors = [];
 
