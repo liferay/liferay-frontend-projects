@@ -1,3 +1,11 @@
+## [npm-scripts/v48.1.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v48.1.0) (2023-06-23)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v48.0.0...npm-scripts/v48.1.0)
+
+### :new: Features
+
+-   feat(npm-scripts): improve strategy for generating types, only generate types for modules that have changes to ts files or if their dependencies have changes ([\#1146](https://github.com/liferay/liferay-frontend-projects/pull/1146))
+
 ## [npm-scripts/v48.0.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v48.0.0) (2023-06-22)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v47.21.0...npm-scripts/v48.0.0)
