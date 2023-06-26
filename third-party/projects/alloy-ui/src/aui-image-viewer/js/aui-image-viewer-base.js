@@ -442,10 +442,11 @@ A.ImageViewerBase = A.Base.create(
          * @protected
          */
         _renderImage: function(index, container) {
-            var group,
+            var description = this.get('descriptions')[index],
+                group,
                 image = A.Node.create(this.TPL_IMAGE),
-                src = this.get('sources')[index],
-                links = this.get('links');
+                links = this.get('links'),
+                src = this.get('sources')[index];
 
             if (links && links.size() && links._nodes[index]) {
                 var link = links._nodes[index];
@@ -453,6 +454,8 @@ A.ImageViewerBase = A.Base.create(
                 var description = link.getAttribute('description');
 
                 image.setAttribute('alt',description);
+            } else if (description) {
+                image.setAttribute('alt', description);
             }
 
             if (A.Lang.isString(src)) {
@@ -767,6 +770,18 @@ A.ImageViewerBase = A.Base.create(
             },
 
             /**
+             * The descriptions, alternative texts, for the images to be shown.
+             *
+             * @attribute descriptions
+             * @default []
+             * @type Array
+             */
+            descriptions: {
+                value: [],
+                validator: A.Lang.isArray
+            },
+
+            /**
              * Configuration attributes passed to the [Anim](Anim.html) class, or
              * false if there should be no animation.
              *
@@ -883,6 +898,27 @@ A.ImageViewerBase = A.Base.create(
 
             controlPrevious: function(srcNode) {
                 return srcNode.one('.' + CSS_CONTROL_LEFT);
+            },
+
+            descriptions: function(srcNode) {
+                var childImg,
+                    img,
+                    images = srcNode.all('.' + CSS_IMAGE + ', .' + CSS_CONTENT),
+                    isImg,
+                    descriptions = [];
+
+                    images.each(function() {
+                        isImg = this.test('img'),
+                        childImg = this.one('img');
+    
+                        if (isImg || childImg) {
+                            img = isImg ? this : childImg;
+    
+                            descriptions.push(img.getAttribute('alt'));
+                        }
+                    });
+    
+                    return descriptions;
             },
 
             sources: function(srcNode) {
