@@ -421,7 +421,7 @@ DiagramNode = A.Component.create({
      * @private
      */
     buildNodeId: function(id) {
-        return 'diagramNode' + '_' + 'field' + '_' + id.replace(/[^a-z0-9.:_\-]/ig, '_');
+        return 'diagramNode' + '_' + 'field' + '_' + id.replace(/[^\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Han}a-z0-9.:-]+/u, '');
     },
 
     prototype: {
