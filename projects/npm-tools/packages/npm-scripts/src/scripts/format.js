@@ -22,6 +22,7 @@ const DEFAULT_OPTIONS = {
  * File extensions that we allow Prettier to process.
  */
 const EXTENSIONS = [
+	'.css',
 	'.js',
 	'.json',
 	'.jsp',

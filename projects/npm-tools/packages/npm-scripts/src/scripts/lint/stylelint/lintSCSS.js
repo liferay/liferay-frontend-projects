@@ -48,7 +48,7 @@ async function lintSCSS(source, onReport, options = {}) {
 
 		fix,
 
-		syntax: 'scss',
+		syntax: path.extname(filePath).replace('.', ''),
 	});
 
 	results.forEach((result) => {
