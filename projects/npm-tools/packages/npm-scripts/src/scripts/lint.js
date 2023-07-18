@@ -32,6 +32,7 @@ const DEFAULT_OPTIONS = {
  * - via stylelint (natively).
  */
 const EXTENSIONS = {
+	css: ['.css'],
 	js: ['.js', '.ts', '.tsx'],
 	jsp: ['.jsp', '.jspf'],
 	scss: ['.scss'],

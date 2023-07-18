@@ -51,7 +51,12 @@
 			}
 		],
 		"selector-pseudo-class-no-unknown": true,
-		"selector-pseudo-element-no-unknown": true,
+		"selector-pseudo-element-no-unknown": [
+			true,
+			{
+				"ignorePseudoElements": ["ng-deep"]
+			}
+		],
 		"selector-type-no-unknown": true,
 		"shorthand-property-no-redundant-values": true,
 		"unit-case": "lower",

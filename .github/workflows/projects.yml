@@ -22,7 +22,7 @@ on:
 
 env:
     CI: true
-    yarn-cache-name: yarn-cache-11
+    yarn-cache-name: yarn-cache-20
     yarn-cache-path: .yarn
 
 jobs:

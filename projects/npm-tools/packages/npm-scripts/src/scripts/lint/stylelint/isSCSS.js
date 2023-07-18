@@ -5,7 +5,7 @@
 
 const hasExtension = require('../../../utils/hasExtension');
 
-const EXTENSIONS = new Set(['.scss']);
+const EXTENSIONS = new Set(['.css', '.scss']);
 
 function isSCSS(filePath) {
 	return hasExtension(filePath, EXTENSIONS);
