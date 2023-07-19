@@ -23,6 +23,10 @@ function quad(v, m) {
 }
 
 function quad_radius(v) {
+	if (v.startsWith('var')) {
+		return v;
+	}
+
 	var m = v.trim().split(/\s+/);
 
 	// 1px 2px 3px 4px => 1px 2px 4px 3px
