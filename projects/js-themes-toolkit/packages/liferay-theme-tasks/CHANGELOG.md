@@ -1,3 +1,11 @@
+## [liferay-theme-tasks/v11.5.1](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v11.5.1) (2023-07-20)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v11.5.0...liferay-theme-tasks/v11.5.1)
+
+### :wrench: Bug fixes
+
+-   fix(theme-tasks): consider the case then border-radius value might be a variable ([\#1152](https://github.com/liferay/liferay-frontend-projects/pull/1152))
+
 ## [liferay-theme-tasks/v11.5.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v11.5.0) (2023-02-15)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v11.4.0...liferay-theme-tasks/v11.5.0)
