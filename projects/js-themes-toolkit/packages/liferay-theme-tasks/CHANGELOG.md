@@ -1,3 +1,11 @@
+## [liferay-theme-tasks/v11.5.1](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v11.5.1) (2023-07-20)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v11.5.2...liferay-theme-tasks/v11.5.1)
+
+### :leftwards_arrow_with_hook: Reverts
+
+-   revert: "chore: prepare liferay-theme-tasks/v11.5.2 release" ([\#1153](https://github.com/liferay/liferay-frontend-projects/pull/1153))
+
 ## [liferay-theme-tasks/v11.5.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v11.5.0) (2023-02-15)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v11.4.0...liferay-theme-tasks/v11.5.0)
