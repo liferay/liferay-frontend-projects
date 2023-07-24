@@ -1,3 +1,12 @@
+## [npm-scripts/v48.1.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v48.1.1) (2023-07-24)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v48.1.0...npm-scripts/v48.1.1)
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): update liferay-theme-tasks version ([\#1154](https://github.com/liferay/liferay-frontend-projects/pull/1154))
+-   fix(npm-scripts): support formatting css files ([\#1151](https://github.com/liferay/liferay-frontend-projects/pull/1151))
+
 ## [npm-scripts/v48.1.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v48.1.0) (2023-06-23)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v48.0.0...npm-scripts/v48.1.0)
