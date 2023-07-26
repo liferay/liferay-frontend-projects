@@ -28,6 +28,7 @@ export default class Config {
 		this._parse(cfg, 'basePath', '/');
 		this._parse(cfg, 'resolvePath', '/o/js_resolve_modules');
 		this._parse(cfg, 'combine', false);
+		this._parse(cfg, 'nonce', '');
 		this._parse(cfg, 'url', '');
 		this._parse(cfg, 'urlMaxLength', 2000);
 		this._parse(cfg, 'logLevel', 'error');

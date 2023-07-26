@@ -44,7 +44,13 @@ describe('Loader', () => {
 
 		const document = {
 			createElement: () => {
-				const script = {};
+				const script = {
+					attributes: {},
+				};
+
+				script.setAttribute = (name, value) => {
+					script.attributes[name] = value;
+				};
 
 				setTimeout(() => {
 					try {
