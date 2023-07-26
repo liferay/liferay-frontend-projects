@@ -1,3 +1,11 @@
+## [amd-loader/v5.4.0](https://github.com/liferay/liferay-frontend-projects/tree/amd-loader/v5.4.0) (2023-07-26)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/amd-loader/v5.3.0...amd-loader/v5.4.0)
+
+### :new: Features
+
+-   feat(amd-loader): make loader compatible with CSP `script-src '[$NONCE$]'` ([\#1155](https://github.com/liferay/liferay-frontend-projects/pull/1155))
+
 ## [amd-loader/v5.3.0](https://github.com/liferay/liferay-frontend-projects/tree/amd-loader/v5.3.0) (2022-11-25)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/amd-loader/v5.2.0...amd-loader/v5.3.0)
