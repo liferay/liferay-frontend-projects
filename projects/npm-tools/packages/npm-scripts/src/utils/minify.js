@@ -27,6 +27,7 @@ const MINIFY_GLOBS = [
 	path.posix.join(BUILD, '**', '*.js'),
 	'!*-min.js',
 	'!*.min.js',
+	'!node_modules',
 ];
 
 if (process.env.MINIFY_JSP) {
