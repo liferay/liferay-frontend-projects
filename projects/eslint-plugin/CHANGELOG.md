@@ -1,3 +1,11 @@
+## [eslint-plugin/v1.5.0](https://github.com/liferay/liferay-frontend-projects/tree/eslint-plugin/v1.5.0) (2023-07-26)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-plugin/v1.4.0...eslint-plugin/v1.5.0)
+
+### :new: Features
+
+-   feat: ignore node_modules when minifying files and add new eslint rule for dependency check ([\#1156](https://github.com/liferay/liferay-frontend-projects/pull/1156))
+
 ## [eslint-plugin/v1.4.0](https://github.com/liferay/liferay-frontend-projects/tree/eslint-plugin/v1.4.0) (2022-10-12)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-plugin/v1.3.0...eslint-plugin/v1.4.0)
