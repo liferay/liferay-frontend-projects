@@ -106,6 +106,7 @@ const config = {
 		'@liferay/no-conditional-object-keys': 'error',
 		'@liferay/no-duplicate-imports': 'error',
 		'@liferay/no-dynamic-require': 'error',
+		'@liferay/no-extraneous-dependencies': 'off',
 		'@liferay/no-get-data-attribute': 'error',
 		'@liferay/no-it-should': 'error',
 		'@liferay/no-length-jsx-expression': 'error',
