@@ -1,3 +1,11 @@
+## [npm-scripts/v48.1.2](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v48.1.2) (2023-07-26)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v48.1.1...npm-scripts/v48.1.2)
+
+### :new: Features
+
+-   feat: ignore node_modules when minifying files and add new eslint rule for dependency check ([\#1156](https://github.com/liferay/liferay-frontend-projects/pull/1156))
+
 ## [npm-scripts/v48.1.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v48.1.1) (2023-07-24)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v48.1.0...npm-scripts/v48.1.1)
