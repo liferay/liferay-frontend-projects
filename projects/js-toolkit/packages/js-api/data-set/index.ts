@@ -3,6 +3,14 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+export interface FDSTableCellHTMLElementBuilderArgs {
+	value: boolean | number | string | object | [];
+}
+
+export interface FDSTableCellHTMLElementBuilder {
+	(args: FDSTableCellHTMLElementBuilderArgs): HTMLElement;
+}
+
 export interface FDSCellRendererArgs {
 	value: boolean | number | string | object | [];
 }
@@ -24,4 +32,13 @@ export interface FDSFilterArgs {
 
 export interface FDSFilter {
 	(args: FDSFilterArgs): HTMLElement;
+}
+
+export interface FDSFilterHTMLElementBuilderArgs {
+	filter: FDSFilterData;
+	setFilter: (val: Partial<FDSFilterData>) => void;
+}
+
+export interface FDSFilterHTMLElementBuilder {
+	(args: FDSFilterHTMLElementBuilderArgs): HTMLElement;
 }
