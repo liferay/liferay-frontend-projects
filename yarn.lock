@@ -1430,6 +1430,22 @@
     "@types/yargs" "^16.0.0"
     chalk "^4.0.0"
 
+"@liferay/eslint-plugin@1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@liferay/eslint-plugin/-/eslint-plugin-1.4.0.tgz#fabc93c0c4d2997714713ce490f278e700205206"
+  integrity sha512-UKqa4Dp2vQgSnndBYKY/eF+o02NS419H18D5CWp+bbZ5o81Oka0+K2ybLrQgLGnES15jMZUG4cNHWI63tOXsVw==
+  dependencies:
+    "@typescript-eslint/eslint-plugin" "4.30.0"
+    "@typescript-eslint/parser" "4.30.0"
+    eslint-config-prettier "8.1.0"
+    eslint-plugin-no-for-of-loops "^1.0.0"
+    eslint-plugin-no-only-tests "^2.1.0"
+    eslint-plugin-notice "0.9.10"
+    eslint-plugin-promise "^5.1.0"
+    eslint-plugin-react "7.23.1"
+    eslint-plugin-react-hooks "4.2.0"
+    eslint-plugin-sort-destructure-keys "^1.3.5"
+
 "@liferay/js-toolkit-core@3.0.1":
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/@liferay/js-toolkit-core/-/js-toolkit-core-3.0.1.tgz#1232febc41b17da00cd12f7de4eba7243df8c18d"
