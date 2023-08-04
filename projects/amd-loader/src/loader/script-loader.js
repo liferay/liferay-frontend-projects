@@ -68,7 +68,10 @@ export default class ScriptLoader {
 
 			script.src = modulesURL.url;
 			script.async = false;
-			script.setAttribute('nonce', config.nonce);
+
+			if (config.nonce) {
+				script.setAttribute('nonce', config.nonce);
+			}
 
 			if (modulesURL.useESM) {
 				script.type = config.moduleType;
