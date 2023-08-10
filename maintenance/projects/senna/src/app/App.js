@@ -327,7 +327,9 @@ class App extends EventEmitter {
 	 * @return {boolean}
 	 */
 	canNavigate(url) {
-		const uri = utils.isWebUri(url);
+		const uri = url.startsWith('/')
+			? new URL(url, window.location.origin)
+			: new URL(url);
 
 		if (!uri) {
 			return false;
