@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+process.env.CHROME_BIN = require('puppeteer').executablePath()
+
 const metalKarmaConfig = require('metal-karma-config');
 
 module.exports = function (config) {
@@ -16,4 +18,8 @@ module.exports = function (config) {
 		},
 	});
 	metalKarmaConfig(config);
+
+	config.set({
+		browsers: ['ChromeHeadless']
+	})
 };
