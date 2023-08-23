@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-process.env.CHROME_BIN = require('puppeteer').executablePath()
-
 const metalKarmaConfig = require('metal-karma-config');
+
+process.env.CHROME_BIN = require('puppeteer').executablePath();
 
 module.exports = function (config) {
 	config.set({
@@ -16,10 +16,21 @@ module.exports = function (config) {
 				timeout: 35000,
 			},
 		},
+		customLaunchers: {
+			Puppeteer: {
+				base: 'ChromeHeadless',
+				flags: [
+					'--no-sandbox',
+					'--disable-setuid-sandbox',
+					'--single-process',
+				],
+			},
+		},
 	});
+
 	metalKarmaConfig(config);
 
 	config.set({
-		browsers: ['ChromeHeadless']
-	})
+		browsers: ['Puppeteer'],
+	});
 };

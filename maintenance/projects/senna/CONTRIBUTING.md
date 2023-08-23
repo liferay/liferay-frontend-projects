@@ -26,7 +26,6 @@ yarn build
 yarn test
 ```
 
-
 ## Pull requests & Github issues
 
 -   A Github issue should also be created for any bug fix or feature, this helps
