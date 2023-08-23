@@ -6,36 +6,26 @@ organized, as well as contribution requirements.
 
 ## Setup
 
-1. Install NodeJS >= [v0.12.0](http://nodejs.org/dist/v0.12.0/), if you don't have it yet.
+1. Install NodeJS >= [v10.15.3](http://nodejs.org/dist/v10.15.3/), if you don't have it yet.
 
-2. Install global dependencies:
-
-```
-[sudo] npm install -g gulp
-```
-
-3. Install local dependencies:
+2. Install local dependencies:
 
 ```
-npm install
-bower install
+yarn install
 ```
 
-4. Build the code:
+3. Build the code:
 
 ```
-gulp
+yarn build
 ```
 
-5. Test the code:
+4. Test the code:
 
 ```
-gulp test
+yarn test
 ```
 
-```
-gulp test:coverage
-```
 
 ## Pull requests & Github issues
 
@@ -49,7 +39,7 @@ a test, and all tests from the repo need to be passing. To run the tests you
 can use our npm script:
 
 ```
-gulp test
+yarn test
 ```
 
 This will run the complete test suite on Chrome. For a full test pass, you can
