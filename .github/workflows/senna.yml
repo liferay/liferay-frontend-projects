@@ -63,3 +63,5 @@ jobs:
               working-directory: maintenance/projects/senna
             - run: yarn --cache-folder=../../../${{ env.yarn-cache-path }} build
               working-directory: maintenance/projects/senna
+            - run: yarn --cache-folder=../../../${{ env.yarn-cache-path }} test
+              working-directory: maintenance/projects/senna
