@@ -1,3 +1,11 @@
+## [amd-loader/v5.4.2](https://github.com/liferay/liferay-frontend-projects/tree/amd-loader/v5.4.2) (2023-08-24)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/amd-loader/v5.4.1...amd-loader/v5.4.2)
+
+### :wrench: Bug fixes
+
+-   fix(amd-loader): return configured CSP nonce when requested ([\#1161](https://github.com/liferay/liferay-frontend-projects/pull/1161))
+
 ## [amd-loader/v5.4.1](https://github.com/liferay/liferay-frontend-projects/tree/amd-loader/v5.4.1) (2023-08-04)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/amd-loader/v5.4.0...amd-loader/v5.4.1)

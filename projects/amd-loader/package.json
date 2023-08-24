@@ -45,7 +45,7 @@
 		"proxyPortal": "webpack-dev-server --config webpack.proxyPortal.js",
 		"test": "liferay-workspace-scripts test"
 	},
-	"version": "5.4.1",
+	"version": "5.4.2",
 	"workspaces": {
 		"nohoist": [
 			"webpack-dev-server",
