@@ -28,7 +28,7 @@ jobs:
         steps:
             - uses: actions/checkout@v2
             - name: Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v1
+              uses: actions/setup-node@v3
               with:
                   node-version: ${{ matrix.node-version }}
             - name: Use or update Yarn cache
@@ -51,7 +51,7 @@ jobs:
         steps:
             - uses: actions/checkout@v2
             - name: Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v1
+              uses: actions/setup-node@v3
               with:
                   node-version: ${{ matrix.node-version }}
             - name: Use or update Yarn cache
@@ -62,4 +62,6 @@ jobs:
             - run: yarn --cache-folder=../../../${{ env.yarn-cache-path }} --frozen-lockfile
               working-directory: maintenance/projects/senna
             - run: yarn --cache-folder=../../../${{ env.yarn-cache-path }} build
+              working-directory: maintenance/projects/senna
+            - run: yarn --cache-folder=../../../${{ env.yarn-cache-path }} test
               working-directory: maintenance/projects/senna
