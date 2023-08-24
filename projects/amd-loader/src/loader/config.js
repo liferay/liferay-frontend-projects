@@ -117,6 +117,10 @@ export default class Config {
 		return this._paths;
 	}
 
+	get nonce() {
+		return this._config.nonce;
+	}
+
 	/**
 	 * Adds a module to the configuration with default field values if it
 	 * doesn't exist. Otherwise, throws an exception.
