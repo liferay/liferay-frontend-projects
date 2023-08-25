@@ -1,3 +1,11 @@
+## [liferay-theme-tasks/v11.5.3](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v11.5.3) (2023-08-25)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v11.5.1...liferay-theme-tasks/v11.5.3)
+
+### :wrench: Bug fixes
+
+-   fix(liferay-theme-tasks): Fix sass version to 1.64.1 ([\#1163](https://github.com/liferay/liferay-frontend-projects/pull/1163))
+
 ## [liferay-theme-tasks/v11.5.1](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v11.5.1) (2023-07-20)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v11.5.2...liferay-theme-tasks/v11.5.1)
