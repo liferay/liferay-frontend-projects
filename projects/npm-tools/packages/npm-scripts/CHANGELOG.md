@@ -1,3 +1,11 @@
+## [npm-scripts/v48.1.3](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v48.1.3) (2023-08-30)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v48.1.2...npm-scripts/v48.1.3)
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): add CSP to Liferay mock ([\#1168](https://github.com/liferay/liferay-frontend-projects/pull/1168))
+
 ## [npm-scripts/v48.1.2](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v48.1.2) (2023-07-26)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v48.1.1...npm-scripts/v48.1.2)
