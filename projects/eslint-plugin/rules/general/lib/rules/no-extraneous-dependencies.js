@@ -53,7 +53,8 @@ module.exports = {
 		function check(dependencyName, node) {
 			if (
 				!dependencyName.startsWith('.') &&
-				!dependencyName.startsWith('/')
+				!dependencyName.startsWith('/') &&
+				!dependencyName.startsWith('~')
 			) {
 				dependencyName =
 					dependencyName[0] === '@'
