@@ -277,8 +277,13 @@ const Util = {
 	}),
 };
 
+const CSP = {
+	nonce: '',
+};
+
 module.exports = {
 	...events,
+	CSP,
 	FeatureFlags,
 	Icons,
 	Language,
