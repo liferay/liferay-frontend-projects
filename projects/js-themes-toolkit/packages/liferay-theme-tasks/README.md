@@ -279,6 +279,37 @@ Then in the terminal:
 npm install
 ```
 
+## Using `/` for Division Deprecation Warning
+
+```
+Deprecation Warning: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div($numerator, $denominator)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+```
+
+The warning can be removed by adding the line `@use "sass:math" as *;` to the top of your `_clay_variables.scss` file.
+
+## Themes Cannot Be Built When Using Sass Version 1.65.1
+
+```
+Error in plugin "sass"
+Message:
+    build/_css/clay/functions/_type-conversion-functions.scss
+Error: Expected number, variable, function, or calculation.
+   ╷
+40 │         $_: log('Invalid unit `#{$unit}`.');
+   │                 ^
+   ╵
+  build/_css/clay/functions/_type-conversion-functions.scss 40:11  @import
+  build/_css/clay/functions/_global-functions.scss 9:9             @import
+  build/_css/clay/base.scss 5:9                                    @import
+  build/_css/clay.scss 1:9
+```
+
+This error was not present before Dart Sass 1.65.1. You can update liferay-theme-tasks to v11.5.3 with `npm update liferay-theme-tasks@11.5.3` in your theme or workspace directory.
+
 ## Additional Theme Dependencies
 
 In order for themes to successfully build, they must declare additional dependencies in their `package.json` file such as [liferay-frontend-theme-unstyled](https://www.npmjs.com/package/liferay-frontend-theme-unstyled) and [liferay-frontend-theme-styled](https://www.npmjs.com/package/liferay-frontend-theme-styled).
