@@ -1,3 +1,11 @@
+## [npm-scripts/v48.1.4](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v48.1.4) (2023-09-07)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v48.1.3...npm-scripts/v48.1.4)
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): sort tsconfig when generating ([\#1170](https://github.com/liferay/liferay-frontend-projects/pull/1170))
+
 ## [npm-scripts/v48.1.3](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v48.1.3) (2023-08-30)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v48.1.2...npm-scripts/v48.1.3)
