@@ -16,6 +16,23 @@ const GENERATED = '@generated';
 const OVERRIDES = '@overrides';
 const TSCONFIG_JSON = 'tsconfig.json';
 
+const isPlainObject = (value) => value?.constructor === Object;
+
+function sortJSONKeys(json) {
+	return Object.keys(json)
+		.sort()
+		.reduce((newJson, key) => {
+			if (isPlainObject(json[key])) {
+				newJson[key] = sortJSONKeys(json[key]);
+			}
+			else {
+				newJson[key] = json[key];
+			}
+
+			return newJson;
+		}, {});
+}
+
 /**
  * Given a dependency graph (from `getTypeScriptDependencyGraph()`),
  * configures the `tsconfig.json` file in the current working directory
@@ -116,32 +133,34 @@ function configureTypeScript(graph) {
 		include.push(toPosix(path.relative('', globalDefinitionFile)));
 	}
 
-	const updatedConfig = deepMerge([
-		{
-			...BASE_CONFIG,
-			[OVERRIDES]: overrides,
-			compilerOptions: {
-				...BASE_CONFIG.compilerOptions,
-				paths: {
-					...BASE_CONFIG.compilerOptions.paths,
-					...paths,
+	const updatedConfig = sortJSONKeys(
+		deepMerge([
+			{
+				...BASE_CONFIG,
+				[OVERRIDES]: overrides,
+				compilerOptions: {
+					...BASE_CONFIG.compilerOptions,
+					paths: {
+						...BASE_CONFIG.compilerOptions.paths,
+						...paths,
+					},
+					typeRoots: [
+						root &&
+							toPosix(
+								path.relative(
+									'',
+									path.join(root, 'node_modules', '@types')
+								)
+							),
+						'./node_modules/@types',
+					].filter(Boolean),
 				},
-				typeRoots: [
-					root &&
-						toPosix(
-							path.relative(
-								'',
-								path.join(root, 'node_modules', '@types')
-							)
-						),
-					'./node_modules/@types',
-				].filter(Boolean),
+				include,
+				references: [...BASE_CONFIG.references, ...references],
 			},
-			include,
-			references: [...BASE_CONFIG.references, ...references],
-		},
-		overrides,
-	]);
+			overrides,
+		])
+	);
 
 	updatedConfig[GENERATED] = hash(updatedConfig);
 
