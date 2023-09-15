@@ -47,7 +47,7 @@
 	"devDependencies": {
 		"liferay-frontend-theme-styled": "6.0.6",
 		"liferay-frontend-theme-unstyled": "6.0.6",
-		"node-sass": "^6.0.1"
+		"node-sass": "^9.0.0"
 	},
 	"engines": {
 		"node": ">=16.0.0"
