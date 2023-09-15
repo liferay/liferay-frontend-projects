@@ -18,6 +18,10 @@ function runBundler(...args) {
 		autoDelete: false,
 	});
 
+	// Support for Node 20
+
+	process.env.NODE_OPTIONS = '--no-experimental-fetch';
+
 	withTempFile(
 		'.npmbundlerrc',
 		JSON.stringify(config),
