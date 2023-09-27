@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+// Frontend data set cell renderer
+
 export interface FDSTableCellHTMLElementBuilderArgs {
 	value: boolean | number | string | object | [];
 }
@@ -19,26 +21,31 @@ export interface FDSCellRenderer {
 	(args: FDSCellRendererArgs): HTMLElement;
 }
 
-export interface FDSFilterData {
-	id: string;
-	odataFilterString: string;
-	selectedData: string;
+// Frontend data set filter
+
+export interface FDSFilterData<T> {
+	selectedData: T;
 }
 
-export interface FDSFilterArgs {
-	filter: FDSFilterData;
-	setFilter: (val: Partial<FDSFilterData>) => void;
+export interface FDSFilterHTMLElementBuilderArgs<T> {
+	filter: FDSFilterData<T>;
+	setFilter: (partialFilter: Partial<FDSFilterData<T>>) => void;
 }
 
-export interface FDSFilter {
-	(args: FDSFilterArgs): HTMLElement;
+export interface FDSFilterHTMLElementBuilder<T> {
+	(args: FDSFilterHTMLElementBuilderArgs<T>): HTMLElement;
 }
 
-export interface FDSFilterHTMLElementBuilderArgs {
-	filter: FDSFilterData;
-	setFilter: (val: Partial<FDSFilterData>) => void;
+export interface FDSFilterODataQueryBuilder<T> {
+	(selectedData: T): string;
 }
 
-export interface FDSFilterHTMLElementBuilder {
-	(args: FDSFilterHTMLElementBuilderArgs): HTMLElement;
+export interface FDSFilterDescriptionBuilder<T> {
+	(selectedData: T): string;
+}
+
+export interface FDSFilter<T> {
+	buildFilterDescription: FDSFilterDescriptionBuilder<T>,
+	buildHTMLElement: FDSFilterHTMLElementBuilder<T>,
+	buildODataQuery: FDSFilterODataQueryBuilder<T>,
 }
