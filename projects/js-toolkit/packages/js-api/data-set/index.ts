@@ -37,7 +37,7 @@ export interface FDSFilterDescriptionBuilder<T> {
 }
 
 export interface FDSFilter<T> {
-	buildFilterDescription: FDSFilterDescriptionBuilder<T>;
-	buildHTMLElement: FDSFilterHTMLElementBuilder<T>;
-	buildODataQuery: FDSFilterODataQueryBuilder<T>;
+	descriptionBuilder: FDSFilterDescriptionBuilder<T>;
+	htmlElementBuilder: FDSFilterHTMLElementBuilder<T>;
+	oDataQueryBuilder: FDSFilterODataQueryBuilder<T>;
 }
