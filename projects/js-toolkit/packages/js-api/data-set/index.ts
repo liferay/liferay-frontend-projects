@@ -13,14 +13,6 @@ export interface FDSTableCellHTMLElementBuilder {
 	(args: FDSTableCellHTMLElementBuilderArgs): HTMLElement;
 }
 
-export interface FDSCellRendererArgs {
-	value: boolean | number | string | object | [];
-}
-
-export interface FDSCellRenderer {
-	(args: FDSCellRendererArgs): HTMLElement;
-}
-
 // Frontend data set filter
 
 export interface FDSFilterData<T> {
