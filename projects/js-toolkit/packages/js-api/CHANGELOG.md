@@ -1,3 +1,15 @@
+## [js-api/v0.5.0-pre.0](https://github.com/liferay/liferay-frontend-projects/tree/js-api/v0.5.0-pre.0) (2023-09-28)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-api/v0.4.0-pre.0...js-api/v0.5.0-pre.0)
+
+### :boom: Breaking changes
+
+-   feat(js-api)!: improve FDS filter CX interfaces ([\#1172](https://github.com/liferay/liferay-frontend-projects/pull/1172))
+
+### :new: Features
+
+-   feat(js-api)!: improve FDS filter CX interfaces ([\#1172](https://github.com/liferay/liferay-frontend-projects/pull/1172))
+
 ## [js-api/v0.4.0-pre.0](https://github.com/liferay/liferay-frontend-projects/tree/js-api/v0.4.0-pre.0) (2023-08-29)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-api/v0.3.0-pre.0...js-api/v0.4.0-pre.0)
