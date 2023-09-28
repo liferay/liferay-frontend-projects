@@ -1,3 +1,11 @@
+## [js-api/v0.5.1-pre.0](https://github.com/liferay/liferay-frontend-projects/tree/js-api/v0.5.1-pre.0) (2023-09-28)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-api/v0.5.0-pre.0...js-api/v0.5.1-pre.0)
+
+### :wrench: Bug fixes
+
+-   fix(js-api): readd .js files to npm package ([\#1174](https://github.com/liferay/liferay-frontend-projects/pull/1174))
+
 ## [js-api/v0.5.0-pre.0](https://github.com/liferay/liferay-frontend-projects/tree/js-api/v0.5.0-pre.0) (2023-09-28)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-api/v0.4.0-pre.0...js-api/v0.5.0-pre.0)
