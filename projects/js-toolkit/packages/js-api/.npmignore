@@ -3,4 +3,6 @@
 /tsconfig.tsbuildinfo
 /webpack.config.js
 
+/**/*.js
+
 /*.tgz
