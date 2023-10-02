@@ -1,3 +1,11 @@
+## [liferay-cli/v1.5.1](https://github.com/liferay/liferay-frontend-projects/tree/liferay-cli/v1.5.1) (2023-10-02)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-cli/v1.5.0...liferay-cli/v1.5.1)
+
+### :wrench: Bug fixes
+
+-   fix(js-toolkit): add warnings for when creating, building, and deploying projects within a liferay workspace ([\#1176](https://github.com/liferay/liferay-frontend-projects/pull/1176))
+
 ## [liferay-cli/v1.5.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-cli/v1.5.0) (2023-03-17)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-cli/v1.4.0...liferay-cli/v1.5.0)
