@@ -1,3 +1,11 @@
+## [js-toolkit-core/v5.9.2](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v5.9.2) (2023-10-02)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v5.9.1...js-toolkit-core/v5.9.2)
+
+### :wrench: Bug fixes
+
+-   fix(js-toolkit): add warnings for when creating, building, and deploying projects within a liferay workspace ([\#1176](https://github.com/liferay/liferay-frontend-projects/pull/1176))
+
 ## [js-toolkit-core/v5.9.1](https://github.com/liferay/liferay-frontend-projects/tree/js-toolkit-core/v5.9.1) (2023-04-03)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-toolkit-core/v5.9.0...js-toolkit-core/v5.9.1)
