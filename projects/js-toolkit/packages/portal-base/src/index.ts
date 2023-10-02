@@ -81,6 +81,8 @@ Your project cannot be deployed from npm because it is inside a Liferay
 workspace.
 
 Please use Gradle's command {gw deploy} instead.
+
+> Note, you must also have a 'client-extension.yaml' for 'gw deploy' to work properly.
 `
 				);
 			}

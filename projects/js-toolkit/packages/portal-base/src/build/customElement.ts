@@ -5,7 +5,13 @@
 
 /* eslint-disable @liferay/no-dynamic-require */
 
-import {CustomElementBuildOptions, Project} from '@liferay/js-toolkit-core';
+import {
+	CustomElementBuildOptions,
+	Project,
+	format,
+} from '@liferay/js-toolkit-core';
+import fs from 'fs';
+import path from 'path';
 
 import abort from '../util/abort';
 import copyAssets from '../util/copyAssets';
@@ -14,8 +20,23 @@ import getWebpackConfiguration from '../util/getWebpackConfiguration';
 import makeZip from '../util/makeZip';
 import runWebpack from '../util/runWebpack';
 
+const {print, warn} = format;
+
 export default async function customElement(project: Project): Promise<void> {
 	const options = project.build.options as CustomElementBuildOptions;
+
+	if (
+		project.isWorkspace &&
+		!fs.existsSync(
+			path.join(project.build.dir.asNative, 'client-extension.yaml')
+		)
+	) {
+		print(
+			warn`
+Your project does not have a 'client-extension.yaml', which is required when using within a Liferay workspace.
+`
+		);
+	}
 
 	checkConfiguration(project);
 
