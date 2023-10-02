@@ -13,6 +13,7 @@ import {
 
 import dependencies from '../../dependencies.json';
 import ensureOutputFile from '../../util/ensureOutputFile';
+import isWorkspace from '../../util/isWorkspace';
 import prompt from '../../util/prompt';
 import facetBuildable from '../facet-buildable';
 import facetDeployable from '../facet-deployable';
@@ -27,7 +28,7 @@ export type RemoteAppTargetFacet = Facet;
 const {
 	PkgJson: {addDependencies},
 } = TRANSFORM_OPERATIONS;
-const {info, print, success, text} = format;
+const {info, print, success, text, warn} = format;
 
 const TARGET_ID = 'target-remote-app';
 
@@ -40,6 +41,16 @@ const target: Target = {
 	name: 'Liferay Remote App Project',
 
 	async prompt(useDefaults: boolean, options: Options): Promise<Options> {
+		if (isWorkspace()) {
+			print(
+				warn`
+Don't use 'liferay new' to generate a remote app in a liferay workspace. Continue at your own risk.
+
+Please use Blade commands {blade create -t client-extension foo-bar} instead.
+`
+			);
+		}
+
 		options = await facetProject.prompt(useDefaults, options);
 
 		options = await prompt(useDefaults, options, [
