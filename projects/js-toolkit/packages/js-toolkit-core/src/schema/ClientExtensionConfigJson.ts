@@ -3,10 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-export type ClientExtensionConfigJsonType =
-	| 'customElement'
-	| 'fdsCellRenderer'
-	| 'themeSpritemap';
+export type ClientExtensionConfigJsonType = 'customElement';
 
 export default interface ClientExtensionConfigJson {
 	[configurationPid: string]: {

@@ -9,36 +9,19 @@ import FilePath from '../../file/FilePath';
 import LiferayJson, {
 	Bundler2BuildConfig,
 	CustomElementBuildConfig,
-	FDSCellRendererBuildConfig,
-	ThemeSpritemapBuildConfig,
 } from '../../schema/LiferayJson';
 import Project from './Project';
 import persist, {Location} from './persist';
 
-type BuildType =
-	| 'bundler2'
-	| 'customElement'
-	| 'fdsCellRenderer'
-	| 'themeSpritemap';
+type BuildType = 'bundler2' | 'customElement';
 
-type BuildOptions =
-	| Bundler2BuildOptions
-	| CustomElementBuildOptions
-	| FDSCellRendererBuildOptions
-	| ThemeSpritemapBuildOptions;
+type BuildOptions = Bundler2BuildOptions | CustomElementBuildOptions;
 
 export type Bundler2BuildOptions = MinifiableBuildOptions;
 
 export interface CustomElementBuildOptions extends WebpackBuildOptions {
 	htmlElementName: string | null;
 	portletCategoryName: string;
-}
-
-export type FDSCellRendererBuildOptions = WebpackBuildOptions;
-
-export interface ThemeSpritemapBuildOptions {
-	enableSVG4Everybody: boolean;
-	extendClay: boolean;
 }
 
 export interface MinifiableBuildOptions {
@@ -65,22 +48,6 @@ export default class Build {
 				this.dir = project.dir.join('build');
 				this.options = this._toCustomElementBuildOptions(
 					project,
-					liferayJson.build?.options
-				);
-				break;
-
-			case 'fdsCellRenderer':
-				this.type = 'fdsCellRenderer';
-				this.dir = project.dir.join('build');
-				this.options = this._toFDSCellRendererBuildOptions(
-					liferayJson.build?.options
-				);
-				break;
-
-			case 'themeSpritemap':
-				this.type = 'themeSpritemap';
-				this.dir = project.dir.join('build');
-				this.options = this._toThemeSpriteMapBuildOptions(
 					liferayJson.build?.options
 				);
 				break;
@@ -179,26 +146,6 @@ export default class Build {
 		};
 	}
 
-	private _toFDSCellRendererBuildOptions(
-		config: FDSCellRendererBuildConfig
-	): FDSCellRendererBuildOptions {
-		const webpackOptions = this._toWebpackBuildOptions(config);
-
-		return {
-			externals: webpackOptions.externals,
-			minify: webpackOptions.minify,
-		};
-	}
-
-	private _toThemeSpriteMapBuildOptions(
-		config: ThemeSpritemapBuildConfig
-	): ThemeSpritemapBuildOptions {
-		return {
-			enableSVG4Everybody: !!config.enableSVG4Everybody,
-			extendClay: !!config.extendClay,
-		};
-	}
-
 	private _toBundler2BuildOptions(
 		_config: Bundler2BuildConfig
 	): Bundler2BuildOptions {
@@ -208,7 +155,7 @@ export default class Build {
 	}
 
 	private _toWebpackBuildOptions(
-		config: CustomElementBuildConfig | FDSCellRendererBuildConfig
+		config: CustomElementBuildConfig
 	): WebpackBuildOptions {
 		const options: WebpackBuildOptions = {
 			externals: {},
