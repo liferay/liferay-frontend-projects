@@ -6,16 +6,14 @@
 import type {
 	Bundler2BuildConfig,
 	CustomElementBuildConfig,
-	ThemeSpritemapBuildConfig,
 } from './LiferayJson';
 
 export default interface ClientExtensionYaml
 	extends Bundler2BuildConfig,
-		CustomElementBuildConfig,
-		ThemeSpritemapBuildConfig {
+		CustomElementBuildConfig {
 	baseURL: string;
 	description: string;
 	name: string;
 	sourceCodeURL: string;
-	type: 'bundler2' | 'customElement' | 'themeSpritemap';
+	type: 'bundler2' | 'customElement';
 }

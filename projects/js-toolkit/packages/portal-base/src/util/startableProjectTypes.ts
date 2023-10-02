@@ -7,7 +7,7 @@ import {Project, format} from '@liferay/js-toolkit-core';
 
 const {fail, print} = format;
 
-const STARTABLE_PROJECT_TYPES = ['customElement', 'fdsCellRenderer'];
+const STARTABLE_PROJECT_TYPES = ['customElement'];
 
 export default STARTABLE_PROJECT_TYPES;
 

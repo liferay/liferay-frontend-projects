@@ -15,9 +15,7 @@ export default interface LiferayJson {
 
 export type AnyTypedBuildConfig =
 	| TypedBundler2BuildConfig
-	| TypedCustomElementBuildConfig
-	| TypedFDSCellRendererBuildConfig
-	| TypedThemeSpritemapBuildConfig;
+	| TypedCustomElementBuildConfig;
 
 export interface TypedBuildConfig {
 	options: unknown;
@@ -40,23 +38,4 @@ export interface CustomElementBuildConfig {
 	externals?: {[bareIdentifier: string]: string} | string[];
 	htmlElementName?: string;
 	portletCategoryName?: string;
-}
-
-interface TypedFDSCellRendererBuildConfig extends TypedBuildConfig {
-	options: FDSCellRendererBuildConfig;
-	type: 'fdsCellRenderer';
-}
-
-export interface FDSCellRendererBuildConfig {
-	externals?: {[bareIdentifier: string]: string} | string[];
-}
-
-interface TypedThemeSpritemapBuildConfig extends TypedBuildConfig {
-	options: ThemeSpritemapBuildConfig;
-	type: 'themeSpritemap';
-}
-
-export interface ThemeSpritemapBuildConfig {
-	enableSVG4Everybody?: boolean;
-	extendClay?: boolean;
 }

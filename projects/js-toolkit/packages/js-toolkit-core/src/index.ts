@@ -34,9 +34,7 @@ export {default as Project} from './project/liferayCli/Project';
 export {
 	Bundler2BuildOptions,
 	CustomElementBuildOptions,
-	FDSCellRendererBuildOptions,
 	MinifiableBuildOptions,
-	ThemeSpritemapBuildOptions,
 	WebpackBuildOptions,
 } from './project/liferayCli/Build';
 
@@ -73,8 +71,6 @@ export type {
 	AnyTypedBuildConfig,
 	Bundler2BuildConfig,
 	CustomElementBuildConfig,
-	FDSCellRendererBuildConfig,
-	ThemeSpritemapBuildConfig,
 	TypedBuildConfig,
 } from './schema/LiferayJson';
 
