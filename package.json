@@ -29,7 +29,7 @@
 		"http-server": "^0.11.1",
 		"jest": "26.4.2",
 		"mem-fs": "^1.2.0",
-		"mem-fs-editor": "^7.0.1",
+		"mem-fs-editor": "^10.0.2",
 		"prettier": "2.1.2",
 		"sinon": "^9.2.1",
 		"strip-ansi": "^6.0.0",
