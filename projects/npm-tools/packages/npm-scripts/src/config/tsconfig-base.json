@@ -12,6 +12,7 @@
 		"moduleResolution": "node",
 		"outDir": "./types",
 		"paths": {},
+		"skipLibCheck": true,
 		"sourceMap": false,
 		"strict": true,
 		"target": "es6",
