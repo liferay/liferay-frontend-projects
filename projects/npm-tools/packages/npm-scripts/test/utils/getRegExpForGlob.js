@@ -198,9 +198,6 @@ describe('getRegExpForGlob()', () => {
 		expect('apps/layout/layout-content-page-editor-web/.eslintrc.js')
 			.not.toMatchGlob('!.prettierrc.js');
 
-		expect('util/portal-tools-soy-builder/src/test/resources/com/liferay/portal/tools/soy/builder/commands/dependencies/build_soy/expected/hello_world.soy.js')
-			.toMatchGlob('**/*.soy.js');
-
 		expect('apps/frontend-editor/frontend-editor-ckeditor-web/build/unzipped-jar/META-INF/resources/_diffs/plugins/media/dialogs/video.js')
 			.toMatchGlob('**/build/**/*');
 
@@ -225,9 +222,6 @@ describe('getRegExpForGlob()', () => {
 			.toMatchGlob('/copyright.js');
 		expect('npmscripts.config.js')
 			.not.toMatchGlob('/copyright.js');
-
-		expect('apps/portal-portlet-bridge/portal-portlet-bridge-soy-impl/src/test/resources/com/liferay/portal/portlet/bridge/soy/internal/dependencies/ES6Command.es.js')
-			.toMatchGlob('apps/portal-portlet-bridge/portal-portlet-bridge-soy-impl/src/test/resources/com/liferay/portal/portlet/bridge/soy/internal/dependencies/**/*.js');
 
 		expect('apps/fragment/fragment-demo-data-creator-impl/src/main/resources/com/liferay/fragment/demo/data/creator/internal/dependencies/fragment1/demo.js')
 			.toMatchGlob('apps/fragment/fragment-demo-data-creator-impl/src/main/resources/com/liferay/fragment/demo/data/creator/internal/dependencies/**/*.js');

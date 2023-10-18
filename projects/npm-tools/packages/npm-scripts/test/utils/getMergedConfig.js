@@ -67,18 +67,6 @@ describe('getMergedConfig()', () => {
 								presets: ['fancy', '@babel/preset-react'],
 							},
 						],
-
-						plugins: [
-							[
-								'incremental-dom',
-								{
-									components: true,
-									namespaceAttributes: true,
-									prefix: 'IncrementalDOM',
-									runtime: 'iDOMHelpers',
-								},
-							],
-						],
 					}));
 				});
 
@@ -91,12 +79,14 @@ describe('getMergedConfig()', () => {
 							targets: expect.stringContaining('Chrome version'),
 						},
 					],
+					'@babel/preset-react',
 					'@babel/preset-typescript',
 				]);
 
 				expect(config.overrides[0].presets).toMatchObject([
 					['@babel/preset-env', expect.anything()],
 					'fancy',
+					'@babel/preset-react',
 				]);
 			});
 		});
