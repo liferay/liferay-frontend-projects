@@ -5,7 +5,7 @@
 
 const path = require('path');
 
-module.exports = {
+const config = {
 	coverageDirectory: 'build/coverage',
 	modulePathIgnorePatterns: ['/__fixtures__/', '/build/', '/classes/'],
 	resolver: require.resolve('../jest/resolver.js'),
@@ -25,3 +25,28 @@ module.exports = {
 	},
 	transformIgnorePatterns: ['/node_modules/', '<rootDir>/.*\\.soy$'],
 };
+
+if (process.env.USE_REACT_16 === 'true') {
+	config.moduleNameMapper = {
+
+		// Testing dependencies
+
+		'^@testing-library/dom((\\/.*)?)$': '@testing-library/dom-8.11.1$1',
+		'^@testing-library/jest-dom((\\/.*)?)$':
+			'@testing-library/jest-dom-4.2.4$1',
+		'^@testing-library/react((\\/.*)?)$': '@testing-library/react-12.1.2$1',
+		'^@testing-library/react-hooks((\\/.*)?)$':
+			'@testing-library/react-hooks-3.4.2$1',
+		'^@testing-library/user-event((\\/.*)?)$':
+			'@testing-library/user-event-4.2.4$1',
+
+		// React Dependencies
+
+		'^react$': 'react-16',
+		'^react-dom$': 'react-dom-16',
+		'^react-dom/server$': 'react-dom-16/server',
+		'^react-dom/test-utils$': 'react-dom-16/test-utils',
+	};
+}
+
+module.exports = config;
