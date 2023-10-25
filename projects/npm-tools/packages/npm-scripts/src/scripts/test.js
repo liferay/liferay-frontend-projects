@@ -8,7 +8,6 @@ const fs = require('fs');
 const SignalHandler = require('../utils/SignalHandler');
 const getMergedConfig = require('../utils/getMergedConfig');
 const log = require('../utils/log');
-const {buildSoy, cleanSoy, soyExists} = require('../utils/soy');
 const spawnSync = require('../utils/spawnSync');
 
 const BABEL_CONFIG = getMergedConfig('babel');
@@ -21,8 +20,6 @@ const PREFIX_BACKUP = 'TEMP-';
  * Main script that runs `jest` with a merged config
  */
 module.exports = function (arrArgs = []) {
-	const useSoy = soyExists();
-
 	const CONFIG_PATH = 'TEMP_jest.config.json';
 
 	fs.writeFileSync(CONFIG_PATH, JSON.stringify(JEST_CONFIG));
@@ -34,10 +31,6 @@ module.exports = function (arrArgs = []) {
 	});
 
 	try {
-		if (useSoy) {
-			buildSoy();
-		}
-
 		const env = {
 			...process.env,
 			NODE_ENV: 'test',
@@ -59,10 +52,6 @@ module.exports = function (arrArgs = []) {
 		spawnSync('jest', ['--config', CONFIG_PATH, ...arrArgs.slice(1)], {
 			env,
 		});
-
-		if (useSoy) {
-			cleanSoy();
-		}
 	}
 	finally {
 		dispose();

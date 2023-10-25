@@ -31,13 +31,11 @@ const FIXTURES = `
 	apps/journal/journal-web/classes/META-INF/resources/node_modules/journal-web$lodash.escape@4.0.1/index.js
 	apps/journal/journal-web/src/main/resources/META-INF/resources/js/DDMStructuresManagementToolbarDefaultEventHandler.es.js
 	apps/layout/layout-content-page-editor-web/src/main/resources/META-INF/resources/js/actions/updateRowColumnsNumber.es.js
-	apps/portal-portlet-bridge/portal-portlet-bridge-soy-impl/src/test/resources/com/liferay/portal/portlet/bridge/soy/internal/dependencies/ES6Command.es.js
 	node_modules/domain-browser/.eslintrc.js
 	node_modules/pako/lib/zlib/gzheader.js
 	node_modules/worker-farm/lib/farm.js
 	npmscripts.config.js
 	sdk/gradle-plugins-theme-builder/src/gradleTest/classic/src/main/webapp/css/liferay-font-awesome/scss/_path-alloy.scss
-	util/portal-tools-soy-builder/src/test/resources/com/liferay/portal/tools/soy/builder/commands/dependencies/build_soy/expected/hello_world.soy.js
 	util/sass-compiler-jni/src/test/resources/com/liferay/sass/compiler/jni/internal/dependencies/sass-spec/35_varargs_false/input.scss
 `
 	.trim()
@@ -59,7 +57,6 @@ const PORTAL_IGNORE_GLOBS = [
 	'!.eslintrc.js',
 	'!npmscripts.config.js',
 	'!.prettierrc.js',
-	'*.soy.js',
 	'build/**',
 	'classes/**',
 	'css/clay/**',
@@ -67,7 +64,6 @@ const PORTAL_IGNORE_GLOBS = [
 	'zippableResources/**',
 	'sdk/**',
 	'/copyright.js',
-	'apps/portal-portlet-bridge/portal-portlet-bridge-soy-impl/src/test/resources/com/liferay/portal/portlet/bridge/soy/internal/dependencies/**/*.js',
 	'apps/fragment/fragment-demo-data-creator-impl/src/main/resources/com/liferay/fragment/demo/data/creator/internal/dependencies/**/*.js',
 	'apps/fragment/fragment-test/src/testIntegration/resources/com/liferay/fragment/dependencies/**/*.js',
 	'/yarn-*.js',
@@ -160,8 +156,6 @@ describe('expandGlobs()', () => {
 			'apps/frontend-theme-porygon',
 			'apps/frontend-theme-porygon/frontend-theme-porygon',
 			'apps/layout/layout-content-page-editor-web',
-			'apps/portal-portlet-bridge',
-			'apps/portal-portlet-bridge/portal-portlet-bridge-soy-impl',
 			'sdk/gradle-plugins-theme-builder',
 		]);
 	});

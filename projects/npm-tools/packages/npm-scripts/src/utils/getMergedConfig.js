@@ -33,63 +33,6 @@ function pluck(config, property) {
 	return config[property];
 }
 
-function isObject(maybeObject) {
-	return (
-		maybeObject &&
-		Object.prototype.toString.call(maybeObject) === '[object Object]'
-	);
-}
-
-/**
- * Returns a deep copy of `object`, with any instance of `property`
- * transformed using the `callback` (which should accept the value of
- * the property and return the new value).
- */
-function filter(object, property, callback) {
-	if (Array.isArray(object)) {
-		return object.map((item) => filter(item, property, callback));
-	}
-	else if (isObject(object)) {
-		return Object.entries(object).reduce((acc, [key, value]) => {
-			return {
-				...acc,
-				[key]:
-					key === property
-						? callback(value)
-						: filter(value, property, callback),
-			};
-		}, {});
-	}
-	else {
-		return object;
-	}
-}
-
-/**
- * We want to use @babel-preset/react as a default, but some projects use
- * babel-plugin-incremental-dom, and we cannot turn off the preset
- * without this hack; see:
- *
- *  - https://github.com/babel/babel/issues/3016
- *  - https://babeljs.io/docs/en/babel-preset-env/#exclude
- */
-function hackilySupportIncrementalDOM(config) {
-	const {liferay, ...rest} = config;
-
-	const excludes = (liferay && liferay.excludes) || {};
-
-	return Object.entries(excludes).reduce((acc, [property, values]) => {
-		return filter(acc, property, (value) => {
-			if (Array.isArray(value)) {
-				return value.filter((v) => !values.includes(v));
-			}
-			else {
-				return value;
-			}
-		});
-	}, rest);
-}
-
 /**
  * Helper to get JSON configs
  * @param {string} type Name of configuration ("babel", "bundler", "jest" etc)
@@ -115,15 +58,6 @@ function getMergedConfig(type, property) {
 					[baseConfig, getUserConfig('babel')],
 					deepMerge.MODE.BABEL
 				);
-
-				// (Temporary) special case required by:
-				//
-				// https://github.com/liferay/liferay-npm-tools/issues/303
-				//
-				// TODO: Remove once incremental-dom is no longer used in
-				// liferay-portal.
-
-				mergedConfig = hackilySupportIncrementalDOM(mergedConfig);
 			}
 			break;
 

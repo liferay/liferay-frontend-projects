@@ -136,7 +136,6 @@ function setCache(moduleName, srcFiles, output) {
 			output + '/**/*.jsx',
 			output + '/**/*.map',
 			output + '/**/*.scss',
-			output + '/**/*.soy',
 			output + '/**/*.ts',
 			output + '/**/*.tsx',
 		],

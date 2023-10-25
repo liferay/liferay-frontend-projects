@@ -31,7 +31,6 @@ let runBridge = require('../utils/runBridge');
 let runBundler = require('../utils/runBundler');
 let runWebpackAsBundler = require('../utils/runWebpackAsBundler');
 const setEnv = require('../utils/setEnv');
-let {buildSoy, cleanSoy, soyExists, translateSoy} = require('../utils/soy');
 const validateConfig = require('../utils/validateConfig');
 let webpack = require('./webpack');
 
@@ -42,9 +41,7 @@ const CWD = process.cwd();
 
 ({
 	buildSass,
-	buildSoy,
 	cleanCache,
-	cleanSoy,
 	expandGlobs,
 	hasRootConfigChanged,
 	isCacheValid,
@@ -55,14 +52,10 @@ const CWD = process.cwd();
 	runTSC,
 	runWebpackAsBundler,
 	setCache,
-	soyExists,
-	translateSoy,
 	webpack,
 } = instrument({
 	buildSass,
-	buildSoy,
 	cleanCache,
-	cleanSoy,
 	expandGlobs,
 	hasRootConfigChanged,
 	isCacheValid,
@@ -73,8 +66,6 @@ const CWD = process.cwd();
 	runTSC,
 	runWebpackAsBundler,
 	setCache,
-	soyExists,
-	translateSoy,
 	webpack,
 }));
 
@@ -108,7 +99,7 @@ const ROOT_CONFIGS = [
  * Babel and liferay-npm-bundler are run unless the disable flag is set,
  * liferay-npm-bridge-generator and webpack are run if the corresponding
  * ".npmbridgerc" and "webpack.config.js" files, respectively, are
- * present, and soy is run when soy files are detected.
+ * present.
  * `minify()` is run unless `NODE_ENV` is `development`.
  */
 module.exports = async function (...args) {
@@ -143,7 +134,6 @@ module.exports = async function (...args) {
 			path.join(BUILD_CONFIG.input, '**/*.json'),
 			path.join(BUILD_CONFIG.input, '**/*.jsx'),
 			path.join(BUILD_CONFIG.input, '**/*.scss'),
-			path.join(BUILD_CONFIG.input, '**/*.soy'),
 			path.join(BUILD_CONFIG.input, '**/*.ts'),
 			path.join(BUILD_CONFIG.input, '**/*.tsx'),
 			...ROOT_CONFIGS,
@@ -179,12 +169,6 @@ module.exports = async function (...args) {
 	else {
 		if (!CACHE_DISABLED) {
 			log(`BUILD JS: No previous build detected.`);
-		}
-
-		const useSoy = soyExists();
-
-		if (useSoy) {
-			buildSoy();
 		}
 
 		if (inputPathExists) {
@@ -303,14 +287,8 @@ module.exports = async function (...args) {
 			);
 		}
 
-		translateSoy(BUILD_CONFIG.output);
-
 		if (fs.existsSync(path.join(CWD, '.npmbridgerc'))) {
 			runBridge();
-		}
-
-		if (useSoy) {
-			cleanSoy();
 		}
 
 		if (process.env.NODE_ENV !== 'development') {

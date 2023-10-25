@@ -78,91 +78,14 @@ module.exports = {
 		},
 
 		// Passed to:
-		// - `metalsoy` executable (via `generateSoyDependencies()`).
-
-		dependencies: [
-			'clay-alert',
-			'clay-autocomplete',
-			'clay-badge',
-			'clay-button',
-			'clay-card',
-			'clay-card-grid',
-			'clay-checkbox',
-			'clay-collapse',
-			'clay-component',
-			'clay-data-provider',
-			'clay-dataset-display',
-			'clay-dropdown',
-			'clay-icon',
-			'clay-label',
-			'clay-link',
-			'clay-list',
-			'clay-loading-indicator',
-			'clay-management-toolbar',
-			'clay-modal',
-			'clay-multi-select',
-			'clay-navigation-bar',
-			'clay-pagination',
-			'clay-pagination-bar',
-			'clay-portal',
-			'clay-progress-bar',
-			'clay-radio',
-			'clay-select',
-			'clay-sticker',
-			'clay-table',
-			'clay-tooltip',
-			'frontend-js-metal-web',
-			'frontend-js-react-web',
-			'frontend-js-web',
-			'frontend-taglib-clay',
-			'frontend-taglib',
-			'hello-soy-web',
-			'metal',
-			'metal-affix',
-			'metal-ajax',
-			'metal-anim',
-			'metal-aop',
-			'metal-assertions',
-			'metal-clipboard',
-			'metal-component',
-			'metal-debounce',
-			'metal-dom',
-			'metal-drag-drop',
-			'metal-events',
-			'metal-incremental-dom',
-			'metal-jsx',
-			'metal-key',
-			'metal-keyboard-focus',
-			'metal-multimap',
-			'metal-pagination',
-			'metal-path-parser',
-			'metal-position',
-			'metal-promise',
-			'metal-router',
-			'metal-scrollspy',
-			'metal-soy',
-			'metal-soy-bundle',
-			'metal-state',
-			'metal-storage',
-			'metal-structs',
-			'metal-throttle',
-			'metal-toggler',
-			'metal-uri',
-			'metal-useragent',
-			'metal-web-component',
-		],
-
-		// Passed to:
 		// - `babel` executable (via `runBabel()`).
 		// - `jest` executable (via resolver.js).
-		// - `metalsoy` executable (via `buildSoy()`).
 
 		input: 'src/main/resources/META-INF/resources',
 
 		// Passed to:
 		// - `babel` executable (via `runBabel()`).
 		// - `jest` executable (via resolver.js).
-		// - `translateSoy()`.
 		// - `minify()`.
 
 		output: 'build/node/packageRunBuild/resources',
@@ -176,7 +99,7 @@ module.exports = {
 		],
 
 		// Used in various places to keep intermediate artefacts out of Gradle's
-		// way (see `buildSoy()`, `withTempFile()`, etc).
+		// way (see `withTempFile()`, etc).
 
 		temp: 'build/npmscripts',
 	},

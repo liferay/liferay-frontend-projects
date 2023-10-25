@@ -58,7 +58,6 @@
 		"liferay-npm-bundler-plugin-replace-browser-modules": "2.29.0",
 		"liferay-npm-bundler-plugin-resolve-linked-dependencies": "2.29.0",
 		"liferay-theme-tasks": "11.5.1",
-		"metal-tools-soy": "4.3.2",
 		"mini-css-extract-plugin": "0.11.2",
 		"minimist": "^1.2.0",
 		"path-browserify": "^1.0.1",

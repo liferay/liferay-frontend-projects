@@ -28,13 +28,11 @@ npm install --save-dev @liferay/npm-scripts
 
 ### build
 
-Build script that compiles all necessary JavaScript, soy, and bundles it together using `liferay-npm-bundler`.
+Build script that compiles all necessary JavaScript and bundles it together using `liferay-npm-bundler`.
 
 ```sh
 liferay-npm-scripts build
 ```
-
-Do you have soy dependencies? `build` should automatically detect them.
 
 Do you need to use `liferay-npm-bridge-generator`? Just add a `.npmbridgerc` file and follow the configuration options [here](https://github.com/liferay/liferay-npm-build-tools/wiki/How-to-use-liferay-npm-bridge-generator).
 

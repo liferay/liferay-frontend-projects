@@ -19,9 +19,8 @@ module.exports = {
 	transform: {
 		/* eslint-disable sort-keys */
 		'\\.scss$': path.join(__dirname, '..', 'jest', 'transformSass.js'),
-		'\\.soy$': path.join(__dirname, '..', 'jest', 'transformSoy.js'),
 		'.+': path.join(__dirname, '..', 'jest', 'transformBabel.js'),
 		/* eslint-enable sort-keys */
 	},
-	transformIgnorePatterns: ['/node_modules/', '<rootDir>/.*\\.soy$'],
+	transformIgnorePatterns: ['/node_modules/'],
 };
