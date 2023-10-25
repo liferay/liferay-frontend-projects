@@ -1,3 +1,15 @@
+## [npm-scripts/v49.0.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v49.0.0) (2023-10-25)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v48.1.4...npm-scripts/v49.0.0)
+
+### :boom: Breaking changes
+
+-   feat(npm-scripts)!: remove metal and soy support ([\#1179](https://github.com/liferay/liferay-frontend-projects/pull/1179))
+
+### :new: Features
+
+-   feat(npm-scripts)!: remove metal and soy support ([\#1179](https://github.com/liferay/liferay-frontend-projects/pull/1179))
+
 ## [npm-scripts/v48.1.4](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v48.1.4) (2023-09-07)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v48.1.3...npm-scripts/v48.1.4)
