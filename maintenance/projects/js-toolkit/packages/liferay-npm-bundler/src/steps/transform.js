@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import * as babel from 'babel-core';
+import * as babel from '@babel/core';
 import clone from 'clone';
 import parseDataURL from 'data-urls';
 import fs from 'fs-extra';
@@ -138,7 +138,7 @@ function babelifyPackage(destPkg) {
 
 	babelConfig.babelrc = false;
 	babelConfig.compact = false;
-	babelConfig.only = '**/*';
+	babelConfig.only = ['**/*'];
 	if (babelConfig.sourceMaps === undefined) {
 		babelConfig.sourceMaps = true;
 	}

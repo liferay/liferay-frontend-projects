@@ -1,7 +1,7 @@
 {
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"dependencies": {
-		"babel-core": "^6.26.3",
+		"@babel/core": "^7.23.3",
 		"data-urls": "^1.1.0",
 		"liferay-npm-build-tools-common": "2.31.2",
 		"read-json-sync": "^2.0.1"

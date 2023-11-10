@@ -4,11 +4,11 @@
 		"allowJs": true,
 		"checkJs": false,
 		"esModuleInterop": true,
-		"lib": ["DOM", "ES2015"],
+		"lib": ["DOM", "ES2022"],
 		"module": "CommonJS",
 		"moduleResolution": "node",
 		"sourceMap": false,
-		"target": "ES2018",
+		"target": "ES2022",
 		"typeRoots": ["./node_modules/@types"]
 	}
 }
