@@ -52,7 +52,16 @@ module.exports = function getExternalExportsWebpackConfigs(
 								loader: require.resolve('babel-loader'),
 								options: {
 									presets: [
-										require.resolve('@babel/preset-env'),
+										[
+											require.resolve(
+												'@babel/preset-env'
+											),
+											{
+												modules: 'auto',
+												targets:
+													'Chrome 110, last 2 Safari version, last 2 Chrome version, last 2 ChromeAndroid version, last 2 Edge version, last 2 Firefox version, last 2 iOS version',
+											},
+										],
 										require.resolve('@babel/preset-react'),
 									],
 								},

@@ -8,8 +8,8 @@
 		[
 			"@babel/preset-env",
 			{
-				"modules": true,
-				"targets": "Chrome 65, Firefox ESR, Safari >= 12, last 1 Chrome version, last 1 ChromeAndroid version, last 1 Edge version, last 1 Firefox version, last 1 iOS version"
+				"modules": "auto",
+				"targets": "Chrome 110, last 2 Safari version, last 2 Chrome version, last 2 ChromeAndroid version, last 2 Edge version, last 2 Firefox version, last 2 iOS version"
 			}
 		],
 		"@babel/preset-react",
@@ -24,7 +24,7 @@
 					"@babel/preset-env",
 					{
 						"targets": {
-							"node": "10.15"
+							"node": "16.13.0"
 						}
 					}
 				]
