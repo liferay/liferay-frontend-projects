@@ -76,6 +76,7 @@ describe('getMergedConfig()', () => {
 					[
 						'@babel/preset-env',
 						{
+							modules: 'auto',
 							targets: expect.stringContaining('Chrome version'),
 						},
 					],
@@ -99,6 +100,7 @@ describe('getMergedConfig()', () => {
 					[
 						'@babel/preset-env',
 						{
+							modules: 'auto',
 							targets: expect.stringContaining('Chrome version'),
 						},
 					],
@@ -118,64 +120,8 @@ describe('getMergedConfig()', () => {
 					[
 						'@babel/preset-env',
 						{
+							modules: 'auto',
 							targets: expect.stringContaining('Chrome version'),
-						},
-					],
-				])
-			);
-		});
-
-		it('uses the legacy config in 7.3', () => {
-			const modules = getFixture('7.3');
-
-			process.chdir(modules);
-
-			const config = getMergedConfig('babel');
-
-			expect(config.presets).toEqual(
-				expect.arrayContaining([
-					[
-						'@babel/preset-env',
-						{
-							targets: expect.stringContaining('defaults'),
-						},
-					],
-				])
-			);
-		});
-
-		it('uses the legacy config in 7.2', () => {
-			const modules = getFixture('7.2');
-
-			process.chdir(modules);
-
-			const config = getMergedConfig('babel');
-
-			expect(config.presets).toEqual(
-				expect.arrayContaining([
-					[
-						'@babel/preset-env',
-						{
-							targets: expect.stringContaining('defaults'),
-						},
-					],
-				])
-			);
-		});
-
-		it('uses the legacy config in 7.1', () => {
-			const modules = getFixture('7.1');
-
-			process.chdir(modules);
-
-			const config = getMergedConfig('babel');
-
-			expect(config.presets).toEqual(
-				expect.arrayContaining([
-					[
-						'@babel/preset-env',
-						{
-							targets: expect.stringContaining('defaults'),
 						},
 					],
 				])

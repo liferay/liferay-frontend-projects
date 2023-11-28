@@ -8,7 +8,6 @@ const path = require('path');
 const deepMerge = require('./deepMerge');
 const findRoot = require('./findRoot');
 const flattenPkgName = require('./flattenPkgName');
-const getDXPVersion = require('./getDXPVersion');
 const getUserConfig = require('./getUserConfig');
 
 /**
@@ -44,21 +43,10 @@ function getMergedConfig(type, property) {
 
 	switch (type) {
 		case 'babel':
-			{
-				const {major, minor} = getDXPVersion() || {};
-
-				const baseConfig =
-					major === undefined ||
-					major > 7 ||
-					(major === 7 && minor > 3)
-						? require('../config/babel')
-						: require('../config/babel-legacy');
-
-				mergedConfig = deepMerge(
-					[baseConfig, getUserConfig('babel')],
-					deepMerge.MODE.BABEL
-				);
-			}
+			mergedConfig = deepMerge(
+				[require('../config/babel'), getUserConfig('babel')],
+				deepMerge.MODE.BABEL
+			);
 			break;
 
 		case 'bundler': {

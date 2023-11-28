@@ -12,9 +12,10 @@
 		"moduleResolution": "node",
 		"outDir": "./types",
 		"paths": {},
+		"skipLibCheck": true,
 		"sourceMap": false,
 		"strict": true,
-		"target": "es6",
+		"target": "es2022",
 		"tsBuildInfoFile": "tmp/tsconfig.tsbuildinfo",
 		"typeRoots": []
 	},

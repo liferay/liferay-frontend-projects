@@ -1,3 +1,7 @@
+## [npm-scripts/v50.0.0-pre.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v50.0.0-pre.0) (2023-11-27)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v49.0.0...npm-scripts/v50.0.0-pre.0)
+
 ## [npm-scripts/v49.0.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v49.0.0) (2023-10-25)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v48.1.4...npm-scripts/v49.0.0)
