@@ -16,4 +16,5 @@ export interface EditorConfigTransformer<T> {
 
 export interface EditorTransformer<T> {
 	editorConfigTransformer: EditorConfigTransformer<T>;
+	foo: string;
 }
