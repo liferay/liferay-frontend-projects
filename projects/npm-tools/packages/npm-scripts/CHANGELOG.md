@@ -1,3 +1,11 @@
+## [npm-scripts/v49.1.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v49.1.0) (2024-01-09)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v49.0.0...npm-scripts/v49.1.0)
+
+### :new: Features
+
+-   feat(npm-scripts): detect root dir when package-lock.json present ([\#1187](https://github.com/liferay/liferay-frontend-projects/pull/1187))
+
 ## [npm-scripts/v49.0.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v49.0.0) (2023-10-25)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v48.1.4...npm-scripts/v49.0.0)
