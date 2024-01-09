@@ -24,7 +24,10 @@ function findRoot() {
 	let directory = process.cwd();
 
 	while (directory) {
-		if (fs.existsSync(path.join(directory, 'yarn.lock'))) {
+		if (
+			fs.existsSync(path.join(directory, 'yarn.lock')) ||
+			fs.existsSync(path.join(directory, 'package-lock.json'))
+		) {
 			const basename = path.basename(directory);
 
 			if (basename === 'modules') {
