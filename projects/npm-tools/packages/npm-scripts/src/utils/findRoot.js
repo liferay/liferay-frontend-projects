@@ -33,6 +33,16 @@ function findRoot() {
 			if (basename === 'modules') {
 				return directory;
 			}
+
+			// The playwright folder is under modules, but we don't
+			// want to go up any further. At the same time, the root
+			// is not the real root of liferay-portal, so we return
+			// undefined (that's how it behaves in the workspaces
+			// folder, in fact).
+
+			if (basename === 'playwright') {
+				return undefined;
+			}
 		}
 
 		if (path.dirname(directory) === directory) {
