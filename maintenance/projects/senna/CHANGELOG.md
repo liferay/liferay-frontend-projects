@@ -1,3 +1,20 @@
+## [senna/v2.8.0](https://github.com/liferay/liferay-frontend-projects/tree/senna/v2.8.0) (2024-01-25)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/senna/v2.7.10...senna/v2.8.0)
+
+### :wrench: Bug fixes
+
+-   fix: Exchange flipping and style evaluation order to avoid css flicker #1188 ([\#1189](https://github.com/liferay/liferay-frontend-projects/pull/1189))
+-   fix(senna): Modify URI generation to properly handle link to emails ([\#1159](https://github.com/liferay/liferay-frontend-projects/pull/1159))
+
+### :house: Chores
+
+-   chore(senna): add test for senna CI ([\#1165](https://github.com/liferay/liferay-frontend-projects/pull/1165))
+
+### :nail_care: Style
+
+-   style(senna): fix linting errors ([\#702](https://github.com/liferay/liferay-frontend-projects/pull/702))
+
 ## [senna/v2.7.10](https://github.com/liferay/liferay-frontend-projects/tree/senna/v2.7.10) (2021-04-21)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/senna/v2.7.9...senna/v2.7.10)

@@ -72,6 +72,6 @@
 		"preversion": "yarn test",
 		"test": "gulp test"
 	},
-	"version": "2.7.10",
+	"version": "2.8.0",
 	"workspaces": []
 }
