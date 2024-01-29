@@ -7,7 +7,7 @@
 ## Dependencies
 
 1. Install [Node.JS](http://nodejs.org/), if you don't have it yet.
-2. Run `<sudo> npm install -g yo` to install global dependencies.
+2. Run `<sudo> npm install -g yo@4.x.x` to install global dependencies. Note: this generator is for use with `yo` v4.
 
 ## Generator use
 
