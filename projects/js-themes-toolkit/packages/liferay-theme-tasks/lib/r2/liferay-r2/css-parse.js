@@ -584,7 +584,13 @@ module.exports = function (css, options) {
 
 	function _atrule(name) {
 		var pos = position();
-		var m = match(new RegExp('^@' + name + ' *([^;\\n]+);'));
+		var m = match(
+			new RegExp(
+				'^@' +
+					name +
+					' *(?:url\\(([^)]+)\\)|([^;\\n]*))(?: *([^;\\n]*))?;'
+			)
+		);
 		if (!m) {
 			return;
 		}
