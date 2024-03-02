@@ -23,7 +23,25 @@ const SignalHandler = {
 	install() {
 		if (!installed) {
 			Object.keys(SIGNALS).forEach((signal) => {
-				process.on(signal, handleSignal);
+				process.on(signal, (code) => {
+					log(`Received ${code}`);
+
+					for (const callback of callbacks.values()) {
+						try {
+							callback();
+						}
+						catch (error) {
+							log(`Caught error in signal callback: ${error}`);
+						}
+					}
+
+					if (signal !== 'exit') {
+						process.exit(128 + SIGNALS[code]);
+					}
+					else {
+						process.exit(code);
+					}
+				});
 			});
 
 			installed = true;
@@ -47,23 +65,6 @@ function getDisposable(callback, id) {
 			callbacks.delete(id);
 		},
 	};
-}
-
-function handleSignal(signal) {
-	log(`Received ${signal}`);
-
-	for (const callback of callbacks.values()) {
-		try {
-			callback();
-		}
-		catch (error) {
-			log(`Caught error in signal callback: ${error}`);
-		}
-	}
-
-	if (signal !== -1) {
-		process.exit(128 + SIGNALS[signal]);
-	}
 }
 
 module.exports = SignalHandler;

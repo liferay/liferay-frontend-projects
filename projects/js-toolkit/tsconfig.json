@@ -2,12 +2,13 @@
 	"compileOnSave": true,
 	"compilerOptions": {
 		"esModuleInterop": true,
-		"lib": ["ES2015"],
+		"lib": ["ES2022"],
 		"module": "CommonJS",
 		"moduleResolution": "node",
 		"resolveJsonModule": true,
+		"skipLibCheck": true,
 		"sourceMap": false,
-		"target": "ES2018",
+		"target": "ES2022",
 		"types": ["jest", "node"]
 	},
 	"exclude": ["node_modules", "qa", "**/__tests__/**"]

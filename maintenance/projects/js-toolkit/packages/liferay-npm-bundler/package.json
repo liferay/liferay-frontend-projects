@@ -4,7 +4,7 @@
 		"liferay-npm-bundler": "bin/liferay-npm-bundler.js"
 	},
 	"dependencies": {
-		"babel-core": "^6.26.3",
+		"@babel/core": "^7.23.3",
 		"clone": "^2.1.2",
 		"data-urls": "^1.1.0",
 		"dot-prop": "^5.0.1",

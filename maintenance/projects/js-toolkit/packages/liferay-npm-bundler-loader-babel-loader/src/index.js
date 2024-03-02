@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import * as babel from 'babel-core';
+import * as babel from '@babel/core';
 import project from 'liferay-npm-build-tools-common/lib/project';
 
 /**
@@ -24,7 +24,7 @@ export default function (context, config) {
 	// Tune babel config
 
 	babelConfig.babelrc = false;
-	babelConfig.only = '**/*';
+	babelConfig.only = ['**/*'];
 	if (babelConfig.sourceMaps === undefined) {
 		babelConfig.sourceMaps = true;
 	}
@@ -37,7 +37,7 @@ export default function (context, config) {
 	);
 	delete babelConfig.presets;
 
-	const result = babel.transform(content, babelConfig);
+	const result = babel.transformSync(content, babelConfig);
 
 	context.sourceMap = result.map;
 	context.extraArtifacts[`${filePath}.map`] = JSON.stringify(result.map);
