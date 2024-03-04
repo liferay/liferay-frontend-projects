@@ -107,22 +107,26 @@ function processAliases(
 					const absToFile = alias.absDir.join(
 						new FilePath(alias.to as string, {posix: true})
 					);
-					const fromRelToFile = absFromFile
-						.dirname()
-						.relative(absToFile);
 
-					rewriteFile(
-						absFromFile,
-						`/* redirected by alias field(s) in ${rootRelAbsDirPosixPath} */`,
-						`module.exports = require('./${fromRelToFile.asPosix}');`
-					);
+					if (!absToFile.is(absFromFile)) {
+						const fromRelToFile = absFromFile
+							.dirname()
+							.relative(absToFile);
 
-					log.info(
-						'replace-browser-modules',
-						`Redirected file '${rootRelFilePosixPath}' to ` +
-							`'./${fromRelToFile.asPosix}' as configured in ` +
-							`'${rootRelAbsDirPosixPath}'`
-					).linkToCode(2);
+						rewriteFile(
+							absFromFile,
+							`/* redirected by alias field(s) in ${rootRelAbsDirPosixPath} */`,
+							`module.exports = require('./${fromRelToFile.asPosix}');`
+						);
+
+						log.info(
+							'replace-browser-modules',
+							`Redirected file '${rootRelFilePosixPath}' to ` +
+								`'./${fromRelToFile.asPosix}' as configured in ` +
+								`'${rootRelAbsDirPosixPath}'`
+						).linkToCode(2);
+					}
+
 					break;
 				}
 
