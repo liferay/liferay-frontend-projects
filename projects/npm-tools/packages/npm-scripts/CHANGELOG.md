@@ -1,3 +1,11 @@
+## [npm-scripts/v49.2.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v49.2.1) (2024-03-04)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v49.2.0...npm-scripts/v49.2.1)
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): ignore url options in css as we don't support loading files other than js and css ([\#1195](https://github.com/liferay/liferay-frontend-projects/pull/1195))
+
 ## [npm-scripts/v49.2.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v49.2.0) (2024-01-18)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v49.1.0...npm-scripts/v49.2.0)
