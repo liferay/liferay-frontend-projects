@@ -107,4 +107,21 @@ describe('loadAliases', () => {
 
 		expect(aliases['toString']).toBeUndefined();
 	});
+
+	it('works when the main field does not start with .', () => {
+		const aliases = loadAliases(fixturesDir.join('main-without-dot.json'), [
+			'browser',
+		]);
+
+		expect(aliases['./index']).toEqual('./index-shim.js');
+	});
+
+	it('works when value does not start with .', () => {
+		const aliases = loadAliases(
+			fixturesDir.join('alias-without-dot.json'),
+			['browser']
+		);
+
+		expect(aliases['./index']).toEqual('./index-shim.js');
+	});
 });
