@@ -127,6 +127,7 @@ module.exports = function getExternalExportsWebpackConfigs(
 						},
 						{
 							loader: require.resolve('css-loader'),
+							options: {url: false},
 						},
 					],
 				});
