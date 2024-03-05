@@ -1,3 +1,11 @@
+## [liferay-js-toolkit/v2.32.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.32.0) (2024-03-05)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.31.2...liferay-js-toolkit/v2.32.0)
+
+### :wrench: Bug fixes
+
+-   fix: handle module aliases that start with "." correctly ([\#1196](https://github.com/liferay/liferay-frontend-projects/pull/1196))
+
 ## [liferay-js-toolkit/v2.31.1](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.31.2) (2022-11-18)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.31.0...liferay-js-toolkit/v2.31.2)
