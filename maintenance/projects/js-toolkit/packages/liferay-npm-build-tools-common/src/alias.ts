@@ -117,7 +117,11 @@ export function loadAliases(
 				}
 
 				if (aliasConfig === false || typeof aliasConfig === 'string') {
-					const main = pkgJson['main'] || './index.js';
+					let main = pkgJson['main'] || './index.js';
+
+					if (!main.startsWith('.')) {
+						main = `./${main}`;
+					}
 
 					aliases[main] = aliasConfig;
 				}
@@ -138,6 +142,18 @@ export function loadAliases(
 			if (key.startsWith('/')) {
 				aliases[`.${key}`] = aliases[key];
 				delete aliases[key];
+			}
+		});
+
+		// Normalize local aliases to make them start with `./`
+
+		Object.keys(aliases).forEach((key) => {
+			if (key.startsWith('.')) {
+				const value = aliases[key];
+
+				if (typeof value === 'string' && !value.startsWith('.')) {
+					aliases[key] = `./${value}`;
+				}
 			}
 		});
 	}
