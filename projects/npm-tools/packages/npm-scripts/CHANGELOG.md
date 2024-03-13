@@ -1,3 +1,11 @@
+## [npm-scripts/v49.2.2](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v49.2.2) (2024-03-13)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v49.2.1...npm-scripts/v49.2.2)
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): abort build if the module is an OSGI fragment ([\#1198](https://github.com/liferay/liferay-frontend-projects/pull/1198))
+
 ## [npm-scripts/v49.2.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v49.2.1) (2024-03-04)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v49.2.0...npm-scripts/v49.2.1)
