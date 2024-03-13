@@ -26,6 +26,7 @@ const getMergedConfig = require('../utils/getMergedConfig');
 const instrument = require('../utils/instrument');
 const log = require('../utils/log');
 let minify = require('../utils/minify');
+const parseBnd = require('../utils/parseBnd');
 let runBabel = require('../utils/runBabel');
 let runBridge = require('../utils/runBridge');
 let runBundler = require('../utils/runBundler');
@@ -103,6 +104,13 @@ const ROOT_CONFIGS = [
  * `minify()` is run unless `NODE_ENV` is `development`.
  */
 module.exports = async function (...args) {
+	const bnd = parseBnd();
+	if (bnd && bnd['Fragment-Host']) {
+		throw new Error(
+			'`liferay-npm-scripts build` is not compatible with OSGI fragment modules, see LPD-19872.'
+		);
+	}
+
 	const clean = pickItem(args, '--clean');
 
 	const config = getMergedConfig('npmscripts');
