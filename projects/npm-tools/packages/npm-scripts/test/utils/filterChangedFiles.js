@@ -58,7 +58,7 @@ describe('filterChangedFiles()', () => {
 
 		process.chdir(repo);
 
-		git('init');
+		git('init', '--initial-branch', 'master');
 		git('config', 'user.email', 'ci@example.net');
 		git('config', 'user.name', 'Continuous Integration');
 
