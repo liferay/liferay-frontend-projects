@@ -15,7 +15,10 @@ module.exports = function (_content, _map, _meta) {
 
 	const webContextPath = getBndWebContextPath(projectDir);
 
-	let urlPath = path.relative(buildConfig.input, resourcePath);
+	let urlPath = path
+		.relative(path.join(projectDir, buildConfig.input), resourcePath)
+		.split(path.sep)
+		.join(path.posix.sep);
 
 	urlPath = urlPath.replace(/scss$/, 'css');
 
