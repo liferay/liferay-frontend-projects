@@ -1,3 +1,12 @@
+## [npm-scripts/v49.2.3](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v49.2.3) (2024-03-21)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v49.2.2...npm-scripts/v49.2.3)
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): fix unit test to use master branch name ([\#1200](https://github.com/liferay/liferay-frontend-projects/pull/1200))
+-   fix(npm-scripts): fix support for windows file system ([\#1199](https://github.com/liferay/liferay-frontend-projects/pull/1199))
+
 ## [npm-scripts/v49.2.2](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v49.2.2) (2024-03-13)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v49.2.1...npm-scripts/v49.2.2)
