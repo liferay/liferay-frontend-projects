@@ -20,10 +20,6 @@ module.exports = async function () {
 			await require('./scripts/build')(...ARGS_ARRAY.slice(1));
 		},
 
-		async cache() {
-			await require('./scripts/cache')(...ARGS_ARRAY.slice(1));
-		},
-
 		async check() {
 			await require('./scripts/check')();
 		},
