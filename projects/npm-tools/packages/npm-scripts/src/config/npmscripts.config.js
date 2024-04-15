@@ -19,8 +19,7 @@ const CHECK_AND_FIX_GLOBS = [
 const getClayPaths = () => {
 	try {
 		return require('@clayui/css').includePaths;
-	}
-	catch {
+	} catch {
 		return [];
 	}
 };
@@ -111,10 +110,5 @@ module.exports = {
 			'^liferay-npm-bundler-loader-.+',
 			'^react-test-renderer$',
 		],
-	},
-	storybook: {
-		languagePaths: ['src/main/resources/content/Language.properties'],
-		port: '9000',
-		portalURL: 'http://0.0.0.0:8080',
 	},
 };
