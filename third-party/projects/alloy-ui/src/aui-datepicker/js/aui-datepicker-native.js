@@ -232,10 +232,12 @@ DatePickerNativeBase.prototype = {
             parsed = instance._parseDateFromString(activeInput.val());
         }
 
-        instance.fire(
-            'selectionChange', {
-                newSelection: parsed ? [parsed] : []
-            });
+        if (parsed) {
+            instance.fire(
+                'selectionChange', {
+                    newSelection: [parsed]
+                });
+        }
     },
 
     /**
