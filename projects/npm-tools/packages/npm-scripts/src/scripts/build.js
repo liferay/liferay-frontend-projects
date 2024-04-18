@@ -10,19 +10,12 @@ const path = require('path');
 
 let buildSass = require('../sass/build');
 let runTSC = require('../typescript/runTSC');
-const createAmd2EsmExportsBridges = require('../utils/createAmd2EsmExportsBridges');
-const createEsm2AmdCustomBridges = require('../utils/createEsm2AmdCustomBridges');
 const createEsm2AmdExportsBridges = require('../utils/createEsm2AmdExportsBridges');
 const createEsm2AmdIndexBridge = require('../utils/createEsm2AmdIndexBridge');
 const createTempFile = require('../utils/createTempFile');
-let expandGlobs = require('../utils/expandGlobs');
 const getMergedConfig = require('../utils/getMergedConfig');
 const instrument = require('../utils/instrument');
-let minify = require('../utils/minify');
 const parseBnd = require('../utils/parseBnd');
-let runBabel = require('../utils/runBabel');
-let runBridge = require('../utils/runBridge');
-let runBundler = require('../utils/runBundler');
 let runWebpackAsBundler = require('../utils/runWebpackAsBundler');
 const setEnv = require('../utils/setEnv');
 const validateConfig = require('../utils/validateConfig');
@@ -30,23 +23,8 @@ let webpack = require('./webpack');
 
 const CWD = process.cwd();
 
-({
+({buildSass, runTSC, runWebpackAsBundler, webpack} = instrument({
 	buildSass,
-	expandGlobs,
-	minify,
-	runBabel,
-	runBridge,
-	runBundler,
-	runTSC,
-	runWebpackAsBundler,
-	webpack,
-} = instrument({
-	buildSass,
-	expandGlobs,
-	minify,
-	runBabel,
-	runBridge,
-	runBundler,
 	runTSC,
 	runWebpackAsBundler,
 	webpack,
@@ -85,7 +63,7 @@ module.exports = async function (...args) {
 
 	validateConfig(
 		BUILD_CONFIG,
-		['input', 'output', 'dependencies', 'temp'],
+		['input', 'output', 'temp'],
 		'liferay-npm-scripts: `build`'
 	);
 
@@ -99,55 +77,28 @@ module.exports = async function (...args) {
 		if (isTypeScript && BUILD_CONFIG.tsc !== false) {
 			await runTSC();
 		}
-
-		if (BUILD_CONFIG.babel !== false) {
-			const ignores = [];
-
-			if (BUILD_CONFIG.babel?.ignores) {
-				BUILD_CONFIG.babel.ignores.forEach((ignore) => {
-					ignores.push('--ignore');
-					ignores.push(ignore);
-				});
-			}
-
-			runBabel(
-				BUILD_CONFIG.input,
-				'--out-dir',
-				BUILD_CONFIG.output,
-				'--source-maps',
-				'--extensions',
-				'.cjs,.es,.es6,.js,.jsx,.mjs,.ts,.tsx',
-				...ignores
-			);
-		}
 	}
 
 	if (fs.existsSync('webpack.config.js')) {
 		webpack(...args);
 	}
 
-	if (BUILD_CONFIG.bundler) {
-		runBundler();
-	}
-
 	if (Array.isArray(BUILD_CONFIG.exports) || BUILD_CONFIG.main) {
 		fs.mkdirSync(BUILD_CONFIG.output, {recursive: true});
 
-		if (!BUILD_CONFIG.bundler) {
-			const newPkgJson = {
-				...pkgJson,
-			};
+		const newPkgJson = {
+			...pkgJson,
+		};
 
-			newPkgJson.main = 'index.js';
-			delete newPkgJson.dependencies;
-			delete newPkgJson.devDependencies;
+		newPkgJson.main = 'index.js';
+		delete newPkgJson.dependencies;
+		delete newPkgJson.devDependencies;
 
-			fs.writeFileSync(
-				path.join(BUILD_CONFIG.output, 'package.json'),
-				JSON.stringify(newPkgJson, null, '\t'),
-				'utf8'
-			);
-		}
+		fs.writeFileSync(
+			path.join(BUILD_CONFIG.output, 'package.json'),
+			JSON.stringify(newPkgJson, null, '\t'),
+			'utf8'
+		);
 
 		await runWebpackAsBundler(CWD, BUILD_CONFIG, getMergedConfig('babel'));
 
@@ -158,7 +109,8 @@ module.exports = async function (...args) {
 				BUILD_CONFIG.output,
 				'manifest.json'
 			));
-		} catch (error) {
+		}
+		catch (error) {
 			manifest = {
 				packages: {
 					'/': {
@@ -183,31 +135,15 @@ module.exports = async function (...args) {
 			createEsm2AmdIndexBridge(CWD, BUILD_CONFIG, manifest);
 		}
 
-		createEsm2AmdExportsBridges(CWD, BUILD_CONFIG, manifest);
-
-		createEsm2AmdCustomBridges(CWD, BUILD_CONFIG, manifest);
+		if (BUILD_CONFIG.exports) {
+			createEsm2AmdExportsBridges(CWD, BUILD_CONFIG, manifest);
+		}
 
 		fs.writeFileSync(
 			path.join(BUILD_CONFIG.output, 'manifest.json'),
 			JSON.stringify(manifest, null, '\t'),
 			'utf8'
 		);
-	} else if (BUILD_CONFIG.exports) {
-		// TODO: remove this once migration to webpack is done
-
-		createAmd2EsmExportsBridges(
-			CWD,
-			BUILD_CONFIG.output,
-			BUILD_CONFIG.exports
-		);
-	}
-
-	if (fs.existsSync(path.join(CWD, '.npmbridgerc'))) {
-		runBridge();
-	}
-
-	if (process.env.NODE_ENV !== 'development') {
-		await minify();
 	}
 
 	if (inputPathExists) {

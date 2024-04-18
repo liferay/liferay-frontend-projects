@@ -82,14 +82,17 @@ module.exports = async function () {
 	if (COMMANDS[type]) {
 		try {
 			await COMMANDS[type]();
-		} catch (error) {
+		}
+		catch (error) {
 			if (error instanceof ProcessExitError) {
 				process.exit(error.status);
-			} else {
+			}
+			else {
 				throw error;
 			}
 		}
-	} else {
+	}
+	else {
 		const commands = Object.keys(PUBLIC_COMMANDS).join(', ');
 
 		throw new Error(

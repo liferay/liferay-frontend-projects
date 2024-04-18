@@ -10977,16 +10977,6 @@ liferay-lang-key-dev-loader@^1.0.3:
     loader-utils "^1.1.0"
     properties "^1.2.1"
 
-liferay-npm-bridge-generator@2.29.0:
-  version "2.29.0"
-  resolved "https://registry.yarnpkg.com/liferay-npm-bridge-generator/-/liferay-npm-bridge-generator-2.29.0.tgz#a042d67cff2ac9360adb73d6d0f7963f84a8c909"
-  integrity sha512-meTXuHLvhBExC+kyQ+yE642BnInEk+7D2wdTKd9XsBG4eGRkBkurnZrFqjeGBwH/IniW9S8kpBHAbJZ7VvQ70Q==
-  dependencies:
-    fs-extra "^8.1.0"
-    globby "^10.0.1"
-    read-json-sync "^2.0.1"
-    yargs "^14.0.0"
-
 liferay-npm-build-tools-common@2.27.0, liferay-npm-build-tools-common@^2.17.1, liferay-npm-build-tools-common@^2.27.0:
   version "2.27.0"
   resolved "https://registry.yarnpkg.com/liferay-npm-build-tools-common/-/liferay-npm-build-tools-common-2.27.0.tgz#91c39575eaa3f99a22e2aaec63e5cc85b668969d"
@@ -11048,14 +11038,6 @@ liferay-npm-bundler-loader-copy-loader@^2.27.0:
   dependencies:
     liferay-npm-build-tools-common "2.27.0"
 
-liferay-npm-bundler-loader-css-loader@2.29.0:
-  version "2.29.0"
-  resolved "https://registry.yarnpkg.com/liferay-npm-bundler-loader-css-loader/-/liferay-npm-bundler-loader-css-loader-2.29.0.tgz#246a9a003b88a755074ac8d2fceee19e90ece1d9"
-  integrity sha512-2x5n3bD5gTOdrIL3U+/x4OZc0v6yLyd57UNvZRhP4wENJ+WFgU5qBaNtOfRYATfrBJmgEoTIOZu5X1HNTkJXVQ==
-  dependencies:
-    liferay-npm-build-tools-common "2.29.0"
-    read-json-sync "^2.0.1"
-
 liferay-npm-bundler-loader-css-loader@^2.27.0:
   version "2.27.0"
   resolved "https://registry.yarnpkg.com/liferay-npm-bundler-loader-css-loader/-/liferay-npm-bundler-loader-css-loader-2.27.0.tgz#34568bfa2493b120314153e9c3361d82bf911a79"
@@ -11063,13 +11045,6 @@ liferay-npm-bundler-loader-css-loader@^2.27.0:
   dependencies:
     liferay-npm-build-tools-common "2.27.0"
     read-json-sync "^2.0.1"
-
-liferay-npm-bundler-loader-json-loader@2.29.0:
-  version "2.29.0"
-  resolved "https://registry.yarnpkg.com/liferay-npm-bundler-loader-json-loader/-/liferay-npm-bundler-loader-json-loader-2.29.0.tgz#e19aabfa5ef20e438b2460cb61a01ab42b5f8fce"
-  integrity sha512-Xs4CGkVLKt3saBD2xNX9q8BJV4AfSjO5QjRXO1okDq58YZhsx4X8PbmiiG1mPHush7AJ2WeFoAwLXk+X8pgmAQ==
-  dependencies:
-    liferay-npm-build-tools-common "2.29.0"
 
 liferay-npm-bundler-loader-json-loader@^2.27.0:
   version "2.27.0"
@@ -11278,29 +11253,6 @@ liferay-npm-bundler-preset-standard@2.29.0:
     liferay-npm-bundler-plugin-namespace-packages "2.29.0"
     liferay-npm-bundler-plugin-replace-browser-modules "2.29.0"
     liferay-npm-bundler-plugin-resolve-linked-dependencies "2.29.0"
-
-liferay-npm-bundler@2.29.0:
-  version "2.29.0"
-  resolved "https://registry.yarnpkg.com/liferay-npm-bundler/-/liferay-npm-bundler-2.29.0.tgz#9331283f40af6f330415e7de5d7f79fb0c524acd"
-  integrity sha512-C6NKKXRAjcgPPAIspK3SvtpEK/ZaegvKZb/T91iPhOCYHMiggtirRuLgTOwPQ9pLBc98twyi6SQBc+qaxx09YQ==
-  dependencies:
-    babel-core "^6.26.3"
-    clone "^2.1.2"
-    data-urls "^1.1.0"
-    dot-prop "^5.0.1"
-    fs-extra "^8.1.0"
-    globby "^10.0.1"
-    jszip "^3.1.5"
-    liferay-npm-build-tools-common "2.29.0"
-    liferay-npm-bundler-preset-standard "2.29.0"
-    merge "^2.1.1"
-    pretty-time "^1.1.0"
-    read-json-sync "^2.0.1"
-    resolve "^1.8.1"
-    rimraf "^3.0.0"
-    semver "^6.3.0"
-    xml-js "^1.6.8"
-    yargs "^14.0.0"
 
 liferay-npm-bundler@^2.27.0:
   version "2.27.0"
