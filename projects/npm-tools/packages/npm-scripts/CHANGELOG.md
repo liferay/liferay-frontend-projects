@@ -1,3 +1,11 @@
+## [npm-scripts/v50.0.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v50.0.0) (2024-04-23)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v49.2.3...npm-scripts/v50.0.0)
+
+### :new: Features
+
+-   feat(npm-scripts): update for node v20 ([\#1184](https://github.com/liferay/liferay-frontend-projects/pull/1184))
+
 ## [npm-scripts/v49.2.3](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v49.2.3) (2024-03-21)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v49.2.2...npm-scripts/v49.2.3)
