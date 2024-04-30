@@ -2,6 +2,13 @@
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v50.0.0...npm-scripts/v51.0.0)
 
+### :new: Features
+
+-   chore(npm-scripts): Update dependencies list ([\#1203](https://github.com/liferay/liferay-frontend-projects/pull/1203))
+-   feat(npm-scripts)!: remove legacy build tooling ([\#1203](https://github.com/liferay/liferay-frontend-projects/pull/1203))
+-   feat(npm-scripts)!: remove code relating to cacheing build ([\#1203](https://github.com/liferay/liferay-frontend-projects/pull/1203))
+-   feat(npm-scripts)!: remove code relating to storybook ([\#1203](https://github.com/liferay/liferay-frontend-projects/pull/1203))
+
 ### :house: Chores
 
 -   chore(npm-scripts): remove legacy build tooling ([\#1203](https://github.com/liferay/liferay-frontend-projects/pull/1203))
