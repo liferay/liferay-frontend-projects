@@ -35,7 +35,7 @@ function pluck(config, property) {
 
 /**
  * Helper to get JSON configs
- * @param {string} type Name of configuration ("babel", "bundler", "jest" etc)
+ * @param {string} type Name of configuration ("babel", "jest" etc)
  * @param {string=} property Specific configuration property to extract. If not
  * supplied, the entire configuration object is returned.
  */
@@ -60,26 +60,6 @@ function getMergedConfig(type, property) {
 				);
 			}
 			break;
-
-		case 'bundler': {
-			const {build} = getMergedConfig('npmscripts');
-
-			let bundlerDefaults = {};
-
-			if (build && build.bundler) {
-				bundlerDefaults = build.bundler;
-			}
-
-			const userConfig = getUserConfig('npmbundler');
-
-			if (userConfig.preset !== undefined) {
-				mergedConfig = userConfig;
-			}
-			else {
-				mergedConfig = deepMerge([bundlerDefaults, userConfig]);
-			}
-			break;
-		}
 
 		case 'eslint':
 			mergedConfig = deepMerge([
@@ -177,7 +157,6 @@ function getOutputFileName(exportPath) {
 function normalizeNpmscriptsConfig(mergedConfig) {
 	if (mergedConfig.build?.main) {
 		mergedConfig.build.babel = false;
-		mergedConfig.build.bundler = false;
 
 		if (mergedConfig.build.exports === undefined) {
 			mergedConfig.build.exports = [];
@@ -239,14 +218,6 @@ function normalizeNpmscriptsConfig(mergedConfig) {
 				return exportsItem;
 			}
 		);
-
-		// Auto-generate liferay-npm-bundler excludes based on exports
-
-		if (mergedConfig.build.bundler !== false) {
-			mergedConfig.build.bundler.exclude = {
-				'*': true,
-			};
-		}
 	}
 }
 

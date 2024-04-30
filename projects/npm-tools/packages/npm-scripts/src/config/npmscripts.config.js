@@ -27,55 +27,6 @@ const getClayPaths = () => {
 
 module.exports = {
 	build: {
-		bundler: {
-			'*': {
-				'.babelrc': {
-					presets: ['liferay-standard'],
-				},
-				'copy-plugins': ['exclude-imports'],
-				'plugins': ['replace-browser-modules'],
-				'post-plugins': [
-					'namespace-packages',
-					'inject-imports-dependencies',
-					'inject-peer-dependencies',
-				],
-			},
-			'/': {
-				'.babelrc': {
-					presets: ['liferay-standard'],
-				},
-				'plugins': ['resolve-linked-dependencies'],
-				'post-plugins': [
-					'namespace-packages',
-					'inject-imports-dependencies',
-				],
-			},
-			'ignore': ['__generated__/**/*'],
-			'output': 'build/node/packageRunBuild/resources',
-			'rules': [
-				{
-					test: '\\.css$',
-					use: ['css-loader'],
-				},
-				{
-					test: '\\.json',
-					use: ['json-loader'],
-				},
-				{
-					exclude: 'node_modules',
-					test: '\\.scss$',
-					use: [
-						{
-							loader: 'css-loader',
-							options: {
-								extension: '.css',
-							},
-						},
-					],
-				},
-			],
-			'sources': ['src/main/resources/META-INF/resources'],
-		},
 
 		// Passed to:
 		// - `babel` executable (via `runBabel()`).
@@ -111,10 +62,5 @@ module.exports = {
 			'^liferay-npm-bundler-loader-.+',
 			'^react-test-renderer$',
 		],
-	},
-	storybook: {
-		languagePaths: ['src/main/resources/content/Language.properties'],
-		port: '9000',
-		portalURL: 'http://0.0.0.0:8080',
 	},
 };
