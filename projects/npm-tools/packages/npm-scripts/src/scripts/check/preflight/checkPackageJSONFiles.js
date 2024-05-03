@@ -108,9 +108,9 @@ function checkPackageJSONFiles() {
 
 			// Check for main entry point
 
-			if (!main) {
-				const moduleDir = path.join(pkg, '..');
+			const moduleDir = path.join(pkg, '..');
 
+			if (!main) {
 				const indexExists = [
 					'index.js',
 					'index.es.js',
@@ -138,6 +138,31 @@ function checkPackageJSONFiles() {
 					bad(
 						`package.json doesn't contain a "main" entry point when you have an ${indexExists} file - https://github.com/liferay/liferay-frontend-projects/issues/719`
 					);
+				}
+			}
+
+			// Check that main entry point doesn't 'export default'
+
+			if (main && main !== 'package.json') {
+				const filePath = path.join(
+					moduleDir,
+					'src/main/resources/META-INF/resources',
+					main
+				);
+
+				if (!fs.existsSync(filePath)) {
+					bad(
+						`package.json contains a "main" entry point that doesn't exist.`
+					);
+				}
+				else {
+					const entryFile = fs.readFileSync(filePath);
+
+					if (entryFile.toString().match(/\s*export\s+default\s*/i)) {
+						bad(
+							`package.json's "main" entry point contains "export default". Use named exports only.`
+						);
+					}
 				}
 			}
 		}
