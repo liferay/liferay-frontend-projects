@@ -32,7 +32,7 @@
 		"build": "yarn build:loader && yarn build:demo",
 		"build:demo": "node bin/build-demo.js",
 		"build:loader": "node bin/build-loader.js",
-		"ci": "liferay-workspace-scripts ci",
+		"ci": "yarn format:check && yarn lint && yarn test",
 		"clean": "rm -rf build",
 		"demo": "node bin/run-demo.js",
 		"format": "liferay-workspace-scripts format",
@@ -43,7 +43,7 @@
 		"prepublishOnly": "yarn build",
 		"preversion": "yarn ci",
 		"proxyPortal": "webpack-dev-server --config webpack.proxyPortal.js",
-		"test": "liferay-workspace-scripts test"
+		"test": "jest"
 	},
 	"version": "5.4.2",
 	"workspaces": {
@@ -55,5 +55,11 @@
 	"dependencies": {
 		"webpack-cli": "^3.0.0",
 		"webpack-dev-server": "^3.0.0"
+	},
+	"devDependencies": {
+		"liferay-workspace-scripts": "../../../support/packages/workspace-scripts",
+		"@babel/preset-env": "^7.4.2",
+		"jest": "26.4.2",
+		"terser-webpack-plugin": "^5.0.3"
 	}
 }

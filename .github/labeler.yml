@@ -24,8 +24,8 @@
     - maintenance/projects/js-themes-toolkit-v9-x/**/*
 
 amd-loader:
-    - projects/amd-loader/*
-    - projects/amd-loader/**/*
+    - maintenance/projects/amd-loader/*
+    - maintenance/projects/amd-loader/**/*
 
 changelog-generator:
     - projects/npm-tools/packages/changelog-generator/*
