@@ -46,20 +46,15 @@
 		"test": "jest"
 	},
 	"version": "5.4.2",
-	"workspaces": {
-		"nohoist": [
-			"webpack-dev-server",
-			"webpack-cli"
-		]
-	},
-	"dependencies": {
-		"webpack-cli": "^3.0.0",
-		"webpack-dev-server": "^3.0.0"
-	},
 	"devDependencies": {
-		"liferay-workspace-scripts": "../../../support/packages/workspace-scripts",
 		"@babel/preset-env": "^7.4.2",
+		"babel-loader": "^8.1.0",
+		"fs-extra": "^9.0.1",
 		"jest": "26.4.2",
-		"terser-webpack-plugin": "^5.0.3"
+		"liferay-workspace-scripts": "../../../support/packages/workspace-scripts",
+		"terser-webpack-plugin": "^5.0.3",
+		"webpack-cli": "^3.0.0",
+		"webpack-dev-server": "^3.0.0",
+		"webpack": "^5.11.1"
 	}
 }
