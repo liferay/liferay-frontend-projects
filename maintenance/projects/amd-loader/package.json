@@ -30,9 +30,9 @@
 	},
 	"scripts": {
 		"build": "yarn build:loader && yarn build:demo",
-		"build:demo": "node bin/build-demo.js",
-		"build:loader": "node bin/build-loader.js",
-		"ci": "liferay-workspace-scripts ci",
+		"build:demo": "cross-env NODE_OPTIONS=--openssl-legacy-provider node bin/build-demo.js",
+		"build:loader": "cross-env NODE_OPTIONS=--openssl-legacy-provider node bin/build-loader.js",
+		"ci": "yarn format:check && yarn lint && yarn test",
 		"clean": "rm -rf build",
 		"demo": "node bin/run-demo.js",
 		"format": "liferay-workspace-scripts format",
@@ -43,16 +43,18 @@
 		"prepublishOnly": "yarn build",
 		"preversion": "yarn ci",
 		"proxyPortal": "webpack-dev-server --config webpack.proxyPortal.js",
-		"test": "liferay-workspace-scripts test"
+		"test": "jest"
 	},
 	"version": "5.4.2",
-	"workspaces": {
-		"nohoist": [
-			"webpack-dev-server",
-			"webpack-cli"
-		]
-	},
-	"dependencies": {
+	"devDependencies": {
+		"@babel/preset-env": "^7.4.2",
+		"babel-loader": "^8.1.0",
+		"cross-env": "^7.0.3",
+		"fs-extra": "^9.0.1",
+		"jest": "26.4.2",
+		"liferay-workspace-scripts": "../../../support/packages/workspace-scripts",
+		"terser-webpack-plugin": "^5.0.3",
+		"webpack": "^5.11.1",
 		"webpack-cli": "^3.0.0",
 		"webpack-dev-server": "^3.0.0"
 	}
