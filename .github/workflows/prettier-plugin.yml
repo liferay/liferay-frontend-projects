@@ -1,0 +1,67 @@
+# Based on: https://github.com/actions/starter-workflows/blob/master/ci/node.js.yml
+
+name: prettier-plugin
+
+on:
+    push:
+        branches: [master]
+        paths:
+            - 'projects/prettier-plugin/**'
+    pull_request:
+        branches: [master]
+        paths:
+            - 'projects/prettier-plugin/**'
+
+env:
+    CI: true
+    yarn-cache-name: yarn-cache-3
+    yarn-cache-path: .yarn
+
+jobs:
+    check-lockfile:
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                node-version: [20.x]
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v3
+              with:
+                  node-version: ${{ matrix.node-version }}
+            - name: Use or update Yarn cache
+              uses: actions/cache@v2
+              with:
+                  path: ${{ env.yarn-cache-path }}
+                  key: ${{ runner.os }}-${{ env.yarn-cache-name }}-${{ hashFiles('**/yarn.lock') }}
+            - run: yarn --cache-folder=${{ env.yarn-cache-path }}
+              working-directory: projects/prettier-plugin
+            - run: git diff --quiet -- yarn.lock
+              working-directory: projects/prettier-plugin
+
+    test:
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                node-version: [20.x]
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v3
+              with:
+                  node-version: ${{ matrix.node-version }}
+            - name: Use or update Yarn cache
+              uses: actions/cache@v2
+              with:
+                  path: ${{ env.yarn-cache-path }}
+                  key: ${{ runner.os }}-${{ env.yarn-cache-name }}-${{ hashFiles('**/yarn.lock') }}-prettier-plugin
+            - run: yarn --cache-folder=../../../${{ env.yarn-cache-path }} --frozen-lockfile
+              working-directory: projects/prettier-plugin
+            - run: yarn --cache-folder=../../../${{ env.yarn-cache-path }} build
+              working-directory: projects/prettier-plugin
+            - run: yarn --cache-folder=../../../${{ env.yarn-cache-path }} test
+              working-directory: projects/prettier-plugin
