@@ -59,6 +59,7 @@ module.exports = {
 	],
 	plugins: ['@liferay'],
 	rules: {
+		'@liferay/import-extensions': 'off',
 		'notice/notice': [
 			'error',
 			{

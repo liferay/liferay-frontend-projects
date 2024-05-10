@@ -1,0 +1,17 @@
+{
+	"dependencies": {
+		"prettier": "3.2.5"
+	},
+	"exports": "./index.js",
+	"name": "@liferay/prettier-plugin",
+	"scripts": {
+		"build": "true",
+		"format": "liferay-workspace-scripts format",
+		"format:check": "liferay-workspace-scripts format:check",
+		"postversion": "liferay-workspace-scripts publish",
+		"preversion": "liferay-workspace-scripts ci",
+		"test": "node test"
+	},
+	"type": "module",
+	"version": "1.0.0"
+}

@@ -37,6 +37,7 @@ module.exports = {
 		'<rootDir>/projects/js-themes-toolkit',
 		'<rootDir>/projects/js-toolkit',
 		'<rootDir>/projects/npm-tools/packages/npm-scripts',
+		'<rootDir>/projects/prettier-plugin',
 
 		// Third-party.
 
