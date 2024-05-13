@@ -55,6 +55,87 @@ const bar = 'bar';`,
 const bar = 'bar';
 `,
 	},
+	{
+		_name: 'multiple inline comments',
+		code: `const foo = 'foo';
+// foo
+// bar
+const bar = 'bar';`,
+		expected: `const foo = 'foo';
+
+// foo
+// bar
+
+const bar = 'bar';
+`,
+	},
+	{
+		_name: 'shebang directive next to inline comment',
+		code: `#!/usr/bin/env
+// test`,
+		expected: `#!/usr/bin/env
+// test
+`,
+	},
+	{
+		_name: 'shebang directive next to block comment',
+		code: `#!/usr/bin/env
+/*
+ * foo
+ */`,
+		expected: `#!/usr/bin/env
+/*
+ * foo
+ */
+`,
+	},
+	{
+		_name: 'tab indented comments',
+		code: `if (true) {
+	// foo
+	// bar
+	return false;
+}`,
+		expected: `if (true) {
+
+	// foo
+	// bar
+
+	return false;
+}
+`,
+	},
+	{
+		_name: 'tab indented with inline comments',
+		code: `if (true) {
+var foo = 'test'; // foo
+// bar
+return false;
+}`,
+		expected: `if (true) {
+	var foo = 'test'; // foo
+
+	// bar
+
+	return false;
+}
+`,
+	},
+	{
+		_name: 'disable line after if it is an "ignore" comment',
+		code: `if (true) {
+// eslint-disable-next-line
+var foo = 'test'; // foo
+return false;
+}`,
+		expected: `if (true) {
+
+	// eslint-disable-next-line
+	var foo = 'test'; // foo
+	return false;
+}
+`,
+	},
 ];
 
 describe('babel', () => {
