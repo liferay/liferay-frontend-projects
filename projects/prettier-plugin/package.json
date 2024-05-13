@@ -2,16 +2,18 @@
 	"dependencies": {
 		"prettier": "3.2.5"
 	},
-	"exports": "./index.js",
+	"main": "./dist/index.js",
 	"name": "@liferay/prettier-plugin",
 	"scripts": {
-		"build": "true",
+		"build": "esbuild index.js --bundle --outdir=dist --platform=node \"--external:@prettier\" \"--external:prettier\"",
 		"format": "liferay-workspace-scripts format",
 		"format:check": "liferay-workspace-scripts format:check",
 		"postversion": "liferay-workspace-scripts publish",
 		"preversion": "liferay-workspace-scripts ci",
 		"test": "node test"
 	},
-	"type": "module",
-	"version": "1.0.0"
+	"version": "1.0.0",
+	"devDependencies": {
+		"esbuild": "^0.21.2"
+	}
 }
