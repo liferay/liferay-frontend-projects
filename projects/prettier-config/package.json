@@ -1,7 +1,8 @@
 {
 	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
 	"dependencies": {
-		"prettier-plugin-brace-style": "^0.6.0"
+		"@liferay/prettier-plugin": "^1.0.0",
+		"prettier-plugin-brace-style": "^0.6.1"
 	},
 	"description": "Prettier config for the Liferay JavaScript Style",
 	"exports": {
