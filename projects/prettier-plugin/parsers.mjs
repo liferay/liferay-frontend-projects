@@ -7,14 +7,13 @@ import {format} from 'prettier';
 import {parsers as babelParsers} from 'prettier/plugins/babel';
 import {parsers as typescriptParsers} from 'prettier/plugins/typescript';
 
-import {linesAroundComments} from './rules/lines-around-comments.js';
+import {linesAroundComments} from './rules/lines-around-comments.mjs';
 
 function transformParser(parserName, defaultParser) {
 	return {
 		...defaultParser,
 		astFormat: 'liferay-style-ast',
 		parse: async (text, options) => {
-
 			/*
 			 * We need to filter out our own plugin before calling default prettier
 			 */

@@ -3,5 +3,5 @@
  * SPDX-License-Identifier: MIT
  */
 
-export {parsers} from './parsers.js';
-export {printers} from './printers.js';
+export {parsers} from './parsers.mjs';
+export {printers} from './printers.mjs';

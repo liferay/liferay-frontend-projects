@@ -7,7 +7,7 @@ import assert from 'node:assert';
 import {describe, test} from 'node:test';
 import {format} from 'prettier';
 
-import * as liferayPrettierPlugin from '../index.js';
+import * as liferayPrettierPlugin from '../index.mjs';
 
 const baseConfig = {
 	bracketSpacing: false,
