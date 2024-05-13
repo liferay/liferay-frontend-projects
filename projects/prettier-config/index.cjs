@@ -8,7 +8,7 @@ module.exports = {
 	bracketSpacing: false,
 	endOfLine: 'lf',
 	jsxSingleQuote: false,
-	plugins: ['prettier-plugin-brace-style'],
+	plugins: ['prettier-plugin-brace-style', '@liferay/plugin-prettier'],
 	quoteProps: 'consistent',
 	singleQuote: true,
 	tabWidth: 4,

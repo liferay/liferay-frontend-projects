@@ -13664,10 +13664,10 @@ preserve@^0.2.0:
   resolved "https://registry.yarnpkg.com/preserve/-/preserve-0.2.0.tgz#815ed1f6ebc65926f865b310c0713bcb3315ce4b"
   integrity sha1-gV7R9uvGWSb4ZbMQwHE7yzMVzks=
 
-prettier-plugin-brace-style@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/prettier-plugin-brace-style/-/prettier-plugin-brace-style-0.6.0.tgz#f7969eba99dc4d0d4f09f3aa40f86e97ac24e85f"
-  integrity sha512-RtsjgBaR5YdKmWb6HCEiYF9mcovd3KcKHprJ81qpuxPBw0PE8yZhTH8Ed8Z+0/E3zwRPc1tRkMbyO9fFdxZR5A==
+prettier-plugin-brace-style@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/prettier-plugin-brace-style/-/prettier-plugin-brace-style-0.6.1.tgz#c721eea5dc1fd7ae4e63f2173db77b7c710faeea"
+  integrity sha512-wWfVP1cR4nYOV/dusF7uLqT+CiUcYcezmHGLn2Jr3CeULhEZ/uu3nOkk71r09Kni/qmV/8l2d7CDdGi51EwlYg==
 
 prettier@3.2.5:
   version "3.2.5"
