@@ -8,6 +8,7 @@ export function linesAroundComments(formattedText, ast, parserName) {
 
 	let hasDirective = false;
 	let linesAdded = 0;
+	const ignoredLines = [];
 
 	/*
 	 * Track where each inline comment is so that we can group them
@@ -18,7 +19,6 @@ export function linesAroundComments(formattedText, ast, parserName) {
 				isInlineComment(commentNode) &&
 				!isEndofLineComment(commentNode, formattedText, parserName)
 			) {
-
 				/*
 				 * Subtract '1' to make it zero based counting
 				 */
@@ -37,7 +37,6 @@ export function linesAroundComments(formattedText, ast, parserName) {
 	let formattedTextByLines = formattedText.split('\n');
 
 	ast.comments.forEach((commentNode) => {
-
 		/*
 		 * Ignore comments that are at the end of a line
 		 */
@@ -66,7 +65,8 @@ export function linesAroundComments(formattedText, ast, parserName) {
 		/*
 		 * Don't add a line after if the comment is for eslint
 		 */
-		if (commentNode.value.includes('disable-next-line')) {
+		if (commentNode.value.includes('eslint-disable')) {
+			ignoredLines.push(endingLine + 1);
 			skipAfter = true;
 		}
 
@@ -81,8 +81,14 @@ export function linesAroundComments(formattedText, ast, parserName) {
 		 * Don't add a line before if its the first line in the file
 		 * or
 		 * Don't add a line before if the line above is a directive
+		 * or
+		 * Don't add a line before if the line was ignored by a previous comment
 		 */
-		if (startingLine === 0 || (hasDirective && startingLine === 1)) {
+		if (
+			startingLine === 0 ||
+			(hasDirective && startingLine === 1) ||
+			ignoredLines.includes(startingLine)
+		) {
 			skipBefore = true;
 		}
 
@@ -157,8 +163,7 @@ function getContentsBeforeColumn(node, source, parserName) {
 
 	if (parserName === 'typescript') {
 		index = node.range[0];
-	}
-	else {
+	} else {
 		index = node.loc.start.index;
 	}
 

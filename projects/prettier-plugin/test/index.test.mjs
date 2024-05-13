@@ -122,7 +122,7 @@ return false;
 `,
 	},
 	{
-		_name: 'disable line after if it is an "ignore" comment',
+		_name: 'disable line after if it is an "eslint-disable" comment',
 		code: `if (true) {
 // eslint-disable-next-line
 var foo = 'test'; // foo
@@ -134,6 +134,31 @@ return false;
 	var foo = 'test'; // foo
 	return false;
 }
+`,
+	},
+	{
+		_name: 'disable line after if it is an "eslint-disable" block comment',
+		code: `if (true) {
+/* eslint-disable */
+var foo = 'test'; // foo
+return false;
+}`,
+		expected: `if (true) {
+
+	/* eslint-disable */
+	var foo = 'test'; // foo
+	return false;
+}
+`,
+	},
+	{
+		_name: 'ignore triple slash references in TS',
+		code: `/* eslint-disable */
+/// <reference path="foo.d.ts" />
+/// <reference path="bar.d.ts" />`,
+		expected: `/* eslint-disable */
+/// <reference path="foo.d.ts" />
+/// <reference path="bar.d.ts" />
 `,
 	},
 ];
