@@ -2,6 +2,9 @@
 	"dependencies": {
 		"prettier": "3.2.5"
 	},
+	"files": [
+		"dist"
+	],
 	"main": "./dist/index.js",
 	"name": "@liferay/prettier-plugin",
 	"scripts": {
