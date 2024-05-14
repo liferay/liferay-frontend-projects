@@ -3,7 +3,8 @@
  * SPDX-License-Identifier: MIT
  */
 
-export function linesAroundComments(formattedText, ast, parserName) {
+export function linesAroundComments(formattedText, ast, parserName, options) {
+	const {commentIgnorePatterns = []} = options;
 	const totalLines = ast.loc.end.line;
 
 	let hasDirective = false;
@@ -37,6 +38,19 @@ export function linesAroundComments(formattedText, ast, parserName) {
 	let formattedTextByLines = formattedText.split('\n');
 
 	ast.comments.forEach((commentNode) => {
+		/*
+		 * Ignore if comment node value matches option
+		 */
+		if (
+			commentIgnorePatterns.find((pattern) => {
+				const regex = new RegExp(pattern);
+
+				return regex.exec(commentNode.value);
+			})
+		) {
+			return;
+		}
+
 		/*
 		 * Ignore comments that are at the end of a line
 		 */

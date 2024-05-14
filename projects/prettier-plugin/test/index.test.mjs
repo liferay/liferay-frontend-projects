@@ -161,6 +161,55 @@ return false;
 /// <reference path="bar.d.ts" />
 `,
 	},
+	{
+		_config: {
+			commentIgnorePatterns: ['ignore-this-comment'],
+		},
+		_name: 'respects commentIgnorePatterns option',
+		code: `var foo = 'bar';
+// ignore-this-comment
+var bar = 'foo';
+`,
+		expected: `var foo = 'bar';
+// ignore-this-comment
+var bar = 'foo';
+`,
+	},
+	{
+		_config: {
+			commentIgnorePatterns: ['do-ignore-.*-comment'],
+		},
+		_name: 'respects commentIgnorePatterns option with regex',
+		code: `var foo = 'bar';
+// do-ignore-this-comment
+// do-not-ignore-this-comment
+var bar = 'foo';
+`,
+		expected: `var foo = 'bar';
+// do-ignore-this-comment
+// do-not-ignore-this-comment
+
+var bar = 'foo';
+`,
+	},
+	{
+		_config: {
+			commentIgnorePatterns: ['mylint-disable-next-line.*'],
+		},
+		_name: 'respects commentIgnorePatterns option with regex 2',
+		code: `// mylint-disable-next-line some-rule
+var foo = 'bar';
+// mylint-disable
+var bar = 'foo';
+`,
+		expected: `// mylint-disable-next-line some-rule
+var foo = 'bar';
+
+// mylint-disable
+
+var bar = 'foo';
+`,
+	},
 ];
 
 describe('babel', () => {
@@ -171,10 +220,15 @@ describe('babel', () => {
 	});
 
 	fixtures.forEach((fixture) => {
-		test(fixture._name, async () => {
+		const {_config = {}, _name, code, expected} = fixture;
+
+		test(_name, async () => {
 			assert.equal(
-				await format(fixture.code, babelConfig),
-				fixture.expected
+				await format(code, {
+					...babelConfig,
+					..._config,
+				}),
+				expected
 			);
 		});
 	});
@@ -183,15 +237,15 @@ describe('babel', () => {
 describe('typescript', () => {
 	test('prettier runs', async () => {
 		const code = `if (foo) {}`;
-
 		assert.ok(await format(code, tsConfig));
 	});
-
 	fixtures.forEach((fixture) => {
-		test(fixture._name, async () => {
+		const {_config = {}, _name, code, expected} = fixture;
+
+		test(_name, async () => {
 			assert.equal(
-				await format(fixture.code, tsConfig),
-				fixture.expected
+				await format(code, {...tsConfig, ..._config}),
+				expected
 			);
 		});
 	});
