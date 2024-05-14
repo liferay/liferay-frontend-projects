@@ -5,3 +5,4 @@
 
 export {parsers} from './parsers.mjs';
 export {printers} from './printers.mjs';
+export {options} from './options.mjs';

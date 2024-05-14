@@ -28,7 +28,12 @@ function transformParser(parserName, defaultParser) {
 
 			const ast = defaultParser.parse(formattedText, options);
 
-			formattedText = linesAroundComments(formattedText, ast, parserName);
+			formattedText = linesAroundComments(
+				formattedText,
+				ast,
+				parserName,
+				options
+			);
 
 			return {
 				body: formattedText,

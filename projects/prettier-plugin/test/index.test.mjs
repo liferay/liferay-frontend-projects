@@ -122,7 +122,7 @@ return false;
 `,
 	},
 	{
-		_name: 'disable line after if it is an "ignore" comment',
+		_name: 'disable line after if it is an "eslint-disable" comment',
 		code: `if (true) {
 // eslint-disable-next-line
 var foo = 'test'; // foo
@@ -136,6 +136,80 @@ return false;
 }
 `,
 	},
+	{
+		_name: 'disable line after if it is an "eslint-disable" block comment',
+		code: `if (true) {
+/* eslint-disable */
+var foo = 'test'; // foo
+return false;
+}`,
+		expected: `if (true) {
+
+	/* eslint-disable */
+	var foo = 'test'; // foo
+	return false;
+}
+`,
+	},
+	{
+		_name: 'ignore triple slash references in TS',
+		code: `/* eslint-disable */
+/// <reference path="foo.d.ts" />
+/// <reference path="bar.d.ts" />`,
+		expected: `/* eslint-disable */
+/// <reference path="foo.d.ts" />
+/// <reference path="bar.d.ts" />
+`,
+	},
+	{
+		_config: {
+			commentIgnorePatterns: ['ignore-this-comment'],
+		},
+		_name: 'respects commentIgnorePatterns option',
+		code: `var foo = 'bar';
+// ignore-this-comment
+var bar = 'foo';
+`,
+		expected: `var foo = 'bar';
+// ignore-this-comment
+var bar = 'foo';
+`,
+	},
+	{
+		_config: {
+			commentIgnorePatterns: ['do-ignore-.*-comment'],
+		},
+		_name: 'respects commentIgnorePatterns option with regex',
+		code: `var foo = 'bar';
+// do-ignore-this-comment
+// do-not-ignore-this-comment
+var bar = 'foo';
+`,
+		expected: `var foo = 'bar';
+// do-ignore-this-comment
+// do-not-ignore-this-comment
+
+var bar = 'foo';
+`,
+	},
+	{
+		_config: {
+			commentIgnorePatterns: ['mylint-disable-next-line.*'],
+		},
+		_name: 'respects commentIgnorePatterns option with regex 2',
+		code: `// mylint-disable-next-line some-rule
+var foo = 'bar';
+// mylint-disable
+var bar = 'foo';
+`,
+		expected: `// mylint-disable-next-line some-rule
+var foo = 'bar';
+
+// mylint-disable
+
+var bar = 'foo';
+`,
+	},
 ];
 
 describe('babel', () => {
@@ -146,10 +220,15 @@ describe('babel', () => {
 	});
 
 	fixtures.forEach((fixture) => {
-		test(fixture._name, async () => {
+		const {_config = {}, _name, code, expected} = fixture;
+
+		test(_name, async () => {
 			assert.equal(
-				await format(fixture.code, babelConfig),
-				fixture.expected
+				await format(code, {
+					...babelConfig,
+					..._config,
+				}),
+				expected
 			);
 		});
 	});
@@ -158,15 +237,15 @@ describe('babel', () => {
 describe('typescript', () => {
 	test('prettier runs', async () => {
 		const code = `if (foo) {}`;
-
 		assert.ok(await format(code, tsConfig));
 	});
-
 	fixtures.forEach((fixture) => {
-		test(fixture._name, async () => {
+		const {_config = {}, _name, code, expected} = fixture;
+
+		test(_name, async () => {
 			assert.equal(
-				await format(fixture.code, tsConfig),
-				fixture.expected
+				await format(code, {...tsConfig, ..._config}),
+				expected
 			);
 		});
 	});
