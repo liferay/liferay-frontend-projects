@@ -4,12 +4,15 @@
  */
 
 export function linesAroundComments(formattedText, ast, parserName, options) {
-	const {commentIgnorePatterns = []} = options;
+	const {
+		commentIgnorePatterns = [],
+		commentIgnoreAfterPatterns = [],
+		commentIgnoreBeforePatterns = [],
+	} = options;
+
 	const totalLines = ast.loc.end.line;
 
 	let hasDirective = false;
-	let linesAdded = 0;
-	const ignoredLines = [];
 
 	/*
 	 * Track where each inline comment is so that we can group them
@@ -18,12 +21,13 @@ export function linesAroundComments(formattedText, ast, parserName, options) {
 		(inlineComments, commentNode) => {
 			if (
 				isInlineComment(commentNode) &&
-				!isEndofLineComment(commentNode, formattedText, parserName)
+				!isEndofLineComment(commentNode, formattedText)
 			) {
-				/*
-				 * Subtract '1' to make it zero based counting
-				 */
-				inlineComments.push(commentNode.loc.start.line - 1);
+				inlineComments.push(commentNode.loc.start.line);
+			}
+
+			if (isDirective(commentNode, formattedText, parserName)) {
+				hasDirective = true;
 			}
 
 			return inlineComments;
@@ -31,63 +35,78 @@ export function linesAroundComments(formattedText, ast, parserName, options) {
 		[]
 	);
 
+	let modifiedText = formattedText;
+
+	const ignorePatterns = [
+		...[...commentIgnorePatterns, '/ <reference'].map((item) => {
+			const regex = new RegExp(item);
+
+			return {
+				afterPattern: regex,
+				beforePattern: regex,
+			};
+		}),
+		...[
+			...commentIgnoreAfterPatterns,
+			'eslint-disable',
+			'prettier-ignore',
+			'@ts-ignore',
+			'webpackIgnore: true',
+		].map((item) => ({
+			afterPattern: new RegExp(item),
+		})),
+		...commentIgnoreBeforePatterns.map((item) => ({
+			beforePattern: new RegExp(item),
+		})),
+	];
+
 	/*
-	 * Normalizes our content into an array of strings. Each item represents a single
-	 * line of the source file. An empty item in the array would signify a new line.
+	 * We are reading these comments from a "bottom to top" approach.
 	 */
-	let formattedTextByLines = formattedText.split('\n');
-
-	ast.comments.forEach((commentNode) => {
-		/*
-		 * Ignore if comment node value matches option
-		 */
-		if (
-			commentIgnorePatterns.find((pattern) => {
-				const regex = new RegExp(pattern);
-
-				return regex.exec(commentNode.value);
-			})
-		) {
-			return;
-		}
-
-		/*
-		 * Ignore comments that are at the end of a line
-		 */
-		if (isEndofLineComment(commentNode, formattedText, parserName)) {
-			return;
-		}
-
-		/*
-		 * Skip directives
-		 */
-		if (isDirective(commentNode, formattedText, parserName)) {
-			hasDirective = true;
-
-			return;
-		}
-
-		/*
-		 * Subtract '1' to make it zero based counting
-		 */
-		const startingLine = commentNode.loc.start.line - 1;
-		const endingLine = commentNode.loc.end.line - 1;
+	for (let i = ast.comments.length - 1; i >= 0; i--) {
+		const commentNode = ast.comments[i];
 
 		let skipAfter = false;
 		let skipBefore = false;
 
 		/*
-		 * Don't add a line after if the comment is for eslint
+		 * Ignore new line above comment node value matches option
 		 */
-		if (commentNode.value.includes('eslint-disable')) {
-			ignoredLines.push(endingLine + 1);
-			skipAfter = true;
+		ignorePatterns.forEach(({afterPattern, beforePattern}) => {
+			if (afterPattern?.exec(commentNode.value)) {
+				skipAfter = true;
+			}
+
+			if (beforePattern?.exec(commentNode.value)) {
+				skipBefore = true;
+			}
+		});
+
+		if (skipAfter && skipBefore) {
+			continue;
 		}
+
+		/*
+		 * Ignore comments that are at the end of a line
+		 */
+		if (isEndofLineComment(commentNode, modifiedText)) {
+			continue;
+		}
+
+		/*
+		 * Skip directives
+		 */
+		if (isDirective(commentNode, modifiedText, parserName)) {
+			continue;
+		}
+
+		const startingLine = commentNode.loc.start.line;
+		const endingLine = commentNode.loc.end.line;
 
 		/*
 		 * Don't add a line after if the comment is at the end of the file
 		 */
-		if (endingLine === totalLines) {
+		if (endingLine === totalLines - 1) {
 			skipAfter = true;
 		}
 
@@ -95,14 +114,8 @@ export function linesAroundComments(formattedText, ast, parserName, options) {
 		 * Don't add a line before if its the first line in the file
 		 * or
 		 * Don't add a line before if the line above is a directive
-		 * or
-		 * Don't add a line before if the line was ignored by a previous comment
 		 */
-		if (
-			startingLine === 0 ||
-			(hasDirective && startingLine === 1) ||
-			ignoredLines.includes(startingLine)
-		) {
+		if (startingLine === 1 || (hasDirective && startingLine === 2)) {
 			skipBefore = true;
 		}
 
@@ -114,39 +127,29 @@ export function linesAroundComments(formattedText, ast, parserName, options) {
 				skipBefore = true;
 			}
 
-			if (linesWithInlineComment.includes(startingLine + 1)) {
+			if (linesWithInlineComment.includes(endingLine + 1)) {
 				skipAfter = true;
 			}
 		}
 
-		const startLine = startingLine + linesAdded;
-
-		if (!isNewLineBefore(formattedTextByLines, startLine) && !skipBefore) {
-			formattedTextByLines = insertNewLine(
-				formattedTextByLines,
-				startLine
-			);
-
-			linesAdded += 1;
-		}
-
-		const endLine = endingLine + linesAdded;
-
+		/*
+		 * Since we are traversing from "bottom to top" of the file, we need
+		 * want to check the 'after' line first.
+		 */
 		if (
+			!skipAfter &&
 			!isBlockComment(commentNode) &&
-			!isNewLineAfter(formattedTextByLines, endLine) &&
-			!skipAfter
+			!isNewLineAfter(commentNode, modifiedText)
 		) {
-			formattedTextByLines = insertNewLine(
-				formattedTextByLines,
-				endLine + 1
-			);
-
-			linesAdded += 1;
+			modifiedText = insertNewLineAfter(commentNode, modifiedText);
 		}
-	});
 
-	return formattedTextByLines.join('\n');
+		if (!skipBefore && !isNewLineBefore(commentNode, modifiedText)) {
+			modifiedText = insertNewLineBefore(commentNode, modifiedText);
+		}
+	}
+
+	return modifiedText;
 }
 
 function isDirective(node, text, parserName) {
@@ -171,15 +174,10 @@ function isInlineComment(node) {
 /*
  * Returns The contents on the same line before the comment starts
  */
-function getContentsBeforeColumn(node, source, parserName) {
+function getContentsBeforeColumn(node, source) {
 	const {column} = node.loc.start;
-	let index;
 
-	if (parserName === 'typescript') {
-		index = node.range[0];
-	} else {
-		index = node.loc.start.index;
-	}
+	const index = node.start ?? node.range[0];
 
 	return source.slice(index - column, index - 1);
 }
@@ -187,21 +185,46 @@ function getContentsBeforeColumn(node, source, parserName) {
 /*
  * A comment like `var test = 'foo'; // this is my variable`
  */
-function isEndofLineComment(node, source, parserName) {
+function isEndofLineComment(node, source) {
 	return (
 		node.loc.start.column !== 0 &&
-		/\S/.test(getContentsBeforeColumn(node, source, parserName))
+		/\S/.test(getContentsBeforeColumn(node, source))
 	);
 }
 
-function isNewLineBefore(textArray, index) {
-	return textArray[index - 1] === '';
+function isNewLineBefore(commentNode, content) {
+	const startingIndex = (commentNode.start ?? commentNode.range[0]) - 1;
+	const indentSize = commentNode.loc.start.column;
+
+	return (
+		content.charAt(startingIndex - indentSize) === '\n' &&
+		content.charAt(startingIndex - indentSize - 1) === '\n'
+	);
 }
 
-function isNewLineAfter(textArray, index) {
-	return textArray[index + 1] === '';
+function isNewLineAfter(commentNode, content) {
+	const endindex = commentNode.end ?? commentNode.range[1];
+
+	return (
+		content.charAt(endindex) === '\n' &&
+		content.charAt(endindex + 1) === '\n'
+	);
 }
 
-function insertNewLine(textArray, index) {
-	return [...textArray.slice(0, index), '', ...textArray.slice(index)];
+function insertNewLineAfter(commentNode, content) {
+	const endingIndex = commentNode.end ?? commentNode.range[1];
+
+	const insertIndex = endingIndex + 1;
+
+	return content.slice(0, insertIndex) + '\n' + content.slice(insertIndex);
+}
+
+function insertNewLineBefore(commentNode, content) {
+	const startingIndex = commentNode.start ?? commentNode.range[0];
+
+	const indentSize = commentNode.loc.start.column;
+
+	const insertIndex = startingIndex - indentSize;
+
+	return content.slice(0, insertIndex) + '\n' + content.slice(insertIndex);
 }

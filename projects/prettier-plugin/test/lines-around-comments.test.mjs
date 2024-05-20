@@ -70,6 +70,22 @@ const bar = 'bar';
 `,
 	},
 	{
+		_name: 'doesnt format already correct code',
+		code: `const foo = 'foo';
+
+// foo
+// bar
+
+const bar = 'bar';`,
+		expected: `const foo = 'foo';
+
+// foo
+// bar
+
+const bar = 'bar';
+`,
+	},
+	{
 		_name: 'shebang directive next to inline comment',
 		code: `#!/usr/bin/env
 // test`,
@@ -124,6 +140,7 @@ return false;
 	{
 		_name: 'disable line after if it is an "eslint-disable" comment',
 		code: `if (true) {
+
 // eslint-disable-next-line
 var foo = 'test'; // foo
 return false;
@@ -139,6 +156,7 @@ return false;
 	{
 		_name: 'disable line after if it is an "eslint-disable" block comment',
 		code: `if (true) {
+
 /* eslint-disable */
 var foo = 'test'; // foo
 return false;
@@ -153,11 +171,10 @@ return false;
 	},
 	{
 		_name: 'ignore triple slash references in TS',
-		code: `/* eslint-disable */
-/// <reference path="foo.d.ts" />
-/// <reference path="bar.d.ts" />`,
-		expected: `/* eslint-disable */
-/// <reference path="foo.d.ts" />
+		code: `/// <reference path="foo.d.ts" />
+/// <reference path="bar.d.ts" />
+`,
+		expected: `/// <reference path="foo.d.ts" />
 /// <reference path="bar.d.ts" />
 `,
 	},
@@ -208,6 +225,32 @@ var foo = 'bar';
 // mylint-disable
 
 var bar = 'foo';
+`,
+	},
+	{
+		_config: {
+			commentIgnoreAfterPatterns: ['disable-line-after'],
+			commentIgnoreBeforePatterns: ['disable-line-before'],
+			commentIgnorePatterns: ['disable-both-lines'],
+		},
+		_name: 'respects commentIgnorePatterns option with regex 3',
+		code: `var foo = 'bar';
+// disable-both-lines
+var bar = 'foo';
+// disable-line-after
+var test = 'test';
+// disable-line-before
+var baz = 'baz';
+`,
+		expected: `var foo = 'bar';
+// disable-both-lines
+var bar = 'foo';
+
+// disable-line-after
+var test = 'test';
+// disable-line-before
+
+var baz = 'baz';
 `,
 	},
 ];

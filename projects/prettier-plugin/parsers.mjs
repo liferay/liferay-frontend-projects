@@ -8,37 +8,51 @@ import {parsers as babelParsers} from 'prettier/plugins/babel';
 import {parsers as typescriptParsers} from 'prettier/plugins/typescript';
 
 import {linesAroundComments} from './rules/lines-around-comments.mjs';
+import {newlineBeforeBlockStatement} from './rules/newline-before-block-statements.mjs';
 
 function transformParser(parserName, defaultParser) {
 	return {
 		...defaultParser,
 		astFormat: 'liferay-style-ast',
 		parse: async (text, options) => {
-			/*
-			 * We need to filter out our own plugin before calling default prettier
-			 */
-			const plugins = options.plugins.filter(
-				(plugin) => !plugin.printers['liferay-style-ast']
-			);
+			try {
+				/*
+				 * We need to filter out our own plugin before calling default prettier
+				 */
+				const plugins = options.plugins.filter(
+					(plugin) => !plugin.printers['liferay-style-ast']
+				);
 
-			let formattedText = await format(text, {
-				...options,
-				plugins,
-			});
+				let formattedText = await format(text, {
+					...options,
+					plugins,
+				});
 
-			const ast = defaultParser.parse(formattedText, options);
+				let ast = defaultParser.parse(formattedText, options);
 
-			formattedText = linesAroundComments(
-				formattedText,
-				ast,
-				parserName,
-				options
-			);
+				formattedText = linesAroundComments(
+					formattedText,
+					ast,
+					parserName,
+					options
+				);
 
-			return {
-				body: formattedText,
-				type: 'FormattedText',
-			};
+				ast = defaultParser.parse(formattedText, options);
+
+				formattedText = newlineBeforeBlockStatement(
+					formattedText,
+					ast,
+					parserName,
+					options
+				);
+
+				return {
+					body: formattedText,
+					type: 'FormattedText',
+				};
+			} catch (err) {
+				console.log('ERROR', options.filepath, err);
+			}
 		},
 	};
 }
