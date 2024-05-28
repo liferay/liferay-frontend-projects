@@ -1,3 +1,11 @@
+## [prettier-plugin/v1.1.3](https://github.com/liferay/liferay-frontend-projects/tree/prettier-plugin/v1.1.3) (2024-05-28)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/prettier-plugin/v1.1.2...prettier-plugin/v1.1.3)
+
+### :wrench: Bug fixes
+
+-   fix(prettier-plugin): fix undefined error edge case ([\#1214](https://github.com/liferay/liferay-frontend-projects/pull/1214))
+
 ## [prettier-plugin/v1.1.2](https://github.com/liferay/liferay-frontend-projects/tree/prettier-plugin/v1.1.2) (2024-05-20)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/prettier-plugin/v1.1.1...prettier-plugin/v1.1.2)
