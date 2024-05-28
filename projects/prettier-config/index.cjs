@@ -4,11 +4,10 @@
  */
 
 module.exports = {
-	braceStyle: 'stroustrup',
 	bracketSpacing: false,
 	endOfLine: 'lf',
 	jsxSingleQuote: false,
-	plugins: ['prettier-plugin-brace-style', '@liferay/plugin-prettier'],
+	plugins: ['@liferay/plugin-prettier'],
 	quoteProps: 'consistent',
 	singleQuote: true,
 	tabWidth: 4,
