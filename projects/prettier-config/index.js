@@ -4,14 +4,12 @@
  */
 
 import * as liferayPlugin from '@liferay/prettier-plugin';
-import pluginBraceStyle from 'prettier-plugin-brace-style';
 
 export default {
-	braceStyle: 'stroustrup',
 	bracketSpacing: false,
 	endOfLine: 'lf',
 	jsxSingleQuote: false,
-	plugins: [pluginBraceStyle, liferayPlugin],
+	plugins: [liferayPlugin],
 	quoteProps: 'consistent',
 	singleQuote: true,
 	tabWidth: 4,
