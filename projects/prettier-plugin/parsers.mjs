@@ -16,10 +16,12 @@ function transformParser(parserName, defaultParser) {
 		astFormat: 'liferay-style-ast',
 		parse: async (text, options) => {
 			try {
+				let plugins = options?.plugins || [];
+
 				/*
 				 * We need to filter out our own plugin before calling default prettier
 				 */
-				const plugins = options.plugins.filter(
+				plugins = plugins.filter(
 					(plugin) => !plugin.printers['liferay-style-ast']
 				);
 
