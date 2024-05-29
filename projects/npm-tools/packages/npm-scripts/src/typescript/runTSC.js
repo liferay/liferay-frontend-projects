@@ -137,6 +137,7 @@ async function postProcess({compilerOptions: {outDir: baseDir}}) {
 			const prettierOptions = {
 				...config,
 				filepath,
+				plugins: [], // intentionally drop any plugins
 			};
 
 			const formatted = await prettier.format(source, prettierOptions);
