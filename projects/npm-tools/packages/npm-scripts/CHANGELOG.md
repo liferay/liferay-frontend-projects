@@ -1,3 +1,11 @@
+## [npm-scripts/v51.0.2](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v51.0.2) (2024-05-29)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v51.0.1...npm-scripts/v51.0.2)
+
+### :wrench: Bug fixes
+
+-   fix(npm-scripts): don't use prettier plugins when formatting d.ts files ([\#1216](https://github.com/liferay/liferay-frontend-projects/pull/1216))
+
 ## [npm-scripts/v51.0.1](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v51.0.1) (2024-05-03)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v51.0.0...npm-scripts/v51.0.1)
