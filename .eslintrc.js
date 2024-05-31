@@ -33,6 +33,7 @@ module.exports = {
 		'/projects/js-toolkit/**/lib',
 		'/projects/js-toolkit/**/__tests__',
 		'/projects/prettier-plugin/dist',
+		'/projects/stylelint-plugin/dist',
 
 		// Templates
 
