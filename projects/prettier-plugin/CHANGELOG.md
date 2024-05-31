@@ -1,3 +1,11 @@
+## [prettier-plugin/v1.1.4](https://github.com/liferay/liferay-frontend-projects/tree/prettier-plugin/v1.1.4) (2024-05-31)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/prettier-plugin/v1.1.3...prettier-plugin/v1.1.4)
+
+### :wrench: Bug fixes
+
+-   fix(prettier-plugin): fix default value for plugin options ([\#1217](https://github.com/liferay/liferay-frontend-projects/pull/1217))
+
 ## [prettier-plugin/v1.1.3](https://github.com/liferay/liferay-frontend-projects/tree/prettier-plugin/v1.1.3) (2024-05-28)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/prettier-plugin/v1.1.2...prettier-plugin/v1.1.3)
