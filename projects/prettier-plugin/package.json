@@ -15,7 +15,7 @@
 		"preversion": "liferay-workspace-scripts ci",
 		"test": "node --test"
 	},
-	"version": "1.1.4",
+	"version": "1.1.5",
 	"devDependencies": {
 		"esbuild": "^0.21.2"
 	}
