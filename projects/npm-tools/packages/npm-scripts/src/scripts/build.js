@@ -38,6 +38,7 @@ const CWD = process.cwd();
  * ".npmbridgerc" and "webpack.config.js" files, respectively, are
  * present.
  * `minify()` is run unless `NODE_ENV` is `development`.
+ * Sass is run unless disable flag is set.
  */
 module.exports = async function (...args) {
 	const bnd = parseBnd();
@@ -146,7 +147,7 @@ module.exports = async function (...args) {
 		);
 	}
 
-	if (inputPathExists) {
+	if (inputPathExists && BUILD_CONFIG.sass !== false) {
 		buildSass(path.join(CWD, BUILD_CONFIG.input), {
 			imports: BUILD_CONFIG.sassIncludePaths,
 			outputDir: BUILD_CONFIG.output,
