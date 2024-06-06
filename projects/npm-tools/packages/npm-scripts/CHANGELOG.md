@@ -1,3 +1,11 @@
+## [npm-scripts/v51.1.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v51.1.0) (2024-06-05)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v51.0.2...npm-scripts/v51.1.0)
+
+### :new: Features
+
+-   feat(npm-scripts): provide a flag to disable sass ([\#1204](https://github.com/liferay/liferay-frontend-projects/pull/1204))
+
 ## [npm-scripts/v51.0.2](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v51.0.2) (2024-05-29)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v51.0.1...npm-scripts/v51.0.2)
