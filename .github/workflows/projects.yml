@@ -34,13 +34,13 @@ jobs:
                 node-version: [20.x]
 
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v4
             - name: Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v1
+              uses: actions/setup-node@v4
               with:
                   node-version: ${{ matrix.node-version }}
             - name: Use or update Yarn cache
-              uses: actions/cache@v2
+              uses: actions/cache@v4
               with:
                   path: ${{ env.yarn-cache-path }}
                   key: ${{ runner.os }}-${{ env.yarn-cache-name }}-${{ hashFiles('**/yarn.lock') }}
@@ -56,13 +56,13 @@ jobs:
                 node-version: [20.x]
 
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v4
             - name: Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v1
+              uses: actions/setup-node@v4
               with:
                   node-version: ${{ matrix.node-version }}
             - name: Use or update Yarn cache
-              uses: actions/cache@v2
+              uses: actions/cache@v4
               with:
                   path: ${{ env.yarn-cache-path }}
                   key: ${{ runner.os }}-${{ env.yarn-cache-name }}-v2-${{ hashFiles('**/yarn.lock') }}-
