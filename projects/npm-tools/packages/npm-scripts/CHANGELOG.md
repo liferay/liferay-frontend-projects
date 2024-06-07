@@ -1,3 +1,11 @@
+## [npm-scripts/v51.2.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v51.2.0) (2024-06-07)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v51.1.0...npm-scripts/v51.2.0)
+
+### :new: Features
+
+-   feat(npm-scripts): allow for testing in react-16 exclusively ([\#1221](https://github.com/liferay/liferay-frontend-projects/pull/1221))
+
 ## [npm-scripts/v51.1.0](https://github.com/liferay/liferay-frontend-projects/tree/npm-scripts/v51.1.0) (2024-06-05)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/npm-scripts/v51.0.2...npm-scripts/v51.1.0)

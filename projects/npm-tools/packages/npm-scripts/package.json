@@ -18,13 +18,13 @@
 		"@liferay/jest-junit-reporter": "1.2.0",
 		"@liferay/js-toolkit-core": "3.0.1",
 		"@testing-library/dom": "^9.3.3",
-		"@testing-library/jest-dom": "^6.1.4",
-		"@testing-library/react": "^14.0.0",
-		"@testing-library/user-event": "^14.5.1",
 		"@testing-library/dom-8.11.1": "npm:@testing-library/dom@8.11.1",
+		"@testing-library/jest-dom": "^6.1.4",
 		"@testing-library/jest-dom-4.2.4": "npm:@testing-library/jest-dom@4.2.4",
+		"@testing-library/react": "^14.0.0",
 		"@testing-library/react-12.1.2": "npm:@testing-library/react@12.1.2",
 		"@testing-library/react-hooks-3.4.2": "npm:@testing-library/react-hooks@3.4.2",
+		"@testing-library/user-event": "^14.5.1",
 		"@testing-library/user-event-4.2.4": "npm:@testing-library/user-event@4.2.4",
 		"@types/jest": "^26.0.14",
 		"@types/react-dom": "17.0.3",
@@ -53,8 +53,8 @@
 		"minimist": "^1.2.0",
 		"prettier": "^2.1.2",
 		"react": "*",
-		"react-dom": "*",
 		"react-16": "npm:react@16.13.0",
+		"react-dom": "*",
 		"react-dom-16": "npm:react-dom@16.13.0",
 		"react-test-renderer": "*",
 		"resolve": "^1.14.2",
@@ -95,5 +95,5 @@
 		"preversion": "liferay-workspace-scripts ci",
 		"test": "liferay-workspace-scripts test"
 	},
-	"version": "51.1.0"
+	"version": "51.2.0"
 }
