@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import stylelint from 'stylelint';
+const stylelint = require('stylelint');
 
 const ruleName = 'liferay/sort-imports';
 
@@ -34,44 +34,34 @@ const rule = (options, secondaryOptions, context) => {
 				},
 			}
 		);
-
 		if (!validOptions || !options) {
 			return;
 		}
-
 		const disableFix = secondaryOptions && secondaryOptions.disableFix;
-
 		const fix = context ? context.fix && !disableFix : false;
-
 		const imports = [];
-
 		let group;
-
 		root.walkAtRules('import', (rule) => {
 			const prev = rule.prev();
-
 			if (!prev || prev.type !== 'atrule' || precededByBlankLine(rule)) {
 				group = [];
-
 				imports.push(group);
 			}
-
 			group.push(rule);
 		});
-
 		for (let i = 0; i < imports.length; i++) {
 			const group = imports[i];
-
 			for (let j = 0; j < group.length; j++) {
 				const desired = [...group].sort((a, b) => {
 					const aName = a.params.slice(1, -1);
 					const bName = b.params.slice(1, -1);
-
 					if (aName < bName) {
 						return -1;
-					} else if (aName > bName) {
+					}
+					else if (aName > bName) {
 						return 1;
-					} else {
+					}
+					else {
 						return 0;
 					}
 				});
@@ -93,20 +83,21 @@ const rule = (options, secondaryOptions, context) => {
 					},
 					[-1, -1]
 				);
-
 				if (firstMismatch !== -1) {
 					if (fix) {
 						for (let k = firstMismatch; k <= lastMismatch; k++) {
 							group[k].replaceWith(
-								group[k].clone({params: desired[k].params})
+								group[k].clone({
+									params: desired[k].params,
+								})
 							);
 						}
-					} else {
+					}
+					else {
 						const order = desired
 							.slice(firstMismatch, lastMismatch + 1)
 							.map((node) => node.params)
 							.join(' << ');
-
 						stylelint.utils.report({
 							message: `${messages.sort} (expected: ${order})`,
 							node: group[firstMismatch],
@@ -123,4 +114,4 @@ const rule = (options, secondaryOptions, context) => {
 rule.ruleName = ruleName;
 rule.messages = messages;
 
-export default rule;
+module.exports = rule;

@@ -3,10 +3,8 @@
  * SPDX-License-Identifier: MIT
  */
 
-import stylelint from 'stylelint';
-
+const stylelint = require('stylelint');
 const ruleName = 'liferay/trim-comments';
-
 const messages = stylelint.utils.ruleMessages(ruleName, {
 	noLeadingBlanks: 'No blank leading lines in comments',
 	noTrailingBlanks: 'No blank trailing lines in comments',
@@ -21,14 +19,12 @@ function isLeadingComment(comment, prev) {
 	if (!prev) {
 		return true;
 	}
-
 	if (prev.type !== 'comment') {
 		return true;
 	}
-
 	const newlines = comment.raws.before.match(/\n/g);
-
 	if (newlines && newlines.length > 1) {
+
 		// Special case: previous node is a comment, but we have at least one
 		// intervening blank line.
 
@@ -42,14 +38,12 @@ function isTrailingComment(_comment, next) {
 	if (!next) {
 		return true;
 	}
-
 	if (next.type !== 'comment') {
 		return true;
 	}
-
 	const newlines = next.raws.before.match(/\n/g);
-
 	if (newlines && newlines.length > 1) {
+
 		// Special case: next node is a comment, but we have at least one
 		// intervening blank line.
 
@@ -76,15 +70,11 @@ const rule = (options, secondaryOptions, context) => {
 				},
 			}
 		);
-
 		if (!validOptions || !options) {
 			return;
 		}
-
 		const disableFix = secondaryOptions && secondaryOptions.disableFix;
-
 		const fix = context ? context.fix && !disableFix : false;
-
 		root.walkComments((comment) => {
 			if (comment.raws.inline) {
 				if (BLANK_REGEX.test(comment.text)) {
@@ -96,34 +86,33 @@ const rule = (options, secondaryOptions, context) => {
 							ruleName,
 						});
 					};
-
 					const prev = comment.prev();
 					const next = comment.next();
-
 					if (isLeadingComment(comment, prev)) {
 						if (fix) {
+
 							// PostCSS will kill preceding blank lines,
 							// so we have to reattach them to the next
 							// node.
 
 							const blanks = comment.raws.before.match(/^\n+/);
-
 							if (blanks && next) {
 								next.raws.before = '\n' + next.raws.before;
 							}
-
 							comment.remove();
-						} else {
+						}
+						else {
 							report(messages.noLeadingBlanks);
 						}
 					}
-
 					if (isTrailingComment(comment, next)) {
 						if (fix) {
+
 							// PostCSS doesn't touch following blank lines.
 
 							comment.remove();
-						} else {
+						}
+						else {
 							report(messages.noTrailingBlanks);
 						}
 					}
@@ -136,4 +125,4 @@ const rule = (options, secondaryOptions, context) => {
 rule.ruleName = ruleName;
 rule.messages = messages;
 
-export default rule;
+module.exports = rule;

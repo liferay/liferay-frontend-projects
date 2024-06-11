@@ -3,10 +3,14 @@
  * SPDX-License-Identifier: MIT
  */
 
-import plugin from './plugin.mjs';
+/**
+ * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
+ * SPDX-License-Identifier: MIT
+ */
 
-export const config = {
-	plugins: [plugin],
+const plugins = require('./plugins.js');
+
+const defaultConfig = {
 	rules: {
 		'at-rule-no-unknown': [
 			true,
@@ -76,3 +80,7 @@ export const config = {
 		'value-keyword-case': 'lower',
 	},
 };
+
+plugins.defaultConfig = defaultConfig;
+
+module.exports = plugins;
