@@ -8,5 +8,5 @@
 		"postversion": "liferay-workspace-scripts publish",
 		"preversion": "liferay-workspace-scripts ci"
 	},
-	"version": "1.0.0"
+	"version": "1.1.0"
 }
