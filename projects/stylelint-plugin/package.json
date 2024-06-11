@@ -1,19 +1,12 @@
 {
 	"name": "@liferay/stylelint-plugin",
-	"files": [
-		"dist"
-	],
-	"main": "./dist/index.js",
+	"main": "./index.js",
 	"scripts": {
-		"build": "esbuild index.mjs --bundle --outdir=dist --platform=node \"--external:stylelint\"",
+		"build": "true",
 		"format": "liferay-workspace-scripts format",
 		"format:check": "liferay-workspace-scripts format:check",
 		"postversion": "liferay-workspace-scripts publish",
 		"preversion": "liferay-workspace-scripts ci"
 	},
-	"version": "1.0.0",
-	"devDependencies": {
-		"esbuild": "^0.21.2",
-		"stylelint": "^16.6.1"
-	}
+	"version": "1.0.0"
 }

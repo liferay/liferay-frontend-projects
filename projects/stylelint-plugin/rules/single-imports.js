@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import stylelint from 'stylelint';
+const stylelint = require('stylelint');
 
 const ruleName = 'liferay/single-imports';
 
@@ -25,27 +25,21 @@ function tokenize(params) {
 	// Slow but simple iteration through string.
 
 	let i = 0;
-
 	for (; i < params.length; ) {
 		const remaining = params.slice(i);
-
 		const matched = MATCHERS.some(([kind, matcher]) => {
 			const match = matcher.exec(remaining);
-
 			if (match) {
 				const text = match[0];
-
 				tokens.push({
 					kind,
 					text: match[0],
 				});
-
 				i += text.length;
 
 				return true;
 			}
 		});
-
 		if (!matched) {
 			throw new Error(
 				`Unable to tokenize ${JSON.stringify(params)} at index ${i}`
@@ -55,7 +49,6 @@ function tokenize(params) {
 
 	return tokens;
 }
-
 const rule = (options, secondaryOptions, context) => {
 	return function (root, result) {
 		const validOptions = stylelint.utils.validateOptions(
@@ -73,18 +66,13 @@ const rule = (options, secondaryOptions, context) => {
 				},
 			}
 		);
-
 		if (!validOptions || !options) {
 			return;
 		}
-
 		const disableFix = secondaryOptions && secondaryOptions.disableFix;
-
 		const fix = context ? context.fix && !disableFix : false;
-
 		root.walkAtRules('import', (rule) => {
 			const tokens = tokenize(rule.params);
-
 			const resources = tokens.filter((token) => {
 				return (
 					token.kind === 'DOUBLE_QUOTED_STRING' ||
@@ -92,13 +80,13 @@ const rule = (options, secondaryOptions, context) => {
 					token.kind === 'URL'
 				);
 			});
-
 			if (resources.length > 1) {
 				if (fix) {
 					const replacements = resources.map((resource) =>
-						rule.clone({params: resource.text})
+						rule.clone({
+							params: resource.text,
+						})
 					);
-
 					rule.replaceWith(...replacements);
 
 					// If the original rule had a blank line before it, we
@@ -112,7 +100,6 @@ const rule = (options, secondaryOptions, context) => {
 					const trailing = /(.*?)(\n+)([ \t]*)$/.exec(
 						rule.raws.before
 					);
-
 					replacements.forEach((resource, i) => {
 						if (i) {
 							if (trailing && trailing[2].length > 1) {
@@ -123,7 +110,8 @@ const rule = (options, secondaryOptions, context) => {
 							}
 						}
 					});
-				} else {
+				}
+				else {
 					stylelint.utils.report({
 						message: messages.single,
 						node: rule,
@@ -139,4 +127,4 @@ const rule = (options, secondaryOptions, context) => {
 rule.ruleName = ruleName;
 rule.messages = messages;
 
-export default rule;
+module.exports = rule;

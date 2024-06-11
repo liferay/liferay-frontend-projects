@@ -31,9 +31,9 @@ function getSupportedTasks(task) {
 }
 
 function doctor({
-	themeConfig = null,
 	haltOnMissingDeps = false,
 	tasks = [],
+	themeConfig = null,
 } = {}) {
 	themeConfig = themeConfig || lfrThemeConfig.getConfig(true);
 

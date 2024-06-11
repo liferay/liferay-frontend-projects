@@ -3,10 +3,9 @@
  * SPDX-License-Identifier: MIT
  */
 
-import stylelint from 'stylelint';
+const stylelint = require('stylelint');
 
 const ruleName = 'liferay/no-block-comments';
-
 const messages = stylelint.utils.ruleMessages(ruleName, {
 	expected:
 		'No block-based comments (/* ... */); use line-based (//) comment syntax instead',
@@ -17,11 +16,9 @@ const rule = (actual) => {
 		const validOptions = stylelint.utils.validateOptions(result, ruleName, {
 			actual,
 		});
-
 		if (!validOptions) {
 			return;
 		}
-
 		root.walkComments((comment) => {
 			if (!comment.raws.inline) {
 				stylelint.utils.report({
@@ -38,4 +35,4 @@ const rule = (actual) => {
 rule.ruleName = ruleName;
 rule.messages = messages;
 
-export default rule;
+module.exports = rule;
