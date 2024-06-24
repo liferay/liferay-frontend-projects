@@ -4,7 +4,6 @@
  */
 
 const generalConfig = require('./configs/general');
-const metalConfig = require('./configs/metal');
 const portalConfig = require('./configs/portal');
 const reactConfig = require('./configs/react');
 const auiRules = require('./rules/aui');
@@ -14,7 +13,6 @@ const portalRules = require('./rules/portal');
 module.exports = {
 	configs: {
 		general: generalConfig,
-		metal: metalConfig,
 		portal: portalConfig,
 		react: reactConfig,
 	},

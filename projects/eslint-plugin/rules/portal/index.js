@@ -12,7 +12,6 @@ module.exports = {
 	'portal/no-global-storage': require('./lib/rules/no-global-storage'),
 	'portal/no-loader-import-specifier': require('./lib/rules/no-loader-import-specifier'),
 	'portal/no-localhost-reference': require('./lib/rules/no-localhost-reference'),
-	'portal/no-metal-plugins': require('./lib/rules/no-metal-plugins'),
 	'portal/no-react-dom-create-portal': require('./lib/rules/no-react-dom-create-portal'),
 	'portal/no-react-dom-render': require('./lib/rules/no-react-dom-render'),
 	'portal/no-side-navigation': require('./lib/rules/no-side-navigation'),
