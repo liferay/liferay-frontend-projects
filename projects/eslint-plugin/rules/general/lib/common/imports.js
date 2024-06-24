@@ -43,7 +43,7 @@ function getLeadingComments(node, context) {
 		//
 		//      something(); // I'm a trailing comment.
 
-		const tokenBefore = context.getTokenBefore(comment, {
+		const tokenBefore = code.getTokenBefore(comment, {
 			includeComments: true,
 		});
 

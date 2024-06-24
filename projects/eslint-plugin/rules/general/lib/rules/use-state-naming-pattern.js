@@ -7,6 +7,8 @@ const DESCRIPTION = 'useState must follow naming pattern `const [* , set*] =`';
 
 module.exports = {
 	create(context) {
+		const source = context.getSourceCode();
+
 		return {
 			CallExpression(node) {
 				const reactUseState =
@@ -61,7 +63,7 @@ module.exports = {
 					return;
 				}
 
-				const variable = context
+				const variable = source
 					.getDeclaredVariables(node.parent)
 					.find((item) => item.name === setterVariableName);
 

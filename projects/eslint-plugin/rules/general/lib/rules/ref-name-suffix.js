@@ -9,6 +9,7 @@ const NAME_PATTERN = /.*Ref/;
 
 module.exports = {
 	create(context) {
+		const source = context.getSourceCode();
 		return {
 			VariableDeclarator(node) {
 				if (
@@ -25,7 +26,7 @@ module.exports = {
 						variableName !== 'ref' &&
 						!variableName.match(NAME_PATTERN)
 					) {
-						const [variable] = context.getDeclaredVariables(node);
+						const [variable] = source.getDeclaredVariables(node);
 						const newVariableName = variable.name + 'Ref';
 
 						for (const reference of variable.references) {

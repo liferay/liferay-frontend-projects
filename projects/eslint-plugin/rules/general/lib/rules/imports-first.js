@@ -12,6 +12,7 @@ const {
 
 module.exports = {
 	create(context) {
+		const source = context.getSourceCode();
 		const {scope, visitors} = withScope();
 
 		let lastImportIndex = -1;
@@ -49,13 +50,13 @@ module.exports = {
 
 					// Haven't seen a non-import yet, so must search.
 
-					const token = context.getTokenBefore(current);
+					const token = source.getTokenBefore(current);
 
 					if (!token) {
 						break;
 					}
 
-					current = context.getNodeByRangeIndex(token.range[0]);
+					current = source.getNodeByRangeIndex(token.range[0]);
 
 					if (isDirective(current)) {
 

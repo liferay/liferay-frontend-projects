@@ -8,6 +8,8 @@ const message =
 
 module.exports = {
 	create(context) {
+		const source = context.getSourceCode();
+
 		return {
 			LogicalExpression(node) {
 				const leftSideLength =
@@ -26,8 +28,8 @@ module.exports = {
 				}
 
 				if (rightSideLength || leftSideLength) {
-					const jsxExpressionScope = context
-						.getAncestors()
+					const jsxExpressionScope = source
+						.getAncestors(node)
 						.find((node) => node.type === 'JSXExpressionContainer');
 
 					if (jsxExpressionScope) {

@@ -17,6 +17,8 @@ const DESCRIPTION = 'imports must be grouped';
 
 module.exports = {
 	create(context) {
+		const source = context.getSourceCode();
+
 		const imports = [];
 
 		const {scope, visitors} = withScope();
@@ -24,13 +26,11 @@ module.exports = {
 		function expectBlankLines(node, count = 1) {
 			const comments = getLeadingComments(node, context);
 			const initial = comments[0] || node;
-			const token = context.getTokenBefore(initial, {
+			const token = source.getTokenBefore(initial, {
 				includeComments: true,
 			});
 
 			if (token) {
-				const source = context.getSourceCode();
-
 				const start = token.range[1];
 				const end = initial.range[0];
 
@@ -155,9 +155,9 @@ module.exports = {
 						continue;
 					}
 
-					const token = context.getTokenBefore(current);
+					const token = source.getTokenBefore(current);
 
-					const last = context.getNodeByRangeIndex(token.range[0]);
+					const last = source.getNodeByRangeIndex(token.range[0]);
 
 					if (last !== previous) {
 						expectBlankLines(current);

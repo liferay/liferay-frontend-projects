@@ -106,10 +106,10 @@ module.exports = {
 			CallExpression(node) {
 				for (const isMatch of CALL_EXPRESSIONS) {
 					if (isMatch(node)) {
-						const token = context.getTokenBefore(node);
+						const token = source.getTokenBefore(node);
 
 						if (token) {
-							const previous = context.getNodeByRangeIndex(
+							const previous = source.getNodeByRangeIndex(
 								token.range[0]
 							);
 

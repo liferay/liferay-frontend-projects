@@ -10,8 +10,10 @@ const DESCRIPTION =
 
 module.exports = {
 	create(context) {
+		const source = context.getSourceCode();
+
 		const isReactDOMImport = (node) => {
-			const ancestors = context.getAncestors(node);
+			const ancestors = source.getAncestors(node);
 
 			const parent = ancestors[ancestors.length - 1];
 
@@ -27,7 +29,7 @@ module.exports = {
 
 		const isSame = (identifier, variable) => {
 			const name = variable.name;
-			let scope = context.getScope(identifier);
+			let scope = source.getScope(identifier);
 
 			while (scope) {
 				for (let i = 0; i < scope.variables.length; i++) {
@@ -111,7 +113,7 @@ module.exports = {
 			 */
 			ImportDefaultSpecifier(node) {
 				if (isReactDOMImport(node)) {
-					add(foundNamespaces, context.getDeclaredVariables(node));
+					add(foundNamespaces, source.getDeclaredVariables(node));
 				}
 			},
 
@@ -122,7 +124,7 @@ module.exports = {
 			 */
 			ImportNamespaceSpecifier(node) {
 				if (isReactDOMImport(node)) {
-					add(foundNamespaces, context.getDeclaredVariables(node));
+					add(foundNamespaces, source.getDeclaredVariables(node));
 				}
 			},
 
@@ -136,17 +138,15 @@ module.exports = {
 				if (isReactDOMImport(node)) {
 					add(
 						foundBindings,
-						context
-							.getDeclaredVariables(node)
-							.filter((variable) => {
-								return (
-									variable.defs[0] &&
-									variable.defs[0].node &&
-									variable.defs[0].node.imported &&
-									variable.defs[0].node.imported.name ===
-										'createPortal'
-								);
-							})
+						source.getDeclaredVariables(node).filter((variable) => {
+							return (
+								variable.defs[0] &&
+								variable.defs[0].node &&
+								variable.defs[0].node.imported &&
+								variable.defs[0].node.imported.name ===
+									'createPortal'
+							);
+						})
 					);
 				}
 			},
@@ -161,7 +161,7 @@ module.exports = {
 					node.init.arguments[0].type === 'Literal' &&
 					node.init.arguments[0].value === 'react-dom'
 				) {
-					const variables = context.getDeclaredVariables(node);
+					const variables = source.getDeclaredVariables(node);
 
 					if (node.id.type === 'Identifier') {
 
@@ -176,7 +176,7 @@ module.exports = {
 
 						add(
 							foundBindings,
-							context
+							source
 								.getDeclaredVariables(node)
 								.filter((variable) => {
 									return (
