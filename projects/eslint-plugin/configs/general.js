@@ -7,7 +7,7 @@
 
 const config = {
 	env: {
-		es6: true,
+		es2023: true,
 	},
 	extends: ['eslint:recommended', require.resolve('eslint-config-prettier')],
 	overrides: [
@@ -70,12 +70,10 @@ const config = {
 	],
 	parser: 'babel-eslint',
 	parserOptions: {
-		ecmaVersion: 2018,
 		sourceType: 'module',
 	},
 	plugins: [
 		'@typescript-eslint/eslint-plugin',
-		'no-for-of-loops',
 		'no-only-tests',
 		'notice',
 		'promise',
@@ -141,7 +139,6 @@ const config = {
 		'no-constant-condition': ['error', {checkLoops: false}],
 		'no-control-regex': 'off',
 		'no-eval': 'error',
-		'no-for-of-loops/no-for-of-loops': 'off',
 		'no-only-tests/no-only-tests': 'error',
 		'no-return-assign': ['error', 'always'],
 		'no-unused-expressions': 'error',
