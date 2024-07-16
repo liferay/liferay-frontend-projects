@@ -20,6 +20,7 @@ export interface FDSFilterData<T> {
 }
 
 export interface FDSFilterHTMLElementBuilderArgs<T> {
+	fieldName?: string;
 	filter: FDSFilterData<T>;
 	setFilter: (partialFilter: Partial<FDSFilterData<T>>) => void;
 }
