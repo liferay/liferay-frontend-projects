@@ -1,3 +1,11 @@
+## [js-api/v0.6.0](https://github.com/liferay/liferay-frontend-projects/tree/js-api/v0.6.0) (2024-07-17)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-api/v0.6.0-pre.0...js-api/v0.6.0)
+
+### :new: Features
+
+-   feat(js-api): add fieldName as an argument to FDSFilterHTMLElementBuilderArgs ([\#1226](https://github.com/liferay/liferay-frontend-projects/pull/1226))
+
 ## [js-api/v0.6.0-pre.0](https://github.com/liferay/liferay-frontend-projects/tree/js-api/v0.6.0-pre.0) (2023-12-20)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-api/v0.5.1-pre.0...js-api/v0.6.0-pre.0)
