@@ -30,6 +30,11 @@ const processModules = (resource, res) => {
 };
 
 const server = http.createServer((req, res) => {
+    if (path.normalize(decodeURI(resource)) !== decodeURI(resource)) {
+        res.statusCode = 403;
+        res.end();
+        return;
+    }
 	let resource = req.url;
 
 	if (resource === '/') {
