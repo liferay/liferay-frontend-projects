@@ -1,3 +1,19 @@
+## [liferay-theme-tasks/v11.5.4](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v11.5.4) (2024-08-26)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v11.5.3...liferay-theme-tasks/v11.5.4)
+
+### :new: Features
+
+-   feat(npm-scripts): update for node v20 ([\#1184](https://github.com/liferay/liferay-frontend-projects/pull/1184))
+
+### :wrench: Bug fixes
+
+-   fix(liferay-theme-task): Update regex to allow mulitple semicolons for @import ([\#1194](https://github.com/liferay/liferay-frontend-projects/pull/1194))
+
+### :house: Chores
+
+-   chore(liferay-theme-tasks): Adds docs for Sass 1.65.1 error and div d… ([\#1169](https://github.com/liferay/liferay-frontend-projects/pull/1169))
+
 ## [liferay-theme-tasks/v11.5.3](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v11.5.3) (2023-08-25)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v11.5.1...liferay-theme-tasks/v11.5.3)
