@@ -1,0 +1,35 @@
+name: Snapshot releast of AUI to maven
+
+on: workflow_dispatch
+
+jobs:
+    aui-snapshot:
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                node-version: [0.12.18]
+
+        steps:
+            - name: maven-settings-xml-action
+              uses: s4u/maven-settings-action@v2.3.0
+              with:
+                servers: |
+                  [{
+                      "id": "liferay-public-snapshots",
+                      "username": "${{ secrets.MAVEN_USERNAME }}",
+                      "password": "${{ secrets.MAVEN_PASSWORD }}"
+                  }]
+            - uses: actions/checkout@v4
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v4
+              with:
+                  cache: 'npm'
+                  node-version: ${{ matrix.node-version }}
+            - run: npm i
+              working-directory: third-party/projects/alloy-ui
+            - run: npm i -g gulp@^3.8.5
+            - run: gulp init && gulp build
+              working-directory: third-party/projects/alloy-ui
+            - run: gulp maven-publish-snapshot
+              working-directory: third-party/projects/alloy-ui
