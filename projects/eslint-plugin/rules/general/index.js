@@ -29,6 +29,7 @@ module.exports = {
 	'prefer-length-check': require('./lib/rules/prefer-length-check'),
 	'ref-name-suffix': require('./lib/rules/ref-name-suffix'),
 	'sort-class-names': require('./lib/rules/sort-class-names'),
+	'sort-exports': require('./lib/rules/sort-exports'),
 	'sort-import-destructures': require('./lib/rules/sort-import-destructures'),
 	'sort-imports': require('./lib/rules/sort-imports'),
 	'trim-class-names': require('./lib/rules/trim-class-names'),
