@@ -103,7 +103,10 @@ function getRequireStatement(node) {
 }
 
 function getSource(node) {
-	if (node.type === 'ImportDeclaration') {
+	if (node.type === 'ExportNamedDeclaration') {
+		return node.source?.value;
+	}
+	else if (node.type === 'ImportDeclaration') {
 		return node.source.value;
 	}
 	else if (node.type === 'VariableDeclaration') {

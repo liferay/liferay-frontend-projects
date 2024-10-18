@@ -3,20 +3,28 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-// Operations on files
+// TODO: remove the next section before babel 3 release
+// Bundler plugin utilities
 
-export {default as FilePath} from './file/FilePath';
-export {default as Manifest} from './file/handler/Manifest';
+export {default as PkgDesc} from './bundler/PkgDesc';
+export {default as escapeStringRegExp} from './escapeStringRegExp';
 
 // Utilities to deal with node packages and modules
 
 export * from './node/modules';
 export * from './node/namespace';
 
-// TODO: remove the next section before babel 3 release
-// Bundler plugin utilities
+// Operations on files
 
-export {default as PkgDesc} from './bundler/PkgDesc';
+export {default as FilePath} from './file/FilePath';
+
+export {default as Manifest} from './file/handler/Manifest';
+
+// Miscellaneous utilities
+
+export {negate as negateGlobs, prefix as prefixGlobs} from './globs';
+export {LogLevel as B3LogLevel} from './project/bundler3/Misc';
+export {ProjectType as B3ProjectType} from './project/bundler3/Probe';
 
 // Bundler 3 Project descriptor class and types
 
@@ -24,13 +32,12 @@ export {
 	default as B3Project,
 	Imports as B3Imports,
 } from './project/bundler3/Project';
-export {ProjectType as B3ProjectType} from './project/bundler3/Probe';
-export {LogLevel as B3LogLevel} from './project/bundler3/Misc';
 export {default as B3VersionInfo} from './project/bundler3/VersionInfo';
 
-// Liferay CLI Project descriptor class and types
+// Format library
 
-export {default as Project} from './project/liferayCli/Project';
+export * as format from './format';
+
 export {
 	Bundler2BuildOptions,
 	CustomElementBuildOptions,
@@ -38,18 +45,9 @@ export {
 	WebpackBuildOptions,
 } from './project/liferayCli/Build';
 
-// Format library
+// Liferay CLI Project descriptor class and types
 
-export * as format from './format';
-
-// Template rendering
-
-export {default as TemplateRenderer} from './template/Renderer';
-
-// Miscellaneous utilities
-
-export {negate as negateGlobs, prefix as prefixGlobs} from './globs';
-export {default as escapeStringRegExp} from './escapeStringRegExp';
+export {default as Project} from './project/liferayCli/Project';
 export {runNodeModulesBin, runPkgJsonScript} from './run';
 
 // JSON file structure definitions (schemas)
@@ -92,6 +90,10 @@ export type {
 } from './schema/PkgJson';
 
 export type {default as RemoteAppManifestJson} from './schema/RemoteAppManifestJson';
+
+// Template rendering
+
+export {default as TemplateRenderer} from './template/Renderer';
 
 // JavaScript source code transformation
 

@@ -115,6 +115,7 @@ const config = {
 		'@liferay/padded-test-blocks': 'error',
 		'@liferay/prefer-length-check': 'error',
 		'@liferay/ref-name-suffix': 'error',
+		'@liferay/sort-exports': 'error',
 		'@liferay/sort-import-destructures': 'error',
 		'@liferay/sort-imports': 'error',
 		'@liferay/use-state-naming-pattern': 'error',
