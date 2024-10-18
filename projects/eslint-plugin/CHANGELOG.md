@@ -1,3 +1,11 @@
+## [eslint-plugin/v1.6.0](https://github.com/liferay/liferay-frontend-projects/tree/eslint-plugin/v1.6.0) (2024-10-18)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-plugin/v1.5.0...eslint-plugin/v1.6.0)
+
+### :new: Features
+
+-   feat(eslint-plugin): add rule to sort named exports from a source ([\#1233](https://github.com/liferay/liferay-frontend-projects/pull/1233))
+
 ## [eslint-plugin/v1.5.0](https://github.com/liferay/liferay-frontend-projects/tree/eslint-plugin/v1.5.0) (2023-07-26)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-plugin/v1.4.0...eslint-plugin/v1.5.0)
