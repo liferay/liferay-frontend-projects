@@ -1,3 +1,11 @@
+## [liferay-theme-tasks/v11.5.5](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v11.5.5) (2024-12-09)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v11.5.4...liferay-theme-tasks/v11.5.5)
+
+### :wrench: Bug fixes
+
+-   fix(theme-tasks): update dependence to avoid using Lodash 3 which is vulnerable ([\#1234](https://github.com/liferay/liferay-frontend-projects/pull/1234))
+
 ## [liferay-theme-tasks/v11.5.4](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v11.5.4) (2024-08-26)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v11.5.3...liferay-theme-tasks/v11.5.4)
