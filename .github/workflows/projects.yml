@@ -9,7 +9,7 @@ on:
             - 'guidelines/**'
             - 'maintenance/projects/js-themes-toolkit-v8-x/**'
             - 'maintenance/projects/js-themes-toolkit-v9-x/**'
-            - 'maintenance/projects/js-toolkit/**'
+            - 'maintenance/projects/js-toolkit-v2-x/**'
             - 'maintenance/projects/senna/**'
     pull_request:
         branches: [master]
@@ -17,7 +17,7 @@ on:
             - 'guidelines/**'
             - 'maintenance/projects/js-themes-toolkit-v8-x/**'
             - 'maintenance/projects/js-themes-toolkit-v9-x/**'
-            - 'maintenance/projects/js-toolkit/**'
+            - 'maintenance/projects/js-toolkit-v2-x/**'
             - 'maintenance/projects/senna/**'
 
 env:

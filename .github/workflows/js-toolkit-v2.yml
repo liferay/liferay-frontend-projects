@@ -6,11 +6,11 @@ on:
     push:
         branches: [master]
         paths:
-            - 'maintenance/projects/js-toolkit/**'
+            - 'maintenance/projects/js-toolkit-v2-x/**'
     pull_request:
         branches: [master]
         paths:
-            - 'maintenance/projects/js-toolkit/**'
+            - 'maintenance/projects/js-toolkit-v2-x/**'
 
 env:
     CI: true
@@ -37,9 +37,9 @@ jobs:
                   path: ${{ env.yarn-cache-path }}
                   key: ${{ runner.os }}-${{ env.yarn-cache-name }}-${{ hashFiles('**/yarn.lock') }}
             - run: yarn --cache-folder=${{ env.yarn-cache-path }}
-              working-directory: maintenance/projects/js-toolkit
+              working-directory: maintenance/projects/js-toolkit-v2-x
             - run: git diff --quiet -- yarn.lock
-              working-directory: maintenance/projects/js-toolkit
+              working-directory: maintenance/projects/js-toolkit-v2-x
 
     test:
         runs-on: ubuntu-latest
@@ -60,10 +60,10 @@ jobs:
                   path: ${{ env.yarn-cache-path }}
                   key: ${{ runner.os }}-${{ env.yarn-cache-name }}-${{ hashFiles('**/yarn.lock') }}-js-toolkit
             - run: yarn --cache-folder=../../../${{ env.yarn-cache-path }} --frozen-lockfile
-              working-directory: maintenance/projects/js-toolkit
+              working-directory: maintenance/projects/js-toolkit-v2-x
             - run: yarn --cache-folder=../../../${{ env.yarn-cache-path }} check-deps
-              working-directory: maintenance/projects/js-toolkit
+              working-directory: maintenance/projects/js-toolkit-v2-x
             - run: yarn --cache-folder=../../../${{ env.yarn-cache-path }} build
-              working-directory: maintenance/projects/js-toolkit
+              working-directory: maintenance/projects/js-toolkit-v2-x
             - run: yarn --cache-folder=../../../${{ env.yarn-cache-path }} test
-              working-directory: maintenance/projects/js-toolkit
+              working-directory: maintenance/projects/js-toolkit-v2-x

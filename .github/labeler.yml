@@ -4,16 +4,16 @@
 # See: https://github.com/actions/labeler
 
 10.x:
-    - projects/js-themes-toolkit/*
-    - projects/js-themes-toolkit/**/*
+    - maintenance/projects/js-themes-toolkit/*
+    - maintenance/projects/js-themes-toolkit/**/*
 
 2.x:
-    - maintenance/projects/js-toolkit/*
-    - maintenance/projects/js-toolkit/**/*
+    - maintenance/projects/js-toolkit-v2-x/*
+    - maintenance/projects/js-toolkit-v2-x/**/*
 
 3.x:
-    - projects/js-toolkit/*
-    - projects/js-toolkit/**/*
+    - maintenance/projects/js-toolkit/*
+    - maintenance/projects/js-toolkit/**/*
 
 8.x:
     - maintenance/projects/js-themes-toolkit-v8-x/*
@@ -70,8 +70,6 @@ js-themes-toolkit:
 js-toolkit:
     - maintenance/projects/js-toolkit/*
     - maintenance/projects/js-toolkit/**/*
-    - projects/js-toolkit/*
-    - projects/js-toolkit/**/*
 
 npm-bundler-preset-liferay-dev:
     - projects/npm-tools/packages/npm-bundler-preset-liferay-dev/*
