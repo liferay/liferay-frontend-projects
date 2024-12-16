@@ -33,7 +33,8 @@ async function main(...args) {
 			return () => {
 				options[key] = value;
 			};
-		} else {
+		}
+		else {
 			return (value) => {
 				options[key] = value;
 			};
@@ -106,19 +107,24 @@ async function main(...args) {
 		Object.entries(OPTS).find(([option, callback]) => {
 			if (option.endsWith('=')) {
 				if (arg === option.slice(0, -1)) {
+
 					// eg. "--some-opt value"
 
 					const value = args[++i];
 
 					handler = callback.bind(null, value);
-				} else if (arg.startsWith(option)) {
+				}
+				else if (arg.startsWith(option)) {
+
 					// eg. "--some-opt=value"
 
 					const value = arg.slice(option.length);
 
 					handler = callback.bind(null, value);
 				}
-			} else if (arg === option) {
+			}
+			else if (arg === option) {
+
 				// eg. "--flag"
 
 				handler = callback;
@@ -129,16 +135,21 @@ async function main(...args) {
 
 		if (handler) {
 			handler();
-		} else if (arg.startsWith('-')) {
+		}
+		else if (arg.startsWith('-')) {
+
 			// Unknown option, just ignore it.
-		} else if (isGlob(arg)) {
+
+		}
+		else if (isGlob(arg)) {
 			getPaths([arg], [], IGNORE_FILE).forEach((filepath) => {
 				files.push({
 					contents: null,
 					filepath,
 				});
 			});
-		} else {
+		}
+		else {
 			files.push({
 				contents: null,
 				filepath: arg,
@@ -149,6 +160,7 @@ async function main(...args) {
 	const config = getMergedConfig('prettier');
 
 	if (options.stdin) {
+
 		// When `--stdin` is in effect, Prettier ignores file arguments
 		// and the `--write` option, requires --stdin-filepath, and
 		// prints the output to stdout.
@@ -190,7 +202,8 @@ async function main(...args) {
 
 		if (isJSP(filepath)) {
 			formattedContents = await formatJSP(contents, prettierOptions);
-		} else {
+		}
+		else {
 			formattedContents = format(contents, prettierOptions);
 		}
 
