@@ -6,12 +6,11 @@
 module.exports = {
 	modulePathIgnorePatterns: ['<rootDir>/maintenance/', '__fixtures__/.*'],
 	projects: [
-
 		// Projects which require special configuration.
 
+		'maintenance/projects/js-themes-toolkit/jest.config.js',
+		'maintenance/projects/js-toolkit/jest.config.js',
 		'projects/eslint-plugin/jest.config.js',
-		'projects/js-themes-toolkit/jest.config.js',
-		'projects/js-toolkit/jest.config.js',
 		'projects/npm-tools/packages/npm-scripts/jest.config.js',
 
 		// Everything else.
@@ -24,7 +23,6 @@ module.exports = {
 	],
 	testMatch: ['**/test/**/*.js'],
 	testPathIgnorePatterns: [
-
 		// Projects in maintenance mode which do not participate in the
 		// top-level set of Yarn workspaces.
 
@@ -34,8 +32,6 @@ module.exports = {
 		// ignored here.
 
 		'<rootDir>/projects/eslint-plugin',
-		'<rootDir>/projects/js-themes-toolkit',
-		'<rootDir>/projects/js-toolkit',
 		'<rootDir>/projects/npm-tools/packages/npm-scripts',
 		'<rootDir>/projects/prettier-plugin',
 
