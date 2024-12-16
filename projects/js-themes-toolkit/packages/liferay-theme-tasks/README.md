@@ -1,3 +1,8 @@
+> :warning: This project is now deprecated.
+> This tool is deprecated as of Liferay 2024.Q4/7.4 GA129. The Liferay Theme Tasks are being deprecated and they will be removed in the future. The feature is based in Gulp 4 which is also deprecated. Customers are encouraged to use third party tooling to substitute it.
+
+---
+
 # Liferay Theme Tasks [![Build Status](https://travis-ci.org/liferay/liferay-theme-tasks.svg?branch=master)](https://travis-ci.org/liferay/liferay-theme-tasks)
 
 > The liferay-theme-tasks module is intended for use with the yeoman generator for [Liferay themes](https://github.com/liferay/generator-liferay-theme).

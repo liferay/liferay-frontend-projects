@@ -1,3 +1,8 @@
+> :warning: This project is now deprecated.
+> These tools are deprecated as of Liferay 2024.Q4/7.4 GA129, and they are planned for future removal. Modern browsers (and Liferay DXP) all support including JavaScript ECMAScript modules directly, so these tools are no longer needed.
+
+---
+
 # liferay-js-toolkit
 
 ![global](https://github.com/liferay/liferay-frontend-projects/workflows/global/badge.svg)

@@ -1,3 +1,8 @@
+> :warning: This project is now deprecated.
+> This tool is deprecated as of Liferay 2024.Q4/7.4 GA129. We recommend using standard JS tooling such as Vite, EsBuild, Webpack wtc. Modern browsers (and Liferay DXP) all support including JavaScript ECMAScript modules directly, so this tool is no longer needed.
+
+---
+
 # @liferay/cli
 
 This project hosts the Liferay JS Toolkit CLI Tool.
