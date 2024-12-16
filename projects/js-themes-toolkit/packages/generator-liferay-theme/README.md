@@ -1,3 +1,8 @@
+> :warning: This project is now deprecated.
+> This tool is deprecated as of Liferay 2024.Q4/7.4 GA129. The Liferay Theme Generator is being deprecated and it will be removed in the future. Customers are encouraged ta use Theme Client Extensions or third-party tooling to generate themes.
+
+---
+
 # Liferay Theme Generator [![Build Status](https://travis-ci.org/liferay/generator-liferay-theme.svg?branch=master)](https://travis-ci.org/liferay/generator-liferay-theme) [![Coverage Status](https://coveralls.io/repos/github/liferay/generator-liferay-theme/badge.svg?branch=master)](https://coveralls.io/github/liferay/generator-liferay-theme?branch=master)
 
 **Note: the Liferay theme generator is still in development and is not guaranteed to work on all platforms/environments.**
