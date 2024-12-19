@@ -357,7 +357,7 @@ var SchedulerEvent = A.Component.create({
         'colorSaturationFactor', 'titleDateFormat', 'visible', 'disabled'],
 
     prototype: {
-        EVENT_NODE_TEMPLATE: '<div class="' + CSS_SCHEDULER_EVENT + '" tabindex="0">' + '<div class="' +
+        EVENT_NODE_TEMPLATE: '<div aria-expanded="false" aria-haspopup="dialog" class="' + CSS_SCHEDULER_EVENT + '" tabindex="0">' + '<div class="' +
             CSS_SCHEDULER_EVENT_TITLE +
             '"></div>' + '<div class="' + CSS_SCHEDULER_EVENT_CONTENT + '"></div>' +
             '<div class="' + CSS_SCHEDULER_EVENT_NAME + '"></div>' +

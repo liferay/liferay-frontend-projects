@@ -329,6 +329,7 @@ var SchedulerEventRecorder = A.Component.create({
 
             if (selectedEvent) {
                 selectedEvent.focus();
+                selectedEvent.setAttribute('aria-expanded', false);
             }
         },
 
@@ -393,6 +394,10 @@ var SchedulerEventRecorder = A.Component.create({
                 node: node,
                 points: align.points
             });
+
+            instance._selectedEvent = node;
+
+            node.setAttribute('aria-expanded', true);
 
             popover.show();
 
@@ -722,6 +727,7 @@ var SchedulerEventRecorder = A.Component.create({
             instance.formNode.on('submit', A.bind(instance._onSubmitForm, instance));
 
             instance.popover.get('boundingBox').addClass(CSS_SCHEDULER_EVENT_RECORDER_POP_OVER);
+            instance.popover.get('boundingBox').setAttribute('tabindex', -1);
             instance.popover.get('contentBox').wrap(instance.formNode);
 
             schedulerBB.on('clickoutside', A.bind(instance._handleClickOutSide, instance));
