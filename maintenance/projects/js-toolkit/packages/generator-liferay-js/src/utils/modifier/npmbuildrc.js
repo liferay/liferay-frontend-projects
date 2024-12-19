@@ -81,7 +81,11 @@ export default class extends JsonModifier {
 
 			currentRules.push({
 				test,
-				use: loader,
+				"exclude": "/node_modules/",
+				"loader": loader,
+				"options": {
+					"configFile": "../.babelrc"
+				  }
 			});
 
 			prop.set(json, 'webpack.rules', currentRules);
