@@ -67,7 +67,7 @@ var Lang = A.Lang,
 
     TPL_EVENTS_CONTAINER = '<div class="' + CSS_EVENTS + '">{content}</div>',
 
-    TPL_EVENT = '<div aria-expanded="false" aria-haspopup="dioalog" class="' + [CSS_EVENT, CSS_CLEARFIX].join(' ') +
+    TPL_EVENT = '<div aria-expanded="false" aria-haspopup="dialog" class="' + [CSS_EVENT, CSS_CLEARFIX].join(' ') +
         ' {firstClassName} {lastClassName} {eventClassName}" data-clientId="{clientId}">' +
         '<div class="' + CSS_EVENT_COLOR + '" style="background-color: {color};"></div>' +
         '<div class="' + CSS_EVENT_CONTENT + '">{content}</div>' +
