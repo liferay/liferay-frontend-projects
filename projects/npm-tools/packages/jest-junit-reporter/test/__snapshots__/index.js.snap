@@ -20,6 +20,15 @@ Received: true
 </testsuite>"
 `;
 
+exports[`@liferay/jest-junit-reporter writes a file for a failing test suite 1`] = `
+"<?xml version=\\"1.0\\" encoding=\\"UTF-8\\"?>
+<testsuite errors=\\"0\\" failures=\\"0\\" hostname=\\"\\" id=\\"0\\" name=\\"Jest\\" package=\\"reporter-tests\\" skipped=\\"0\\" tests=\\"1\\" time=\\"0\\" timestamp=\\"1000\\">
+  <testcase classname=\\"test-module.bar\\" name=\\"/foo/bar/liferay-portal/modules/apps/test-module/bar/Baz.js\\" time=\\"0\\">
+    <failure message=\\"Test Suite Failed to run\\">Test Suite Failed to run</failure>
+  </testcase>
+</testsuite>"
+`;
+
 exports[`@liferay/jest-junit-reporter writes a file for a passing test 1`] = `
 "<?xml version=\\"1.0\\" encoding=\\"UTF-8\\"?>
 <testsuite errors=\\"0\\" failures=\\"0\\" hostname=\\"\\" id=\\"0\\" name=\\"Jest\\" package=\\"reporter-tests\\" skipped=\\"0\\" tests=\\"1\\" time=\\"0\\" timestamp=\\"1000\\">

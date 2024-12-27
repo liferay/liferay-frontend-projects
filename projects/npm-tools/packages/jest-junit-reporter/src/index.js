@@ -37,18 +37,26 @@ module.exports = (report) => {
 	};
 
 	const testResults = report.testResults
-		.reduce(
-			(results, suite) =>
-				suite.testResults.length
-					? results.concat(
-							suite.testResults.map((test) => ({
-								...test,
-								testFilePath: suite.testFilePath,
-							}))
-					  )
-					: results,
-			[]
-		)
+		.reduce((acc, suite) => {
+			if (suite.testResults.length) {
+				acc.push(
+					...suite.testResults.map((test) => ({
+						...test,
+						testFilePath: suite.testFilePath,
+					}))
+				);
+			}
+			else if (suite.failureMessage) {
+				acc.push({
+					duration: 0,
+					failureMessages: [suite.failureMessage],
+					fullName: suite.testFilePath,
+					testFilePath: suite.testFilePath,
+				});
+			}
+
+			return acc;
+		}, [])
 		.map((testCase) => {
 			const results = [
 				{

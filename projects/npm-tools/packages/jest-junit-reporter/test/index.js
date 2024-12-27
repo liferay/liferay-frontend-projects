@@ -34,6 +34,20 @@ const failedTestReport = {
 	],
 };
 
+const failedTestSuite = {
+	numFailedTests: 0,
+	numTotalTests: 1,
+	startTime: 1000,
+	testResults: [
+		{
+			failureMessage: 'Test Suite Failed to run',
+			testFilePath:
+				'/foo/bar/liferay-portal/modules/apps/test-module/bar/Baz.js',
+			testResults: [],
+		},
+	],
+};
+
 const passedTestReport = {
 	numFailedTests: 0,
 	numTotalTests: 1,
@@ -77,6 +91,14 @@ describe('@liferay/jest-junit-reporter', () => {
 
 	it('writes a file for a failing test', () => {
 		reporter(failedTestReport);
+
+		const xmlWritten = fs.writeFileSync.mock.calls[0][1];
+
+		expect(xmlWritten).toMatchSnapshot();
+	});
+
+	it('writes a file for a failing test suite', () => {
+		reporter(failedTestSuite);
 
 		const xmlWritten = fs.writeFileSync.mock.calls[0][1];
 
