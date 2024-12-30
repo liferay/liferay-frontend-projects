@@ -1,3 +1,11 @@
+## [jest-junit-reporter/v1.2.1](https://github.com/liferay/liferay-frontend-projects/tree/jest-junit-reporter/v1.2.1) (2024-12-30)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/jest-junit-reporter/v1.2.0...jest-junit-reporter/v1.2.1)
+
+### :wrench: Bug fixes
+
+-   fix(jest-junit-reporter): report when entire suite fails ([\#1241](https://github.com/liferay/liferay-frontend-projects/pull/1241))
+
 ## [jest-junit-reporter/v1.2.0](https://github.com/liferay/liferay-frontend-projects/tree/jest-junit-reporter/v1.2.0) (2020-09-24)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-jest-junit-reporter/v1.2.0...jest-junit-reporter/v1.2.0)
