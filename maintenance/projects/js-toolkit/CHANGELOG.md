@@ -1,3 +1,15 @@
+## [liferay-js-toolkit/v2.32.1](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.32.1) (2025-01-09)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.32.0...liferay-js-toolkit/v2.32.1)
+
+### :wrench: Bug fixes
+
+-   fix(npm-bundler): account for negations and absolute paths work ([\#1242](https://github.com/liferay/liferay-frontend-projects/pull/1242))
+
+### :house: Chores
+
+-   chore: add deprecation notices ([\#1236](https://github.com/liferay/liferay-frontend-projects/pull/1236))
+
 ## [liferay-js-toolkit/v2.32.0](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.32.0) (2024-03-05)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.31.2...liferay-js-toolkit/v2.32.0)
