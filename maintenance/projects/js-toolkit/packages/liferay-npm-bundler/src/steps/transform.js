@@ -154,7 +154,7 @@ function babelifyPackage(destPkg) {
 
 	// Determine file globs
 
-	const globs = ['**/*.js', '!node_modules/**/*'];
+	const globs = ['**/*.js', '!**/node_modules/**/*'];
 
 	if (destPkg.isRoot) {
 		globs.push(...gl.negate(project.transform.babelIgnores));
