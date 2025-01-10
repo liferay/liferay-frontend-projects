@@ -164,7 +164,10 @@ function babelifyPackage(destPkg) {
 
 	const prjRelPaths = findFiles(
 		project.dir.asNative,
-		gl.prefix(`${project.dir.asPosix}/${destPkg.dir.asPosix}/`, globs)
+		gl.prefix(
+			path.posix.join(project.dir.asPosix, destPkg.dir.asPosix, '/'),
+			globs
+		)
 	);
 
 	log.debug(
