@@ -1,3 +1,11 @@
+## [liferay-js-toolkit/v2.32.2](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.32.2) (2025-01-10)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.32.1...liferay-js-toolkit/v2.32.2)
+
+### :wrench: Bug fixes
+
+-   fix(js-toolkit): fix glob path construction ([\#1243](https://github.com/liferay/liferay-frontend-projects/pull/1243))
+
 ## [liferay-js-toolkit/v2.32.1](https://github.com/liferay/liferay-frontend-projects/tree/liferay-js-toolkit/v2.32.1) (2025-01-09)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-js-toolkit/v2.32.0...liferay-js-toolkit/v2.32.1)
