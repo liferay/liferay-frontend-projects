@@ -1,3 +1,11 @@
+## [eslint-plugin/v1.7.0](https://github.com/liferay/liferay-frontend-projects/tree/eslint-plugin/v1.7.0) (2025-01-30)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-plugin/v1.6.0...eslint-plugin/v1.7.0)
+
+### :new: Features
+
+-   feat(eslint-plugin): add rule for new lines after copyright header ([\#1245](https://github.com/liferay/liferay-frontend-projects/pull/1245))
+
 ## [eslint-plugin/v1.6.0](https://github.com/liferay/liferay-frontend-projects/tree/eslint-plugin/v1.6.0) (2024-10-18)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-plugin/v1.5.0...eslint-plugin/v1.6.0)
