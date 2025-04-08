@@ -10,8 +10,7 @@ const gutil = require('gulp-util');
 const path = require('path');
 const {StringDecoder} = require('string_decoder');
 const through = require('through2');
-
-const liferayR2 = require('./liferay-r2');
+const rtlcss = require('rtlcss');
 
 const decoder = new StringDecoder('utf8');
 const PluginError = gutil.PluginError;
@@ -26,10 +25,7 @@ function gulpR2() {
 
 		if (file.isBuffer()) {
 			try {
-				file.contents = swapBuffer(
-					file.contents,
-					path.relative('.', file.path)
-				);
+				file.contents = swapBuffer(file.contents);
 			}
 			catch (error) {
 				this.push(file);
@@ -63,8 +59,10 @@ function gulpR2() {
 	return task;
 }
 
-function swapBuffer(buffer, filename) {
-	var swapped = liferayR2.swap(decoder.write(buffer), {filename});
+function swapBuffer(buffer) {
+	var swapped = rtlcss.process(
+		decoder.write(buffer).replaceAll('/* @noflip */', '/*rtl:ignore*/')
+	);
 
 	return new Buffer.from(swapped);
 }
