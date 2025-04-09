@@ -1,3 +1,15 @@
+## [liferay-theme-tasks/v11.5.6](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v11.5.6) (2025-04-09)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v11.5.5...liferay-theme-tasks/v11.5.6)
+
+### :wrench: Bug fixes
+
+-   fix(js-themes-toolkit): use rtlcss for conversion and keep r2 export for compatibility ([\#1246](https://github.com/liferay/liferay-frontend-projects/pull/1246))
+
+### :house: Chores
+
+-   chore: add deprecation notices ([\#1236](https://github.com/liferay/liferay-frontend-projects/pull/1236))
+
 ## [liferay-theme-tasks/v11.5.5](https://github.com/liferay/liferay-frontend-projects/tree/liferay-theme-tasks/v11.5.5) (2024-12-09)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/liferay-theme-tasks/v11.5.4...liferay-theme-tasks/v11.5.5)
