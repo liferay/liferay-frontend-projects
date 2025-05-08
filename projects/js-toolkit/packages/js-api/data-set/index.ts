@@ -6,6 +6,7 @@
 // Frontend data set cell renderer
 
 export interface FDSTableCellHTMLElementBuilderArgs {
+	itemData?: object;
 	value: boolean | number | string | object | [];
 }
 
