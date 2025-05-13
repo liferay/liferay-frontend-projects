@@ -1,3 +1,11 @@
+## [js-api/v0.6.2](https://github.com/liferay/liferay-frontend-projects/tree/js-api/v0.6.2) (2025-05-13)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-api/v0.6.1...js-api/v0.6.2)
+
+### :wrench: Bug fixes
+
+-   fix(js-api): Update itemData type on FDSTableCellHTMLElementBuilderArgs ([\#1249](https://github.com/liferay/liferay-frontend-projects/pull/1249))
+
 ## [js-api/v0.6.1](https://github.com/liferay/liferay-frontend-projects/tree/js-api/v0.6.1) (2025-05-08)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-api/v0.6.0...js-api/v0.6.1)
