@@ -8,7 +8,7 @@ const path = require('path');
 const DESCRIPTION =
 	'you cannot import files outside of the "/api" directory for your submodule.';
 
-const API_PATH = 'src/main/resources/META-INF/resources/js/api';
+const API_PATH = 'src/main/resources/META-INF/resources/js/api/';
 
 function isPathEscapingAPIDir(filePath, relativePath) {
 	const resolvedTarget = path.resolve(path.dirname(filePath), relativePath);
