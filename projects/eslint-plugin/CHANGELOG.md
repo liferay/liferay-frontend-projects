@@ -1,3 +1,11 @@
+## [eslint-plugin/v1.8.1](https://github.com/liferay/liferay-frontend-projects/tree/eslint-plugin/v1.8.1) (2025-05-14)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-plugin/v1.8.0...eslint-plugin/v1.8.1)
+
+### :wrench: Bug fixes
+
+-   fix(eslint-plugin): fix path ([\#1251](https://github.com/liferay/liferay-frontend-projects/pull/1251))
+
 ## [eslint-plugin/v1.8.0](https://github.com/liferay/liferay-frontend-projects/tree/eslint-plugin/v1.8.0) (2025-05-14)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-plugin/v1.7.0...eslint-plugin/v1.8.0)
