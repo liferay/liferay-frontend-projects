@@ -6,6 +6,7 @@
 module.exports = {
 	'portal/deprecation': require('./lib/rules/deprecation'),
 	'portal/empty-line-after-copyright': require('./lib/rules/empty-line-after-copyright'),
+	'portal/no-api-submodule-import': require('./lib/rules/no-api-submodule-import'),
 	'portal/no-default-export-from-frontend-js-web': require('./lib/rules/no-default-export-from-frontend-js-web'),
 	'portal/no-document-cookie': require('./lib/rules/no-document-cookie'),
 	'portal/no-explicit-extend': require('./lib/rules/no-explicit-extend'),

@@ -10,6 +10,7 @@ const config = {
 	rules: {
 		'@liferay/portal/deprecation': 'error',
 		'@liferay/portal/empty-line-after-copyright': 'error',
+		'@liferay/portal/no-api-submodule-import': 'error',
 		'@liferay/portal/no-default-export-from-frontend-js-web': 'error',
 		'@liferay/portal/no-document-cookie': 'error',
 		'@liferay/portal/no-explicit-extend': 'error',
