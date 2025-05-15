@@ -48,6 +48,10 @@ module.exports = {
 			);
 
 			dependencies = [...dependencyNames, ...devDependencyNames];
+
+			if (pkgJson.name) {
+				dependencies.push(pkgJson.name);
+			}
 		}
 
 		function check(dependencyName, node) {
