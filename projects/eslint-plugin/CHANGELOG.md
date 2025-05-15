@@ -1,3 +1,11 @@
+## [eslint-plugin/v1.9.0](https://github.com/liferay/liferay-frontend-projects/tree/eslint-plugin/v1.9.0) (2025-05-15)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-plugin/v1.8.1...eslint-plugin/v1.9.0)
+
+### :new: Features
+
+-   feat(eslint-plugin): add rule for deep imports across modules ([\#1252](https://github.com/liferay/liferay-frontend-projects/pull/1252))
+
 ## [eslint-plugin/v1.8.1](https://github.com/liferay/liferay-frontend-projects/tree/eslint-plugin/v1.8.1) (2025-05-14)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-plugin/v1.8.0...eslint-plugin/v1.8.1)

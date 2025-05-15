@@ -56,5 +56,5 @@
 		"preversion": "liferay-workspace-scripts ci",
 		"test": "liferay-workspace-scripts test"
 	},
-	"version": "1.8.1"
+	"version": "1.9.0"
 }
