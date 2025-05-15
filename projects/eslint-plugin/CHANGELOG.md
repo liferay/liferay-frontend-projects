@@ -1,3 +1,11 @@
+## [eslint-plugin/v1.9.1](https://github.com/liferay/liferay-frontend-projects/tree/eslint-plugin/v1.9.1) (2025-05-15)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-plugin/v1.9.0...eslint-plugin/v1.9.1)
+
+### :wrench: Bug fixes
+
+-   fix(eslint-plugin): add the name of the current package.json to the no-extraneous-dependencies rule ([\#1253](https://github.com/liferay/liferay-frontend-projects/pull/1253))
+
 ## [eslint-plugin/v1.9.0](https://github.com/liferay/liferay-frontend-projects/tree/eslint-plugin/v1.9.0) (2025-05-15)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/eslint-plugin/v1.8.1...eslint-plugin/v1.9.0)
