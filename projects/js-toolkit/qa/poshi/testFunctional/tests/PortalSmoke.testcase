@@ -1,0 +1,59 @@
+@component-name = "portal-smoke"
+definition {
+
+	property portal.acceptance = "true";
+	property portal.release = "true";
+	property portal.smoke = "true";
+	property portal.upstream = "true";
+	property test.assert.warning.exceptions = "true";
+	property testray.main.component.name = "Smoke";
+
+	setUp {
+		Portal.TestCase.setUpPortalInstance();
+	}
+
+	tearDown {
+		var testPortalInstance = PropsUtil.get("test.portal.instance");
+
+		if ("${testPortalInstance}" == "true") {
+			Portal.PortalInstances.tearDownCP();
+		}
+		else {
+			Portal.PagesAdmin.tearDownCP();
+
+			Portal.Site.tearDownCP();
+
+			Portal.WebContent.tearDownCP();
+		}
+	}
+
+	@description = "Ensure that the super admin can add pages, add portlets, navigate to the product menu, use the WYSIWYG editor, and view alert messages."
+	@priority = "5"
+	test Smoke {
+		property app.server.types = "jboss,tcserver,tomcat,weblogic,websphere,wildfly";
+		property database.bare.enabled = "true";
+		property database.types = "db2,hypersonic,mariadb,mysql,oracle,postgresql,sqlserver,sybase";
+		property environment.acceptance = "true";
+		property portal.acceptance = "false";
+		property testray.component.names = "Training";
+
+		Portal.SignIn.signInTestSetup();
+
+		Portal.Smoke.viewWelcomeContentPage();
+
+		Portal.Smoke.runSmoke();
+
+		// Assert all bundles installed
+
+		Default.AssertConsoleTextNotPresent(value1 = "The portal instance needs to be restarted to complete the installation");
+
+		// LPS-153203 Assert no warnings or errors in log4j configuration
+
+		Default.AssertConsoleTextPresent(value1 = "Starting dynamic bundles");
+
+		Default.AssertConsoleTextNotPresent(value1 = "log4j:WARN");
+
+		Default.AssertConsoleTextNotPresent(value1 = "log4j:ERROR");
+	}
+
+}
