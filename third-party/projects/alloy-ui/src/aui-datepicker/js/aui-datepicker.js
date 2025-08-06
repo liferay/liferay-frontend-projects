@@ -273,6 +273,8 @@ A.mix(DatePickerBase.prototype, {
 
         instance.clearSelection(true);
 
+        instance._isInitializing = instance._isInitializing ?? true;
+
         instance.selectDatesFromInputValue(instance.getParsedDatesFromInputValue());
     },
 
@@ -333,6 +335,12 @@ A.mix(DatePickerBase.prototype, {
             selectionMode = calendar.get('selectionMode');
 
         instance._setCalendarToFirstSelectedDate();
+
+        if (instance._isInitializing) {
+            instance._isInitializing = false;
+            
+            return;
+        }        
 
         if (instance.get('autoHide') && (selectionMode !== 'multiple')) {
             instance.hide();
