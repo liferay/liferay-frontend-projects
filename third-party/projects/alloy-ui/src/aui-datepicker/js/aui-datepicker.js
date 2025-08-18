@@ -273,7 +273,7 @@ A.mix(DatePickerBase.prototype, {
 
         instance.clearSelection(true);
 
-        instance._isInitializing = instance._isInitializing ?? true;
+        instance._isInitializing = instance._isInitializing == null ? true : instance._isInitializing;
 
         instance.selectDatesFromInputValue(instance.getParsedDatesFromInputValue());
     },
