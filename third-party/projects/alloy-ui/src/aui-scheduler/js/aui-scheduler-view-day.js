@@ -548,6 +548,8 @@ var SchedulerDayView = A.Component.create({
                 instance.headerView.set('scheduler', instance.get('scheduler'));
 
                 instance.headerView.render();
+
+                instance.headerView.syncDaysHeaderUI();
             }
         },
 
@@ -888,6 +890,7 @@ var SchedulerDayView = A.Component.create({
          */
         syncDaysHeaderUI: function() {
             var instance = this;
+            var locale = instance.get('scheduler').get('locale');
             var viewDate = instance.get('scheduler').get('viewDate');
             var formatter = instance.get('headerDateFormatter');
             var todayDate = instance.get('scheduler').get('todayDate');
@@ -898,6 +901,13 @@ var SchedulerDayView = A.Component.create({
 
                     columnNode.toggleClass(
                         CSS_SCHEDULER_TODAY_HD, !DateMath.isDayOverlap(columnDate, todayDate));
+
+                    columnNode.setAttribute(
+                        'aria-label',
+                        A.DataType.Date.format(columnDate, {
+                            format: '%A, %B %d, %Y',
+                            locale: locale
+                        }));
 
                     columnNode.html(formatter.call(instance, columnDate));
                 }
@@ -1363,6 +1373,10 @@ var SchedulerDayView = A.Component.create({
 
             instance.syncColumnsUI();
             instance.syncDaysHeaderUI();
+
+            if (instance.headerView) {
+                instance.headerView.syncDaysHeaderUI();
+            }
         },
 
         /**
