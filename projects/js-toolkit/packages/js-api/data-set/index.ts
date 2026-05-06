@@ -2,6 +2,21 @@
  * SPDX-FileCopyrightText: © 2020 Liferay, Inc. <https://liferay.com>
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
+
+/**
+ * Public extension API for the Frontend Data Set (FDS) widget.
+ *
+ * `getFDSAtom` resolves a typed `Atom<FDSState>` once the data set has
+ * registered its state under `Liferay.State`, polling until the atom
+ * appears or the timeout elapses — useful when client code needs to
+ * read or react to filter and search state from outside the widget.
+ *
+ * The remaining interfaces are the contracts that custom cell renderers
+ * and filters implement to integrate with FDS: HTML element builders
+ * for rendering, OData query builders for server-side filtering, and
+ * description builders for human-readable filter summaries.
+ */
+
 import type {Atom} from '../state';
 
 // Frontend data set state
