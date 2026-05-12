@@ -890,9 +890,9 @@ var SchedulerDayView = A.Component.create({
          */
         syncDaysHeaderUI: function() {
             var instance = this;
-            var locale = instance.get('scheduler').get('locale');
             var viewDate = instance.get('scheduler').get('viewDate');
-            var formatter = instance.get('headerDateFormatter');
+            var headerFormatter = instance.get('headerDateFormatter');
+            var navigationFormatter = instance.get('navigationDateFormatter');
             var todayDate = instance.get('scheduler').get('todayDate');
 
             instance.colHeaderDaysNode.all('a').each(
@@ -903,13 +903,9 @@ var SchedulerDayView = A.Component.create({
                         CSS_SCHEDULER_TODAY_HD, !DateMath.isDayOverlap(columnDate, todayDate));
 
                     columnNode.setAttribute(
-                        'aria-label',
-                        A.DataType.Date.format(columnDate, {
-                            format: '%A, %B %d, %Y',
-                            locale: locale
-                        }));
+                        'aria-label', navigationFormatter.call(instance, columnDate));
 
-                    columnNode.html(formatter.call(instance, columnDate));
+                    columnNode.html(headerFormatter.call(instance, columnDate));
                 }
             );
         },
