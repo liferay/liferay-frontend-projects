@@ -892,7 +892,7 @@ var SchedulerDayView = A.Component.create({
             var instance = this;
             var viewDate = instance.get('scheduler').get('viewDate');
             var headerFormatter = instance.get('headerDateFormatter');
-            var navigationFormatter = instance.get('navigationDateFormatter');
+            var ariaLabelFormatter = instance.get('ariaLabelFormatter');
             var todayDate = instance.get('scheduler').get('todayDate');
 
             instance.colHeaderDaysNode.all('a').each(
@@ -903,7 +903,7 @@ var SchedulerDayView = A.Component.create({
                         CSS_SCHEDULER_TODAY_HD, !DateMath.isDayOverlap(columnDate, todayDate));
 
                     columnNode.setAttribute(
-                        'aria-label', navigationFormatter.call(instance, columnDate));
+                        'aria-label', ariaLabelFormatter.call(instance, columnDate));
 
                     columnNode.html(headerFormatter.call(instance, columnDate));
                 }
