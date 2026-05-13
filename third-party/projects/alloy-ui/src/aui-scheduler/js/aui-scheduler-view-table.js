@@ -124,6 +124,26 @@ var SchedulerTableView = A.Component.create({
     ATTRS: {
 
         /**
+         * Contains the function that formats the aria-label applied to
+         * each day-of-week column header.
+         *
+         * @attribute ariaLabelFormatter
+         * @type {Function}
+         */
+        ariaLabelFormatter: {
+            value: function(date) {
+                var instance = this;
+                var scheduler = instance.get('scheduler');
+
+                return A.DataType.Date.format(date, {
+                    format: '%A',
+                    locale: scheduler.get('locale')
+                });
+            },
+            validator: isFunction
+        },
+
+        /**
          * Determines the content of Scheduler table view's body section.
          *
          * @attribute bodyContent
@@ -787,14 +807,18 @@ var SchedulerTableView = A.Component.create({
             var instance = this;
             var scheduler = instance.get('scheduler');
             var viewDate = scheduler.get('viewDate');
-            var formatter = instance.get('headerDateFormatter');
+            var headerFormatter = instance.get('headerDateFormatter');
+            var ariaLabelFormatter = instance.get('ariaLabelFormatter');
             var firstDayOfWeekDt = instance._findFirstDayOfWeek(viewDate);
 
             instance.colHeaderDaysNode.all('div').each(
                 function(columnNode, i) {
                     var columnDate = DateMath.add(firstDayOfWeekDt, DateMath.DAY, i);
 
-                    columnNode.html(formatter.call(instance, columnDate));
+                    columnNode.ancestor('th').setAttribute(
+                        'aria-label', ariaLabelFormatter.call(instance, columnDate));
+
+                    columnNode.html(headerFormatter.call(instance, columnDate));
                 }
             );
         },
