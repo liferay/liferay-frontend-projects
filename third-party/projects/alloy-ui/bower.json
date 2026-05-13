@@ -1,7 +1,6 @@
 {
 	"name": "alloy-ui",
-	"version": "3.1.0-deprecated.130",
-	"homepage": "http://alloyui.com",
+	"version": "3.1.0-deprecated.131",
 	"authors": ["Eduardo Lundgren <eduardo.lundgren@liferay.com>"],
 	"description": "AlloyUI is a framework built on top of YUI3 (JavaScript) that uses Bootstrap (HTML/CSS) to provide a simple API for building high scalable applications",
 	"keywords": ["alloy", "alloyui", "aui", "yui", "yui3"],
