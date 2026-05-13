@@ -56,6 +56,26 @@ var SchedulerView = A.Component.create({
     ATTRS: {
 
         /**
+         * Contains the function that formats the aria-label applied to
+         * per-day header cells in `syncDaysHeaderUI`.
+         *
+         * @attribute ariaLabelFormatter
+         * @type {Function}
+         */
+        ariaLabelFormatter: {
+            value: function(date) {
+                var instance = this;
+                var scheduler = instance.get('scheduler');
+
+                return A.DataType.Date.format(date, {
+                    format: '%A, %B %d, %Y',
+                    locale: scheduler.get('locale')
+                });
+            },
+            validator: isFunction
+        },
+
+        /**
          * Determines the content of Scheduler view's body section.
          *
          * @attribute bodyContent
