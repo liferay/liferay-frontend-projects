@@ -17,9 +17,12 @@
  * description builders for human-readable filter summaries.
  */
 
-import type {Atom} from '../state';
-
 // Frontend data set state
+
+export interface Atom<T> {
+	readonly __type?: T;
+	readonly key: string;
+}
 
 interface FDSFilterState {
 	active?: boolean;
@@ -32,6 +35,9 @@ export interface FDSState {
 	filters: Array<FDSFilterState>;
 	search: {query: string};
 }
+
+export {dataSetSearch} from './dataset-search';
+export type {DataSetSearch} from './dataset-search';
 
 const DEFAULT_TIMEOUT = 5000;
 const DEFAULT_INTERVAL = 100;
