@@ -12,7 +12,6 @@
  * exists.
  */
 
-import type {FDSState} from './index';
 import {getFDSAtom} from './index';
 
 export interface DataSetSearch {
@@ -25,18 +24,17 @@ export async function dataSetSearch(
 	fdsName: string,
 	options?: {interval?: number; timeout?: number}
 ): Promise<DataSetSearch> {
-	const {key} = await getFDSAtom(fdsName, options);
+	const atom = await getFDSAtom(fdsName, options);
 
-	const read = () =>
-		(Liferay.State.__unsafe__.readKey(key) as FDSState).search.query;
+	const read = () => Liferay.State.read(atom).search.query;
 
 	return {
 		get: read,
 
 		set(query) {
-			const current = Liferay.State.__unsafe__.readKey(key) as FDSState;
+			const current = Liferay.State.read(atom);
 
-			Liferay.State.__unsafe__.writeKey(key, {
+			Liferay.State.write(atom, {
 				...current,
 				search: {...current.search, query},
 			});
@@ -45,17 +43,14 @@ export async function dataSetSearch(
 		subscribe(callback) {
 			let last = read();
 
-			return Liferay.State.__unsafe__.subscribeKey(
-				key,
-				(value: unknown) => {
-					const next = (value as FDSState).search.query;
+			return Liferay.State.subscribe(atom, (value) => {
+				const next = value.search.query;
 
-					if (next !== last) {
-						last = next;
-						callback(next);
-					}
+				if (next !== last) {
+					last = next;
+					callback(next);
 				}
-			);
+			});
 		},
 	};
 }

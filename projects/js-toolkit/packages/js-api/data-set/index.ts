@@ -19,10 +19,7 @@
 
 // Frontend data set state
 
-export interface Atom<T> {
-	readonly __type?: T;
-	readonly key: string;
-}
+export type Atom<T> = Liferay.State.Atom<T>;
 
 interface FDSFilterState {
 	active?: boolean;
@@ -56,7 +53,7 @@ export function getFDSAtom(
 			Liferay.State.__unsafe__.getAtomOrSelectorKey(key);
 
 		if (existing) {
-			return resolve({key});
+			return resolve(existing as Atom<FDSState>);
 		}
 
 		const startTime = Date.now();
@@ -68,7 +65,7 @@ export function getFDSAtom(
 			if (atom) {
 				clearInterval(poll);
 
-				return resolve({key});
+				return resolve(atom as Atom<FDSState>);
 			}
 
 			if (Date.now() - startTime >= timeout) {
