@@ -1,5 +1,6 @@
 *.d.ts
 *.js
+!liferay.d.ts
 
 /*·tgz
 /tsconfig.tsbuildinfo
