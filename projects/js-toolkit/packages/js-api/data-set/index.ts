@@ -21,7 +21,7 @@
 
 export type Atom<T> = Liferay.State.Atom<T>;
 
-interface FDSFilterState {
+export interface FDSFilterState {
 	active?: boolean;
 	id: string;
 	odataFilterString?: string;
@@ -33,6 +33,8 @@ export interface FDSState {
 	search: {query: string};
 }
 
+export {dataSetFilters} from './dataset-filters';
+export type {DataSetFilters} from './dataset-filters';
 export {dataSetSearch} from './dataset-search';
 export type {DataSetSearch} from './dataset-search';
 
