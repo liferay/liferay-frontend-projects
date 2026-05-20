@@ -4,53 +4,52 @@
  */
 
 /**
- * Opinionated helpers for reading, writing, and observing the search
- * query slice of a Frontend Data Set state atom.
+ * Opinionated subscription helper for the search query slice of a
+ * Frontend Data Set state atom.
  *
- * `dataSetSearch` waits until the data set has registered its state
- * before resolving, so callers cannot read or write before the atom
- * exists.
+ * `subscribeSearch` waits until the data set has registered its state,
+ * then fires the callback once with the initial value before resolving
+ * to a handle exposing `getSearch`, `setSearch`, and `dispose`.
  */
 
 import {getFDSAtom} from './index';
 
-export interface DataSetSearch {
-	get(): string;
-	set(query: string): void;
-	subscribe(callback: (query: string) => void): {dispose: () => void};
+export interface SearchSubscription {
+	dispose: () => void;
+	getSearch: () => string;
+	setSearch: (query: string) => void;
 }
 
-export async function dataSetSearch(
+export async function subscribeSearch(
 	fdsName: string,
+	callback: (query: string) => void,
 	options?: {interval?: number; timeout?: number}
-): Promise<DataSetSearch> {
+): Promise<SearchSubscription> {
 	const atom = await getFDSAtom(fdsName, options);
 
-	const read = () => Liferay.State.read(atom).search.query;
+	const getSearch = () => Liferay.State.read(atom).search.query;
 
-	return {
-		get: read,
+	const setSearch = (query: string) => {
+		const current = Liferay.State.read(atom);
 
-		set(query) {
-			const current = Liferay.State.read(atom);
-
-			Liferay.State.write(atom, {
-				...current,
-				search: {...current.search, query},
-			});
-		},
-
-		subscribe(callback) {
-			let last = read();
-
-			return Liferay.State.subscribe(atom, (value) => {
-				const next = value.search.query;
-
-				if (next !== last) {
-					last = next;
-					callback(next);
-				}
-			});
-		},
+		Liferay.State.write(atom, {
+			...current,
+			search: {...current.search, query},
+		});
 	};
+
+	let last = getSearch();
+
+	const {dispose} = Liferay.State.subscribe(atom, (value) => {
+		const next = value.search.query;
+
+		if (next !== last) {
+			last = next;
+			callback(next);
+		}
+	});
+
+	callback(last);
+
+	return {dispose, getSearch, setSearch};
 }

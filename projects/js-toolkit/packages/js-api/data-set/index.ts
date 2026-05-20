@@ -33,10 +33,10 @@ export interface FDSState {
 	search: {query: string};
 }
 
-export {dataSetFilters} from './dataset-filters';
-export type {DataSetFilters} from './dataset-filters';
-export {dataSetSearch} from './dataset-search';
-export type {DataSetSearch} from './dataset-search';
+export {subscribeFilters} from './dataset-filters';
+export type {FiltersSubscription} from './dataset-filters';
+export {subscribeSearch} from './dataset-search';
+export type {SearchSubscription} from './dataset-search';
 
 const DEFAULT_TIMEOUT = 5000;
 const DEFAULT_INTERVAL = 100;

@@ -4,53 +4,51 @@
  */
 
 /**
- * Opinionated helpers for reading, writing, and observing the filters
- * slice of a Frontend Data Set state atom.
+ * Opinionated subscription helper for the filters slice of a Frontend
+ * Data Set state atom.
  *
- * `dataSetFilters` waits until the data set has registered its state
- * before resolving, so callers cannot read or write before the atom
- * exists. Filters are always treated as a whole set; to update a
- * single filter, read the array, transform it, and write it back.
+ * `subscribeFilters` waits until the data set has registered its state,
+ * then fires the callback once with the initial value before resolving
+ * to a handle exposing `getFilters`, `setFilters`, and `dispose`.
+ * Filters are always treated as a whole set; to update a single filter,
+ * read the array, transform it, and write it back.
  */
 
 import {FDSFilterState, getFDSAtom} from './index';
 
-export interface DataSetFilters {
-	get(): Array<FDSFilterState>;
-	set(filters: Array<FDSFilterState>): void;
-	subscribe(
-		callback: (filters: Array<FDSFilterState>) => void
-	): {dispose: () => void};
+export interface FiltersSubscription {
+	dispose: () => void;
+	getFilters: () => Array<FDSFilterState>;
+	setFilters: (filters: Array<FDSFilterState>) => void;
 }
 
-export async function dataSetFilters(
+export async function subscribeFilters(
 	fdsName: string,
+	callback: (filters: Array<FDSFilterState>) => void,
 	options?: {interval?: number; timeout?: number}
-): Promise<DataSetFilters> {
+): Promise<FiltersSubscription> {
 	const atom = await getFDSAtom(fdsName, options);
 
-	const read = () => Liferay.State.read(atom).filters;
+	const getFilters = () => Liferay.State.read(atom).filters;
 
-	return {
-		get: read,
+	const setFilters = (filters: Array<FDSFilterState>) => {
+		const current = Liferay.State.read(atom);
 
-		set(filters) {
-			const current = Liferay.State.read(atom);
-
-			Liferay.State.write(atom, {...current, filters});
-		},
-
-		subscribe(callback) {
-			let last = read();
-
-			return Liferay.State.subscribe(atom, (value) => {
-				const next = value.filters;
-
-				if (next !== last) {
-					last = next;
-					callback(next);
-				}
-			});
-		},
+		Liferay.State.write(atom, {...current, filters});
 	};
+
+	let last = getFilters();
+
+	const {dispose} = Liferay.State.subscribe(atom, (value) => {
+		const next = value.filters;
+
+		if (next !== last) {
+			last = next;
+			callback(next);
+		}
+	});
+
+	callback(last);
+
+	return {dispose, getFilters, setFilters};
 }
