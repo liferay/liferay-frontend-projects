@@ -17,7 +17,7 @@
  * fan out.
  */
 
-import {getFDSAtom, getOrCreateSelector} from './index';
+import {getFDSAtom, getOrCreateSelector} from './_internal';
 
 export interface SearchSubscription {
 	dispose: () => void;
