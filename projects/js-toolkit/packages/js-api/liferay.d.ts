@@ -10,9 +10,20 @@ declare namespace Liferay {
 			readonly key: string;
 		}
 
-		function read<T>(atom: Atom<T>): T;
+		interface Selector<T> {
+			readonly __type?: T;
+			readonly key: string;
+		}
+
+		type Getter = <T>(atomOrSelector: Atom<T> | Selector<T>) => T;
+
+		function read<T>(atomOrSelector: Atom<T> | Selector<T>): T;
+		function selector<T>(
+			key: string,
+			deriveValue: (get: Getter) => T
+		): Selector<T>;
 		function subscribe<T>(
-			atom: Atom<T>,
+			atomOrSelector: Atom<T> | Selector<T>,
 			callback: (value: T) => void
 		): {dispose: () => void};
 		function write<T>(atom: Atom<T>, value: T): void;
@@ -20,7 +31,7 @@ declare namespace Liferay {
 		namespace __unsafe__ {
 			function getAtomOrSelectorKey(
 				key: string
-			): Atom<unknown> | null;
+			): Atom<unknown> | Selector<unknown> | null;
 			function readKey(key: string): unknown;
 			function subscribeKey(
 				key: string,

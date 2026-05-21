@@ -20,6 +20,7 @@
 // Frontend data set state
 
 export type Atom<T> = Liferay.State.Atom<T>;
+export type Selector<T> = Liferay.State.Selector<T>;
 
 interface FDSFilterState {
 	active?: boolean;
@@ -79,6 +80,18 @@ export function getFDSAtom(
 			}
 		}, interval);
 	});
+}
+
+export function getOrCreateSelector<T>(
+	key: string,
+	deriveValue: (get: Liferay.State.Getter) => T
+): Selector<T> {
+	const existing = Liferay.State.__unsafe__.getAtomOrSelectorKey(key);
+
+	return (
+		(existing as Selector<T> | null) ??
+		Liferay.State.selector<T>(key, deriveValue)
+	);
 }
 
 // Frontend data set cell renderer
