@@ -10,9 +10,14 @@
  * `subscribeSearch` waits until the data set has registered its state,
  * then fires the callback once with the initial value before resolving
  * to a handle exposing `getSearch`, `setSearch`, and `dispose`.
+ *
+ * The subscription is backed by a per-atom selector that projects
+ * `state.search.query`, so callers are only notified when the query
+ * itself changes — unrelated atom updates (e.g. filter writes) do not
+ * fan out.
  */
 
-import {getFDSAtom} from './index';
+import {getFDSAtom, getOrCreateSelector} from './index';
 
 export interface SearchSubscription {
 	dispose: () => void;
@@ -27,7 +32,12 @@ export async function subscribeSearch(
 ): Promise<SearchSubscription> {
 	const atom = await getFDSAtom(fdsName, options);
 
-	const getSearch = () => Liferay.State.read(atom).search.query;
+	const searchSelector = getOrCreateSelector(
+		`${atom.key}_searchQuery`,
+		(get) => get(atom).search.query
+	);
+
+	const getSearch = () => Liferay.State.read(searchSelector);
 
 	const setSearch = (query: string) => {
 		const current = Liferay.State.read(atom);
@@ -38,18 +48,9 @@ export async function subscribeSearch(
 		});
 	};
 
-	let last = getSearch();
+	const {dispose} = Liferay.State.subscribe(searchSelector, callback);
 
-	const {dispose} = Liferay.State.subscribe(atom, (value) => {
-		const next = value.search.query;
-
-		if (next !== last) {
-			last = next;
-			callback(next);
-		}
-	});
-
-	callback(last);
+	callback(getSearch());
 
 	return {dispose, getSearch, setSearch};
 }

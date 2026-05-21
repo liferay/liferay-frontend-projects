@@ -12,9 +12,14 @@
  * to a handle exposing `getFilters`, `setFilters`, and `dispose`.
  * Filters are always treated as a whole set; to update a single filter,
  * read the array, transform it, and write it back.
+ *
+ * The subscription is backed by a per-atom selector that projects
+ * `state.filters`, so callers are only notified when the filter array
+ * itself changes — unrelated atom updates (e.g. search writes) do not
+ * fan out.
  */
 
-import {FDSFilterState, getFDSAtom} from './index';
+import {FDSFilterState, getFDSAtom, getOrCreateSelector} from './index';
 
 export interface FiltersSubscription {
 	dispose: () => void;
@@ -29,7 +34,12 @@ export async function subscribeFilters(
 ): Promise<FiltersSubscription> {
 	const atom = await getFDSAtom(fdsName, options);
 
-	const getFilters = () => Liferay.State.read(atom).filters;
+	const filtersSelector = getOrCreateSelector(
+		`${atom.key}_allFilters`,
+		(get) => get(atom).filters
+	);
+
+	const getFilters = () => Liferay.State.read(filtersSelector);
 
 	const setFilters = (filters: Array<FDSFilterState>) => {
 		const current = Liferay.State.read(atom);
@@ -37,18 +47,9 @@ export async function subscribeFilters(
 		Liferay.State.write(atom, {...current, filters});
 	};
 
-	let last = getFilters();
+	const {dispose} = Liferay.State.subscribe(filtersSelector, callback);
 
-	const {dispose} = Liferay.State.subscribe(atom, (value) => {
-		const next = value.filters;
-
-		if (next !== last) {
-			last = next;
-			callback(next);
-		}
-	});
-
-	callback(last);
+	callback(getFilters());
 
 	return {dispose, getFilters, setFilters};
 }
