@@ -19,8 +19,8 @@
  * fan out.
  */
 
-import {FDSFilterState} from './index';
 import {getFDSAtom, getOrCreateSelector} from './_internal';
+import {FDSFilterState} from './index';
 
 export interface FiltersSubscription {
 	dispose: () => void;
