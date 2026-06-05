@@ -4,6 +4,15 @@
  */
 
 declare namespace Liferay {
+	interface EventHandler {
+		detach: () => number;
+	}
+
+	function on(
+		events: string | string[],
+		callback?: (event?: any) => void
+	): EventHandler;
+
 	namespace State {
 		interface Atom<T> {
 			readonly __type?: T;
