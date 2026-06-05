@@ -29,7 +29,7 @@ export function getFDSAtom(
 	const key = `${id}_fdsState`;
 
 	return new Promise((resolve, reject) => {
-		const existing = Liferay.State.__unsafe__.getAtomOrSelectorKey(key);
+		const existing = Liferay?.State?.__unsafe__?.getAtomOrSelectorKey(key);
 
 		if (existing) {
 			return resolve(existing as Atom<FDSState>);
@@ -38,7 +38,7 @@ export function getFDSAtom(
 		const startTime = Date.now();
 
 		const poll = setInterval(() => {
-			const atom = Liferay.State.__unsafe__.getAtomOrSelectorKey(key);
+			const atom = Liferay?.State?.__unsafe__?.getAtomOrSelectorKey(key);
 
 			if (atom) {
 				clearInterval(poll);

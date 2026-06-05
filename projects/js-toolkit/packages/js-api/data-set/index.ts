@@ -18,14 +18,18 @@
  * description builders for human-readable filter summaries.
  */
 
-// Frontend data set state
+// Frontend data set connection and remote state management
 
 export interface FDSState {
 	search: {query: string};
 }
 
-export {subscribeSearch} from './dataset-search';
-export type {SearchSubscription} from './dataset-search';
+export type {
+	FDSConnectionInfo,
+	FDSConnectionStatus,
+	FDSStateChangeCallback,
+} from './FDSConnection';
+export {FDSConnection} from './FDSConnection';
 
 // Frontend data set cell renderer
 
