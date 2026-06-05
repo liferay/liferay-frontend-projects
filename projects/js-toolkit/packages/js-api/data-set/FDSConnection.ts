@@ -53,7 +53,6 @@ export class FDSConnection {
 			fdsConnectionInfo: FDSConnectionInfo
 		) => void
 	) {
-		this.log('Creating FDSConnection for ' + fdsName);
 		this.fdsName = fdsName;
 		this.onFDSConnectionInfoChange = onFDSConnectionInfoChange;
 		this.notifyStatus('connecting');
@@ -61,17 +60,8 @@ export class FDSConnection {
 		getFDSAtom(fdsName, {timeout: 10000})
 			.then((atom: Atom<FDSState>) => {
 				if (this.disconnected) {
-					this.log(
-						'Atom available for ' +
-							fdsName +
-							' but ' +
-							this.instanceId +
-							' is already disconnected'
-					);
 					return;
 				}
-
-				this.log('Atom available for ' + fdsName);
 
 				this.atom = atom;
 
@@ -116,7 +106,6 @@ export class FDSConnection {
 		// ensure consumers don't need to dispose the subscriptions on SPA navigations
 
 		this.navigationHandle = Liferay.on('beforeNavigate', () => {
-			this.log('Calling before navigate callback');
 			this.disconnect();
 		});
 	}
@@ -144,20 +133,14 @@ export class FDSConnection {
 
 	disconnect = () => {
 		if (this.disconnected) {
-			this.log('Already disconnected!');
 			return;
 		}
-		this.log('Disconnecting');
 		this.subscriptions?.search?.dispose();
 		this.disconnected = true;
 		this.isReady = false;
 		this.navigationHandle.detach();
 		this.notifyStatus('disconnected');
 	};
-
-	private log(msg: string) {
-		console.log('[FDSConnection', this.instanceId, ']', msg);
-	}
 
 	private warn(msg: string) {
 		console.warn('[FDSConnection', this.instanceId, ']', msg);
