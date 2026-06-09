@@ -5,9 +5,6 @@
 		"jsx": "react",
 		"lib": ["DOM", "ES2020"],
 		"outDir": ".",
-		"paths": {
-			"@liferay/js-api/*": ["./*"]
-		},
 		"rootDir": ".",
 		"target": "ES2020"
 	},

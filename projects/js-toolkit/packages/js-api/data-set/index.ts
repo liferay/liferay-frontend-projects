@@ -4,21 +4,27 @@
  */
 
 /**
- * Public extension API for the Frontend Data Set (FDS) widget.
+ * Public type contracts for the Frontend Data Set (FDS) widget,
+ * consumed by Client Extensions. This module exposes only types — it
+ * contains no implementation. The FDS connection is implemented and
+ * served at runtime by the portal and obtained through the import map;
+ * see the sibling `client.ts` for how that runtime value is typed.
  *
- * Consumers interact with FDS state through opinionated subscription
- * helpers — one per blessed slice (`subscribeSearch`,
- * `subscribeFilters`). New slices are added by exposing a new helper
- * from this module; consumers do not reach for the underlying atom or
- * selector directly.
+ * The contracts fall into three groups:
  *
- * The remaining interfaces are the contracts that custom cell renderers
- * and filters implement to integrate with FDS: HTML element builders
- * for rendering, OData query builders for server-side filtering, and
- * description builders for human-readable filter summaries.
+ * - FDS connection and remote state: `FDSConnection` (and its companion
+ *   `FDSConnectionConstructor`) let a Client Extension read and write FDS
+ *   search state, while `FDSConnectionInfo`, `FDSConnectionStatus`,
+ *   `FDSConnectionOptions`, and `FDSStateChangeCallback` describe how a
+ *   connection is opened and observed.
+ *
+ * - Custom cell renderers: the HTML element builder a renderer
+ *   implements to draw a table cell.
+ *
+ * - Custom filters: HTML element builders for rendering, OData query
+ *   builders for server-side filtering, and description builders for
+ *   human-readable filter summaries.
  */
-
-/// <reference path="./frontend-data-set-web.ts" />
 
 // Frontend data set connection and remote state management
 
