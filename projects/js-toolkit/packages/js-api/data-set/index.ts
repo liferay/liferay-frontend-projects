@@ -18,18 +18,50 @@
  * description builders for human-readable filter summaries.
  */
 
+/// <reference path="./frontend-data-set-web.ts" />
+
 // Frontend data set connection and remote state management
 
 export interface FDSState {
 	search: {query: string};
 }
 
-export type {
-	FDSConnectionInfo,
-	FDSConnectionStatus,
-	FDSStateChangeCallback,
-} from './FDSConnection';
-export {FDSConnection} from './FDSConnection';
+export interface FDSStateChangeCallback {
+	search: (query: string) => void;
+}
+
+export interface FDSConnectionOptions {
+	timeout?: number;
+}
+
+export interface FDSConnectionInfo {
+	fdsName: string;
+	instanceId: number;
+	status: FDSConnectionStatus;
+}
+
+export type FDSConnectionStatus =
+	| 'connecting'
+	| 'ready'
+	| 'timeout'
+	| 'disconnected';
+
+export interface FDSConnection {
+	disconnect: () => void;
+	getSearch: () => string | null;
+	setSearch: (query: string) => void;
+}
+
+export interface FDSConnectionConstructor {
+	new (
+		fdsName: string,
+		fdsStateChangeCallback: FDSStateChangeCallback,
+		onFDSConnectionInfoChange: (
+			fdsConnectionInfo: FDSConnectionInfo
+		) => void,
+		options?: FDSConnectionOptions
+	): FDSConnection;
+}
 
 // Frontend data set cell renderer
 
