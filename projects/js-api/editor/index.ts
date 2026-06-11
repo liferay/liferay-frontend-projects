@@ -10,6 +10,8 @@
  * https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html
  */
 
+export {WordCount} from '@ckeditor/ckeditor5-word-count/dist/index.js';
+
 export interface EditorConfigTransformer<T> {
 	(args: T): T;
 }
