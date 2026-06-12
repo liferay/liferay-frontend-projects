@@ -16,19 +16,21 @@ npm install @liferay/js-api
 ### `@liferay/js-api/data-set`
 
 Public type contracts for the Frontend Data Set (FDS) widget. The module
-exposes only types; it contains no implementation. It covers three groups of
-contracts:
+exposes only types; it contains no implementation. The contracts are split by
+functionality across sibling modules and re-exported from the module entry
+point, covering three groups:
 
--   **FDS connection and remote state** — `FDSConnection` (and its companion
-    `FDSConnectionConstructor`) let a Client Extension read and write FDS search
-    state, while `FDSConnectionInfo`, `FDSConnectionStatus`,
+-   **FDS connection and remote state** (`./connection`) — `FDSConnection` (and
+    its companion `FDSConnectionConstructor`) let a Client Extension read and
+    write FDS search state, while `FDSConnectionInfo`, `FDSConnectionStatus`,
     `FDSConnectionOptions`, and `FDSStateChangeCallback` describe how a
     connection is opened and observed.
--   **Custom cell renderers** — `FDSTableCellHTMLElementBuilder` and its args,
-    the HTML element builder a renderer implements to draw a table cell.
--   **Custom filters** — `FDSFilter` and the HTML element builders (rendering),
-    OData query builders (server-side filtering), and description builders
-    (human-readable filter summaries) it composes.
+-   **Custom cell renderers** (`./cell-renderer`) — `FDSTableCellHTMLElementBuilder`
+    and its args, the HTML element builder a renderer implements to draw a table
+    cell.
+-   **Custom filters** (`./filter`) — `FDSFilter` and the HTML element builders
+    (rendering), OData query builders (server-side filtering), and description
+    builders (human-readable filter summaries) it composes.
 
 ```ts
 import type {
@@ -37,13 +39,13 @@ import type {
 } from '@liferay/js-api/data-set';
 ```
 
-### `@liferay/js-api/data-set/client`
+### `@liferay/js-api/data-set/connection`
 
-The typed surface of the Frontend Data Set runtime client. Unlike
-`data-set`, this module declares `FDSConnection` as both a **value** (the
-constructor) and a **type** (the instance), so consumers can
-`new FDSConnection(...)` and annotate with `FDSConnection` exactly as they
-would a class.
+The typed surface of the Frontend Data Set runtime client. Unlike the
+`data-set` entry point, which re-exports only types, this module also declares
+`FDSConnection` as a **value** (the constructor) alongside its **type** (the
+instance), so consumers can `new FDSConnection(...)` and annotate with
+`FDSConnection` exactly as they would a class.
 
 At runtime the FDS connection is implemented and served by the portal as the
 `@liferay/frontend-data-set-web/api` ES module and resolved through the import
@@ -53,7 +55,7 @@ with full typing while the value is pulled from the import-map module at
 runtime.
 
 ```ts
-import {FDSConnection} from '@liferay/js-api/data-set/client';
+import {FDSConnection} from '@liferay/js-api/data-set/connection';
 
 const connection = new FDSConnection(
 	fdsName,
