@@ -1,3 +1,7 @@
+## [js-api/v0.7.0](https://github.com/liferay/liferay-frontend-projects/tree/js-api/v0.7.0) (2026-06-12)
+
+[Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-api/v0.6.2...js-api/v0.7.0)
+
 ## [js-api/v0.6.2](https://github.com/liferay/liferay-frontend-projects/tree/js-api/v0.6.2) (2025-05-13)
 
 [Full changelog](https://github.com/liferay/liferay-frontend-projects/compare/js-api/v0.6.1...js-api/v0.6.2)
