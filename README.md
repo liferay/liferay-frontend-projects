@@ -106,6 +106,19 @@ These include the toolkits to deal with themes, JavaScript projects, and the AMD
 -   npm packages
     -   [@liferay/amd-loader](https://www.npmjs.com/package/@liferay/amd-loader)
 
+### Liferay JS API
+
+The public, stable TypeScript contracts that a Client Extension uses to integrate with Liferay DXP features (Frontend Data Set, editors, etc.). It is a standalone package that, unlike the rest of this monorepo, is decoupled from the root yarn workspace and ships on TypeScript 5 with ESM/`bundler` module resolution, which is required to consume ESM-only dependencies such as CKEditor 5.
+
+-   Projects
+    -   [js-api](./projects/js-api): Public Liferay DXP API to be used from Client Extensions
+-   Issues
+    -   [label: `js-api`](https://github.com/liferay/liferay-frontend-projects/issues?q=is%3Aissue+is%3Aopen+label%3Ajs-api)
+-   Pull requests
+    -   [label: `js-api`](https://github.com/liferay/liferay-frontend-projects/pulls?q=is%3Apr+is%3Aopen+label%3Ajs-api)
+-   npm packages
+    -   [@liferay/js-api](https://www.npmjs.com/package/@liferay/js-api)
+
 ### Internal Development Tools (`npm-tools`)
 
 This is a collection of utilities to deal with building [liferay-portal](https://github.com/liferay/liferay-portal).

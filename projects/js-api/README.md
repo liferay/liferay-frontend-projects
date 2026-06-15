@@ -82,6 +82,28 @@ configuration. For CKEditor 4, see the
 import type {EditorTransformer} from '@liferay/js-api/editor';
 ```
 
+In addition to the transformer types, this module re-exports CKEditor 5 plugin
+types so a Client Extension can import the same plugins the portal bundles and
+reference them with full typing from a transformer. Currently `WordCount` (from
+[`@ckeditor/ckeditor5-word-count`](https://ckeditor.com/docs/ckeditor5/latest/api/word-count.html))
+is exposed:
+
+```ts
+import {WordCount} from '@liferay/js-api/editor';
+import type {EditorTransformer} from '@liferay/js-api/editor';
+
+const transformer: EditorTransformer<EditorConfig> = {
+	editorConfigTransformer: (config) => ({
+		...config,
+		plugins: [...(config.plugins ?? []), WordCount],
+	}),
+};
+```
+
+Consuming these plugin types requires TypeScript 5 with `moduleResolution`
+set to `bundler` (CKEditor 5 is ESM-only), which is why this package is built
+independently of the rest of the monorepo.
+
 ## Scripts
 
 -   `yarn build` — compile the TypeScript sources with `tsc`.
