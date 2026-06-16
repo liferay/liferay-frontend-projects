@@ -4,7 +4,7 @@
 	"license": "LGPL-3.0",
 	"name": "@liferay/js-api",
 	"repository": {
-		"directory": "projects/js-api",
+		"directory": "js-api",
 		"type": "git",
 		"url": "https://github.com/liferay/liferay-frontend-projects.git"
 	},
