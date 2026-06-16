@@ -60,13 +60,7 @@
 	"version": "0.0.1",
 	"workspaces": [
 		"guidelines",
-		"projects/eslint-plugin",
-		"projects/js-themes-toolkit",
-		"projects/js-toolkit",
-		"projects/npm-tools",
-		"projects/prettier-config",
-		"projects/prettier-plugin",
-		"projects/stylelint-plugin",
+		"projects/*",
 		"projects/*/packages/*",
 		"support/packages/*",
 		"third-party/projects/alloy-font-awesome"
