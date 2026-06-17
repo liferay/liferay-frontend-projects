@@ -111,7 +111,7 @@ These include the toolkits to deal with themes, JavaScript projects, and the AMD
 The public, stable TypeScript contracts that a Client Extension uses to integrate with Liferay DXP features (Frontend Data Set, editors, etc.). It is a standalone package that, unlike the rest of this monorepo, is decoupled from the root yarn workspace and ships on TypeScript 5 with ESM/`bundler` module resolution, which is required to consume ESM-only dependencies such as CKEditor 5.
 
 -   Projects
-    -   [js-api](./js-api): Public Liferay DXP API to be used from Client Extensions
+    -   [js-api](./client-extensions/js-api): Public Liferay DXP API to be used from Client Extensions
 -   Issues
     -   [label: `js-api`](https://github.com/liferay/liferay-frontend-projects/issues?q=is%3Aissue+is%3Aopen+label%3Ajs-api)
 -   Pull requests
