@@ -13,7 +13,7 @@
 		"typescript": "^5.0.0"
 	},
 	"scripts": {
-		"build": "./node_modules/.bin/tsc",
+		"build": "tsc",
 		"ci": "liferay-workspace-scripts ci",
 		"clean": "find . \\( -name '*.d.ts' -o -name '*.js' \\) -exec rm -v {} \\; && rm -v ./tsconfig.tsbuildinfo",
 		"format": "liferay-workspace-scripts format",
