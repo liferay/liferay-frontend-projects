@@ -3,6 +3,9 @@
 	"description": "Public Liferay DXP API to be used from Client Extensions.",
 	"license": "LGPL-3.0",
 	"name": "@liferay/js-api",
+	"publishConfig": {
+		"access": "public"
+	},
 	"repository": {
 		"directory": "client-extensions/js-api",
 		"type": "git",
@@ -17,18 +20,28 @@
 		"prettier": "3.2.5",
 		"typescript": "^5.0.0"
 	},
+	"files": [
+		"index.js",
+		"index.d.ts",
+		"data-set/**/*.js",
+		"data-set/**/*.d.ts",
+		"editor/**/*.js",
+		"editor/**/*.d.ts",
+		"CHANGELOG.md"
+	],
 	"scripts": {
 		"build": "tsc",
 		"changelog": "npx liferay-changelog-generator",
 		"ci": "npm run format:check && npm run lint",
-		"clean": "find . \\( -name '*.d.ts' -o -name '*.js' \\) -not -name '.eslintrc.js' -not -name '.prettierrc.js' -not -name 'copyright.js' -exec rm -v {} \\; && rm -fv ./tsconfig.tsbuildinfo",
+		"clean": "find . -name node_modules -prune -o -type f \\( -name '*.d.ts' -o -name '*.js' \\) ! -name '.eslintrc.js' ! -name '.prettierrc.js' ! -name 'copyright.js' -exec rm -fv {} + && rm -fv ./tsconfig.tsbuildinfo",
 		"format": "prettier --write .",
 		"format:check": "prettier --check .",
 		"lint": "eslint .",
 		"lint:fix": "eslint --fix .",
-		"postversion": "npm publish",
+		"postversion": "git push --follow-tags && npm publish",
 		"prepublishOnly": "npm run build",
-		"preversion": "npm run ci"
+		"preversion": "npm run ci",
+		"version": "npm run changelog -- --version=$npm_package_version && git add CHANGELOG.md"
 	},
 	"version": "0.7.0"
 }
