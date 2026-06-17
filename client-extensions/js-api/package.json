@@ -1,0 +1,34 @@
+{
+	"author": "Liferay Frontend Infrastructure Team <pt-frontend-infrastructure@liferay.com>",
+	"description": "Public Liferay DXP API to be used from Client Extensions.",
+	"license": "LGPL-3.0",
+	"name": "@liferay/js-api",
+	"repository": {
+		"directory": "client-extensions/js-api",
+		"type": "git",
+		"url": "https://github.com/liferay/liferay-frontend-projects.git"
+	},
+	"dependencies": {
+		"@ckeditor/ckeditor5-word-count": "*"
+	},
+	"devDependencies": {
+		"@liferay/eslint-plugin": "1.9.1",
+		"eslint": "7.23.0",
+		"prettier": "3.2.5",
+		"typescript": "^5.0.0"
+	},
+	"scripts": {
+		"build": "tsc",
+		"changelog": "npx liferay-changelog-generator",
+		"ci": "npm run format:check && npm run lint",
+		"clean": "find . \\( -name '*.d.ts' -o -name '*.js' \\) -not -name '.eslintrc.js' -not -name '.prettierrc.js' -not -name 'copyright.js' -exec rm -v {} \\; && rm -fv ./tsconfig.tsbuildinfo",
+		"format": "prettier --write .",
+		"format:check": "prettier --check .",
+		"lint": "eslint .",
+		"lint:fix": "eslint --fix .",
+		"postversion": "npm publish",
+		"prepublishOnly": "npm run build",
+		"preversion": "npm run ci"
+	},
+	"version": "0.7.0"
+}

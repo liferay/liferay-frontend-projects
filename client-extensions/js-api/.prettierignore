@@ -1,0 +1,8 @@
+# Generated TypeScript output (compiled sources + the copyright template).
+# Config files are kept formatted.
+**/*.d.ts
+**/*.js
+!.eslintrc.js
+!.prettierrc.js
+
+tsconfig.tsbuildinfo
