@@ -34,8 +34,9 @@ export type {
 	FDSTableCellHTMLElementBuilderArgs,
 } from './cell-renderer';
 
+export {FDSConnection} from './connection';
+
 export type {
-	FDSConnection,
 	FDSConnectionConstructor,
 	FDSConnectionInfo,
 	FDSConnectionOptions,
