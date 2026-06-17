@@ -26,14 +26,16 @@ module.exports = {
 		'/maintenance/projects/amd-loader/src/demo/modules',
 		'/projects/js-themes-toolkit/packages/liferay-theme-tasks/lib/r2',
 		'/projects/js-themes-toolkit/qa',
-		'/projects/js-toolkit/packages/js-api/**/*.d.ts',
-		'/projects/js-toolkit/packages/js-api/**/*.js',
 		'/projects/js-toolkit/qa',
 		'/projects/js-toolkit/**/generators',
 		'/projects/js-toolkit/**/lib',
 		'/projects/js-toolkit/**/__tests__',
 		'/projects/prettier-plugin/dist',
 		'/projects/stylelint-plugin/dist',
+
+		// Self-managed npm package with its own eslint config and tooling
+
+		'/client-extensions',
 
 		// Templates
 
