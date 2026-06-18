@@ -38,10 +38,10 @@
 		"format:check": "prettier --check .",
 		"lint": "eslint .",
 		"lint:fix": "eslint --fix .",
-		"postversion": "git push --follow-tags && npm publish",
+		"postversion": "git push upstream --follow-tags && npm publish",
 		"prepublishOnly": "npm run build",
 		"preversion": "npm run ci",
 		"version": "npm run changelog -- --version=$npm_package_version && git add CHANGELOG.md"
 	},
-	"version": "0.7.0"
+	"version": "0.7.1"
 }
