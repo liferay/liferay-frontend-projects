@@ -1,0 +1,109 @@
+{
+	"*": {
+		".babelrc": {
+			"presets": ["liferay-standard"]
+		},
+		"copy-plugins": ["exclude-imports"],
+		"plugins": ["replace-browser-modules"],
+		"post-plugins": [
+			"namespace-packages",
+			"inject-imports-dependencies",
+			"inject-peer-dependencies"
+		]
+	},
+	"/": {
+		".babelrc": {
+			"presets": ["liferay-standard"]
+		},
+		"plugins": ["resolve-linked-dependencies"],
+		"post-plugins": ["namespace-packages", "inject-imports-dependencies"]
+	},
+	"config": {
+		"imports": {
+			"@liferay/amd-loader": {
+				"/": "*"
+			},
+			"@liferay/frontend-js-clay-web": {
+				"/": "*",
+				"@clayui/alert": "*",
+				"@clayui/autocomplete": "*",
+				"@clayui/badge": "*",
+				"@clayui/breadcrumb": "*",
+				"@clayui/button": "*",
+				"@clayui/card": "*",
+				"@clayui/color-picker": "*",
+				"@clayui/core": "*",
+				"@clayui/css": "*",
+				"@clayui/data-provider": "*",
+				"@clayui/date-picker": "*",
+				"@clayui/drop-down": "*",
+				"@clayui/empty-state": "*",
+				"@clayui/form": "*",
+				"@clayui/icon": "*",
+				"@clayui/label": "*",
+				"@clayui/layout": "*",
+				"@clayui/link": "*",
+				"@clayui/list": "*",
+				"@clayui/loading-indicator": "*",
+				"@clayui/localized-input": "*",
+				"@clayui/management-toolbar": "*",
+				"@clayui/modal": "*",
+				"@clayui/multi-select": "*",
+				"@clayui/multi-step-nav": "*",
+				"@clayui/nav": "*",
+				"@clayui/navigation-bar": "*",
+				"@clayui/pagination": "*",
+				"@clayui/pagination-bar": "*",
+				"@clayui/panel": "*",
+				"@clayui/popover": "*",
+				"@clayui/progress-bar": "*",
+				"@clayui/provider": "*",
+				"@clayui/shared": "*",
+				"@clayui/slider": "*",
+				"@clayui/sticker": "*",
+				"@clayui/table": "*",
+				"@clayui/tabs": "*",
+				"@clayui/time-picker": "*",
+				"@clayui/toolbar": "*",
+				"@clayui/tooltip": "*",
+				"@clayui/upper-toolbar": "*"
+			},
+			"@liferay/frontend-js-react-web": {
+				"/": "*",
+				"classnames": "*",
+				"formik": "*",
+				"prop-types": "*",
+				"react": "*",
+				"react-dnd": "*",
+				"react-dnd-html5-backend": "*",
+				"react-dom": "*"
+			},
+			"@liferay/frontend-js-state-web": {
+				"/": "*"
+			}
+		}
+	},
+	"create-jar": {
+		"output-dir": "dist"
+	},
+	"rules": [
+		{
+			"test": "\\.css$",
+			"use": ["css-loader"]
+		},
+		{
+			"exclude": "node_modules",
+			"test": ".*/[^_][^/]+\\.scss$",
+			"use": [
+				{
+					"loader": "css-loader",
+					"options": {
+						"emitCssFile": false,
+						"extension": ".css"
+					}
+				}
+			]
+		}
+	],
+	"sources": ["src"]
+}
