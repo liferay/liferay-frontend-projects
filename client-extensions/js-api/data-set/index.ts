@@ -14,12 +14,19 @@
  * The contracts are split by functionality across sibling modules and
  * re-exported here:
  *
- * - `./connection` — FDS connection and remote state: `FDSConnection`
- *   (and its companion `FDSConnectionConstructor`) let a Client Extension
- *   read and write FDS search state, while `FDSConnectionInfo`,
- *   `FDSConnectionStatus`, `FDSConnectionOptions`, and
- *   `FDSStateChangeCallback` describe how a connection is opened and
+ * - `./connection` — the FDS connection: `FDSConnection` (and its companion
+ *   `FDSConnectionConstructor`) let a Client Extension read and write FDS
+ *   search state and take its filtering over with `FDSConnectionFilter`
+ *   expressions, alongside one `FDSConnectionCustomConfig` the data set keeps
+ *   in the page URL and hands back, while `FDSConnectionInfo`,
+ *   `FDSConnectionStatus`, `FDSConnectionOptions`, `FDSConnectionOwnership`,
+ *   and `FDSStateChangeCallback` describe how a connection is opened and
  *   observed.
+ *
+ *   `FDSState` and `FDSConnectionCustomConfigs` describe the shared state
+ *   itself, which nothing here takes or returns and a Client Extension never
+ *   holds. They stay on `./connection`, for the portal, rather than being
+ *   re-exported into this list.
  *
  * - `./cell-renderer` — custom cell renderers: the HTML element builder a
  *   renderer implements to draw a table cell.
@@ -38,10 +45,12 @@ export {FDSConnection} from './connection';
 
 export type {
 	FDSConnectionConstructor,
+	FDSConnectionCustomConfig,
+	FDSConnectionFilter,
 	FDSConnectionInfo,
 	FDSConnectionOptions,
+	FDSConnectionOwnership,
 	FDSConnectionStatus,
-	FDSState,
 	FDSStateChangeCallback,
 } from './connection';
 
