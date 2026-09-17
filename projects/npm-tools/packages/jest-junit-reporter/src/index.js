@@ -16,6 +16,16 @@ const RELATIVE_APPS_DIR = '/modules/apps/';
 
 const APPS_DIR = new RegExp('/.+' + RELATIVE_APPS_DIR, 'gm');
 
+function formatClassName(testFilePath) {
+	const fileName = path.basename(testFilePath);
+
+	return (
+		formatDirectoryPath(path.dirname(testFilePath)) +
+		'.' +
+		fileName.replace(/\./g, '_')
+	);
+}
+
 function formatDirectoryPath(dirPath) {
 	return dirPath.replace(APPS_DIR, '').replace(/\//g, '.');
 }
@@ -61,9 +71,7 @@ module.exports = (report) => {
 			const results = [
 				{
 					_attr: {
-						classname: formatDirectoryPath(
-							path.dirname(testCase.testFilePath)
-						),
+						classname: formatClassName(testCase.testFilePath),
 						name: testCase.fullName,
 						time: testCase.duration / 1000,
 					},

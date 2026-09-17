@@ -9,6 +9,38 @@ const reporter = require('../src');
 
 jest.mock('fs');
 
+const duplicateTestNameReport = {
+	numFailedTests: 0,
+	numTotalTests: 2,
+	startTime: 1000,
+	testResults: [
+		{
+			failureMessage: null,
+			testFilePath:
+				'/foo/bar/liferay-portal/modules/apps/test-module/bar/Baz.test.js',
+			testResults: [
+				{
+					duration: 46,
+					failureMessages: [],
+					fullName: 'Field DocumentLibrary should not be readOnly',
+				},
+			],
+		},
+		{
+			failureMessage: null,
+			testFilePath:
+				'/foo/bar/liferay-portal/modules/apps/test-module/bar/Qux.test.js',
+			testResults: [
+				{
+					duration: 12,
+					failureMessages: [],
+					fullName: 'Field DocumentLibrary should not be readOnly',
+				},
+			],
+		},
+	],
+};
+
 const failedTestReport = {
 	numFailedTests: 1,
 	numTotalTests: 1,
@@ -99,6 +131,14 @@ describe('@liferay/jest-junit-reporter', () => {
 
 	it('writes a file for a failing test suite', () => {
 		reporter(failedTestSuite);
+
+		const xmlWritten = fs.writeFileSync.mock.calls[0][1];
+
+		expect(xmlWritten).toMatchSnapshot();
+	});
+
+	it('distinguishes files that declare the same test name', () => {
+		reporter(duplicateTestNameReport);
 
 		const xmlWritten = fs.writeFileSync.mock.calls[0][1];
 
