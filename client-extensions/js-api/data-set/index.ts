@@ -4,12 +4,11 @@
  */
 
 /**
- * Public type contracts for the Frontend Data Set (FDS) widget,
- * consumed by Client Extensions. This module re-exports only types. The
- * FDS connection is implemented and served at runtime by the portal and
- * obtained through the import map; the sibling `./connection` module
- * additionally declares the `FDSConnection` runtime value (the
- * constructor) for consumers that need to `new FDSConnection(...)`.
+ * Public type contracts for the Frontend Data Set (FDS) widget, consumed by
+ * Client Extensions. Everything here is a type but `FDSConnection`, which is
+ * also declared as a value so a Client Extension can `new FDSConnection(...)`
+ * and annotate with it exactly as it would a class. The portal implements the
+ * connection and serves it through the import map.
  *
  * The contracts are split by functionality across sibling modules and
  * re-exported here:
@@ -36,12 +35,20 @@
  *   builders for human-readable filter summaries.
  */
 
+import type {
+	FDSConnection as FDSConnectionInstance,
+	FDSConnectionConstructor,
+} from './connection';
+
 export type {
 	FDSTableCellHTMLElementBuilder,
 	FDSTableCellHTMLElementBuilderArgs,
 } from './cell-renderer';
 
-export {FDSConnection} from './connection';
+export type FDSConnection = FDSConnectionInstance;
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export declare const FDSConnection: FDSConnectionConstructor;
 
 export type {
 	FDSConnectionConstructor,

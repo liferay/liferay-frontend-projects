@@ -6,10 +6,11 @@
 /**
  * Public type contracts for the Frontend Data Set (FDS) connection.
  *
- * `FDSConnection` is declared as both a value (the constructor) and a type
- * (the instance), so a Client Extension can `new FDSConnection(...)` and
- * annotate with it exactly as it would a class. At runtime the value comes
- * from the portal through the import map.
+ * These are types alone. The package entry point, `@liferay/js-api/data-set`,
+ * pairs `FDSConnection` with `FDSConnectionConstructor` under that one name,
+ * so a Client Extension can `new FDSConnection(...)` and annotate with it
+ * exactly as it would a class. The value itself comes from the portal at
+ * runtime, through the import map.
  *
  * Two things hold across the whole contract. Filtering belongs either to the
  * data set or to one Client Extension, never to both, and a connection says
@@ -189,11 +190,3 @@ export interface FDSConnectionConstructor {
 		options?: FDSConnectionOptions
 	): FDSConnection;
 }
-
-// `FDSConnection` intentionally uses PascalCase: it is a class-like
-// constructor (typed as `FDSConnectionConstructor`), not a plain variable.
-// The `const` value and the `FDSConnection` interface above share the same
-// name so consumers can use it as both a value and a type, like a class.
-
-// eslint-disable-next-line @typescript-eslint/naming-convention
-export declare const FDSConnection: FDSConnectionConstructor;
