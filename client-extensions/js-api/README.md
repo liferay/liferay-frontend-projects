@@ -18,7 +18,7 @@ npm install @liferay/js-api
 Public type contracts for the Frontend Data Set (FDS) widget. The module
 exposes only types; it contains no implementation. The contracts are split by
 functionality across sibling modules and re-exported from the module entry
-point, covering three groups:
+point, covering four groups:
 
 -   **FDS connection and remote state** (`./connection`) — `FDSConnection` (and
     its companion `FDSConnectionConstructor`) let a Client Extension read and
@@ -34,12 +34,80 @@ point, covering three groups:
 -   **Custom filters** (`./filter`) — `FDSFilter` and the HTML element builders
     (rendering), OData query builders (server-side filtering), and description
     builders (human-readable filter summaries) it composes.
+-   **Custom visualization modes** (`./visualization-mode`) —
+    `FDSVisualizationMode`, the factory a Client Extension exports to draw the
+    items of a data set its own way, the `FDSVisualizationModeInstance` it
+    returns, and the `FDSVisualizationModeArgs` the data set hands it, with its
+    `FDSVisualizationModeSchema` field mapping and
+    `FDSVisualizationModeSelection`.
 
 ```ts
 import type {
 	FDSTableCellHTMLElementBuilder,
 	FDSFilter,
 } from '@liferay/js-api/data-set';
+```
+
+#### Custom visualization modes
+
+A visualization mode Client Extension draws the items of a data set next to
+the table, list and cards it ships with. The data set owns the data and the
+Client Extension owns the drawing: the data set searches, filters, sorts and
+paginates, then hands the current page of items to the visualization mode,
+which draws them into the container it is given with plain DOM. No framework
+crosses the boundary, so the Client Extension may use any or none.
+
+The default export is a factory, called once per instance with an empty
+container, and returning the instance the data set drives:
+
+-   `update(args)` runs whenever what the data set handed over changes while
+    the visualization mode stays visible, such as the selection. It receives
+    the full arguments, not what changed.
+-   `destroy()` runs before the data set takes the visualization mode away.
+    Release whatever the instance holds outside its container; the data set
+    empties the container itself.
+
+Reloading data, which every search, filter, sort and page change does,
+destroys the instance and creates a new one, so nothing kept on it outlives a
+reload. A page may also show the same visualization mode in several data sets
+at once, so keep state on the instance rather than in the module.
+
+Read item fields through `schema` rather than by fixed names: the data set
+decides which field fills each part the visualization mode draws, so the same
+visualization mode works across data sets whose items name their fields
+differently. `selection` is present only when the data set lets its items be
+selected; `toggleItem()` asks the data set to change the selection, which then
+calls `update()` with the new `selectedValues`.
+
+```ts
+import type {
+	FDSVisualizationMode,
+	FDSVisualizationModeArgs,
+} from '@liferay/js-api/data-set';
+
+const visualizationMode: FDSVisualizationMode = (container, args) => {
+	const list = document.createElement('ul');
+
+	container.append(list);
+
+	const draw = ({items, schema}: FDSVisualizationModeArgs) => {
+		list.replaceChildren(
+			...items.map((item) => {
+				const entry = document.createElement('li');
+
+				entry.textContent = String(item[schema?.title ?? 'title']);
+
+				return entry;
+			})
+		);
+	};
+
+	draw(args);
+
+	return {destroy: () => {}, update: draw};
+};
+
+export default visualizationMode;
 ```
 
 ### `@liferay/js-api/data-set/connection`
