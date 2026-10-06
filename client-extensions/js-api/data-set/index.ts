@@ -33,6 +33,12 @@
  * - `./filter` — custom filters: HTML element builders for rendering,
  *   OData query builders for server-side filtering, and description
  *   builders for human-readable filter summaries.
+ *
+ * - `./visualization-mode` — custom visualization modes: the factory a
+ *   visualization mode exports to set itself up in a container, the instance
+ *   it returns, which draws a page of items on every update and is destroyed
+ *   when the data set takes it away, and the arguments, field mapping and
+ *   selection included, the data set hands it.
  */
 
 import type {
@@ -69,3 +75,12 @@ export type {
 	FDSFilterHTMLElementBuilderArgs,
 	FDSFilterODataQueryBuilder,
 } from './filter';
+
+export type {
+	FDSVisualizationMode,
+	FDSVisualizationModeArgs,
+	FDSVisualizationModeInstance,
+	FDSVisualizationModeItem,
+	FDSVisualizationModeSchema,
+	FDSVisualizationModeSelection,
+} from './visualization-mode';
