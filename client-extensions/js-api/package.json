@@ -11,9 +11,6 @@
 		"type": "git",
 		"url": "https://github.com/liferay/liferay-frontend-projects.git"
 	},
-	"dependencies": {
-		"@ckeditor/ckeditor5-word-count": "*"
-	},
 	"devDependencies": {
 		"@liferay/eslint-plugin": "1.9.1",
 		"eslint": "7.23.0",
