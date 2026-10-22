@@ -202,14 +202,15 @@ configuration. For CKEditor 4, see the
 import type {EditorTransformer} from '@liferay/js-api/editor';
 ```
 
-In addition to the transformer types, this module re-exports CKEditor 5 plugin
-types so a Client Extension can import the same plugins the portal bundles and
-reference them with full typing from a transformer. Currently `WordCount` (from
+This module only describes DXP's editor contracts; it does not re-export any
+CKEditor 5 plugin. A Client Extension that needs one (for example
 [`@ckeditor/ckeditor5-word-count`](https://ckeditor.com/docs/ckeditor5/latest/api/word-count.html))
-is exposed:
+should depend on that package directly, pinned to the version the portal ships,
+and mark it as external in its build so the portal's import map serves it at
+runtime:
 
 ```ts
-import {WordCount} from '@liferay/js-api/editor';
+import {WordCount} from '@ckeditor/ckeditor5-word-count';
 import type {EditorTransformer} from '@liferay/js-api/editor';
 
 const transformer: EditorTransformer<EditorConfig> = {
@@ -219,10 +220,6 @@ const transformer: EditorTransformer<EditorConfig> = {
 	}),
 };
 ```
-
-Consuming these plugin types requires TypeScript 5 with `moduleResolution`
-set to `bundler` (CKEditor 5 is ESM-only), which is why this package is built
-independently of the rest of the monorepo.
 
 ## Scripts
 
