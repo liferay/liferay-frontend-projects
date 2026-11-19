@@ -40,5 +40,5 @@
 		"preversion": "npm run ci",
 		"version": "npm run changelog -- --version=$npm_package_version && git add CHANGELOG.md"
 	},
-	"version": "0.10.0"
+	"version": "1.0.0"
 }
