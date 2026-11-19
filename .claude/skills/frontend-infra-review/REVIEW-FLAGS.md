@@ -4,7 +4,7 @@ Index of every `REVIEW-FLAG` in `topics/`, for in-person review. It is a snapsho
 
 Types: **outdated** means master contradicts the old guideline and the topic already follows master; confirm the new text. **uncertain** means it could not be verified either way. **policy** is a team process that code cannot show. **gap** is knowledge we still need to write.
 
-Totals: outdated 72, uncertain 22, policy 28, gap 25 (147 flags in 27 files).
+Totals: outdated 72, uncertain 22, policy 28, gap 31 (153 flags in 33 files).
 
 
 ## `topics/build-process.md`
@@ -66,6 +66,30 @@ Totals: outdated 72, uncertain 22, policy 28, gap 25 (147 flags in 27 files).
 - [outdated] [line 31](topics/drag-and-drop.md#L31) — The old note that liferay-portal examples use the "Legacy Decorator API" is mostly outdated. Most code uses hooks now, and only segments-web, site-navigation-admin-web and portal-search-tuning-rankings-web keep decorators. The sample links point to old SHAs…
 - [policy] [line 33](topics/drag-and-drop.md#L33) — Whether react-dnd is still *the* sanctioned choice for new DnD, given that it is pinned at a 2020 release (11.1.1) and upstream is at 16. Also, the instruction to "open an issue in liferay-frontend-projects" when react-dnd is lacking may no longer be the pr…
 - [policy] [line 35](topics/drag-and-drop.md#L35) — A keyboard or single-pointer alternative for every drag operation (WCAG 2.2 SC 2.1.1 and 2.5.7 Dragging Movements) is stated here as a review requirement. Lint and tests do not enforce it, and the old guidelines did not mention it.
+
+## `topics/frontend-data-set/architecture.md`
+
+- [gap] [line 88](topics/frontend-data-set/architecture.md#L88) — Not described yet: context contributors, `FDSAPIURLResolver`, side and info panels, inline editing and adding, nested items, and the `FDS_EVENT` events as a public surface.
+
+## `topics/frontend-data-set/data-set-kinds.md`
+
+- [gap] [line 55](topics/frontend-data-set/data-set-kinds.md#L55) — The `SystemFDSSerializer.isAvailable()` discrepancy (it answers for any name, not only `SystemFDSEntry` data sets) is confirmed by the team, but there is no ticket or decision yet on whether to fix the code or document the behavior.
+
+## `topics/frontend-data-set/data-set-manager.md`
+
+- [gap] [line 20](topics/frontend-data-set/data-set-manager.md#L20) — The Data Set Manager is a placeholder: screens, mapping to `L_DATA_SET*` entries, permissions, export/import between environments, snapshots and user configurations, and Playwright coverage are still to write.
+
+## `topics/frontend-data-set/filters-search-sorting.md`
+
+- [gap] [line 52](topics/frontend-data-set/filters-search-sorting.md#L52) — Not described yet: snapshots and their sharing (`DataSetSnapshotSharingEntryInterpreter`), the user configuration lifecycle, and the full `FDSConnection` handshake and statuses.
+
+## `topics/frontend-data-set/props-transformers.md`
+
+- [gap] [line 107](topics/frontend-data-set/props-transformers.md#L107) — Two props-transformer use cases have no Playwright guard: the custom view component (`CarouselView`) and a click on the empty sample's creation menu item. Reviewers must ask for manual checks until specs exist.
+
+## `topics/frontend-data-set/views-and-renderers.md`
+
+- [gap] [line 37](topics/frontend-data-set/views-and-renderers.md#L37) — Not described yet: the schema builders (`FDSTableSchemaBuilder`, `FDSCardSchemaBuilder`), the view context contributors, and what each built-in view supports.
 
 ## `topics/global-event-bus.md`
 
