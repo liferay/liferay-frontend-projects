@@ -1,8 +1,8 @@
 ---
 
 allowed-tools: [Bash, Glob, Grep, Read]
-argument-hint: "[<PR number or URL> | <branch> | <base>..<head>]"
-description: Review a liferay-portal pull request with Frontend Infrastructure domain knowledge (resource loading, SPA, JS/React runtime, Clay/CSS/themes, taglibs, npm build and dependencies, editors, testing). Complements pr-check and pr-reviewer; it does not review code shape.
+argument-hint: "[none = current local branch | <PR number or URL> | <branch> | <base>..<head>]"
+description: Review the current local branch (default) or a liferay-portal pull request with Frontend Infrastructure domain knowledge (resource loading, SPA, JS/React runtime, Clay/CSS/themes, taglibs, npm build and dependencies, editors, testing). Complements pr-check and pr-reviewer; it does not review code shape.
 name: frontend-infra-review
 
 ---
@@ -20,16 +20,30 @@ Never repeat what `pr-reviewer` or lint would flag. If a finding is about how th
 
 ## Inputs
 
-- A PR number or URL (`gh pr view <n|url> --json files,title,body` + `gh pr diff <n|url>`). A bare number resolves against the checkout's `gh` default repository (`gh repo set-default --view`), so for a PR on another fork use the full URL. A branch (diff against its merge base with `master`), or an explicit range. With no argument, review the current branch against `master`.
-- The liferay-portal checkout under review. All paths in the topic files are relative to its root.
+Run from a liferay-portal (or liferay-portal-ee) checkout. All paths in the topic files are relative to its root. If the working directory has no `modules/apps` folder, stop and say the skill must run inside a portal checkout.
+
+Resolve the argument in this order:
+
+1. **No argument: the current local branch (default).** This is the mode for reviewing your own work while developing.
+   - **Base branch:** `master`, or `master-private` when a remote points at `liferay-portal-ee`. Do not fetch, pull or rebase; the review must not change the checkout.
+   - **Merge base:** compute `git merge-base HEAD <ref>` for every candidate that exists: the local base branch, `upstream/<base>` and `origin/<base>`. Use the newest one, the one the others are ancestors of (`git merge-base --is-ancestor`). A stale local `master` would otherwise pull upstream commits the branch was rebased onto into the diff. Call the result `MB`.
+   - **Diff:** review `git diff $MB`. That covers commits on the branch plus staged and unstaged changes to tracked files. Also list new untracked files with `git ls-files --others --exclude-standard` and read the relevant ones.
+   - **On the base branch itself:** when `HEAD` is the base branch, or `MB` equals `HEAD` with nothing committed on top, review only the uncommitted changes (`git diff HEAD` plus untracked files).
+   - **Nothing to review:** when there is no diff at all, say so and stop.
+   - **Intent:** there is no PR description. Read it from the branch's commit messages (`git log --format='%s%n%b' $MB..HEAD`) and the Jira keys in them. Treat the description and test plan checks in `review-process.md` as reminders for when the PR is opened, not as findings.
+   - **Report header:** state the branch, the base and the merge base used, and whether uncommitted changes were included.
+2. **A PR number or GitHub PR URL.** Use `gh pr view <n|url> --json title,body,files,headRefName,baseRefName` and `gh pr diff <n|url>`. A bare number resolves against the checkout's `gh` default repository (`gh repo set-default --view`), so for a PR on another fork use the full URL.
+3. **`<base>..<head>`.** Review exactly that commit range, with no working tree changes.
+4. **Anything else: a local branch name.** Check it with `git rev-parse --verify`, then diff it against its merge base with the base branch, with no working tree changes unless it is the current branch.
 
 ## Workflow
 
-1. **Collect the diff and the intent.** Read the PR title/description and test plan when available, then list the changed files and read the diff.
+1. **Collect the diff and the intent**, as described under *Inputs* for the resolved mode. List the changed files, then read the diff.
 
 1. **Route to topics.** Match changed paths and code signals against the table below. Each topic file also starts with an **Applies when the PR touches** line with finer signals. Read every matching topic in full, plus `topics/review-process.md` for every PR. Do not load topics that do not match.
+   - **Folder topics.** A topic can be a folder (`topics/<name>/`) instead of a single file. For a matching folder, always read its `README.md` and any file it marks as *always*. Then use the README's own routing table to read only the aspect files whose signals match the diff. A change to a central file can match most of them; then read them all.
 
-1. **Review against the topics.** For each matching topic, walk its *Review checklist* and *Pitfalls and side effects* against the diff. Open the master files the topic cites when you need to confirm current behavior. Topic files can be out of date, so check the code before you assert anything.
+1. **Review against the topics.** For each matching topic or aspect file, walk its *Review checklist* and *Pitfalls and side effects* against the diff. Open the master files the topic cites when you need to confirm current behavior. Topic files can be out of date, so check the code before you assert anything.
 
 1. **Respect review flags.** Text marked `REVIEW-FLAG` in a topic has not been confirmed for current master. Do not base a blocking finding on flagged text alone. Verify it in the code first, or present it as a question.
 
@@ -65,22 +79,27 @@ Never repeat what `pr-reviewer` or lint would flag. If a finding is about how th
 | `css-authoring.md` | `.scss`/`.css` in modules, new CSS components, utility classes, breakpoints, RTL |
 | `taglibs.md` | `<aui:*>`, `<clay:*>`, `<liferay-ui:*>`, `<liferay-frontend:*>` usage or taglib implementation changes |
 | `testing.md` | `__tests__`, `*.test.{js,ts,tsx}`, jest config, test utilities |
+| `frontend-data-set/` (folder: `README.md` + `review-checklist.md`, then aspect files per its routing table) | `modules/apps/frontend-data-set/**`, `<frontend-data-set:*>` taglibs, `FrontendDataSet` imports, `SystemFDSEntry` / FDS views, filters, actions, sorts, props transformers of data sets, `L_DATA_SET*` objects, the FDS fragment, `FDSConnection`, `@liferay/js-api/data-set` |
 | `glossary.md` | Read on demand when a term is unclear |
 
 ## Coverage
 
 This first version is distilled from the old `guidelines/` folder of liferay-frontend-projects and checked against liferay-portal master as of November 2026. The list below is every topic known to be missing. When a PR falls mostly into an unchecked area, say in the report that domain coverage was limited, and still read the existing topics named under "Partly in", since they hold what is known so far.
 
-To cover a topic: write `topics/<name>.md`, add its routing row, tick the box below and add the file name after it, then resolve the `gap` flags listed under "Partly in" (remove them or point them at the new file).
+To cover a topic: write `topics/<name>.md` (or a `topics/<name>/` folder, see *Maintaining this skill*), add its routing row, tick the box below and add the file name after it, then resolve the `gap` flags listed under "Partly in" (remove them or point them at the new file).
 
 ### Planned
 
 - [ ] **CKEditor 5 in depth**: Liferay plugin authoring (`js/ckeditor5/plugins/*`, item selector), `getDefaultEditorConfig` presets and toolbars, GHS/`htmlSupport` and server-side sanitization, content migration from CKEditor 4/BBCode/Creole, premium features and license key, upgrade procedure. Partly in: `rich-text-editors.md` (gap flag).
-- [ ] **Client extensions framework**: the framework itself, not just individual extensions. Covers `modules/apps/client-extension/*` (`client-extension-api`, `-service`, `-type-api`, `-type-impl`, `-web`), the CET type model (`CET.java` and one class per type: `GlobalJSCET`, `GlobalCSSCET`, `CustomElementCET`, `IFrameCET`, `ThemeCSSCET`, `ThemeSpritemapCET`, `ThemeFaviconCET`, `JSImportMapsEntryCET`, `EditorConfigContributorCET`, `FDSCellRendererCET`, `FDSFilterCET`, `FDSVisualizationModeCET`, `StaticContentCET`, …), how each type reaches the page, and the compatibility contract every type property creates for deployed customer extensions. Partly in: `resource-loading.md`, `clay-in-dxp.md` (gap flag on Theme CSS / Spritemap), `rich-text-editors.md`, `theme-bleeding.md`, `css-custom-properties.md`.
+- [ ] **Client extensions framework**: the framework itself, not just individual extensions. A good candidate for a folder topic (`topics/client-extensions/`), with one aspect file per family of CET types. Covers `modules/apps/client-extension/*` (`client-extension-api`, `-service`, `-type-api`, `-type-impl`, `-web`), the CET type model (`CET.java` and one class per type: `GlobalJSCET`, `GlobalCSSCET`, `CustomElementCET`, `IFrameCET`, `ThemeCSSCET`, `ThemeSpritemapCET`, `ThemeFaviconCET`, `JSImportMapsEntryCET`, `EditorConfigContributorCET`, `FDSCellRendererCET`, `FDSFilterCET`, `FDSVisualizationModeCET`, `StaticContentCET`, …), how each type reaches the page, and the compatibility contract every type property creates for deployed customer extensions. Partly in: `resource-loading.md`, `clay-in-dxp.md` (gap flag on Theme CSS / Spritemap), `rich-text-editors.md`, `theme-bleeding.md`, `css-custom-properties.md`, `frontend-data-set/client-extensions.md` (the FDS CET types and `@liferay/js-api/data-set`).
 - [ ] **portal-url-builder framework**: `modules/apps/portal-url-builder` (`AbsolutePortalURLBuilder`, `AbsolutePortalURLBuilderFactory` and the per-resource builders for ES modules, bundle and web-context scripts and stylesheets, combo requests, portlet dependencies, images, servlets), its CDN, cache (`t=`) and path-proxy awareness, `FrontendESMImpl`, and why server-side code should build resource URLs through it rather than concatenating paths. Partly in: `urls.md`, `resource-loading.md`, `build-process.md`, `css-authoring.md`, `review-process.md` (CODEOWNERS).
-- [ ] **Frontend Data Set (FDS)**: `modules/apps/frontend-data-set`, views, cell renderers, filters, actions, the FDS state atoms, and extension through client extensions. Partly in: `react.md` (state atoms), `glossary.md` (gap flag).
-- [ ] **FDS internal props-transformer contracts**: the props-transformer surface that FDS consumers inside portal rely on, and that new FDS PRs must not break. The reference is the advanced sample in `frontend-data-set-sample-web`: `js/AdvancedPropsTransformer.ts`, `partials/advanced.jsp` and the `Advanced*` Java classes (views, filters, actions, sorts, fragment renderers). The contract includes the transformer's input (`additionalProps`, `bulkActions`, `itemsActions`, `selectedItemsKey`, `views`) and output (`atom`, `customRenderers.{listSection,tableCell}` with `type: 'internal'` renderers, `fileDropSettings`, `infoPanelComponent`, per-view `setItemComponentProps`, `onActionDropdownItemClick`, `onBulkActionItemClick` and the `selectedData` they receive), plus the types exported from `@liferay/frontend-data-set-web` (`IView`, `ICardSchema`, `IListSchema`, `IInternalRenderer`, `IItemsActions`, `IBulkActionItem`, `IFileDropSettings`, `DEFAULT_FETCH_HEADERS`). Its Playwright guard is `modules/test/playwright/tests/frontend-data-set-web/main/tests/advanced/*.spec.ts`. Until the topic exists, flag any PR that changes these names, signatures or payloads in `frontend-data-set-web`, and ask for the advanced Playwright specs to pass. Partly in: none.
-- [ ] **Data Set Manager**: admin-defined data sets and how they relate to FDS.
+- [ ] **Frontend Data Set (FDS)**: folder topic `frontend-data-set/`, first draft. Covered so far: architecture and entry points, headless vs classic display, data set kinds, import policies, the fragment and its tokens, views and renderers, filters/search/sorting/pagination, actions and selection, the CX slice, and the cross-cutting review matrix. Still to write, each in the aspect file named (resolve that file's gap flag when done):
+  - [ ] Context contributors, `FDSAPIURLResolver`, side and info panels, inline editing and adding, nested items, `FDS_EVENT` events as a public surface. In `frontend-data-set/architecture.md`.
+  - [ ] Schema builders (`FDSTableSchemaBuilder`, `FDSCardSchemaBuilder`), view context contributors, and what each built-in view supports. In `frontend-data-set/views-and-renderers.md`.
+  - [ ] Snapshots and their sharing, the user configuration lifecycle, the full `FDSConnection` handshake. In `frontend-data-set/filters-search-sorting.md`.
+  - [ ] Decision on the `SystemFDSSerializer.isAvailable()` discrepancy (ticket to link). In `frontend-data-set/data-set-kinds.md`.
+- [x] **FDS internal props-transformer contracts**: `frontend-data-set/props-transformers.md` catalogues the 17 use cases from the samples in `frontend-data-set-sample-web` (`AdvancedPropsTransformer.ts` and the others), with their input and output props, callback signatures, consuming code, exported types and Playwright guards, and makes an unannounced break blocking. Open: two use cases without a Playwright guard (gap flag in that file). Add a row there whenever a PR adds a transformer capability.
+- [ ] **Data Set Manager**: admin-defined data sets and how they relate to FDS: screens, mapping to `L_DATA_SET*` entries, permissions, export/import between environments, snapshots and user configurations, Playwright coverage. Partly in: `frontend-data-set/data-set-manager.md` (placeholder with gap flag), `frontend-data-set/importing.md`, `frontend-data-set/data-set-kinds.md`.
 - [ ] **Frontend caching**: hashed files (`name.(hash).ext`), `HashedFilesRegistry`, `FrontendResourceFilter`, per-web-context `/o/js/-/` URLs, `FrontendCachingConfiguration` strategies, `t=` and ETags, CDN, and how they interact with import maps and SPA. Partly in: `resource-loading.md` (gap flag), `dev-environment-and-debugging.md`.
 - [ ] **`@liferay/node-scripts` build internals**: `exports`/`submodules`/`symbols`, the generated `modules/node-scripts.config.js`, the linker plugin, import and AMD bridges, `build:custom`, CSS/SCSS exports, bundle reports, generated tsconfig and the repo-wide `tsc` check. Partly in: `build-process.md` (gap flag), `module-imports-and-exports.md`, `javascript-and-typescript.md`.
 - [ ] **Playwright**: `modules/test/playwright`, existing frontend infra specs (`tests/frontend-*`), what to test in Playwright rather than Jest (taglibs, the `Liferay` global, SPA, loader), `featureFlagsTest`. Complements master's `.claude/rules/playwright.md`. Partly in: `testing.md` (gap flag).
@@ -95,7 +114,7 @@ To cover a topic: write `topics/<name>.md`, add its routing row, tick the box be
 - [ ] **JSP forms vs React forms**: when a JSP form should become React (`react:component`, `@clayui/form`, `frontend-js-components-web`) instead of `aui:form`/`aui:input`, and the plan for `liferay-form` validation. Partly in: `taglibs.md` (gap flag).
 - [ ] **SPA engine internals**: the vendored Senna in `frontend-js-spa-web`, surfaces, `data-senna-track`, routes, caching, events, `SPAConfiguration`. Partly in: `layout-rendering-and-spa.md` (gap flag).
 - [ ] **Fragment and content page rendering**: `render-fragment-layout`, layout structure items, how fragment JS/CSS reach the page, SPA side effects. Owned by the layout team. Partly in: `layout-rendering-and-spa.md` (gap flag).
-- [ ] **Public JS API contract**: when a module export, `/api` submodule or import map entry becomes a supported API for client extensions, `@liferay/js-api`, and how to deprecate. Partly in: `javascript-and-typescript.md` (gap flag), `module-imports-and-exports.md`.
+- [ ] **Public JS API contract**: when a module export, `/api` submodule or import map entry becomes a supported API for client extensions, `@liferay/js-api`, and how to deprecate. Partly in: `javascript-and-typescript.md` (gap flag), `module-imports-and-exports.md`, `frontend-data-set/client-extensions.md`.
 - [ ] **ES modules from JSP and Java**: import maps (`JSImportMapsContributor`), `FrontendESMUtil`, the `{X} from <web-context>` syntax as a contract. Partly in: `module-imports-and-exports.md`, `jsp-javascript-integration.md`, `react-rendering.md`.
 - [ ] **Global events catalogue**: the `Liferay.on`/`fire` events that count as public API (name, payload, firing module). Partly in: `global-event-bus.md` (gap flag).
 - [ ] **Calling headless APIs from portal UI**: problem JSON errors, `Accept-Language`, pagination, abort, and whether a shared helper should exist. Partly in: `requests.md` (gap flag).
@@ -104,12 +123,18 @@ To cover a topic: write `topics/<name>.md`, add its routing row, tick the box be
 - [ ] **Browser storage and cookie consent**: registering new cookies and storage keys in the cookie inventory, consent-aware wrappers. Partly in: `session.md`.
 - [ ] **Fast frontend dev loop**: the recommended iteration workflow now that `deployFast` is gone (`direct.servlet.context.reload`, `build:custom --serve`, and so on). Partly in: `dev-environment-and-debugging.md` (gap flag).
 - [ ] **RTL CSS serving**: `frontend-css-rtl-servlet` and how `_rtl` files are picked at runtime. Partly in: `css-authoring.md`.
-- [ ] **Glossary terms**: import map, FDS, Clay, frontend token, Senna/SPA, top head. Fill in as the topics above land. Partly in: `glossary.md` (gap flag).
+- [ ] **Glossary terms**: import map, FDS, Clay, frontend token, Senna/SPA, top head. Fill in as the topics above land. Partly in: `glossary.md` (gap flag); FDS terms are in `frontend-data-set/README.md` (link them from the glossary rather than repeating them).
 
 Gap flags that point to code or tooling issues rather than missing knowledge stay in the topics and `REVIEW-FLAGS.md`, not here. Examples: lint holes, typings drift, the Jest rule's scope, duplicated `@liferay/*` lint packages, the PR template.
 
 ## Maintaining this skill
 
 - One topic per file under `topics/`, using the structure of the existing files: *What the reviewer needs to know*, *Review checklist*, *Use cases and how-tos*, *Pitfalls and side effects*, *Not carried over*.
+- **When a topic outgrows one file**, turn it into a folder `topics/<name>/`, as `frontend-data-set/` does. The files are meant for humans as well as for the reviewing agent:
+  - `README.md` is the entry point. It holds a short overview (a Mermaid diagram if useful), the terms, a *Which file answers what* table with a routing column (signals that send the reviewer to each aspect file), and the list of open flags in the folder.
+  - An optional `review-checklist.md` holds only the cross-cutting checks and links to the aspect files; mark it as *always* in the README.
+  - Each aspect file uses the same section structure as a single-file topic, with its own **Applies when the PR touches** line and a short checklist for that aspect only.
+  - Explain each concept in one file and link to it from the others with relative links; do not repeat it.
+  - The routing table in this file keeps one row for the whole folder.
 - Mark unconfirmed statements as `> **⚠️ REVIEW-FLAG [outdated|uncertain|policy|gap]:** …` and resolve them by verifying against master. `grep -rn REVIEW-FLAG .claude/skills/frontend-infra-review/topics` lists the open ones. `REVIEW-FLAGS.md` is an index of them for human review.
-- When you add a topic, add a row to the routing table and tick it in the Coverage list. When you find a new missing area, add it to the Coverage list.
+- When you add a topic or aspect file, add a row to the routing table (or to the folder README's table) and tick it in the Coverage list. When you find a new missing area, add it to the Coverage list.
